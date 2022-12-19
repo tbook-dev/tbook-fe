@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "../../partials/Sidebar";
 import Header from "../../partials/Header";
 
-export default function IncentiveLayout({ child }) {
+export default function IncentiveLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -11,9 +11,7 @@ export default function IncentiveLayout({ child }) {
       <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-        <main>
-          <div className="lg:relative lg:flex">{child}</div>
-        </main>
+        <main>{children}</main>
       </div>
     </div>
   );
