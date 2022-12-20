@@ -19,8 +19,8 @@ function PlanList() {
         <div className="sm:flex sm:justify-between sm:items-center mb-8">
           {/* Left: Title */}
           <div className="mb-4 sm:mb-0">
-            <h1 className="text-2xl md:text-3xl text-slate-800 font-bold">
-              Incentive Plan List ✨
+            <h1 className="text-3xl md:text-3xl text-slate-800 font-bold">
+              Token Incentive Plans
             </h1>
           </div>
 

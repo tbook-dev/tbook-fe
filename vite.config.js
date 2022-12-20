@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import postcss from './postcss.config.js'
 import react from '@vitejs/plugin-react'
+import { viteMockServe } from 'vite-plugin-mock';
+const path = require('path');
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,7 +12,14 @@ export default defineConfig({
   css: {
     postcss,
   },
-  plugins: [react()],
+  plugins: [
+    react(),
+    viteMockServe({
+      mockPath: 'mock',
+      supportTs: false,
+      watchFiles: true,
+    })
+  ],
   resolve: {
     alias: [
       {
@@ -19,6 +28,9 @@ export default defineConfig({
           return val.replace(/^~/, "");
         },
       },
+      // {
+      //   '@': path.resolve(__dirname, 'src') 
+      // }
     ],
   },
   build: {
