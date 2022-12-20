@@ -28,9 +28,10 @@ export default defineConfig({
           return val.replace(/^~/, "");
         },
       },
-      // {
-      //   '@': path.resolve(__dirname, 'src') 
-      // }
+      {
+        find: "@",
+        replacement: path.resolve(__dirname, 'src') 
+      }
     ],
   },
   build: {

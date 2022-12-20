@@ -4,9 +4,15 @@ import DeleteButton from "../../partials/actions/DeleteButton";
 import IncentivesTable from "../../partials/incentives/IncentivesTable";
 import PaginationClassic from "../../components/PaginationClassic";
 import IncentiveLayout from "./Layout";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { useRequest } from "ahooks";
+import { getIncentiveList } from "@/api/incentive";
 
 function PlanList() {
   const [selectedItems, setSelectedItems] = useState([]);
+  const { data: tipList = [] } = useRequest(getIncentiveList);
+
+  console.log(tipList);
 
   const handleSelectedItems = (selectedItems) => {
     setSelectedItems([...selectedItems]);
@@ -18,51 +24,52 @@ function PlanList() {
         {/* Page header */}
         <div className="sm:flex sm:justify-between sm:items-center mb-8">
           {/* Left: Title */}
-          <div className="mb-4 sm:mb-0">
-            <h1 className="text-3xl md:text-3xl text-slate-800 font-bold">
+          <div className="mb-4 sm:mb-0 w-full">
+            <h1 className="pb-6 text-3xl md:text-3xl text-slate-800 font-bold">
               Token Incentive Plans
             </h1>
-          </div>
 
-          {/* Right: Actions */}
-          <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
-            {/* Delete button */}
-            <DeleteButton selectedItems={selectedItems} />
+            <div className="pb-14 pl-12 flex">
+              <div className="w-[148px] h-[98px] flex-none shadow-c1 border rounded-[10px] mr-11">
+                1
+              </div>
+              <div className="flex-auto">
+                <Swiper spaceBetween={45} slidesPerView="auto">
+                  <SwiperSlide>
+                    {tipList.map((tip) => {
+                      return (
+                        <NavLink to={`/incentive/${tip.projectId}`} key={tip.projectId}>
+                          <div className="w-[148px] h-[98px] shadow-c2 border rounded-[10px] mr-11 relative">
+                            <div className="text-base text-[#3A4353] pt-3.5 pl-1.5">
+                              <p>{tip.name}</p>
+                              <p>{tip.effectiveDate}</p>
+                            </div>
 
-            <NavLink to="/incentive/create">
-              <button
-                id="addIncentive"
-                className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
-              >
-                <svg
-                  className="w-4 h-4 fill-current opacity-50 shrink-0"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
-                </svg>
-                <span className="hidden xs:block ml-2">Incentive Plan</span>
-              </button>
-            </NavLink>
+                            <div className="absolute inset-x-0 h-1.5 overflow-hidden bottom-5 bg-[#CBD5E1]">
+                              <div className="h-1.5	bg-[#475569]" style={{width: tip.percentage + '%'}}/>
+                            </div>
 
-            {/* Add customer button */}
-            <NavLink to="/incentive/grant/create">
-              <button
-                id="addGrant"
-                className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
-              >
-                <svg
-                  className="w-4 h-4 fill-current opacity-50 shrink-0"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
-                </svg>
-                <span className="hidden xs:block ml-2">Grant</span>
-              </button>
-            </NavLink>
+                            <div className="inset-x-0 absolute bottom-0 origin-left	scale-50 text-[#1E293B]">
+                                Granted {tip.granted}
+                            </div>
+                            <div className="inset-x-0 absolute bottom-0 origin-right text-right	scale-50 text-[#1E293B]">
+                                Total: {tip.total}
+                            </div>
+                          </div>
+                        </NavLink>
+                      );
+                    })}
+                  </SwiperSlide>
+                </Swiper>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Table */}
+        <h1 className="pb-6 text-3xl md:text-3xl text-slate-800 font-bold">
+          Grants
+        </h1>
         <IncentivesTable selectedItems={handleSelectedItems} />
 
         {/* Pagination */}
