@@ -1,164 +1,169 @@
 import React, { useState } from "react";
 import IncentiveLayout from "./Layout";
+import { Button, Space, Form, Input, Select, InputNumber, Modal } from "antd";
 
 function PlanCreate() {
-  const [planName, setPlanName] = useState("");
-  const [totalToken, setTotalToken] = useState(0);
-  const [tipFor, setTipFor] = useState(1);
-  const [prefix, setPrefix] = useState("");
-  const [poorForTip, setPoorForTip] = useState(0);
+  const [form] = Form.useForm();
+  const nameValue = Form.useWatch("name", form);
+  const totalValue = Form.useWatch("total", form);
+  const audiendeValue = Form.useWatch("Audiende", form);
+  const poorForTipValue = Form.useWatch("poorForTip", form);
 
-  function submitPlan(evt) {
-    const d = new FormData();
-    d.append("planName", planName);
-    d.append("totalToken", totalToken);
-    d.append("tipFor", tipFor);
-    d.append("prefix", prefix);
-    d.append("poorForTip", poorForTip);
+  const [showModal, setModal] = useState(false);
 
-    evt.preventDefault();
+  function handleSave() {
+    form
+      .validateFields()
+      .then((values) => {
+        console.log(values);
+      })
+      .catch((err) => {
+        console.log(err, "error");
+      });
+  }
+  function handleCreate() {
+    form
+      .validateFields()
+      .then((values) => {
+        console.log(values);
+        setModal(true);
+      })
+      .catch((err) => {
+        console.log(err, "error");
+      });
   }
 
   return (
     <IncentiveLayout>
       <div className="lg:relative lg:flex">
-        {/* Content */}
-        <div className="px-4 sm:px-6 lg:px-8 py-8 lg:grow lg:pr-8 xl:pr-16 2xl:ml-[80px]">
-          <div className="lg:max-w-[640px] lg:mx-auto">
-            {/* Cart items */}
+        <div className="px-4 sm:px-6 lg:px-16 py-8 lg:grow lg:pr-8 xl:pr-16">
+          <div className="lg:max-w-[500px]">
             <div className="mb-6 lg:mb-0">
               <div className="mb-3">
                 <div className="flex text-sm font-medium text-slate-400 space-x-2">
                   <span className="text-slate-500">Incentives</span>
                   <span>-&gt;</span>
-                  <span className="text-slate-500">Create New</span>
+                  <span className="text-[#6366F1]">Create a TIP</span>
                 </div>
               </div>
               <header className="mb-6">
-                {/* Title */}
                 <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-2">
-                  Create a Incentive Plan ✨
+                  New Token Incentive Plan
                 </h1>
               </header>
-              {/* Billing Information */}
               <div>
                 <div className="text-slate-800 font-semibold mb-4">
-                  Incentive Information
+                  TIP Basic Info
                 </div>
-                <form onSubmit={submitPlan}>
-                  <div className="space-y-4">
-                    {/* 1st row */}
-                    <div className="md:flex space-y-4 md:space-y-0 md:space-x-4">
-                      <div className="flex-1">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="tipName"
-                        >
-                          TIP Name
-                        </label>
-                        <input
-                          onChange={(e) => setPlanName(e.target.value)}
-                          id="tipName"
-                          name="tipName"
-                          className="form-input w-full"
-                          type="text"
-                          defaultValue=""
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="md:flex space-y-4 md:space-y-0 md:space-x-4">
-                      <div className="flex-1">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="totalToken"
-                        >
-                          Total virtual token
-                        </label>
-                        <input
-                          onChange={(e) => setTotalToken(e.target.value)}
-                          id="totalToken"
-                          name="totalToken"
-                          className="form-input w-full"
-                          type="number"
-                          defaultValue=""
-                          required
-                        />
-                      </div>
-                    </div>
-                    {/* 2nd row */}
-                    <div className="md:flex space-y-4 md:space-y-0 md:space-x-4">
-                      <div className="flex-1">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="tipForType"
-                        >
-                          TIP for
-                        </label>
-                        <select
-                          defaultValue={tipFor}
-                          onChange={(e) => setTipFor(e.target.value)}
-                          id="tipForType"
-                          className="form-input w-full"
-                        >
-                          <option value="1">Employee</option>
-                          <option value="2">Investor</option>
-                          <option value="3">Community</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="md:flex space-y-4 md:space-y-0 md:space-x-4">
-                      <div className="flex-1">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="prefix"
-                        >
-                          Prefix (E.g ES)
-                        </label>
-                        <input
-                          onChange={(e) => setPrefix(e.target.value)}
-                          id="prefix"
-                          className="form-input w-full"
-                          type="text"
-                          required
-                        />
-                      </div>
-                    </div>
-                    {/* 3rd row */}
-                    <div className="md:flex space-y-4 md:space-y-0 md:space-x-4">
-                      <div className="flex-1">
-                        <label
-                          className="block text-sm font-medium mb-1"
-                          htmlFor="poorForTip"
-                        >
-                          Poor for this tip
-                        </label>
-                        <input
-                          onChange={(e) => setPoorForTip(e.target.value)}
-                          id="poorForTip"
-                          className="form-input w-full"
-                          type="text"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <button
-                        type="submit"
-                        className="btn bg-white border-slate-200 hover:border-slate-300 text-indigo-500"
-                      >
-                        Create
-                      </button>
-                    </div>
-                  </div>
-                </form>
+
+                <Form form={form} layout="vertical">
+                  <Form.Item
+                    label="TIP Name"
+                    name="name"
+                    rules={[
+                      { required: true, message: "Please input the TIP Name!" },
+                    ]}
+                  >
+                    <Input placeholder="Name the TIP..." />
+                  </Form.Item>
+                  <Form.Item
+                    label="Total Token"
+                    name="total"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the Total Token!",
+                      },
+                    ]}
+                  >
+                    <InputNumber min={0} style={{ width: "100%" }} />
+                  </Form.Item>
+                  <Form.Item
+                    label="Target Audiende"
+                    name="audiende"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please select the Target Audiende!",
+                      },
+                    ]}
+                  >
+                    <Select allowClear>
+                      <Select.Option value="employee">employee</Select.Option>
+                      <Select.Option value="adviser">adviser</Select.Option>
+                      <Select.Option value="ser grouwth">
+                        user grouwth
+                      </Select.Option>
+                      <Select.Option value="investor">investor</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label="Pool for the TIP"
+                    name="poorForTip"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the Pool for the TIP!",
+                      },
+                    ]}
+                  >
+                    <InputNumber min={0} style={{ width: "100%" }} />
+                  </Form.Item>
+                </Form>
               </div>
-              {/* Divider */}
-              <hr className="my-6 border-t border-slate-200" />
+            </div>
+          </div>
+
+          <div className="max-w-[700px] pt-40	">
+            <hr className="my-6 border-t border-slate-200" />
+            <div className="text-right">
+              <Space>
+                <Button onClick={handleSave}>Save</Button>
+                <Button
+                  onClick={handleCreate}
+                  type="primary"
+                  className="bg-[#6366F1]"
+                >
+                  Create
+                </Button>
+              </Space>
             </div>
           </div>
         </div>
       </div>
+
+      <Modal
+        width={460}
+        title="Token Basic Info"
+        open={showModal}
+        okText="I Accept"
+        cancelText="Close"
+        onCancel={() => {
+          setModal(false);
+        }}
+      >
+        <div className="border-[#E2E8F0] border-y pt-10 pb-20">
+          <div className="mt-7">
+            <p className="text-[#475569] text-sm">TIP Name</p>
+            <p className="text-[#1E293B] text-base	">{nameValue}</p>
+          </div>
+
+          <div className="mt-7">
+            <p className="text-[#475569] text-sm">Total Token</p>
+            <p className="text-[#1E293B] text-base	">{totalValue}</p>
+          </div>
+
+          <div className="mt-7">
+            <p className="text-[#475569] text-sm">Target Audiende</p>
+            <p className="text-[#1E293B] text-base	">{audiendeValue}</p>
+          </div>
+
+          <div className="mt-7">
+            <p className="text-[#475569] text-sm">Pool for the TIP</p>
+            <p className="text-[#1E293B] text-base	">{poorForTipValue}</p>
+          </div>
+        </div>
+      </Modal>
     </IncentiveLayout>
   );
 }
