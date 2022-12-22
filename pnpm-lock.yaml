@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@ant-design/cssinjs': ^1.2.0
+  '@ant-design/icons': ^4.8.0
   '@tailwindcss/forms': ^0.5.2
   '@vitejs/plugin-react': ^2.0.0
   ahooks: ^3.7.3
@@ -13,6 +14,7 @@ specifiers:
   mockjs: ^1.1.0
   moment: ^2.29.4
   postcss: ^8.4.14
+  rc-motion: ^2.6.2
   react: ^18.2.0
   react-dom: ^18.2.0
   react-flatpickr: ^3.10.13
@@ -27,6 +29,7 @@ specifiers:
 
 dependencies:
   '@ant-design/cssinjs': 1.2.0_biqbaboplfbrettd7655fr4n2y
+  '@ant-design/icons': 4.8.0_biqbaboplfbrettd7655fr4n2y
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
   ahooks: 3.7.3_react@18.2.0
   antd: 5.0.7_jb42yyeu5qxbfieyxjks6malva
@@ -34,6 +37,7 @@ dependencies:
   chartjs-adapter-moment: 1.0.1_opaabi5ukfxevbnz4qlju6tphq
   mockjs: 1.1.0
   moment: 2.29.4
+  rc-motion: 2.6.2_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-flatpickr: 3.10.13_react@18.2.0
