@@ -99,7 +99,7 @@ function App() {
         <Route path="/incentive/create" element={<PlanCreate />} />
         <Route path="/incentive/:id" element={<PlanDetail />} />
         <Route path="/incentive/grant" element={<GrantList />} />
-        <Route path="/incentive/grant/create" element={<GrantCreate />} />
+        <Route path="/incentive/grant/:tipId/create" element={<GrantCreate />} />
 
         <Route path="/ecommerce/orders" element={<Orders />} />
         <Route path="/ecommerce/shop" element={<Shop />} />

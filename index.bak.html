@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>tbook</title>
+  <script src="https://unpkg.com/web3@1.8.1/dist/web3.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="style.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="min-h-screen font-sans antialiased relative">
+  <div class="relative">
+    <div
+            class="absolute top-0 left-0 w-full h-[125vh] sm:h-[225vh] lg:h-[125vh] cover-gradient-2 sm:cover-gradient"
+    ></div>
+    <nav id="navbar" class="relative z-10 w-full text-neutral-800">
+      <div class="flex flex-col max-w-screen-xl px-8 mx-auto lg:items-center lg:justify-between lg:flex-row py-4">
+        <div class="flex flex-col lg:flex-row items-center space-x-4 xl:space-x-8">
+          <div class="w-full flex flex-row items-center justify-between py-6">
+            <div>
+              TBook
+            </div>
+            <button class="rounded-lg lg:hidden focus:outline-none focus:shadow-outline">
+            </button>
+          </div>
+        </div>
+        <div class="flex space-x-3">
+          <base-button id="login" class="px-8 xl:px-10 py-3 mt-2 bg-inherit text-gradient border border-[#0c66ee]">
+            Login
+          </base-button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="text-neutral-800">
+
+    </main>
+
+
+  </div>
+</div>
+<script type="text/javascript">
+  window.addEventListener('load', async () => {
+    const web3 = await loadWeb3();
+
+    document.getElementById("login").addEventListener("click", function () {
+      fetch(`nonce?address=${web3.currentProvider.selectedAddress}`, {credentials: "include"})
+              .then(r => r.text())
+              .then(t =>
+                web3.eth.personal.sign(web3.utils.fromUtf8(t), web3.currentProvider.selectedAddress)
+              )
+              .then(s => {
+                const d = new FormData();
+                d.append("address", web3.currentProvider.selectedAddress)
+                d.append("sign", s)
+                return fetch(`authenticate`, {
+                  credentials: "include",
+                  method: "POST",
+                  body: d
+                })
+              })
+              .then(r => {
+                var authHeader = r.headers.get("Authorization")
+                return fetch("info", {
+                  credentials: "include",
+                  headers: {
+                    "Authorization": authHeader
+                  }
+                })
+              })
+              .then(r => r.text()).then(a => {
+                document.getElementById("login").innerText = `welcome [0x...${a.substr(38, 4)}]`
+      })
+    })
+
+    async function loadWeb3() {
+      // Wait for loading completion to avoid race conditions with web3 injection timing.
+      if (window.ethereum) {
+        const web3 = new Web3(window.ethereum);
+        try {
+          // Request account access if needed
+          await window.ethereum.enable();
+          // Accounts now exposed
+          return web3;
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      // Legacy dapp browsers...
+      else if (window.web3) {
+        // Use MetaMask/Mist's provider.
+        const web3 = window.web3;
+        console.log('Injected web3 detected.');
+        return web3;
+      }
+    }
+  });
+</script>
+</body>
+</html>
