@@ -24,11 +24,6 @@ function Signin() {
     form
       .validateFields()
       .then((values) => {
-        console.log(values);
-      })
-      .catch((err) => {
-        console.log(err, "error");
-      });
 
     fetch(
       `/nonce?address=${web3Ref?.current.currentProvider.selectedAddress}`,
@@ -54,13 +49,26 @@ function Signin() {
       .then((r) => {
         var authHeader = r.headers.get("Authorization");
         console.log({ authHeader });
-        return fetch("info", {
+        // return fetch("info", {
+        //   credentials: "include",
+        //   headers: {
+        //     Authorization: authHeader,
+        //   },
+        // });
+        const d = new FormData();
+        d.append('email', values.email)
+        d.append('name', values.name)
+        return fetch(`/users/update`, {
           credentials: "include",
-          headers: {
-            Authorization: authHeader,
-          },
-        });
+          method: "POST",
+          body: d,
+        })
       });
+      })
+      .catch((err) => {
+        console.log(err, "error");
+      });
+
   }
 
   return (
