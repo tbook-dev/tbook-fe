@@ -29,7 +29,6 @@ const initialState = {
 export const fetchUserInfo = createAsyncThunk(
   `/info`,
   async (_, thunkAPI) => {
-    console.log('xxx')
     const response = await fetch(`/info`).then(res => res.json())
     thunkAPI.dispatch(setUser(response?.user || {}))
     thunkAPI.dispatch(setProjects(response?.projects || []))

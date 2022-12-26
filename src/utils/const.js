@@ -11,7 +11,7 @@
  * **/
 
 
-export const target = {
+export const targetMap = {
     0: 'default/unknown',
     1: 'employee',
     2: 'Adviser',

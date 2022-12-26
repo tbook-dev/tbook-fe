@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import IncentiveLayout from "./Layout";
 import { Button, Space, Form, Input, Select, InputNumber, Modal } from "antd";
-import { target } from "../../utils/const";
+import { targetMap } from "../../utils/const";
 import { useSelector } from "react-redux";
 import { createTIP } from '../../api/incentive'
 
@@ -9,7 +9,7 @@ function PlanCreate() {
   const [form] = Form.useForm();
   const nameValue = Form.useWatch("incentivePlanName", form);
   const totalValue = Form.useWatch("total", form);
-  const audiendeValue = Form.useWatch("audiende", form);
+  const targetValue = Form.useWatch("target", form);
   const userStore = useSelector((state) => state.user);
 
   const [showModal, setModal] = useState(false);
@@ -41,7 +41,7 @@ function PlanCreate() {
       .then((values) => {
         values.incentivePlanAdminId  =  userStore?.user?.userId
         values.projectId = userStore?.projects?.[0]?.projectId
-        
+
         createTIP(values)
           .then(res => {
             console.log(res)
@@ -100,7 +100,7 @@ function PlanCreate() {
                   </Form.Item>
                   <Form.Item
                     label="Target Audiende"
-                    name="audiende"
+                    name="target"
                     rules={[
                       {
                         required: true,
@@ -109,7 +109,7 @@ function PlanCreate() {
                     ]}
                   >
                     <Select allowClear>
-                      {Object.entries(target).map(([value, desc]) => {
+                      {Object.entries(targetMap).map(([value, desc]) => {
                         return (
                           <Select.Option value={value} key={value}>
                             {desc}
@@ -182,7 +182,7 @@ function PlanCreate() {
 
           <div className="mt-7">
             <p className="text-[#475569] text-sm">Target Audiende</p>
-            <p className="text-[#1E293B] text-base	">{target[audiendeValue]}</p>
+            <p className="text-[#1E293B] text-base	">{targetMap[targetValue]}</p>
           </div>
 
           <div className="mt-7">

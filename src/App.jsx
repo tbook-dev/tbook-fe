@@ -38,7 +38,6 @@ function App() {
   }, [location.pathname]); // triggered on route change
 
   useEffect(()=>{
-    console.log('11')
     dispatch(fetchUserInfo())
   },[])
 
