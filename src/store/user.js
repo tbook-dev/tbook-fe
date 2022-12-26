@@ -1,34 +1,65 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
   value: 0,
-  authHeader: ""
-}
+  authHeader: "",
+  projects: [
+    // {
+    //   projectId: 21859680007,
+    //   projectName: "abc",
+    //   logoUrl: "",
+    //   status: 0,
+    //   chain: "Ethereum",
+    //   tokenName: "",
+    //   tokenTotalAmount: 0,
+    //   tokenContractAddress: "",
+    //   latestValuation: 100000000,
+    // },
+  ],
+  user: {
+    // userId: 21681550006,
+    // mainWallet: "0x624f313007ca80eae6cd1536362721f479558e3f",
+    // avatar: "https://avatars.dicebear.com/api/pixel-art/:muyv.svg",
+    // email: "posuihushui@icloud.com",
+    // name: "lake",
+    // wallets: [],
+  },
+};
+
+export const fetchUserInfo = createAsyncThunk(
+  `/info`,
+  async (_, thunkAPI) => {
+    console.log('xxx')
+    const response = await fetch(`/info`).then(res => res.json())
+    thunkAPI.dispatch(setUser(response?.user || {}))
+    thunkAPI.dispatch(setProjects(response?.projects || []))
+    return response.data
+  }
+)
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1
-    },
-    decrement: (state) => {
-      state.value -= 1
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload
-    },
     updateAuthHeader: (state) => {
-        state.authHeader = state.authHeader
-    }
+      state.authHeader = state.authHeader;
+    },
+    setUser: (state, action)  => {
+      state.user = {
+        ...state.user,
+        ...action.payload
+      }
+    },
+    setProjects: (state, action) => {
+      state.projects = {
+        ...state.projects,
+        ...action.payload
+      }
+    },
   },
-})
+});
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount, updateAuthHeader } = userSlice.actions
+export const { setUser, setProjects, updateAuthHeader } = userSlice.actions;
 
-export default userSlice.reducer
+export default userSlice.reducer;

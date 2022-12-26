@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import IncentiveLayout from "./Layout";
 import { Button, Space, Form, Input, Select, InputNumber, Modal } from "antd";
+import { target } from "../../utils/const";
+import { useSelector } from "react-redux";
+import { createTIP } from '../../api/incentive'
 
 function PlanCreate() {
   const [form] = Form.useForm();
-  const nameValue = Form.useWatch("name", form);
+  const nameValue = Form.useWatch("incentivePlanName", form);
   const totalValue = Form.useWatch("total", form);
-  const audiendeValue = Form.useWatch("Audiende", form);
-  const poorForTipValue = Form.useWatch("poorForTip", form);
+  const audiendeValue = Form.useWatch("audiende", form);
+  const userStore = useSelector((state) => state.user);
 
   const [showModal, setModal] = useState(false);
-
   function handleSave() {
     form
       .validateFields()
@@ -30,6 +32,24 @@ function PlanCreate() {
       })
       .catch((err) => {
         console.log(err, "error");
+        setModal(false);
+      });
+  }
+  function handleConfirm() {
+    form
+      .validateFields()
+      .then((values) => {
+        values.incentivePlanAdminId  =  userStore?.user?.userId
+        values.projectId = userStore?.projects?.[0]?.projectId
+        
+        createTIP(values)
+          .then(res => {
+            console.log(res)
+          })
+      })
+      .catch((err) => {
+        console.log(err, "error");
+        setModal(false);
       });
   }
 
@@ -59,7 +79,7 @@ function PlanCreate() {
                 <Form form={form} layout="vertical">
                   <Form.Item
                     label="TIP Name"
-                    name="name"
+                    name="incentivePlanName"
                     rules={[
                       { required: true, message: "Please input the TIP Name!" },
                     ]}
@@ -89,25 +109,31 @@ function PlanCreate() {
                     ]}
                   >
                     <Select allowClear>
-                      <Select.Option value="employee">employee</Select.Option>
-                      <Select.Option value="adviser">adviser</Select.Option>
-                      <Select.Option value="ser grouwth">
-                        user grouwth
-                      </Select.Option>
-                      <Select.Option value="investor">investor</Select.Option>
+                      {Object.entries(target).map(([value, desc]) => {
+                        return (
+                          <Select.Option value={value} key={value}>
+                            {desc}
+                          </Select.Option>
+                        );
+                      })}
                     </Select>
                   </Form.Item>
                   <Form.Item
-                    label="Pool for the TIP"
-                    name="poorForTip"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input the Pool for the TIP!",
-                      },
-                    ]}
+                    label="Plan Administrator"
+                    name="incentivePlanAdminId"
                   >
-                    <InputNumber min={0} style={{ width: "100%" }} />
+                    <div className="w-[143px] flex items-center	flex-col">
+                      <img
+                        src={userStore?.user?.avatar}
+                        className="w-[50px] h-[50px] block bg-white rounded-full"
+                      />
+                      <h3 className="text-sm	font-semibold	">
+                        {userStore?.user?.name}
+                      </h3>
+                      <p className="w-[82px] text-[#94A3B8] truncate text-ellipsis overflow-hidden">
+                        {userStore?.user?.mainWallet}
+                      </p>
+                    </div>
                   </Form.Item>
                 </Form>
               </div>
@@ -136,7 +162,8 @@ function PlanCreate() {
         width={460}
         title="Token Basic Info"
         open={showModal}
-        okText="I Accept"
+        okText="Confirm"
+        onOk={handleConfirm}
         cancelText="Close"
         onCancel={() => {
           setModal(false);
@@ -155,12 +182,26 @@ function PlanCreate() {
 
           <div className="mt-7">
             <p className="text-[#475569] text-sm">Target Audiende</p>
-            <p className="text-[#1E293B] text-base	">{audiendeValue}</p>
+            <p className="text-[#1E293B] text-base	">{target[audiendeValue]}</p>
           </div>
 
           <div className="mt-7">
-            <p className="text-[#475569] text-sm">Pool for the TIP</p>
-            <p className="text-[#1E293B] text-base	">{poorForTipValue}</p>
+            <p className="text-[#475569] text-sm">Plan Administrator</p>
+
+            <div className="flex">
+              <img
+                src={userStore?.user?.avatar}
+                className="flex-none w-[50px] h-[50px] mr-2 block bg-white rounded-full"
+              />
+              <div className="flex-auto">
+                <h3 className="text-sm	font-semibold	">
+                  {userStore?.user?.name}
+                </h3>
+                <p className="w-[82px] text-[#94A3B8] truncate text-ellipsis overflow-hidden">
+                  {userStore?.user?.mainWallet}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </Modal>

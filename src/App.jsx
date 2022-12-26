@@ -8,7 +8,8 @@ import {
 import './css/style.css';
 
 import './charts/ChartjsConfig';
-
+import { useDispatch } from "react-redux";
+import { fetchUserInfo } from './store/user'
 // Import pages
 import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
@@ -28,12 +29,18 @@ import GrantList from './pages/incentive/GrantList';
 function App() {
 
   const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     document.querySelector('html').style.scrollBehavior = 'auto'
     window.scroll({ top: 0 })
     document.querySelector('html').style.scrollBehavior = ''
   }, [location.pathname]); // triggered on route change
+
+  useEffect(()=>{
+    console.log('11')
+    dispatch(fetchUserInfo())
+  },[])
 
   return (
     <>

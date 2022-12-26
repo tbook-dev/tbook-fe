@@ -1,3 +1,6 @@
+const headers = {
+  'content-type': 'application/json'
+}
 export const getIncentiveList = async function () {
   return fetch(`/api/tiplist`)
     .then((res) => res.json())
@@ -12,3 +15,8 @@ export const getTIPInfo = async function (incentivePlanId) {
 export const getTipGrantList = async function (incentivePlanId) {
   return fetch(``);
 };
+
+export const createTIP = async function(values){
+  return fetch(`/tip/addTip?projectId=${values.projectId}`, {headers, method: 'POST', body: JSON.stringify(values)})
+    .then(res => res.json())
+}
