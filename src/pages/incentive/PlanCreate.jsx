@@ -8,7 +8,7 @@ import { createTIP } from '../../api/incentive'
 function PlanCreate() {
   const [form] = Form.useForm();
   const nameValue = Form.useWatch("incentivePlanName", form);
-  const totalValue = Form.useWatch("total", form);
+  const totalValue = Form.useWatch("totalTokenNum", form);
   const targetValue = Form.useWatch("target", form);
   const userStore = useSelector((state) => state.user);
 
@@ -88,7 +88,7 @@ function PlanCreate() {
                   </Form.Item>
                   <Form.Item
                     label="Total Token"
-                    name="total"
+                    name="totalTokenNum"
                     rules={[
                       {
                         required: true,
