@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import { getTIPInfo } from "@/api/incentive";
 import { Button } from "antd";
+import { targetMap } from "../../utils/const";
+
 
 function PlanDetail() {
   const { id } = useParams();
@@ -12,13 +14,17 @@ function PlanDetail() {
     target: 2,
     status: 1,
     effectiveDate: "",
+    projectName: "",
   });
 
   useEffect(() => {
-    getTIPInfo(id).then((res) => {
-      setDetail(res);
-    });
-  }, []);
+    if (id) {
+      getTIPInfo(id).then((res) => {
+        console.log(res);
+        setDetail(res);
+      });
+    }
+  }, [id]);
 
   return (
     <IncentiveLayout>
@@ -38,16 +44,22 @@ function PlanDetail() {
             <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-2">
               TIP Details
             </h1>
-            <p className="text-xs	text-[#475569] mb-9">{detail.name}</p>
+            <p className="text-xs	text-[#475569] mb-9">{detail.projectName}</p>
           </header>
 
           <div className="text-[#1E293B] mb-8 relative">
-            <h2 className="text-base font-semibold mb-6">TIP Info</h2>
+            <h2 className="text-base font-semibold mb-6">
+              {detail.projectName} Plan Details
+            </h2>
 
             <div className="absolute top-0 right-0">
               <Button type="primary">Edit</Button>
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-6">
+              <div>
+                <p className="text-xs text-[#475569]">Target Audience</p>
+                <p className="text-base font-semibold	">{targetMap[detail.target]}</p>
+              </div>
               <div>
                 <p className="text-xs text-[#475569]">Total Virtual Token</p>
                 <p className="text-base font-semibold	">111 Token</p>
@@ -64,10 +76,7 @@ function PlanDetail() {
                 <p className="text-xs text-[#475569]">Granted Token</p>
                 <p className="text-base font-semibold	">800,000 Token</p>
               </div>
-              <div>
-                <p className="text-xs text-[#475569]">Target Audience</p>
-                <p className="text-base font-semibold	">Employee</p>
-              </div>
+
               <div>
                 <p className="text-xs text-[#475569]">授予记录数</p>
                 <p className="text-base font-semibold	">5</p>

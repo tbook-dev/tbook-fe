@@ -7,7 +7,7 @@ export const getIncentiveList = async function (projectId) {
 };
 
 export const getTIPInfo = async function (incentivePlanId) {
-  return fetch(`/api/tipInfo?incentivePlanId=${incentivePlanId}`)
+  return fetch(`/projects/${incentivePlanId}`)
     .then((res) => res.json())
 };
 
