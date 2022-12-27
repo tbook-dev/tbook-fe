@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import IncentiveLayout from "./Layout";
-import { getTIPInfo } from "@/api/incentive";
+import { getTIPInfo, getTipGrantees } from "@/api/incentive";
 import { Button } from "antd";
 import { targetMap } from "../../utils/const";
 
@@ -15,13 +15,16 @@ function PlanDetail() {
     effectiveDate: "",
     projectName: "",
   });
+  const [granteeNum, setGranteeNum] = useState(0)
 
   useEffect(() => {
     if (id) {
       getTIPInfo(id).then((res) => {
-        console.log(res);
         setDetail(res);
       });
+      getTipGrantees(id).then(res => {
+        setGranteeNum(res)
+      })
     }
   }, [id]);
 
@@ -81,7 +84,7 @@ function PlanDetail() {
               </div>
               <div>
                 <p className="text-xs text-[#475569]">Grantees</p>
-                <p className="text-base font-semibold	">800,000 Token</p>
+                <p className="text-base font-semibold	">{granteeNum}</p>
               </div>
 
               <div>

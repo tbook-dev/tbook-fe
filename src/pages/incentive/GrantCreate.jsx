@@ -1,21 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import { Button, Space, Form, Input, Select, InputNumber, Modal } from "antd";
+import { getTIPInfo } from "@/api/incentive";
 
 function GrantCreate() {
   const [form] = Form.useForm();
   const [showModal, setModal] = useState(false);
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [planId, setPlanId] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [exercisePrice, setExercisePrice] = useState(0);
-  // const [buyBack, setBuyBack] = useState("");
-  const [vestingStartDate, setVestingStartDate] = useState();
-  const [vestingSchedule, setVestingSchedule] = useState();
-
+  const [detail, setDetail] = useState({
+    incentivePlanId: 0,
+    projectId: 0,
+    target: 2,
+    status: 1,
+    effectiveDate: "",
+    projectName: "",
+  });
   const { tipId } = useParams();
+
+  useEffect(() => {
+    if (tipId) {
+      getTIPInfo(tipId).then((res) => {
+        console.log(res);
+        setDetail(res);
+      });
+    }
+  }, [tipId]);
   console.log("tipId->", tipId);
   function handleSave() {
     form
@@ -77,7 +87,7 @@ function GrantCreate() {
                   <div>
                     <p className="text-xs text-[#475569]">Plan Name</p>
                     <p className="text-base font-semibold text-[#1E293B]">
-                      dev Team
+                      {detail.incentivePlanName}
                     </p>
                   </div>
                 </div>
