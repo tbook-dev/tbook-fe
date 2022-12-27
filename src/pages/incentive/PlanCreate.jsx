@@ -44,7 +44,7 @@ function PlanCreate() {
 
         createTIP(values)
           .then(res => {
-            console.log(res)
+            console.log(res,'xx')
           })
       })
       .catch((err) => {

@@ -1,19 +1,40 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { NavLink } from "react-router-dom";
 import IncentivesTable from "../../partials/incentives/IncentivesTable";
 import PaginationClassic from "../../components/PaginationClassic";
 import IncentiveLayout from "./Layout";
-import { useRequest } from "ahooks";
 import { getIncentiveList } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
+import { useSelector } from "react-redux";
 import "swiper/css";
 import "swiper/css/navigation";
 import { PlusOutlined } from '@ant-design/icons'
 
 function PlanList() {
+  const userStore = useSelector((state) => state.user);
   const [selectedItems, setSelectedItems] = useState([]);
-  const { data: tipList = [] } = useRequest(getIncentiveList);
+  const [tipList, updateTipList] =  useState([]);
+
+  useEffect(() => {
+    let ignore = false;
+
+    async function getList (){
+      const id = userStore?.projects?.[0]?.projectId
+      if(!id) return;
+      const data = await getIncentiveList(userStore?.projects?.[0]?.projectId)
+      if (!ignore && Array.isArray(data)){
+        console.log('TIP list->', data)
+        updateTipList(data)
+      } 
+    }
+
+    getList()
+
+    return () => {
+      ignore = true; 
+    };
+  }, [userStore?.projects?.[0]?.projectId]); 
 
   const handleSelectedItems = (selectedItems) => {
     setSelectedItems([...selectedItems]);
@@ -55,15 +76,14 @@ function PlanList() {
                 </SwiperSlide>
                 {tipList.map((tip) => {
                   return (
-                    <SwiperSlide key={tip.projectId}>
+                    <SwiperSlide key={tip.incentivePlanId}>
                       <NavLink
                         to={`/incentive/${tip.projectId}`}
                         className="mr-11"
                       >
                         <div className="w-[148px] h-[98px] shadow-c2 border rounded-[10px] relative">
                           <div className="text-base text-[#3A4353] pt-3.5 pl-1.5">
-                            <p>{tip.name}</p>
-                            <p>{tip.effectiveDate}</p>
+                            <p>{tip.incentivePlanName}</p>
                           </div>
 
                           <div className="absolute inset-x-0 h-1.5 overflow-hidden bottom-5 bg-[#CBD5E1]">
@@ -74,10 +94,10 @@ function PlanList() {
                           </div>
 
                           <div className="inset-x-0 absolute bottom-0 origin-left	scale-50 text-[#1E293B]">
-                            Granted {tip.granted}
+                            Granted {tip.grantedTokenNum}
                           </div>
                           <div className="inset-x-0 absolute bottom-0 origin-right text-right	scale-50 text-[#1E293B]">
-                            Total: {tip.total}
+                            Total: {tip.totalTokenNum}
                           </div>
                         </div>
                       </NavLink>
