@@ -44,7 +44,7 @@ function PlanDetail() {
             <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-2">
               TIP Details
             </h1>
-            <p className="text-xs	text-[#475569] mb-9">{detail.projectName}</p>
+            <p className="text-xs	text-[#475569] mb-9">{detail.incentivePlanName}</p>
           </header>
 
           <div className="text-[#1E293B] mb-8 relative">
@@ -61,8 +61,8 @@ function PlanDetail() {
                 <p className="text-base font-semibold	">{targetMap[detail.target]}</p>
               </div>
               <div>
-                <p className="text-xs text-[#475569]">Total Virtual Token</p>
-                <p className="text-base font-semibold	">111 Token</p>
+                <p className="text-xs text-[#475569]">Token Options Pool Size</p>
+                <p className="text-base font-semibold	">{detail.tokenOptionsPoolSize} Token</p>
               </div>
               <div>
                 <p className="text-xs text-[#475569]">

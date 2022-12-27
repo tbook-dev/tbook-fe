@@ -78,7 +78,7 @@ function PlanList() {
                   return (
                     <SwiperSlide key={tip.incentivePlanId}>
                       <NavLink
-                        to={`/incentive/${tip.projectId}`}
+                        to={`/incentive/${tip.incentivePlanId}`}
                         className="mr-11"
                       >
                         <div className="w-[148px] h-[98px] shadow-c2 border rounded-[10px] relative">
