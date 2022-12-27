@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import { getTIPInfo } from "@/api/incentive";
 import { Button } from "antd";
 import { targetMap } from "../../utils/const";
-
 
 function PlanDetail() {
   const { id } = useParams();
@@ -44,7 +43,9 @@ function PlanDetail() {
             <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-2">
               TIP Details
             </h1>
-            <p className="text-xs	text-[#475569] mb-9">{detail.incentivePlanName}</p>
+            <p className="text-xs	text-[#475569] mb-9">
+              {detail.incentivePlanName}
+            </p>
           </header>
 
           <div className="text-[#1E293B] mb-8 relative">
@@ -58,32 +59,42 @@ function PlanDetail() {
             <div className="grid grid-cols-6">
               <div>
                 <p className="text-xs text-[#475569]">Target Audience</p>
-                <p className="text-base font-semibold	">{targetMap[detail.target]}</p>
-              </div>
-              <div>
-                <p className="text-xs text-[#475569]">Token Options Pool Size</p>
-                <p className="text-base font-semibold	">{detail.tokenOptionsPoolSize} Token</p>
+                <p className="text-base font-semibold	">
+                  {targetMap[detail.target]}
+                </p>
               </div>
               <div>
                 <p className="text-xs text-[#475569]">
-                  Token Options Size for the Plan
+                  Token Options Pool Size
                 </p>
+                <p className="text-base font-semibold	">
+                  {detail.tokenOptionsPoolSize} Token
+                </p>
+                <p className="text-xs text-[#475569]">(20% of Total Token)</p>
+              </div>
+              <div>
+                <p className="text-xs text-[#475569]">Grants</p>
                 <p>
-                  <span className="text-base font-semibold"></span>111 Token
+                  <span className="text-base font-semibold"></span>
+                  {detail.grantedTokenNum}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-[#475569]">Granted Token</p>
+                <p className="text-xs text-[#475569]">Grantees</p>
                 <p className="text-base font-semibold	">800,000 Token</p>
               </div>
 
               <div>
-                <p className="text-xs text-[#475569]">授予记录数</p>
-                <p className="text-base font-semibold	">5</p>
+                <p className="text-xs text-[#475569]">Grants Token</p>
+                <p className="text-base font-semibold	">
+                  {detail.grantedTokenNum}
+                </p>
               </div>
               <div>
-                <p className="text-xs text-[#475569]">授予人数</p>
-                <p className="text-base font-semibold	">50</p>
+                <p className="text-xs text-[#475569]">Vested Token</p>
+                <p className="text-base font-semibold	">
+                  {detail.vestedTokenNum}
+                </p>
               </div>
             </div>
           </div>
@@ -96,7 +107,9 @@ function PlanDetail() {
                 create a new one!
               </p>
               <div className="absolute top-0 right-0">
-                <Button type="primary"> + New Grant</Button>
+                <Link to={`/incentive/grant/${id}/create`}>
+                  <Button type="primary"> + New Grant</Button>
+                </Link>
               </div>
             </div>
 
