@@ -2,16 +2,23 @@ import React, {useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import {Button, Space, Form, Radio, Checkbox, DatePicker, Select, InputNumber, Modal} from "antd";
-import {getTIPInfo, getProjectUsers} from "@/api/incentive";
+import {getTIPInfo, getProjectUsers, addGrant} from "@/api/incentive";
 import {useSelector} from "react-redux";
-import {grantType} from '../../utils/const'
+import {grantType, dateFormat} from '../../utils/const'
+import GranteeFrom from "./GranteeForm";
+import GranteeDetailPreview from "./GranteeDetailPreview";
+import dayjs from 'dayjs';
 
-const { Option } = Select;
+
+const {Option} = Select;
+
 function GrantCreate() {
     const [form] = Form.useForm();
+    const [formGrantee] = Form.useForm();
     const [showModal, setModal] = useState(false);
     const userStore = useSelector((state) => state.user);
     const [userlist, setUserlist] = useState([]);
+    const [isShowDetailPreview, updateIsShowDetailPreview] = useState(false);
 
     const [detail, setDetail] = useState({
         incentivePlanId: 0,
@@ -65,16 +72,43 @@ function GrantCreate() {
             });
     }
 
-    function submitGrant(evt) {
-        const d = new FormData();
-        d.append("planId", planId);
-        d.append("quantity", quantity);
-        d.append("exercisePrice", exercisePrice);
-        // d.append("buyBack", buyBack);
-        d.append("vestingStartDate", vestingStartDate);
-        d.append("vestingEndDate", vestingSchedule);
+    function handleGrantee() {
+        Promise
+            .all([form.validateFields(), formGrantee.validateFields()])
+            .then(([planValues, grantValues]) => {
+                const values = {
+                    incentivePlanId: tipId,
+                    grantCreatorId: userStore?.user?.userId,
+                    granteeId: planValues.granteeId,
+                    granteeName: grantValues.granteeName,
+                    granteeEthAddress: grantValues.granteeEthAddress,
+                    granteeEmail: grantValues.granteeEmail,
+                    grantType: planValues.grantType,
+                    grantNum: planValues.grantNum,
+                    exercisePrice: planValues.exercisePrice,
+                    grantDate: planValues.grantDate.format(dateFormat),
+                    vestingScheduleDate: dayjs().format(dateFormat),
+                    grantStatus: 1,
+                    vestingTotalLength: planValues.vestingTotalLength,
+                    vestingPeriod: planValues.vestingPeriod,
+//                  vestingInitialNum:'',
+                    cliffTime: planValues.cliffTime,
+                    cliffAmount: planValues.cliffAmount
+                }
+                console.log(planValues, grantValues, tipId, values)
+                addGrant(tipId, values)
+                    .then(res => {
+                        console.log(res)
+                    })
+            })
+            .catch((err) => {
+                console.log(err, "error");
+            });
+    }
 
-        evt.preventDefault();
+
+    function handleSign() {
+
     }
 
     return (
@@ -110,7 +144,8 @@ function GrantCreate() {
 
                                 <Form form={form} layout="vertical" initialValues={{
                                     grantType: 1,
-                                    vestingPeriod: 4
+                                    vestingPeriod: 4,
+                                    isIncludingCliff: false
                                 }}>
                                     <div className="text-slate-800 font-semibold mb-4">
                                         Grantee Detail
@@ -118,7 +153,7 @@ function GrantCreate() {
 
                                     <Form.Item
                                         label="Grantee"
-                                        name="grantee"
+                                        name="granteeId"
                                         rules={[
                                             {required: true, message: "Please input the grantee!"},
                                         ]}
@@ -140,7 +175,7 @@ function GrantCreate() {
 
                                     <Form.Item
                                         label="Quantity"
-                                        name="Quantity"
+                                        name="grantNum"
                                         rules={[
                                             {
                                                 required: true,
@@ -225,12 +260,6 @@ function GrantCreate() {
                                         label=""
                                         name="isIncludingCliff"
                                         valuePropName="checked"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: "Please input the including cliff!",
-                                            },
-                                        ]}
                                     >
                                         <Checkbox>including cliff</Checkbox>
                                     </Form.Item>
@@ -242,7 +271,10 @@ function GrantCreate() {
                                         {({getFieldValue}) =>
                                             getFieldValue('isIncludingCliff') === true ? (
                                                 <Form.Item name="cliffTime" label="Cliff Time"
-                                                  rules={[{required: true, message: 'Please input the Cliff Time!'}]}>
+                                                           rules={[{
+                                                               required: true,
+                                                               message: 'Please input the Cliff Time!'
+                                                           }]}>
                                                     <InputNumber placeholder="Editable amout"
                                                                  style={{width: "100%"}}
                                                                  addonAfter={
@@ -303,21 +335,33 @@ function GrantCreate() {
 
             <Modal
                 width={460}
-                title="Token Basic Info"
+                title="Set up a new grantee"
                 open={showModal}
-                okText="I Accept"
+                okText="Done"
                 cancelText="Close"
+                onOk={handleGrantee}
                 onCancel={() => {
                     setModal(false);
                 }}
             >
-                <div className="border-[#E2E8F0] border-y pt-10 pb-20">
-                    <div className="mt-7">
-                        <p className="text-[#475569] text-sm">TIP Name</p>
-                        <p className="text-[#1E293B] text-base	">nameValue</p>
-                    </div>
-                </div>
+                <GranteeFrom form={formGrantee}/>
             </Modal>
+
+            <Modal
+                width={1008}
+                title="Grant Details"
+                open={isShowDetailPreview}
+                okText="Sign"
+                cancelText="Close"
+                onOk={handleSign}
+                onCancel={() => {
+                    setModal(false);
+                }}
+            >
+                <GranteeDetailPreview planForm={form} granteeForm={formGrantee}/>
+
+            </Modal
+            >
         </IncentiveLayout>
     );
 }

@@ -11,6 +11,7 @@ specifiers:
   autoprefixer: ^10.4.7
   chart.js: ^3.8.0
   chartjs-adapter-moment: ^1.0.0
+  dayjs: ^1.11.7
   flatpickr: ^4.6.13
   lodash: ^4.17.21
   mockjs: ^1.1.0
@@ -40,6 +41,7 @@ dependencies:
   antd: 5.0.7_jb42yyeu5qxbfieyxjks6malva
   chart.js: 3.9.1
   chartjs-adapter-moment: 1.0.1_opaabi5ukfxevbnz4qlju6tphq
+  dayjs: 1.11.7
   lodash: 4.17.21
   mockjs: 1.1.0
   moment: 2.29.4
