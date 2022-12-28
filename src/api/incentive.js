@@ -1,6 +1,7 @@
 const headers = {
   "content-type": "application/json",
 };
+
 export const getIncentiveList = async function (projectId) {
   return fetch(`/projects/${projectId}/tips`).then((res) => res.json());
 };

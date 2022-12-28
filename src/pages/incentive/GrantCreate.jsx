@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
 import IncentiveLayout from "./Layout";
-import {Button, Space, Form, Radio, Input, DatePicker, Select, InputNumber, Modal} from "antd";
+import {Button, Space, Form, Radio, Checkbox, DatePicker, Select, InputNumber, Modal} from "antd";
 import {getTIPInfo, getProjectUsers} from "@/api/incentive";
 import {useSelector} from "react-redux";
 import {grantType} from '../../utils/const'
 
+const { Option } = Select;
 function GrantCreate() {
     const [form] = Form.useForm();
     const [showModal, setModal] = useState(false);
@@ -107,7 +108,10 @@ function GrantCreate() {
                                     </div>
                                 </div>
 
-                                <Form form={form} layout="vertical">
+                                <Form form={form} layout="vertical" initialValues={{
+                                    grantType: 1,
+                                    vestingPeriod: 4
+                                }}>
                                     <div className="text-slate-800 font-semibold mb-4">
                                         Grantee Detail
                                     </div>
@@ -196,35 +200,83 @@ function GrantCreate() {
                                         <DatePicker className="w-full"/>
                                     </Form.Item>
                                     <Form.Item
-                                        label="Target Audiende"
-                                        name="audiende"
+                                        label="Length"
+                                        name="vestingTotalLength"
                                         rules={[
                                             {
                                                 required: true,
-                                                message: "Please select the Target Audiende!",
+                                                message: "Please input the Length!",
                                             },
                                         ]}
                                     >
-                                        <Select allowClear>
-                                            <Select.Option value="employee">employee</Select.Option>
-                                            <Select.Option value="adviser">adviser</Select.Option>
-                                            <Select.Option value="ser grouwth">
-                                                user grouwth
-                                            </Select.Option>
-                                            <Select.Option value="investor">investor</Select.Option>
-                                        </Select>
+                                        <InputNumber min={0} style={{width: "100%"}}
+                                                     placeholder="Editable amout"
+                                                     addonAfter={
+                                                         <Form.Item name="vestingPeriod" noStyle>
+                                                             <Select style={{width: 100}}>
+                                                                 <Option value={1}>week</Option>
+                                                                 <Option value={4}>month</Option>
+                                                                 <Option value={52}>year</Option>
+                                                             </Select>
+                                                         </Form.Item>
+                                                     }/>
                                     </Form.Item>
                                     <Form.Item
-                                        label="Pool for the TIP"
-                                        name="poorForTip"
+                                        label=""
+                                        name="isIncludingCliff"
+                                        valuePropName="checked"
                                         rules={[
                                             {
                                                 required: true,
-                                                message: "Please input the Pool for the TIP!",
+                                                message: "Please input the including cliff!",
                                             },
                                         ]}
                                     >
-                                        <InputNumber min={0} style={{width: "100%"}}/>
+                                        <Checkbox>including cliff</Checkbox>
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        noStyle
+                                        shouldUpdate={(prevValues, currentValues) => prevValues.isIncludingCliff !== currentValues.isIncludingCliff}
+                                    >
+                                        {({getFieldValue}) =>
+                                            getFieldValue('isIncludingCliff') === true ? (
+                                                <Form.Item name="cliffTime" label="Cliff Time"
+                                                  rules={[{required: true, message: 'Please input the Cliff Time!'}]}>
+                                                    <InputNumber placeholder="Editable amout"
+                                                                 style={{width: "100%"}}
+                                                                 addonAfter={
+                                                                     <Form.Item name="vestingPeriod" noStyle>
+                                                                         <Select style={{width: 100}}>
+                                                                             <Option value={1}>week</Option>
+                                                                             <Option value={4}>month</Option>
+                                                                             <Option value={52}>year</Option>
+                                                                         </Select>
+                                                                     </Form.Item>
+                                                                 }/>
+                                                </Form.Item>
+                                            ) : null
+                                        }
+
+                                    </Form.Item>
+                                    <Form.Item
+                                        noStyle
+                                        shouldUpdate={(prevValues, currentValues) => prevValues.isIncludingCliff !== currentValues.isIncludingCliff}
+                                    >
+                                        {({getFieldValue}) =>
+                                            getFieldValue('isIncludingCliff') === true ? (
+                                                <Form.Item name="cliffAmount" label="Cliff Amount"
+                                                           rules={[{
+                                                               required: true,
+                                                               message: 'Please input the Cliff Amount!'
+                                                           }]}>
+                                                    <InputNumber placeholder="Editable amout"
+                                                                 style={{width: "100%"}}
+                                                                 addonAfter="%"/>
+                                                </Form.Item>
+                                            ) : null
+                                        }
+
                                     </Form.Item>
                                 </Form>
                             </div>
