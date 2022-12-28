@@ -23,7 +23,7 @@ export const getProjectUsers = async function (projectId) {
 }
 
 export const getTipGrantList = async function (incentivePlanId) {
-    return fetch(``);
+    return fetch(`/grant/${incentivePlanId}/grants`).then(res => res.json());
 };
 
 export const createTIP = async function (values) {
