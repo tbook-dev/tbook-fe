@@ -25,6 +25,7 @@ import CreateProject from './pages/CreateProject';
 import PlanDetail from './pages/incentive/PlanDetail';
 import GrantCreate from './pages/incentive/GrantCreate';
 import GrantList from './pages/incentive/GrantList';
+import Login from './pages/Login';
 
 function App() {
 
@@ -57,6 +58,7 @@ function App() {
 
       
         <Route path="/signin" element={<Signin />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/project-create" element={<CreateProject />} />
 
         <Route path="*" element={<PageNotFound />} />
