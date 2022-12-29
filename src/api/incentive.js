@@ -43,3 +43,29 @@ export const addGrant = async function (incentivePlanId, values) {
         body: JSON.stringify(values)
     }).then(res => res.json())
 }
+
+export const getGrantInfo = async function(grantId) {
+    return fetch(`/grant/grantInfo?grantId=${grantId}`, {
+        method: "GET"
+    }).then(res => res.json())
+}
+
+export const getGrantSignInfo = async function(projectId, grantId) {
+    return fetch(`/grant/${grantId}/sign`, {
+        credentials: "include",
+        method: "GET"
+    }).then(res => res.json())
+}
+
+export const postGrantSignInfo = async function(projectId, grantId, grantSignId, sign) {
+    const params = new URLSearchParams()
+    params.append("grantSignId", grantSignId)
+    params.append("sign", sign)
+    return fetch(`/grant/${grantId}/sign`, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method: "POST",
+        body: params
+    }).then(res => res.json())
+}

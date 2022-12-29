@@ -26,6 +26,7 @@ import PlanDetail from './pages/incentive/PlanDetail';
 import GrantCreate from './pages/incentive/GrantCreate';
 import GrantList from './pages/incentive/GrantList';
 import Login from './pages/Login';
+import GrantSign from './pages/incentive/GrantSign';
 
 function App() {
 
@@ -55,10 +56,10 @@ function App() {
         <Route path="/incentive/:id" element={<PlanDetail />} />
         <Route path="/incentive/grant" element={<GrantList />} />
         <Route path="/incentive/grant/:tipId/create" element={<GrantCreate />} />
-
+        <Route path="/grants/:grantId/sign" element={<GrantSign />} />
       
         <Route path="/signin" element={<Signin />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/logins" element={<Login />} />
         <Route path="/project-create" element={<CreateProject />} />
 
         <Route path="*" element={<PageNotFound />} />
