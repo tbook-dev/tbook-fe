@@ -15,5 +15,21 @@ https://github.com/ant-design/ant-design/pull/38764/files/321ac894fa827146bf0486
 ## 代理规则
 
 ```bash
-tbook.fly.dev/ 127.0.0.1:5173/ excludeFilter://*/api excludeFilter://*/login
+line`
+tbook.fly.dev/ 127.0.0.1:5173/ 
+excludeFilter://*/info 
+excludeFilter://*/tip 
+excludeFilter://*/projects 
+excludeFilter://*/users 
+excludeFilter://*/api 
+excludeFilter://*/login 
+excludeFilter://*/nonce 
+excludeFilter://*/swagger-ui 
+excludeFilter://*/authenticate
+excludeFilter://*/grant
+`
 ```
+
+
+## 设计稿地址
+[figma link](https://www.figma.com/file/POz4Q7MdgjyK9ozDsOI4Im/Tbook-Draft?node-id=1255%3A13039&t=X1ebkCyhX7JyqBRf-0)
