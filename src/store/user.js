@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import request from "../api/request";
 
 const initialState = {
   value: 0,
+  authUser: true,
   authHeader: "",
   projects: [
     // {
@@ -29,7 +31,7 @@ const initialState = {
 export const fetchUserInfo = createAsyncThunk(
   `/info`,
   async (_, thunkAPI) => {
-    const response = await fetch(`/info`).then(res => res.json())
+    const response = await request(`/info`)
     thunkAPI.dispatch(setUser(response?.user || {}))
     thunkAPI.dispatch(setProjects(response?.projects || []))
     return response.data
@@ -40,8 +42,8 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    updateAuthHeader: (state) => {
-      state.authHeader = state.authHeader;
+    updateAuthHeader: (_, action) => {
+      state.authHeader = action.payload;
     },
     setUser: (state, action)  => {
       state.user = {
@@ -55,10 +57,14 @@ export const userSlice = createSlice({
         ...action.payload
       }
     },
+    setAuthUser: (state, action ) => {
+      state.authUser = action.payload
+      console.log(action)
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setProjects, updateAuthHeader } = userSlice.actions;
+export const { setUser, setProjects, updateAuthHeader, setAuthUser } = userSlice.actions;
 
 export default userSlice.reducer;

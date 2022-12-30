@@ -1,17 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loadWeb3 } from "../utils/web3";
-import { Form, Input } from "antd";
-import { debounce } from 'lodash'
-
+import { debounce } from "lodash";
+import { useDispatch } from "react-redux";
+import { setAuthUser } from '../store/user'
 import AuthDecoration from "../images/tbook/aircraft.png";
 import AuthImage from "../images/tbook/login.png";
 
+
 function Login() {
   //const host = "https://tbook.fly.dev"
-  const host = ""
+  const host = "";
   let navigate = useNavigate();
-
+  
+  const  dispath = useDispatch()
   const web3Ref = useRef();
   useEffect(() => {
     async function asyncloadWeb3() {
@@ -20,7 +22,6 @@ function Login() {
     }
     asyncloadWeb3();
   }, []);
-  const [form] = Form.useForm();
 
   function handleSignIn(evt) {
     evt?.preventDefault();
@@ -45,13 +46,14 @@ function Login() {
           method: "POST",
           body: d,
         });
-      }).then((s) => {
-        navigate("/incentive"); 
+      })
+      .then((s) => {
+        dispath(setAuthUser(true))
+        navigate("/incentive");
       })
       .catch((err) => {
         console.log(err, "error");
       });
-
   }
 
   return (
@@ -113,15 +115,25 @@ function Login() {
               </h1>
               {/* Form */}
             </div>
-            <div className="flex items-center justify-center mt-28">
-                  <button
-                    type="submit"
-                    className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
-                    onClick={debounce(handleSignIn,300)}
-                  >
-                    LogIn
-                  </button>
-                </div>
+            <div className="flex flex-col	items-center justify-center mt-28">
+              <button
+                type="submit"
+                className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+                onClick={debounce(handleSignIn, 300)}
+              >
+                LogIn
+              </button>
+              <br />
+              <div className="text-sm">
+                Don't have an account?{" "}
+                <Link
+                  className="font-medium text-indigo-500 hover:text-indigo-600"
+                  to="/signin"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
 

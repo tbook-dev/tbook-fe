@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { loadWeb3 } from "../utils/web3";
 import { Form, Input } from "antd";
-import { debounce } from 'lodash'
+import { debounce } from "lodash";
 
 import AuthDecoration from "../images/tbook/aircraft.png";
 import AuthImage from "../images/tbook/login.png";
@@ -24,51 +24,52 @@ function Signin() {
     form
       .validateFields()
       .then((values) => {
-
-    fetch(
-      `/nonce?address=${web3Ref?.current.currentProvider.selectedAddress}`,
-      { credentials: "include" }
-    )
-      .then((r) => r.text())
-      .then((t) =>
-        web3Ref?.current.eth.personal.sign(
-          web3Ref.current.utils.fromUtf8(t),
-          web3Ref?.current.currentProvider.selectedAddress
+        fetch(
+          `/nonce?address=${web3Ref?.current.currentProvider.selectedAddress}`,
+          { credentials: "include" }
         )
-      )
-      .then((s) => {
-        const d = new FormData();
-        d.append("address", web3Ref?.current.currentProvider.selectedAddress);
-        d.append("sign", s);
-        return fetch(`/authenticate`, {
-          credentials: "include",
-          method: "POST",
-          body: d,
-        });
-      })
-      .then((r) => {
-        var authHeader = r.headers.get("Authorization");
-        console.log({ authHeader });
-        // return fetch("info", {
-        //   credentials: "include",
-        //   headers: {
-        //     Authorization: authHeader,
-        //   },
-        // });
-        const d = new FormData();
-        d.append('email', values.email)
-        d.append('name', values.name)
-        return fetch(`/users/update`, {
-          credentials: "include",
-          method: "POST",
-          body: d,
-        })
-      });
+          .then((r) => r.text())
+          .then((t) =>
+            web3Ref?.current.eth.personal.sign(
+              web3Ref.current.utils.fromUtf8(t),
+              web3Ref?.current.currentProvider.selectedAddress
+            )
+          )
+          .then((s) => {
+            const d = new FormData();
+            d.append(
+              "address",
+              web3Ref?.current.currentProvider.selectedAddress
+            );
+            d.append("sign", s);
+            return fetch(`/authenticate`, {
+              credentials: "include",
+              method: "POST",
+              body: d,
+            });
+          })
+          .then((r) => {
+            var authHeader = r.headers.get("Authorization");
+            console.log({ authHeader });
+            // return fetch("info", {
+            //   credentials: "include",
+            //   headers: {
+            //     Authorization: authHeader,
+            //   },
+            // });
+            const d = new FormData();
+            d.append("email", values.email);
+            d.append("name", values.name);
+            return fetch(`/users/update`, {
+              credentials: "include",
+              method: "POST",
+              body: d,
+            });
+          });
       })
       .catch((err) => {
         console.log(err, "error");
       });
-
   }
 
   return (
@@ -145,14 +146,24 @@ function Signin() {
                   <Input />
                 </Form.Item>
 
-                <div className="flex items-center justify-end	 mt-28">
+                <div className="flex flex-col items-center justify-end	 mt-28">
                   <button
                     type="submit"
                     className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
-                    onClick={debounce(handleSignIn,300)}
+                    onClick={debounce(handleSignIn, 300)}
                   >
-                    Sign In
+                    Sign Up
                   </button>
+                  <br />
+                  <div className="text-sm">
+                    Have an account?{" "}
+                    <Link
+                      className="font-medium text-indigo-500 hover:text-indigo-600"
+                      to="/logins"
+                    >
+                      Login
+                    </Link>
+                  </div>
                 </div>
               </Form>
             </div>
