@@ -25,6 +25,7 @@ import { grantType, dateFormat } from "../../utils/const";
 import GranteeFrom from "./GranteeForm";
 import GranteeDetailPreview from "./GranteeDetailPreview";
 import dayjs from "dayjs";
+import { useAsyncEffect } from "ahooks";
 
 const { Option } = Select;
 
@@ -55,18 +56,11 @@ function GrantCreate() {
     }
   }, [tipId]);
 
-  const getProjectUsers = useCallback(()=>{
-    console.log('useCallback')
+  useAsyncEffect(async () => {
     const projectId = userStore?.projects?.[0]?.projectId;
     if (projectId) {
-      getProjectUsers(projectId).then((res) => {
-        setUserlist(res);
-      });
+      setUserlist(await getProjectUsers(projectId));
     }
-  },[userStore])
-
-  useEffect(() => {
-    getProjectUsers();
   }, [userStore]);
 
   function handleSave() {
@@ -102,7 +96,6 @@ function GrantCreate() {
         email: values.granteeEmail,
         userRole: 4,
       }).then((res) => {
-
         console.log("res->", res);
       });
     });
