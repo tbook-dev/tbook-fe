@@ -24,6 +24,7 @@ import Login from "./pages/Login";
 import GrantSign from "./pages/incentive/GrantSign";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Account from "./pages/settings/Account";
+import GrantDetail from "./pages/incentive/GrantDetail";
 
 function App() {
   const location = useLocation();
@@ -110,6 +111,14 @@ function App() {
           }
         />
         <Route
+          path="/incentive/grant/:grantId/detail"
+          element={
+            <ProtectedRoute>
+              <GrantDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/grants/:grantId/sign"
           element={
             <ProtectedRoute>
@@ -128,6 +137,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/settings/account"
           element={
