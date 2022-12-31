@@ -23,6 +23,7 @@ import GrantList from "./pages/incentive/GrantList";
 import Login from "./pages/Login";
 import GrantSign from "./pages/incentive/GrantSign";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Account from "./pages/settings/Account";
 
 function App() {
   const location = useLocation();
@@ -124,6 +125,14 @@ function App() {
           element={
             <ProtectedRoute>
               <CreateProject />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/account"
+          element={
+            <ProtectedRoute>
+              <Account />
             </ProtectedRoute>
           }
         />
