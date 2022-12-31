@@ -15,6 +15,9 @@ export const getTipGrantees = async function (incentivePlanId) {
 export const getProjectUsers = async function (projectId) {
     return request(`/projects/${projectId}/users`)
 }
+export const addProjectUser = async function(projectId, values){
+    return request.Post(`/projects/${projectId}/userAdd`, values)
+}
 
 export const getTipGrantList = async function (incentivePlanId) {
     return request(`/grant/${incentivePlanId}/grants`)

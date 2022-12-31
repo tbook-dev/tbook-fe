@@ -7,7 +7,7 @@ export const injectStore = _store => {
   store = _store
 }
 
-const TIME_OUT = 6000; // 超时时间
+const TIME_OUT = 600000; // 超时时间
 const ContentType = {
   json: "application/json;charset=UTF-8", // json数据格式
   form: "application/x-www-form-urlencoded; charset=UTF-8", // 表单数据格式
@@ -91,15 +91,15 @@ export default function request(url, options = {}) {
 }
 
 request.Get = (url, params) => {
-  return baseFetch(url, { body: params });
+  return request(url, { body: params });
 };
 
 request.Post = (url, params) => {
-  return baseFetch(url, { method: "POST", body: JSON.stringify(params) });
+  return request(url, { method: "POST", body: JSON.stringify(params) });
 };
 
 request.Download = (url, params) => {
-  return baseFetch(url, {
+  return request(url, {
     method: "POST",
     body: JSON.stringify(params),
     headers: {
