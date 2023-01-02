@@ -27,7 +27,7 @@ function Member() {
             {/* Page header */}
             <div className="mb-8">
               {/* Title */}
-              <h1 className="text-2xl md:text-3xl text-slate-800 font-bold">Account Settings ✨</h1>
+              <h1 className="text-2xl md:text-3xl text-slate-800 font-bold">Settings ✨</h1>
             </div>
 
             {/* Content */} 
