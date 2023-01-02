@@ -88,7 +88,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </svg>
           </button>
           {/* Logo */}
-          <NavLink end to="/" className="block">
+          <NavLink end to="/" className="flex justify-center items-center">
             <svg width="32" height="32" viewBox="0 0 32 32">
               <defs>
                 <linearGradient
@@ -126,6 +126,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 fill="url(#logo-b)"
               />
             </svg>
+            <h2 className="text-[#E2E8F0] ml-[15px] text-2xl font-extrabold">TBOOK</h2>
           </NavLink>
         </div>
 
