@@ -25,6 +25,8 @@ import GrantSign from "./pages/incentive/GrantSign";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Account from "./pages/settings/Account";
 import GrantDetail from "./pages/incentive/GrantDetail";
+import GrantsSchedule from "./pages/incentive/GrantsSchedule";
+
 
 function App() {
   const location = useLocation();
@@ -111,10 +113,18 @@ function App() {
           }
         />
         <Route
-          path="/incentive/grant/:grantId/detail"
+          path="/incentive/grant/:tipId/:grantId/detail"
           element={
             <ProtectedRoute>
               <GrantDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/incentive/grant/:tipId/:grantId/schedule"
+          element={
+            <ProtectedRoute>
+              <GrantsSchedule />
             </ProtectedRoute>
           }
         />

@@ -8,7 +8,7 @@ export default function ({ list = [], title = () => null }) {
     {
       title: "GRANT ID",
       render: (_, v) => (
-        <Link to={`/incentive/grant/${v?.grant?.grantId}/detail`}>
+        <Link to={`/incentive/grant/${v?.grant?.incentivePlanId}/${v?.grant?.grantId}/detail`}>
           <p className="text-[#38BDF8]">{v?.grant?.grantId}</p>
         </Link>
       ),

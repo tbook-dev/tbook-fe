@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { getGrantInfo, getTIPInfo } from "../../api/incentive";
 import SettingsSidebar from "../../partials/incentive/SettingsSidebar";
 import AccountPanel from "../../partials/settings/AccountPanel";
-import { grantStatusList } from "../../utils/const";
 
 export default function GrantDetail() {
   const { grantId, tipId } = useParams();
@@ -27,16 +26,8 @@ export default function GrantDetail() {
       <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
         {/* Page header */}
         <div className="mb-4">
-          <h1 className="flex items-center text-2xl md:text-3xl text-slate-800 font-bold">
+          <h1 className="text-2xl md:text-3xl text-slate-800 font-bold">
             {tipInfo?.incentivePlanName}
-            <span className="ml-2.5">
-
-            {grantInfo?.grantStatus &&
-              grantStatusList
-                .find((v) => v.value === grantInfo?.grantStatus)
-                ?.render()}
-            </span>
-
           </h1>
           <p className="text-[#475569] text-base">{grantInfo?.granteeName}</p>
         </div>
