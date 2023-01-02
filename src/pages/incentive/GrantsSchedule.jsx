@@ -4,9 +4,9 @@ import { useAsyncEffect } from "ahooks";
 import { useParams } from "react-router-dom";
 import { getGrantInfo, getTIPInfo } from "../../api/incentive";
 import SettingsSidebar from "../../partials/incentive/SettingsSidebar";
-import AccountPanel from "../../partials/settings/AccountPanel";
+import SchedulePanel from "../../partials/incentive/SchedulePanel";
 
-export default function GrantDetail() {
+export default function GrantsSchedule() {
   const { grantId, tipId } = useParams();
   const [tipInfo, setTipInfo] = useState({});
   const [grantInfo, setGrantInfo] = useState({});
@@ -36,7 +36,7 @@ export default function GrantDetail() {
         <div className="bg-white shadow-lg rounded-sm mb-8">
           <div className="flex flex-col md:flex-row md:-mr-px">
             <SettingsSidebar />
-            <AccountPanel />
+            <SchedulePanel />
           </div>
         </div>
       </div>
