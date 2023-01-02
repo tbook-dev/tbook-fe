@@ -4,7 +4,7 @@ import { useAsyncEffect } from "ahooks";
 import { useParams } from "react-router-dom";
 import { getGrantInfo, getTIPInfo } from "../../api/incentive";
 import SettingsSidebar from "../../partials/incentive/SettingsSidebar";
-import AccountPanel from "../../partials/settings/AccountPanel";
+import DetailPanel from "../../partials/incentive/DetailPanel";
 import { grantStatusList } from "../../utils/const";
 
 export default function GrantDetail() {
@@ -27,7 +27,7 @@ export default function GrantDetail() {
       <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
         {/* Page header */}
         <div className="mb-4">
-          <h1 className="flex items-center text-2xl md:text-3xl text-slate-800 font-bold">
+          <h1 className="flex items-center text-3xl md:text-3xl text-slate-800 font-bold">
             {tipInfo?.incentivePlanName}
             <span className="ml-2.5">
 
@@ -45,7 +45,7 @@ export default function GrantDetail() {
         <div className="bg-white shadow-lg rounded-sm mb-8">
           <div className="flex flex-col md:flex-row md:-mr-px">
             <SettingsSidebar />
-            <AccountPanel />
+            <DetailPanel tipInfo={tipInfo} grantInfo={grantInfo}/>
           </div>
         </div>
       </div>

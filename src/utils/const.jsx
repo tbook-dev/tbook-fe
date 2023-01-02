@@ -32,13 +32,13 @@ export const targetMap = {
 export const grantType = [
     //    0: 'default/unknown',
     {
-        name: 'by Date',
+        name: 'By Date',
         value: 1,
         disabled: false
 
     },
     {
-        name: 'by Milestone',
+        name: 'By Milestone',
         value: 2,
         disabled: true
     }
