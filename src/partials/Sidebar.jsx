@@ -140,6 +140,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               >
                 •••
               </span>
+              <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                Pages
+              </span>
             </h3>
             <div className="mt-3 flex-auto flex flex-col justify-between">
               <div>
@@ -353,8 +356,18 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 </SidebarLinkGroup>
               </div>
 
-
               <div className="pb-24">
+                <h3 className="text-xs uppercase text-slate-500 font-semibold pl-3">
+                  <span
+                    className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6"
+                    aria-hidden="true"
+                  >
+                    •••
+                  </span>
+                  <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                    More
+                  </span>
+                </h3>
                 <SidebarLinkGroup
                   activecondition={pathname.includes("setting")}
                 >
