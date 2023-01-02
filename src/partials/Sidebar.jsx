@@ -394,25 +394,32 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 viewBox="0 0 24 24"
                               >
                                 <path
-                                  className={`fill-current text-slate-400 ${
-                                    pathname.includes("incentive") &&
-                                    "text-indigo-300"
+                                  className={`fill-current text-slate-600 ${
+                                    pathname.includes("settings") &&
+                                    "text-indigo-500"
                                   }`}
-                                  d="M13 15l11-7L11.504.136a1 1 0 00-1.019.007L0 7l13 8z"
+                                  d="M19.714 14.7l-7.007 7.007-1.414-1.414 7.007-7.007c-.195-.4-.298-.84-.3-1.286a3 3 0 113 3 2.969 2.969 0 01-1.286-.3z"
                                 />
                                 <path
-                                  className={`fill-current text-slate-700 ${
-                                    pathname.includes("incentive") &&
-                                    "!text-indigo-600"
+                                  className={`fill-current text-slate-400 ${
+                                    pathname.includes("settings") &&
+                                    "text-indigo-300"
                                   }`}
-                                  d="M13 15L0 7v9c0 .355.189.685.496.864L13 24v-9z"
+                                  d="M10.714 18.3c.4-.195.84-.298 1.286-.3a3 3 0 11-3 3c.002-.446.105-.885.3-1.286l-6.007-6.007 1.414-1.414 6.007 6.007z"
                                 />
                                 <path
                                   className={`fill-current text-slate-600 ${
-                                    pathname.includes("incentive") &&
+                                    pathname.includes("settings") &&
                                     "text-indigo-500"
                                   }`}
-                                  d="M13 15.047V24l10.573-7.181A.999.999 0 0024 16V8l-11 7.047z"
+                                  d="M5.7 10.714c.195.4.298.84.3 1.286a3 3 0 11-3-3c.446.002.885.105 1.286.3l7.007-7.007 1.414 1.414L5.7 10.714z"
+                                />
+                                <path
+                                  className={`fill-current text-slate-400 ${
+                                    pathname.includes("settings") &&
+                                    "text-indigo-300"
+                                  }`}
+                                  d="M19.707 9.292a3.012 3.012 0 00-1.415 1.415L13.286 5.7c-.4.195-.84.298-1.286.3a3 3 0 113-3 2.969 2.969 0 01-.3 1.286l5.007 5.006z"
                                 />
                               </svg>
                               <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
