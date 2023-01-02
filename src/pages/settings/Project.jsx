@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import SettingsSidebar from '../../partials/settings/SettingsSidebar';
-import AccountPanel from '../../partials/settings/AccountPanel';
+import AccountPanel from '../../partials/settings/ProjectPanel';
 
-function Account() {
+function Project() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -47,4 +47,4 @@ function Account() {
   );
 }
 
-export default Account;
+export default Project;
