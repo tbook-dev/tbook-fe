@@ -91,3 +91,12 @@ export const grantStatusList = [
             className="w-[105px] text-sm	text-[#000000] bg-[#606060] py-1 rounded-2xl text-center">terminated</div>
     }
 ]
+
+export const roleList = [{"code": 1, "desc": "Owner"}, {"code": 2, "desc": "Administrator"}, {
+    "code": 3,
+    "desc": "Viewer"
+}, {"code": 4, "desc": "Employee"}]
+
+export const getRoleNumber = (code, list) => {
+    return list.filter(v => v.role === code).length
+}
