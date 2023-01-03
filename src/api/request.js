@@ -1,11 +1,10 @@
-import { setAuthUser } from '../store/user'
+import { setAuthUser } from "../store/user";
+import { message } from "antd";
+let store;
 
-let store
-
- 
-export const injectStore = _store => {
-  store = _store
-}
+export const injectStore = (_store) => {
+  store = _store;
+};
 
 const TIME_OUT = 600000; // 超时时间
 const ContentType = {
@@ -14,7 +13,7 @@ const ContentType = {
   download: "application/octet-stream", // 二进制文件流格式，用于download
 };
 
-window.request = request
+window.request = request;
 export default function request(url, options = {}) {
   // 基础配置
   const baseOptions = {
@@ -38,7 +37,10 @@ export default function request(url, options = {}) {
   const { method, body } = options;
 
   // get请求没有请求体，需要将参数拼接到url上
-  if (method === "GET" &&  Object.prototype.toString.call(body) === '[object Object]') {
+  if (
+    method === "GET" &&
+    Object.prototype.toString.call(body) === "[object Object]"
+  ) {
     const paramsArray = [];
     Object.keys(body).forEach((key) =>
       paramsArray.push(key + "=" + encodeURIComponent(body[key]))
@@ -66,8 +68,8 @@ export default function request(url, options = {}) {
           if (!/^(2|3)\d{2}$/.test(res.status)) {
             switch (res.status) {
               case 401:
-                console.log('401')
-                store.dispatch(setAuthUser(false))
+                console.log("401");
+                store.dispatch(setAuthUser(false));
                 break;
               case 403:
                 break;
@@ -84,6 +86,8 @@ export default function request(url, options = {}) {
           resolve(data);
         })
         .catch((err) => {
+          console.log("reqeust error", err);
+          message.error(err?.message || 'An error happens, plase try it later!')
           reject(err);
         });
     }),
@@ -96,6 +100,21 @@ request.Get = (url, params) => {
 
 request.Post = (url, params) => {
   return request(url, { method: "POST", body: JSON.stringify(params) });
+};
+
+request.PostForm = (url, params) => {
+  const formData = new FormData();
+  for (const name in params) {
+    if(params.hasOwnProperty(name)){
+      console.log(name, params[name])
+      formData.append(name, params[name]);
+    }
+  }
+  return request(url, {
+    method: "POST",
+    headers: { "Content-type": ContentType.form },
+    body: formData,
+  });
 };
 
 request.Download = (url, params) => {

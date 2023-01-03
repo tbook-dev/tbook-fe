@@ -15,7 +15,7 @@ export default function GranteeFrom({form}) {
             ]}
         >
             <Input
-                placeholder="Editable amout"
+                placeholder="Editable"
             />
         </Form.Item>
 
@@ -48,7 +48,7 @@ export default function GranteeFrom({form}) {
             ]}
         >
             <Input
-                placeholder="Editable amout"
+                placeholder="Editable"
             />
         </Form.Item>
 
