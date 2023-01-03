@@ -26,6 +26,7 @@ import GranteeFrom from "./GranteeForm";
 import GranteeDetailPreview from "./GranteeDetailPreview";
 import dayjs from "dayjs";
 import { useAsyncEffect } from "ahooks";
+import { message } from "antd";
 
 const { Option } = Select;
 
@@ -46,7 +47,7 @@ function GrantCreate() {
     projectName: "",
   });
   const { tipId } = useParams();
-
+  console.log("x->userlist", userlist);
   useEffect(() => {
     if (tipId) {
       getTIPInfo(tipId).then((res) => {
@@ -59,7 +60,8 @@ function GrantCreate() {
   useAsyncEffect(async () => {
     const projectId = userStore?.projects?.[0]?.projectId;
     if (projectId) {
-      setUserlist(await getProjectUsers(projectId));
+      const res = await getProjectUsers(projectId);
+      setUserlist(res.users);
     }
   }, [userStore]);
 
@@ -77,9 +79,32 @@ function GrantCreate() {
   function handleCreate() {
     form
       .validateFields()
-      .then((values) => {
-        console.log(values);
-        setModal(true);
+      .then((planValues) => {
+        console.log(planValues, userlist);
+        const grantValues = userlist.find(v => v.userId === planValues.granteeId)
+        const values = {
+          incentivePlanId: tipId,
+          grantCreatorId: userStore?.user?.userId,
+          granteeId: grantValues.granteeId,
+          granteeName: grantValues.granteeName,
+          granteeEthAddress: grantValues.granteeEthAddress,
+          granteeEmail: grantValues.granteeEmail,
+          grantType: planValues.grantType,
+          grantNum: planValues.grantNum,
+          exercisePrice: planValues.exercisePrice,
+          grantDate: planValues.grantDate.format(dateFormat),
+          vestingScheduleDate: dayjs().format(dateFormat),
+          grantStatus: 1,
+          vestingTotalLength: planValues.vestingTotalLength,
+          vestingPeriod: planValues.vestingPeriod,
+          cliffTime: planValues.cliffTime,
+          cliffAmount: planValues.cliffAmount,
+        };
+        console.log(planValues, grantValues, tipId);
+        addGrant(tipId, values).then(() => {
+          message.success('Create Grant Sucess!')
+        });
+        // setModal(true);
       })
       .catch((err) => {
         console.log(err, "error");
@@ -95,8 +120,11 @@ function GrantCreate() {
         name: values.granteeName,
         email: values.granteeEmail,
         userRole: 4,
-      }).then((res) => {
-        console.log("res->", res);
+      }).then(() => {
+        getProjectUsers(projectId).then((res) => {
+          setUserlist(res?.users || []);
+          setModal(false);
+        });
       });
     });
     // Promise.all([form.validateFields(), formGrantee.validateFields()])
@@ -382,7 +410,7 @@ function GrantCreate() {
             <hr className="my-6 border-t border-slate-200" />
             <div className="text-right">
               <Space>
-                <Button onClick={handleSave}>Save</Button>
+                {/* <Button onClick={handleSave}>Save</Button> */}
                 <Button
                   onClick={handleCreate}
                   type="primary"
