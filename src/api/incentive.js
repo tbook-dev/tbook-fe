@@ -18,6 +18,12 @@ export const getProjectUsers = async function (projectId) {
 export const addProjectUser = async function(projectId, values){
     return request.PostFormV1(`/projects/${projectId}/userAdd`, values)
 }
+export const updateProjectName = async function(projectId, values){
+    return request.PostFormV1(`/projects/${projectId}/nameUpdate`, values)
+}
+export const updateProjectValuation = async function(projectId, values){
+    return request.PostFormV1(`/projects/${projectId}/valuationUpdate`, values)
+}
 
 export const getTipGrantList = async function (incentivePlanId) {
     return request(`/grant/${incentivePlanId}/grants`)

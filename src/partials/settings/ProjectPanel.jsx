@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Typography } from "antd";
+import { Typography, message } from "antd";
 import Image from "../../images/user-avatar-80.png";
 import { useSelector } from "react-redux";
+import { updateProjectName, updateProjectValuation } from "../../api/incentive";
+
 const { Paragraph } = Typography;
 
 function AccountPanel() {
@@ -12,6 +14,22 @@ function AccountPanel() {
   function reset() {
     setName(project?.projectName);
     setLatestValuation(project?.latestValuation);
+  }
+
+  function handleUpdateProject() {
+    Promise.all([
+      updateProjectName(project.projectId, {
+        projectId: project.projectId,
+        name: name,
+      }),
+      updateProjectValuation(project.projectId, {
+        projectId: project.projectId,
+        valuation: latestValuation,
+      }),
+    ]).then((res) => {
+      message.success("updated!");
+      console.log(res);
+    });
   }
 
   useEffect(() => {
@@ -106,7 +124,10 @@ function AccountPanel() {
             >
               Cancel
             </button>
-            <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3">
+            <button
+              onClick={handleUpdateProject}
+              className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3"
+            >
               Save Changes
             </button>
           </div>
