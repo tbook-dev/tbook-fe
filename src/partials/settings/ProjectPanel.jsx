@@ -1,10 +1,24 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
+import { Typography } from "antd";
 import Image from "../../images/user-avatar-80.png";
+import { useSelector } from "react-redux";
+const { Paragraph } = Typography;
 
 function AccountPanel() {
   const [name, setName] = useState("");
+  const [latestValuation, setLatestValuation] = useState("");
+  const project = useSelector((state) => state.user?.projects?.[0]);
 
+  function reset() {
+    setName(project?.projectName);
+    setLatestValuation(project?.latestValuation);
+  }
+
+  useEffect(() => {
+    console.log(project);
+    setName(project?.projectName);
+    setLatestValuation(project?.latestValuation);
+  }, [project]);
   return (
     <div className="grow">
       {/* Panel body */}
@@ -30,25 +44,54 @@ function AccountPanel() {
 
         {/* Password */}
         <section>
-          <h2 className="text-xl leading-snug text-slate-800 font-bold mb-1">
+          <h2 className="text-xl leading-snug text-slate-800 font-bold mb-[25px]">
             Business Profile
           </h2>
           <div>
-            <div>
-              <div>Business Name</div>
-              <div>Business Name</div>
+            <div className="flex flex-start items-center mb-[15px]">
+              <div className="text-[#475569] text-xs w-[140px] mr-[100px]">
+                Business Name
+              </div>
+              <div className="text-[#1E293B] text-base	font-semibold">
+                <Paragraph
+                  editable={{ text: name, onChange: setName }}
+                  style={{ marginBottom: 0 }}
+                >
+                  {name}
+                </Paragraph>
+              </div>
             </div>
-            <div>
-              <div>Total Token Amount</div>
-              <div>Business Name</div>
+            <div className="flex flex-start items-center mb-[15px]">
+              <div className="text-[#475569] text-xs w-[140px] mr-[100px]">
+                Total Token Amount
+              </div>
+              <div className="text-[#1E293B] text-base	font-semibold">
+                {project?.tokenTotalAmount}
+              </div>
             </div>
-            <div>
-              <div> Latest Valuation</div>
-              <div>Business Name</div>
+            <div className="flex flex-start items-center mb-[15px]">
+              <div className="text-[#475569] text-xs w-[140px] mr-[100px]">
+                Latest Valuation
+              </div>
+              <div className="text-[#1E293B] text-base	font-semibold">
+                <Paragraph
+                  editable={{
+                    text: latestValuation,
+                    onChange: setLatestValuation,
+                  }}
+                  style={{ marginBottom: 0 }}
+                >
+                  {latestValuation}
+                </Paragraph>
+              </div>
             </div>
-            <div>
-              <div>Token Contract Address</div>
-              <div>Business Name</div>
+            <div className="flex flex-start items-center">
+              <div className="text-[#475569] text-xs w-[140px] mr-[100px]">
+                Token Contract Address
+              </div>
+              <div className="text-[#1E293B] text-base	font-semibold">
+                {project?.tokenContractAddress || "not set"}
+              </div>
             </div>
           </div>
         </section>
@@ -57,7 +100,10 @@ function AccountPanel() {
       <footer>
         <div className="flex flex-col px-6 py-5 border-t border-slate-200">
           <div className="flex self-end">
-            <button className="btn border-slate-200 hover:border-slate-300 text-slate-600">
+            <button
+              onClick={reset}
+              className="btn border-slate-200 hover:border-slate-300 text-slate-600"
+            >
               Cancel
             </button>
             <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3">
