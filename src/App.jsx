@@ -24,6 +24,7 @@ import Login from "./pages/Login";
 import GrantSign from "./pages/incentive/GrantSign";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Project from "./pages/settings/Project";
+import Member from "./pages/settings/Member";
 import Feedback from "./pages/settings/Feedback";
 
 import GrantDetail from "./pages/incentive/GrantDetail";
@@ -162,7 +163,7 @@ function App() {
           path="/settings/member"
           element={
             <ProtectedRoute>
-              <Project />
+              <Member />
             </ProtectedRoute>
           }
         />
