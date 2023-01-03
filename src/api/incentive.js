@@ -16,7 +16,7 @@ export const getProjectUsers = async function (projectId) {
     return request(`/projects/${projectId}/users`)
 }
 export const addProjectUser = async function(projectId, values){
-    return request.PostForm(`/projects/${projectId}/userAdd`, values)
+    return request.PostFormV1(`/projects/${projectId}/userAdd`, values)
 }
 
 export const getTipGrantList = async function (incentivePlanId) {

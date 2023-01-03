@@ -116,6 +116,20 @@ request.PostForm = (url, params) => {
     body: formData,
   });
 };
+request.PostFormV1 = (url, params) => {
+  const formData = new URLSearchParams();
+  for (const name in params) {
+    if(params.hasOwnProperty(name)){
+      console.log(name, params[name])
+      formData.append(name, params[name]);
+    }
+  }
+  return request(url, {
+    method: "POST",
+    headers: { "Content-type": ContentType.form },
+    body: formData,
+  });
+};
 
 request.Download = (url, params) => {
   return request(url, {
