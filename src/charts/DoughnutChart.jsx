@@ -18,7 +18,6 @@ function DoughnutChart({
 
   const canvas = useRef(null);
   const legend = useRef(null);
-
   useEffect(() => {
     const ctx = canvas.current;
     // eslint-disable-next-line no-unused-vars
@@ -85,11 +84,18 @@ function DoughnutChart({
             const label = document.createElement('span');
             label.style.display = 'flex';
             label.style.alignItems = 'center';
+
+            // // span
+            // const number = document.createElement('span');
+            // number.style.cssText = ``
+            // number.innerText = `${data?.datasets?.[0]?.data?.[item.index]}`
+
             const labelText = document.createTextNode(item.text);
             label.appendChild(labelText);
             li.appendChild(button);
             button.appendChild(box);
             button.appendChild(label);
+            // li.appendChild(number);
             ul.appendChild(li);
           });
         },
@@ -100,12 +106,12 @@ function DoughnutChart({
   }, []);
 
   return (
-    <div className="grow flex flex-col justify-center">
-      <div>
+    <div className="grow flex justify-between items-end pb-[32px]">
+      <div className='pl-[19px]'>
         <canvas ref={canvas} width={width} height={height}></canvas>
       </div>
       <div className="px-5 pt-2 pb-6">
-        <ul ref={legend} className="flex flex-wrap justify-center -m-1"></ul>
+        <ul ref={legend}></ul>
       </div>
     </div>
   );

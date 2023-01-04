@@ -1,19 +1,32 @@
-import React from 'react';
-import DoughnutChart from '../../charts/DoughnutChart';
+import React, { useMemo } from "react";
+import DoughnutChart from "../../charts/DoughnutChart";
 
 // Import utilities
-import { tailwindConfig } from '../../utils/Utils';
+import { tailwindConfig } from "../../utils/Utils";
 
-function DashboardCard06() {
-
+const defaultData = {
+  Employee: 1,
+  Adviser: 1,
+  Inverstor: 1,
+};
+function DashboardAudience({ title, data = defaultData }) {
+  const formatData = (obj) => {
+    return Object.entries(obj).reduce(
+      (all, cur) => {
+        all.label.push(cur[0]);
+        all.data.push(cur[1]);
+        return all;
+      },
+      { label: [], data: [] }
+    );
+  };
+  const {label: clabel, data: cData} = formatData(data)
   const chartData = {
-    labels: ['United States', 'Italy', 'Other'],
+    labels: clabel,
     datasets: [
       {
-        label: 'Top Countries',
-        data: [
-          35, 30, 35,
-        ],
+        label: title,
+        data: cData,
         backgroundColor: [
           tailwindConfig().theme.colors.indigo[500],
           tailwindConfig().theme.colors.blue[400],
@@ -32,13 +45,13 @@ function DashboardCard06() {
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white shadow-lg rounded-sm border border-slate-200">
       <header className="px-5 py-4 border-b border-slate-100">
-        <h2 className="font-semibold text-slate-800">Top Countries</h2>
+        <h2 className="font-semibold text-slate-800">{title}</h2>
       </header>
       {/* Chart built with Chart.js 3 */}
       {/* Change the height attribute to adjust the chart height */}
-      <DoughnutChart data={chartData} width={389} height={260} />
+      <DoughnutChart data={chartData} width={180} height={180} />
     </div>
   );
 }
 
-export default DashboardCard06;
+export default DashboardAudience;
