@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { useAsyncEffect } from "ahooks";
 
 import "./css/style.css";
 
@@ -40,12 +41,20 @@ function App() {
     window.scroll({ top: 0 });
     document.querySelector("html").style.scrollBehavior = "";
 
+    // const whileList = ["/signin", "/logins"];
+
+    // if (!whileList.includes(location.pathname)) {
+    //   dispatch(fetchUserInfo());
+    // }
+  }, [location.pathname]); // triggered on route change
+  useAsyncEffect(async()=>{
+    // console.log('useAsyncEffect')
     const whileList = ["/signin", "/logins"];
 
     if (!whileList.includes(location.pathname)) {
       dispatch(fetchUserInfo());
     }
-  }, [location.pathname]); // triggered on route change
+  },[])
 
   return (
     <>
@@ -71,7 +80,7 @@ function App() {
           path="/dashboard/fintech"
           element={
             <ProtectedRoute>
-              <Fintech />{" "}
+              <Fintech />
             </ProtectedRoute>
           }
         />
@@ -95,7 +104,7 @@ function App() {
           path="/incentive/:id"
           element={
             <ProtectedRoute>
-              <PlanDetail />{" "}
+              <PlanDetail />
             </ProtectedRoute>
           }
         />
