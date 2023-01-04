@@ -58,3 +58,10 @@ export const postGrantSignInfo = async function(projectId, grantId, grantSignId,
     }).then(res => res.json())
 }
 
+export const getDashboardOverview = async function(projectId, userId){
+    return request(`/dashboard/${projectId}/user/${userId}/overView`)
+}
+
+export const getDashboardGrants = async function(projectId, userId){
+    return request(`/dashboard/${projectId}/user/${userId}/grants`)
+}

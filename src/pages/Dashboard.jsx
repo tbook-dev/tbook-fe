@@ -3,10 +3,7 @@ import React, { useState } from "react";
 import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
-import DashboardAvatars from "../partials/dashboard/DashboardAvatars";
-import FilterButton from "../components/DropdownFilter";
-import Datepicker from "../components/Datepicker";
-import DashboardCard01 from "../partials/dashboard/DashboardCard01";
+import GrantStatic from "../partials/dashboard/GrantStatic";
 import DashboardCard02 from "../partials/dashboard/DashboardCard02";
 import DashboardCard03 from "../partials/dashboard/DashboardCard03";
 import DashboardCard04 from "../partials/dashboard/DashboardCard04";
@@ -18,10 +15,39 @@ import DashboardCard09 from "../partials/dashboard/DashboardCard09";
 import DashboardCard10 from "../partials/dashboard/DashboardCard10";
 import DashboardCard11 from "../partials/dashboard/DashboardCard11";
 import { useSelector } from "react-redux";
+import { useAsyncEffect } from "ahooks";
+import { getDashboardOverview, getDashboardGrants} from "../api/incentive";
+
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const userStore = useSelector((state) => state.user);
+  const [overView, setOverView] = useState({});
+  const [grantList, setGrantList] = useState([]);
+  const projectId = userStore?.projects?.[0]?.projectId;
+  const userId = userStore?.user?.userId
+
+  useAsyncEffect(async () => {
+    if (projectId) {
+      const overView = await getDashboardOverview(
+        projectId,
+        userId
+      );
+      setOverView(overView)
+    }
+  }, [projectId]);
+  useAsyncEffect(async () => {
+    if (projectId) {
+      const res = await getDashboardGrants(
+        projectId,
+        userId
+      );
+      setGrantList(res)
+    }
+  }, [projectId]);
+
+  console.log("overView", overView);
+  console.log("grantList", grantList);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -42,12 +68,15 @@ function Dashboard() {
 
             {/* Cards */}
             <div>
-              <h2 className="text-[#1E293B] text-3xl	font-bold mb-2">Overview</h2>
+              <h2 className="text-[#1E293B] text-3xl	font-bold mb-2">
+                Overview
+              </h2>
               <div className="grid grid-cols-12 gap-6">
                 {/* Line chart (Acme Plus) */}
-                <DashboardCard01 />
+                <GrantStatic value={overView.totalGrants} percent={10} title="Total Grants"/>
                 {/* Line chart (Acme Advanced) */}
-                <DashboardCard02 />
+                <GrantStatic value={overView.vestedGrants} percent={10} title="Vested"/>
+
                 {/* Line chart (Acme Professional) */}
                 <DashboardCard03 />
                 {/* Bar chart (Direct vs Indirect) */}
