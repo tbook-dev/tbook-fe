@@ -21,6 +21,7 @@ function DashboardAudience({ title, data = defaultData }) {
     );
   };
   const {label: clabel, data: cData} = formatData(data)
+
   const chartData = {
     labels: clabel,
     datasets: [

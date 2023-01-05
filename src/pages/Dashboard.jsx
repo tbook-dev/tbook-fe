@@ -82,7 +82,14 @@ function Dashboard() {
                   data={overView.targetAudienceDistribution}
                 />
 
-                <DashboardCard10 />
+                <DashboardCicle
+                  title="Vested Token"
+                  data={{
+                    'Free Token': overView.freeTokens,
+                    'Granted Token': overView.totalGrants,
+                    'Vested Token': overView.vestedGrants,
+                  }}
+                />
                 <DashboardCard11 />
 
                 <div className="col-span-full">
