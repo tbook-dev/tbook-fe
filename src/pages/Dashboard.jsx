@@ -16,8 +16,9 @@ import DashboardCard10 from "../partials/dashboard/DashboardCard10";
 import DashboardCard11 from "../partials/dashboard/DashboardCard11";
 import { useSelector } from "react-redux";
 import { useAsyncEffect } from "ahooks";
-import { getDashboardOverview, getDashboardGrants} from "../api/incentive";
+import { getDashboardOverview, getDashboardGrants } from "../api/incentive";
 
+import GrantTable from "./incentive/GrantTable";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -25,24 +26,18 @@ function Dashboard() {
   const [overView, setOverView] = useState({});
   const [grantList, setGrantList] = useState([]);
   const projectId = userStore?.projects?.[0]?.projectId;
-  const userId = userStore?.user?.userId
+  const userId = userStore?.user?.userId;
 
   useAsyncEffect(async () => {
     if (projectId) {
-      const overView = await getDashboardOverview(
-        projectId,
-        userId
-      );
-      setOverView(overView)
+      const overView = await getDashboardOverview(projectId, userId);
+      setOverView(overView);
     }
   }, [projectId]);
   useAsyncEffect(async () => {
     if (projectId) {
-      const res = await getDashboardGrants(
-        projectId,
-        userId
-      );
-      setGrantList(res)
+      const res = await getDashboardGrants(projectId, userId);
+      setGrantList(res);
     }
   }, [projectId]);
 
@@ -72,12 +67,35 @@ function Dashboard() {
                 Overview
               </h2>
               <div className="grid grid-cols-12 gap-6">
-                <GrantStatic value={overView.totalGrants} percent={10} title="Total Grants"/>
-                <GrantStatic value={overView.vestedGrants} percent={10} title="Vested"/>
-                <DashboardCicle title="Target Audience Distribution" data={overView.targetAudienceDistribution}/>
+                <GrantStatic
+                  value={overView.totalGrants}
+                  percent={10}
+                  title="Total Grants"
+                />
+                <GrantStatic
+                  value={overView.vestedGrants}
+                  percent={10}
+                  title="Vested"
+                />
+                <DashboardCicle
+                  title="Target Audience Distribution"
+                  data={overView.targetAudienceDistribution}
+                />
 
                 <DashboardCard10 />
                 <DashboardCard11 />
+
+                <div className="col-span-full">
+                  <GrantTable
+                    list={grantList}
+                    title={() => (
+                      <h2 className="font-bold text-base	inline">
+                        All The Grants{" "}
+                        <p className="font-light	 inline">{grantList.length}</p>
+                      </h2>
+                    )}
+                  />
+                </div>
               </div>
             </div>
           </div>
