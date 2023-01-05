@@ -33,3 +33,6 @@ excludeFilter://*/grant
 
 ## 设计稿地址
 [figma link](https://www.figma.com/file/POz4Q7MdgjyK9ozDsOI4Im/Tbook-Draft?node-id=1255%3A13039&t=X1ebkCyhX7JyqBRf-0)
+
+## 页面跳转关系
+[figma link](https://www.figma.com/file/LQcUY3mJ9RZJh7ZUKeZssk/flow?node-id=4%3A165&t=Vc9T5eIKYgCpsR8w-0)
