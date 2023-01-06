@@ -8,6 +8,8 @@ import AuthDecoration from "../images/tbook/aircraft.png";
 import AuthImage from "../images/tbook/login.png";
 
 function Signin() {
+  const host = import.meta.env.VITE_TBOOK_URL || ""
+
   const web3Ref = useRef();
   useEffect(() => {
     async function asyncloadWeb3() {
@@ -25,7 +27,7 @@ function Signin() {
       .validateFields()
       .then((values) => {
         fetch(
-          `/nonce?address=${web3Ref?.current.currentProvider.selectedAddress}`,
+          `${host}/nonce?address=${web3Ref?.current.currentProvider.selectedAddress}`,
           { credentials: "include" }
         )
           .then((r) => r.text())
@@ -42,7 +44,7 @@ function Signin() {
               web3Ref?.current.currentProvider.selectedAddress
             );
             d.append("sign", s);
-            return fetch(`/authenticate`, {
+            return fetch(`${host}/authenticate`, {
               credentials: "include",
               method: "POST",
               body: d,
@@ -60,7 +62,7 @@ function Signin() {
             const d = new FormData();
             d.append("email", values.email);
             d.append("name", values.name);
-            return fetch(`/users/update`, {
+            return fetch(`${host}/users/update`, {
               credentials: "include",
               method: "POST",
               body: d,

@@ -27,11 +27,12 @@ const initialState = {
     // wallets: [],
   },
 };
+const host = import.meta.env.VITE_TBOOK_URL || ""
 
 export const fetchUserInfo = createAsyncThunk(
   `/info`,
   async (_, thunkAPI) => {
-    const response = await request(`/info`)
+    const response = await request(`${host}/info`)
     thunkAPI.dispatch(setUser(response?.user || {}))
     thunkAPI.dispatch(setProjects(response?.projects || []))
     return response.data

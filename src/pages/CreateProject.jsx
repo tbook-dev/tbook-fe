@@ -8,6 +8,8 @@ import AuthDecoration from "../images/tbook/aircraft.png";
 import AuthImage from "../images/tbook/login.png";
 
 function CreateProject() {
+  const host = import.meta.env.VITE_TBOOK_URL || ""
+
   const [form] = Form.useForm();
 
   function handleCreateProject(evt) {
@@ -17,7 +19,7 @@ function CreateProject() {
       .validateFields()
       .then((values) => {
        
-        fetch(`/projects`, {
+        fetch(`${host}/projects`, {
           method: "PUT",
           headers: {
             "content-Type": "application/json"

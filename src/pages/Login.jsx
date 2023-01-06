@@ -3,14 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { loadWeb3 } from "../utils/web3";
 import { debounce } from "lodash";
 import { useDispatch } from "react-redux";
-import { setAuthUser } from '../store/user'
+import { setAuthUser, fetchUserInfo } from '../store/user'
 import AuthDecoration from "../images/tbook/aircraft.png";
 import AuthImage from "../images/tbook/login.png";
 
 
 function Login() {
-  //const host = "https://tbook.fly.dev"
-  const host = "";
+  const host = import.meta.env.VITE_TBOOK_URL || ""
+
   let navigate = useNavigate();
   
   const  dispath = useDispatch()
@@ -48,6 +48,7 @@ function Login() {
         });
       })
       .then((s) => {
+        dispath(fetchUserInfo())
         dispath(setAuthUser(true))
         navigate("/incentive");
       })

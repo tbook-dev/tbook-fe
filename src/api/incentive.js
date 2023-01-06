@@ -1,55 +1,57 @@
 import request from "./request";
 
+const host = import.meta.env.VITE_TBOOK_URL || ""
+
 export const getIncentiveList = async function (projectId) {
-    return request(`/projects/${projectId}/tips`)
+    return request(`${host}/projects/${projectId}/tips`)
 };
 
 export const getTIPInfo = async function (incentivePlanId) {
-    return request(`/tip/tipInfo?incentivePlanId=${incentivePlanId}`)
+    return request(`${host}/tip/tipInfo?incentivePlanId=${incentivePlanId}`)
 };
 
 export const getTipGrantees = async function (incentivePlanId) {
-    return request(`/tip/grantees?incentivePlanId=${incentivePlanId}`)
+    return request(`${host}/tip/grantees?incentivePlanId=${incentivePlanId}`)
 };
 
 export const getProjectUsers = async function (projectId) {
-    return request(`/projects/${projectId}/users`)
+    return request(`${host}/projects/${projectId}/users`)
 }
 export const addProjectUser = async function(projectId, values){
-    return request.PostFormV1(`/projects/${projectId}/userAdd`, values)
+    return request.PostFormV1(`${host}/projects/${projectId}/userAdd`, values)
 }
 export const updateProjectName = async function(projectId, values){
-    return request.PostFormV1(`/projects/${projectId}/nameUpdate`, values)
+    return request.PostFormV1(`${host}/projects/${projectId}/nameUpdate`, values)
 }
 export const updateProjectValuation = async function(projectId, values){
-    return request.PostFormV1(`/projects/${projectId}/valuationUpdate`, values)
+    return request.PostFormV1(`${host}/projects/${projectId}/valuationUpdate`, values)
 }
 
 export const getTipGrantList = async function (incentivePlanId) {
-    return request(`/grant/${incentivePlanId}/grants`)
+    return request(`${host}/grant/${incentivePlanId}/grants`)
 };
 
 export const createTIP = async function (values) {
-    return request.Post(`/tip/addTip?projectId=${values.projectId}`, values)
+    return request.Post(`${host}/tip/addTip?projectId=${values.projectId}`, values)
 };
 
 export const addGrant = async function (incentivePlanId, values) {
-    return request.Post(`/grant/addGrant?incentivePlanId=${incentivePlanId}`,values)
+    return request.Post(`${host}/grant/addGrant?incentivePlanId=${incentivePlanId}`,values)
 }
 
 export const getGrantInfo = async function(grantId) {
-    return request(`/grant/grantInfo?grantId=${grantId}`)
+    return request(`${host}/grant/grantInfo?grantId=${grantId}`)
 }
 
 export const getGrantSignInfo = async function(projectId, grantId) {
-    return request(`/grant/${grantId}/sign`)
+    return request(`${host}/grant/${grantId}/sign`)
 }
 
 export const postGrantSignInfo = async function(projectId, grantId, grantSignId, sign) {
     const params = new URLSearchParams()
     params.append("grantSignId", grantSignId)
     params.append("sign", sign)
-    return fetch(`/grant/${grantId}/sign`, {
+    return fetch(`${host}/grant/${grantId}/sign`, {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -59,9 +61,9 @@ export const postGrantSignInfo = async function(projectId, grantId, grantSignId,
 }
 
 export const getDashboardOverview = async function(projectId, userId){
-    return request(`/dashboard/${projectId}/user/${userId}/overView`)
+    return request(`${host}/dashboard/${projectId}/user/${userId}/overView`)
 }
 
 export const getDashboardGrants = async function(projectId, userId){
-    return request(`/dashboard/${projectId}/user/${userId}/grants`)
+    return request(`${host}/dashboard/${projectId}/user/${userId}/grants`)
 }
