@@ -124,7 +124,7 @@ function Login() {
               >
                 LogIn
               </button>
-              <br />
+              {/* <br />
               <div className="text-sm">
                 Don't have an account?{" "}
                 <Link
@@ -133,7 +133,7 @@ function Login() {
                 >
                   Sign Up
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

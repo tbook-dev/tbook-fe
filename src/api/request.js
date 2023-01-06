@@ -87,7 +87,10 @@ export default function request(url, options = {}) {
         })
         .catch((err) => {
           console.log("reqeust error", err);
-          message.error(err?.message || 'An error happens, plase try it later!')
+          const whiteList = [401]
+          if(!whiteList.includes(err.status)){
+            message.error(err?.message || 'An error happens, plase try it later!')
+          }
           reject(err);
         });
     }),

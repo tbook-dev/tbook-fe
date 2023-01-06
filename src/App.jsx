@@ -15,7 +15,7 @@ import PlanList from "./pages/incentive/PlanList";
 import PlanCreate from "./pages/incentive/PlanCreate";
 
 import PageNotFound from "./pages/utility/PageNotFound";
-import Signin from "./pages/Signin";
+// import Signin from "./pages/Signin";
 import CreateProject from "./pages/CreateProject";
 
 import PlanDetail from "./pages/incentive/PlanDetail";
@@ -149,7 +149,7 @@ function App() {
           }
         />
 
-        <Route path="/signin" element={<Signin />} />
+        {/* <Route path="/signin" element={<Signin />} /> */}
         <Route path="/logins" element={<Login />} />
         <Route
           path="/project-create"
