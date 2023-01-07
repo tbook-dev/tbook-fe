@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import { Button, Space, Form, Input, Select, InputNumber, Modal } from "antd";
 import { targetMap } from "../../utils/const";
@@ -11,6 +12,7 @@ function PlanCreate() {
   const totalValue = Form.useWatch("totalTokenNum", form);
   const targetValue = Form.useWatch("target", form);
   const userStore = useSelector((state) => state.user);
+  const navigate = useNavigate()
 
   const [showModal, setModal] = useState(false);
   function handleSave() {
@@ -45,6 +47,7 @@ function PlanCreate() {
         createTIP(values)
           .then(res => {
             console.log(res,'xx')
+            navigate(`/incentive/${incentivePlanId}`)
           })
       })
       .catch((err) => {
