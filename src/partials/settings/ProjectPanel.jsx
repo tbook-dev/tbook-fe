@@ -62,13 +62,10 @@ function AccountPanel() {
 
         {/* Password */}
         <section>
-          <h2 className="text-xl leading-snug text-slate-800 font-bold mb-[25px]">
-            Business Profile
-          </h2>
           <div>
             <div className="flex flex-start items-center mb-[15px]">
               <div className="text-[#475569] text-xs w-[140px] mr-[100px]">
-                Business Name
+                Project Name
               </div>
               <div className="text-[#1E293B] text-base	font-semibold">
                 <Paragraph
