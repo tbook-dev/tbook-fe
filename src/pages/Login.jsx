@@ -50,7 +50,18 @@ function Login() {
       .then((s) => {
         dispath(fetchUserInfo())
         dispath(setAuthUser(true))
-        navigate("/incentive");
+        return fetch(`${host}/info`, {
+          credentials: "include",
+          method: "GET",
+        })
+      })
+      .then((r) => r.json())
+      .then(user => {
+        if (user.projects.length > 0) {
+          navigate("/incentive");
+        } else {
+          navigate("/project-create")
+        }
       })
       .catch((err) => {
         console.log(err, "error");

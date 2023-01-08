@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Input } from "antd";
 import { debounce } from "lodash";
 import { ArrowLeftOutlined } from "@ant-design/icons";
@@ -11,6 +11,7 @@ function CreateProject() {
   const host = import.meta.env.VITE_TBOOK_URL || ""
 
   const [form] = Form.useForm();
+  const navigate = useNavigate()
 
   function handleCreateProject(evt) {
     evt?.preventDefault();
@@ -24,9 +25,11 @@ function CreateProject() {
           headers: {
             "content-Type": "application/json"
           },
+          credentials: 'include',
           body: JSON.stringify(values),
         }).then((res) => {
           console.log(res);
+          navigate("/")
         });
       })
       .catch((err) => {
