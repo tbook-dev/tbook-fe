@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
-import SettingsSidebar from '../../partials/settings/SettingsSidebar';
+// import SettingsSidebar from '../../partials/settings/SettingsSidebar';
 import AccountPanel from '../../partials/settings/ProjectPanel';
 
 function Project() {
@@ -32,10 +32,10 @@ function Project() {
 
             {/* Content */} 
             <div className="bg-white shadow-lg rounded-sm mb-8">
-              <div className="flex flex-col md:flex-row md:-mr-px">
-                <SettingsSidebar />
+              {/* <div className="flex flex-col md:flex-row md:-mr-px"> */}
+                {/* <SettingsSidebar /> */}
                 <AccountPanel />
-              </div>
+              {/* </div> */}
             </div>
 
           </div>

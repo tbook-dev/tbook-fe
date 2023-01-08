@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
-import SettingsSidebar from '../../partials/settings/SettingsSidebar';
+// import SettingsSidebar from '../../partials/settings/SettingsSidebar';
 import FeedbackPanel from '../../partials/settings/FeedbackPanel';
 
 function Feedback() {
@@ -32,10 +32,10 @@ function Feedback() {
 
             {/* Content */}
             <div className="bg-white shadow-lg rounded-sm mb-8">
-              <div className="flex flex-col md:flex-row md:-mr-px">
-                <SettingsSidebar />
+              {/* <div className="flex flex-col md:flex-row md:-mr-px"> */}
+                {/* <SettingsSidebar /> */}
                 <FeedbackPanel />
-              </div>
+              {/* </div> */}
             </div>
 
           </div>
