@@ -79,7 +79,7 @@ function PlanCreate() {
                   TIP Basic Info
                 </div>
 
-                <Form form={form} layout="vertical">
+                <Form form={form} layout="vertical" requiredMark={false}>
                   <Form.Item
                     label="TIP Name"
                     name="incentivePlanName"
@@ -87,7 +87,7 @@ function PlanCreate() {
                       { required: true, message: "Please input the TIP Name!" },
                     ]}
                   >
-                    <Input placeholder="Name the TIP..." />
+                    <Input placeholder="the name for your incentive plan, like GoPlusCommunityGrowth..." />
                   </Form.Item>
                   <Form.Item
                     label="Total Token"

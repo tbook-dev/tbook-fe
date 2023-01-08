@@ -194,6 +194,7 @@ function GrantCreate() {
                 <Form
                   form={form}
                   layout="vertical"
+                  requiredMark={false}
                   initialValues={{
                     grantType: 1,
                     vestingPeriod: 4,

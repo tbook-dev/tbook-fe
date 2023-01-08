@@ -92,7 +92,7 @@ function CreateProject() {
                 注册项目并开启激励计划...
               </h1>
               {/* Form */}
-              <Form form={form} layout="vertical">
+              <Form form={form} layout="vertical" requiredMark={false}>
                 <Form.Item
                   name="projectName"
                   label="Project Name"

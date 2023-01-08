@@ -12,7 +12,6 @@ import GrantTable from "./GrantTable";
 
 function PlanList() {
   const userStore = useSelector((state) => state.user);
-  const [selectedItems, setSelectedItems] = useState([]);
   const [tipList, updateTipList] = useState([]);
   const [grantList, updateGrantList] = useState([]);
 
@@ -68,9 +67,7 @@ function PlanList() {
     };
   }, [tipList]);
 
-  const handleSelectedItems = (selectedItems) => {
-    setSelectedItems([...selectedItems]);
-  };
+
 
   return (
     <IncentiveLayout>

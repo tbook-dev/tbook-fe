@@ -132,7 +132,7 @@ function Signin() {
                 Welcome To Tbook!
               </h1>
               {/* Form */}
-              <Form form={form} layout="vertical">
+              <Form form={form} layout="vertical" requiredMark={false}>
                 <Form.Item
                   name="name"
                   label="Name"
