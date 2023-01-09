@@ -166,7 +166,7 @@ function PlanCreate() {
 
       <Modal
         width={460}
-        title="Token Basic Info"
+        title="Plan Confirmation"
         open={showModal}
         okText="Confirm"
         onOk={handleConfirm}
