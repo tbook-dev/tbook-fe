@@ -9,8 +9,8 @@ import { useDispatch } from "react-redux";
 import { fetchUserInfo } from "./store/user";
 // Import pages
 import Dashboard from "./pages/Dashboard";
-import Analytics from "./pages/Analytics";
-import Fintech from "./pages/Fintech";
+
+
 import PlanList from "./pages/incentive/PlanList";
 import PlanCreate from "./pages/incentive/PlanCreate";
 
@@ -65,22 +65,6 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/analytics"
-          element={
-            <ProtectedRoute>
-              <Analytics />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/dashboard/fintech"
-          element={
-            <ProtectedRoute>
-              <Fintech />
             </ProtectedRoute>
           }
         />
