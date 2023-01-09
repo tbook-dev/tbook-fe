@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
@@ -7,9 +7,9 @@ import { Navigation } from "swiper";
 import { useSelector } from "react-redux";
 import "swiper/css";
 import "swiper/css/navigation";
-import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
-import { Input, Button } from "antd";
+import { Button } from "antd";
 import { Link } from 'react-router-dom';
 
 function PlanList() {
@@ -146,7 +146,7 @@ function PlanList() {
 
           <div>
             <div className="flex flex-row-reverse	items-center mb-2">
-              <Link to="/incentive/create"><Button type="primary">+ New Grant</Button></Link>
+              <Link to="incentive/grant/tmp/create"><Button type="primary">+ New Grant</Button></Link>
             </div>
             <GrantTable
               list={grantList}

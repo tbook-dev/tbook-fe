@@ -19,6 +19,7 @@ import {
   getProjectUsers,
   addGrant,
   addProjectUser,
+  getIncentiveList
 } from "@/api/incentive";
 import { useSelector } from "react-redux";
 import { grantType, dateFormat } from "../../utils/const";
@@ -37,6 +38,8 @@ function GrantCreate() {
   const userStore = useSelector((state) => state.user);
   const [userlist, setUserlist] = useState([]);
   const [isShowDetailPreview, updateIsShowDetailPreview] = useState(false);
+  const [tipList, setTipList] = useState([]);
+
 
   const [detail, setDetail] = useState({
     incentivePlanId: 0,
@@ -46,14 +49,13 @@ function GrantCreate() {
     effectiveDate: "",
     projectName: "",
   });
-  const { tipId } = useParams();
-  console.log("x->userlist", userlist);
-  useEffect(() => {
-    if (tipId) {
-      getTIPInfo(tipId).then((res) => {
-        console.log(res);
-        setDetail(res);
-      });
+  const { tipId = "" } = useParams();
+  const hasTipId = /\d+/.test(tipId);
+
+  useAsyncEffect(async () => {
+    if (tipId && hasTipId) {
+      const res = await getTIPInfo(tipId);
+      setDetail(res);
     }
   }, [tipId]);
 
@@ -62,6 +64,15 @@ function GrantCreate() {
     if (projectId) {
       const res = await getProjectUsers(projectId);
       setUserlist(res.users);
+    }
+  }, [userStore]);
+
+  useAsyncEffect(async () => {
+    const projectId = userStore?.projects?.[0]?.projectId;
+    if (projectId) {
+      const res = await getIncentiveList(projectId);
+      console.log(res)
+      setTipList(res);
     }
   }, [userStore]);
 
@@ -81,7 +92,9 @@ function GrantCreate() {
       .validateFields()
       .then((planValues) => {
         console.log(planValues, userlist);
-        const grantValues = userlist.find(v => v.userId === planValues.granteeId)
+        const grantValues = userlist.find(
+          (v) => v.userId === planValues.granteeId
+        );
         const values = {
           incentivePlanId: tipId,
           grantCreatorId: userStore?.user?.userId,
@@ -102,7 +115,7 @@ function GrantCreate() {
         };
         console.log(planValues, grantValues, tipId);
         addGrant(tipId, values).then(() => {
-          message.success('Create Grant Sucess!')
+          message.success("Create Grant Sucess!");
         });
         // setModal(true);
       })
@@ -179,18 +192,6 @@ function GrantCreate() {
                 </h1>
               </header>
               <div>
-                <div className="mb-6">
-                  <div className="text-slate-800 font-semibold mb-4">
-                    Plan Detail
-                  </div>
-                  <div>
-                    <p className="text-xs text-[#475569]">Plan Name</p>
-                    <p className="text-base font-semibold text-[#1E293B]">
-                      {detail.incentivePlanName}
-                    </p>
-                  </div>
-                </div>
-
                 <Form
                   form={form}
                   layout="vertical"
@@ -201,6 +202,38 @@ function GrantCreate() {
                     isIncludingCliff: false,
                   }}
                 >
+                  <div className="text-slate-800 font-semibold mb-4">
+                    Plan Detail
+                  </div>
+
+                  {hasTipId ? (
+                    <div className="mb-6">
+                      <p className="text-xs text-[#475569]">Plan Name</p>
+                      <p className="text-base font-semibold text-[#1E293B]">
+                        {detail.incentivePlanName}
+                      </p>
+                    </div>
+                  ) : (
+                    <Form.Item
+                      label="Choose an Incentive Plan"
+                      name="incentivePlanId"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please select the Incentive Plan!",
+                        },
+                      ]}
+                    >
+                      <Select
+                        placeholder="Search/Select"
+                        options={tipList.map((item) => ({
+                          label: item.incentivePlanName,
+                          value: item.incentivePlanId,
+                        }))}
+                      />
+                    </Form.Item>
+                  )}
+
                   <div className="text-slate-800 font-semibold mb-4">
                     Grantee Detail
                   </div>

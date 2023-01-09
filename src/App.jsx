@@ -20,7 +20,7 @@ import CreateProject from "./pages/CreateProject";
 
 import PlanDetail from "./pages/incentive/PlanDetail";
 import GrantCreate from "./pages/incentive/GrantCreate";
-import GrantList from "./pages/incentive/GrantList";
+
 import Login from "./pages/Login";
 import GrantSign from "./pages/incentive/GrantSign";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -89,14 +89,6 @@ function App() {
           element={
             <ProtectedRoute>
               <PlanDetail />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/incentive/grant"
-          element={
-            <ProtectedRoute>
-              <GrantList />
             </ProtectedRoute>
           }
         />
