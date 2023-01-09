@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
@@ -7,8 +7,10 @@ import { Navigation } from "swiper";
 import { useSelector } from "react-redux";
 import "swiper/css";
 import "swiper/css/navigation";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
+import { Input, Button } from "antd";
+import { Link } from 'react-router-dom';
 
 function PlanList() {
   const userStore = useSelector((state) => state.user);
@@ -55,7 +57,7 @@ function PlanList() {
             return existedList;
           });
         } catch (error) {
-            console.log(error)
+          console.log(error);
         }
       }
     }
@@ -66,8 +68,6 @@ function PlanList() {
       ignore = true;
     };
   }, [tipList]);
-
-
 
   return (
     <IncentiveLayout>
@@ -139,18 +139,26 @@ function PlanList() {
         </div>
 
         {/* Table */}
-        <h1 className="pb-6 text-3xl md:text-3xl text-slate-800 font-bold">
-          Grants
-        </h1>
-        <GrantTable
-          list={grantList}
-          title={() => (
-            <h2 className="font-bold text-base	inline">
-              All The Grants{" "}
-              <p className="font-light	 inline">{grantList.length}</p>
-            </h2>
-          )}
-        />
+        <div>
+          <h1 className="pb-6 text-3xl md:text-3xl text-slate-800 font-bold">
+            Grants
+          </h1>
+
+          <div>
+            <div className="flex flex-row-reverse	items-center mb-2">
+              <Link to="/incentive/create"><Button type="primary">+ New Grant</Button></Link>
+            </div>
+            <GrantTable
+              list={grantList}
+              title={() => (
+                <h2 className="font-bold text-base	inline">
+                  All The Grants{" "}
+                  <p className="font-light	 inline">{grantList.length}</p>
+                </h2>
+              )}
+            />
+          </div>
+        </div>
       </div>
     </IncentiveLayout>
   );
