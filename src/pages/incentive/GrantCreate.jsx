@@ -19,7 +19,7 @@ import {
   getProjectUsers,
   addGrant,
   addProjectUser,
-  getIncentiveList
+  getIncentiveList,
 } from "@/api/incentive";
 import { useSelector } from "react-redux";
 import { grantType, dateFormat } from "../../utils/const";
@@ -28,6 +28,7 @@ import GranteeDetailPreview from "./GranteeDetailPreview";
 import dayjs from "dayjs";
 import { useAsyncEffect } from "ahooks";
 import { message } from "antd";
+import BorderModalContent from "../component/BorderModalContent";
 
 const { Option } = Select;
 
@@ -36,10 +37,12 @@ function GrantCreate() {
   const [formGrantee] = Form.useForm();
   const [showModal, setModal] = useState(false);
   const userStore = useSelector((state) => state.user);
+  const [confirmLoadingMember, setConfirmLoadingMember] = useState(false);
+
   const [userlist, setUserlist] = useState([]);
   const [isShowDetailPreview, updateIsShowDetailPreview] = useState(false);
   const [tipList, setTipList] = useState([]);
-
+  const [newGrantee, setNewGreantee] = useState('');
 
   const [detail, setDetail] = useState({
     incentivePlanId: 0,
@@ -71,10 +74,16 @@ function GrantCreate() {
     const projectId = userStore?.projects?.[0]?.projectId;
     if (projectId) {
       const res = await getIncentiveList(projectId);
-      console.log(res)
+      console.log(res);
       setTipList(res);
     }
   }, [userStore]);
+
+  useEffect(()=>{
+    console.log(newGrantee)
+    // form.setFieldValue('')
+
+  },[newGrantee])
 
   function handleSave() {
     form
@@ -124,8 +133,10 @@ function GrantCreate() {
       });
   }
 
-  function handleGrantee() {
+  function handleAddGrantee() {
     const projectId = userStore?.projects?.[0]?.projectId;
+    setConfirmLoadingMember(true);
+
     formGrantee.validateFields().then((values) => {
       addProjectUser(projectId, {
         projectId,
@@ -134,10 +145,12 @@ function GrantCreate() {
         email: values.granteeEmail,
         userRole: 4,
       }).then((userRes) => {
+        setConfirmLoading(false);
+        setModal(false);
+        setNewGreantee(userRes?.entity?.userId)
         getProjectUsers(projectId).then((res) => {
           setUserlist(res?.users || []);
-          console.log(userRes)
-          setModal(false);
+          // console.log(userRes);
         });
       });
     });
@@ -458,12 +471,15 @@ function GrantCreate() {
         open={showModal}
         okText="Done"
         cancelText="Close"
-        onOk={handleGrantee}
+        onOk={handleAddGrantee}
+        confirmLoading={confirmLoadingMember}
         onCancel={() => {
           setModal(false);
         }}
       >
-        <GranteeFrom form={formGrantee} />
+        <BorderModalContent>
+          <GranteeFrom form={formGrantee} />
+        </BorderModalContent>
       </Modal>
 
       <Modal
