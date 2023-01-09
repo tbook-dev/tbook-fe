@@ -1,30 +1,31 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import IncentiveLayout from "./Layout";
-import { Button, Space, Form, Input, Select, InputNumber, Modal } from "antd";
+import {
+  Button,
+  Space,
+  Form,
+  Input,
+  Select,
+  InputNumber,
+  Modal,
+  Statistic,
+} from "antd";
 import { targetMap } from "../../utils/const";
 import { useSelector } from "react-redux";
-import { createTIP } from '../../api/incentive'
+import { createTIP } from "../../api/incentive";
 
 function PlanCreate() {
   const [form] = Form.useForm();
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const nameValue = Form.useWatch("incentivePlanName", form);
   const totalValue = Form.useWatch("totalTokenNum", form);
   const targetValue = Form.useWatch("target", form);
   const userStore = useSelector((state) => state.user);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [showModal, setModal] = useState(false);
-  function handleSave() {
-    form
-      .validateFields()
-      .then((values) => {
-        console.log(values);
-      })
-      .catch((err) => {
-        console.log(err, "error");
-      });
-  }
+
   function handleCreate() {
     form
       .validateFields()
@@ -38,17 +39,19 @@ function PlanCreate() {
       });
   }
   function handleConfirm() {
+    setConfirmLoading(true);
+
     form
       .validateFields()
       .then((values) => {
-        values.incentivePlanAdminId  =  userStore?.user?.userId
-        values.projectId = userStore?.projects?.[0]?.projectId
+        values.incentivePlanAdminId = userStore?.user?.userId;
+        values.projectId = userStore?.projects?.[0]?.projectId;
 
-        createTIP(values)
-          .then(res => {
-            console.log(res,'xx')
-            navigate(`/incentive/${incentivePlanId}`)
-          })
+        createTIP(values).then((res) => {
+          setConfirmLoading(false);
+          setModal(false);
+          navigate(`/incentive/${res.incentivePlanId}`);
+        });
       })
       .catch((err) => {
         console.log(err, "error");
@@ -62,44 +65,47 @@ function PlanCreate() {
         <div className="px-4 sm:px-6 lg:px-16 py-8 lg:grow lg:pr-8 xl:pr-16">
           <div className="lg:max-w-[500px]">
             <div className="mb-6 lg:mb-0">
-              <div className="mb-3">
-                <div className="flex text-sm font-medium text-slate-400 space-x-2">
-                  <span className="text-slate-500">Incentives</span>
-                  <span>-&gt;</span>
-                  <span className="text-[#6366F1]">Create a TIP</span>
-                </div>
-              </div>
               <header className="mb-6">
                 <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-2">
                   New Token Incentive Plan
                 </h1>
               </header>
               <div>
-                <div className="text-slate-800 font-semibold mb-4">
-                  TIP Basic Info
-                </div>
-
                 <Form form={form} layout="vertical" requiredMark={false}>
                   <Form.Item
-                    label="TIP Name"
+                    label="Plan Name"
                     name="incentivePlanName"
                     rules={[
-                      { required: true, message: "Please input the TIP Name!" },
+                      {
+                        required: true,
+                        message: "Please input the Plan Name!",
+                      },
                     ]}
                   >
                     <Input placeholder="the name for your incentive plan, like GoPlusCommunityGrowth..." />
                   </Form.Item>
-                  <Form.Item
-                    label="Total Token"
-                    name="totalTokenNum"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input the Total Token!",
-                      },
-                    ]}
-                  >
-                    <InputNumber min={0} style={{ width: "100%" }} />
+                  <Form.Item label="Token Options Pool Size">
+                    <Space>
+                      <Form.Item
+                        name="totalTokenNum"
+                        noStyle
+                        rules={[
+                          {
+                            required: true,
+                            message:
+                              "Please input the Token Options Pool Size!",
+                          },
+                        ]}
+                      >
+                        <InputNumber min={0} style={{ width: 350 }} />
+                      </Form.Item>
+                      <p className="text-[#94A3B8] text-xs">
+                        （20% Total Token)
+                      </p>
+                    </Space>
+                    <p className="text-[#94A3B8] text-xs mt-1">
+                      当前剩余可用 102,090,000虚拟 token{" "}
+                    </p>
                   </Form.Item>
                   <Form.Item
                     label="Target Audiende"
@@ -145,17 +151,14 @@ function PlanCreate() {
 
           <div className="max-w-[700px] pt-40	">
             <hr className="my-6 border-t border-slate-200" />
-            <div className="text-right">
-              <Space>
-                <Button onClick={handleSave}>Save</Button>
-                <Button
-                  onClick={handleCreate}
-                  type="primary"
-                  className="bg-[#6366F1]"
-                >
-                  Create
-                </Button>
-              </Space>
+            <div className="flex justify-center">
+              <Button
+                onClick={handleCreate}
+                type="primary"
+                className="bg-[#6366F1]"
+              >
+                Next
+              </Button>
             </div>
           </div>
         </div>
@@ -168,24 +171,39 @@ function PlanCreate() {
         okText="Confirm"
         onOk={handleConfirm}
         cancelText="Close"
+        confirmLoading={confirmLoading}
         onCancel={() => {
           setModal(false);
         }}
       >
-        <div className="border-[#E2E8F0] border-y pt-10 pb-20">
-          <div className="mt-7">
-            <p className="text-[#475569] text-sm">TIP Name</p>
-            <p className="text-[#1E293B] text-base	">{nameValue}</p>
+        <div className="border-[#E2E8F0] border-y px-[26px] py-[19px] mx-[-24px]">
+          <div>
+            <p className="text-[#475569] text-sm">Plan Name</p>
+            <p className="text-[#1E293B] text-base	font-semibold">{nameValue}</p>
           </div>
 
           <div className="mt-7">
             <p className="text-[#475569] text-sm">Total Token</p>
-            <p className="text-[#1E293B] text-base	">{totalValue}</p>
+            <p className="flex">
+              <Statistic
+                value={totalValue}
+                valueStyle={{
+                  color: "#1E293B",
+                  fontSize: "16px",
+                  lineHeight: "20px",
+                  fontWeight: '600'
+                }}
+                suffix="Token"
+              />
+              <span className="ml-2 text-[#1E293B] leading-5	text-[12px]">(20% of Total Token)</span>
+            </p>
           </div>
 
           <div className="mt-7">
             <p className="text-[#475569] text-sm">Target Audiende</p>
-            <p className="text-[#1E293B] text-base	">{targetMap[targetValue]}</p>
+            <p className="text-[#1E293B] text-base	font-semibold">
+              {targetMap[targetValue]}
+            </p>
           </div>
 
           <div className="mt-7">
@@ -197,7 +215,7 @@ function PlanCreate() {
                 className="flex-none w-[50px] h-[50px] mr-2 block bg-white rounded-full"
               />
               <div className="flex-auto">
-                <h3 className="text-sm	font-semibold	">
+                <h3 className="text-sm	font-semibold">
                   {userStore?.user?.name}
                 </h3>
                 <p className="w-[82px] text-[#94A3B8] truncate text-ellipsis overflow-hidden">

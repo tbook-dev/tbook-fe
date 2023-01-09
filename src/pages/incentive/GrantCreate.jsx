@@ -133,9 +133,10 @@ function GrantCreate() {
         name: values.granteeName,
         email: values.granteeEmail,
         userRole: 4,
-      }).then(() => {
+      }).then((userRes) => {
         getProjectUsers(projectId).then((res) => {
           setUserlist(res?.users || []);
+          console.log(userRes)
           setModal(false);
         });
       });
@@ -179,13 +180,6 @@ function GrantCreate() {
         <div className="px-4 sm:px-6 lg:px-16 py-8 lg:grow lg:pr-8 xl:pr-16">
           <div className="lg:max-w-[500px]">
             <div className="mb-6 lg:mb-0">
-              <div className="mb-3">
-                <div className="flex text-sm font-medium text-slate-400 space-x-2">
-                  <span className="text-slate-500">Grants</span>
-                  <span>-&gt;</span>
-                  <span className="text-[#6366F1]">New Grant</span>
-                </div>
-              </div>
               <header className="mb-6">
                 <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-2">
                   New Grant
@@ -312,7 +306,7 @@ function GrantCreate() {
                   </Form.Item>
 
                   <div className="text-slate-800 font-semibold mb-4">
-                    Vesting Detail
+                    Vesting Schedule
                   </div>
                   <Form.Item name="grantType">
                     <Radio.Group>
