@@ -29,10 +29,9 @@ import dayjs from "dayjs";
 import { useAsyncEffect } from "ahooks";
 import { message } from "antd";
 import BorderModalContent from "../component/BorderModalContent";
-import customParseFormat from 'dayjs/plugin/customParseFormat';
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
-
-dayjs.extend(customParseFormat)
+dayjs.extend(customParseFormat);
 
 const { Option } = Select;
 
@@ -42,7 +41,7 @@ function GrantCreate() {
   const [showModal, setModal] = useState(false);
   const userStore = useSelector((state) => state.user);
   const [confirmLoadingMember, setConfirmLoadingMember] = useState(false);
-
+  const granteeId = Form.useWatch("granteeId", form);
   const [userlist, setUserlist] = useState([]);
   const [isShowDetailPreview, updateIsShowDetailPreview] = useState(false);
   const [tipList, setTipList] = useState([]);
@@ -134,30 +133,6 @@ function GrantCreate() {
     form
       .validateFields()
       .then((planValues) => {
-        // console.log(planValues, userlist);
-        // const grantValues = userlist.find(
-        //   (v) => v.userId === planValues.granteeId
-        // );
-        // const finalTipId = hasTipId ? tipId : planValues.incentivePlanId;
-        // const values = {
-        //   incentivePlanId: finalTipId,
-        //   grantCreatorId: userStore?.user?.userId,
-        //   granteeId: grantValues.granteeId,
-        //   granteeName: grantValues.granteeName,
-        //   granteeEthAddress: grantValues.granteeEthAddress,
-        //   granteeEmail: grantValues.granteeEmail,
-        //   grantType: planValues.grantType,
-        //   grantNum: planValues.grantNum,
-        //   exercisePrice: planValues.exercisePrice,
-        //   grantDate: planValues.grantDate.format(dateFormat),
-        //   vestingScheduleDate: dayjs().format(dateFormat),
-        //   grantStatus: 1,
-        //   vestingTotalLength: planValues.vestingTotalLength,
-        //   vestingPeriod: planValues.vestingPeriod,
-        //   cliffTime: planValues.cliffTime,
-        //   cliffAmount: planValues.cliffAmount,
-        // };
-        // console.log(planValues, grantValues, finalTipId);
         const values = formatValue(
           planValues,
           userlist,
@@ -216,37 +191,17 @@ function GrantCreate() {
         });
       });
     });
-
-    // Promise.all([form.validateFields(), formGrantee.validateFields()])
-    //   .then(([planValues, grantValues]) => {
-    //     const values = {
-    //       incentivePlanId: tipId,
-    //       grantCreatorId: userStore?.user?.userId,
-    //       granteeId: planValues.granteeId,
-    //       granteeName: grantValues.granteeName,
-    //       granteeEthAddress: grantValues.granteeEthAddress,
-    //       granteeEmail: grantValues.granteeEmail,
-    //       grantType: planValues.grantType,
-    //       grantNum: planValues.grantNum,
-    //       exercisePrice: planValues.exercisePrice,
-    //       grantDate: planValues.grantDate.format(dateFormat),
-    //       vestingScheduleDate: dayjs().format(dateFormat),
-    //       grantStatus: 1,
-    //       vestingTotalLength: planValues.vestingTotalLength,
-    //       vestingPeriod: planValues.vestingPeriod,
-    //       //                  vestingInitialNum:'',
-    //       cliffTime: planValues.cliffTime,
-    //       cliffAmount: planValues.cliffAmount,
-    //     };
-    //     console.log(planValues, grantValues, tipId, values);
-    //     addGrant(tipId, values).then((res) => {
-    //       console.log(res);
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     console.log(err, "error");
-    //   });
   }
+  const handlePreview = () => {
+    form
+      .validateFields()
+      .then(() => {
+        updateIsShowDetailPreview(true);
+      })
+      .catch((err) => {
+        console.log(err, "error");
+      });
+  };
 
   function handleSign() {}
 
@@ -515,11 +470,11 @@ function GrantCreate() {
             <div className="flex justify-around">
               <Button onClick={handleSaveAsDraft}>Save as a draft</Button>
               <Button
-                onClick={handleCreate}
+                onClick={handlePreview}
                 type="primary"
                 className="bg-[#6366F1]"
               >
-                Create
+                Preview
               </Button>
             </div>
           </div>
@@ -551,10 +506,16 @@ function GrantCreate() {
         cancelText="Close"
         onOk={handleSign}
         onCancel={() => {
-          setModal(false);
+          updateIsShowDetailPreview(false);
         }}
       >
-        <GranteeDetailPreview planForm={form} granteeForm={formGrantee} />
+        <BorderModalContent>
+          <GranteeDetailPreview
+            form={form}
+            plan={detail}
+            grantee={userlist.find((v) => v.userId === granteeId)}
+          />
+        </BorderModalContent>
       </Modal>
     </IncentiveLayout>
   );

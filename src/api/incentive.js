@@ -1,6 +1,6 @@
 import request from "./request";
 
-const host = import.meta.env.VITE_TBOOK_URL || ""
+export const host = import.meta.env.VITE_TBOOK_URL || ""
 
 export const getIncentiveList = async function (projectId) {
     return request(`${host}/projects/${projectId}/tips`)

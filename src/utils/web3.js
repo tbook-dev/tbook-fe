@@ -21,3 +21,8 @@ export async function loadWeb3() {
     return web3;
   }
 }
+
+export async function signMetaMask(web3){
+  
+
+}
