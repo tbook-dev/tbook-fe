@@ -54,7 +54,7 @@ export async function signGrantMetaMask(web3, projectId, grantId, userId) {
     const signInfo = signList.find((v) => userId === v?.signer?.userId);
     console.log("signInfo", signInfo);
     const s1 = await web3.eth.personal.sign(
-      web3.utils.fromUtf8(signInfo.grantSign),
+      web3.utils.fromUtf8(signInfo.grantSign.signInfo),
       web3.currentProvider.selectedAddress
     );
     console.log("s1", s1);
