@@ -30,7 +30,7 @@ import { useAsyncEffect } from "ahooks";
 import { message } from "antd";
 import BorderModalContent from "../component/BorderModalContent";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { loadWeb3, signMetaMask } from "@/utils/web3";
+import { loadWeb3, signGrantMetaMask } from "@/utils/web3";
 
 dayjs.extend(customParseFormat);
 
@@ -108,7 +108,7 @@ function GrantCreate() {
     const projectId = userStore?.projects?.[0]?.projectId;
     if (projectId) {
       const storedData = getDraftGrantData(projectId, tipId);
-      if(!storedData) return;
+      if (!storedData) return;
       const formValue = {
         ...storedData,
         grantDate: dayjs(storedData.grantDate, dateFormat),
@@ -145,8 +145,8 @@ function GrantCreate() {
   async function handleCreate() {
     const planValues = await form.validateFields();
     const values = formatValue(planValues, userlist, userStore?.user?.userId);
-    await addGrant(values.incentivePlanId, values);
-    message.success("Create Grant Sucess!");
+    const res = await addGrant(values.incentivePlanId, values);
+    return res;
   }
 
   function handleSaveAsDraft() {
@@ -204,13 +204,27 @@ function GrantCreate() {
   };
 
   async function handleSign() {
+    const projectId = userStore?.projects?.[0]?.projectId;
+    const userId = userStore?.user?.userId;
     try {
       setConfirmLoadingSign(true);
-      await signMetaMask(web3Ref.current);
-      handleCreate();
+      const grantInfo = await handleCreate();
+      console.log(grantInfo);
+      await signGrantMetaMask(
+        web3Ref.current,
+        projectId,
+        grantInfo.grantId,
+        userId
+      );
+
+      message.success("Create Grant Sucess!");
       setConfirmLoadingSign(false);
+      updateIsShowDetailPreview(false);
     } catch (error) {
+      message.error(error.message || "稍后重试!");
       console.log("签名出错!");
+      setConfirmLoadingSign(false);
+      updateIsShowDetailPreview(false);
     }
   }
 

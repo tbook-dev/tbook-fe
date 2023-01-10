@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loadWeb3, signMetaMask } from "@/utils/web3";
+import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
 import { useDispatch } from "react-redux";
 import { setAuthUser, fetchUserInfo } from "../store/user";
 import AuthDecoration from "../images/tbook/aircraft.png";
@@ -25,7 +25,7 @@ function Login() {
 
   async function handleSignIn() {
     setLoading(true);
-    await signMetaMask(web3Ref.current);
+    await signLoginMetaMask(web3Ref.current);
 
     dispath(fetchUserInfo());
     dispath(setAuthUser(true));
