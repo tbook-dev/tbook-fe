@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import {
@@ -42,7 +42,7 @@ function GrantCreate() {
   const [userlist, setUserlist] = useState([]);
   const [isShowDetailPreview, updateIsShowDetailPreview] = useState(false);
   const [tipList, setTipList] = useState([]);
-  const [newGrantee, setNewGreantee] = useState('');
+  const newGrantee = useRef(null)
 
   const [detail, setDetail] = useState({
     incentivePlanId: 0,
@@ -65,6 +65,7 @@ function GrantCreate() {
   useAsyncEffect(async () => {
     const projectId = userStore?.projects?.[0]?.projectId;
     if (projectId) {
+      // console.log('setUserlist')
       const res = await getProjectUsers(projectId);
       setUserlist(res.users);
     }
@@ -72,29 +73,20 @@ function GrantCreate() {
 
   useAsyncEffect(async () => {
     const projectId = userStore?.projects?.[0]?.projectId;
-    if (projectId) {
+    if (!hasTipId) {
       const res = await getIncentiveList(projectId);
-      console.log(res);
+      // console.log(res);
       setTipList(res);
     }
   }, [userStore]);
 
   useEffect(()=>{
-    console.log(newGrantee)
-    // form.setFieldValue('')
-
-  },[newGrantee])
-
-  function handleSave() {
-    form
-      .validateFields()
-      .then((values) => {
-        console.log(values);
-      })
-      .catch((err) => {
-        console.log(err, "error");
-      });
-  }
+    // 在更新userList之后自动选择新增的
+    if(newGrantee.current && userlist.length > 0){
+      form.setFieldValue('granteeId', newGrantee.current)
+      newGrantee.current = null
+    }
+  },[userlist])
 
   function handleCreate() {
     form
@@ -145,15 +137,17 @@ function GrantCreate() {
         email: values.granteeEmail,
         userRole: 4,
       }).then((userRes) => {
-        setConfirmLoading(false);
+        setConfirmLoadingMember(false);
         setModal(false);
-        setNewGreantee(userRes?.entity?.userId)
+        newGrantee.current=(userRes?.entity?.userId)
         getProjectUsers(projectId).then((res) => {
           setUserlist(res?.users || []);
           // console.log(userRes);
         });
       });
     });
+
+   
     // Promise.all([form.validateFields(), formGrantee.validateFields()])
     //   .then(([planValues, grantValues]) => {
     //     const values = {
