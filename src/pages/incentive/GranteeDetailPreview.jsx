@@ -1,37 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { Typography, Statistic } from "antd";
+import React from "react";
+import { Statistic } from "antd";
 import { targetMap, dateFormat, grantType } from "@/utils/const";
+import KV from '@/components/local/KV'
+import Title from '@/components/local/Title'
 
-const { Paragraph } = Typography;
-
-const KV = ({ label, value, clx }) => {
-  return (
-    <div className={`${clx || ""} shrink-0 mb-1`}>
-      <p className="text-xs text-[#475569]">{label}</p>
-      <h3 className="text-base	font-semibold	text-[#1E293B]">
-        <Paragraph
-          ellipsis={{
-            rows: 1,
-          }}
-          style={{ margin: 0 }}
-        >
-          {value}
-        </Paragraph>
-      </h3>
-    </div>
-  );
-};
-
-const Title = ({ title }) => {
-  return <h2 className="text-base	font-semibold	text-[#1E293B] mb-1">{title}</h2>;
-};
 
 export default function ({ grantInfo = {}, grantee = {}, plan = {} }) {
   // console.log({ grantInfo, form, plan });
 
   return (
     <div className="grid grid-cols-2	gap-x-14	">
-      <div className="">
+      <div>
         {/* left */}
         <section className="mb-[25px]">
           <Title title="Grantee" />

@@ -554,7 +554,7 @@ function GrantCreate() {
               grantType: grantTypeV,
             }}
             plan={detail}
-            grantee={userlist.find((v) => v.userId === granteeId)}
+            grantee={userlist.find((v) => v.userId === granteeIdV)}
           />
         </BorderModalContent>
       </Modal>

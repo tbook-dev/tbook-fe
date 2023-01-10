@@ -9,7 +9,8 @@ import {
   postGrantSignInfo,
 } from "../../api/incentive";
 import { loadWeb3 } from "../../utils/web3";
-import { debounce } from "lodash";
+import KV from "@/components/local/KV";
+import Title from "@/components/local/Title";
 
 function GrantSign() {
   const userStore = useSelector((state) => state.user);
@@ -31,6 +32,7 @@ function GrantSign() {
   useEffect(() => {
     getGrantSignInfo(projectId, grantId).then((res) => {
       setSignList(res);
+      console.log('signList', signList)
     });
   }, [grantId]);
 
@@ -56,7 +58,16 @@ function GrantSign() {
   }
 
   return (
-    <main>
+    <main className="grid grid-cols-2 relative">
+      <div className="pl-[45px] pt-[88px] pr-[65px]">
+        <section className="mb-[25px]">
+            <Title title="Grantee Information"/>
+            <div className="grid grid-cols-2	gap-x-20">
+            <KV label="Name" value={0} />
+            <KV label="Group" value={0} />
+          </div>
+        </section>
+      </div>
       <div>
         {signList.map((sg) => {
           return (
