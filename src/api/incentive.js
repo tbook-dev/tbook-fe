@@ -60,7 +60,8 @@ export const postGrantSignInfo = async function(projectId, grantId, grantSignId,
             'Content-Type': 'application/x-www-form-urlencoded'
         },
         method: "POST",
-        body: params
+        body: params,
+        credentials: 'include'
     }).then(res => res.json())
 }
 
