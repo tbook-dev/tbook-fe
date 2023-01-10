@@ -10,63 +10,44 @@ import "swiper/css/navigation";
 import { PlusOutlined } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
 import { Button } from "antd";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useAsyncEffect } from "ahooks";
 
 function PlanList() {
   const userStore = useSelector((state) => state.user);
   const [tipList, updateTipList] = useState([]);
   const [grantList, updateGrantList] = useState([]);
 
-  useEffect(() => {
-    let ignore = false;
-
-    async function getList() {
-      const id = userStore?.projects?.[0]?.projectId;
-      if (!id) return;
-      const data = await getIncentiveList(userStore?.projects?.[0]?.projectId);
-      if (!ignore && Array.isArray(data)) {
-        updateTipList(data);
-      }
+  useAsyncEffect(async () => {
+    const id = userStore?.projects?.[0]?.projectId;
+    if (!id) return;
+    const data = await getIncentiveList(userStore?.projects?.[0]?.projectId);
+    if (Array.isArray(data)) {
+      updateTipList(data);
     }
-
-    getList();
-
-    return () => {
-      ignore = true;
-    };
   }, [userStore?.projects?.[0]?.projectId]);
 
-  useEffect(() => {
-    let ignore = false;
-    async function getGrantList() {
-      for (let tipIdx in tipList) {
-        const tip = tipList[tipIdx];
-        try {
-          const list = (await getTipGrantList(tip.incentivePlanId)) || [];
-          updateGrantList((existedList) => {
-            //                    if(existedList)
-            if (
-              !existedList.find(
-                (item) => item?.grant?.grantId === list?.[0]?.grant?.grantId
-              ) &&
-              !ignore
-            ) {
-              return [...list, ...existedList];
-            }
+  useAsyncEffect(async () => {
+    for (let tipIdx in tipList) {
+      const tip = tipList[tipIdx];
+      try {
+        const list = (await getTipGrantList(tip.incentivePlanId)) || [];
+        updateGrantList((existedList) => {
+          //                    if(existedList)
+          if (
+            !existedList.find(
+              (item) => item?.grant?.grantId === list?.[0]?.grant?.grantId
+            )
+          ) {
+            return [...list, ...existedList];
+          }
 
-            return existedList;
-          });
-        } catch (error) {
-          console.log(error);
-        }
+          return existedList;
+        });
+      } catch (error) {
+        console.log(error);
       }
     }
-
-    getGrantList();
-
-    return () => {
-      ignore = true;
-    };
   }, [tipList]);
 
   return (
@@ -146,7 +127,9 @@ function PlanList() {
 
           <div>
             <div className="flex flex-row-reverse	items-center mb-2">
-              <Link to="incentive/grant/tmp/create"><Button type="primary">+ New Grant</Button></Link>
+              <Link to="/incentive/grant/tmp/create">
+                <Button type="primary">+ New Grant</Button>
+              </Link>
             </div>
             <GrantTable
               list={grantList}
