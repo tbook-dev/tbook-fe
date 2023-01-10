@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import IncentiveLayout from "./Layout";
 import { Button, Space, Form, Input, Select, InputNumber, Modal } from "antd";
 import { useSelector } from "react-redux";
 import {
   getGrantInfo,
   getGrantSignInfo,
   postGrantSignInfo,
-} from "../../api/incentive";
-import { loadWeb3 } from "../../utils/web3";
+  getTIPInfo,
+} from "@/api/incentive";
+import { loadWeb3 } from "@/utils/web3";
 import KV from "@/components/local/KV";
 import Title from "@/components/local/Title";
+import { useAsyncEffect } from "ahooks";
+import { targetMap, grantType } from "@/utils/const";
 
 function GrantSign() {
   const userStore = useSelector((state) => state.user);
@@ -18,8 +20,11 @@ function GrantSign() {
   const projectId = userStore?.projects?.[0]?.projectId;
   const userId = userStore?.user?.userId;
   const [signList, setSignList] = useState([]);
-  const [grantInfo, setGrantInfo] = useState();
+  const [grantInfo, setGrantInfo] = useState({});
+  const [tipId, setTipId] = useState(null);
+  const [tipInfo, setTipInfo] = useState({});
   const navigate = useNavigate();
+
   const web3Ref = useRef();
   useEffect(() => {
     async function asyncloadWeb3() {
@@ -29,18 +34,25 @@ function GrantSign() {
     asyncloadWeb3();
   }, []);
 
-  useEffect(() => {
-    getGrantSignInfo(projectId, grantId).then((res) => {
-      setSignList(res);
-      console.log('signList', signList)
-    });
+  // 签名状态
+  useAsyncEffect(async () => {
+    const list = await getGrantSignInfo(null, grantId);
+    setSignList(list);
   }, [grantId]);
 
-  useEffect(() => {
-    getGrantInfo(grantId).then((res) => {
-      console.log({ res });
-    });
+  // 获取grant信息
+  useAsyncEffect(async () => {
+    const info = await getGrantInfo(grantId);
+    setGrantInfo(info);
+    setTipId(info.incentivePlanId);
   }, [grantId]);
+
+  // 获取tip信息
+  useAsyncEffect(async () => {
+    if (!tipId) return;
+    const tipInfo = await getTIPInfo(tipId);
+    setTipInfo(tipInfo);
+  }, [tipId]);
 
   function handleSign(sign) {
     web3Ref?.current.eth.personal
@@ -61,10 +73,26 @@ function GrantSign() {
     <main className="grid grid-cols-2 relative">
       <div className="pl-[45px] pt-[88px] pr-[65px]">
         <section className="mb-[25px]">
-            <Title title="Grantee Information"/>
-            <div className="grid grid-cols-2	gap-x-20">
-            <KV label="Name" value={0} />
-            <KV label="Group" value={0} />
+          <Title title="Grantee Information" />
+          <div className="grid grid-cols-2	gap-x-20">
+            <KV label="Name" value={grantInfo.granteeName} />
+            <KV label="Target Audience" value={targetMap[tipInfo.target]} />
+            <KV label="Email Address" value={grantInfo.granteeEmail} />
+            <KV label="Ethereum Address" value={grantInfo.granteeEthAddress} />
+          </div>
+        </section>
+        <section className="mb-[25px]">
+          <Title title="Grant Details" />
+          <div className="grid grid-cols-2	gap-x-20">
+            <KV label="Plan Name" value={tipInfo.incentivePlanName} />
+            <KV label="Grant Type" value={targetMap[tipInfo.target]} />
+            <KV
+              label="Vesting by"
+              value={
+                grantType.find((v) => v.value === grantInfo.grantType)?.name
+              }
+            />
+            <KV label="Exercise Price" value={`${grantInfo.exercisePrice}USD`} />
           </div>
         </section>
       </div>

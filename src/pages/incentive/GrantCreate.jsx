@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import {
   Button,
@@ -37,6 +37,8 @@ dayjs.extend(customParseFormat);
 const { Option } = Select;
 
 function GrantCreate() {
+  const navigate = useNavigate();
+
   const [form] = Form.useForm();
   const [formGrantee] = Form.useForm();
   const [showModal, setModal] = useState(false);
@@ -118,7 +120,7 @@ function GrantCreate() {
         grantDate: dayjs(storedData.grantDate, dateFormat),
         vestingScheduleDate: dayjs(storedData.vestingScheduleDate, dateFormat),
       };
-      console.log('restore from ls');
+      console.log("restore from ls");
       form.setFieldsValue(formValue);
     }
   }, [userStore]);
@@ -215,7 +217,7 @@ function GrantCreate() {
       setConfirmLoadingSign(true);
       const grantInfo = await handleCreate();
       console.log(grantInfo);
-      if(!grantInfo.success){
+      if (!grantInfo.success) {
         message.error(grantInfo.message);
         setConfirmLoadingSign(false);
         updateIsShowDetailPreview(false);
@@ -230,6 +232,9 @@ function GrantCreate() {
       );
 
       message.success("Create Grant Sucess!");
+      navigate(
+        `/incentive/grant/${projectId}/${grantInfo?.entity?.grantId}/detail`
+      );
     } catch (error) {
       message.error(error.message || "稍后重试!");
       console.log("签名出错!");

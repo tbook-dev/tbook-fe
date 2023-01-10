@@ -16,6 +16,7 @@ specifiers:
   lodash: ^4.17.21
   mockjs: ^1.1.0
   moment: ^2.29.4
+  path-to-regexp: ^6.2.1
   postcss: ^8.4.14
   rc-motion: ^2.6.2
   react: ^18.2.0
@@ -45,6 +46,7 @@ dependencies:
   lodash: 4.17.21
   mockjs: 1.1.0
   moment: 2.29.4
+  path-to-regexp: 6.2.1
   rc-motion: 2.6.2_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -3059,7 +3061,6 @@ packages:
 
   /path-to-regexp/6.2.1:
     resolution: {integrity: sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw==}
-    dev: true
 
   /pbkdf2/3.1.2:
     resolution: {integrity: sha512-iuh7L6jA7JEGu2WxDwtQP1ddOpaJNC4KlDEFfdQajSGgGPNi4OyDc2R7QnbY2bR9QjBVGwgvTdNJZoE7RaxUMA==}

@@ -7,9 +7,10 @@ import "./css/style.css";
 import "./charts/ChartjsConfig";
 import { useDispatch } from "react-redux";
 import { fetchUserInfo } from "./store/user";
+import { match } from "path-to-regexp";
+
 // Import pages
 import Dashboard from "./pages/Dashboard";
-
 
 import PlanList from "./pages/incentive/PlanList";
 import PlanCreate from "./pages/incentive/PlanCreate";
@@ -31,7 +32,6 @@ import Feedback from "./pages/settings/Feedback";
 import GrantDetail from "./pages/incentive/GrantDetail";
 import GrantsSchedule from "./pages/incentive/GrantsSchedule";
 
-
 function App() {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -47,14 +47,16 @@ function App() {
     //   dispatch(fetchUserInfo());
     // }
   }, [location.pathname]); // triggered on route change
-  useAsyncEffect(async()=>{
+  useAsyncEffect(async () => {
     // console.log('useAsyncEffect')
-    const whileList = ["/signin", "/logins"];
+    const whileList = ["/signin", "/logins", "/grants/:grantId/sign"].map(
+      match
+    );
 
-    if (!whileList.includes(location.pathname)) {
+    if (!whileList.find((match) => match(location.pathname))) {
       dispatch(fetchUserInfo());
     }
-  },[])
+  }, []);
 
   return (
     <>
@@ -116,14 +118,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/grants/:grantId/sign"
-          element={
-            <ProtectedRoute>
-              <GrantSign />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/grants/:grantId/sign" element={<GrantSign />} />
 
         {/* <Route path="/signin" element={<Signin />} /> */}
         <Route path="/logins" element={<Login />} />
@@ -152,7 +147,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-         <Route
+        <Route
           path="/settings/feedback"
           element={
             <ProtectedRoute>
