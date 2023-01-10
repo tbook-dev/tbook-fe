@@ -1,19 +1,19 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loadWeb3 } from "../utils/web3";
-import { debounce } from "lodash";
+import { loadWeb3, signMetaMask } from "@/utils/web3";
 import { useDispatch } from "react-redux";
-import { setAuthUser, fetchUserInfo } from '../store/user'
+import { setAuthUser, fetchUserInfo } from "../store/user";
 import AuthDecoration from "../images/tbook/aircraft.png";
 import AuthImage from "../images/tbook/login.png";
+import { Button } from "antd";
+import { getUserInfo } from "@/api/incentive";
 
 
 function Login() {
-  const host = import.meta.env.VITE_TBOOK_URL || ""
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  let navigate = useNavigate();
-  
-  const  dispath = useDispatch()
+  const dispath = useDispatch();
   const web3Ref = useRef();
   useEffect(() => {
     async function asyncloadWeb3() {
@@ -23,49 +23,20 @@ function Login() {
     asyncloadWeb3();
   }, []);
 
-  function handleSignIn(evt) {
-    evt?.preventDefault();
+  async function handleSignIn() {
+    setLoading(true);
+    await signMetaMask(web3Ref.current);
 
-    fetch(
-      `${host}/nonce?address=${web3Ref?.current.currentProvider.selectedAddress}`,
-      { credentials: "include" }
-    )
-      .then((r) => r.text())
-      .then((t) =>
-        web3Ref?.current.eth.personal.sign(
-          web3Ref.current.utils.fromUtf8(t),
-          web3Ref?.current.currentProvider.selectedAddress
-        )
-      )
-      .then((s) => {
-        const d = new FormData();
-        d.append("address", web3Ref?.current.currentProvider.selectedAddress);
-        d.append("sign", s);
-        return fetch(`${host}/authenticate`, {
-          credentials: "include",
-          method: "POST",
-          body: d,
-        });
-      })
-      .then((s) => {
-        dispath(fetchUserInfo())
-        dispath(setAuthUser(true))
-        return fetch(`${host}/info`, {
-          credentials: "include",
-          method: "GET",
-        })
-      })
-      .then((r) => r.json())
-      .then(user => {
-        if (user.projects.length > 0) {
-          navigate("/incentive");
-        } else {
-          navigate("/project-create")
-        }
-      })
-      .catch((err) => {
-        console.log(err, "error");
-      });
+    dispath(fetchUserInfo());
+    dispath(setAuthUser(true));
+    const user = await getUserInfo()
+    // console.log('user', user)
+    if (user.projects.length > 0) {
+      navigate("/incentive");
+    } else {
+      navigate("/project-create");
+    }
+    setLoading(false);
   }
 
   return (
@@ -128,13 +99,9 @@ function Login() {
               {/* Form */}
             </div>
             <div className="flex flex-col	items-center justify-center mt-28">
-              <button
-                type="submit"
-                className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
-                onClick={debounce(handleSignIn, 300)}
-              >
+              <Button type="primary" loading={loading} onClick={handleSignIn}>
                 LogIn
-              </button>
+              </Button>
               {/* <br />
               <div className="text-sm">
                 Don't have an account?{" "}

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import request from "../api/request";
+import { getUserInfo } from "@/api/incentive";
 
 const initialState = {
   value: 0,
@@ -27,17 +27,14 @@ const initialState = {
     // wallets: [],
   },
 };
-const host = import.meta.env.VITE_TBOOK_URL || ""
+const host = import.meta.env.VITE_TBOOK_URL || "";
 
-export const fetchUserInfo = createAsyncThunk(
-  `/info`,
-  async (_, thunkAPI) => {
-    const response = await request(`${host}/info`)
-    thunkAPI.dispatch(setUser(response?.user || {}))
-    thunkAPI.dispatch(setProjects(response?.projects || []))
-    return response.data
-  }
-)
+export const fetchUserInfo = createAsyncThunk(`/info`, async (_, thunkAPI) => {
+  const response = await getUserInfo();
+  thunkAPI.dispatch(setUser(response?.user || {}));
+  thunkAPI.dispatch(setProjects(response?.projects || []));
+  return response.data;
+});
 
 export const userSlice = createSlice({
   name: "user",
@@ -46,26 +43,27 @@ export const userSlice = createSlice({
     updateAuthHeader: (_, action) => {
       state.authHeader = action.payload;
     },
-    setUser: (state, action)  => {
+    setUser: (state, action) => {
       state.user = {
         ...state.user,
-        ...action.payload
-      }
+        ...action.payload,
+      };
     },
     setProjects: (state, action) => {
       state.projects = {
         ...state.projects,
-        ...action.payload
-      }
+        ...action.payload,
+      };
     },
-    setAuthUser: (state, action ) => {
-      state.authUser = action.payload
-      console.log(action)
-    }
+    setAuthUser: (state, action) => {
+      state.authUser = action.payload;
+      console.log(action);
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setProjects, updateAuthHeader, setAuthUser } = userSlice.actions;
+export const { setUser, setProjects, updateAuthHeader, setAuthUser } =
+  userSlice.actions;
 
 export default userSlice.reducer;

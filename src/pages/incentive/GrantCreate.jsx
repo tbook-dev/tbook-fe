@@ -30,6 +30,7 @@ import { useAsyncEffect } from "ahooks";
 import { message } from "antd";
 import BorderModalContent from "../component/BorderModalContent";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { loadWeb3, signMetaMask } from "@/utils/web3";
 
 dayjs.extend(customParseFormat);
 
@@ -41,6 +42,8 @@ function GrantCreate() {
   const [showModal, setModal] = useState(false);
   const userStore = useSelector((state) => state.user);
   const [confirmLoadingMember, setConfirmLoadingMember] = useState(false);
+  const [confirmLoadingSign, setConfirmLoadingSign] = useState(false);
+
   const granteeId = Form.useWatch("granteeId", form);
   const [userlist, setUserlist] = useState([]);
   const [isShowDetailPreview, updateIsShowDetailPreview] = useState(false);
@@ -57,6 +60,15 @@ function GrantCreate() {
   });
   const { tipId = "" } = useParams();
   const hasTipId = /\d+/.test(tipId);
+
+  const web3Ref = useRef();
+  useEffect(() => {
+    async function asyncloadWeb3() {
+      const web3 = await loadWeb3();
+      web3Ref.current = web3;
+    }
+    asyncloadWeb3();
+  }, []);
 
   useAsyncEffect(async () => {
     if (tipId && hasTipId) {
@@ -129,26 +141,13 @@ function GrantCreate() {
     return values;
   }, []);
 
-  function handleCreate() {
-    form
-      .validateFields()
-      .then((planValues) => {
-        const values = formatValue(
-          planValues,
-          userlist,
-          userStore?.user?.userId
-        );
-        addGrant(values.incentivePlanId, values).then(() => {
-          message.success("Create Grant Sucess!");
-        });
-        // .then(() => {
-        //   setModal(true);
-        // });
-      })
-      .catch((err) => {
-        console.log(err, "error");
-      });
+  async function handleCreate() {
+    const planValues = await form.validateFields();
+    const values = formatValue(planValues, userlist, userStore?.user?.userId);
+    await addGrant(values.incentivePlanId, values);
+    message.success("Create Grant Sucess!");
   }
+
   function handleSaveAsDraft() {
     const projectId = userStore?.projects?.[0]?.projectId;
     // tipId只从url里面取
@@ -203,7 +202,16 @@ function GrantCreate() {
       });
   };
 
-  function handleSign() {}
+  async function handleSign() {
+    try {
+      setConfirmLoadingSign(true);
+      await signMetaMask(web3Ref.current);
+      handleCreate();
+      setConfirmLoadingSign(false);
+    } catch (error) {
+      console.log("签名出错!");
+    }
+  }
 
   return (
     <IncentiveLayout>
@@ -491,6 +499,7 @@ function GrantCreate() {
         confirmLoading={confirmLoadingMember}
         onCancel={() => {
           setModal(false);
+          setConfirmLoadingMember(false);
         }}
       >
         <BorderModalContent>
@@ -505,8 +514,10 @@ function GrantCreate() {
         okText="Sign"
         cancelText="Close"
         onOk={handleSign}
+        confirmLoading={confirmLoadingSign}
         onCancel={() => {
           updateIsShowDetailPreview(false);
+          setConfirmLoadingSign(false);
         }}
       >
         <BorderModalContent>

@@ -1,4 +1,5 @@
-import Web3 from 'web3'
+import Web3 from "web3";
+import { host } from "@/api/incentive";
 
 export async function loadWeb3() {
   // Wait for loading completion to avoid race conditions with web3 injection timing.
@@ -22,7 +23,26 @@ export async function loadWeb3() {
   }
 }
 
-export async function signMetaMask(web3){
-  
-
+export async function signMetaMask(web3) {
+  return fetch(
+    `${host}/nonce?address=${web3.currentProvider.selectedAddress}`,
+    { credentials: "include" }
+  )
+    .then((r) => r.text())
+    .then((t) =>
+      web3.eth.personal.sign(
+        web3.utils.fromUtf8(t),
+        web3.currentProvider.selectedAddress
+      )
+    )
+    .then((s) => {
+      const d = new FormData();
+      d.append("address", web3.currentProvider.selectedAddress);
+      d.append("sign", s);
+      return fetch(`${host}/authenticate`, {
+        credentials: "include",
+        method: "POST",
+        body: d,
+      });
+    });
 }
