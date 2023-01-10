@@ -29,6 +29,10 @@ import dayjs from "dayjs";
 import { useAsyncEffect } from "ahooks";
 import { message } from "antd";
 import BorderModalContent from "../component/BorderModalContent";
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+
+dayjs.extend(customParseFormat)
 
 const { Option } = Select;
 
@@ -88,16 +92,30 @@ function GrantCreate() {
     }
   }, [userlist]);
 
+  useEffect(() => {
+    // 从ls 缓存恢复数据
+    const projectId = userStore?.projects?.[0]?.projectId;
+    if (projectId) {
+      const storedData = getDraftGrantData(projectId, tipId);
+      const formValue = {
+        ...storedData,
+        grantDate: dayjs(storedData.grantDate, dateFormat),
+        vestingScheduleDate: dayjs(storedData.vestingScheduleDate, dateFormat),
+      };
+      form.setFieldsValue(formValue);
+    }
+  }, [userStore]);
+
   const formatValue = useCallback((planValues, userlist, userId) => {
     const grantValues = userlist.find((v) => v.userId === planValues.granteeId);
     const finalTipId = hasTipId ? tipId : planValues.incentivePlanId;
     const values = {
       incentivePlanId: finalTipId,
       grantCreatorId: userId,
-      granteeId: grantValues.granteeId,
-      granteeName: grantValues.granteeName,
-      granteeEthAddress: grantValues.granteeEthAddress,
-      granteeEmail: grantValues.granteeEmail,
+      granteeId: grantValues.userId,
+      granteeName: grantValues.name,
+      granteeEthAddress: grantValues.mainWallet,
+      granteeEmail: grantValues.email,
       grantType: planValues.grantType,
       grantNum: planValues.grantNum,
       exercisePrice: planValues.exercisePrice,
@@ -145,13 +163,12 @@ function GrantCreate() {
           userlist,
           userStore?.user?.userId
         );
-        addGrant(values.incentivePlanId, values)
-          .then(() => {
-            message.success("Create Grant Sucess!");
-          })
-          // .then(() => {
-          //   setModal(true);
-          // });
+        addGrant(values.incentivePlanId, values).then(() => {
+          message.success("Create Grant Sucess!");
+        });
+        // .then(() => {
+        //   setModal(true);
+        // });
       })
       .catch((err) => {
         console.log(err, "error");
@@ -159,6 +176,7 @@ function GrantCreate() {
   }
   function handleSaveAsDraft() {
     const projectId = userStore?.projects?.[0]?.projectId;
+    // tipId只从url里面取
     form
       .validateFields()
       .then((planValues) => {
@@ -167,7 +185,10 @@ function GrantCreate() {
           userlist,
           userStore?.user?.userId
         );
-        saveDraftGrantData(projectId, values.incentivePlanId, values);
+        saveDraftGrantData(projectId, tipId, {
+          ...values,
+          isIncludingCliff: planValues.isIncludingCliff,
+        });
         message.success("Save Draft Sucess!");
       })
       .catch((err) => {
