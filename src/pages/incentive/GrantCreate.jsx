@@ -108,6 +108,7 @@ function GrantCreate() {
     const projectId = userStore?.projects?.[0]?.projectId;
     if (projectId) {
       const storedData = getDraftGrantData(projectId, tipId);
+      if(!storedData) return;
       const formValue = {
         ...storedData,
         grantDate: dayjs(storedData.grantDate, dateFormat),
