@@ -44,7 +44,11 @@ function GrantCreate() {
   const [confirmLoadingMember, setConfirmLoadingMember] = useState(false);
   const [confirmLoadingSign, setConfirmLoadingSign] = useState(false);
 
-  const granteeId = Form.useWatch("granteeId", form);
+  const granteeIdV = Form.useWatch("granteeId", form);
+  const grantNumV = Form.useWatch("grantNum", form);
+  const grantDateV = Form.useWatch("grantDate", form);
+  const grantTypeV = Form.useWatch("grantType", form);
+
   const [userlist, setUserlist] = useState([]);
   const [isShowDetailPreview, updateIsShowDetailPreview] = useState(false);
   const [tipList, setTipList] = useState([]);
@@ -114,6 +118,7 @@ function GrantCreate() {
         grantDate: dayjs(storedData.grantDate, dateFormat),
         vestingScheduleDate: dayjs(storedData.vestingScheduleDate, dateFormat),
       };
+      console.log('restore from ls');
       form.setFieldsValue(formValue);
     }
   }, [userStore]);
@@ -210,10 +215,17 @@ function GrantCreate() {
       setConfirmLoadingSign(true);
       const grantInfo = await handleCreate();
       console.log(grantInfo);
+      if(!grantInfo.success){
+        message.error(grantInfo.message);
+        setConfirmLoadingSign(false);
+        updateIsShowDetailPreview(false);
+        return;
+      }
+
       await signGrantMetaMask(
         web3Ref.current,
         projectId,
-        grantInfo.grantId,
+        grantInfo?.entity?.grantId,
         userId
       );
 
@@ -535,7 +547,12 @@ function GrantCreate() {
       >
         <BorderModalContent>
           <GranteeDetailPreview
-            form={form}
+            grantInfo={{
+              granteeId: granteeIdV,
+              grantNum: grantNumV,
+              grantDate: grantDateV,
+              grantType: grantTypeV,
+            }}
             plan={detail}
             grantee={userlist.find((v) => v.userId === granteeId)}
           />

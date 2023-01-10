@@ -50,14 +50,11 @@ export async function signLoginMetaMask(web3) {
 export async function signGrantMetaMask(web3, projectId, grantId, userId) {
   try {
     const signList = await getGrantSignInfo(projectId, grantId);
-    console.log("sign", signList);
     const signInfo = signList.find((v) => userId === v?.signer?.userId);
-    console.log("signInfo", signInfo);
     const s1 = await web3.eth.personal.sign(
       web3.utils.fromUtf8(signInfo.grantSign.signInfo),
       web3.currentProvider.selectedAddress
     );
-    console.log("s1", s1);
 
     const res = await postGrantSignInfo(
       projectId,
@@ -65,9 +62,9 @@ export async function signGrantMetaMask(web3, projectId, grantId, userId) {
       signInfo.grantSign.grantSignId,
       s1
     );
-    console.log(res);
     return res;
   } catch (error) {
+    console.log(error)
     return error;
   }
 }

@@ -1,5 +1,4 @@
 import React from 'react'
-import {Tag} from 'antd'
 
 /**
  * 激励目标target

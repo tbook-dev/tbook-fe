@@ -26,15 +26,8 @@ const Title = ({ title }) => {
   return <h2 className="text-base	font-semibold	text-[#1E293B] mb-1">{title}</h2>;
 };
 
-export default function ({ form, grantee = {}, plan = {} }) {
-  const [grantInfo, setGrantInfo] = useState({});
-  useEffect(() => {
-    form.validateFields().then((values) => {
-      setGrantInfo(values);
-    });
-  }, [form]);
-
-  console.log({ grantInfo, form, plan });
+export default function ({ grantInfo = {}, grantee = {}, plan = {} }) {
+  // console.log({ grantInfo, form, plan });
 
   return (
     <div className="grid grid-cols-2	gap-x-14	">
