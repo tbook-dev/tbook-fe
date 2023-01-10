@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import {
   Button,
-  Space,
   Form,
   Radio,
   Checkbox,
@@ -21,6 +20,7 @@ import {
   addProjectUser,
   getIncentiveList,
 } from "@/api/incentive";
+import { saveDraftGrantData, getDraftGrantData } from "@/api/ls";
 import { useSelector } from "react-redux";
 import { grantType, dateFormat } from "../../utils/const";
 import GranteeFrom from "./GranteeForm";
@@ -42,7 +42,7 @@ function GrantCreate() {
   const [userlist, setUserlist] = useState([]);
   const [isShowDetailPreview, updateIsShowDetailPreview] = useState(false);
   const [tipList, setTipList] = useState([]);
-  const newGrantee = useRef(null)
+  const newGrantee = useRef(null);
 
   const [detail, setDetail] = useState({
     incentivePlanId: 0,
@@ -73,58 +73,107 @@ function GrantCreate() {
 
   useAsyncEffect(async () => {
     const projectId = userStore?.projects?.[0]?.projectId;
-    if (!hasTipId) {
+    if (!hasTipId && projectId) {
       const res = await getIncentiveList(projectId);
       // console.log(res);
       setTipList(res);
     }
   }, [userStore]);
 
-  useEffect(()=>{
+  useEffect(() => {
     // 在更新userList之后自动选择新增的
-    if(newGrantee.current && userlist.length > 0){
-      form.setFieldValue('granteeId', newGrantee.current)
-      newGrantee.current = null
+    if (newGrantee.current && userlist.length > 0) {
+      form.setFieldValue("granteeId", newGrantee.current);
+      newGrantee.current = null;
     }
-  },[userlist])
+  }, [userlist]);
+
+  const formatValue = useCallback((planValues, userlist, userId) => {
+    const grantValues = userlist.find((v) => v.userId === planValues.granteeId);
+    const finalTipId = hasTipId ? tipId : planValues.incentivePlanId;
+    const values = {
+      incentivePlanId: finalTipId,
+      grantCreatorId: userId,
+      granteeId: grantValues.granteeId,
+      granteeName: grantValues.granteeName,
+      granteeEthAddress: grantValues.granteeEthAddress,
+      granteeEmail: grantValues.granteeEmail,
+      grantType: planValues.grantType,
+      grantNum: planValues.grantNum,
+      exercisePrice: planValues.exercisePrice,
+      grantDate: planValues.grantDate.format(dateFormat),
+      vestingScheduleDate: dayjs().format(dateFormat),
+      grantStatus: 1,
+      vestingTotalLength: planValues.vestingTotalLength,
+      vestingPeriod: planValues.vestingPeriod,
+      cliffTime: planValues.cliffTime,
+      cliffAmount: planValues.cliffAmount,
+    };
+    return values;
+  }, []);
 
   function handleCreate() {
     form
       .validateFields()
       .then((planValues) => {
-        console.log(planValues, userlist);
-        const grantValues = userlist.find(
-          (v) => v.userId === planValues.granteeId
+        // console.log(planValues, userlist);
+        // const grantValues = userlist.find(
+        //   (v) => v.userId === planValues.granteeId
+        // );
+        // const finalTipId = hasTipId ? tipId : planValues.incentivePlanId;
+        // const values = {
+        //   incentivePlanId: finalTipId,
+        //   grantCreatorId: userStore?.user?.userId,
+        //   granteeId: grantValues.granteeId,
+        //   granteeName: grantValues.granteeName,
+        //   granteeEthAddress: grantValues.granteeEthAddress,
+        //   granteeEmail: grantValues.granteeEmail,
+        //   grantType: planValues.grantType,
+        //   grantNum: planValues.grantNum,
+        //   exercisePrice: planValues.exercisePrice,
+        //   grantDate: planValues.grantDate.format(dateFormat),
+        //   vestingScheduleDate: dayjs().format(dateFormat),
+        //   grantStatus: 1,
+        //   vestingTotalLength: planValues.vestingTotalLength,
+        //   vestingPeriod: planValues.vestingPeriod,
+        //   cliffTime: planValues.cliffTime,
+        //   cliffAmount: planValues.cliffAmount,
+        // };
+        // console.log(planValues, grantValues, finalTipId);
+        const values = formatValue(
+          planValues,
+          userlist,
+          userStore?.user?.userId
         );
-        const values = {
-          incentivePlanId: tipId,
-          grantCreatorId: userStore?.user?.userId,
-          granteeId: grantValues.granteeId,
-          granteeName: grantValues.granteeName,
-          granteeEthAddress: grantValues.granteeEthAddress,
-          granteeEmail: grantValues.granteeEmail,
-          grantType: planValues.grantType,
-          grantNum: planValues.grantNum,
-          exercisePrice: planValues.exercisePrice,
-          grantDate: planValues.grantDate.format(dateFormat),
-          vestingScheduleDate: dayjs().format(dateFormat),
-          grantStatus: 1,
-          vestingTotalLength: planValues.vestingTotalLength,
-          vestingPeriod: planValues.vestingPeriod,
-          cliffTime: planValues.cliffTime,
-          cliffAmount: planValues.cliffAmount,
-        };
-        console.log(planValues, grantValues, tipId);
-        addGrant(tipId, values).then(() => {
-          message.success("Create Grant Sucess!");
-        });
-        // setModal(true);
+        addGrant(values.incentivePlanId, values)
+          .then(() => {
+            message.success("Create Grant Sucess!");
+          })
+          // .then(() => {
+          //   setModal(true);
+          // });
       })
       .catch((err) => {
         console.log(err, "error");
       });
   }
-
+  function handleSaveAsDraft() {
+    const projectId = userStore?.projects?.[0]?.projectId;
+    form
+      .validateFields()
+      .then((planValues) => {
+        const values = formatValue(
+          planValues,
+          userlist,
+          userStore?.user?.userId
+        );
+        saveDraftGrantData(projectId, values.incentivePlanId, values);
+        message.success("Save Draft Sucess!");
+      })
+      .catch((err) => {
+        console.log(err, "error");
+      });
+  }
   function handleAddGrantee() {
     const projectId = userStore?.projects?.[0]?.projectId;
     setConfirmLoadingMember(true);
@@ -139,7 +188,7 @@ function GrantCreate() {
       }).then((userRes) => {
         setConfirmLoadingMember(false);
         setModal(false);
-        newGrantee.current=(userRes?.entity?.userId)
+        newGrantee.current = userRes?.entity?.userId;
         getProjectUsers(projectId).then((res) => {
           setUserlist(res?.users || []);
           // console.log(userRes);
@@ -147,7 +196,6 @@ function GrantCreate() {
       });
     });
 
-   
     // Promise.all([form.validateFields(), formGrantee.validateFields()])
     //   .then(([planValues, grantValues]) => {
     //     const values = {
@@ -443,17 +491,15 @@ function GrantCreate() {
 
           <div className="max-w-[700px] pt-40	">
             <hr className="my-6 border-t border-slate-200" />
-            <div className="text-right">
-              <Space>
-                {/* <Button onClick={handleSave}>Save</Button> */}
-                <Button
-                  onClick={handleCreate}
-                  type="primary"
-                  className="bg-[#6366F1]"
-                >
-                  Create
-                </Button>
-              </Space>
+            <div className="flex justify-around">
+              <Button onClick={handleSaveAsDraft}>Save as a draft</Button>
+              <Button
+                onClick={handleCreate}
+                type="primary"
+                className="bg-[#6366F1]"
+              >
+                Create
+              </Button>
             </div>
           </div>
         </div>

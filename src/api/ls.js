@@ -1,7 +1,8 @@
-const getDraftTipDataLSKey = (projectId) => `_draftDataLSKey_${projectId}`;
+const getDraftGrantDataLSKey = (projectId, tipId) =>
+  `_draftDataLSKey_${projectId}_${tipId}`;
 
-export function getDraftTipData(projectId) {
-  const key = getDraftTipDataLSKey(projectId);
+export function getDraftGrantData(projectId, tipId) {
+  const key = getDraftTipDataLSKey(projectId, tipId);
   let data = null;
   try {
     data = JSON.parse(localStorage.getItem(key));
@@ -11,7 +12,12 @@ export function getDraftTipData(projectId) {
   return data;
 }
 
-export function saveDraftTipData(projectId, data) {
-  const key = getDraftTipDataLSKey(projectId);
+export function saveDraftGrantData(projectId, tipId, data) {
+  const key = getDraftGrantDataLSKey(projectId, tipId);
   localStorage.setItem(key, JSON.stringify(data));
+}
+
+export function clearDraftGrantData(projectId, tipId){
+  const key = getDraftGrantDataLSKey(projectId, tipId);
+  localStorage.removeItem(key)
 }
