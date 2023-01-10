@@ -218,14 +218,12 @@ function GrantCreate() {
       );
 
       message.success("Create Grant Sucess!");
-      setConfirmLoadingSign(false);
-      updateIsShowDetailPreview(false);
     } catch (error) {
       message.error(error.message || "稍后重试!");
       console.log("签名出错!");
-      setConfirmLoadingSign(false);
-      updateIsShowDetailPreview(false);
     }
+    setConfirmLoadingSign(false);
+    updateIsShowDetailPreview(false);
   }
 
   return (
