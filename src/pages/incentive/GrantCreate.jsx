@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import {
   Button,
@@ -43,6 +43,7 @@ function GrantCreate() {
   const userStore = useSelector((state) => state.user);
   const [confirmLoadingMember, setConfirmLoadingMember] = useState(false);
   const [confirmLoadingSign, setConfirmLoadingSign] = useState(false);
+  const navigate = useNavigate();
 
   const granteeIdV = Form.useWatch("granteeId", form);
   const grantNumV = Form.useWatch("grantNum", form);
@@ -230,6 +231,7 @@ function GrantCreate() {
       );
 
       message.success("Create Grant Sucess!");
+      navigate(`/grants/${grantInfo?.entity?.grantId}/sign`)
     } catch (error) {
       message.error(error.message || "稍后重试!");
       console.log("签名出错!");
