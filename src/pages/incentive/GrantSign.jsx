@@ -1,17 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import {
-  Button,
-  Space,
-  Form,
-  Input,
-  Select,
-  InputNumber,
-  Modal,
-  Steps,
-  Typography,
-} from "antd";
-import { useSelector } from "react-redux";
+import { Typography } from "antd";
 import {
   getGrantInfo,
   getGrantSignInfo,
@@ -29,19 +18,17 @@ import Done from "@/components/icon/Done";
 import Loading from "@/components/icon/Loading";
 import Eth from "@/components/local/Eth";
 
-const { Text, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 function GrantSign() {
-  const userStore = useSelector((state) => state.user);
   const { grantId } = useParams();
-  const projectId = userStore?.projects?.[0]?.projectId;
-  const userId = userStore?.user?.userId;
   const [signList, setSignList] = useState([]);
   const [grantInfo, setGrantInfo] = useState({});
   const [tipId, setTipId] = useState(null);
   const [tipInfo, setTipInfo] = useState({});
   const navigate = useNavigate();
-  const [currentStep, setStep] = useState(0);
+  const [ethAddress, setEthAddress] = useState(null);
+  const [scheduleInfo, setSchedule] = useState({})
 
   const web3Ref = useRef();
   useEffect(() => {
@@ -51,6 +38,15 @@ function GrantSign() {
     }
     asyncloadWeb3();
   }, []);
+  useEffect(() => {
+    if (web3Ref.current) {
+      //  console.log('web3Ref.current', web3Ref.current.currentProvider.selectedAddress)
+      setEthAddress(web3Ref.current.currentProvider.selectedAddress);
+    }
+    return () => {
+      setEthAddress(null);
+    };
+  }, [web3Ref.current]);
 
   // 签名状态
   useAsyncEffect(async () => {
@@ -74,10 +70,11 @@ function GrantSign() {
 
   // vesting schedule信息
 
-  //   useAsyncEffect(async () => {
-  //     const vestingSchedule = await getGrantVestingScheduleInfo(grantId)
-  //     console.log('vestingSchedule', vestingSchedule)
-  //   },[grantId])
+  useAsyncEffect(async () => {
+    const vestingSchedule = await getGrantVestingScheduleInfo(grantId);
+    console.log('vestingSchedule->', vestingSchedule)
+    setSchedule(vestingSchedule || {})
+  }, [grantId]);
 
   function handleSign(sign) {
     web3Ref?.current.eth.personal
@@ -86,15 +83,14 @@ function GrantSign() {
         web3Ref?.current.currentProvider.selectedAddress
       )
       .then((s) => {
-        return postGrantSignInfo(projectId, grantId, sign.grantSignId, s);
+        return postGrantSignInfo(null, grantId, sign.grantSignId, s);
       })
       .then((r) => {
-        alert(r.message);
-        navigate(0);
+        navigate("/");
       });
   }
 
-  const Step1 = () => {
+  const Tip = () => {
     return (
       <div className="text-[#1E293B] mb-[12px]">
         <h2 className="text-3xl	font-bold  mb-[18px]">Signing ...</h2>
@@ -115,23 +111,22 @@ function GrantSign() {
       </div>
     );
   };
-  const Step2 = (props) => {
-    return null;
+
+  const SignSucess = () => {
+    return (
+      <div className="flex flex-col items-center">
+        <Done size="large" />
+        <div className="text-3xl font-bold text-[#1E293B] pt-6 pb-8">
+          Grant Effective! 🙌
+        </div>
+        <Link to="/">
+          <button className="text-white bg-indigo-500 px-11 btn hover:bg-indigo-600 mb-11">
+            View Details ->
+          </button>
+        </Link>
+      </div>
+    );
   };
-  const Step3 = (props) => {
-    return null;
-  };
-  const steps = [
-    {
-      content: () => <Step1 />,
-    },
-    {
-      content: () => <Step2 />,
-    },
-    {
-      content: () => <Step3 />,
-    },
-  ];
 
   return (
     <main className="relative grid h-screen grid-cols-2">
@@ -170,20 +165,28 @@ function GrantSign() {
             <div>
               <Title title="Vesting Schedule" />
             </div>
-            <VestingSchedule dataList={[]} />
+            <VestingSchedule dataList={scheduleInfo?.vestingDetail||[]} />
           </section>
         </div>
       </div>
 
       <div className="flex items-center min-h-full bg-white pl-[160px]">
         <div className="w-[440px] py-[160px]">
-          <div className="">{React.createElement(steps[0].content)}</div>
+          <div className="">
+            {signList.filter((item) => item.signStatus === 2).length === 2 ? (
+              <SignSucess />
+            ) : (
+              <Tip />
+            )}
+          </div>
 
           <div className="flex justify-around">
             {signList.map((sg, idx) => {
-              console.log(sg.grantSign, idx, userId);
               return (
-                <div key={idx} className="flex flex-col items-center text-center">
+                <div
+                  key={idx}
+                  className="flex flex-col items-center text-center"
+                >
                   <div className="flex items-center justify-center w-16 h-16 border-2 border-[#F1F5F9] rounded-full">
                     <img width="38" height="38" src={sg.signer.avatar}></img>
                   </div>
@@ -195,9 +198,10 @@ function GrantSign() {
                   <div>
                     {sg.grantSign.signStatus === 2 ? <Done /> : <Loading />}
                   </div>
-                  <div>
+
+                  <div className="mt-8">
                     {sg.grantSign.signStatus === 1 &&
-                    sg.signer.userId == userId ? (
+                    sg.signer.mainWallet == ethAddress ? (
                       <button
                         className="text-white bg-indigo-500 btn hover:bg-indigo-600"
                         onClick={() => handleSign(sg.grantSign)}
