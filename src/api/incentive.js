@@ -47,6 +47,10 @@ export const getGrantInfo = async function(grantId) {
     return request(`${host}/grant/grantInfo?grantId=${grantId}`)
 }
 
+export const getGrantVestingScheduleInfo = async function(grantId){
+    return request(`${host}/grant/vestingSchedule?grantId=${grantId}`)
+}
+
 export const getGrantSignInfo = async function(projectId, grantId) {
     return request(`${host}/grant/${grantId}/sign`)
 }

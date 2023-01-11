@@ -7,12 +7,14 @@ import {
   getGrantSignInfo,
   postGrantSignInfo,
   getTIPInfo,
+  getGrantVestingScheduleInfo
 } from "@/api/incentive";
 import { loadWeb3 } from "@/utils/web3";
 import KV from "@/components/local/KV";
 import Title from "@/components/local/Title";
 import { useAsyncEffect } from "ahooks";
 import { targetMap, grantType } from "@/utils/const";
+import VestingSchedule from "./VestingSchedule";
 
 function GrantSign() {
   const userStore = useSelector((state) => state.user);
@@ -54,6 +56,13 @@ function GrantSign() {
     setTipInfo(tipInfo);
   }, [tipId]);
 
+  // vesting schedule信息
+  useAsyncEffect(async () => {
+    const vestingSchedule = await getGrantVestingScheduleInfo(grantId)
+    console.log('vestingSchedule', vestingSchedule)
+  },[grantId])
+
+
   function handleSign(sign) {
     web3Ref?.current.eth.personal
       .sign(
@@ -92,8 +101,17 @@ function GrantSign() {
                 grantType.find((v) => v.value === grantInfo.grantType)?.name
               }
             />
-            <KV label="Exercise Price" value={`${grantInfo.exercisePrice}USD`} />
+            <KV
+              label="Exercise Price"
+              value={`${grantInfo.exercisePrice}USD`}
+            />
           </div>
+        </section>
+        <section className="mb-[25px]">
+          <div>
+            <Title title="Vesting Schedule" />
+          </div>
+          <VestingSchedule dataList={[]}/>
         </section>
       </div>
       <div>
