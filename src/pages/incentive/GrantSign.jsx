@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import {
   Button,
   Space,
@@ -9,6 +9,7 @@ import {
   InputNumber,
   Modal,
   Steps,
+  Typography,
 } from "antd";
 import { useSelector } from "react-redux";
 import {
@@ -24,6 +25,11 @@ import Title from "@/components/local/Title";
 import { useAsyncEffect } from "ahooks";
 import { targetMap, grantType } from "@/utils/const";
 import VestingSchedule from "./VestingSchedule";
+import Done from "@/components/icon/Done";
+import Loading from "@/components/icon/Loading";
+import Eth from "@/components/local/Eth";
+
+const { Text, Paragraph } = Typography;
 
 function GrantSign() {
   const userStore = useSelector((state) => state.user);
@@ -92,12 +98,19 @@ function GrantSign() {
     return (
       <div className="text-[#1E293B] mb-[12px]">
         <h2 className="text-3xl	font-bold  mb-[18px]">Signing ...</h2>
-        <div className="text-base">
+        <div className="mb-3 text-base">
           <p>1.请您完成签约。</p>
           <p>
             2.请复制如下链接后发送给被授予人并提醒被授予人签字（如您是被授予人请忽略）。
           </p>
           <p>3.管理员和被授予人完成签字后，本授予开始生效。</p>
+        </div>
+        <div className="px-[18px] py-[2px] border mb-7">
+          <a href={location.href} target="_blank">
+            <Paragraph copyable className="flex justify-between my-4 underline">
+              {location.href}
+            </Paragraph>
+          </a>
         </div>
       </div>
     );
@@ -121,12 +134,12 @@ function GrantSign() {
   ];
 
   return (
-    <main className="grid grid-cols-2 relative">
+    <main className="relative grid grid-cols-2">
       <div className="pl-[45px] pt-[88px] pr-[65px]">
         <div className="w-[650px]">
           <section className="mb-[25px]">
             <Title title="Grantee Information" />
-            <div className="grid grid-cols-2	gap-x-20">
+            <div className="grid grid-cols-2 gap-x-20">
               <KV label="Name" value={grantInfo.granteeName} />
               <KV label="Target Audience" value={targetMap[tipInfo.target]} />
               <KV label="Email Address" value={grantInfo.granteeEmail} />
@@ -138,7 +151,7 @@ function GrantSign() {
           </section>
           <section className="mb-[25px]">
             <Title title="Grant Details" />
-            <div className="grid grid-cols-2	gap-x-20">
+            <div className="grid grid-cols-2 gap-x-20">
               <KV label="Plan Name" value={tipInfo.incentivePlanName} />
               <KV label="Grant Type" value={targetMap[tipInfo.target]} />
               <KV
@@ -162,31 +175,31 @@ function GrantSign() {
         </div>
       </div>
 
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center bg-white">
         <div className="w-[440px] py-[160px]">
-          <div className="">
-            {React.createElement(steps[0].content)}
-          </div>
+          <div className="">{React.createElement(steps[0].content)}</div>
 
-          <div>
-            {signList.map((sg) => {
+          <div className="flex justify-around">
+            {signList.map((sg, idx) => {
+              console.log(sg.grantSign, idx, userId);
               return (
-                <div key={sg.grantSign.signId}>
-                  <img width="50" src={sg.signer.avatar}></img>
-                  <div>
-                    <span>{sg.signer.name}</span>
+                <div key={idx} className="flex flex-col items-center text-center">
+                  <div className="flex items-center justify-center w-16 h-16 border-2 border-[#F1F5F9] rounded-full">
+                    <img width="38" height="38" src={sg.signer.avatar}></img>
+                  </div>
+
+                  <div className="text-lg font-semibold text-[#1E293B] mb-2">
+                    <p>{sg.signer.name}</p>
+                    <Eth style={{ width: 115 }}>{sg.signer.mainWallet}</Eth>
                   </div>
                   <div>
-                    <span>
-                      Sign Status:{" "}
-                      {sg.grantSign.signStatus == 2 ? "SIGNED" : "PENDING"}
-                    </span>
+                    {sg.grantSign.signStatus === 2 ? <Done /> : <Loading />}
                   </div>
                   <div>
-                    {sg.grantSign.signStatus == 1 &&
+                    {sg.grantSign.signStatus === 1 &&
                     sg.signer.userId == userId ? (
                       <button
-                        className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+                        className="text-white bg-indigo-500 btn hover:bg-indigo-600"
                         onClick={() => handleSign(sg.grantSign)}
                       >
                         Sign

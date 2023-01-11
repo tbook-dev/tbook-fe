@@ -14,6 +14,7 @@ module.exports = {
         xl: '0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.01)',
         "c1":"1px 2px 2px rgba(0, 0, 0, 0.25)",
         "c2": "4px 4px 4px rgba(0, 0, 0, 0.25)",
+        "c3": "0px 1px 2px rgba(15, 23, 42, 0.04)"
       },
       outline: {
         blue: '2px solid rgba(0, 112, 244, 0.5)',
