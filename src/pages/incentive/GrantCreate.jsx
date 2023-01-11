@@ -232,9 +232,7 @@ function GrantCreate() {
       );
 
       message.success("Create Grant Sucess!");
-      navigate(
-        `/incentive/grant/${projectId}/${grantInfo?.entity?.grantId}/detail`
-      );
+      navigate(`/grants/${grantInfo?.entity?.grantId}/sign`);
     } catch (error) {
       message.error(error.message || "稍后重试!");
       console.log("签名出错!");
@@ -246,11 +244,11 @@ function GrantCreate() {
   return (
     <IncentiveLayout>
       <div className="lg:relative lg:flex">
-        <div className="px-4 sm:px-6 lg:px-16 py-8 lg:grow lg:pr-8 xl:pr-16">
+        <div className="px-4 py-8 sm:px-6 lg:px-16 lg:grow lg:pr-8 xl:pr-16">
           <div className="lg:max-w-[500px]">
             <div className="mb-6 lg:mb-0">
               <header className="mb-6">
-                <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-2">
+                <h1 className="mb-2 text-2xl font-bold md:text-3xl text-slate-800">
                   New Grant
                 </h1>
               </header>
@@ -265,7 +263,7 @@ function GrantCreate() {
                     isIncludingCliff: false,
                   }}
                 >
-                  <div className="text-slate-800 font-semibold mb-4">
+                  <div className="mb-4 font-semibold text-slate-800">
                     Plan Detail
                   </div>
 
@@ -297,7 +295,7 @@ function GrantCreate() {
                     </Form.Item>
                   )}
 
-                  <div className="text-slate-800 font-semibold mb-4">
+                  <div className="mb-4 font-semibold text-slate-800">
                     Grantee Detail
                   </div>
 
@@ -320,7 +318,7 @@ function GrantCreate() {
                               className="w-full"
                               onClick={() => setModal(true)}
                             >
-                              <div className="w-full flex justify-center items-center">
+                              <div className="flex items-center justify-center w-full">
                                 <PlusOutlined />
                                 Set up a new grantee
                               </div>
@@ -335,7 +333,7 @@ function GrantCreate() {
                     />
                   </Form.Item>
 
-                  <div className="text-slate-800 font-semibold mb-4">
+                  <div className="mb-4 font-semibold text-slate-800">
                     Grant Detail
                   </div>
 
@@ -374,7 +372,7 @@ function GrantCreate() {
                     />
                   </Form.Item>
 
-                  <div className="text-slate-800 font-semibold mb-4">
+                  <div className="mb-4 font-semibold text-slate-800">
                     Vesting Schedule
                   </div>
                   <Form.Item name="grantType">
