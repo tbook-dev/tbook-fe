@@ -1,13 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button, Space, Form, Input, Select, InputNumber, Modal } from "antd";
+import {
+  Button,
+  Space,
+  Form,
+  Input,
+  Select,
+  InputNumber,
+  Modal,
+  Steps,
+} from "antd";
 import { useSelector } from "react-redux";
 import {
   getGrantInfo,
   getGrantSignInfo,
   postGrantSignInfo,
   getTIPInfo,
-  getGrantVestingScheduleInfo
+  getGrantVestingScheduleInfo,
 } from "@/api/incentive";
 import { loadWeb3 } from "@/utils/web3";
 import KV from "@/components/local/KV";
@@ -26,6 +35,7 @@ function GrantSign() {
   const [tipId, setTipId] = useState(null);
   const [tipInfo, setTipInfo] = useState({});
   const navigate = useNavigate();
+  const [currentStep, setStep] = useState(0);
 
   const web3Ref = useRef();
   useEffect(() => {
@@ -57,11 +67,11 @@ function GrantSign() {
   }, [tipId]);
 
   // vesting schedule信息
-  useAsyncEffect(async () => {
-    const vestingSchedule = await getGrantVestingScheduleInfo(grantId)
-    console.log('vestingSchedule', vestingSchedule)
-  },[grantId])
 
+  //   useAsyncEffect(async () => {
+  //     const vestingSchedule = await getGrantVestingScheduleInfo(grantId)
+  //     console.log('vestingSchedule', vestingSchedule)
+  //   },[grantId])
 
   function handleSign(sign) {
     web3Ref?.current.eth.personal
@@ -78,69 +88,116 @@ function GrantSign() {
       });
   }
 
+  const Step1 = () => {
+    return (
+      <div className="text-[#1E293B] mb-[12px]">
+        <h2 className="text-3xl	font-bold  mb-[18px]">Signing ...</h2>
+        <div className="text-base">
+          <p>1.请您完成签约。</p>
+          <p>
+            2.请复制如下链接后发送给被授予人并提醒被授予人签字（如您是被授予人请忽略）。
+          </p>
+          <p>3.管理员和被授予人完成签字后，本授予开始生效。</p>
+        </div>
+      </div>
+    );
+  };
+  const Step2 = (props) => {
+    return null;
+  };
+  const Step3 = (props) => {
+    return null;
+  };
+  const steps = [
+    {
+      content: () => <Step1 />,
+    },
+    {
+      content: () => <Step2 />,
+    },
+    {
+      content: () => <Step3 />,
+    },
+  ];
+
   return (
     <main className="grid grid-cols-2 relative">
       <div className="pl-[45px] pt-[88px] pr-[65px]">
-        <section className="mb-[25px]">
-          <Title title="Grantee Information" />
-          <div className="grid grid-cols-2	gap-x-20">
-            <KV label="Name" value={grantInfo.granteeName} />
-            <KV label="Target Audience" value={targetMap[tipInfo.target]} />
-            <KV label="Email Address" value={grantInfo.granteeEmail} />
-            <KV label="Ethereum Address" value={grantInfo.granteeEthAddress} />
-          </div>
-        </section>
-        <section className="mb-[25px]">
-          <Title title="Grant Details" />
-          <div className="grid grid-cols-2	gap-x-20">
-            <KV label="Plan Name" value={tipInfo.incentivePlanName} />
-            <KV label="Grant Type" value={targetMap[tipInfo.target]} />
-            <KV
-              label="Vesting by"
-              value={
-                grantType.find((v) => v.value === grantInfo.grantType)?.name
-              }
-            />
-            <KV
-              label="Exercise Price"
-              value={`${grantInfo.exercisePrice}USD`}
-            />
-          </div>
-        </section>
-        <section className="mb-[25px]">
-          <div>
-            <Title title="Vesting Schedule" />
-          </div>
-          <VestingSchedule dataList={[]}/>
-        </section>
-      </div>
-      <div>
-        {signList.map((sg) => {
-          return (
-            <div key={sg.grantSign.signId}>
-              <img width="50" src={sg.signer.avatar}></img>
-              <div>
-                <span>{sg.signer.name}</span>
-              </div>
-              <div>
-                <span>
-                  Sign Status:{" "}
-                  {sg.grantSign.signStatus == 2 ? "SIGNED" : "PENDING"}
-                </span>
-              </div>
-              <div>
-                {sg.grantSign.signStatus == 1 && sg.signer.userId == userId ? (
-                  <button
-                    className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
-                    onClick={() => handleSign(sg.grantSign)}
-                  >
-                    Sign
-                  </button>
-                ) : null}
-              </div>
+        <div className="w-[650px]">
+          <section className="mb-[25px]">
+            <Title title="Grantee Information" />
+            <div className="grid grid-cols-2	gap-x-20">
+              <KV label="Name" value={grantInfo.granteeName} />
+              <KV label="Target Audience" value={targetMap[tipInfo.target]} />
+              <KV label="Email Address" value={grantInfo.granteeEmail} />
+              <KV
+                label="Ethereum Address"
+                value={grantInfo.granteeEthAddress}
+              />
             </div>
-          );
-        })}
+          </section>
+          <section className="mb-[25px]">
+            <Title title="Grant Details" />
+            <div className="grid grid-cols-2	gap-x-20">
+              <KV label="Plan Name" value={tipInfo.incentivePlanName} />
+              <KV label="Grant Type" value={targetMap[tipInfo.target]} />
+              <KV
+                label="Vesting by"
+                value={
+                  grantType.find((v) => v.value === grantInfo.grantType)?.name
+                }
+              />
+              <KV
+                label="Exercise Price"
+                value={`${grantInfo.exercisePrice}USD`}
+              />
+            </div>
+          </section>
+          <section className="mb-[25px]">
+            <div>
+              <Title title="Vesting Schedule" />
+            </div>
+            <VestingSchedule dataList={[]} />
+          </section>
+        </div>
+      </div>
+
+      <div className="flex justify-center items-center">
+        <div className="w-[440px] py-[160px]">
+          <div className="">
+            {React.createElement(steps[0].content)}
+          </div>
+
+          <div>
+            {signList.map((sg) => {
+              return (
+                <div key={sg.grantSign.signId}>
+                  <img width="50" src={sg.signer.avatar}></img>
+                  <div>
+                    <span>{sg.signer.name}</span>
+                  </div>
+                  <div>
+                    <span>
+                      Sign Status:{" "}
+                      {sg.grantSign.signStatus == 2 ? "SIGNED" : "PENDING"}
+                    </span>
+                  </div>
+                  <div>
+                    {sg.grantSign.signStatus == 1 &&
+                    sg.signer.userId == userId ? (
+                      <button
+                        className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+                        onClick={() => handleSign(sg.grantSign)}
+                      >
+                        Sign
+                      </button>
+                    ) : null}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </main>
   );
