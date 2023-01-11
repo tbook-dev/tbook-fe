@@ -17,6 +17,7 @@ import VestingSchedule from "./VestingSchedule";
 import Done from "@/components/icon/Done";
 import Loading from "@/components/icon/Loading";
 import Eth from "@/components/local/Eth";
+import Layout from "./Layout";
 
 const { Paragraph } = Typography;
 
@@ -28,7 +29,7 @@ function GrantSign() {
   const [tipInfo, setTipInfo] = useState({});
   const navigate = useNavigate();
   const [ethAddress, setEthAddress] = useState(null);
-  const [scheduleInfo, setSchedule] = useState({})
+  const [scheduleInfo, setSchedule] = useState({});
 
   const web3Ref = useRef();
   useEffect(() => {
@@ -72,8 +73,8 @@ function GrantSign() {
 
   useAsyncEffect(async () => {
     const vestingSchedule = await getGrantVestingScheduleInfo(grantId);
-    console.log('vestingSchedule->', vestingSchedule)
-    setSchedule(vestingSchedule || {})
+    console.log("vestingSchedule->", vestingSchedule);
+    setSchedule(vestingSchedule || {});
   }, [grantId]);
 
   function handleSign(sign) {
@@ -121,7 +122,7 @@ function GrantSign() {
         </div>
         <Link to="/">
           <button className="text-white bg-indigo-500 px-11 btn hover:bg-indigo-600 mb-11">
-            View Details ->
+            View Details -{">"}
           </button>
         </Link>
       </div>
@@ -129,9 +130,9 @@ function GrantSign() {
   };
 
   return (
-    <main className="relative grid h-screen grid-cols-2">
-      <div className="px-[45px] pt-[88px] flex justify-end">
-        <div className="w-[650px]">
+    <Layout>
+      <main className="relative grid grid-cols-2">
+        <div className="px-4 py-8 sm:px-6 lg:px-16 lg:pr-8 xl:pr-16">
           <section className="mb-[25px]">
             <Title title="Grantee Information" />
             <div className="grid grid-cols-2 gap-x-20">
@@ -165,58 +166,58 @@ function GrantSign() {
             <div>
               <Title title="Vesting Schedule" />
             </div>
-            <VestingSchedule dataList={scheduleInfo?.vestingDetail||[]} />
+            <VestingSchedule dataList={scheduleInfo?.vestingDetail || []} />
           </section>
         </div>
-      </div>
 
-      <div className="flex items-center min-h-full bg-white pl-[160px]">
-        <div className="w-[440px] py-[160px]">
-          <div className="">
-            {signList.filter((item) => item.signStatus === 2).length === 2 ? (
-              <SignSucess />
-            ) : (
-              <Tip />
-            )}
-          </div>
+        <div className="flex items-center justify-center min-h-full bg-white">
+          <div className="w-[440px]">
+            <div className="">
+              {signList.filter((item) => item.signStatus === 2).length === 2 ? (
+                <SignSucess />
+              ) : (
+                <Tip />
+              )}
+            </div>
 
-          <div className="flex justify-around">
-            {signList.map((sg, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className="flex flex-col items-center text-center"
-                >
-                  <div className="flex items-center justify-center w-16 h-16 border-2 border-[#F1F5F9] rounded-full">
-                    <img width="38" height="38" src={sg.signer.avatar}></img>
-                  </div>
+            <div className="flex justify-around">
+              {signList.map((sg, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="flex flex-col items-center text-center"
+                  >
+                    <div className="flex items-center justify-center w-16 h-16 border-2 border-[#F1F5F9] rounded-full">
+                      <img width="38" height="38" src={sg.signer.avatar}></img>
+                    </div>
 
-                  <div className="text-lg font-semibold text-[#1E293B] mb-2">
-                    <p>{sg.signer.name}</p>
-                    <Eth style={{ width: 115 }}>{sg.signer.mainWallet}</Eth>
-                  </div>
-                  <div>
-                    {sg.grantSign.signStatus === 2 ? <Done /> : <Loading />}
-                  </div>
+                    <div className="text-lg font-semibold text-[#1E293B] mb-2">
+                      <p>{sg.signer.name}</p>
+                      <Eth style={{ width: 115 }}>{sg.signer.mainWallet}</Eth>
+                    </div>
+                    <div>
+                      {sg.grantSign.signStatus === 2 ? <Done /> : <Loading />}
+                    </div>
 
-                  <div className="mt-8">
-                    {sg.grantSign.signStatus === 1 &&
-                    sg.signer.mainWallet == ethAddress ? (
-                      <button
-                        className="text-white bg-indigo-500 btn hover:bg-indigo-600"
-                        onClick={() => handleSign(sg.grantSign)}
-                      >
-                        Sign
-                      </button>
-                    ) : null}
+                    <div className="mt-8">
+                      {sg.grantSign.signStatus === 1 &&
+                      sg.signer.mainWallet == ethAddress ? (
+                        <button
+                          className="text-white bg-indigo-500 btn hover:bg-indigo-600"
+                          onClick={() => handleSign(sg.grantSign)}
+                        >
+                          Sign
+                        </button>
+                      ) : null}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </Layout>
   );
 }
 

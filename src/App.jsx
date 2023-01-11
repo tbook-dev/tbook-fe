@@ -118,7 +118,15 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/grants/:grantId/sign" element={<GrantSign />} />
+        
+        <Route
+          path="/grants/:grantId/sign"
+          element={
+            <ProtectedRoute>
+              <GrantSign />
+            </ProtectedRoute>
+          }
+        />
 
         {/* <Route path="/signin" element={<Signin />} /> */}
         <Route path="/logins" element={<Login />} />
