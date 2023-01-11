@@ -134,8 +134,8 @@ function GrantSign() {
   ];
 
   return (
-    <main className="relative grid grid-cols-2">
-      <div className="pl-[45px] pt-[88px] pr-[65px]">
+    <main className="relative grid h-screen grid-cols-2">
+      <div className="px-[45px] pt-[88px] flex justify-end">
         <div className="w-[650px]">
           <section className="mb-[25px]">
             <Title title="Grantee Information" />
@@ -175,7 +175,7 @@ function GrantSign() {
         </div>
       </div>
 
-      <div className="flex items-center justify-center bg-white">
+      <div className="flex items-center min-h-full bg-white pl-[160px]">
         <div className="w-[440px] py-[160px]">
           <div className="">{React.createElement(steps[0].content)}</div>
 
