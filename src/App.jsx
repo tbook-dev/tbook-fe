@@ -131,7 +131,7 @@ function App() {
         {/* <Route path="/signin" element={<Signin />} /> */}
         <Route path="/logins" element={<Login />} />
         <Route
-          path="/project-create"
+          path="/new-project"
           element={
             <ProtectedRoute>
               <CreateProject />

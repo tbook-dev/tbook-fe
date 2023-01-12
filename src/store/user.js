@@ -44,6 +44,9 @@ export const userSlice = createSlice({
     updateAuthHeader: (_, action) => {
       state.authHeader = action.payload;
     },
+    setCurrentProjectId: (state, action) => {
+      state.currentProjectId = action.payload
+    },
     setUser: (state, action) => {
       state.user = {
         ...state.user,
@@ -64,7 +67,7 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setProjects, updateAuthHeader, setAuthUser } =
+export const { setUser, setProjects, updateAuthHeader, setAuthUser, setCurrentProjectId } =
   userSlice.actions;
 
 export default userSlice.reducer;

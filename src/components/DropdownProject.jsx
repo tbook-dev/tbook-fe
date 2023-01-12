@@ -5,10 +5,13 @@ import { useSelector } from "react-redux";
 import { emptyProjectPrompt } from "@/utils/const";
 import clsx from "clsx";
 import Selected from "./icon/Selected";
+import { useDispatch } from "react-redux";
+import { setCurrentProjectId } from "@/store/user";
 
 import defaultProjectAvatar from "../images/user-avatar-80.png";
 
 function DropdownProfile({ align }) {
+  const dispatch = useDispatch();
   const userStore = useSelector((state) => state.user);
   const currentProjectId = userStore.currentProjectId;
   const userProjects = userStore.projects || [];
@@ -48,7 +51,10 @@ function DropdownProfile({ align }) {
   });
 
   const hanldeChangeProject = function (project) {
-    console.log("xx", project);
+    console.log(currentProjectId,project.projectId,project)
+    if (currentProjectId === project.projectId) return;
+    console.log('xx')
+    dispatch(setCurrentProjectId(project.projectId));
   };
 
   return (
@@ -100,7 +106,7 @@ function DropdownProfile({ align }) {
           <div className="text-center">
             {Array.isArray(userProjects) && userProjects.length > 0 ? (
               userProjects.map((project) => {
-                const isSelected = project.projectId === currentProjectId
+                const isSelected = project.projectId === currentProjectId;
                 return (
                   <div
                     key={project.projectId}
@@ -119,9 +125,7 @@ function DropdownProfile({ align }) {
                       />
                       {project.projectName}
                     </div>
-                    {
-                      isSelected && <Selected />
-                    }
+                    {isSelected && <Selected />}
                   </div>
                 );
               })
@@ -133,7 +137,7 @@ function DropdownProfile({ align }) {
             <li>
               <Link
                 className="flex items-center justify-center px-3 py-1 text-sm font-medium text-indigo-500 hover:text-indigo-600"
-                to="/settings"
+                to="/new-project"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 New Project
