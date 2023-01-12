@@ -51,16 +51,10 @@ export const userSlice = createSlice({
       saveCurrentProjectId(action.payload)
     },
     setUser: (state, action) => {
-      state.user = {
-        ...state.user,
-        ...action.payload,
-      };
+      state.user = action.payload;
     },
     setProjects: (state, action) => {
-      state.projects = [
-        ...state.projects,
-        ...action.payload,
-      ];
+      state.projects = action.payload;
     },
     setAuthUser: (state, action) => {
       state.authUser = action.payload;

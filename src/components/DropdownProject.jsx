@@ -99,10 +99,8 @@ function DropdownProfile({ align }) {
           ref={dropdown}
           onFocus={() => setDropdownOpen(true)}
           onBlur={() => setDropdownOpen(false)}
-          style={{ maxHeight: "calc(100vh-200px)" }}
-          className="overflow-y-auto"
         >
-          <div className="text-center">
+          <div className="text-center overflow-y-auto max-h-[500px]">
             {Array.isArray(userProjects) && userProjects.length > 0 ? (
               userProjects.map((project) => {
                 const isSelected = project.projectId === currentProjectId;
