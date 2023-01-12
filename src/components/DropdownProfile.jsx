@@ -9,7 +9,6 @@ const { Text } = Typography;
 
 function DropdownProfile({ align }) {
   const userStore = useSelector((state) => state.user.user);
-  console.log("userStore", userStore);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef(null);
@@ -81,7 +80,7 @@ function DropdownProfile({ align }) {
           onFocus={() => setDropdownOpen(true)}
           onBlur={() => setDropdownOpen(false)}
         >
-          <div className="flex flex-col items-center pt-0.5 pb-2 px-6 mb-1 border-b border-slate-200">
+          <div className="flex flex-col items-center pt-0.5 pb-2 px-3 mb-1 border-b border-slate-200">
             <div className="flex items-center justify-center w-[50px] h-[50px] mb-3	border rounded-full border-[#6366F1]">
               <img
                 width="30"
@@ -118,22 +117,22 @@ function DropdownProfile({ align }) {
           <ul>
             <li>
               <Link
-                className="flex items-center px-6 py-1 text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                className="flex items-center px-3 py-1 text-sm font-medium text-indigo-500 hover:text-indigo-600"
                 to="/settings"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 MY GRANTS
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
-                className="flex items-center px-6 py-1 text-sm font-medium text-indigo-500 hover:text-indigo-600"
+                className="flex items-center px-3 py-1 text-sm font-medium text-indigo-500 hover:text-indigo-600"
                 to="/signin"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 Sign Out
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </Transition>

@@ -33,7 +33,6 @@ function AccountPanel() {
   }
 
   useEffect(() => {
-    console.log(project);
     setName(project?.projectName);
     setLatestValuation(project?.latestValuation);
   }, [project]);
@@ -43,7 +42,7 @@ function AccountPanel() {
       <div className="p-6 space-y-6">
         {/* Picture */}
         <section>
-          <h2 className="text-1xl text-slate-800 font-bold mb-5">My Project</h2>
+          <h2 className="mb-5 font-bold text-1xl text-slate-800">My Project</h2>
           <div className="flex items-center">
             <div className="mr-4">
               <img
@@ -54,7 +53,7 @@ function AccountPanel() {
                 alt="User upload"
               />
             </div>
-            <button className="btn-sm bg-indigo-500 hover:bg-indigo-600 text-white">
+            <button className="text-white bg-indigo-500 btn-sm hover:bg-indigo-600">
               Change
             </button>
           </div>
@@ -100,7 +99,7 @@ function AccountPanel() {
                 </Paragraph>
               </div>
             </div>
-            <div className="flex flex-start items-center">
+            <div className="flex items-center flex-start">
               <div className="text-[#475569] text-xs w-[140px] mr-[100px]">
                 Token Contract Address
               </div>
@@ -123,7 +122,7 @@ function AccountPanel() {
             </button>
             <button
               onClick={handleUpdateProject}
-              className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3"
+              className="ml-3 text-white bg-indigo-500 btn hover:bg-indigo-600"
             >
               Save Changes
             </button>

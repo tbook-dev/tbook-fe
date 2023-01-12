@@ -5,6 +5,7 @@ const initialState = {
   value: 0,
   authUser: true,
   authHeader: "",
+  currentProjectId: 21859680007,
   projects: [
     // {
     //   projectId: 21859680007,
@@ -50,10 +51,10 @@ export const userSlice = createSlice({
       };
     },
     setProjects: (state, action) => {
-      state.projects = {
+      state.projects = [
         ...state.projects,
         ...action.payload,
-      };
+      ];
     },
     setAuthUser: (state, action) => {
       state.authUser = action.payload;

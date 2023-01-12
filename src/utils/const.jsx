@@ -99,3 +99,5 @@ export const roleList = [{"code": 1, "desc": "Owner"}, {"code": 2, "desc": "Admi
 export const getRoleNumber = (code, list) => {
     return list.filter(v => v.role === code).length
 }
+
+export const emptyProjectPrompt = `加入一个项目`;

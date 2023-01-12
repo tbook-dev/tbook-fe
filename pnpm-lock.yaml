@@ -11,6 +11,7 @@ specifiers:
   autoprefixer: ^10.4.7
   chart.js: ^3.8.0
   chartjs-adapter-moment: ^1.0.0
+  clsx: ^1.2.1
   dayjs: ^1.11.7
   flatpickr: ^4.6.13
   lodash: ^4.17.21
@@ -42,6 +43,7 @@ dependencies:
   antd: 5.0.7_jb42yyeu5qxbfieyxjks6malva
   chart.js: 3.9.1
   chartjs-adapter-moment: 1.0.1_opaabi5ukfxevbnz4qlju6tphq
+  clsx: 1.2.1
   dayjs: 1.11.7
   lodash: 4.17.21
   mockjs: 1.1.0
@@ -1403,6 +1405,11 @@ packages:
     resolution: {integrity: sha512-ROoL94jJH2dUVML2Y/5PEDNaSHgeOdSDicUyS7izcF63G6sTc/FTjLub4b8Il9S8S0beOfYt0TaA5qvFK+w0wA==}
     dependencies:
       mimic-response: 1.0.1
+    dev: false
+
+  /clsx/1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
     dev: false
 
   /color-convert/1.9.3:
