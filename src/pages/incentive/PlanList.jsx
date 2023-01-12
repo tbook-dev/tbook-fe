@@ -4,7 +4,6 @@ import IncentiveLayout from "./Layout";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
-import { useSelector } from "react-redux";
 import "swiper/css";
 import "swiper/css/navigation";
 import { PlusOutlined } from "@ant-design/icons";
@@ -12,57 +11,44 @@ import GrantTable from "./GrantTable";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 import { useAsyncEffect } from "ahooks";
+import useCurrentProjectId from "@/hooks/useCurrentProjectId";
+import _ from "lodash";
 
 function PlanList() {
-  const userStore = useSelector((state) => state.user);
   const [tipList, updateTipList] = useState([]);
   const [grantList, updateGrantList] = useState([]);
+  const projectId = useCurrentProjectId();
 
   useAsyncEffect(async () => {
-    const id = userStore?.projects?.[0]?.projectId;
-    if (!id) return;
-    const data = await getIncentiveList(userStore?.projects?.[0]?.projectId);
+    if (!projectId) return;
+    const data = await getIncentiveList(projectId);
     if (Array.isArray(data)) {
       updateTipList(data);
     }
-  }, [userStore?.projects?.[0]?.projectId]);
+  }, [projectId]);
 
   useAsyncEffect(async () => {
-    for (let tipIdx in tipList) {
-      const tip = tipList[tipIdx];
-      try {
-        const list = (await getTipGrantList(tip.incentivePlanId)) || [];
-        updateGrantList((existedList) => {
-          //                    if(existedList)
-          if (
-            !existedList.find(
-              (item) => item?.grant?.grantId === list?.[0]?.grant?.grantId
-            )
-          ) {
-            return [...list, ...existedList];
-          }
-
-          return existedList;
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    if (!projectId) return;
+    const list = await Promise.all(
+      tipList.map((tip) => getTipGrantList(tip.incentivePlanId))
+    );
+    // console.log(tipList.length)
+    updateGrantList(_.flattenDeep(list));
   }, [tipList]);
 
   return (
     <IncentiveLayout>
-      <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+      <div className="w-full px-4 py-8 mx-auto sm:px-6 lg:px-8 max-w-9xl">
         {/* Page header */}
-        <div className="sm:flex sm:justify-between sm:items-center mb-8">
+        <div className="mb-8 sm:flex sm:justify-between sm:items-center">
           {/* Left: Title */}
-          <div className="mb-4 sm:mb-0 w-full">
-            <h1 className="pb-6 text-3xl md:text-3xl text-slate-800 font-bold">
+          <div className="w-full mb-4 sm:mb-0">
+            <h1 className="pb-6 text-3xl font-bold md:text-3xl text-slate-800">
               Token Incentive Plans
             </h1>
 
             <div
-              className="px-8 relative"
+              className="relative px-8"
               style={{ "--swiper-navigation-size": "24px" }}
             >
               <div className="swiper-button-next"></div>
@@ -84,36 +70,44 @@ function PlanList() {
                     </div>
                   </NavLink>
                 </SwiperSlide>
-                {tipList.map((tip) => {
-                  return (
-                    <SwiperSlide key={tip.incentivePlanId}>
-                      <NavLink
-                        to={`/incentive/${tip.incentivePlanId}`}
-                        className="mr-11"
-                      >
-                        <div className="w-[148px] h-[98px] shadow-c2 border rounded-[10px] relative">
-                          <div className="text-base text-[#3A4353] pt-3.5 pl-1.5">
-                            <p>{tip.incentivePlanName}</p>
-                          </div>
 
-                          <div className="absolute inset-x-0 h-1.5 overflow-hidden bottom-5 bg-[#CBD5E1]">
-                            <div
-                              className="h-1.5	bg-[#475569]"
-                              style={{ width: tip.percentage + "%" }}
-                            />
-                          </div>
+                {Array.isArray(tipList) && tipList.length === 0 ? (
+                  <SwiperSlide className="flex items-center ">
+                    <p className="text-[#1E293B] text-2xl]">Click to set up your first incentive plan.</p>
+                  </SwiperSlide>
+                ) : (
+                  Array.isArray(tipList) &&
+                  tipList.map((tip) => {
+                    return (
+                      <SwiperSlide key={tip.incentivePlanId}>
+                        <NavLink
+                          to={`/incentive/${tip.incentivePlanId}`}
+                          className="mr-11"
+                        >
+                          <div className="w-[148px] h-[98px] shadow-c2 border rounded-[10px] relative">
+                            <div className="text-base text-[#3A4353] pt-3.5 pl-1.5">
+                              <p>{tip.incentivePlanName}</p>
+                            </div>
 
-                          <div className="inset-x-0 absolute bottom-0 origin-left	scale-50 text-[#1E293B]">
-                            Granted {tip.grantedTokenNum}
+                            <div className="absolute inset-x-0 h-1.5 overflow-hidden bottom-5 bg-[#CBD5E1]">
+                              <div
+                                className="h-1.5	bg-[#475569]"
+                                style={{ width: tip.percentage + "%" }}
+                              />
+                            </div>
+
+                            <div className="inset-x-0 absolute bottom-0 origin-left	scale-50 text-[#1E293B]">
+                              Granted {tip.grantedTokenNum}
+                            </div>
+                            <div className="inset-x-0 absolute bottom-0 origin-right text-right	scale-50 text-[#1E293B]">
+                              Total: {tip.totalTokenNum}
+                            </div>
                           </div>
-                          <div className="inset-x-0 absolute bottom-0 origin-right text-right	scale-50 text-[#1E293B]">
-                            Total: {tip.totalTokenNum}
-                          </div>
-                        </div>
-                      </NavLink>
-                    </SwiperSlide>
-                  );
-                })}
+                        </NavLink>
+                      </SwiperSlide>
+                    );
+                  })
+                )}
               </Swiper>
             </div>
           </div>
@@ -121,22 +115,28 @@ function PlanList() {
 
         {/* Table */}
         <div>
-          <h1 className="pb-6 text-3xl md:text-3xl text-slate-800 font-bold">
+          <h1 className="pb-6 text-3xl font-bold md:text-3xl text-slate-800">
             Grants
           </h1>
 
           <div>
-            <div className="flex flex-row-reverse	items-center mb-2">
-              <Link to="/incentive/grant/tmp/create">
-                <Button type="primary">+ New Grant</Button>
-              </Link>
+            <div className="flex flex-row-reverse items-center mb-2">
+              {tipList.length === 0 ? (
+                <Button type="primary" disabled>
+                  + New Grant
+                </Button>
+              ) : (
+                <Link to="/incentive/grant/tmp/create">
+                  <Button type="primary">+ New Grant</Button>
+                </Link>
+              )}
             </div>
             <GrantTable
               list={grantList}
               title={() => (
-                <h2 className="font-bold text-base	inline">
+                <h2 className="inline text-base font-bold">
                   All The Grants{" "}
-                  <p className="font-light	 inline">{grantList.length}</p>
+                  <p className="inline font-light">{grantList.length}</p>
                 </h2>
               )}
             />
