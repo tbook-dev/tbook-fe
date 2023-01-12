@@ -17,7 +17,8 @@ import VestingSchedule from "./VestingSchedule";
 import Done from "@/components/icon/Done";
 import Loading from "@/components/icon/Loading";
 import Eth from "@/components/local/Eth";
-import Layout from "./Layout";
+import Layout from "./LayoutV2";
+import aircraft from "@/images/tbook/aircraft.png";
 
 const { Paragraph } = Typography;
 
@@ -131,9 +132,16 @@ function GrantSign() {
 
   return (
     <Layout>
-      <main className="relative grid grid-cols-2">
+      <main className="relative grid flex-auto grid-cols-2">
+        <img
+          width="218"
+          height="224"
+          src={aircraft}
+          className="absolute left-1/2 translate-x-[-50%] top-1/4"
+        />
+
         <div className="px-4 py-8 sm:px-6 lg:px-16 lg:pr-8 xl:pr-16">
-          <section className="mb-[25px]">
+          <section className="mt-7 mb-[25px]">
             <Title title="Grantee Information" />
             <div className="grid grid-cols-2 gap-x-20">
               <KV label="Name" value={grantInfo.granteeName} />

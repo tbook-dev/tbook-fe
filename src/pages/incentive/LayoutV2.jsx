@@ -8,7 +8,7 @@ export default function IncentiveLayout({ children }) {
     <div className="flex h-screen overflow-hidden">
       <div className="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
         <HeaderV2 sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <main>{children}</main>
+       {children}
       </div>
     </div>
   );
