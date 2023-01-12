@@ -105,6 +105,10 @@ request.Post = (url, params) => {
   return request(url, { method: "POST", body: JSON.stringify(params) });
 };
 
+request.Put = (url, params) => {
+  return request(url, { method: "PUT", body: JSON.stringify(params) });
+};
+
 request.PostForm = (url, params) => {
   const formData = new FormData();
   for (const name in params) {

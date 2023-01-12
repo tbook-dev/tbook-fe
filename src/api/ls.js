@@ -15,11 +15,19 @@ export function getDraftGrantData(projectId, tipId) {
 
 export function saveDraftGrantData(projectId, tipId, data) {
   const key = getDraftGrantDataLSKey(projectId, tipId);
-  console.log('data', data)
   localStorage.setItem(key, JSON.stringify(data));
 }
 
-export function clearDraftGrantData(projectId, tipId){
+export function clearDraftGrantData(projectId, tipId) {
   const key = getDraftGrantDataLSKey(projectId, tipId);
-  localStorage.removeItem(key)
+  localStorage.removeItem(key);
+}
+
+const currentProjectId = "__currentProjectId";
+export function getCurrentProjectId() {
+  return JSON.parse(localStorage.getItem(currentProjectId));
+}
+
+export function saveCurrentProjectId(id) {
+  localStorage.setItem(currentProjectId, id);
 }

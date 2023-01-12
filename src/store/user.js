@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getUserInfo } from "@/api/incentive";
+import { getCurrentProjectId, saveCurrentProjectId } from '@/api/ls'
+
 
 const initialState = {
   value: 0,
   authUser: true,
   authHeader: "",
-  currentProjectId: 21859680007,
+  currentProjectId: getCurrentProjectId(),
   projects: [
     // {
     //   projectId: 21859680007,
@@ -46,6 +48,7 @@ export const userSlice = createSlice({
     },
     setCurrentProjectId: (state, action) => {
       state.currentProjectId = action.payload
+      saveCurrentProjectId(action.payload)
     },
     setUser: (state, action) => {
       state.user = {

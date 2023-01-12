@@ -7,13 +7,15 @@ import clsx from "clsx";
 import Selected from "./icon/Selected";
 import { useDispatch } from "react-redux";
 import { setCurrentProjectId } from "@/store/user";
+import useCurrentProjectId from '@/hooks/useCurrentProjectId'
+
 
 import defaultProjectAvatar from "../images/user-avatar-80.png";
 
 function DropdownProfile({ align }) {
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.user);
-  const currentProjectId = userStore.currentProjectId;
+  const currentProjectId = useCurrentProjectId();
   const userProjects = userStore.projects || [];
   const currentProject =
     userProjects?.find((project) => project.projectId === currentProjectId) ||

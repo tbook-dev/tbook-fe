@@ -6,7 +6,7 @@ import "./css/style.css";
 
 import "./charts/ChartjsConfig";
 import { useDispatch } from "react-redux";
-import { fetchUserInfo } from "./store/user";
+import { fetchUserInfo } from "@/store/user";
 import { match } from "path-to-regexp";
 
 // Import pages
@@ -51,7 +51,8 @@ function App() {
   }, [location.pathname]); // triggered on route change
   useAsyncEffect(async () => {
     // console.log('useAsyncEffect')
-    const whileList = ["/signin", "/logins", "/grants/:grantId/sign"].map(
+    // ["/signin", "/logins", "/grants/:grantId/sign"]
+    const whileList = ["/signin", "/logins"].map(
       match
     );
 

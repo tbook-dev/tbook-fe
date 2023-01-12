@@ -6,6 +6,10 @@ export const getUserInfo = async function(){
     return request(`${host}/info`)
 }
 
+export const createProject = async function(values){
+    return request.Put(`${host}/projects`, values)
+}
+
 export const getIncentiveList = async function (projectId) {
     return request(`${host}/projects/${projectId}/tips`)
 };
