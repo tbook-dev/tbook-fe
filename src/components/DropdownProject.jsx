@@ -6,10 +6,10 @@ import clsx from "clsx";
 import Selected from "./icon/Selected";
 import { useDispatch } from "react-redux";
 import { setCurrentProjectId } from "@/store/user";
-import useCurrentProjectId from '@/hooks/useCurrentProjectId'
-import useProjects from '@/hooks/useProjects'
-import useCurrentProject from '@/hooks/useCurrentProject'
-
+import useCurrentProjectId from "@/hooks/useCurrentProjectId";
+import useProjects from "@/hooks/useProjects";
+import useCurrentProject from "@/hooks/useCurrentProject";
+import Ellipsis from "./local/Eth";
 
 import defaultProjectAvatar from "../images/user-avatar-80.png";
 
@@ -99,7 +99,7 @@ function DropdownProfile({ align }) {
           ref={dropdown}
           onFocus={() => setDropdownOpen(true)}
           onBlur={() => setDropdownOpen(false)}
-          style={{maxHeight: 'calc(100vh-200px)'}}
+          style={{ maxHeight: "calc(100vh-200px)" }}
           className="overflow-y-auto"
         >
           <div className="text-center">
@@ -117,14 +117,18 @@ function DropdownProfile({ align }) {
                         : "hover:font-semibold blueGray-600 cursor-pointer"
                     )}
                   >
-                    <div className="flex items-center">
+                    <div className="flex items-center justify-start">
                       <img
                         src={defaultProjectAvatar}
                         className="mr-2 rounded-full w-7 h-7"
                       />
-                      {project.projectName}
+                      <Ellipsis style={{ width: 120, textAlign: "left" }}>
+                        {project.projectName}
+                      </Ellipsis>
                     </div>
-                    {isSelected && <Selected />}
+                    <div className={clsx(!isSelected && "invisible")}>
+                      <Selected />
+                    </div>
                   </div>
                 );
               })
