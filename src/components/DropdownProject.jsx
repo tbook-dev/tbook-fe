@@ -72,7 +72,9 @@ function DropdownProfile({ align }) {
         />
         <div className="flex items-center truncate">
           <span className="ml-2 text-sm font-medium truncate group-hover:text-slate-800">
-            {currentProject?.projectName || emptyProjectPrompt}
+            {currentProject?.projectId
+              ? currentProject?.projectName
+              : emptyProjectPrompt}
           </span>
           <svg
             className="w-3 h-3 ml-1 fill-current shrink-0 text-slate-400"
@@ -115,12 +117,17 @@ function DropdownProfile({ align }) {
                         : "hover:font-semibold blueGray-600 cursor-pointer"
                     )}
                   >
-                    <div className="flex items-center justify-start">
+                    <div className="flex items-center justify-start mr-2">
                       <img
                         src={defaultProjectAvatar}
                         className="mr-2 rounded-full w-7 h-7"
                       />
-                      <Ellipsis style={{ width: 120, textAlign: "left" }}>
+                      <Ellipsis
+                        style={{
+                          width: 120,
+                          textAlign: "left",
+                        }}
+                      >
                         {project.projectName}
                       </Ellipsis>
                     </div>
