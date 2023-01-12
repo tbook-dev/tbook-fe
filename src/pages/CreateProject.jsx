@@ -4,6 +4,7 @@ import { Input } from "antd";
 import { createProject } from "@/api/incentive";
 import { fetchUserInfo, setCurrentProjectId } from "@/store/user";
 import { useDispatch } from "react-redux";
+import clsx from "clsx";
 
 import LayoutV2 from "./incentive/LayoutV2";
 import { useHover } from "ahooks";
@@ -14,7 +15,6 @@ function CreateProject() {
   const isHoveringCard = useHover(cardRef);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
 
   const navigate = useNavigate();
 
@@ -45,15 +45,17 @@ function CreateProject() {
           </h2>
         </div>
         <div className="grid grid-cols-2 gap-x-12">
-          <div className="border rounded-3xl h-[460px] pl-[48px] pr-[60px] flex flex-col justify-between items-center">
-            <div className="mt-[78px]">
-              <h2 className="text-[36px] font-bold mb-8">Create a Project</h2>
-              <p>
+          <div className="border rounded-3xl h-[460px] px-12 py-20 flex flex-col justify-between">
+            <div className="w-full">
+              <h2 className="text-[36px] font-bold text-[#1E293B] mb-8">
+                Create a Project
+              </h2>
+              <p className="text-[18px] text-[#94A3B8]">
                 Fill in your project details and kickstart incentive plan on
                 TBOOK.
               </p>
             </div>
-            <div className="pb-[80px] w-full">
+            <div className="w-full">
               <Search
                 placeholder="Project name..."
                 allowClear
@@ -64,8 +66,40 @@ function CreateProject() {
               />
             </div>
           </div>
-          <div className="border rounded-3xl h-[460px]" ref={cardRef}>
-            {isHoveringCard ? <div>1</div> : <div>2</div>}
+          <div
+            className="border rounded-3xl h-[460px]  px-12 py-20"
+            ref={cardRef}
+          >
+            {/* isHoveringCard */}
+            <div className="relative h-full">
+              <div
+                className={clsx([
+                  "absolute whitespace-nowrap transition-all",
+                  isHoveringCard
+                    ? "top-0	left-0"
+                    : "top-1/2	left-1/2 translate-y-[-50%] translate-x-[-50%]",
+                ])}
+              >
+                <h2 className="text-[36px] font-bold text-[#1E293B] mb-8">
+                  Join an Existing Project
+                </h2>
+                <p className="text-[18px] text-[#94A3B8]">
+                  Fill in the invitation code to join an existing project.
+                </p>
+              </div>
+              {isHoveringCard && (
+                <div className="absolute bottom-0 left-0 w-full">
+                  <Search
+                    placeholder="Invitation code..."
+                    allowClear
+                    enterButton="JOIN"
+                    size="large"
+                    disabled
+                    // loading={loading}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </main>
