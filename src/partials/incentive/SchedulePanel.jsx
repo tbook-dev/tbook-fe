@@ -1,16 +1,19 @@
 import React from "react";
 import DetailKV from "./DetailKV";
-import { grantType } from "../../utils/const";
+import { grantType } from "@/utils/const";
+import VestingSchedule from "@/pages/incentive/VestingSchedule";
+
+
 
 function SchedulePanel(props) {
-  const { grantInfo = {}, tipInfo = {} } = props;
+  const { grantInfo = {}, tipInfo = {}, scheduleInfo={} } = props;
 
   return (
     <div className="grow">
       {/* Panel body */}
       <div className="p-6 space-y-6">
         <section>
-          <h2 className="text-base text-slate-800 font-bold mb-5">
+          <h2 className="mb-5 text-base font-bold text-slate-800">
             Vesting Schedule Details
           </h2>
           <div className="flex justify-start flex-wrap w-[600px]">
@@ -24,7 +27,7 @@ function SchedulePanel(props) {
           </div>
           <div className="relative bg-[#D9D9D9] rounded h-2">
             <div
-              className="absolute h-2 left-0 top-0 rounded"
+              className="absolute top-0 left-0 h-2 rounded"
               style={{
                 width: `${grantInfo?.percent || "100px"}`,
                 background:
@@ -36,22 +39,13 @@ function SchedulePanel(props) {
             <div>vesting start date: {grantInfo?.vestingScheduleDate}</div>
             <div>completed: 2024-01-01: {grantInfo?.vestingScheduleDate}</div>
           </div>
+
+          <div className="mt-[15px]">
+            <VestingSchedule dataList={scheduleInfo.vestingDetail}/>
+          </div>
+          
         </section>
       </div>
-      {/* Panel footer */}
-      <footer>
-        <div className="flex flex-col px-6 py-5 border-t border-slate-200 mt-[280px]">
-          {/* <div className="flex self-end">
-            <button className="btn border-slate-200 hover:border-slate-300 text-slate-600">
-              Cancel
-            </button>
-            <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white ml-3">
-              Save Changes
-            </button>
-          </div> */}
-          <div className="h-[38px]"></div>
-        </div>
-      </footer>
     </div>
   );
 }

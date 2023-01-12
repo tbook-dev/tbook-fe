@@ -2,14 +2,28 @@ import React, { useState } from "react";
 import IncentiveLayout from "./Layout";
 import { useAsyncEffect } from "ahooks";
 import { useParams } from "react-router-dom";
-import { getGrantInfo, getTIPInfo } from "../../api/incentive";
+import {
+  getGrantInfo,
+  getTIPInfo,
+  getGrantVestingScheduleInfo,
+} from "@/api/incentive";
 import SettingsSidebar from "../../partials/incentive/SettingsSidebar";
 import SchedulePanel from "../../partials/incentive/SchedulePanel";
+
 
 export default function GrantsSchedule() {
   const { grantId, tipId } = useParams();
   const [tipInfo, setTipInfo] = useState({});
   const [grantInfo, setGrantInfo] = useState({});
+
+  const [scheduleInfo, setSchedule] = useState({});
+
+  useAsyncEffect(async () => {
+    const vestingSchedule = await getGrantVestingScheduleInfo(grantId);
+    console.log("vestingSchedule->", vestingSchedule);
+    setSchedule(vestingSchedule || {});
+  }, [grantId]);
+  console.log("scheduleInfo", scheduleInfo);
 
   useAsyncEffect(async function () {
     const data = await getGrantInfo(grantId);
@@ -36,7 +50,7 @@ export default function GrantsSchedule() {
         <div className="mb-8 bg-white rounded-sm shadow-lg">
           <div className="flex flex-col md:flex-row md:-mr-px">
             <SettingsSidebar />
-            <SchedulePanel />
+            <SchedulePanel scheduleInfo={scheduleInfo}/>
           </div>
         </div>
       </div>

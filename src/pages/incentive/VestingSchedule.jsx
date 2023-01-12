@@ -55,6 +55,7 @@ export default function VestingSchedule({ dataList = [], ...props }) {
       columns={col}
       rowKey="idx"
       dataSource={dataList.map((item, idx) => ({ ...item, idx: idx + 1 }))}
+      {...props}
     />
   );
 }
