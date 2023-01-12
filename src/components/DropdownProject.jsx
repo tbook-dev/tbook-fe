@@ -112,7 +112,7 @@ function DropdownProfile({ align }) {
                       "flex items-center justify-between px-3 py-2 text-sm border-b-[1px]",
                       isSelected
                         ? "text-indigo-500"
-                        : "blueGray-600 cursor-pointer"
+                        : "hover:font-semibold blueGray-600 cursor-pointer"
                     )}
                   >
                     <div className="flex items-center">
