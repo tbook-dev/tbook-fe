@@ -17,6 +17,7 @@ import DashboardCard11 from "../partials/dashboard/DashboardCard11";
 import { useSelector } from "react-redux";
 import { useAsyncEffect } from "ahooks";
 import { getDashboardOverview, getDashboardGrants } from "../api/incentive";
+import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 
 import GrantTable from "./incentive/GrantTable";
 
@@ -25,7 +26,7 @@ function Dashboard() {
   const userStore = useSelector((state) => state.user);
   const [overView, setOverView] = useState({});
   const [grantList, setGrantList] = useState([]);
-  const projectId = userStore?.projects?.[0]?.projectId;
+  const projectId = useCurrentProjectId();
   const userId = userStore?.user?.userId;
 
   useAsyncEffect(async () => {
@@ -41,8 +42,8 @@ function Dashboard() {
     }
   }, [projectId]);
 
-  console.log("overView", overView);
-  console.log("grantList", grantList);
+  // console.log("overView", overView);
+  // console.log("grantList", grantList);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -50,12 +51,12 @@ function Dashboard() {
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       {/* Content area */}
-      <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+      <div className="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
         {/*  Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main>
-          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+          <div className="w-full px-4 py-8 mx-auto sm:px-6 lg:px-8 max-w-9xl">
             {/* Welcome banner */}
             <WelcomeBanner userName={userStore?.user?.name} />
 
@@ -96,9 +97,9 @@ function Dashboard() {
                   <GrantTable
                     list={grantList}
                     title={() => (
-                      <h2 className="font-bold text-base	inline">
+                      <h2 className="inline text-base font-bold">
                         All The Grants{" "}
-                        <p className="font-light	 inline">{grantList.length}</p>
+                        <p className="inline font-light">{grantList.length}</p>
                       </h2>
                     )}
                   />
