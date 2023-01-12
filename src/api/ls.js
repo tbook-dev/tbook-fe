@@ -25,7 +25,14 @@ export function clearDraftGrantData(projectId, tipId) {
 
 const currentProjectId = "__currentProjectId";
 export function getCurrentProjectId() {
-  return JSON.parse(localStorage.getItem(currentProjectId));
+  let id = null;
+  try {
+    id = JSON.parse(localStorage.getItem(currentProjectId));
+  } catch (error) {
+    localStorage.clear(currentProjectId)
+    console.log(error);
+  }
+  return id;
 }
 
 export function saveCurrentProjectId(id) {
