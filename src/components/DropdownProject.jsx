@@ -15,7 +15,6 @@ function DropdownProfile({ align }) {
   const userStore = useSelector((state) => state.user);
   const currentProjectId = userStore.currentProjectId;
   const userProjects = userStore.projects || [];
-  console.log("userProjects", userProjects);
   const currentProject =
     userProjects?.find((project) => project.projectId === currentProjectId) ||
     {};
@@ -51,9 +50,7 @@ function DropdownProfile({ align }) {
   });
 
   const hanldeChangeProject = function (project) {
-    console.log(currentProjectId,project.projectId,project)
     if (currentProjectId === project.projectId) return;
-    console.log('xx')
     dispatch(setCurrentProjectId(project.projectId));
   };
 
