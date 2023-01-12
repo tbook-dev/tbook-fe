@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Typography, message } from "antd";
 import Image from "../../images/user-avatar-80.png";
-import { useSelector } from "react-redux";
 import { updateProjectName, updateProjectValuation } from "../../api/incentive";
+import useCurrentProject from "@/hooks/useCurrentProject";
 
 const { Paragraph } = Typography;
 
 function AccountPanel() {
   const [name, setName] = useState("");
   const [latestValuation, setLatestValuation] = useState("");
-  const project = useSelector((state) => state.user?.projects?.[0]);
+  const project = useCurrentProject();
 
   function reset() {
     setName(project?.projectName);

@@ -31,6 +31,8 @@ import { message } from "antd";
 import BorderModalContent from "../component/BorderModalContent";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { loadWeb3, signGrantMetaMask } from "@/utils/web3";
+import useCurrentProjectId from "@/hooks/useCurrentProjectId";
+
 
 dayjs.extend(customParseFormat);
 
@@ -45,6 +47,8 @@ function GrantCreate() {
   const userStore = useSelector((state) => state.user);
   const [confirmLoadingMember, setConfirmLoadingMember] = useState(false);
   const [confirmLoadingSign, setConfirmLoadingSign] = useState(false);
+  const projectId = useCurrentProjectId();
+
 
   const granteeIdV = Form.useWatch("granteeId", form);
   const grantNumV = Form.useWatch("grantNum", form);
@@ -84,22 +88,20 @@ function GrantCreate() {
   }, [tipId]);
 
   useAsyncEffect(async () => {
-    const projectId = userStore?.projects?.[0]?.projectId;
     if (projectId) {
       // console.log('setUserlist')
       const res = await getProjectUsers(projectId);
       setUserlist(res.users);
     }
-  }, [userStore]);
+  }, [projectId]);
 
   useAsyncEffect(async () => {
-    const projectId = userStore?.projects?.[0]?.projectId;
     if (!hasTipId && projectId) {
       const res = await getIncentiveList(projectId);
       // console.log(res);
       setTipList(res);
     }
-  }, [userStore]);
+  }, [projectId]);
 
   useEffect(() => {
     // 在更新userList之后自动选择新增的
@@ -111,7 +113,7 @@ function GrantCreate() {
 
   useEffect(() => {
     // 从ls 缓存恢复数据
-    const projectId = userStore?.projects?.[0]?.projectId;
+    // const projectId = userStore?.projects?.[0]?.projectId;
     if (projectId) {
       const storedData = getDraftGrantData(projectId, tipId);
       if (!storedData) return;
@@ -157,7 +159,7 @@ function GrantCreate() {
   }
 
   function handleSaveAsDraft() {
-    const projectId = userStore?.projects?.[0]?.projectId;
+    // const projectId = userStore?.projects?.[0]?.projectId;
     // tipId只从url里面取
     form
       .validateFields()
@@ -178,7 +180,7 @@ function GrantCreate() {
       });
   }
   function handleAddGrantee() {
-    const projectId = userStore?.projects?.[0]?.projectId;
+    // const projectId = userStore?.projects?.[0]?.projectId;
     setConfirmLoadingMember(true);
 
     formGrantee.validateFields().then((values) => {
@@ -211,7 +213,6 @@ function GrantCreate() {
   };
 
   async function handleSign() {
-    const projectId = userStore?.projects?.[0]?.projectId;
     const userId = userStore?.user?.userId;
     try {
       setConfirmLoadingSign(true);

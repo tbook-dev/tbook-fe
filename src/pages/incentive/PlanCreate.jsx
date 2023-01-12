@@ -14,6 +14,8 @@ import {
 import { targetMap } from "../../utils/const";
 import { useSelector } from "react-redux";
 import { createTIP } from "../../api/incentive";
+import useCurrentProjectId from "@/hooks/useCurrentProjectId";
+
 
 function PlanCreate() {
   const [form] = Form.useForm();
@@ -23,6 +25,8 @@ function PlanCreate() {
   const targetValue = Form.useWatch("target", form);
   const userStore = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const projectId = useCurrentProjectId();
+
 
   const [showModal, setModal] = useState(false);
 
@@ -45,7 +49,7 @@ function PlanCreate() {
       .validateFields()
       .then((values) => {
         values.incentivePlanAdminId = userStore?.user?.userId;
-        values.projectId = userStore?.projects?.[0]?.projectId;
+        values.projectId = projectId;
 
         createTIP(values).then((res) => {
           setConfirmLoading(false);
@@ -62,11 +66,11 @@ function PlanCreate() {
   return (
     <IncentiveLayout>
       <div className="lg:relative lg:flex">
-        <div className="px-4 sm:px-6 lg:px-16 py-8 lg:grow lg:pr-8 xl:pr-16">
+        <div className="px-4 py-8 sm:px-6 lg:px-16 lg:grow lg:pr-8 xl:pr-16">
           <div className="lg:max-w-[500px]">
             <div className="mb-6 lg:mb-0">
               <header className="mb-6">
-                <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-2">
+                <h1 className="mb-2 text-2xl font-bold md:text-3xl text-slate-800">
                   New Token Incentive Plan
                 </h1>
               </header>
@@ -136,7 +140,7 @@ function PlanCreate() {
                         src={userStore?.user?.avatar}
                         className="w-[50px] h-[50px] block bg-white rounded-full"
                       />
-                      <h3 className="text-sm	font-semibold	">
+                      <h3 className="text-sm font-semibold ">
                         {userStore?.user?.name}
                       </h3>
                       <p className="w-[82px] text-[#94A3B8] truncate text-ellipsis overflow-hidden">
@@ -215,7 +219,7 @@ function PlanCreate() {
                 className="flex-none w-[50px] h-[50px] mr-2 block bg-white rounded-full"
               />
               <div className="flex-auto">
-                <h3 className="text-sm	font-semibold">
+                <h3 className="text-sm font-semibold">
                   {userStore?.user?.name}
                 </h3>
                 <p className="w-[82px] text-[#94A3B8] truncate text-ellipsis overflow-hidden">

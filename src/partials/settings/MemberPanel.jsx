@@ -5,6 +5,8 @@ import { useAsyncEffect } from "ahooks";
 import { useSelector } from "react-redux";
 import { roleList, getRoleNumber } from "../../utils/const";
 import GranteeFrom from "../../pages/incentive/GranteeForm";
+import useCurrentProjectId from "@/hooks/useCurrentProjectId";
+
 
 const { Paragraph } = Typography;
 
@@ -16,12 +18,10 @@ function MemberPanel() {
   const [form] = Form.useForm();
 
   const [searchName, updateSearchName] = useState("");
-  const projectId = useSelector(
-    (state) => state?.user?.projects?.[0]?.projectId
-  );
-  useAsyncEffect(async () => {
-    console.log(projectId);
 
+  const projectId = useCurrentProjectId();
+
+  useAsyncEffect(async () => {
     if (projectId) {
       const res = await getProjectUsers(projectId);
       setUsers(res?.users || []);
@@ -96,18 +96,18 @@ function MemberPanel() {
     <div className="grow">
       {/* Panel body */}
       <div className="p-6 space-y-6">
-        <div className="pr-4 sm:pr-6 lg:pr-8 w-full max-w-9xl mx-auto">
+        <div className="w-full pr-4 mx-auto sm:pr-6 lg:pr-8 max-w-9xl">
           {/* Page header */}
-          <div className="sm:flex sm:justify-between sm:items-center mb-5">
+          <div className="mb-5 sm:flex sm:justify-between sm:items-center">
             {/* Left: Title */}
             <div className="mb-4 sm:mb-0">
-              <h1 className="text-xl md:text-3xl text-slate-800 font-bold">
+              <h1 className="text-xl font-bold md:text-3xl text-slate-800">
                 Members
               </h1>
             </div>
 
             {/* Right: Actions */}
-            <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
+            <div className="grid justify-start grid-flow-col gap-2 sm:auto-cols-max sm:justify-end">
               <div className="relative">
                 <label htmlFor="action-search" className="sr-only">
                   Search
@@ -128,7 +128,7 @@ function MemberPanel() {
                   aria-label="Search"
                 >
                   <svg
-                    className="w-4 h-4 shrink-0 fill-current text-slate-400 group-hover:text-slate-500 ml-3 mr-2"
+                    className="w-4 h-4 ml-3 mr-2 fill-current shrink-0 text-slate-400 group-hover:text-slate-500"
                     viewBox="0 0 16 16"
                     xmlns="http://www.w3.org/2000/svg"
                   >
@@ -140,15 +140,15 @@ function MemberPanel() {
               {/* Create invoice button */}
               <button
                 onClick={() => setModal(true)}
-                className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+                className="text-white bg-indigo-500 btn hover:bg-indigo-600"
               >
                 <svg
-                  className="w-4 h-4 fill-current opacity-50 shrink-0"
+                  className="w-4 h-4 opacity-50 fill-current shrink-0"
                   viewBox="0 0 16 16"
                 >
                   <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
                 </svg>
-                <span className="hidden xs:block ml-2">Add Members</span>
+                <span className="hidden ml-2 xs:block">Add Members</span>
               </button>
             </div>
           </div>
