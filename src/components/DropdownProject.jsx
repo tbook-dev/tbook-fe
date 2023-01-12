@@ -22,7 +22,7 @@ function DropdownProfile({ align }) {
 
   const trigger = useRef(null);
   const dropdown = useRef(null);
-  console.log('userProjects', userProjects)
+  // console.log('userProjects', userProjects)
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
