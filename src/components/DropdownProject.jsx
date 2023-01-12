@@ -1,30 +1,28 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Transition from "../utils/Transition";
-import { useSelector } from "react-redux";
 import { emptyProjectPrompt } from "@/utils/const";
 import clsx from "clsx";
 import Selected from "./icon/Selected";
 import { useDispatch } from "react-redux";
 import { setCurrentProjectId } from "@/store/user";
 import useCurrentProjectId from '@/hooks/useCurrentProjectId'
+import useProjects from '@/hooks/useProjects'
+import useCurrentProject from '@/hooks/useCurrentProject'
 
 
 import defaultProjectAvatar from "../images/user-avatar-80.png";
 
 function DropdownProfile({ align }) {
   const dispatch = useDispatch();
-  const userStore = useSelector((state) => state.user);
   const currentProjectId = useCurrentProjectId();
-  const userProjects = userStore.projects || [];
-  const currentProject =
-    userProjects?.find((project) => project.projectId === currentProjectId) ||
-    {};
+  const userProjects = useProjects();
+  const currentProject = useCurrentProject();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef(null);
   const dropdown = useRef(null);
-
+  console.log('userProjects', userProjects)
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
@@ -101,6 +99,8 @@ function DropdownProfile({ align }) {
           ref={dropdown}
           onFocus={() => setDropdownOpen(true)}
           onBlur={() => setDropdownOpen(false)}
+          style={{maxHeight: 'calc(100vh-200px)'}}
+          className="overflow-y-auto"
         >
           <div className="text-center">
             {Array.isArray(userProjects) && userProjects.length > 0 ? (
