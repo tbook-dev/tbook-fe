@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { loadWeb3 } from "../utils/web3";
 import { Form, Input } from "antd";
 import { debounce } from "lodash";
+import { host } from '@/api/incentive'
+
 
 import AuthDecoration from "../images/tbook/aircraft.png";
 import AuthImage from "../images/tbook/login.png";
 
 function Signin() {
-  const host = import.meta.env.VITE_TBOOK_URL || ""
-
   const web3Ref = useRef();
   useEffect(() => {
     async function asyncloadWeb3() {
@@ -80,7 +80,7 @@ function Signin() {
         {/* Content */}
         <div className="md:w-1/2" />
         <div className="md:w-1/2">
-          <div className="min-h-screen h-full flex flex-col after:flex-1">
+          <div className="flex flex-col h-full min-h-screen after:flex-1">
             {/* Header */}
             <div className="flex-1">
               <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
@@ -127,8 +127,8 @@ function Signin() {
               </div>
             </div>
 
-            <div className="max-w-sm mx-auto px-4 py-8">
-              <h1 className="text-3xl text-slate-800 font-bold mb-6">
+            <div className="max-w-sm px-4 py-8 mx-auto">
+              <h1 className="mb-6 text-3xl font-bold text-slate-800">
                 Welcome To Tbook!
               </h1>
               {/* Form */}
@@ -148,10 +148,10 @@ function Signin() {
                   <Input />
                 </Form.Item>
 
-                <div className="flex flex-col items-center justify-end	 mt-28">
+                <div className="flex flex-col items-center justify-end mt-28">
                   <button
                     type="submit"
-                    className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+                    className="text-white bg-indigo-500 btn hover:bg-indigo-600"
                     onClick={debounce(handleSignIn, 300)}
                   >
                     Sign Up
@@ -174,7 +174,7 @@ function Signin() {
 
         {/* Image */}
         <div
-          className="hidden md:block absolute top-0 bottom-0 left-0 md:w-1/2"
+          className="absolute top-0 bottom-0 left-0 hidden md:block md:w-1/2"
           aria-hidden="true"
         >
           <img
@@ -185,7 +185,7 @@ function Signin() {
             alt="Authentication"
           />
           <img
-            className="absolute top-1/4 right-0 translate-x-1/2 ml-8 hidden lg:block"
+            className="absolute right-0 hidden ml-8 translate-x-1/2 top-1/4 lg:block"
             src={AuthDecoration}
             width="218"
             height="224"

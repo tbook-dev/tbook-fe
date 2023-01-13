@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Input } from "antd";
 import { debounce } from "lodash";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { host } from '@/api/incentive'
 
 import AuthDecoration from "../images/tbook/aircraft.png";
 import AuthImage from "../images/tbook/login.png";
 
 function CreateProject() {
-  const host = import.meta.env.VITE_TBOOK_URL || ""
 
   const [form] = Form.useForm();
   const navigate = useNavigate()

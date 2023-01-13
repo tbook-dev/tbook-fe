@@ -1,6 +1,6 @@
 import request from "./request";
 
-export const host = import.meta.env.VITE_TBOOK_URL || ""
+export const host = "https://api.tbook.vip"
 
 export const getUserInfo = async function(){
     return request(`${host}/info`)

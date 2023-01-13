@@ -32,7 +32,7 @@ const initialState = {
 };
 
 
-export const fetchUserInfo = createAsyncThunk(`/info`, async (_, thunkAPI) => {
+export const fetchUserInfo = createAsyncThunk(`userInfo`, async (_, thunkAPI) => {
   const response = await getUserInfo();
   thunkAPI.dispatch(setUser(response?.user || {}));
   thunkAPI.dispatch(setProjects(response?.projects || []));
