@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, Input } from "antd";
 import { createProject } from "@/api/incentive";
 import { fetchUserInfo, setCurrentProjectId } from "@/store/user";
@@ -18,7 +18,7 @@ function CreateProject() {
   const dispatch = useDispatch();
   const [newProjectInfo, setNewProjectInfo] = useState(null);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   async function handleCreateProject(value) {
     const formatVal = value.trim();

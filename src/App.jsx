@@ -20,7 +20,6 @@ import PageNotFound from "./pages/utility/PageNotFound";
 import CreateProject1 from "./pages/CreateProject1";
 import CreateProject from "./pages/CreateProject";
 
-
 import PlanDetail from "./pages/incentive/PlanDetail";
 import GrantCreate from "./pages/incentive/GrantCreate";
 
@@ -33,6 +32,7 @@ import Feedback from "./pages/settings/Feedback";
 
 import GrantDetail from "./pages/incentive/GrantDetail";
 import GrantsSchedule from "./pages/incentive/GrantsSchedule";
+import PersonalProperty from "./pages/incentive/PersonalProperty";
 
 function App() {
   const location = useLocation();
@@ -52,9 +52,7 @@ function App() {
   useAsyncEffect(async () => {
     // console.log('useAsyncEffect')
     // ["/signin", "/logins", "/grants/:grantId/sign"]
-    const whileList = ["/signin", "/logins"].map(
-      match
-    );
+    const whileList = ["/signin", "/logins"].map(match);
 
     if (!whileList.find((match) => match(location.pathname))) {
       dispatch(fetchUserInfo());
@@ -121,7 +119,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        
+
         <Route
           path="/grants/:grantId/sign"
           element={
@@ -142,11 +140,20 @@ function App() {
           }
         />
 
-         <Route
+        <Route
           path="/new-project"
           element={
             <ProtectedRoute>
               <CreateProject />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/personal-property"
+          element={
+            <ProtectedRoute>
+              <PersonalProperty />
             </ProtectedRoute>
           }
         />
