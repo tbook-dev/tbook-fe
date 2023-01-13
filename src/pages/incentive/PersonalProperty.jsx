@@ -6,7 +6,6 @@ import { personalPropertyList } from "@/utils/const";
 export default function PersonalProperty() {
   const [currentNav, setNav] = useState(null);
 
-  console.log("xx", currentNav);
   return (
     <LayoutV2>
       <main className="flex-auto px-12 py-8 bg-white">
@@ -15,7 +14,8 @@ export default function PersonalProperty() {
             <div
               className={clsx(
                 "w-[105px] mr-6 cursor-pointer text-sm py-1 rounded-2xl text-center font-medium hover:font-black hover:shadow-lg border",
-                v.colorCls
+                v.colorCls,
+                v.value === currentNav && v.selectedCls
               )}
               key={v.value}
               onClick={() => setNav(v.value)}
