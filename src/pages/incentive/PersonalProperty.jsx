@@ -10,11 +10,11 @@ export default function PersonalProperty() {
   return (
     <LayoutV2>
       <main className="flex-auto px-12 py-8 bg-white">
-        <nav className="flex">
+        <nav className="flex pb-[25px] border-b border-[#E2E8F0]">
           {personalPropertyList.map((v) => (
             <div
               className={clsx(
-                "w-[105px] mr-6 cursor-pointer text-sm	 py-1 rounded-2xl text-center font-medium border",
+                "w-[105px] mr-6 cursor-pointer text-sm py-1 rounded-2xl text-center font-medium hover:font-black hover:shadow-lg border",
                 v.colorCls
               )}
               key={v.value}
@@ -24,6 +24,8 @@ export default function PersonalProperty() {
             </div>
           ))}
         </nav>
+
+        <div></div>
       </main>
     </LayoutV2>
   );
