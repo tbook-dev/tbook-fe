@@ -1,11 +1,11 @@
 # host
 
-https://tbook.fly.dev/
+https://app.tbook.vip/
 
 ## 接口文档
 
-https://tbook.fly.dev/swagger-ui/index.html#/incentive-plan-controller/addIncentivePlan
-https://tbook.fly.dev/swagger-ui/index.html
+https://app.tbook.vip/swagger-ui/index.html#/incentive-plan-controller/addIncentivePlan
+https://app.tbook.vip/swagger-ui/index.html
 
 
 ## 样式冲突解决
@@ -16,7 +16,7 @@ https://github.com/ant-design/ant-design/pull/38764/files/321ac894fa827146bf0486
 
 ```bash
 line`
-tbook.fly.dev/ 127.0.0.1:5173/ 
+app.tbook.vip/ 127.0.0.1:5173/ 
 excludeFilter://*/info 
 excludeFilter://*/tip 
 excludeFilter://*/projects 
@@ -58,3 +58,11 @@ excludeFilter://*/grant
 4.当鼠标hover到某卡片时（如hover到第一行第二个卡片），当前卡片状态改变，其余不变，页面显示为“个人资产卡片-02”；
 5.点击签字中的卡片，进入signing流程；点击已生效或已完成卡片，进入grant详情页。
 ```
+
+### 
+ssh://git@git.jetbrains.space/xyma/pkm/tbook-fe.git
+git@github.com:tbook-dev/tbook-fe.git
+
+##
+app.tbook.vip
+api.tbook.vip
