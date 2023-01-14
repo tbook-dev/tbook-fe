@@ -151,7 +151,8 @@ export const personalPropertyList = [
     value: 2,
     label: "signing",
     colorCls: "text-[#D97706] border-[#F59E0B]",
-    selectedCls: "bg-[#FEF3C7]"
+    selectedCls: "bg-[#FEF3C7]",
+    textColor: '#F59E0B'
   },
   {
     value: 3,
