@@ -54,7 +54,7 @@ export const grantStatusList = [
   {
     value: 1,
     label: "draft",
-    render: (v = "") => (
+    render: (v = "",...props) => (
       <div
         className={clsx(
           "w-[105px] text-sm	text-[#7D7D7D] bg-[#FBFAFA] py-1 rounded-2xl text-center border border-[#7D7D7D]",

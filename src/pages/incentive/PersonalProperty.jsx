@@ -5,11 +5,13 @@ import { personalPropertyList } from "@/utils/const";
 import { getUserAssets } from "@/api/incentive";
 import { useAsyncEffect } from "ahooks";
 import { Statistic, Progress } from "antd";
+import { useNavigate } from "react-router-dom";
 
 export default function PersonalProperty() {
   const [currentNav, setNav] = useState(null);
   const [assetList, setAssetList] = useState([]);
   const typeList = personalPropertyList.map((v) => v.value);
+  const navigate = useNavigate();
   useAsyncEffect(async () => {
     const res = (await getUserAssets()) || [];
     const finalRes = res
@@ -37,6 +39,20 @@ export default function PersonalProperty() {
       );
     });
   }, [currentNav, assetList]);
+
+  const handleClickCard = useCallback((card) => {
+    // console.log("card", card);
+    let link = "";
+    if (card.grantStatus === 2) {
+      // 点击签字中的卡片，进入signing流程；
+      link = `/grants/${card.grantId}/sign`;
+    } else {
+      // 点击已生效或已完成卡片，进入grant详情页。
+      link = `/incentive/grant/${card.incentivePlanId}/${card.grantId}/detail`;
+      // /incentive/grant/:tipId/:grantId/detail
+    }
+    navigate(link);
+  }, []);
 
   //   console.log("acurrentNav,ssetList->", currentNav, assetList);
   return (
@@ -79,8 +95,12 @@ export default function PersonalProperty() {
                     return (currentNav === null || status === currentNav) &&
                       typeList.includes(status) ? (
                       <div
+                        onClick={() => handleClickCard(grant)}
                         key={grant.grantId}
-                        className="h-[200px] px-6 pt-9 pb-4 border border-[#FEF3C7] rounded-3xl flex flex-col justify-between"
+                        className={clsx(
+                          "h-[200px] px-6 pt-9 pb-4 border border-[#FEF3C7] rounded-3xl flex flex-col justify-between",
+                          status === 2 && "hover:bg-c1 hover:shadow-c4"
+                        )}
                       >
                         <div className="flex justify-between">
                           <Statistic
@@ -92,7 +112,11 @@ export default function PersonalProperty() {
                             }}
                           />
                           <Statistic
-                            title={<p className={textCls}>Total Value</p>}
+                            title={
+                              <p className={clsx(textCls, "text-right")}>
+                                {status === 2 && Total} Value
+                              </p>
+                            }
                             prefix="$"
                             value={
                               status === 2

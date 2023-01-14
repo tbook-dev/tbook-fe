@@ -150,7 +150,7 @@ function App() {
         />
 
         <Route
-          path="/personal-property"
+          path="/my-grants"
           element={
             <ProtectedRoute>
               <PersonalProperty />

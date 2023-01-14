@@ -118,7 +118,7 @@ function DropdownProfile({ align }) {
             <li>
               <Link
                 className="flex items-center px-3 py-1 text-sm font-medium text-indigo-500 hover:text-indigo-600"
-                to="/settings"
+                to="/my-grants"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 MY GRANTS
