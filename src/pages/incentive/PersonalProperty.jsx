@@ -98,7 +98,7 @@ export default function PersonalProperty() {
                         onClick={() => handleClickCard(grant)}
                         key={grant.grantId}
                         className={clsx(
-                          "h-[200px] px-6 pt-9 pb-4 border border-[#FEF3C7] rounded-3xl flex flex-col justify-between",
+                          "h-[200px] cursor-pointer px-6 pt-9 pb-4 border border-[#FEF3C7] rounded-3xl flex flex-col justify-between",
                           status === 2 && "hover:bg-c1 hover:shadow-c4"
                         )}
                       >
