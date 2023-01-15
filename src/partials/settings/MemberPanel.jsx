@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import { getProjectUsers, addProjectUser } from "../../api/incentive";
 import { Table, Typography, Modal, Form } from "antd";
 import { useAsyncEffect } from "ahooks";
-import { useSelector } from "react-redux";
 import { roleList, getRoleNumber } from "../../utils/const";
 import GranteeFrom from "../../pages/incentive/GranteeForm";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";

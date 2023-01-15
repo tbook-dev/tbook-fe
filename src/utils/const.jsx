@@ -175,7 +175,7 @@ export const roleList = [
   //   code: 3,
   //   desc: "Viewer",
   // },
-  { code: 4, desc: "Employee" },
+  { code: 4, desc: "Grantee" },
 ];
 
 export const getRoleNumber = (code, list) => {
