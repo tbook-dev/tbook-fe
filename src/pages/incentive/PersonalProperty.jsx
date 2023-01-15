@@ -54,6 +54,17 @@ export default function PersonalProperty() {
     navigate(link);
   }, []);
 
+  const handleNavChange = useCallback(
+    (id) => {
+      if (id === currentNav) {
+        setNav(null);
+      } else {
+        setNav(id);
+      }
+    },
+    [currentNav]
+  );
+
   //   console.log("acurrentNav,ssetList->", currentNav, assetList);
   return (
     <LayoutV2>
@@ -67,7 +78,7 @@ export default function PersonalProperty() {
                 v.value === currentNav && v.selectedCls
               )}
               key={v.value}
-              onClick={() => setNav(v.value)}
+              onClick={() => handleNavChange(v.value)}
             >
               {v.label}
             </div>
@@ -91,6 +102,7 @@ export default function PersonalProperty() {
                       "#1E293B": status === 4 || status === 3,
                     });
                     // console.log(status, currentNav);
+                    // console.log('percent-status',status, percent)
 
                     return (currentNav === null || status === currentNav) &&
                       typeList.includes(status) ? (
@@ -136,7 +148,7 @@ export default function PersonalProperty() {
                           {status === 3 && (
                             <div className="mx-[-24px]">
                               <Progress
-                                percent={60}
+                                percent={grant.cliffAmount/grant.grantNum}
                                 strokeColor="#6366F1"
                                 showInfo={false}
                               />
