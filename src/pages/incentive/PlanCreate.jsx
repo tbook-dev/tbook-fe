@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import {
@@ -28,8 +28,19 @@ function PlanCreate() {
   const navigate = useNavigate();
   const projectId = useCurrentProjectId();
   const project = useCurrentProject();
-
   const [showModal, setModal] = useState(false);
+
+  const formatPercent = useCallback(() => {
+    const res =
+      _.divide(
+        totalValue || 0,
+        project?.tokenInfo?.tokenTotalAmount || Number.MAX_SAFE_INTEGER
+      ) * 100;
+
+    const r2 = _.round(res, 4);
+
+    return r2;
+  }, [project, totalValue]);
 
   function handleCreate() {
     form
@@ -108,19 +119,11 @@ function PlanCreate() {
                           style={{ width: 350 }}
                         />
                       </Form.Item>
-                      <p className="text-[#94A3B8] text-xs">
-                        （
-                        {_.round(
-                          _.divide(
-                            totalValue,
-                            project?.tokenInfo?.tokenTotalAmount
-                          ),
-                          4
-                        ) * 100}
-                        % Total Token)
-                      </p>
+                      <div className="text-[#94A3B8] text-xs">
+                        （{formatPercent()}% Total Token)
+                      </div>
                     </Space>
-                    <p className="text-[#94A3B8] text-xs mt-1 flex">
+                    <div className="text-[#94A3B8] text-xs mt-1 flex">
                       当前剩余可用
                       <Statistic
                         value={project?.tokenInfo?.surplusTokenNum}
@@ -130,7 +133,7 @@ function PlanCreate() {
                         }}
                       />
                       虚拟token
-                    </p>
+                    </div>
                   </Form.Item>
                   <Form.Item
                     label="Target Audiende"
@@ -209,7 +212,7 @@ function PlanCreate() {
 
           <div className="mt-7">
             <p className="text-[#475569] text-sm">Total Token</p>
-            <p className="flex">
+            <div className="flex">
               <Statistic
                 value={totalValue}
                 valueStyle={{
@@ -221,21 +224,16 @@ function PlanCreate() {
                 suffix="Token"
               />
               <span className="ml-2 text-[#1E293B] leading-5	text-[12px]">
-                (
-                {_.round(
-                  _.divide(totalValue, project?.tokenInfo?.tokenTotalAmount),
-                  4
-                ) * 100}
-                % of Total Token)
+                ({formatPercent()}% of Total Token)
               </span>
-            </p>
+            </div>
           </div>
 
           <div className="mt-7">
             <p className="text-[#475569] text-sm">Target Audiende</p>
-            <p className="text-[#1E293B] text-base	font-semibold">
+            <div className="text-[#1E293B] text-base	font-semibold">
               {targetMap[targetValue]}
-            </p>
+            </div>
           </div>
 
           <div className="mt-7">
