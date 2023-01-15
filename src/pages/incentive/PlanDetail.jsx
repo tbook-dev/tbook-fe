@@ -96,7 +96,7 @@ function PlanDetail() {
                 <p className="text-xs text-[#475569]">Grants</p>
                 <div className="text-base">
                   <Statistic
-                    value={detail.grantedTokenNum}
+                    value={grantList?.length}
                     valueStyle={{
                       color: "#1E293B",
                       fontSize: "16px",
@@ -112,6 +112,7 @@ function PlanDetail() {
                 <div className="text-base">
                   <Statistic
                     value={detail.grantedTokenNum}
+                    // value={grantList.reduce((all, cur) => all+cur.grant.grantNum,0)}
                     valueStyle={{
                       color: "#1E293B",
                       fontSize: "16px",
@@ -148,10 +149,7 @@ function PlanDetail() {
             </div>
           </div>
           {grantList.length > 0 ? (
-            <GrantTable
-              list={grantList}
-           
-            />
+            <GrantTable list={grantList} />
           ) : (
             <div className="border-x border-y bg-white  py-3 text-base	font-semibold text-[#1E293B] indent-8">
               There's not any Grant for now. Click and Create one!
