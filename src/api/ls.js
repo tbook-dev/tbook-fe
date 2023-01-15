@@ -8,6 +8,7 @@ export function getDraftGrantData(projectId, tipId) {
   try {
     data = JSON.parse(localStorage.getItem(key));
   } catch (error) {
+    clearDraftGrantData(projectId, tipId)
     console.log(error);
   }
   return data;

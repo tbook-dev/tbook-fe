@@ -15,13 +15,16 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import {
   getTIPInfo,
-  getGrantInfo,
   getProjectUsers,
   addGrant,
   addProjectUser,
   getIncentiveList,
 } from "@/api/incentive";
-import { saveDraftGrantData, getDraftGrantData } from "@/api/ls";
+import {
+  saveDraftGrantData,
+  getDraftGrantData,
+  clearDraftGrantData,
+} from "@/api/ls";
 import { useSelector } from "react-redux";
 import { grantType, dateFormat } from "../../utils/const";
 import GranteeFrom from "./GranteeForm";
@@ -34,7 +37,6 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { loadWeb3, signGrantMetaMask } from "@/utils/web3";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import useCurrentProject from "@/hooks/useCurrentProject";
-
 
 dayjs.extend(customParseFormat);
 
@@ -115,17 +117,18 @@ function GrantCreate() {
     }
   }, [userlist]);
 
-  useAsyncEffect(async () => {
-    // 从服务端恢复数据
+  useEffect(() => {
+    // 从ls恢复数据
     // const projectId = userStore?.projects?.[0]?.projectId;
-    if (grantId) {
+    console.log(tipId, projectId);
+    if (tipId && projectId) {
       try {
-        const storedData = await getGrantInfo(grantId);
-        console.log("xxx->", storedData);
+        const storedData = getDraftGrantData(projectId, tipId);
+        // console.log("xxx->", storedData);
         if (!storedData) return;
         const formValue = {
           ...storedData,
-          isIncludingCliff: !(storedData.cliffTime && storedData.cliffAmount),
+          isIncludingCliff: !!storedData.cliffTime,
           grantDate: dayjs(storedData.grantDate, dateFormat),
           vestingScheduleDate: dayjs(
             storedData.vestingScheduleDate,
@@ -138,7 +141,7 @@ function GrantCreate() {
         console.log("error", error);
       }
     }
-  }, [grantId]);
+  }, [projectId, tipId]);
 
   const formatValue = useCallback((planValues, userlist, userId) => {
     const grantValues = userlist.find((v) => v.userId === planValues.granteeId);
@@ -157,9 +160,12 @@ function GrantCreate() {
       vestingScheduleDate: dayjs().format(dateFormat),
       grantStatus: 1,
       vestingTotalLength: planValues.vestingTotalLength,
-      vestingPeriod: planValues.vestingPeriod,
+      vestingTotalPeriod: planValues.vestingTotalPeriod,
       cliffTime: planValues.cliffTime,
       cliffAmount: planValues.cliffAmount,
+      cliffPeriod: planValues.cliffPeriod,
+      vestingFrequency: planValues.vestingFrequency,
+      vestingPeriod: planValues.vestingPeriod,
     };
     return values;
   }, []);
@@ -187,6 +193,7 @@ function GrantCreate() {
           isIncludingCliff: planValues.isIncludingCliff,
         });
         message.success("Save Draft Sucess!");
+        window.history.back()
       })
       .catch((err) => {
         console.log(err, "error");
@@ -230,14 +237,16 @@ function GrantCreate() {
     try {
       setConfirmLoadingSign(true);
       const grantInfo = await handleCreate();
-      console.log(grantInfo);
+      // console.log(grantInfo);
+
+      clearDraftGrantData(projectId, tipId)
       if (!grantInfo.success) {
         message.error(grantInfo.message);
         setConfirmLoadingSign(false);
         updateIsShowDetailPreview(false);
         return;
       }
-
+      // 清空
       await signGrantMetaMask(
         web3Ref.current,
         projectId,
@@ -273,7 +282,9 @@ function GrantCreate() {
                   requiredMark={false}
                   initialValues={{
                     grantType: 1,
-                    vestingPeriod: 4,
+                    vestingTotalPeriod: 3,
+                    vestingPeriod: 3,
+                    cliffPeriod: 3,
                     isIncludingCliff: false,
                   }}
                 >
@@ -430,7 +441,7 @@ function GrantCreate() {
                       addonAfter={
                         <Form.Item name="vestingTotalPeriod" noStyle>
                           <Select style={{ width: 100 }}>
-                            <Option value={1}>week</Option>
+                            <Option value={1}>day</Option>
                             <Option value={2}>week</Option>
                             <Option value={3}>month</Option>
                             <Option value={4}>year</Option>
@@ -456,7 +467,7 @@ function GrantCreate() {
                       addonAfter={
                         <Form.Item name="vestingPeriod" noStyle>
                           <Select style={{ width: 100 }}>
-                            <Option value={1}>week</Option>
+                            <Option value={1}>day</Option>
                             <Option value={2}>week</Option>
                             <Option value={3}>month</Option>
                             <Option value={4}>year</Option>
@@ -484,23 +495,23 @@ function GrantCreate() {
                       getFieldValue("isIncludingCliff") === true ? (
                         <Form.Item
                           name="cliffTime"
-                          label="Cliff Time"
+                          label="Cliff Duration"
                           rules={[
                             {
                               required: true,
-                              message: "Please input the Cliff Time!",
+                              message: "Please input the Cliff Duration!",
                             },
                           ]}
                         >
                           <InputNumber
-                            placeholder="Editable amout"
                             style={{ width: "100%" }}
                             addonAfter={
-                              <Form.Item name="vestingPeriod" noStyle>
+                              <Form.Item name="cliffPeriod" noStyle>
                                 <Select style={{ width: 100 }}>
-                                  <Option value={1}>week</Option>
-                                  <Option value={4}>month</Option>
-                                  <Option value={52}>year</Option>
+                                  <Option value={1}>day</Option>
+                                  <Option value={2}>week</Option>
+                                  <Option value={3}>month</Option>
+                                  <Option value={4}>year</Option>
                                 </Select>
                               </Form.Item>
                             }
