@@ -5,7 +5,7 @@ import Eth from "../../components/local/Eth";
 import Statistic from "../../components/local/Statistic";
 
 function DetailPanel(props) {
-  const { grantInfo = {}, tipInfo = {} } = props;
+  const { grantInfo = {}, tipInfo = {}, scheduleInfo = {} } = props;
   // console.log("grantInfo", grantInfo, tipInfo);
   return (
     <div className="grow">
@@ -63,7 +63,7 @@ function DetailPanel(props) {
               value={
                 <Statistic
                   style={{ fontWeight: "400", fontSize: 16 }}
-                  value={grantInfo.a || 0}
+                  value={scheduleInfo.vestedAmount || 0}
                 />
               }
             />

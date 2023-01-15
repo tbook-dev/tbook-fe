@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import IncentiveLayout from "./Layout";
 import { useAsyncEffect } from "ahooks";
 import { useParams } from "react-router-dom";
-import { getGrantInfo, getTIPInfo } from "../../api/incentive";
+import { getGrantInfo, getTIPInfo, getGrantVestingScheduleInfo } from "../../api/incentive";
 import SettingsSidebar from "../../partials/incentive/SettingsSidebar";
 import DetailPanel from "../../partials/incentive/DetailPanel";
 
@@ -10,7 +10,13 @@ export default function GrantDetail() {
   const { grantId, tipId } = useParams();
   const [tipInfo, setTipInfo] = useState({});
   const [grantInfo, setGrantInfo] = useState({});
+  const [scheduleInfo, setSchedule] = useState({});
 
+  useAsyncEffect(async () => {
+    const vestingSchedule = await getGrantVestingScheduleInfo(grantId);
+    // console.log("vestingSchedule->", vestingSchedule);
+    setSchedule(vestingSchedule || {});
+  }, [grantId]);
   useAsyncEffect(async function () {
     const data = await getGrantInfo(grantId);
     setGrantInfo(data);
@@ -38,7 +44,7 @@ export default function GrantDetail() {
         <div className="mb-8 bg-white rounded-sm shadow-lg">
           <div className="flex flex-col md:flex-row md:-mr-px">
             <SettingsSidebar />
-            <DetailPanel tipInfo={tipInfo} grantInfo={grantInfo} />
+            <DetailPanel tipInfo={tipInfo} grantInfo={grantInfo} scheduleInfo={scheduleInfo}/>
           </div>
         </div>
       </div>
