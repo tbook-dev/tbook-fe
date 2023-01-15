@@ -15,7 +15,7 @@ import clsx from "clsx";
 
 export const targetMap = {
   //    0: 'default/unknown',
-  1: "employee",
+  1: "Employee",
   2: "Adviser",
   3: "Developers",
   4: "Business development team",

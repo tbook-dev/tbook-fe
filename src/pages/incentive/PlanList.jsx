@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { useAsyncEffect } from "ahooks";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import _ from "lodash";
+import { targetMap } from '@/utils/const'
 
 function PlanList() {
   const [tipList, updateTipList] = useState([]);
@@ -84,8 +85,11 @@ function PlanList() {
                           to={`/incentive/${tip.incentivePlanId}`}
                           className="mr-11"
                         >
-                          <div className="w-[148px] h-[98px] shadow-c2 border rounded-[10px] relative">
-                            <div className="text-base text-[#3A4353] pt-3.5 pl-1.5">
+                          <div className="w-[148px] h-[98px] px-1.5 shadow-c2 border rounded-[10px] relative">
+                            <div className="pt-[9px]">
+                              <span className="border px-1.5 text-xs py-[3px] border-[#CBD5E1] rounded-[3px]">{targetMap[tip.target]}</span>
+                            </div>
+                            <div className="text-base text-[#1E293B] font-semibold	 mb-[20px]">
                               <p>{tip.incentivePlanName}</p>
                             </div>
 
@@ -96,10 +100,10 @@ function PlanList() {
                               />
                             </div>
 
-                            <div className="inset-x-0 absolute bottom-0 origin-left	scale-50 text-[#1E293B]">
+                            <div className="inset-x-1.5 absolute bottom-0 origin-left	scale-50 text-[#94A3B8]">
                               Granted {tip.grantedTokenNum}
                             </div>
-                            <div className="inset-x-0 absolute bottom-0 origin-right text-right	scale-50 text-[#1E293B]">
+                            <div className="inset-x-1.5 absolute bottom-0 origin-right text-right	scale-50 text-[#94A3B8]">
                               Total: {tip.totalTokenNum}
                             </div>
                           </div>
