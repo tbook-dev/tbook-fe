@@ -79,7 +79,6 @@ export default function ({ list = [], title = () => null }) {
     <Table
       columns={columns}
       rowKey={(record) => record?.grant?.grantId}
-      title={title}
       dataSource={list}
     />
   );

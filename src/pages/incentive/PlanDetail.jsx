@@ -36,12 +36,12 @@ function PlanDetail() {
   return (
     <IncentiveLayout>
       {/* Content */}
-      <div className="pt-8 pl-16 w-[1140px]">
+      <div className="py-8 pl-16 pr-[20px]">
         {/* Cart items */}
-        <div className="mb-6 lg:mb-0">
+        <div className="mb-6  w-[1140px] lg:mb-0">
           <header className="mb-6">
             {/* Title */}
-            <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-2">
+            <h1 className="mb-2 text-2xl font-bold md:text-3xl text-slate-800">
               Token Incentive Plan Details
             </h1>
           </header>
@@ -137,36 +137,26 @@ function PlanDetail() {
               </div>
             </div>
           </div>
-
-          <div className="">
-            <div className="relative mb-2.5">
-              <h2 className="text-base font-semibold mb-6">Grants</h2>
-              <p className="text-xs text-[#475569]">
-                There’re all the grants in the TIP. Click on the right and
-                create a new one!
-              </p>
-              <div className="absolute top-0 right-0">
-                <Link to={`/incentive/grant/${id}/create`}>
-                  <Button type="primary"> + New Grant</Button>
-                </Link>
-              </div>
+        </div>
+        <div className="">
+          <div className="relative mb-2.5">
+            <h2 className="mb-6 text-base font-semibold">Grants</h2>
+            <div className="absolute top-0 right-0">
+              <Link to={`/incentive/grant/${id}/create`}>
+                <Button type="primary"> + New Grant</Button>
+              </Link>
             </div>
-            {grantList.length > 0 ? (
-              <GrantTable
-                list={grantList}
-                title={() => (
-                  <h2 className="font-bold text-base	inline">
-                    All The Grants{" "}
-                    <p className="font-light	 inline">{grantList.length}</p>
-                  </h2>
-                )}
-              />
-            ) : (
-              <div className="border-x border-y bg-white  py-3 text-base	font-semibold text-[#1E293B] indent-8">
-                There's not any Grant for now. Click and Create one!
-              </div>
-            )}
           </div>
+          {grantList.length > 0 ? (
+            <GrantTable
+              list={grantList}
+           
+            />
+          ) : (
+            <div className="border-x border-y bg-white  py-3 text-base	font-semibold text-[#1E293B] indent-8">
+              There's not any Grant for now. Click and Create one!
+            </div>
+          )}
         </div>
       </div>
     </IncentiveLayout>
