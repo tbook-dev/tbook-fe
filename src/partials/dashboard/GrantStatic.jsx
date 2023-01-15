@@ -8,38 +8,10 @@ import { Progress, Statistic } from "antd";
 
 function GrantStatic({ value, percent, title }) {
   return (
-    <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white shadow-lg rounded-sm border border-slate-200">
+    <div className="flex flex-col bg-white border rounded-sm shadow-lg col-span-full sm:col-span-6 xl:col-span-4 border-slate-200">
       <div className="px-5 pt-5">
-        <header className="flex justify-between items-start mb-2">
-          {/* Icon */}
+        <header className="flex items-start justify-between mb-2">
           <img src={Icon} width="32" height="32" alt="Icon 01" />
-          {/* Menu button */}
-          <EditMenu align="right" className="relative inline-flex">
-            <li>
-              <Link
-                className="font-medium text-sm text-slate-600 hover:text-slate-800 flex py-1 px-3"
-                to="#0"
-              >
-                Option 1
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="font-medium text-sm text-slate-600 hover:text-slate-800 flex py-1 px-3"
-                to="#0"
-              >
-                Option 2
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="font-medium text-sm text-rose-500 hover:text-rose-600 flex py-1 px-3"
-                to="#0"
-              >
-                Remove
-              </Link>
-            </li>
-          </EditMenu>
         </header>
         <h2 className="text-lg font-semibold text-slate-800 mb-[30px]">
           {title}
