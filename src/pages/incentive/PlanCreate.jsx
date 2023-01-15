@@ -15,7 +15,8 @@ import { targetMap } from "../../utils/const";
 import { useSelector } from "react-redux";
 import { createTIP } from "../../api/incentive";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
-
+import useCurrentProject from "@/hooks/useCurrentProject";
+import _ from "lodash";
 
 function PlanCreate() {
   const [form] = Form.useForm();
@@ -26,7 +27,7 @@ function PlanCreate() {
   const userStore = useSelector((state) => state.user);
   const navigate = useNavigate();
   const projectId = useCurrentProjectId();
-
+  const project = useCurrentProject();
 
   const [showModal, setModal] = useState(false);
 
@@ -101,14 +102,34 @@ function PlanCreate() {
                           },
                         ]}
                       >
-                        <InputNumber min={0} style={{ width: 350 }} />
+                        <InputNumber
+                          min={0}
+                          max={project?.tokenInfo?.surplusTokenNum}
+                          style={{ width: 350 }}
+                        />
                       </Form.Item>
                       <p className="text-[#94A3B8] text-xs">
-                        （20% Total Token)
+                        （
+                        {_.round(
+                          _.divide(
+                            totalValue,
+                            project?.tokenInfo?.tokenTotalAmount
+                          ),
+                          4
+                        ) * 100}
+                        % Total Token)
                       </p>
                     </Space>
-                    <p className="text-[#94A3B8] text-xs mt-1">
-                      当前剩余可用 102,090,000虚拟 token{" "}
+                    <p className="text-[#94A3B8] text-xs mt-1 flex">
+                      当前剩余可用
+                      <Statistic
+                        value={project?.tokenInfo?.surplusTokenNum}
+                        valueStyle={{
+                          color: "#94A3B8",
+                          fontSize: "12px",
+                        }}
+                      />
+                      虚拟token
                     </p>
                   </Form.Item>
                   <Form.Item
@@ -195,11 +216,18 @@ function PlanCreate() {
                   color: "#1E293B",
                   fontSize: "16px",
                   lineHeight: "20px",
-                  fontWeight: '600'
+                  fontWeight: "600",
                 }}
                 suffix="Token"
               />
-              <span className="ml-2 text-[#1E293B] leading-5	text-[12px]">(20% of Total Token)</span>
+              <span className="ml-2 text-[#1E293B] leading-5	text-[12px]">
+                (
+                {_.round(
+                  _.divide(totalValue, project?.tokenInfo?.tokenTotalAmount),
+                  4
+                ) * 100}
+                % of Total Token)
+              </span>
             </p>
           </div>
 

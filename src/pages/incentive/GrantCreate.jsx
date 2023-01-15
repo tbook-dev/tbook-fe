@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import {
   Button,
@@ -15,6 +15,7 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import {
   getTIPInfo,
+  getGrantInfo,
   getProjectUsers,
   addGrant,
   addProjectUser,
@@ -32,6 +33,7 @@ import BorderModalContent from "../component/BorderModalContent";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { loadWeb3, signGrantMetaMask } from "@/utils/web3";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
+import useCurrentProject from "@/hooks/useCurrentProject";
 
 
 dayjs.extend(customParseFormat);
@@ -48,7 +50,9 @@ function GrantCreate() {
   const [confirmLoadingMember, setConfirmLoadingMember] = useState(false);
   const [confirmLoadingSign, setConfirmLoadingSign] = useState(false);
   const projectId = useCurrentProjectId();
-
+  const project = useCurrentProject();
+  const [searchParams] = useSearchParams();
+  const grantId = searchParams.get("grantId");
 
   const granteeIdV = Form.useWatch("granteeId", form);
   const grantNumV = Form.useWatch("grantNum", form);
@@ -111,21 +115,30 @@ function GrantCreate() {
     }
   }, [userlist]);
 
-  useEffect(() => {
-    // 从ls 缓存恢复数据
+  useAsyncEffect(async () => {
+    // 从服务端恢复数据
     // const projectId = userStore?.projects?.[0]?.projectId;
-    if (projectId) {
-      const storedData = getDraftGrantData(projectId, tipId);
-      if (!storedData) return;
-      const formValue = {
-        ...storedData,
-        grantDate: dayjs(storedData.grantDate, dateFormat),
-        vestingScheduleDate: dayjs(storedData.vestingScheduleDate, dateFormat),
-      };
-      console.log("restore from ls");
-      form.setFieldsValue(formValue);
+    if (grantId) {
+      try {
+        const storedData = await getGrantInfo(grantId);
+        console.log("xxx->", storedData);
+        if (!storedData) return;
+        const formValue = {
+          ...storedData,
+          isIncludingCliff: !(storedData.cliffTime && storedData.cliffAmount),
+          grantDate: dayjs(storedData.grantDate, dateFormat),
+          vestingScheduleDate: dayjs(
+            storedData.vestingScheduleDate,
+            dateFormat
+          ),
+        };
+        console.log("restore from ls");
+        form.setFieldsValue(formValue);
+      } catch (error) {
+        console.log("error", error);
+      }
     }
-  }, [userStore]);
+  }, [grantId]);
 
   const formatValue = useCallback((planValues, userlist, userId) => {
     const grantValues = userlist.find((v) => v.userId === planValues.granteeId);
@@ -415,11 +428,38 @@ function GrantCreate() {
                       style={{ width: "100%" }}
                       placeholder="Editable amout"
                       addonAfter={
+                        <Form.Item name="vestingTotalPeriod" noStyle>
+                          <Select style={{ width: 100 }}>
+                            <Option value={1}>week</Option>
+                            <Option value={2}>week</Option>
+                            <Option value={3}>month</Option>
+                            <Option value={4}>year</Option>
+                          </Select>
+                        </Form.Item>
+                      }
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="Vesting Frequency"
+                    name="vestingFrequency"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the Length!",
+                      },
+                    ]}
+                  >
+                    <InputNumber
+                      min={0}
+                      style={{ width: "100%" }}
+                      placeholder="Editable amout"
+                      addonAfter={
                         <Form.Item name="vestingPeriod" noStyle>
                           <Select style={{ width: 100 }}>
                             <Option value={1}>week</Option>
-                            <Option value={4}>month</Option>
-                            <Option value={52}>year</Option>
+                            <Option value={2}>week</Option>
+                            <Option value={3}>month</Option>
+                            <Option value={4}>year</Option>
                           </Select>
                         </Form.Item>
                       }
