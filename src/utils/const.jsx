@@ -54,7 +54,7 @@ export const grantStatusList = [
   {
     value: 1,
     label: "draft",
-    render: (v = "",...props) => (
+    render: (v = "", ...props) => (
       <div
         className={clsx(
           "w-[105px] text-sm	text-[#7D7D7D] bg-[#FBFAFA] py-1 rounded-2xl text-center border border-[#7D7D7D]",
@@ -152,19 +152,19 @@ export const personalPropertyList = [
     label: "signing",
     colorCls: "text-[#D97706] border-[#F59E0B]",
     selectedCls: "bg-[#FEF3C7]",
-    textColor: '#F59E0B'
+    textColor: "#F59E0B",
   },
   {
     value: 3,
     label: "effective",
     colorCls: "text-[#35AE86] border-[#34D399]",
-    selectedCls: "bg-[#D1FAE5]"
+    selectedCls: "bg-[#D1FAE5]",
   },
   {
     value: 4,
     label: "completed",
     colorCls: "text-[#6366F1] border-[#6366F1]",
-    selectedCls: "bg-[#DADBFF]"
+    selectedCls: "bg-[#DADBFF]",
   },
 ];
 
@@ -183,3 +183,16 @@ export const getRoleNumber = (code, list) => {
 };
 
 export const emptyProjectPrompt = `加入一个项目`;
+
+export const inviteList = [
+  {
+    label: "By Link",
+    value: 1,
+    disabled: true,
+  },
+  {
+    label: "By Address",
+    value: 2,
+    disabled: false,
+  },
+];

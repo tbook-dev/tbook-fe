@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from "react";
-import { getProjectUsers, addProjectUser } from "../../api/incentive";
+import { getProjectUsers, addProjectUser } from "@/api/incentive";
 import { Table, Typography, Modal, Form } from "antd";
 import { useAsyncEffect } from "ahooks";
-import { roleList, getRoleNumber } from "../../utils/const";
-import GranteeFrom from "../../pages/incentive/GranteeForm";
+import { roleList, getRoleNumber } from "@/utils/const";
+import MemberFrom from "./components/MemberForm";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
-
+import BorderModalContent from "../../pages/component/BorderModalContent";
 
 const { Paragraph } = Typography;
 
@@ -207,29 +207,34 @@ function MemberPanel() {
             form
               .validateFields()
               .then((values) => {
-                addProjectUser(projectId, {
-                  projectId,
-                  walletAddress: values.granteeEthAddress,
-                  email: values.granteeEmail,
-                  name: values.granteeName,
-                  userRole: 4,
-                }).then(() => {
-                  getProjectUsers(projectId).then((res) => {
-                    setUsers(res?.users || []);
+                if (values.inviteType === 2) {
+                  addProjectUser(projectId, {
+                    projectId,
+                    walletAddress: values.granteeEthAddress,
+                    email: values.granteeEmail,
+                    name: values.granteeName,
+                    userRole: values.userRole,
+                  }).then(() => {
+                    getProjectUsers(projectId).then((res) => {
+                      setUsers(res?.users || []);
+                    });
                   });
-                });
+                }
+                // 链接要求，todo
               })
               .catch(console)
               .finally(() => {
-                setModal(false)
-              })
+                setModal(false);
+              });
 
             console.log("ok");
           }}
           title="Invite"
           okText="Don"
         >
-          <GranteeFrom form={form} />
+          <BorderModalContent>
+            <MemberFrom form={form} />
+          </BorderModalContent>
         </Modal>
 
         <Table
