@@ -100,11 +100,11 @@ function PlanList() {
                               />
                             </div>
 
-                            <div className="inset-x-1.5 absolute bottom-0 origin-left	scale-50 text-[#94A3B8]">
+                            <div className="inset-x-1.5 absolute bottom-0 origin-left	scale-50 text-[#94A3B8] whitespace-nowrap">
                               Granted {tip.grantedTokenNum}
                             </div>
-                            <div className="inset-x-1.5 absolute bottom-0 origin-right text-right	scale-50 text-[#94A3B8]">
-                              Total: {tip.totalTokenNum}
+                            <div className="inset-x-1.5 absolute bottom-0 origin-right text-right	scale-50 whitespace-nowrap	text-[#94A3B8]">
+                              Total: {tip.totalTokenNum}({tip.percentage}%)
                             </div>
                           </div>
                         </NavLink>
