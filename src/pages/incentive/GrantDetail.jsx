@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { getGrantInfo, getTIPInfo } from "../../api/incentive";
 import SettingsSidebar from "../../partials/incentive/SettingsSidebar";
 import DetailPanel from "../../partials/incentive/DetailPanel";
-import { grantStatusList } from "../../utils/const";
 
 export default function GrantDetail() {
   const { grantId, tipId } = useParams();

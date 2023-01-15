@@ -41,7 +41,7 @@ export default function VestingSchedule({ dataList = [], ...props }) {
     {
       title: "Cumulative",
       align: "center",
-      render(_, record, idx) {
+      render(_, record) {
         const list = dataList.slice(0, record.idx);
         const sum = list.reduce((pre, cur) => pre + cur.quantity, 0);
         // console.log(record, idx, sum);
