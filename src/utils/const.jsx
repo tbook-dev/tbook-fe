@@ -171,10 +171,10 @@ export const personalPropertyList = [
 export const roleList = [
   { code: 1, desc: "Owner" },
   { code: 2, desc: "Administrator" },
-  {
-    code: 3,
-    desc: "Viewer",
-  },
+  // {
+  //   code: 3,
+  //   desc: "Viewer",
+  // },
   { code: 4, desc: "Employee" },
 ];
 
