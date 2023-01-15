@@ -104,7 +104,7 @@ function PlanList() {
                               Granted {tip.grantedTokenNum}
                             </div>
                             <div className="inset-x-1.5 absolute bottom-0 origin-right text-right	scale-50 whitespace-nowrap	text-[#94A3B8]">
-                              Total: {tip.totalTokenNum}({tip.percentage}%)
+                              Total: {tip.tokenOptionsPoolSize}({tip.percentage}%)
                             </div>
                           </div>
                         </NavLink>
