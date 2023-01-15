@@ -33,7 +33,7 @@ function Dashboard() {
     }
   }, [projectId]);
 
-  // console.log("overView", overView);
+  console.log("overView", overView);
   // console.log("grantList", grantList);
 
   return (
@@ -61,27 +61,26 @@ function Dashboard() {
               <div className="grid grid-cols-12 gap-6">
                 <GrantStatic
                   value={overView.totalGrants}
-                  percent={10}
+                  percent={overView.totalTokenPercent * 100}
                   title="Total Granted Token"
                 />
                 <GrantStatic
                   value={overView.vestedGrants}
-                  percent={10}
+                  percent={overView.vestedTokenPercent * 100}
                   title="Total Vested Token"
                 />
-                <DashboardCicle
+                 <DashboardCicle
                   title="Target Audience Distribution"
-                  data={overView.targetAudienceDistribution}
+                  data={(overView.targetAudienceDistribution)}
                 />
-
                 <DashboardCicle
                   title="Vested Token"
                   data={{
-                    'Free Token': overView.freeTokens,
-                    'Granted Token': overView.totalGrants,
-                    'Vested Token': overView.vestedGrants,
-                  }}
-                />
+                    "Free Token": overView.freeTokens,
+                    "Granted Token": overView.totalGrants,
+                    "Vested Token": overView.vestedGrants,
+                  }} 
+                /> 
                 {/* <DashboardCard11 /> */}
 
                 <div className="col-span-full">
