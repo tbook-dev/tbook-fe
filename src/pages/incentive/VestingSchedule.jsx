@@ -44,7 +44,7 @@ export default function VestingSchedule({ dataList = [], ...props }) {
       render(_, record, idx) {
         const list = dataList.slice(0, record.idx);
         const sum = list.reduce((pre, cur) => pre + cur.quantity, 0);
-        console.log(record, idx, sum);
+        // console.log(record, idx, sum);
         return <Statistic value={sum} valueStyle={StatisticStyle} />;
       },
     },

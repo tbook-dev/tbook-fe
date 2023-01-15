@@ -1,6 +1,6 @@
 import { Statistic } from "antd";
 
-export default function ({ value, style = {} }) {
+export default function ({ value, style = {}, ...props }) {
   return (
     <Statistic
       value={value}
@@ -8,6 +8,7 @@ export default function ({ value, style = {} }) {
         margin: 0,
         ...style,
       }}
+      {...props}
     />
   );
 }

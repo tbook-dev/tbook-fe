@@ -50,7 +50,7 @@ export default function GrantsSchedule() {
         <div className="mb-8 bg-white rounded-sm shadow-lg">
           <div className="flex flex-col md:flex-row md:-mr-px">
             <SettingsSidebar />
-            <SchedulePanel scheduleInfo={scheduleInfo}/>
+            <SchedulePanel grantInfo={grantInfo} scheduleInfo={scheduleInfo}/>
           </div>
         </div>
       </div>

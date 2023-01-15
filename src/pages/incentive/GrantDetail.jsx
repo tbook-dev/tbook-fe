@@ -24,28 +24,22 @@ export default function GrantDetail() {
 
   return (
     <IncentiveLayout>
-      <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+      <div className="w-full px-4 py-8 mx-auto sm:px-6 lg:px-8 max-w-9xl">
         {/* Page header */}
         <div className="mb-4">
-          <h1 className="flex items-center text-3xl md:text-3xl text-slate-800 font-bold">
-            {tipInfo?.incentivePlanName}
-            <span className="ml-2.5">
-
-            {grantInfo?.grantStatus &&
-              grantStatusList
-                .find((v) => v.value === grantInfo?.grantStatus)
-                ?.render()}
-            </span>
-
+          <h1 className="flex items-center text-3xl font-bold md:text-3xl text-slate-800">
+            {grantInfo?.granteeName}-{grantInfo?.granteeId}
           </h1>
-          <p className="text-[#475569] text-base">{grantInfo?.granteeName}</p>
+          <p className="text-[#475569] text-base">
+            {tipInfo?.incentivePlanName}
+          </p>
         </div>
 
         {/* Page content */}
-        <div className="bg-white shadow-lg rounded-sm mb-8">
+        <div className="mb-8 bg-white rounded-sm shadow-lg">
           <div className="flex flex-col md:flex-row md:-mr-px">
             <SettingsSidebar />
-            <DetailPanel tipInfo={tipInfo} grantInfo={grantInfo}/>
+            <DetailPanel tipInfo={tipInfo} grantInfo={grantInfo} />
           </div>
         </div>
       </div>

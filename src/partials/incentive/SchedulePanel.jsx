@@ -7,6 +7,7 @@ import VestingSchedule from "@/pages/incentive/VestingSchedule";
 
 function SchedulePanel(props) {
   const { grantInfo = {}, tipInfo = {}, scheduleInfo={} } = props;
+  console.log('grantInfo', grantInfo)
 
   return (
     <div className="grow">
