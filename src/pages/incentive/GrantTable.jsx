@@ -8,7 +8,9 @@ export default function ({ list = [], title = () => null }) {
     {
       title: "GRANT ID",
       render: (_, v) => (
-        <Link to={`/incentive/grant/${v?.grant?.incentivePlanId}/${v?.grant?.grantId}/detail`}>
+        <Link
+          to={`/incentive/grant/${v?.grant?.incentivePlanId}/${v?.grant?.grantId}/detail`}
+        >
           <p className="text-[#38BDF8]">{v?.grant?.grantId}</p>
         </Link>
       ),
@@ -38,9 +40,12 @@ export default function ({ list = [], title = () => null }) {
     {
       title: "STATUS",
       render(_, record) {
-        return grantStatusList
-          .find((item) => record?.grant?.grantStatus === item.value)
+        const stauts = record?.grant?.grantStatus
+        const content =  grantStatusList
+          .find((item) =>  stauts === item.value)
           ?.render();
+          // signing的是链接
+        return stauts === 2 ? <Link to={`/grants/${record.grant?.grantId}/sign`}>{content}</Link>: content
       },
     },
     {
