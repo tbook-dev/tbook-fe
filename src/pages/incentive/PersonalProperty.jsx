@@ -126,7 +126,7 @@ export default function PersonalProperty() {
                           <Statistic
                             title={
                               <p className={clsx(textCls, "text-right")}>
-                                {status === 2 && Total} Value
+                                {status === 2 && "Total"} Value
                               </p>
                             }
                             prefix="$"
