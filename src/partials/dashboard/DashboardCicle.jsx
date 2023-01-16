@@ -7,7 +7,7 @@ const defaultData = {
   Adviser: 1,
   Inverstor: 1,
 };
-function DashboardAudience({ title, data = defaultData }) {
+function DashboardAudience({ title, data = defaultData,...props }) {
   const formatData = (obj) => {
     return Object.entries(obj).reduce(
       (all, cur) => {
@@ -28,12 +28,7 @@ function DashboardAudience({ title, data = defaultData }) {
     innerRadius: 0.8,
     label: {
       type: "inner",
-      offset: "-50%",
-      content: "{value}",
-      style: {
-        textAlign: "center",
-        fontSize: 14,
-      },
+      content: "",
     },
     interactions: [
       {
@@ -45,13 +40,7 @@ function DashboardAudience({ title, data = defaultData }) {
     ],
     statistic: {
       title: false,
-      content: {
-        style: {
-          whiteSpace: "pre-wrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        },
-      },
+      content: false,
     },
   };
 
@@ -63,7 +52,7 @@ function DashboardAudience({ title, data = defaultData }) {
       {/* Chart built with Chart.js 3 */}
       {/* Change the height attribute to adjust the chart height */}
       {/* <DoughnutChart data={chartData} width={180} height={180} /> */}
-      <Pie {...config} />
+      <Pie {...config} {...props}/>
     </div>
   );
 }

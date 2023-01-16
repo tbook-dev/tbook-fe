@@ -72,6 +72,7 @@ function Dashboard() {
                  <DashboardCicle
                   title="Target Audience Distribution"
                   data={(overView.targetAudienceDistribution)}
+                  height={180}
                 />
                 <DashboardCicle
                   title="Vested Token"
@@ -80,6 +81,7 @@ function Dashboard() {
                     "Granted Token": overView.totalGrants,
                     "Vested Token": overView.vestedGrants,
                   }} 
+                  height={200}
                 /> 
                 {/* <DashboardCard11 /> */}
 
