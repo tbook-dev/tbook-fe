@@ -1,6 +1,6 @@
 import request from "./request";
 
-export const host = "https://api.tbook.vip"
+export const host = "https://api.tbook.com"
 
 export const getUserInfo = async function(){
     return request(`${host}/info`)

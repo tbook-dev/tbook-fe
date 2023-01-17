@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import {
   Button,
@@ -28,15 +28,12 @@ import {
 import { useSelector } from "react-redux";
 import { grantType, dateFormat } from "../../utils/const";
 import GranteeFrom from "./GranteeForm";
-import GranteeDetailPreview from "./GranteeDetailPreview";
 import dayjs from "dayjs";
 import { useAsyncEffect } from "ahooks";
 import { message } from "antd";
 import BorderModalContent from "../component/BorderModalContent";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { loadWeb3, signGrantMetaMask } from "@/utils/web3";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
-import useCurrentProject from "@/hooks/useCurrentProject";
 
 dayjs.extend(customParseFormat);
 
@@ -50,19 +47,10 @@ function GrantCreate() {
   const [showModal, setModal] = useState(false);
   const userStore = useSelector((state) => state.user);
   const [confirmLoadingMember, setConfirmLoadingMember] = useState(false);
-  const [confirmLoadingSign, setConfirmLoadingSign] = useState(false);
+  const [loadingCreate, setLoadingCreate] = useState(false);
   const projectId = useCurrentProjectId();
-  const project = useCurrentProject();
-  const [searchParams] = useSearchParams();
-  const grantId = searchParams.get("grantId");
-
-  const granteeIdV = Form.useWatch("granteeId", form);
-  const grantNumV = Form.useWatch("grantNum", form);
-  const grantDateV = Form.useWatch("grantDate", form);
-  const grantTypeV = Form.useWatch("grantType", form);
 
   const [userlist, setUserlist] = useState([]);
-  const [isShowDetailPreview, updateIsShowDetailPreview] = useState(false);
   const [tipList, setTipList] = useState([]);
   const newGrantee = useRef(null);
 
@@ -76,15 +64,6 @@ function GrantCreate() {
   });
   const { tipId = "" } = useParams();
   const hasTipId = /\d+/.test(tipId);
-
-  const web3Ref = useRef();
-  useEffect(() => {
-    async function asyncloadWeb3() {
-      const web3 = await loadWeb3();
-      web3Ref.current = web3;
-    }
-    asyncloadWeb3();
-  }, []);
 
   useAsyncEffect(async () => {
     if (tipId && hasTipId) {
@@ -172,9 +151,17 @@ function GrantCreate() {
 
   async function handleCreate() {
     const planValues = await form.validateFields();
+    setLoadingCreate(true);
     const values = formatValue(planValues, userlist, userStore?.user?.userId);
-    const res = await addGrant(values.incentivePlanId, values);
-    return res;
+    const grantInfo = await addGrant(values.incentivePlanId, values);
+    if (!grantInfo.success) {
+      message.error(grantInfo.message);
+      setLoadingCreate(false);
+      return;
+    }
+    clearDraftGrantData(projectId,tipId)
+    setLoadingCreate(false);
+    navigate(`/grants/${grantInfo?.entity?.grantId}/sign`);
   }
 
   function handleSaveAsDraft() {
@@ -220,48 +207,6 @@ function GrantCreate() {
         });
       });
     });
-  }
-  const handlePreview = () => {
-    form
-      .validateFields()
-      .then(() => {
-        updateIsShowDetailPreview(true);
-      })
-      .catch((err) => {
-        console.log(err, "error");
-      });
-  };
-
-  async function handleSign() {
-    const userId = userStore?.user?.userId;
-    try {
-      setConfirmLoadingSign(true);
-      const grantInfo = await handleCreate();
-      // console.log(grantInfo);
-
-      clearDraftGrantData(projectId, tipId)
-      if (!grantInfo.success) {
-        message.error(grantInfo.message);
-        setConfirmLoadingSign(false);
-        updateIsShowDetailPreview(false);
-        return;
-      }
-      // 清空
-      await signGrantMetaMask(
-        web3Ref.current,
-        projectId,
-        grantInfo?.entity?.grantId,
-        userId
-      );
-
-      message.success("Create Grant Sucess!");
-      navigate(`/grants/${grantInfo?.entity?.grantId}/sign`);
-    } catch (error) {
-      message.error(error.message || "稍后重试!");
-      console.log("签名出错!");
-    }
-    setConfirmLoadingSign(false);
-    updateIsShowDetailPreview(false);
   }
 
   return (
@@ -558,11 +503,12 @@ function GrantCreate() {
             <div className="flex justify-around">
               <Button onClick={handleSaveAsDraft}>Save as a draft</Button>
               <Button
-                onClick={handlePreview}
+                onClick={handleCreate}
                 type="primary"
                 className="bg-[#6366F1]"
+                loading={loadingCreate}
               >
-                Preview
+                create
               </Button>
             </div>
           </div>
@@ -587,32 +533,6 @@ function GrantCreate() {
         </BorderModalContent>
       </Modal>
 
-      <Modal
-        width={1008}
-        title="Grant Details"
-        open={isShowDetailPreview}
-        okText="Sign"
-        cancelText="Close"
-        onOk={handleSign}
-        confirmLoading={confirmLoadingSign}
-        onCancel={() => {
-          updateIsShowDetailPreview(false);
-          setConfirmLoadingSign(false);
-        }}
-      >
-        <BorderModalContent>
-          <GranteeDetailPreview
-            grantInfo={{
-              granteeId: granteeIdV,
-              grantNum: grantNumV,
-              grantDate: grantDateV,
-              grantType: grantTypeV,
-            }}
-            plan={detail}
-            grantee={userlist.find((v) => v.userId === granteeIdV)}
-          />
-        </BorderModalContent>
-      </Modal>
     </IncentiveLayout>
   );
 }
