@@ -68,7 +68,7 @@ export default function ({ list = [] }) {
     {
       title: "VESTED",
       render(_, record) {
-        return record?.grant?.vestingInitialNum;
+        return record?.grant?.vestedAmount || 0;
       },
     },
     {
