@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import _ from "lodash";
 
 /**
  * 激励目标target
@@ -196,3 +197,10 @@ export const inviteList = [
     disabled: false,
   },
 ];
+
+export const getDividePercent = (dividend, divisor) => {
+  const r1 = _.divide(dividend || 0, divisor || Number.MAX_SAFE_INTEGER) * 100;
+  const r2 = _.round(r1, 4);
+
+  return r2;
+};

@@ -5,6 +5,7 @@ import { getTIPInfo, getTipGrantees, getTipGrantList } from "@/api/incentive";
 import { Button, Statistic } from "antd";
 import { targetMap } from "../../utils/const";
 import GrantTable from "./GrantTable";
+import { getDividePercent } from "@/utils/const";
 
 function PlanDetail() {
   const { id } = useParams();
@@ -76,7 +77,14 @@ function PlanDetail() {
                     suffix="Token"
                   />
                 </div>
-                <p className="text-xs text-[#475569]">(20% of Total Token)</p>
+                <p className="text-xs text-[#475569]">
+                  (
+                  {getDividePercent(
+                    detail.tokenOptionsPoolSize,
+                    detail.totalTokenNum
+                  )}
+                  % of Total Token)
+                </p>
               </div>
               <div>
                 <p className="text-xs text-[#475569]">Grantees</p>
