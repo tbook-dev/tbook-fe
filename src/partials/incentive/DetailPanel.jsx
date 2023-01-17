@@ -38,7 +38,7 @@ function DetailPanel(props) {
             <div className="w-full h-[10px]" />
             <DetailKV label="Total Amount" value={grantInfo.grantNum} />
             <DetailKV
-              label="Execrise Price"
+              label="Exercise Price"
               value={
                 <Statistic
                   style={{ fontWeight: "400", fontSize: 16 }}
@@ -56,7 +56,7 @@ function DetailPanel(props) {
           <div className="flex justify-start flex-wrap w-[600px]">
             <DetailKV label="Vested Amount" value={grantInfo.grantNum} />
             <DetailKV
-              label="Execrised Amount"
+              label="Exercise Amount"
               value={
                 <Statistic
                   style={{ fontWeight: "400", fontSize: 16 }}
