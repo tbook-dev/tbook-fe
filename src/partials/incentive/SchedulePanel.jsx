@@ -60,7 +60,7 @@ function SchedulePanel(props) {
           <div className="text-[#000000] text-sm flex justify-between">
             <div>
               vesting start date:
-              {scheduleInfo?.vestingSchedule?.vestingDetail?.[0]?.date}
+              {scheduleInfo?.grantStartDate}
             </div>
             <div>
               completed:
