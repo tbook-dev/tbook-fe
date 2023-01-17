@@ -33,7 +33,7 @@ function GrantSign() {
   const [scheduleInfo, setSchedule] = useState({});
   const userInfo = useSelector(state => state.user.user)
   const projects = useSelector(state => state.user.projects)
-  // console.log('projects',projects)
+  // console.log('scheduleInfo',scheduleInfo)
  
   // 签名状态
   useAsyncEffect(async () => {
@@ -59,7 +59,7 @@ function GrantSign() {
 
   useAsyncEffect(async () => {
     const vestingSchedule = await getGrantVestingScheduleInfo(grantId);
-    console.log("vestingSchedule->", vestingSchedule);
+    // console.log("vestingSchedule->", vestingSchedule);
     setSchedule(vestingSchedule || {});
   }, [grantId]);
 
@@ -149,7 +149,7 @@ function GrantSign() {
             <Title title="Grant Details" />
             <div className="grid grid-cols-2 gap-x-20">
               <KV label="Plan Name" value={tipInfo.incentivePlanName} />
-              <KV label="Grant Type" value={targetMap[tipInfo.target]} />
+              <KV label="Grant Type" value="token option" />
               <KV
                 label="Vesting by"
                 value={
@@ -166,7 +166,7 @@ function GrantSign() {
             <div>
               <Title title="Vesting Schedule" />
             </div>
-            <VestingSchedule dataList={scheduleInfo?.vestingDetail || []} />
+            <VestingSchedule dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []} />
           </section>
         </div>
 

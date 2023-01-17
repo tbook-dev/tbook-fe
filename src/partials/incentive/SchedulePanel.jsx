@@ -9,8 +9,8 @@ function SchedulePanel(props) {
   console.log("grantInfo", grantInfo);
   const percent = _.round(
     _.divide(
-      grantInfo.grantNum || 0,
-      scheduleInfo.vestedAmount || Number.MAX_SAFE_INTEGER
+      scheduleInfo.vestedAmount || 0,
+      grantInfo.grantNum  || Number.MAX_SAFE_INTEGER
     ) * 100,
     4
   );

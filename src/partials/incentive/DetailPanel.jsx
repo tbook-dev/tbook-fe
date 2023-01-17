@@ -1,6 +1,5 @@
 import React from "react";
 import DetailKV from "./DetailKV";
-import { grantType } from "../../utils/const";
 import Eth from "../../components/local/Eth";
 import Statistic from "../../components/local/Statistic";
 
@@ -33,9 +32,7 @@ function DetailPanel(props) {
           <div className="flex justify-start flex-wrap w-[600px]">
             <DetailKV
               label="Grant Type"
-              value={
-                grantType.find((v) => v.value === grantInfo.grantType)?.name
-              }
+              value="token option"
             />
             <DetailKV label="Grant Date" value={grantInfo.grantDate} />
             <div className="w-full h-[10px]" />
