@@ -19,6 +19,7 @@ import Loading from "@/components/icon/Loading";
 import Eth from "@/components/local/Eth";
 import Layout from "./LayoutV2";
 import aircraft from "@/images/tbook/aircraft.png";
+import { useSelector } from "react-redux";
 
 const { Paragraph } = Typography;
 
@@ -29,27 +30,11 @@ function GrantSign() {
   const [tipId, setTipId] = useState(null);
   const [tipInfo, setTipInfo] = useState({});
   const navigate = useNavigate();
-  const [ethAddress, setEthAddress] = useState(null);
   const [scheduleInfo, setSchedule] = useState({});
-
-  const web3Ref = useRef();
-  useEffect(() => {
-    async function asyncloadWeb3() {
-      const web3 = await loadWeb3();
-      web3Ref.current = web3;
-    }
-    asyncloadWeb3();
-  }, []);
-  useEffect(() => {
-    if (web3Ref.current) {
-      //  console.log('web3Ref.current', web3Ref.current.currentProvider.selectedAddress)
-      setEthAddress(web3Ref.current.currentProvider.selectedAddress);
-    }
-    return () => {
-      setEthAddress(null);
-    };
-  }, [web3Ref.current]);
-
+  const userInfo = useSelector(state => state.user.user)
+  const projects = useSelector(state => state.user.projects)
+  // console.log('projects',projects)
+ 
   // 签名状态
   useAsyncEffect(async () => {
     const list = await getGrantSignInfo(null, grantId);
@@ -78,17 +63,24 @@ function GrantSign() {
     setSchedule(vestingSchedule || {});
   }, [grantId]);
 
-  function handleSign(sign) {
-    web3Ref?.current.eth.personal
+  async function handleSign(sign) {
+    const web3 = await loadWeb3();
+    web3?.eth.personal
       .sign(
-        web3Ref.current.utils.fromUtf8(sign.signInfo),
-        web3Ref?.current.currentProvider.selectedAddress
+        web3.utils.fromUtf8(sign.signInfo),
+        web3.currentProvider.selectedAddress
       )
       .then((s) => {
         return postGrantSignInfo(null, grantId, sign.grantSignId, s);
       })
       .then((r) => {
-        navigate("/");
+          let link = "/incentive";
+          const granteeProjects = projects.filter((v) => v.currentUserRole === 4);
+          if (granteeProjects.length === projects.length) {
+            // 只有grantee角色
+            link = `/my-grants`;
+          }
+          navigate(link);
       });
   }
 
@@ -209,7 +201,7 @@ function GrantSign() {
 
                     <div className="mt-8">
                       {sg.grantSign.signStatus === 1 &&
-                      sg.signer.mainWallet == ethAddress ? (
+                      sg.signer.userId == userInfo.userId ? (
                         <button
                           className="text-white bg-indigo-500 btn hover:bg-indigo-600"
                           onClick={() => handleSign(sg.grantSign)}
