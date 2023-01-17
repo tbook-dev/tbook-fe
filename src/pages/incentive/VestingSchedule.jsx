@@ -54,6 +54,9 @@ export default function VestingSchedule({ dataList = [], ...props }) {
       title={Title}
       columns={col}
       rowKey="idx"
+      rowClassName={(record) => {
+        return record.isVested ? "bg-[#E9EFFF]" : "";
+      }}
       dataSource={dataList.map((item, idx) => ({ ...item, idx: idx + 1 }))}
       {...props}
     />
