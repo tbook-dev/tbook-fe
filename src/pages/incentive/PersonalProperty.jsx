@@ -6,6 +6,7 @@ import { getUserAssets } from "@/api/incentive";
 import { useAsyncEffect } from "ahooks";
 import { Statistic, Progress } from "antd";
 import { useNavigate } from "react-router-dom";
+import _ from 'lodash'
 
 export default function PersonalProperty() {
   const [currentNav, setNav] = useState(null);
@@ -131,11 +132,13 @@ export default function PersonalProperty() {
                             }
                             prefix="$"
                             value={
+                              _.round(
                               status === 2
                                 ? (grant.cliffAmount || 0) *
                                   (grant.exercisePrice || 0)
                                 : (grant.grantNum || 0) *
                                   (grant.exercisePrice || 0)
+                              ,2)
                             }
                             valueStyle={{
                               color: cardThemeColor,
