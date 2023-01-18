@@ -32,7 +32,7 @@ export const targetMap = {
 export const grantType = [
   //    0: 'default/unknown',
   {
-    name: "By Date",
+    name: "By Duration",
     value: 1,
     disabled: false,
   },
@@ -204,3 +204,10 @@ export const getDividePercent = (dividend, divisor) => {
 
   return r2;
 };
+
+export const periodMap = {
+  1: 'Day',
+  2: 'Week',
+  3: 'Month',
+  4: 'Year'
+}

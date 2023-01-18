@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Typography } from "antd";
 import {
@@ -9,10 +9,10 @@ import {
   getGrantVestingScheduleInfo,
 } from "@/api/incentive";
 import { loadWeb3 } from "@/utils/web3";
-import KV from "@/components/local/KV";
-import Title from "@/components/local/Title";
+import KV from "@/components/local/KV2";
+import Title from "@/components/local/Title2";
 import { useAsyncEffect } from "ahooks";
-import { targetMap, grantType } from "@/utils/const";
+import { targetMap, grantType, periodMap } from "@/utils/const";
 import VestingSchedule from "./VestingSchedule";
 import Done from "@/components/icon/Done";
 import Loading from "@/components/icon/Loading";
@@ -31,10 +31,10 @@ function GrantSign() {
   const [tipInfo, setTipInfo] = useState({});
   const navigate = useNavigate();
   const [scheduleInfo, setSchedule] = useState({});
-  const userInfo = useSelector(state => state.user.user)
-  const projects = useSelector(state => state.user.projects)
-  // console.log('scheduleInfo',scheduleInfo)
- 
+  const userInfo = useSelector((state) => state.user.user);
+  const projects = useSelector((state) => state.user.projects);
+  console.log("scheduleInfo", scheduleInfo);
+
   // 签名状态
   useAsyncEffect(async () => {
     const list = await getGrantSignInfo(null, grantId);
@@ -74,13 +74,13 @@ function GrantSign() {
         return postGrantSignInfo(null, grantId, sign.grantSignId, s);
       })
       .then((r) => {
-          let link = "/incentive";
-          const granteeProjects = projects.filter((v) => v.currentUserRole === 4);
-          if (granteeProjects.length === projects.length) {
-            // 只有grantee角色
-            link = `/my-grants`;
-          }
-          navigate(link);
+        let link = "/incentive";
+        const granteeProjects = projects.filter((v) => v.currentUserRole === 4);
+        if (granteeProjects.length === projects.length) {
+          // 只有grantee角色
+          link = `/my-grants`;
+        }
+        navigate(link);
       });
   }
 
@@ -121,7 +121,7 @@ function GrantSign() {
       </div>
     );
   };
-
+  console.log("periodMap", periodMap, grantInfo.vestingTotalPeriod);
   return (
     <Layout>
       <main className="relative grid flex-auto grid-cols-2">
@@ -133,9 +133,9 @@ function GrantSign() {
         />
 
         <div className="px-4 py-8 sm:px-6 lg:px-16 lg:pr-8 xl:pr-16">
-          <section className="mt-7 mb-[25px]">
+          <section className="mb-8 mt-7">
             <Title title="Grantee Information" />
-            <div className="grid grid-cols-2 gap-x-20">
+            <div className="grid grid-cols-2 gap-x-12 gap-y-3">
               <KV label="Name" value={grantInfo.granteeName} />
               <KV label="Target Audience" value={targetMap[tipInfo.target]} />
               <KV label="Email Address" value={grantInfo.granteeEmail} />
@@ -145,9 +145,9 @@ function GrantSign() {
               />
             </div>
           </section>
-          <section className="mb-[25px]">
+          <section className="mb-8">
             <Title title="Grant Details" />
-            <div className="grid grid-cols-2 gap-x-20">
+            <div className="grid grid-cols-2 gap-x-12 gap-y-3">
               <KV label="Plan Name" value={tipInfo.incentivePlanName} />
               <KV label="Grant Type" value="token option" />
               <KV
@@ -162,11 +162,50 @@ function GrantSign() {
               />
             </div>
           </section>
-          <section className="mb-[25px]">
-            <div>
+          <section className="mb-8">
+            <div className="mb-4">
               <Title title="Vesting Schedule" />
+              <div className="grid grid-cols-2 gap-x-12 gap-y-3">
+                <KV
+                  label="Vesting Start Date"
+                  value={scheduleInfo.grantStartDate}
+                />
+                <KV
+                  label="Vesting by"
+                  value={grantInfo.grantType === 1 ? "Duration" : "Milestone"}
+                />
+                <KV
+                  label="Length"
+                  value={`${grantInfo.vestingTotalLength} ${
+                    periodMap[grantInfo.vestingTotalPeriod]
+                  }`}
+                />
+                <KV
+                  label="Vesting Frequency"
+                  value={`${grantInfo.vestingFrequency}  ${
+                    periodMap[grantInfo.vestingPeriod]
+                  }`}
+                />
+
+                {grantInfo.cliffTime !== 0 && (
+                  <KV label="Cliff Duration" value={grantInfo.cliffTime} />
+                )}
+                {grantInfo.cliffAmount !== 0  && (
+                  <KV
+                    label="Cliff Amount"
+                    value={`${grantInfo.cliffAmount}%`}
+                  />
+                )}
+
+                <KV
+                  label="Vesting Times"
+                  value={scheduleInfo?.vestingSchedule?.vestingDetail?.length}
+                />
+              </div>
             </div>
-            <VestingSchedule dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []} />
+            <VestingSchedule
+              dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []}
+            />
           </section>
         </div>
 

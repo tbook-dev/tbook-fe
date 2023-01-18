@@ -2,13 +2,6 @@ import React from "react";
 import { Table, Statistic } from "antd";
 
 export default function VestingSchedule({ dataList = [], ...props }) {
-  const Title = () => {
-    return (
-      <h2 className="inline text-base font-bold">
-        All The Grants <p className="inline font-light">{dataList.length}</p>
-      </h2>
-    );
-  };
   const StatisticStyle = {
     margin: 0,
     fontSize: "14px",
@@ -51,7 +44,6 @@ export default function VestingSchedule({ dataList = [], ...props }) {
   ];
   return (
     <Table
-      title={Title}
       columns={col}
       rowKey="idx"
       rowClassName={(record) => {

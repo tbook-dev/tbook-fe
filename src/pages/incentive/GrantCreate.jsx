@@ -308,12 +308,12 @@ function GrantCreate() {
                   </div>
 
                   <Form.Item
-                    label="Quantity"
+                    label="Total Amount"
                     name="grantNum"
                     rules={[
                       {
                         required: true,
-                        message: "Please input the Quantity!",
+                        message: "Please input the Total Amount!",
                       },
                     ]}
                   >
@@ -358,24 +358,24 @@ function GrantCreate() {
                   </Form.Item>
 
                   <Form.Item
-                    label="Grant Start Date"
+                    label="Vesting Start Date"
                     name="grantDate"
                     rules={[
                       {
                         required: true,
-                        message: "Please input the Grant Start Date!",
+                        message: "Please input the Vesting Start Date!",
                       },
                     ]}
                   >
                     <DatePicker className="w-full" />
                   </Form.Item>
                   <Form.Item
-                    label="Length"
+                    label="Total Vesting Length"
                     name="vestingTotalLength"
                     rules={[
                       {
                         required: true,
-                        message: "Please input the Length!",
+                        message: "Please input the Total Vesting Length!",
                       },
                     ]}
                   >
@@ -426,7 +426,7 @@ function GrantCreate() {
                     name="isIncludingCliff"
                     valuePropName="checked"
                   >
-                    <Checkbox>including cliff</Checkbox>
+                    <Checkbox>including cliff duration</Checkbox>
                   </Form.Item>
 
                   <Form.Item
