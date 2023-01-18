@@ -338,7 +338,7 @@ function GrantCreate() {
                       min={0}
                       style={{ width: "100%" }}
                       placeholder="Editable amout"
-                      addonAfter="USDT"
+                      addonAfter="USD"
                     />
                   </Form.Item>
 
