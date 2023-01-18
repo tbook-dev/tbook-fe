@@ -89,11 +89,11 @@ function GrantSign() {
       <div className="text-[#1E293B] mb-[12px]">
         <h2 className="text-3xl	font-bold  mb-[18px]">Signing ...</h2>
         <div className="mb-3 text-base">
-          <p>1.请您完成签约。</p>
+          <p>1.Please sign to complete the contract.</p>
           <p>
-            2.请复制如下链接后发送给被授予人并提醒被授予人签字（如您是被授予人请忽略）。
+            2.Please copy the following link and send it to the grantee and remind the grantee to sign (if you are the grantee, please ignore it).
           </p>
-          <p>3.管理员和被授予人完成签字后，本授予开始生效。</p>
+          <p>3.After the administrator and the grantee complete the signature, this grant will come into effect.</p>
         </div>
         <div className="px-[18px] py-[2px] border mb-7">
           <a href={location.href} target="_blank">
@@ -121,7 +121,7 @@ function GrantSign() {
       </div>
     );
   };
-  console.log("periodMap", periodMap, grantInfo.vestingTotalPeriod);
+  // console.log("periodMap", periodMap, grantInfo.vestingTotalPeriod);
   return (
     <Layout>
       <main className="relative grid flex-auto grid-cols-2">
