@@ -188,7 +188,7 @@ function GrantSign() {
                 />
 
                 {grantInfo.cliffTime !== 0 && (
-                  <KV label="Cliff Duration" value={grantInfo.cliffTime} />
+                  <KV label="Cliff Duration" value={`${grantInfo.cliffTime} ${periodMap[grantInfo.cliffPeriod]}`} />
                 )}
                 {grantInfo.cliffAmount !== 0  && (
                   <KV
