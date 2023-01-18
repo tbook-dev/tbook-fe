@@ -5,7 +5,7 @@ import Statistic from "../../components/local/Statistic";
 
 function DetailPanel(props) {
   const { grantInfo = {}, tipInfo = {}, scheduleInfo = {} } = props;
-  // console.log("grantInfo", grantInfo, tipInfo);
+//  console.log("scheduleInfo", scheduleInfo );
   return (
     <div className="grow">
       {/* Panel body */}
@@ -54,13 +54,13 @@ function DetailPanel(props) {
             Vesting Plan
           </h2>
           <div className="flex justify-start flex-wrap w-[600px]">
-            <DetailKV label="Vested Amount" value={grantInfo.vestedAmount || 0} />
+            <DetailKV label="Vested Amount" value={scheduleInfo.vestedAmount} />
             <DetailKV
               label="Exercise Amount"
               value={
                 <Statistic
                   style={{ fontWeight: "400", fontSize: 16 }}
-                  value={scheduleInfo.vestedAmount || 0}
+                  value={0}
                 />
               }
             />
