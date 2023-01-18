@@ -488,6 +488,7 @@ function GrantCreate() {
                             placeholder="Editable amout"
                             style={{ width: "100%" }}
                             addonAfter="%"
+                            max={100}
                           />
                         </Form.Item>
                       ) : null
