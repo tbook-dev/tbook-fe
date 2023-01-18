@@ -6,6 +6,7 @@ import { Button, Statistic } from "antd";
 import { targetMap } from "../../utils/const";
 import GrantTable from "./GrantTable";
 import { getDividePercent } from "@/utils/const";
+import useCurrentProject from "@/hooks/useCurrentProject";
 
 function PlanDetail() {
   const { id } = useParams();
@@ -19,6 +20,7 @@ function PlanDetail() {
   });
   const [granteeNum, setGranteeNum] = useState(0);
   const [grantList, setGrantList] = useState([]);
+  const project = useCurrentProject();
 
   useEffect(() => {
     if (id) {
@@ -80,8 +82,8 @@ function PlanDetail() {
                 <p className="text-xs text-[#475569]">
                   (
                   {getDividePercent(
-                    detail.tokenOptionsPoolSize,
-                    detail.totalTokenNum
+                    detail.totalTokenNum,
+                    project?.tokenInfo?.tokenTotalAmount
                   )}
                   % of Total Token)
                 </p>

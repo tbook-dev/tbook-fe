@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { useAsyncEffect } from "ahooks";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import _ from "lodash";
-import { targetMap } from '@/utils/const'
+import { targetMap, getDividePercent } from '@/utils/const'
 
 function PlanList() {
   const [tipList, updateTipList] = useState([]);
@@ -104,7 +104,7 @@ function PlanList() {
                               Granted {tip.grantedTokenNum}
                             </div>
                             <div className="inset-x-1.5 absolute bottom-0 origin-right text-right	scale-50 whitespace-nowrap	text-[#94A3B8]">
-                              Total: {tip.tokenOptionsPoolSize}({tip.percentage}%)
+                              Total: {tip.totalTokenNum}({getDividePercent(tip.grantedTokenNum, tip.totalTokenNum)}%)
                             </div>
                           </div>
                         </NavLink>
