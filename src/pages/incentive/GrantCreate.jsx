@@ -297,7 +297,7 @@ function GrantCreate() {
                         );
                       }}
                       options={userlist.map((item) => ({
-                        label: item.name,
+                        label: (item.name && item.name.length > 0) ? item.name : item.mainWallet,
                         value: item.userId,
                       }))}
                     />
