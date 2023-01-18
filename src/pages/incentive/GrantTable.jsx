@@ -99,7 +99,7 @@ export default function ({ list = [] }) {
           default:
             // view-
             text = "VIEW";
-            link = `/incentive/grant/${record?.grant?.projectId}/${record?.grant?.grantId}/detail`;
+            link = `/incentive/grant/${record?.grant?.incentivePlanId}/${record?.grant?.grantId}/detail`;
         }
 
         return <Link to={link}>{text}</Link>;
