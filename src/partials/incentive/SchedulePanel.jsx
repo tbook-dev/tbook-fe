@@ -1,12 +1,20 @@
 import React from "react";
-import DetailKV from "./DetailKV";
 import VestingSchedule from "@/pages/incentive/VestingSchedule";
 import _ from "lodash";
-import Statistic from "../../components/local/Statistic";
+import { formatDollar } from '@/utils/const'
+
+
+const KV = ({ label, value}) => {
+  return (
+    <div>
+      <h2 className="text-[#475569] text-sm  font-medium">{label}</h2>
+      <p className="text-[#1E293B] text-base font-bold">{value}</p>
+    </div>
+  )
+}
 
 function SchedulePanel(props) {
   const { grantInfo = {}, tipInfo = {}, scheduleInfo = {} } = props;
-  console.log("grantInfo", grantInfo);
   const percent = _.round(
     _.divide(
       scheduleInfo.vestedAmount || 0,
@@ -14,6 +22,8 @@ function SchedulePanel(props) {
     ) * 100,
     4
   );
+  console.log("grantInfo",percent,scheduleInfo.vestedAmount,grantInfo.grantNum,  grantInfo);
+
   return (
     <div className="grow">
       {/* Panel body */}
@@ -22,24 +32,14 @@ function SchedulePanel(props) {
           <h2 className="mb-5 text-base font-bold text-slate-800">
             Vesting Schedule Details
           </h2>
-          <div className="flex justify-start flex-wrap w-[600px]">
-            <DetailKV
+          <div className="flex justify-between flex-wrap w-[600px]">
+            <KV
               label="Total Amount"
-              value={
-                <Statistic
-                  style={{ fontWeight: "400", fontSize: 16 }}
-                  value={grantInfo.grantNum}
-                />
-              }
+              value={formatDollar(grantInfo.grantNum)}
             />
-            <DetailKV
+            <KV
               label="Vested Amount"
-              value={
-                <Statistic
-                  style={{ fontWeight: "400", fontSize: 16 }}
-                  value={scheduleInfo.vestedAmount}
-                />
-              }
+              value={formatDollar(scheduleInfo.vestedAmount)}
             />
           </div>
         </section>
@@ -51,7 +51,7 @@ function SchedulePanel(props) {
             <div
               className="absolute top-0 left-0 h-2 rounded"
               style={{
-                width: `${percent || "0px"}`,
+                width: `${(percent+'%') || "0px"}`,
                 background:
                   "linear-gradient(270deg, #6366F1 51.56%, rgba(99, 102, 241, 0) 100%)",
               }}
