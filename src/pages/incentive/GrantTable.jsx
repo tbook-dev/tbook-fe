@@ -7,6 +7,7 @@ export default function ({ list = [] }) {
   const columns = [
     {
       title: "GRANT ID",
+      align:"center",
       render: (_, v) => (
         <Link
           to={`/incentive/grant/${v?.grant?.incentivePlanId}/${v?.grant?.grantId}/detail`}
@@ -17,6 +18,7 @@ export default function ({ list = [] }) {
     },
     {
       title: "GRANTEE",
+      align:"center",
       dataIndex: "granteeId",
       render(_, record) {
         return (
@@ -39,6 +41,7 @@ export default function ({ list = [] }) {
     },
     {
       title: "STATUS",
+      className:"flex justify-center",
       render(_, record) {
         const stauts = record?.grant?.grantStatus;
         const content = grantStatusList
@@ -55,24 +58,28 @@ export default function ({ list = [] }) {
     },
     {
       title: "TOTAL TOKEN",
+      align:"center",
       render(_, record) {
         return record?.grant?.grantNum;
       },
     },
     {
       title: "GRANT DATE",
+      align:"center",
       render(_, record) {
         return record?.grant?.grantDate;
       },
     },
     {
       title: "VESTED",
+      align:"center",
       render(_, record) {
         return record?.vestedAmount;
       },
     },
     {
       title: "VESTING SCHEDULE",
+      align:"center",
       render(_, record) {
         return grantType.find((item) => item.value === record?.grant?.grantType)
           ?.name;
@@ -80,6 +87,7 @@ export default function ({ list = [] }) {
     },
     {
       title: "ACTION",
+      align:"center",
       render(_, record) {
         let text = "",
           link = "";
