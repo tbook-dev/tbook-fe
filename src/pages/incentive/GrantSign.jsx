@@ -152,11 +152,11 @@ function GrantSign() {
               <KV label="Grant Type" value="token option" />
               <KV
                 label="Total Amount"
-                value={formatDollar(grantInfo?.grantNum)}
+                value={formatDollar(grantInfo?.grantNum)+" Token"}
               />
               <KV
                 label="Exercise Price"
-                value={`${grantInfo.exercisePrice}USD`}
+                value={`${formatDollar(grantInfo.exercisePrice)} USD`}
               />
             </div>
           </section>
