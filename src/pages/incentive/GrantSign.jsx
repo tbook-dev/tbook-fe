@@ -12,7 +12,7 @@ import { loadWeb3 } from "@/utils/web3";
 import KV from "@/components/local/KV2";
 import Title from "@/components/local/Title2";
 import { useAsyncEffect } from "ahooks";
-import { targetMap, grantType, periodMap } from "@/utils/const";
+import { targetMap, formatDollar, periodMap } from "@/utils/const";
 import VestingSchedule from "./VestingSchedule";
 import Done from "@/components/icon/Done";
 import Loading from "@/components/icon/Loading";
@@ -151,10 +151,8 @@ function GrantSign() {
               <KV label="Plan Name" value={tipInfo.incentivePlanName} />
               <KV label="Grant Type" value="token option" />
               <KV
-                label="Vesting by"
-                value={
-                  grantType.find((v) => v.value === grantInfo.grantType)?.name
-                }
+                label="Total Amount"
+                value={formatDollar(grantInfo?.grantNum)}
               />
               <KV
                 label="Exercise Price"

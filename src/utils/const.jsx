@@ -211,3 +211,7 @@ export const periodMap = {
   3: 'Month',
   4: 'Year'
 }
+
+export const formatDollar = (v="")=>{
+  return `${v}`.replace(/\B(?=(\d{3})+(?!\d))/g,',')
+}
