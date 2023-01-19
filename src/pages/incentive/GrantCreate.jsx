@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import {
   Button,
@@ -19,6 +19,8 @@ import {
   addGrant,
   addProjectUser,
   getIncentiveList,
+  getGrantInfo,
+  updateGrantInfo
 } from "@/api/incentive";
 import {
   saveDraftGrantData,
@@ -49,6 +51,9 @@ function GrantCreate() {
   const [confirmLoadingMember, setConfirmLoadingMember] = useState(false);
   const [loadingCreate, setLoadingCreate] = useState(false);
   const projectId = useCurrentProjectId();
+  const [searchParms] = useSearchParams();
+  // console.log(searchParms.get('grantId'))
+  const grantId = searchParms.get("grantId");
 
   const [userlist, setUserlist] = useState([]);
   const [tipList, setTipList] = useState([]);
@@ -122,6 +127,28 @@ function GrantCreate() {
     }
   }, [projectId, tipId]);
 
+  useAsyncEffect(async () => {
+    console.log('grantId', grantId)
+    const grantInfo = await getGrantInfo(grantId);
+    const formValue = {
+      granteeId: grantInfo.granteeId,
+      grantNum: grantInfo.grantNum,
+      exercisePrice: grantInfo.exercisePrice,
+      grantType: grantInfo.grantType,
+      grantDate: dayjs(grantInfo.grantDate, dateFormat),
+      vestingTotalLength: grantInfo.vestingTotalLength,
+      vestingTotalPeriod: grantInfo.vestingTotalPeriod,
+      cliffTime: grantInfo.cliffTime,
+      cliffAmount: grantInfo.cliffAmount,
+      cliffPeriod: grantInfo.cliffPeriod,
+      vestingFrequency: grantInfo.vestingFrequency,
+      vestingPeriod: grantInfo.vestingPeriod,
+      isIncludingCliff: !!grantInfo.cliffTime
+    };
+    console.log(grantInfo)
+    form.setFieldsValue(formValue);
+  }, [grantId]);
+
   const formatValue = useCallback((planValues, userlist, userId) => {
     const grantValues = userlist.find((v) => v.userId === planValues.granteeId);
     const finalTipId = hasTipId ? tipId : planValues.incentivePlanId;
@@ -153,13 +180,19 @@ function GrantCreate() {
     const planValues = await form.validateFields();
     setLoadingCreate(true);
     const values = formatValue(planValues, userlist, userStore?.user?.userId);
-    const grantInfo = await addGrant(values.incentivePlanId, values);
+    let grantInfo = null
+    if(grantId){
+      grantInfo = await updateGrantInfo({...values, grantId});
+    }else{
+      grantInfo = await addGrant(values.incentivePlanId, values);
+    }
+    console.log('grantInfo', grantInfo)
     if (!grantInfo.success) {
       message.error(grantInfo.message);
       setLoadingCreate(false);
       return;
     }
-    clearDraftGrantData(projectId,tipId)
+    clearDraftGrantData(projectId, tipId);
     setLoadingCreate(false);
     navigate(`/grants/${grantInfo?.entity?.grantId}/sign`);
   }
@@ -180,7 +213,7 @@ function GrantCreate() {
           isIncludingCliff: planValues.isIncludingCliff,
         });
         message.success("Save Draft Sucess!");
-        window.history.back()
+        window.history.back();
       })
       .catch((err) => {
         console.log(err, "error");
@@ -297,7 +330,10 @@ function GrantCreate() {
                         );
                       }}
                       options={userlist.map((item) => ({
-                        label: (item.name && item.name.length > 0) ? item.name : item.mainWallet,
+                        label:
+                          item.name && item.name.length > 0
+                            ? item.name
+                            : item.mainWallet,
                         value: item.userId,
                       }))}
                     />
@@ -509,7 +545,7 @@ function GrantCreate() {
                 className="bg-[#6366F1]"
                 loading={loadingCreate}
               >
-                create
+                {grantId ? "update" : "create"}
               </Button>
             </div>
           </div>
@@ -533,7 +569,6 @@ function GrantCreate() {
           <GranteeFrom form={formGrantee} />
         </BorderModalContent>
       </Modal>
-
     </IncentiveLayout>
   );
 }
