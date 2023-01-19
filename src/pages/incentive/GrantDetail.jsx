@@ -33,7 +33,7 @@ export default function GrantDetail() {
         {/* Page header */}
         <div className="mb-4">
           <h1 className="flex items-center text-3xl font-bold md:text-3xl text-slate-800">
-            {grantInfo?.granteeName}-{grantInfo?.granteeId}
+            {grantInfo?.grantId}
           </h1>
           <p className="text-[#475569] text-base">
             {tipInfo?.incentivePlanName}
