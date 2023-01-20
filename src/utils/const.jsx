@@ -1,6 +1,8 @@
 import React from "react";
 import clsx from "clsx";
 import _ from "lodash";
+import Ethereum from "../components/icon/Ethereum";
+import BSC from "../components/icon/BSC";
 
 /**
  * 激励目标target
@@ -206,12 +208,29 @@ export const getDividePercent = (dividend, divisor) => {
 };
 
 export const periodMap = {
-  1: 'Day',
-  2: 'Week',
-  3: 'Month',
-  4: 'Year'
-}
+  1: "Day",
+  2: "Week",
+  3: "Month",
+  4: "Year",
+};
 
-export const formatDollar = (v="")=>{
-  return `${v}`.replace(/\B(?=(\d{3})+(?!\d))/g,',')
-}
+export const formatDollar = (v = "") => {
+  return `${v}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+export const chains = [
+  {
+    name: "Ethereum",
+    fullName: "Ethereum MainNet",
+    evm: true,
+    evmChainId: 1,
+    render: Ethereum,
+  },
+  {
+    name: "BSC",
+    fullName: "Binance Smart Chain",
+    evm: true,
+    evmChainId: 56,
+    render: BSC,
+  },
+];
