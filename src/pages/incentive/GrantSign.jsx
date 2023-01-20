@@ -203,6 +203,7 @@ function GrantSign() {
               </div>
             </div>
             <VestingSchedule
+              pagination={{defaultPageSize: 5}}
               dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []}
             />
           </section>
