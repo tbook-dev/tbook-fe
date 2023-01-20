@@ -14,6 +14,8 @@ import Dashboard from "./pages/Dashboard";
 
 import PlanList from "./pages/incentive/PlanList";
 import PlanCreate from "./pages/incentive/PlanCreate";
+import ProjectPlanCreate from "./pages/incentive/ProjectPlanCreate";
+
 
 import PageNotFound from "./pages/utility/PageNotFound";
 // import Signin from "./pages/Signin";
@@ -76,6 +78,14 @@ function App() {
           element={
             <ProtectedRoute>
               <PlanList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create"
+          element={
+            <ProtectedRoute>
+              <ProjectPlanCreate />
             </ProtectedRoute>
           }
         />

@@ -493,6 +493,7 @@ function GrantCreate() {
                             step={1}
                             precision={0}
                             style={{ width: "100%" }}
+                            placeholder="Editable amout"
                             addonAfter={
                               <Form.Item name="cliffPeriod" noStyle>
                                 <Select style={{ width: 100 }}>
