@@ -59,6 +59,29 @@ excludeFilter://*/grant
 5.点击签字中的卡片，进入signing流程；点击已生效或已完成卡片，进入grant详情页。
 ```
 
+### onboarding流程梳理
+
+1. 管理端
+tbook产品分为管理端和个人资产端，管理端有两个入口
+1.1 管理端入口
+- app.tbook.com
+- 官网tbook.com 点击Launch App按钮跳转 app.tbook.com
+1.2 管理端内部用户onboarding逻辑
+管理端的首页就是激励列表页，不是dashboard页
+管理端不考虑个人资产端的逻辑，所有用户只分为有项目和没有项目两类用户
+- 对于已经创建过的项目的用户，直接默认跳转到激励列表页，根据项目内的plan和grant情况展示
+- 对于没有创建过项目的用户，直接默认跳转到激励列表页，先点击建立计划，在弹出的页面中选择建立项目
+极端情况，当页面失去账户时，依旧默认到激励列表页，计划和grant为空，但是可以点击计划，触发metamask登陆。
+2. 个人资产端
+tbook产品分为管理端和个人资产端，资产端有两个入口
+2.1 资产端入口
+grant.tbook.com
+- 官网tbook.com 点击My grant按钮跳转 app.tbook.com
+3. 官网跳转逻辑
+3.1  官网用户主动点击右上角的钱包链接后，不做任何跳转逻辑，只是显示钱包里的地址就好
+3.2 点击launch app后跳转到 app.tbook.com
+3.3 点击my grant后跳转到 grant.tbook.com
+
 ### 
 ssh://git@git.jetbrains.space/xyma/pkm/tbook-fe.git
 git@github.com:tbook-dev/tbook-fe.git

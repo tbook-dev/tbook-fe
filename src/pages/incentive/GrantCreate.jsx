@@ -416,6 +416,8 @@ function GrantCreate() {
                     ]}
                   >
                     <InputNumber
+                      step={1}
+                      precision={0}
                       min={0}
                       style={{ width: "100%" }}
                       placeholder="Editable amout"
@@ -442,6 +444,8 @@ function GrantCreate() {
                     ]}
                   >
                     <InputNumber
+                      step={1}
+                      precision={0}
                       min={0}
                       style={{ width: "100%" }}
                       placeholder="Editable amout"
@@ -485,6 +489,9 @@ function GrantCreate() {
                           ]}
                         >
                           <InputNumber
+                            min={0}
+                            step={1}
+                            precision={0}
                             style={{ width: "100%" }}
                             addonAfter={
                               <Form.Item name="cliffPeriod" noStyle>
