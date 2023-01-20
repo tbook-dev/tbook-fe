@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import {
   Button,
@@ -179,7 +179,13 @@ function PlanCreate() {
 
           <div className="max-w-[700px] pt-40	">
             <hr className="my-6 border-t border-slate-200" />
-            <div className="flex justify-center">
+            <div className="flex justify-around">
+              <Link to="/incentive">
+                <Button>
+                    Cancel
+                </Button>
+              </Link>
+
               <Button
                 onClick={handleCreate}
                 type="primary"
