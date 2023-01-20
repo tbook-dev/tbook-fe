@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import {
@@ -30,6 +30,13 @@ function PlanCreate() {
   const project = useCurrentProject();
   const [showModal, setModal] = useState(false);
 
+  useEffect(() => {
+    if (userStore?.user?.userId) {
+      if (userStore?.projects?.length === 0) {
+        navigate(`/create`, { replace: true });
+      }
+    }
+  }, [userStore?.user?.userId]);
   const formatPercent = useCallback(() => {
     const res =
       _.divide(
@@ -181,9 +188,7 @@ function PlanCreate() {
             <hr className="my-6 border-t border-slate-200" />
             <div className="flex justify-around">
               <Link to="/incentive">
-                <Button>
-                    Cancel
-                </Button>
+                <Button>Cancel</Button>
               </Link>
 
               <Button
