@@ -113,12 +113,12 @@ function CreateProject() {
                   </p>
                 </div>
                 <div className="flex w-full">
-                  <div className="w-[200px] mr-2">
+                  <div className="w-[220px] mr-2">
                     <Select
                       style={{ width: "100%" }}
                       size="large"
                       value={chianVal}
-                      optionLabelProp="label"
+                      // optionLabelProp="label"
                       onSelect={(v) => {
                         setChainVal(v);
                       }}
