@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Typography } from "antd";
+import { LeftCircleOutlined } from '@ant-design/icons'
 import {
   getGrantInfo,
   getGrantSignInfo,
@@ -217,7 +218,7 @@ function GrantSign() {
               )}
             </div>
 
-            <div className="flex justify-around">
+            <div className="flex justify-around mb-12">
               {signList.map((sg, idx) => {
                 return (
                   <div
@@ -251,6 +252,10 @@ function GrantSign() {
                 );
               })}
             </div>
+
+            <Link to="/incentive" className="text-[#497EED] text-sm">
+            <LeftCircleOutlined className="mr-2"/>Back to Incentive List
+            </Link>
           </div>
         </div>
       </main>

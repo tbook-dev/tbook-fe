@@ -128,7 +128,7 @@ function GrantCreate() {
   }, [projectId, tipId]);
 
   useAsyncEffect(async () => {
-    console.log('grantId', grantId)
+    if(!grantId) return;
     const grantInfo = await getGrantInfo(grantId);
     const formValue = {
       granteeId: grantInfo.granteeId,
