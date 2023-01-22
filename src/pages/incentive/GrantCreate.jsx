@@ -505,25 +505,40 @@ function GrantCreate() {
                               required: true,
                               message: "Please input the Cliff Duration!",
                             },
-                            // {
-                            //   validator: async (_, vestingFrequencyV) => {
-                            //     const grantDateV = await form.getFieldValue('grantDate')
-                            //     if(vestingFrequencyV && grantDateV){
-                            //       const vestingTotalLengthV = await form.getFieldValue('vestingTotalLength')
-                            //       const vestingTotalPeriodV = await form.getFieldValue('vestingTotalPeriod')
-                            //       const totalEnd = grantDateV.add(vestingTotalLengthV, periodMap[vestingTotalPeriodV].toLowerCase())
+                            {
+                              validator: async (_, cliffTimeV) => {
+                                const grantDateV = await form.getFieldValue('grantDate')
+                                if(cliffTimeV && grantDateV){
+                                  const vestingTotalLengthV = await form.getFieldValue('vestingTotalLength')
+                                  const vestingTotalPeriodV = await form.getFieldValue('vestingTotalPeriod')
+                                  const totalEnd = grantDateV.add(vestingTotalLengthV, periodMap[vestingTotalPeriodV].toLowerCase())
       
-                            //       const vestingPeriodV = await form.getFieldValue('vestingPeriod')
-                            //       const vestEnd = grantDateV.add(vestingFrequencyV, periodMap[vestingPeriodV].toLowerCase())
-                            //       // console.log('totalEnd',totalEnd.format(dateFormat))
-                            //       // console.log('vestEnd',vestEnd.format(dateFormat))
+                                  const cliffPeriodV = await form.getFieldValue('cliffPeriod')
+                                  const cliffEnd = grantDateV.add(cliffTimeV, periodMap[cliffPeriodV].toLowerCase())
+                                  // console.log('totalEnd',totalEnd.format(dateFormat))
+                                  // console.log('vestEnd',vestEnd.format(dateFormat))
                                   
-                            //       if(totalEnd.isBefore(vestEnd)){
-                            //         return Promise.reject(new Error('Total Vesting end time should before Vesting Frequency!'));
-                            //       }
-                            //     }
-                            //   },
-                            // }
+                                  if(totalEnd.isBefore(cliffEnd)){
+                                    return Promise.reject(new Error('Total Vesting end time should before cliff end!'));
+                                  }
+                                }
+
+                                if(cliffTimeV && grantDateV){
+                                  const vestingTotalLengthV = 1;
+                                  const vestingTotalPeriodV = await form.getFieldValue('vestingTotalPeriod')
+                                  const totalEnd = grantDateV.add(vestingTotalLengthV, periodMap[vestingTotalPeriodV].toLowerCase())
+      
+                                  const cliffPeriodV = await form.getFieldValue('cliffPeriod')
+                                  const cliffEnd = grantDateV.add(cliffTimeV, periodMap[cliffPeriodV].toLowerCase())
+                                  // console.log('totalEnd',totalEnd.format(dateFormat))
+                                  // console.log('vestEnd',vestEnd.format(dateFormat))
+                                  
+                                  if(totalEnd.isBefore(cliffEnd)){
+                                    return Promise.reject(new Error('Cliff Duration should before one time of vesting frequency!'));
+                                  }
+                                }
+                              },
+                            }
                           ]}
                         >
                           <InputNumber
