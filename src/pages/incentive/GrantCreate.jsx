@@ -28,7 +28,7 @@ import {
   clearDraftGrantData,
 } from "@/api/ls";
 import { useSelector } from "react-redux";
-import { grantType, dateFormat } from "../../utils/const";
+import { grantType, dateFormat, periodMap } from "../../utils/const";
 import GranteeFrom from "./GranteeForm";
 import dayjs from "dayjs";
 import { useAsyncEffect } from "ahooks";
@@ -104,7 +104,7 @@ function GrantCreate() {
   useEffect(() => {
     // 从ls恢复数据
     // const projectId = userStore?.projects?.[0]?.projectId;
-    console.log(tipId, projectId);
+    // console.log(tipId, projectId);
     if (tipId && projectId) {
       try {
         const storedData = getDraftGrantData(projectId, tipId);
@@ -441,6 +441,25 @@ function GrantCreate() {
                         required: true,
                         message: "Please input the Length!",
                       },
+                      {
+                        validator: async (_, vestingFrequencyV) => {
+                          const grantDateV = await form.getFieldValue('grantDate')
+                          if(vestingFrequencyV && grantDateV){
+                            const vestingTotalLengthV = await form.getFieldValue('vestingTotalLength')
+                            const vestingTotalPeriodV = await form.getFieldValue('vestingTotalPeriod')
+                            const totalEnd = grantDateV.add(vestingTotalLengthV, periodMap[vestingTotalPeriodV].toLowerCase())
+
+                            const vestingPeriodV = await form.getFieldValue('vestingPeriod')
+                            const vestEnd = grantDateV.add(vestingFrequencyV, periodMap[vestingPeriodV].toLowerCase())
+                            // console.log('totalEnd',totalEnd.format(dateFormat))
+                            // console.log('vestEnd',vestEnd.format(dateFormat))
+                            
+                            if(totalEnd.isBefore(vestEnd)){
+                              return Promise.reject(new Error('Total Vesting end time should before Vesting Frequency!'));
+                            }
+                          }
+                        },
+                      },
                     ]}
                   >
                     <InputNumber
@@ -486,6 +505,25 @@ function GrantCreate() {
                               required: true,
                               message: "Please input the Cliff Duration!",
                             },
+                            // {
+                            //   validator: async (_, vestingFrequencyV) => {
+                            //     const grantDateV = await form.getFieldValue('grantDate')
+                            //     if(vestingFrequencyV && grantDateV){
+                            //       const vestingTotalLengthV = await form.getFieldValue('vestingTotalLength')
+                            //       const vestingTotalPeriodV = await form.getFieldValue('vestingTotalPeriod')
+                            //       const totalEnd = grantDateV.add(vestingTotalLengthV, periodMap[vestingTotalPeriodV].toLowerCase())
+      
+                            //       const vestingPeriodV = await form.getFieldValue('vestingPeriod')
+                            //       const vestEnd = grantDateV.add(vestingFrequencyV, periodMap[vestingPeriodV].toLowerCase())
+                            //       // console.log('totalEnd',totalEnd.format(dateFormat))
+                            //       // console.log('vestEnd',vestEnd.format(dateFormat))
+                                  
+                            //       if(totalEnd.isBefore(vestEnd)){
+                            //         return Promise.reject(new Error('Total Vesting end time should before Vesting Frequency!'));
+                            //       }
+                            //     }
+                            //   },
+                            // }
                           ]}
                         >
                           <InputNumber
