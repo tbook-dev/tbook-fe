@@ -418,7 +418,7 @@ function GrantCreate() {
                     <InputNumber
                       step={1}
                       precision={0}
-                      min={0}
+                      min={1}
                       style={{ width: "100%" }}
                       placeholder="Editable amout"
                       addonAfter={
@@ -446,7 +446,7 @@ function GrantCreate() {
                     <InputNumber
                       step={1}
                       precision={0}
-                      min={0}
+                      min={1}
                       style={{ width: "100%" }}
                       placeholder="Editable amout"
                       addonAfter={
@@ -489,7 +489,7 @@ function GrantCreate() {
                           ]}
                         >
                           <InputNumber
-                            min={0}
+                            min={1}
                             step={1}
                             precision={0}
                             style={{ width: "100%" }}
