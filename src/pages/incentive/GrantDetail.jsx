@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import IncentiveLayout from "./Layout";
 import { useAsyncEffect } from "ahooks";
 import { useParams } from "react-router-dom";
 import { getGrantInfo, getTIPInfo, getGrantVestingScheduleInfo } from "../../api/incentive";
@@ -28,7 +27,7 @@ export default function GrantDetail() {
   }, []);
 
   return (
-    <IncentiveLayout>
+    <>
       <div className="w-full px-4 py-8 mx-auto sm:px-6 lg:px-8 max-w-9xl">
         {/* Page header */}
         <div className="mb-4">
@@ -48,6 +47,6 @@ export default function GrantDetail() {
           </div>
         </div>
       </div>
-    </IncentiveLayout>
+    </>
   );
 }

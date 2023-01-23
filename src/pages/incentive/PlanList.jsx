@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import IncentiveLayout from "./Layout";
+import LayoutAdmin from "@/layout/Layout.admin";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
@@ -57,7 +57,6 @@ function PlanList() {
   }, [tipList]);
 
   return (
-    <IncentiveLayout>
       <div className="w-full px-4 py-8 mx-auto sm:px-6 lg:px-8 max-w-9xl">
         {/* Page header */}
         <div className="mb-8 sm:flex sm:justify-between sm:items-center">
@@ -166,7 +165,6 @@ function PlanList() {
           </div>
         </div>
       </div>
-    </IncentiveLayout>
   );
 }
 

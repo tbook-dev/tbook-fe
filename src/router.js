@@ -3,22 +3,27 @@ import { lazy } from "react";
 const routes =[
     {
         path: '/',
+        layout: 'v1',
         component: lazy(() => import('@/pages/Dashboard'))
     },
     {
         path: '/incentive',
+        layout: 'v1',
         component: lazy(() => import('@/pages/incentive/PlanList'))
     },
     {
         path: '/create',
+        layout: 'v1',
         component: lazy(() => import('@/pages/incentive/ProjectPlanCreate'))
     },
     {
         path: '/incentive/create',
+        layout: 'v1',
         component: lazy(() => import('@/pages/incentive/PlanCreate'))
     },
     {
         path: '/incentive/:id',
+        layout: 'v1',
         component: lazy(() => import('@/pages/incentive/PlanDetail'))
     },
     {
@@ -35,14 +40,17 @@ const routes =[
     },
     {
         path: '/grants/:grantId/sign',
+        layout: 'v2',
         component: lazy(() => import('@/pages/incentive/GrantSign'))
     },
     {
         path: '/new-project',
+        layout: 'v2',
         component: lazy(() => import('@/pages/CreateProject'))
     },
     {
         path: '/my-grants',
+        layout: 'v2',
         component: lazy(() => import('@/pages/incentive/PersonalProperty'))
     },
     {

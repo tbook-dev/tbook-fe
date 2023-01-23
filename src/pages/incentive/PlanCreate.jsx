@@ -1,6 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import IncentiveLayout from "./Layout";
 import {
   Button,
   Space,
@@ -83,7 +82,7 @@ function PlanCreate() {
   }
 
   return (
-    <IncentiveLayout>
+    <>
       <div className="lg:relative lg:flex">
         <div className="px-4 py-8 sm:px-6 lg:px-16 lg:grow lg:pr-8 xl:pr-16">
           <div className="lg:max-w-[500px]">
@@ -124,6 +123,7 @@ function PlanCreate() {
                           min={0}
                           max={project?.tokenInfo?.surplusTokenNum}
                           style={{ width: 350 }}
+                          placeholder="0"
                         />
                       </Form.Item>
                       <div className="text-[#94A3B8] text-xs">
@@ -131,7 +131,7 @@ function PlanCreate() {
                       </div>
                     </Space>
                     <div className="text-[#94A3B8] text-xs mt-1 flex">
-                      当前剩余可用
+                      There are
                       <Statistic
                         value={project?.tokenInfo?.surplusTokenNum}
                         valueStyle={{
@@ -139,7 +139,7 @@ function PlanCreate() {
                           fontSize: "12px",
                         }}
                       />
-                      虚拟token
+                      virtual tokens available
                     </div>
                   </Form.Item>
                   <Form.Item
@@ -152,7 +152,7 @@ function PlanCreate() {
                       },
                     ]}
                   >
-                    <Select allowClear>
+                    <Select allowClear placeholder="mark a label for you incentive plan">
                       {Object.entries(targetMap).map(([value, desc]) => {
                         return (
                           <Select.Option value={value} key={value}>
@@ -267,7 +267,7 @@ function PlanCreate() {
           </div>
         </div>
       </Modal>
-    </IncentiveLayout>
+    </>
   );
 }
 

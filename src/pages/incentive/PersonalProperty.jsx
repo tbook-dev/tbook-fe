@@ -6,7 +6,7 @@ import { getUserAssets } from "@/api/incentive";
 import { useAsyncEffect } from "ahooks";
 import { Statistic, Progress } from "antd";
 import { useNavigate } from "react-router-dom";
-import _ from 'lodash'
+import _ from "lodash";
 
 export default function PersonalProperty() {
   const [currentNav, setNav] = useState(null);
@@ -68,122 +68,121 @@ export default function PersonalProperty() {
 
   //   console.log("acurrentNav,ssetList->", currentNav, assetList);
   return (
-    <LayoutV2>
-      <main className="flex-auto px-12 py-8 bg-white">
-        <nav className="flex pb-[25px] border-b border-[#E2E8F0] mb-14">
-          {personalPropertyList.map((v) => (
-            <div
-              className={clsx(
-                "w-[105px] mr-6 cursor-pointer text-sm py-1 rounded-2xl text-center font-medium hover:font-black hover:shadow-lg border",
-                v.colorCls,
-                v.value === currentNav && v.selectedCls
-              )}
-              key={v.value}
-              onClick={() => handleNavChange(v.value)}
-            >
-              {v.label}
-            </div>
-          ))}
-        </nav>
+    <main className="flex-auto px-12 py-8 bg-white">
+      <nav className="flex pb-[25px] border-b border-[#E2E8F0] mb-14">
+        {personalPropertyList.map((v) => (
+          <div
+            className={clsx(
+              "w-[105px] mr-6 cursor-pointer text-sm py-1 rounded-2xl text-center font-medium hover:font-black hover:shadow-lg border",
+              v.colorCls,
+              v.value === currentNav && v.selectedCls
+            )}
+            key={v.value}
+            onClick={() => handleNavChange(v.value)}
+          >
+            {v.label}
+          </div>
+        ))}
+      </nav>
 
-        <div>
-          {formatByNav().map((v) => {
-            return (
-              <div key={v.projectId} className="flex items-start mb-14">
-                <div className="w-[160px] mr-8 text-base font-semibold text-black">
-                  {v.projectName}
-                </div>
-                <div className="grid grid-cols-3 gap-x-14 gap-y-12 w-[1098px]">
-                  {v.grantList.map((grant) => {
-                    const status = grant.grantStatus;
-                    //   console.log("cliffAmount", grant.grantStatus);
-                    const textCls = `text-sm	text-[#94A3B8] font-medium`;
-                    const cardThemeColor = clsx({
-                      "#F59E0B": status === 2,
-                      "#1E293B": status === 4 || status === 3,
-                    });
-                    // console.log(status, currentNav);
-                    // console.log('percent-status',status, percent)
+      <div>
+        {formatByNav().map((v) => {
+          return (
+            <div key={v.projectId} className="flex items-start mb-14">
+              <div className="w-[160px] mr-8 text-base font-semibold text-black">
+                {v.projectName}
+              </div>
+              <div className="grid grid-cols-3 gap-x-14 gap-y-12 w-[1098px]">
+                {v.grantList.map((grant) => {
+                  const status = grant.grantStatus;
+                  //   console.log("cliffAmount", grant.grantStatus);
+                  const textCls = `text-sm	text-[#94A3B8] font-medium`;
+                  const cardThemeColor = clsx({
+                    "#F59E0B": status === 2,
+                    "#1E293B": status === 4 || status === 3,
+                  });
+                  // console.log(status, currentNav);
+                  // console.log('percent-status',status, percent)
 
-                    return (currentNav === null || status === currentNav) &&
-                      typeList.includes(status) ? (
-                      <div
-                        onClick={() => handleClickCard(grant)}
-                        key={grant.grantId}
-                        className={clsx(
-                          "h-[200px] cursor-pointer px-6 pt-9 pb-4 border rounded-3xl flex flex-col justify-between shadow-c4",
-                          status === 2 ? "border-[#FEF3C7] hover:bg-c1 hover:shadow-c4" :"border-[#E2E8F0]"
-                        )}
-                      >
-                        <div className="flex justify-between">
-                          <Statistic
-                            title={<p className={textCls}>Vested Token</p>}
-                            value={grant.cliffAmount}
-                            valueStyle={{
-                              color: cardThemeColor,
-                              fontWeight: "600",
-                            }}
-                          />
-                          <Statistic
-                            title={
-                              <p className={clsx(textCls, "text-right")}>
-                                {status === 2 && "Total"} Value
-                              </p>
-                            }
-                            prefix="$"
-                            value={
-                              _.round(
-                              status === 2
-                                ? (grant.cliffAmount || 0) *
+                  return (currentNav === null || status === currentNav) &&
+                    typeList.includes(status) ? (
+                    <div
+                      onClick={() => handleClickCard(grant)}
+                      key={grant.grantId}
+                      className={clsx(
+                        "h-[200px] cursor-pointer px-6 pt-9 pb-4 border rounded-3xl flex flex-col justify-between shadow-c4",
+                        status === 2
+                          ? "border-[#FEF3C7] hover:bg-c1 hover:shadow-c4"
+                          : "border-[#E2E8F0]"
+                      )}
+                    >
+                      <div className="flex justify-between">
+                        <Statistic
+                          title={<p className={textCls}>Vested Token</p>}
+                          value={grant.cliffAmount}
+                          valueStyle={{
+                            color: cardThemeColor,
+                            fontWeight: "600",
+                          }}
+                        />
+                        <Statistic
+                          title={
+                            <p className={clsx(textCls, "text-right")}>
+                              {status === 2 && "Total"} Value
+                            </p>
+                          }
+                          prefix="$"
+                          value={_.round(
+                            status === 2
+                              ? (grant.cliffAmount || 0) *
                                   (grant.exercisePrice || 0)
-                                : (grant.grantNum || 0) *
-                                  (grant.exercisePrice || 0)
-                              ,2)
-                            }
-                            valueStyle={{
-                              color: cardThemeColor,
-                              fontWeight: "600",
-                            }}
-                          />
-                        </div>
-
-                        <div>
-                          {status === 3 && (
-                            <div className="mx-[-24px]">
-                              <Progress
-                                percent={grant.cliffAmount/grant.grantNum}
-                                strokeColor="#6366F1"
-                                showInfo={false}
-                              />
-                            </div>
+                              : (grant.grantNum || 0) *
+                                  (grant.exercisePrice || 0),
+                            2
                           )}
-                          <div
-                            className={`text-base font-semibold text-[${cardThemeColor}]`}
-                          >
-                            {grant.grantId}
-                          </div>
-                          <div className={`flex items-center ${textCls}`}>
-                            Total Token:
-                            <Statistic
-                              value={grant.grantNum}
-                              suffix="Token"
-                              valueStyle={{
-                                fontSize: "14px",
-                                fontWeight: "500",
-                                color: "#94A3B8",
-                              }}
+                          valueStyle={{
+                            color: cardThemeColor,
+                            fontWeight: "600",
+                          }}
+                        />
+                      </div>
+
+                      <div>
+                        {status === 3 && (
+                          <div className="mx-[-24px]">
+                            <Progress
+                              percent={grant.cliffAmount / grant.grantNum}
+                              strokeColor="#6366F1"
+                              showInfo={false}
                             />
                           </div>
+                        )}
+                        <div
+                          className={`text-base font-semibold text-[${cardThemeColor}]`}
+                        >
+                          {grant.grantId}
+                        </div>
+                        <div className={`flex items-center ${textCls}`}>
+                          Total Token:
+                          <Statistic
+                            value={grant.grantNum}
+                            suffix="Token"
+                            valueStyle={{
+                              fontSize: "14px",
+                              fontWeight: "500",
+                              color: "#94A3B8",
+                            }}
+                          />
                         </div>
                       </div>
-                    ) : null;
-                  })}
-                </div>
+                    </div>
+                  ) : null;
+                })}
               </div>
-            );
-          })}
-        </div>
-      </main>
-    </LayoutV2>
+            </div>
+          );
+        })}
+      </div>
+    </main>
   );
 }

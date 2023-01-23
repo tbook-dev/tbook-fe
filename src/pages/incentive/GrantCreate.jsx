@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import IncentiveLayout from "./Layout";
+import IncentiveLayout from "@/layout/Layout.admin";
 import {
   Button,
   Form,
@@ -20,7 +20,7 @@ import {
   addProjectUser,
   getIncentiveList,
   getGrantInfo,
-  updateGrantInfo
+  updateGrantInfo,
 } from "@/api/incentive";
 import {
   saveDraftGrantData,
@@ -128,7 +128,7 @@ function GrantCreate() {
   }, [projectId, tipId]);
 
   useAsyncEffect(async () => {
-    if(!grantId) return;
+    if (!grantId) return;
     const grantInfo = await getGrantInfo(grantId);
     const formValue = {
       granteeId: grantInfo.granteeId,
@@ -143,9 +143,9 @@ function GrantCreate() {
       cliffPeriod: grantInfo.cliffPeriod,
       vestingFrequency: grantInfo.vestingFrequency,
       vestingPeriod: grantInfo.vestingPeriod,
-      isIncludingCliff: !!grantInfo.cliffTime
+      isIncludingCliff: !!grantInfo.cliffTime,
     };
-    console.log(grantInfo)
+    console.log(grantInfo);
     form.setFieldsValue(formValue);
   }, [grantId]);
 
@@ -180,13 +180,13 @@ function GrantCreate() {
     const planValues = await form.validateFields();
     setLoadingCreate(true);
     const values = formatValue(planValues, userlist, userStore?.user?.userId);
-    let grantInfo = null
-    if(grantId){
-      grantInfo = await updateGrantInfo({...values, grantId});
-    }else{
+    let grantInfo = null;
+    if (grantId) {
+      grantInfo = await updateGrantInfo({ ...values, grantId });
+    } else {
       grantInfo = await addGrant(values.incentivePlanId, values);
     }
-    console.log('grantInfo', grantInfo)
+    console.log("grantInfo", grantInfo);
     if (!grantInfo.success) {
       message.error(grantInfo.message);
       setLoadingCreate(false);
@@ -243,7 +243,7 @@ function GrantCreate() {
   }
 
   return (
-    <IncentiveLayout>
+    <>
       <div className="lg:relative lg:flex">
         <div className="px-4 py-8 sm:px-6 lg:px-16 lg:grow lg:pr-8 xl:pr-16">
           <div className="lg:max-w-[500px]">
@@ -443,19 +443,35 @@ function GrantCreate() {
                       },
                       {
                         validator: async (_, vestingFrequencyV) => {
-                          const grantDateV = await form.getFieldValue('grantDate')
-                          if(vestingFrequencyV && grantDateV){
-                            const vestingTotalLengthV = await form.getFieldValue('vestingTotalLength')
-                            const vestingTotalPeriodV = await form.getFieldValue('vestingTotalPeriod')
-                            const totalEnd = grantDateV.add(vestingTotalLengthV, periodMap[vestingTotalPeriodV].toLowerCase())
+                          const grantDateV = await form.getFieldValue(
+                            "grantDate"
+                          );
+                          if (vestingFrequencyV && grantDateV) {
+                            const vestingTotalLengthV =
+                              await form.getFieldValue("vestingTotalLength");
+                            const vestingTotalPeriodV =
+                              await form.getFieldValue("vestingTotalPeriod");
+                            const totalEnd = grantDateV.add(
+                              vestingTotalLengthV,
+                              periodMap[vestingTotalPeriodV].toLowerCase()
+                            );
 
-                            const vestingPeriodV = await form.getFieldValue('vestingPeriod')
-                            const vestEnd = grantDateV.add(vestingFrequencyV, periodMap[vestingPeriodV].toLowerCase())
+                            const vestingPeriodV = await form.getFieldValue(
+                              "vestingPeriod"
+                            );
+                            const vestEnd = grantDateV.add(
+                              vestingFrequencyV,
+                              periodMap[vestingPeriodV].toLowerCase()
+                            );
                             // console.log('totalEnd',totalEnd.format(dateFormat))
                             // console.log('vestEnd',vestEnd.format(dateFormat))
-                            
-                            if(totalEnd.isBefore(vestEnd)){
-                              return Promise.reject(new Error('Total Vesting end time should before Vesting Frequency!'));
+
+                            if (totalEnd.isBefore(vestEnd)) {
+                              return Promise.reject(
+                                new Error(
+                                  "Total Vesting end time should before Vesting Frequency!"
+                                )
+                              );
                             }
                           }
                         },
@@ -507,38 +523,73 @@ function GrantCreate() {
                             },
                             {
                               validator: async (_, cliffTimeV) => {
-                                const grantDateV = await form.getFieldValue('grantDate')
-                                if(cliffTimeV && grantDateV){
-                                  const vestingTotalLengthV = await form.getFieldValue('vestingTotalLength')
-                                  const vestingTotalPeriodV = await form.getFieldValue('vestingTotalPeriod')
-                                  const totalEnd = grantDateV.add(vestingTotalLengthV, periodMap[vestingTotalPeriodV].toLowerCase())
-      
-                                  const cliffPeriodV = await form.getFieldValue('cliffPeriod')
-                                  const cliffEnd = grantDateV.add(cliffTimeV, periodMap[cliffPeriodV].toLowerCase())
+                                const grantDateV = await form.getFieldValue(
+                                  "grantDate"
+                                );
+                                if (cliffTimeV && grantDateV) {
+                                  const vestingTotalLengthV =
+                                    await form.getFieldValue(
+                                      "vestingTotalLength"
+                                    );
+                                  const vestingTotalPeriodV =
+                                    await form.getFieldValue(
+                                      "vestingTotalPeriod"
+                                    );
+                                  const totalEnd = grantDateV.add(
+                                    vestingTotalLengthV,
+                                    periodMap[vestingTotalPeriodV].toLowerCase()
+                                  );
+
+                                  const cliffPeriodV = await form.getFieldValue(
+                                    "cliffPeriod"
+                                  );
+                                  const cliffEnd = grantDateV.add(
+                                    cliffTimeV,
+                                    periodMap[cliffPeriodV].toLowerCase()
+                                  );
                                   // console.log('totalEnd',totalEnd.format(dateFormat))
                                   // console.log('vestEnd',vestEnd.format(dateFormat))
-                                  
-                                  if(totalEnd.isBefore(cliffEnd)){
-                                    return Promise.reject(new Error('Total Vesting end time should before cliff end!'));
+
+                                  if (totalEnd.isBefore(cliffEnd)) {
+                                    return Promise.reject(
+                                      new Error(
+                                        "Total Vesting end time should before cliff end!"
+                                      )
+                                    );
                                   }
                                 }
 
-                                if(cliffTimeV && grantDateV){
+                                if (cliffTimeV && grantDateV) {
                                   const vestingTotalLengthV = 1;
-                                  const vestingTotalPeriodV = await form.getFieldValue('vestingTotalPeriod')
-                                  const totalEnd = grantDateV.add(vestingTotalLengthV, periodMap[vestingTotalPeriodV].toLowerCase())
-      
-                                  const cliffPeriodV = await form.getFieldValue('cliffPeriod')
-                                  const cliffEnd = grantDateV.add(cliffTimeV, periodMap[cliffPeriodV].toLowerCase())
+                                  const vestingTotalPeriodV =
+                                    await form.getFieldValue(
+                                      "vestingTotalPeriod"
+                                    );
+                                  const totalEnd = grantDateV.add(
+                                    vestingTotalLengthV,
+                                    periodMap[vestingTotalPeriodV].toLowerCase()
+                                  );
+
+                                  const cliffPeriodV = await form.getFieldValue(
+                                    "cliffPeriod"
+                                  );
+                                  const cliffEnd = grantDateV.add(
+                                    cliffTimeV,
+                                    periodMap[cliffPeriodV].toLowerCase()
+                                  );
                                   // console.log('totalEnd',totalEnd.format(dateFormat))
                                   // console.log('vestEnd',vestEnd.format(dateFormat))
-                                  
-                                  if(totalEnd.isBefore(cliffEnd)){
-                                    return Promise.reject(new Error('Cliff Duration should before one time of vesting frequency!'));
+
+                                  if (totalEnd.isBefore(cliffEnd)) {
+                                    return Promise.reject(
+                                      new Error(
+                                        "Cliff Duration should before one time of vesting frequency!"
+                                      )
+                                    );
                                   }
                                 }
                               },
-                            }
+                            },
                           ]}
                         >
                           <InputNumber
@@ -630,7 +681,7 @@ function GrantCreate() {
           <GranteeFrom form={formGrantee} />
         </BorderModalContent>
       </Modal>
-    </IncentiveLayout>
+    </>
   );
 }
 
