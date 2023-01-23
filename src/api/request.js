@@ -78,6 +78,7 @@ export default function request(url, options = {}) {
             }
             return Promise.reject(res);
           }
+          store.dispatch(setAuthUser(true));
 
           const data =
             options.headers["Content-type"] === ContentType.download

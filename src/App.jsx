@@ -25,12 +25,10 @@ import CreateProject from "./pages/CreateProject";
 import PlanDetail from "./pages/incentive/PlanDetail";
 import GrantCreate from "./pages/incentive/GrantCreate";
 
-import Login from "./pages/Login";
 import GrantSign from "./pages/incentive/GrantSign";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Project from "./pages/settings/Project";
 import Member from "./pages/settings/Member";
-import Feedback from "./pages/settings/Feedback";
 
 import GrantDetail from "./pages/incentive/GrantDetail";
 import GrantsSchedule from "./pages/incentive/GrantsSchedule";
@@ -140,7 +138,6 @@ function App() {
         />
 
         {/* <Route path="/signin" element={<Signin />} /> */}
-        <Route path="/logins" element={<Login />} />
         <Route
           path="/new-project1"
           element={
@@ -181,14 +178,6 @@ function App() {
           element={
             <ProtectedRoute>
               <Member />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings/feedback"
-          element={
-            <ProtectedRoute>
-              <Feedback />
             </ProtectedRoute>
           }
         />

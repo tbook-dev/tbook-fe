@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import Logo from "../components/icon/Logo";
-
+import { useSelector } from "react-redux";
+import clsx from "clsx";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
+  const authUser = useSelector((state) => state.user.authUser);
+
   const location = useLocation();
   const { pathname } = location;
 
@@ -89,8 +92,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </svg>
           </button>
           {/* Logo */}
-          <NavLink end to="/" className="flex items-center justify-center">
-            <Logo sidebarExpanded={sidebarExpanded}/>
+          <NavLink
+            end
+            to={authUser ? "/incentive" : null}
+            className="flex items-center justify-center"
+          >
+            <Logo sidebarExpanded={sidebarExpanded} />
           </NavLink>
         </div>
 
@@ -111,26 +118,24 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </h3>
             <div className="flex flex-col justify-between flex-auto mt-3">
               <div>
-               
                 {/* incentive */}
-                <SidebarLinkGroup
-                  activecondition={
-                    pathname === "/incentive"
-                  }
-                >
+                <SidebarLinkGroup activecondition={pathname === "/incentive"}>
                   {(handleClick, open) => {
                     return (
                       <React.Fragment>
                         <NavLink
                           to="/incentive"
                           className={({ isActive }) =>
-                            "block text-slate-400 hover:text-slate-200 transition duration-150 truncate " +
-                            (isActive ? "!text-indigo-500" : "")
+                            clsx(
+                              "block text-slate-400 hover:text-slate-200 transition duration-150 truncate ",
+                              isActive ? "!text-indigo-500" : ""
+                              // {'pointer-events-none': !authUser}
+                            )
                           }
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">
-                            <svg
+                              <svg
                                 className="w-6 h-6 shrink-0"
                                 viewBox="0 0 24 24"
                               >
@@ -167,21 +172,18 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   }}
                 </SidebarLinkGroup>
 
-
-                 {/* Dashboard */}
-                 <SidebarLinkGroup
-                  activecondition={
-                    pathname === "/"
-                  }
-                >
+                {/* Dashboard */}
+                <SidebarLinkGroup activecondition={pathname === "/"}>
                   {(handleClick, open) => {
                     return (
                       <React.Fragment>
                         <NavLink
                           to="/"
                           className={({ isActive }) =>
-                            "block text-slate-400 hover:text-slate-200 transition duration-150 truncate " +
-                            (isActive ? "!text-indigo-500" : "")
+                            clsx(
+                              "block text-slate-400 hover:text-slate-200 transition duration-150 truncate ",
+                              isActive ? "!text-indigo-500" : ""
+                            )
                           }
                         >
                           <div className="flex items-center justify-between">
@@ -192,8 +194,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               >
                                 <path
                                   className={`fill-current text-slate-400 ${
-                                    (pathname === "/") &&
-                                    "!text-indigo-500"
+                                    pathname === "/" && "!text-indigo-500"
                                   }`}
                                   d="M12 0C5.383 0 0 5.383 0 12s5.383 12 12 12 12-5.383 12-12S18.617 0 12 0z"
                                 />
@@ -224,7 +225,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     );
                   }}
                 </SidebarLinkGroup>
-
 
                 {/* incentive v1 */}
                 {/* 
@@ -336,10 +336,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                       <React.Fragment>
                         <a
                           href="#0"
-                          className={`block text-slate-200 hover:text-white truncate transition duration-150 ${
-                            pathname.includes("incentive") &&
-                            "hover:text-slate-200"
-                          }`}
+                          className={clsx(
+                            `block text-slate-200 hover:text-white truncate transition duration-150 ${
+                              pathname.includes("incentive") &&
+                              "hover:text-slate-200"
+                            }`,
+                            {
+                              "pointer-events-none": !authUser,
+                            }
+                          )}
                           onClick={(e) => {
                             e.preventDefault();
                             sidebarExpanded

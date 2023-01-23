@@ -5,7 +5,7 @@ import { getCurrentProjectId, saveCurrentProjectId } from '@/api/ls'
 
 const initialState = {
   value: 0,
-  authUser: true,
+  authUser: false,
   authHeader: "",
   currentProjectId: getCurrentProjectId(),
   projects: [
@@ -58,7 +58,7 @@ export const userSlice = createSlice({
     },
     setAuthUser: (state, action) => {
       state.authUser = action.payload;
-      console.log(action);
+      // console.log(action);
     },
   },
 });

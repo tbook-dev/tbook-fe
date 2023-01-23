@@ -58,7 +58,17 @@ function DropdownProfile({ align }) {
         />
         <div className="flex items-center truncate">
           <span className="ml-2 text-sm font-medium truncate group-hover:text-slate-800">
-            {userStore?.name}
+            {/* {userStore?.name} */}
+            <Eth
+                style={{
+                  width: 115,
+                  fontSize: 14,
+                  marginBottom: 0,
+                  color: "#94A3B8",
+                }}
+              >
+                {userStore?.mainWallet}
+              </Eth>
           </span>
         </div>
       </button>

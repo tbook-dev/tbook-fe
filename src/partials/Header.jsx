@@ -1,8 +1,11 @@
 import React from "react";
 import UserMenu from "../components/DropdownProfile";
 import ProjectMenu from "../components/DropdownProject";
+import { useSelector } from "react-redux";
+import Connect from '@/components/connect';
 
 function Header({ sidebarOpen, setSidebarOpen }) {
+  const authUser = useSelector((state) => state.user.authUser);
 
   return (
     <header className="sticky top-0 z-30 bg-white border-b border-slate-200">
@@ -35,11 +38,15 @@ function Header({ sidebarOpen, setSidebarOpen }) {
 
           {/* Header: Right side */}
           <div className="flex items-center space-x-3">
-            {/*  Divider */}
-            <ProjectMenu align="right" />
-            <hr className="w-px h-6 mx-3 bg-slate-200" />
-
-            <UserMenu align="right" />
+            {authUser ? (
+              <>
+                <ProjectMenu align="right" />
+                <hr className="w-px h-6 mx-3 bg-slate-200" />
+                <UserMenu align="right" />
+              </>
+            ) : (
+              <Connect />
+            )}
           </div>
         </div>
       </div>

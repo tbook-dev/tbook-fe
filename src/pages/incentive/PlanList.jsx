@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import IncentiveLayout from "./Layout";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,11 +14,30 @@ import { useAsyncEffect } from "ahooks";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import _ from "lodash";
 import { targetMap, getDividePercent } from '@/utils/const'
+import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthUser, fetchUserInfo } from "@/store/user";
 
 function PlanList() {
   const [tipList, updateTipList] = useState([]);
   const [grantList, updateGrantList] = useState([]);
   const projectId = useCurrentProjectId();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const authUser = useSelector(state => state.user.authUser)
+
+  async function handleSignIn() {
+    console.log('authUser', authUser)
+    if(authUser){
+      navigate('/incentive/create')
+    }else{
+      const web3 = await loadWeb3()
+      await signLoginMetaMask(web3);
+      dispatch(fetchUserInfo());
+      dispatch(setAuthUser(true));
+    }
+  }
+
 
   useAsyncEffect(async () => {
     if (!projectId) return;
@@ -65,11 +84,11 @@ function PlanList() {
                 }}
               >
                 <SwiperSlide>
-                  <NavLink to={"/incentive/create"}>
+                  <div className="cursor-pointer" onClick={handleSignIn} to={"/incentive/create"}>
                     <div className="w-[148px] h-[98px] shadow-c1 border rounded-[10px] flex justify-center align-middle">
                       <PlusOutlined />
                     </div>
-                  </NavLink>
+                  </div>
                 </SwiperSlide>
 
                 {Array.isArray(tipList) && tipList.length === 0 ? (
