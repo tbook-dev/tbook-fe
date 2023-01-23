@@ -21,7 +21,7 @@ function App() {
   const Layout = layoutVersion === "v1" ? LayoutV1 : LayoutV2;
 
   useLayoutEffect(() => {
-    const currentConf = routes.find(v => match(v.path)(location.pathname))
+    const currentConf = routes.find(v => match(v.path)(location?.pathname))
     setLayoutVersion(currentConf?.layout || 'v1')
   }, [location]);
 

@@ -4,7 +4,7 @@ import { NavLink, useLocation, useParams } from "react-router-dom";
 function SettingsSidebar() {
   const location = useLocation();
   const { grantId, tipId } = useParams();
-  const { pathname } = location;
+  const { pathname } = location || {};
 
   const submenu = [
     {
@@ -20,8 +20,8 @@ function SettingsSidebar() {
   ];
 
   return (
-    <div className="flex flex-nowrap overflow-x-scroll no-scrollbar md:block md:overflow-auto px-3 py-6 border-b md:border-b-0 md:border-r border-slate-200 min-w-60 md:space-y-3">
-      <ul className="flex flex-nowrap md:block mr-3 md:mr-0">
+    <div className="flex px-3 py-6 overflow-x-scroll border-b flex-nowrap no-scrollbar md:block md:overflow-auto md:border-b-0 md:border-r border-slate-200 min-w-60 md:space-y-3">
+      <ul className="flex mr-3 flex-nowrap md:block md:mr-0">
         {submenu.map((menu) => {
           const isCurrent = menu.reg.test(pathname);
           return (

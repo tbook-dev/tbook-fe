@@ -9,7 +9,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const authUser = useSelector((state) => state.user.authUser);
 
   const location = useLocation();
-  const { pathname } = location;
+  const { pathname } = location || {};
 
   const trigger = useRef(null);
   const sidebar = useRef(null);

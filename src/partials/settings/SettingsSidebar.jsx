@@ -3,7 +3,7 @@ import { NavLink, useLocation } from "react-router-dom";
 
 function SettingsSidebar() {
   const location = useLocation();
-  const { pathname } = location;
+  const { pathname } = location || {};
   const businessSubmenu = [
     {
       reg: /\/settings\/project/,
@@ -30,13 +30,13 @@ function SettingsSidebar() {
   ];
 
   return (
-    <div className="flex flex-nowrap overflow-x-scroll no-scrollbar md:block md:overflow-auto px-3 py-6 border-b md:border-b-0 md:border-r border-slate-200 min-w-60 md:space-y-3">
+    <div className="flex px-3 py-6 overflow-x-scroll border-b flex-nowrap no-scrollbar md:block md:overflow-auto md:border-b-0 md:border-r border-slate-200 min-w-60 md:space-y-3">
       {/* Group 1 */}
       <div>
-        <div className="text-xs font-semibold text-slate-400 uppercase mb-3">
+        <div className="mb-3 text-xs font-semibold uppercase text-slate-400">
           Business settings
         </div>
-        <ul className="flex flex-nowrap md:block mr-3 md:mr-0">
+        <ul className="flex mr-3 flex-nowrap md:block md:mr-0">
           {businessSubmenu.map((menu) => {
             const isCurrent = menu.reg.test(pathname);
             return (
@@ -68,10 +68,10 @@ function SettingsSidebar() {
       </div>
       {/* Group 2 */}
       <div>
-        <div className="text-xs font-semibold text-slate-400 uppercase mb-3">
+        <div className="mb-3 text-xs font-semibold uppercase text-slate-400">
           Experience
         </div>
-        <ul className="flex flex-nowrap md:block mr-3 md:mr-0">
+        <ul className="flex mr-3 flex-nowrap md:block md:mr-0">
           <li className="mr-0.5 md:mr-0 md:mb-0.5">
             <NavLink
               end
