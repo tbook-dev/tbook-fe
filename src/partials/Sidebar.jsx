@@ -90,7 +90,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
           </button>
           {/* Logo */}
           <NavLink end to="/" className="flex items-center justify-center">
-            <Logo />
+            <Logo sidebarExpanded={sidebarExpanded}/>
           </NavLink>
         </div>
 
@@ -111,10 +111,67 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </h3>
             <div className="flex flex-col justify-between flex-auto mt-3">
               <div>
-                {/* Dashboard */}
+               
+                {/* incentive */}
                 <SidebarLinkGroup
                   activecondition={
-                    pathname === "/" || pathname.includes("dashboard")
+                    pathname === "/incentive"
+                  }
+                >
+                  {(handleClick, open) => {
+                    return (
+                      <React.Fragment>
+                        <NavLink
+                          to="/incentive"
+                          className={({ isActive }) =>
+                            "block text-slate-400 hover:text-slate-200 transition duration-150 truncate " +
+                            (isActive ? "!text-indigo-500" : "")
+                          }
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                            <svg
+                                className="w-6 h-6 shrink-0"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  className={`fill-current text-slate-400 ${
+                                    pathname.includes("incentive") &&
+                                    "text-indigo-300"
+                                  }`}
+                                  d="M13 15l11-7L11.504.136a1 1 0 00-1.019.007L0 7l13 8z"
+                                />
+                                <path
+                                  className={`fill-current text-slate-700 ${
+                                    pathname.includes("incentive") &&
+                                    "!text-indigo-600"
+                                  }`}
+                                  d="M13 15L0 7v9c0 .355.189.685.496.864L13 24v-9z"
+                                />
+                                <path
+                                  className={`fill-current text-slate-600 ${
+                                    pathname.includes("incentive") &&
+                                    "text-indigo-500"
+                                  }`}
+                                  d="M13 15.047V24l10.573-7.181A.999.999 0 0024 16V8l-11 7.047z"
+                                />
+                              </svg>
+                              <span className="ml-3 text-sm font-medium duration-200 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100">
+                                Incentive
+                              </span>
+                            </div>
+                          </div>
+                        </NavLink>
+                      </React.Fragment>
+                    );
+                  }}
+                </SidebarLinkGroup>
+
+
+                 {/* Dashboard */}
+                 <SidebarLinkGroup
+                  activecondition={
+                    pathname === "/"
                   }
                 >
                   {(handleClick, open) => {
@@ -135,8 +192,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               >
                                 <path
                                   className={`fill-current text-slate-400 ${
-                                    (pathname === "/" ||
-                                      pathname.includes("dashboard")) &&
+                                    (pathname === "/") &&
                                     "!text-indigo-500"
                                   }`}
                                   d="M12 0C5.383 0 0 5.383 0 12s5.383 12 12 12 12-5.383 12-12S18.617 0 12 0z"
@@ -168,7 +224,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     );
                   }}
                 </SidebarLinkGroup>
-                {/* E-Commerce */}
+
+
+                {/* incentive v1 */}
+                {/* 
                 <SidebarLinkGroup
                   activecondition={pathname.includes("incentive")}
                 >
@@ -220,7 +279,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                                 Incentive
                               </span>
                             </div>
-                            {/* Icon */}
                             <div className="flex ml-2 shrink-0">
                               <svg
                                 className={`w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 ${
@@ -255,6 +313,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     );
                   }}
                 </SidebarLinkGroup>
+              */}
               </div>
 
               <div className="pb-24">
@@ -367,20 +426,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               >
                                 <span className="text-sm font-medium duration-200 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100">
                                   members
-                                </span>
-                              </NavLink>
-                            </li>
-                            <li className="mb-1 last:mb-0">
-                              <NavLink
-                                end
-                                to="/settings/feedback"
-                                className={({ isActive }) =>
-                                  "block text-slate-400 hover:text-slate-200 transition duration-150 truncate " +
-                                  (isActive ? "!text-indigo-500" : "")
-                                }
-                              >
-                                <span className="text-sm font-medium duration-200 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100">
-                                  feedback
                                 </span>
                               </NavLink>
                             </li>
