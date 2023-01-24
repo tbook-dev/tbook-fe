@@ -66,16 +66,19 @@ function ProjectPlanCreate() {
 
   async function handleCreatePlan() {
     setConfirmLoading2(true);
-
-    const values = await form.validateFields();
-    values.incentivePlanAdminId = userStore?.user?.userId;
-    values.projectId = projectId;
-    if (values.target === "7") {
-      values.customized_target_name = customizeOptions.label;
+    try {
+      const values = await form.validateFields();
+      values.incentivePlanAdminId = userStore?.user?.userId;
+      values.projectId = projectId;
+      if (values.target === "7") {
+        values.customized_target_name = customizeOptions.label;
+      }
+      const tipRes = await createTIP(values);
+      setConfirmLoading2(false);
+      navigate(`/incentive/${tipRes.incentivePlanId}`);
+    } catch (error) {
+      setConfirmLoading2(false);
     }
-    const tipRes = await createTIP(values);
-    setConfirmLoading2(false);
-    navigate(`/incentive/${tipRes.incentivePlanId}`);
   }
 
   return (
@@ -221,70 +224,69 @@ function ProjectPlanCreate() {
                   ]}
                 >
                   <Select
-                      allowClear
-                      optionLabelProp="label"
-                      placeholder="mark a label for you incentive plan"
-                      // options={preOptions}
-                      dropdownRender={(menu) => {
-                        return (
-                          <>
-                            {menu}
-                            {!customizeOptions && (
-                              <>
-                                <Divider style={{ margin: "8px 0" }} />
-                                <div className="flex items-center px-2 pb-1">
-                                  <Input
-                                    placeholder="Editable..."
-                                    maxLength={30}
-                                    ref={inputRef}
-                                    style={{ marginRight: 8 }}
-                                  />
-                                  <Button
-                                    type="text"
-                                    onClick={async () => {
-                                      const val =
-                                        inputRef.current?.input?.value;
+                    allowClear
+                    optionLabelProp="label"
+                    placeholder="mark a label for you incentive plan"
+                    // options={preOptions}
+                    dropdownRender={(menu) => {
+                      return (
+                        <>
+                          {menu}
+                          {!customizeOptions && (
+                            <>
+                              <Divider style={{ margin: "8px 0" }} />
+                              <div className="flex items-center px-2 pb-1">
+                                <Input
+                                  placeholder="Editable..."
+                                  maxLength={30}
+                                  ref={inputRef}
+                                  style={{ marginRight: 8 }}
+                                />
+                                <Button
+                                  type="text"
+                                  onClick={async () => {
+                                    const val = inputRef.current?.input?.value;
 
-                                      val &&
-                                        setCustomizeOptions({
-                                          label: val,
-                                          value: "7",
-                                        });
-                                      form.setFieldValue("target", "7");
-                                    }}
-                                    icon={<CheckOutlined />}
-                                  />
-                                </div>
-                              </>
-                            )}
-                          </>
-                        );
-                      }}
-                    >
-                      {options.map((option) => (
-                        <Select.Option
-                          label={option.label}
-                          value={option.value}
-                          key={option.value}
-                        >
-                          <div className="flex justify-between">
-                            <span>{option.label}</span>
-                            {option.value == "7" && (
-                              <Button
-                                onClick={(evt) => {
-                                  evt.stopPropagation();
-                                  setCustomizeOptions(null);
-                                }}
-                                type="text"
-                                className="mr-2"
-                              >
-                                <DeleteOutlined />
-                              </Button>
-                            )}
-                          </div>
-                        </Select.Option>
-                      ))}
-                    </Select>
+                                    val &&
+                                      setCustomizeOptions({
+                                        label: val,
+                                        value: "7",
+                                      });
+                                    form.setFieldValue("target", "7");
+                                  }}
+                                  icon={<CheckOutlined />}
+                                />
+                              </div>
+                            </>
+                          )}
+                        </>
+                      );
+                    }}
+                  >
+                    {options.map((option) => (
+                      <Select.Option
+                        label={option.label}
+                        value={option.value}
+                        key={option.value}
+                      >
+                        <div className="flex justify-between">
+                          <span>{option.label}</span>
+                          {option.value == "7" && (
+                            <Button
+                              onClick={(evt) => {
+                                evt.stopPropagation();
+                                setCustomizeOptions(null);
+                              }}
+                              type="text"
+                              className="mr-2"
+                            >
+                              <DeleteOutlined />
+                            </Button>
+                          )}
+                        </div>
+                      </Select.Option>
+                    ))}
+                  </Select>
                 </Form.Item>
 
                 {step === 2 && (
