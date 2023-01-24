@@ -271,10 +271,11 @@ function ProjectPlanCreate() {
                       >
                         <div className="flex justify-between">
                           <span>{option.label}</span>
-                          {option.value == "7" && (
+                          {/* {option.value == "7" && (
                             <Button
                               onClick={(evt) => {
                                 evt.stopPropagation();
+                                form.setFieldValue('target','1')
                                 setCustomizeOptions(null);
                               }}
                               type="text"
@@ -282,7 +283,7 @@ function ProjectPlanCreate() {
                             >
                               <DeleteOutlined />
                             </Button>
-                          )}
+                          )} */}
                         </div>
                       </Select.Option>
                     ))}

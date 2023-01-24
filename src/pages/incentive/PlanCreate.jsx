@@ -11,7 +11,10 @@ import {
   Statistic,
   Divider,
 } from "antd";
-import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  CheckOutlined,
+  //  DeleteOutlined
+} from "@ant-design/icons";
 import { targetMap } from "../../utils/const";
 import { useSelector } from "react-redux";
 import { createTIP } from "../../api/incentive";
@@ -216,10 +219,11 @@ function PlanCreate() {
                         >
                           <div className="flex justify-between">
                             <span>{option.label}</span>
-                            {option.value == "7" && (
+                            {/* {option.value == "7" && (
                               <Button
                                 onClick={(evt) => {
                                   evt.stopPropagation();
+                                  form.setFieldValue('target','1')
                                   setCustomizeOptions(null);
                                 }}
                                 type="text"
@@ -227,7 +231,7 @@ function PlanCreate() {
                               >
                                 <DeleteOutlined />
                               </Button>
-                            )}
+                            )} */}
                           </div>
                         </Select.Option>
                       ))}
