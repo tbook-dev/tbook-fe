@@ -225,7 +225,7 @@ function GrantSign() {
       <div className="flex items-center justify-center min-h-full bg-white">
         <div className="w-[440px]">
           <div className="">
-            {signList.filter((item) => item.signStatus === 2).length === 2 ? (
+            {signList.filter((item) => item.grantSign.signStatus === 2).length === 2 ? (
               <SignSucess />
             ) : (
               <Tip />
