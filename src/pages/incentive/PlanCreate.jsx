@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   Button,
@@ -9,7 +9,9 @@ import {
   InputNumber,
   Modal,
   Statistic,
+  Divider,
 } from "antd";
+import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
 import { targetMap } from "../../utils/const";
 import { useSelector } from "react-redux";
 import { createTIP } from "../../api/incentive";
@@ -28,6 +30,15 @@ function PlanCreate() {
   const projectId = useCurrentProjectId();
   const project = useCurrentProject();
   const [showModal, setModal] = useState(false);
+  const [customizeOptions, setCustomizeOptions] = useState(null);
+  const inputRef = useRef(null);
+  const preOptions = Object.entries(targetMap).map(([value, desc]) => ({
+    label: desc,
+    value: value,
+  }));
+  const options = customizeOptions
+    ? [...preOptions, customizeOptions]
+    : preOptions;
 
   useEffect(() => {
     if (userStore?.user?.userId) {
@@ -36,6 +47,7 @@ function PlanCreate() {
       }
     }
   }, [userStore?.user?.userId]);
+
   const formatPercent = useCallback(() => {
     const res =
       _.divide(
@@ -68,6 +80,9 @@ function PlanCreate() {
       .then((values) => {
         values.incentivePlanAdminId = userStore?.user?.userId;
         values.projectId = projectId;
+        if (values.target === "7") {
+          values.customized_target_name = customizeOptions.label;
+        }
 
         createTIP(values).then((res) => {
           setConfirmLoading(false);
@@ -120,10 +135,10 @@ function PlanCreate() {
                         ]}
                       >
                         <InputNumber
+                          placeholder="0"
                           min={0}
                           max={project?.tokenInfo?.surplusTokenNum}
                           style={{ width: 350 }}
-                          placeholder="0"
                         />
                       </Form.Item>
                       <div className="text-[#94A3B8] text-xs">
@@ -152,14 +167,70 @@ function PlanCreate() {
                       },
                     ]}
                   >
-                    <Select allowClear placeholder="mark a label for you incentive plan">
-                      {Object.entries(targetMap).map(([value, desc]) => {
+                    <Select
+                      allowClear
+                      optionLabelProp="label"
+                      placeholder="mark a label for you incentive plan"
+                      // options={preOptions}
+                      dropdownRender={(menu) => {
                         return (
-                          <Select.Option value={value} key={value}>
-                            {desc}
-                          </Select.Option>
+                          <>
+                            {menu}
+                            {!customizeOptions && (
+                              <>
+                                <Divider style={{ margin: "8px 0" }} />
+                                <div className="flex items-center px-2 pb-1">
+                                  <Input
+                                    placeholder="Editable..."
+                                    maxLength={30}
+                                    ref={inputRef}
+                                    style={{ marginRight: 8 }}
+                                  />
+                                  <Button
+                                    type="text"
+                                    onClick={async () => {
+                                      const val =
+                                        inputRef.current?.input?.value;
+
+                                      val &&
+                                        setCustomizeOptions({
+                                          label: val,
+                                          value: "7",
+                                        });
+                                      form.setFieldValue("target", "7");
+                                    }}
+                                    icon={<CheckOutlined />}
+                                  />
+                                </div>
+                              </>
+                            )}
+                          </>
                         );
-                      })}
+                      }}
+                    >
+                      {options.map((option) => (
+                        <Select.Option
+                          label={option.label}
+                          value={option.value}
+                          key={option.value}
+                        >
+                          <div className="flex justify-between">
+                            <span>{option.label}</span>
+                            {option.value == "7" && (
+                              <Button
+                                onClick={(evt) => {
+                                  evt.stopPropagation();
+                                  setCustomizeOptions(null);
+                                }}
+                                type="text"
+                                className="mr-2"
+                              >
+                                <DeleteOutlined />
+                              </Button>
+                            )}
+                          </div>
+                        </Select.Option>
+                      ))}
                     </Select>
                   </Form.Item>
                   <Form.Item
@@ -243,7 +314,9 @@ function PlanCreate() {
           <div className="mt-7">
             <p className="text-[#475569] text-sm">Target Audiende</p>
             <div className="text-[#1E293B] text-base	font-semibold">
-              {targetMap[targetValue]}
+              {targetValue === "7"
+                ? customizeOptions.label
+                : targetMap[targetValue]}
             </div>
           </div>
 

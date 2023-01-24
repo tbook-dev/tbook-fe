@@ -29,11 +29,11 @@ function GrantSign() {
   const [grantInfo, setGrantInfo] = useState({});
   const [tipId, setTipId] = useState(null);
   const [tipInfo, setTipInfo] = useState({});
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [scheduleInfo, setSchedule] = useState({});
   const userInfo = useSelector((state) => state.user.user);
-  const projects = useSelector((state) => state.user.projects);
-  console.log("scheduleInfo", scheduleInfo);
+  // const projects = useSelector((state) => state.user.projects);
+  // console.log("scheduleInfo", scheduleInfo);
 
   // 签名状态
   useAsyncEffect(async () => {
@@ -73,14 +73,16 @@ function GrantSign() {
       .then((s) => {
         return postGrantSignInfo(null, grantId, sign.grantSignId, s);
       })
-      .then((r) => {
-        let link = "/incentive";
-        const granteeProjects = projects.filter((v) => v.currentUserRole === 4);
-        if (granteeProjects.length === projects.length) {
-          // 只有grantee角色
-          link = `/my-grants`;
-        }
-        navigate(link);
+      .then(async (r) => {
+        // const list = await getGrantSignInfo(null, grantId);
+        // const isAllSigned  = list.some(sg =>sg.grantSign.signStatus==1)
+        // let link = "/incentive";
+        // const granteeProjects = projects.filter((v) => v.currentUserRole === 4);
+        // if (granteeProjects.length === projects.length) {
+        //   // 只有grantee角色
+        //   link = `/my-grants`;
+        // }
+        // navigate(link);
       });
   }
 
@@ -141,7 +143,14 @@ function GrantSign() {
           <Title title="Grantee Information" />
           <div className="grid grid-cols-2 gap-x-12 gap-y-3">
             <KV label="Name" value={grantInfo.granteeName} />
-            <KV label="Target Audience" value={targetMap[tipInfo.target]} />
+            <KV
+              label="Target Audience"
+              value={
+                tipInfo.target == "7"
+                  ? tipInfo.customized_target_name
+                  : targetMap[tipInfo.target]
+              }
+            />
             <KV label="Email Address" value={grantInfo.granteeEmail} />
             <KV label="Ethereum Address" value={grantInfo.granteeEthAddress} />
           </div>

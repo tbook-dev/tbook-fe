@@ -24,7 +24,7 @@ export const targetMap = {
   4: "Business development team",
   5: "Investor",
   6: "Community growth",
-  7: "customize",
+  // 7: "customize",
 };
 
 /**

@@ -58,7 +58,11 @@ function PlanDetail() {
               <KV
                 clx="col-span-1"
                 label="Target Audience"
-                value={targetMap[detail.target]}
+                value={
+                  detail.target == 7
+                    ? detail.customized_target_name
+                    : targetMap[detail.target]
+                }
               />
 
               <KV
