@@ -74,6 +74,8 @@ function GrantSign() {
         return postGrantSignInfo(null, grantId, sign.grantSignId, s);
       })
       .then(async (r) => {
+        const list = await getGrantSignInfo(null, grantId);
+        setSignList(list);
         // const list = await getGrantSignInfo(null, grantId);
         // const isAllSigned  = list.some(sg =>sg.grantSign.signStatus==1)
         // let link = "/incentive";
