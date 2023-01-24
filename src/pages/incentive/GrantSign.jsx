@@ -34,7 +34,6 @@ function GrantSign() {
   const userInfo = useSelector((state) => state.user.user);
   // const projects = useSelector((state) => state.user.projects);
   // console.log("scheduleInfo", scheduleInfo);
-
   // 签名状态
   useAsyncEffect(async () => {
     const list = await getGrantSignInfo(null, grantId);
@@ -122,7 +121,7 @@ function GrantSign() {
         <div className="text-3xl font-bold text-[#1E293B] pt-6 pb-8">
           Grant Effective! 🙌
         </div>
-        <Link to="/">
+        <Link to={`/incentive/grant/${tipInfo.incentivePlanId}/${grantId}/detail`}>
           <button className="text-white bg-indigo-500 px-11 btn hover:bg-indigo-600 mb-11">
             View Details -{">"}
           </button>
