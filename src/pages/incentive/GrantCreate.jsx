@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import IncentiveLayout from "@/layout/Layout.admin";
+import { useParams, useNavigate, useSearchParams, Link } from "react-router-dom";
 import {
   Button,
   Form,
@@ -22,11 +21,6 @@ import {
   getGrantInfo,
   updateGrantInfo,
 } from "@/api/incentive";
-import {
-  saveDraftGrantData,
-  getDraftGrantData,
-  clearDraftGrantData,
-} from "@/api/ls";
 import { useSelector } from "react-redux";
 import { grantType, dateFormat, periodMap } from "../../utils/const";
 import GranteeFrom from "./GranteeForm";
@@ -101,32 +95,6 @@ function GrantCreate() {
     }
   }, [userlist]);
 
-  useEffect(() => {
-    // 从ls恢复数据
-    // const projectId = userStore?.projects?.[0]?.projectId;
-    // console.log(tipId, projectId);
-    if (tipId && projectId) {
-      try {
-        const storedData = getDraftGrantData(projectId, tipId);
-        // console.log("xxx->", storedData);
-        if (!storedData) return;
-        const formValue = {
-          ...storedData,
-          isIncludingCliff: !!storedData.cliffTime,
-          grantDate: dayjs(storedData.grantDate, dateFormat),
-          vestingScheduleDate: dayjs(
-            storedData.vestingScheduleDate,
-            dateFormat
-          ),
-        };
-        console.log("restore from ls");
-        form.setFieldsValue(formValue);
-      } catch (error) {
-        console.log("error", error);
-      }
-    }
-  }, [projectId, tipId]);
-
   useAsyncEffect(async () => {
     if (!grantId) return;
     const grantInfo = await getGrantInfo(grantId);
@@ -192,33 +160,10 @@ function GrantCreate() {
       setLoadingCreate(false);
       return;
     }
-    clearDraftGrantData(projectId, tipId);
     setLoadingCreate(false);
     navigate(`/grants/${grantInfo?.entity?.grantId}/sign`);
   }
 
-  function handleSaveAsDraft() {
-    // const projectId = userStore?.projects?.[0]?.projectId;
-    // tipId只从url里面取
-    form
-      .validateFields()
-      .then((planValues) => {
-        const values = formatValue(
-          planValues,
-          userlist,
-          userStore?.user?.userId
-        );
-        saveDraftGrantData(projectId, tipId, {
-          ...values,
-          isIncludingCliff: planValues.isIncludingCliff,
-        });
-        message.success("Save Draft Sucess!");
-        window.history.back();
-      })
-      .catch((err) => {
-        console.log(err, "error");
-      });
-  }
   function handleAddGrantee() {
     // const projectId = userStore?.projects?.[0]?.projectId;
     setConfirmLoadingMember(true);
@@ -647,10 +592,10 @@ function GrantCreate() {
             </div>
           </div>
 
-          <div className="max-w-[700px] pt-40	">
+          <div className="max-w-[600px] pt-40	">
             <hr className="my-6 border-t border-slate-200" />
             <div className="flex justify-around">
-              <Button onClick={handleSaveAsDraft}>Save as a draft</Button>
+              <Link to="/incentive">Cancel</Link>
               <Button
                 onClick={handleCreate}
                 type="primary"
