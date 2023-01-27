@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { setAuthUser, fetchUserInfo } from "@/store/user";
 import { Button } from "antd";
 import { chains } from "@/utils/const";
+import { Web3Button, Web3NetworkSwitch } from "@web3modal/react";
 
 export default function () {
   const [loading, setLoading] = useState(false);
@@ -25,11 +26,12 @@ export default function () {
 
   return (
     <>
+      <Web3NetworkSwitch />
       <div className="flex items-center">
         {React.createElement(ethConf.render)}
         <span>{ethConf.name}</span>
       </div>
-
+      <Web3Button/>
       <Button type="primary" loading={loading} onClick={handleSignIn}>
         Connect
       </Button>
