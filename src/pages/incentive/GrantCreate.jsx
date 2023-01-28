@@ -503,36 +503,6 @@ function GrantCreate() {
                                     );
                                   }
                                 }
-
-                                if (cliffTimeV && grantDateV) {
-                                  const vestingTotalLengthV = 1;
-                                  const vestingTotalPeriodV =
-                                    await form.getFieldValue(
-                                      "vestingTotalPeriod"
-                                    );
-                                  const totalEnd = grantDateV.add(
-                                    vestingTotalLengthV,
-                                    periodMap[vestingTotalPeriodV].toLowerCase()
-                                  );
-
-                                  const cliffPeriodV = await form.getFieldValue(
-                                    "cliffPeriod"
-                                  );
-                                  const cliffEnd = grantDateV.add(
-                                    cliffTimeV,
-                                    periodMap[cliffPeriodV].toLowerCase()
-                                  );
-                                  // console.log('totalEnd',totalEnd.format(dateFormat))
-                                  // console.log('vestEnd',vestEnd.format(dateFormat))
-
-                                  if (totalEnd.isBefore(cliffEnd)) {
-                                    return Promise.reject(
-                                      new Error(
-                                        "Cliff Duration should before one time of vesting frequency!"
-                                      )
-                                    );
-                                  }
-                                }
                               },
                             },
                           ]}
