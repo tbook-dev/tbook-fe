@@ -126,7 +126,7 @@ function ProjectPlanCreate() {
                   rules={[
                     {
                       required: true,
-                      message: "Please input the Total Token!",
+                      message: "Please input the project name!",
                     },
                   ]}
                 >

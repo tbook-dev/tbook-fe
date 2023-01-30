@@ -384,7 +384,7 @@ function GrantCreate() {
                     rules={[
                       {
                         required: true,
-                        message: "Please input the Length!",
+                        message: "Please input the Vesting Frequency Length!",
                       },
                       {
                         validator: async (_, vestingFrequencyV) => {
@@ -464,7 +464,7 @@ function GrantCreate() {
                           rules={[
                             {
                               required: true,
-                              message: "Please input the Cliff Duration!",
+                              message: "Please input the Cliff Duration Length!",
                             },
                             {
                               validator: async (_, cliffTimeV) => {
