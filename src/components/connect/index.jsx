@@ -1,20 +1,26 @@
 import React, { useState } from "react";
-import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
+import { signLoginMetaMask } from "@/utils/web3";
 import { useDispatch } from "react-redux";
 import { setAuthUser, fetchUserInfo } from "@/store/user";
 import { Button } from "antd";
 import { chains } from "@/utils/const";
-import { Web3Button, Web3NetworkSwitch } from "@web3modal/react";
+import { Web3Button, Web3NetworkSwitch, useWeb3Modal } from "@web3modal/react";
+import { useSigner, useAccount } from "wagmi";
 
 export default function () {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const { address, isDisconnected } = useAccount()
+  const { data: signer } = useSigner()
+  const { open } = useWeb3Modal()
 
   async function handleSignIn() {
     setLoading(true);
     try {
-      const web3 = await loadWeb3();
-      await signLoginMetaMask(web3);
+      if (isDisconnected){
+        await open('ConnectWallet')
+      }
+      await signLoginMetaMask(address, signer);
       dispatch(fetchUserInfo());
       dispatch(setAuthUser(true));
     } catch (error) {
@@ -31,7 +37,6 @@ export default function () {
         {React.createElement(ethConf.render)}
         <span>{ethConf.name}</span>
       </div>
-      <Web3Button/>
       <Button type="primary" loading={loading} onClick={handleSignIn}>
         Connect
       </Button>

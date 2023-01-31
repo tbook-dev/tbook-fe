@@ -1,5 +1,29 @@
 import Web3 from "web3";
+import { useCallback, useEffect, useState } from "react";
 import { host, getGrantSignInfo, postGrantSignInfo } from "@/api/incentive";
+
+import {
+  EthereumClient,
+  modalConnectors,
+  walletConnectProvider,
+} from "@web3modal/ethereum";
+
+import { configureChains, createClient, WagmiConfig } from "wagmi";
+
+import { mainnet, bsc } from "wagmi/chains";
+
+const chains = [mainnet, bsc];
+
+const wcProvider = walletConnectProvider({ projectId: import.meta.env.VITE_WC_PROJECT_ID })
+
+const { provider } = configureChains(chains, [wcProvider]);
+
+export const wagmiClient = createClient({
+  autoConnect: true,
+  connectors: modalConnectors({ appName: "tbook", chains }),
+  provider,
+});
+export const ethereumClient = new EthereumClient(wagmiClient, chains)
 
 export async function loadWeb3() {
   // Wait for loading completion to avoid race conditions with web3 injection timing.
@@ -23,21 +47,35 @@ export async function loadWeb3() {
   }
 }
 
-export async function signLoginMetaMask(web3) {
+export async function fetchLoginNonce(address) {
   return fetch(
-    `${host}/nonce?address=${web3.currentProvider.selectedAddress}`,
+    `${host}/nonce?address=${address}`,
+    { credentials: "include" }
+  ).then(r => r.text())
+}
+
+export async function loginWithSign(address, sign) {
+  const d = new FormData();
+  d.append("address", address);
+  d.append("sign", sign);
+  return fetch(`${host}/authenticate`, {
+    credentials: "include",
+    method: "POST",
+    body: d,
+  });
+}
+
+export async function signLoginMetaMask(addr, singer) {
+  const address = addr.toLowerCase()
+  return fetch(
+    `${host}/nonce?address=${address}`,
     { credentials: "include" }
   )
     .then((r) => r.text())
-    .then((t) =>
-      web3.eth.personal.sign(
-        web3.utils.fromUtf8(t),
-        web3.currentProvider.selectedAddress
-      )
-    )
+    .then((t) =>  singer.signMessage(t))
     .then((s) => {
       const d = new FormData();
-      d.append("address", web3.currentProvider.selectedAddress);
+      d.append("address", address);
       d.append("sign", s);
       return fetch(`${host}/authenticate`, {
         credentials: "include",
@@ -68,3 +106,26 @@ export async function signGrantMetaMask(web3, projectId, grantId, userId) {
     return error;
   }
 }
+
+
+//export default { wagmiClient: client, ethereumClient: ethClient, web3: new Web3(provider) }
+
+// export const useWeb3 = () => {
+//   const [web3, setWeb3] = useState()
+//   const [wagmiProvider, setWagmiProvider] = useState()
+//   const [wagmiClient, setWagmiClient] = useState()
+//   const [ethereumClient, setEthereumClient] = useState()
+
+//   //useEffect(() => {
+
+//     setWagmiClient(client)
+//     setEthereumClient(ethClient)
+//     setWeb3(new Web3(provider))
+//   //}, [])
+
+//   return {
+//     wagmiClient,
+//     ethereumClient,
+//     web3
+//   }
+// }

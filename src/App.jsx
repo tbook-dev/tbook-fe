@@ -14,50 +14,33 @@ import LayoutV2 from "./layout/Layout.grante";
 import routes from "./router";
 import { Spin } from "antd";
 
-import {
-  EthereumClient,
-  modalConnectors,
-  walletConnectProvider,
-} from "@web3modal/ethereum";
-
-import SignClient from "@walletconnect/sign-client";
-
+import { WagmiConfig, useProvider } from "wagmi";
 import { Web3Modal } from "@web3modal/react";
 
-import { configureChains, createClient, WagmiConfig } from "wagmi";
-
-import { mainnet, bsc } from "wagmi/chains";
-
-const chains = [mainnet, bsc];
-
-// Wagmi client
-const { provider } = configureChains(chains, [
-  walletConnectProvider({ projectId: import.meta.env.VITE_WC_PROJECT_ID }),
-]);
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors: modalConnectors({ appName: "tbook", chains }),
-  provider,
-});
-
-// Web3Modal Ethereum Client
-const ethereumClient = new EthereumClient(wagmiClient, chains);
-
-const signClient = await SignClient.init({
-  projectId: import.meta.env.VITE_WC_PROJECT_ID,
-  metadata: {
-    name: "TBOOK",
-    description: "token book",
-    url: "",
-    icons: ["https://pub-6fe8916c26334830906d2b9ca9d94efa.r2.dev/tbookv2.svg"],
-  },
-});
+import { wagmiClient, ethereumClient } from "./utils/web3";
 
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const [layoutVersion, setLayoutVersion] = useState("v1");
   const Layout = layoutVersion === "v1" ? LayoutV1 : LayoutV2;
+  const provider = useProvider()
+
+  ethereumClient.watchAccount((accounts) => {
+    console.log("new account", accounts)
+  })
+
+  ethereumClient.watchNetwork(network => {
+    console.log("new network", network)
+  })
+
+  provider.on("accountsChanged", accounts => {
+    console.log("new account", accounts[0])
+  })
+
+  provider.on("chainChanged", network => {
+    console.log("new network", network)
+  })
 
   useLayoutEffect(() => {
     const currentConf = routes.find(v => match(v.path)(location?.pathname))

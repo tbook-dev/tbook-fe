@@ -17,6 +17,7 @@ import { targetMap, getDividePercent } from "@/utils/const";
 import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser, fetchUserInfo } from "@/store/user";
+import { useSigner, useAccount } from "wagmi";
 
 function PlanList() {
   const [tipList, updateTipList] = useState([]);
@@ -25,14 +26,16 @@ function PlanList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.user.authUser);
+  const { data: signer } = useSigner()
+  const { address, isConnected } = useAccount()
 
   async function handleSignIn() {
     console.log("authUser", authUser);
     if (authUser) {
       navigate("/incentive/create");
     } else {
-      const web3 = await loadWeb3();
-      await signLoginMetaMask(web3);
+      //const web3 = await loadWeb3();
+      await signLoginMetaMask(address, signer);
       dispatch(fetchUserInfo());
       dispatch(setAuthUser(true));
     }

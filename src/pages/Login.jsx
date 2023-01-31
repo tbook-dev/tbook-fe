@@ -8,6 +8,7 @@ import AuthImage from "../images/tbook/login.png";
 import { Button } from "antd";
 import { getUserInfo } from "@/api/incentive";
 import { getCurrentProjectId } from "@/api/ls";
+import { useSigner, useAccount } from "wagmi";
 
 function Login() {
   const [loading, setLoading] = useState(false);
@@ -15,6 +16,9 @@ function Login() {
 
   const dispath = useDispatch();
   const web3Ref = useRef();
+  const { data: signer } = useSigner()
+  const { address, isConnected } = useAccount()
+
   useEffect(() => {
     async function asyncloadWeb3() {
       const web3 = await loadWeb3();
@@ -25,7 +29,7 @@ function Login() {
 
   async function handleSignIn() {
     setLoading(true);
-    await signLoginMetaMask(web3Ref.current);
+    await signLoginMetaMask(address, signer);
 
     dispath(fetchUserInfo());
     dispath(setAuthUser(true));
