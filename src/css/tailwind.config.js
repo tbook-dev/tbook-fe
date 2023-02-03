@@ -1,4 +1,5 @@
 const plugin = require("tailwindcss/plugin");
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
@@ -25,7 +26,7 @@ module.exports = {
         blue: "2px solid rgba(0, 112, 244, 0.5)",
       },
       fontFamily: {
-        inter: ["Inter", "sans-serif"],
+        roboto: ["Roboto", "sans-serif",...defaultTheme.fontFamily.sans],
       },
       fontSize: {
         xs: ["0.75rem", { lineHeight: "1.5" }],
@@ -38,9 +39,6 @@ module.exports = {
         "4xl": ["2.25rem", { lineHeight: "1.25", letterSpacing: "-0.02em" }],
         "5xl": ["3rem", { lineHeight: "1.25", letterSpacing: "-0.02em" }],
         "6xl": ["3.75rem", { lineHeight: "1.2", letterSpacing: "-0.02em" }],
-      },
-      screens: {
-        xs: "480px",
       },
       borderWidth: {
         3: "3px",

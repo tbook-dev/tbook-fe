@@ -11,3 +11,7 @@
 @import 'additional-styles/theme.css';
 
 @import 'tailwindcss/utilities';
+
+:root {
+    font-family: 'Roboto', sans-serif;
+}
