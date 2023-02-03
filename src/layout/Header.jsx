@@ -1,9 +1,10 @@
 import React from "react";
-import UserMenu from "../components/DropdownProfile";
-import ProjectMenu from "../components/DropdownProject";
+import UserMenu from "@/components/DropdownProfile";
+import ProjectMenu from "@/components/DropdownProject";
 import { useSelector } from "react-redux";
 import Connect from "@/components/connect";
 import useProjects from "@/hooks/useProjects";
+import logoText from '@/images/icon/logo-text.svg'
 
 function Header({ sidebarOpen, setSidebarOpen }) {
   const authUser = useSelector((state) => state.user.authUser);
@@ -15,6 +16,10 @@ function Header({ sidebarOpen, setSidebarOpen }) {
         <div className="flex items-center justify-between h-16 -mb-px">
           {/* Header: Left side */}
           <div className="flex">
+            <div className="hidden lg:block">
+              <img src={logoText}/>
+            </div>
+
             {/* Hamburger button */}
             <button
               className="text-slate-500 hover:text-slate-600 lg:hidden"

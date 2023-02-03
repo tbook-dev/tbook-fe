@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import Sidebar from '../../layout/Sidebar';
-import Header from '../../partials/Header';
+import Header from '../../layout/Header';
 
 import NotFoundImage from '../../images/404-illustration.svg';
 

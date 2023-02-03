@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
-import Header from "@/partials/Header";
+import Header from "./Header";
 
 export default function LayoutAdmin({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);

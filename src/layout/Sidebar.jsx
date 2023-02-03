@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import Logo from "../components/icon/Logo";
 import { useSelector } from "react-redux";
 import clsx from "clsx";
-import SidebarLinkGroup from "../partials/SidebarLinkGroup";
+import incentiveIcon1 from "@/images/icon/incentive1.svg";
+import incentiveIcon2 from "@/images/icon/incentive2.svg";
+import dashboardIcon1 from "@/images/icon/dashboard1.svg";
+import dashboardIcon2 from "@/images/icon/dashboard2.svg";
+import settingIcon1 from "@/images/icon/setting1.svg";
+import settingIcon2 from "@/images/icon/setting2.svg";
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
-  const authUser = useSelector((state) => state.user.authUser);
 
-  const location = useLocation();
-  const { pathname } = location || {};
 
   const trigger = useRef(null);
   const sidebar = useRef(null);
@@ -55,7 +56,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   }, [sidebarExpanded]);
 
   return (
-    <div className="fixed top-0 left-0 h-[900px]">
+    <div className="fixed top-0 left-0 z-40 h-screen lg:top-16">
       {/* Sidebar backdrop (mobile only) */}
       <div
         className={`fixed inset-0 bg-slate-900 bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
@@ -67,7 +68,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       <div
         id="sidebar"
         ref={sidebar}
-        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-24 lg:sidebar-expanded:!w-24 2xl:!w-24 shrink-0 transition-all duration-200 ease-in-out ${
+        className={`flex flex-col bg-slate-800 lg:bg-transparent absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-24 lg:sidebar-expanded:!w-24 2xl:!w-24 shrink-0 transition-all duration-200 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-24"
         }`}
       >
@@ -99,69 +100,62 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 to="/incentive"
                 className={({ isActive }) =>
                   clsx(
-                    "flex items-center justify-between h-20  transition duration-150 truncate ",
-                    isActive ? "!text-indigo-500" : ""
-                    // {'pointer-events-none': !authUser}
+                    "flex flex-col items-center justify-center h-20 transition duration-150 mb-6",
+                    isActive
+                      ? "text-[#0049FF] rounded-r-2xl bg-[#ECF1FF]"
+                      : "text-[#606368]"
                   )
                 }
               >
-                <span className="text-xs lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100">
-                  Incentive
-                </span>
+                {({ isActive }) => {
+                  return (
+                    <>
+                      <img src={isActive ? incentiveIcon2 : incentiveIcon1} />
+                      <span className="mt-1 text-xs lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100">
+                        Incentive
+                      </span>
+                    </>
+                  );
+                }}
               </NavLink>
 
               <NavLink
                 to="/"
                 className={({ isActive }) =>
                   clsx(
-                    "block text-slate-400 hover:text-slate-200 transition duration-150 truncate ",
-                    isActive ? "!text-indigo-500" : ""
+                    "flex flex-col items-center justify-center h-20 transition duration-150 mb-6",
+                    isActive
+                      ? "text-[#0049FF] rounded-r-2xl bg-[#ECF1FF]"
+                      : "text-[#606368]"
                   )
                 }
               >
-                <span className="text-xs lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100">
-                  Dashboard
-                </span>
+                {({ isActive }) => {
+                  return (
+                    <>
+                      <img src={isActive ? dashboardIcon2 : dashboardIcon1} />
+                      <span className="mt-1 text-xs lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100">
+                        Dashboard
+                      </span>
+                    </>
+                  );
+                }}
               </NavLink>
             </div>
 
             <div className="pb-[145px]">
               <NavLink
                 to="/setting"
-                className={({ isActive }) =>
-                  clsx(
-                    "block text-slate-400 hover:text-slate-200 transition duration-150 truncate ",
-                    isActive ? "!text-indigo-500" : ""
-                  )
-                }
+                className="flex flex-col items-center justify-center h-20 mb-6 transition duration-150"
               >
-                <span className="text-xs lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100">
-                  setting
-                </span>
+                {({ isActive }) => {
+                  return <img src={isActive ? settingIcon2 : settingIcon1} />;
+                }}
               </NavLink>
             </div>
           </div>
-          {/* More group */}
         </div>
-
-        {/* Expand / collapse button */}
-        <div className="justify-end hidden pt-3 mt-auto lg:hidden 2xl:hidden">
-          <div className="px-3 py-2">
-            <button onClick={() => setSidebarExpanded(!sidebarExpanded)}>
-              <span className="sr-only">Expand / collapse sidebar</span>
-              <svg
-                className="w-6 h-6 fill-current sidebar-expanded:rotate-180"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  className="text-slate-400"
-                  d="M19.586 11l-5-5L16 4.586 23.414 12 16 19.414 14.586 18l5-5H7v-2z"
-                />
-                <path className="text-slate-600" d="M3 23H1V1h2z" />
-              </svg>
-            </button>
-          </div>
-        </div>
+        
       </div>
     </div>
   );
