@@ -18,7 +18,7 @@ function DashboardAudience({ title, data = defaultData,...props }) {
     );
   };
   const pieData = formatData(data);
-  console.log("pieData->", pieData);
+  // console.log("pieData->", pieData);
   const config = {
     appendPadding: 20,
     data: pieData,

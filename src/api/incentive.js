@@ -6,6 +6,10 @@ export const getUserInfo = async function(){
     return request(`${host}/info`)
 }
 
+export const logout = async function(){
+    return request(`${host}/logout`)
+}
+
 export const getUserAssets = async function(){
     return request(`${host}/users/assets`)
 }

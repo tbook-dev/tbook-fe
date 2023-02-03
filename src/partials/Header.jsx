@@ -40,7 +40,10 @@ function Header({ sidebarOpen, setSidebarOpen }) {
 
           {/* Header: Right side */}
           <div className="flex items-center space-x-3">
-            {authUser ? (
+            {authUser && projects.length > 0 && <ProjectMenu align="right" />}
+            <Connect />
+
+            {/* {authUser ? (
               <>
                 {projects.length > 0 && (
                   <>
@@ -53,7 +56,7 @@ function Header({ sidebarOpen, setSidebarOpen }) {
               </>
             ) : (
               <Connect />
-            )}
+            )} */}
           </div>
         </div>
       </div>

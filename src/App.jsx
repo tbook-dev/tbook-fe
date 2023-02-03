@@ -4,8 +4,8 @@ import { useAsyncEffect } from "ahooks";
 import "./css/style.css";
 import "./charts/ChartjsConfig";
 import { useDispatch } from "react-redux";
-import { fetchUserInfo } from "@/store/user";
 import { match } from "path-to-regexp";
+import { fetchUserInfo } from "@/store/user";
 
 import PageNotFound from "./pages/utility/PageNotFound";
 import LayoutV1 from "./layout/Layout.admin";
@@ -14,7 +14,7 @@ import LayoutV2 from "./layout/Layout.grante";
 import routes from "./router";
 import { Spin } from "antd";
 
-import { WagmiConfig, useProvider } from "wagmi";
+import { WagmiConfig } from "wagmi";
 import { Web3Modal } from "@web3modal/react";
 
 import { wagmiClient, ethereumClient } from "./utils/web3";
@@ -24,27 +24,10 @@ function App() {
   const location = useLocation();
   const [layoutVersion, setLayoutVersion] = useState("v1");
   const Layout = layoutVersion === "v1" ? LayoutV1 : LayoutV2;
-  const provider = useProvider()
-
-  ethereumClient.watchAccount((accounts) => {
-    console.log("new account", accounts)
-  })
-
-  ethereumClient.watchNetwork(network => {
-    console.log("new network", network)
-  })
-
-  provider.on("accountsChanged", accounts => {
-    console.log("new account", accounts[0])
-  })
-
-  provider.on("chainChanged", network => {
-    console.log("new network", network)
-  })
 
   useLayoutEffect(() => {
-    const currentConf = routes.find(v => match(v.path)(location?.pathname))
-    setLayoutVersion(currentConf?.layout || 'v1')
+    const currentConf = routes.find((v) => match(v.path)(location?.pathname));
+    setLayoutVersion(currentConf?.layout || "v1");
   }, [location]);
 
   useAsyncEffect(async () => {
@@ -55,36 +38,36 @@ function App() {
     <>
       <WagmiConfig client={wagmiClient}>
         <Layout>
-        <Routes>
-          {routes.map((route) => {
-            return (
-              <Route
-                key={route.path}
-                path={route.path}
-                element={
-                  <Suspense
-                    fallback={
-                      <div className="flex flex-col items-center justify-center h-screen">
-                        <Spin />
-                      </div>
-                    }
-                  >
-                    <route.component />
-                  </Suspense>
-                }
-              />
-            );
-          })}
+          <Routes>
+            {routes.map((route) => {
+              return (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  element={
+                    <Suspense
+                      fallback={
+                        <div className="flex flex-col items-center justify-center h-screen">
+                          <Spin />
+                        </div>
+                      }
+                    >
+                      <route.component />
+                    </Suspense>
+                  }
+                />
+              );
+            })}
 
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </Layout>
-    </WagmiConfig>
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </Layout>
+      </WagmiConfig>
 
-    <Web3Modal
+      <Web3Modal
         projectId={import.meta.env.VITE_WC_PROJECT_ID}
         ethereumClient={ethereumClient}
-    />
+      />
     </>
   );
 }
