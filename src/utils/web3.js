@@ -19,7 +19,7 @@ const wcProvider = walletConnectProvider({ projectId: import.meta.env.VITE_WC_PR
 const { provider } = configureChains(chains, [wcProvider]);
 
 export const wagmiClient = createClient({
-  autoConnect: false,
+  autoConnect: true,
   connectors: modalConnectors({ appName: "tbook", chains }),
   provider,
 });

@@ -14,11 +14,6 @@ import LayoutV2 from "./layout/Layout.grante";
 import routes from "./router";
 import { Spin } from "antd";
 
-import { WagmiConfig } from "wagmi";
-import { Web3Modal } from "@web3modal/react";
-
-import { wagmiClient, ethereumClient } from "./utils/web3";
-
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -35,40 +30,31 @@ function App() {
   }, []);
 
   return (
-    <>
-      <WagmiConfig client={wagmiClient}>
-        <Layout>
-          <Routes>
-            {routes.map((route) => {
-              return (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={
-                    <Suspense
-                      fallback={
-                        <div className="flex flex-col items-center justify-center h-screen">
-                          <Spin />
-                        </div>
-                      }
-                    >
-                      <route.component />
-                    </Suspense>
+    <Layout>
+      <Routes>
+        {routes.map((route) => {
+          return (
+            <Route
+              key={route.path}
+              path={route.path}
+              element={
+                <Suspense
+                  fallback={
+                    <div className="flex flex-col items-center justify-center h-screen">
+                      <Spin />
+                    </div>
                   }
-                />
-              );
-            })}
+                >
+                  <route.component />
+                </Suspense>
+              }
+            />
+          );
+        })}
 
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </Layout>
-      </WagmiConfig>
-
-      <Web3Modal
-        projectId={import.meta.env.VITE_WC_PROJECT_ID}
-        ethereumClient={ethereumClient}
-      />
-    </>
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </Layout>
   );
 }
 
