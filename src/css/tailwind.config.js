@@ -4,6 +4,9 @@ module.exports = {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      screens:{
+        'lg': '1120px',// 96*2+928=1120
+      },
       backgroundImage:{
         c1:"radial-gradient(66.68% 50.5% at 50% 119.25%, #FBBF24 0%, #FFFBEC 100%)"
       },
