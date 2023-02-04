@@ -18,6 +18,7 @@ import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser, fetchUserInfo } from "@/store/user";
 import planIcon from "@/images/incentive/plan.svg";
+import clsx from "clsx";
 
 function PlanList() {
   const [tipList, updateTipList] = useState([]);
@@ -57,7 +58,7 @@ function PlanList() {
   }, [tipList]);
 
   return (
-    <div className="w-full px-4 py-8 mx-auto sm:px-6 lg:px-8 max-w-9xl text-[#202124]">
+    <div className="w-full text-[#202124]">
       <div className="hidden pt-6 mb-4 lg:block">
         <h1 className="text-[56px] leading-[64px] mb-10 text-center">
           Incentive List
@@ -86,38 +87,24 @@ function PlanList() {
       </div>
 
       <div className="w-full mb-4">
-        <h2 className="pb-2 text-[32px] lg:text-[24px]">
-          Plans
-        </h2>
+        <h2 className="pb-2 text-[32px] lg:text-[24px]">Plans</h2>
 
         <div
-          className="relative px-8"
-          style={{ "--swiper-navigation-size": "24px" }}
+          className="relative h-[194px]"
+          style={{ "--swiper-navigation-size": "16px" }}
         >
-          <div className="swiper-button-next"></div>
-          <div className="swiper-button-prev"></div>
+          <div className="hidden lg:block absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>
+          <div className="hidden lg:block absolute swiper-button-prev !-left-12 border !w-8 !h-8 rounded-full"></div>
           <Swiper
             modules={[Navigation]}
-            style={{ height: 110 }}
-            spaceBetween={45}
-            slidesPerView={5}
+            spaceBetween={16}
+            slidesPerView="auto"
+            centeredSlides
             navigation={{
               nextEl: ".swiper-button-next",
               prevEl: ".swiper-button-prev",
             }}
           >
-            <SwiperSlide>
-              <div
-                className="cursor-pointer"
-                onClick={handleSignIn}
-                to={"/incentive/create"}
-              >
-                <div className="w-[148px] h-[98px] shadow-c1 border rounded-[10px] flex justify-center align-middle">
-                  <PlusOutlined />
-                </div>
-              </div>
-            </SwiperSlide>
-
             {Array.isArray(tipList) && tipList.length === 0 ? (
               <SwiperSlide className="flex items-center ">
                 <p className="text-[#1E293B] text-2xl]">
@@ -128,43 +115,56 @@ function PlanList() {
               Array.isArray(tipList) &&
               tipList.map((tip) => {
                 return (
-                  <SwiperSlide key={tip.incentivePlanId}>
-                    <NavLink
-                      to={`/incentive/${tip.incentivePlanId}`}
-                      className="mr-11"
-                    >
-                      <div className="w-[148px] h-[98px] px-1.5 shadow-c2 border rounded-[10px] relative">
-                        <div className="pt-[9px]">
-                          <span className="border px-1.5 text-xs py-[3px] border-[#CBD5E1] rounded-[3px]">
-                            {tip.target == "7"
-                              ? tip.customized_target_name
-                              : targetMap[tip.target]}
-                          </span>
-                        </div>
-                        <div className="text-base text-[#1E293B] font-semibold	 mb-[20px]">
-                          <p>{tip.incentivePlanName}</p>
-                        </div>
-
-                        <div className="absolute inset-x-0 h-1.5 overflow-hidden bottom-5 bg-[#CBD5E1]">
+                  <SwiperSlide
+                    key={tip.incentivePlanId}
+                    style={{ width: "auto" }}
+                  >
+                    {({ isActive }) => {
+                      return (
+                        <NavLink
+                          to={`/incentive/${tip.incentivePlanId}`}
+                        >
                           <div
-                            className="h-1.5	bg-[#475569]"
-                            style={{ width: tip.percentage + "%" }}
-                          />
-                        </div>
+                            className={clsx(
+                              "px-1.5 shadow-c2 border rounded-[10px] relative",
+                              isActive
+                                ? "w-[80vw] h-[360px] lg:w-[264px] lg:h-[194px]"
+                                : "w-[70vw] h-[320px] lg:w-[220px] lg:h-[136px]"
+                            )}
+                          >
+                            <div className="pt-[9px]">
+                              <span className="border px-1.5 text-xs py-[3px] border-[#CBD5E1] rounded-[3px]">
+                                {tip.target == "7"
+                                  ? tip.customized_target_name
+                                  : targetMap[tip.target]}
+                              </span>
+                            </div>
+                            <div className="text-base text-[#1E293B] font-semibold	 mb-[20px]">
+                              <p>{tip.incentivePlanName}</p>
+                            </div>
 
-                        <div className="inset-x-1.5 absolute bottom-0 origin-left	scale-50 text-[#94A3B8] whitespace-nowrap">
-                          Granted {tip.grantedTokenNum}
-                        </div>
-                        <div className="inset-x-1.5 absolute bottom-0 origin-right text-right	scale-50 whitespace-nowrap	text-[#94A3B8]">
-                          Total: {tip.totalTokenNum}(
-                          {getDividePercent(
-                            tip.grantedTokenNum,
-                            tip.totalTokenNum
-                          )}
-                          %)
-                        </div>
-                      </div>
-                    </NavLink>
+                            <div className="absolute inset-x-0 h-1.5 overflow-hidden bottom-5 bg-[#CBD5E1]">
+                              <div
+                                className="h-1.5	bg-[#475569]"
+                                style={{ width: tip.percentage + "%" }}
+                              />
+                            </div>
+
+                            <div className="inset-x-1.5 absolute bottom-0 origin-left	scale-50 text-[#94A3B8] whitespace-nowrap">
+                              Granted {tip.grantedTokenNum}
+                            </div>
+                            <div className="inset-x-1.5 absolute bottom-0 origin-right text-right	scale-50 whitespace-nowrap	text-[#94A3B8]">
+                              Total: {tip.totalTokenNum}(
+                              {getDividePercent(
+                                tip.grantedTokenNum,
+                                tip.totalTokenNum
+                              )}
+                              %)
+                            </div>
+                          </div>
+                        </NavLink>
+                      );
+                    }}
                   </SwiperSlide>
                 );
               })

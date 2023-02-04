@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import IncentiveLayout from "./Layout";
 import { getTIPInfo, getTipGrantees, getTipGrantList } from "@/api/incentive";
 import { Button } from "antd";
 import { targetMap, formatDollar } from "../../utils/const";
