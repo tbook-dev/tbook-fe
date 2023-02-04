@@ -9,7 +9,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
 import { Button, Drawer } from "antd";
 import { Link } from "react-router-dom";
-import { useAsyncEffect } from "ahooks";
+import { useAsyncEffect, useResponsive } from "ahooks";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import _ from "lodash";
 import { targetMap, getDividePercent } from "@/utils/const";
@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser, fetchUserInfo } from "@/store/user";
 import planIcon from "@/images/incentive/plan.svg";
 import clsx from "clsx";
+import newPlanUrl from "@/images/incentive/new-plan.png";
 
 function PlanList() {
   const [tipList, updateTipList] = useState([]);
@@ -27,6 +28,7 @@ function PlanList() {
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.user.authUser);
   const [drawerOpen, setDrawer] = useState(false);
+  const { pc } = useResponsive();
 
   async function handleSignIn() {
     console.log("authUser", authUser);
@@ -99,20 +101,13 @@ function PlanList() {
             modules={[Navigation]}
             spaceBetween={16}
             slidesPerView="auto"
-            centeredSlides
+            centeredSlides={pc}
             navigation={{
               nextEl: ".swiper-button-next",
               prevEl: ".swiper-button-prev",
             }}
           >
-            {Array.isArray(tipList) && tipList.length === 0 ? (
-              <SwiperSlide className="flex items-center ">
-                <p className="text-[#1E293B] text-2xl]">
-                  Click to set up your first incentive plan.
-                </p>
-              </SwiperSlide>
-            ) : (
-              Array.isArray(tipList) &&
+            {Array.isArray(tipList) &&
               tipList.map((tip) => {
                 return (
                   <SwiperSlide
@@ -131,14 +126,15 @@ function PlanList() {
                             )}
                           >
                             <div className="flex py-5">
-                              <p className="mr-2 text-base text-[#202124]">{tip.incentivePlanName}</p>
+                              <p className="mr-2 text-base text-[#202124]">
+                                {tip.incentivePlanName}
+                              </p>
                               <span className="border px-4  text-xs py-[3px] text-[#0049FF] border-[#0049FF] rounded-full">
                                 {tip.target == "7"
                                   ? tip.customized_target_name
                                   : targetMap[tip.target]}
                               </span>
                             </div>
-                          
 
                             <div className="absolute inset-x-0 h-1.5 overflow-hidden bottom-5 bg-[#CBD5E1]">
                               <div
@@ -164,7 +160,26 @@ function PlanList() {
                     }}
                   </SwiperSlide>
                 );
-              })
+              })}
+
+            {!pc && (
+              <SwiperSlide key="add" style={{ width: "auto" }}>
+                {({ isActive }) => {
+                  return (
+                    <NavLink to={`/incentive/create`}>
+                      <div
+                        className={clsx(
+                          "bg-cover rounded-[24px] text-[#0049FF] text-[60px] flex justify-center items-center",
+                          isActive ? "w-[80vw] h-[200px]" : "w-[70vw] h-[180px]"
+                        )}
+                        style={{ backgroundImage: `url(${newPlanUrl})` }}
+                      >
+                      <span className="flex items-center justify-center w-20 h-20 bg-white rounded-full">+</span>
+                      </div>
+                    </NavLink>
+                  );
+                }}
+              </SwiperSlide>
             )}
           </Swiper>
         </div>
@@ -194,22 +209,19 @@ function PlanList() {
         </div>
 
         <div className="hidden lg:block">
-          <GrantTable
-            list={grantList}
-          />
+          <GrantTable list={grantList} />
         </div>
       </div>
 
       <div className="block lg:hidden">
-
         <nav>
-            <Button onClick={() => setDrawer(true)}>open</Button>
+          <Button onClick={() => setDrawer(true)}>open</Button>
         </nav>
-        <Drawer 
+        <Drawer
           placement="bottom"
           open={drawerOpen}
           contentWrapperStyle={{
-            height: '50vh'
+            height: "50vh",
           }}
           onClose={() => setDrawer(false)}
         >
@@ -217,7 +229,6 @@ function PlanList() {
           <p>Some contents...</p>
           <p>Some contents...</p>
         </Drawer>
-
       </div>
     </div>
   );
