@@ -1,38 +1,40 @@
 import React from "react";
 import { Table } from "antd";
-import { grantStatusList, grantType } from "@/utils/const";
+import { grantStatusList, grantType, formatDollar } from "@/utils/const";
 import { Link } from "react-router-dom";
+import { shortAddress } from "@/utils/const";
 
 export default function ({ list = [] }) {
   const columns = [
     {
       title: "GRANT ID",
-      align:"center",
+      align: "center",
       render: (_, v) => (
         <Link
           to={`/incentive/grant/${v?.grant?.incentivePlanId}/${v?.grant?.grantId}/detail`}
         >
-          <p className="text-[#38BDF8]">{v?.grant?.grantId}</p>
+          <p className="text-[#0049FF]">{v?.grant?.grantId}</p>
         </Link>
       ),
     },
     {
       title: "GRANTEE",
-      align:"center",
+      align: "center",
       dataIndex: "granteeId",
       render(_, record) {
+        console.log("record?.grantee", record?.grantee);
         return (
           <div className="flex">
             <img
               src={record?.grantee?.avatar}
-              className="w-[50px] h-[50px] mr-2.5"
+              className="w-[40px] h-[40px] rounded-full mr-1.5"
             />
-            <div className="flex-none w-[145px] text-center">
-              <h3 className="text-ellipsis	truncate  w-full font-bold text-[#1E293B] text-base	">
+            <div className="flex flex-col justify-center flex-none">
+              <h3 className="text-ellipsis w-max-[130px]	truncate font-bold text-[#202124] text-base">
                 {record?.grantee?.name}
               </h3>
-              <p className="text-ellipsis	truncate  w-full text-[#94A3B8] text-xs">
-                {record?.grantee?.mainWallet}
+              <p className="text-ellipsis	truncate text-[#45484F] text-sm">
+                {shortAddress(record?.grantee?.mainWallet)}
               </p>
             </div>
           </div>
@@ -41,7 +43,7 @@ export default function ({ list = [] }) {
     },
     {
       title: "STATUS",
-      className:"flex justify-center",
+      // className:"flex justify-center",
       render(_, record) {
         const stauts = record?.grant?.grantStatus;
         const content = grantStatusList
@@ -57,66 +59,75 @@ export default function ({ list = [] }) {
       },
     },
     {
-      title: "TOTAL TOKEN",
-      align:"center",
-      render(_, record) {
-        return record?.grant?.grantNum;
-      },
-    },
-    {
       title: "GRANT DATE",
-      align:"center",
+      align: "center",
       render(_, record) {
         return record?.grant?.grantDate;
       },
     },
     {
-      title: "VESTED",
-      align:"center",
+      title: "VESTING BY",
+      align: "center",
       render(_, record) {
-        return record?.vestedAmount;
+        const type = grantType.find(
+          (item) => item.value === record?.grant?.grantType
+        );
+        return (
+          <div className="flex">
+            {type?.label}
+            <img src={type?.icon} className="ml-2" />
+          </div>
+        );
       },
     },
     {
-      title: "VESTING SCHEDULE",
-      align:"center",
+      title: "TOTAL TOKEN",
+      align: "center",
       render(_, record) {
-        return grantType.find((item) => item.value === record?.grant?.grantType)
-          ?.name;
+        return formatDollar(record?.grant?.grantNum);
       },
     },
     {
-      title: "ACTION",
-      align:"center",
+      title: "VESTED TOKEN",
+      align: "center",
       render(_, record) {
-        let text = "",
-          link = "";
-        switch (record?.grant?.grantStatus) {
-          case 1:
-            // 草稿
-            text = "EDIT";
-            link = `/incentive/grant/${record?.grant?.incentivePlanId}/create?grantId=${record?.grant?.grantId}`;
-            break;
-
-          case 2:
-            // signing
-            text = "SIGN";
-            link = `/grants/${record?.grant?.grantId}/sign`;
-            break;
-
-          default:
-            // view-
-            text = "VIEW";
-            link = `/incentive/grant/${record?.grant?.incentivePlanId}/${record?.grant?.grantId}/detail`;
-        }
-
-        return <Link to={link}>{text}</Link>;
+        return formatDollar(record?.vestedAmount);
       },
     },
+
+    // {
+    //   title: "ACTION",
+    //   align:"center",
+    //   render(_, record) {
+    //     let text = "",
+    //       link = "";
+    //     switch (record?.grant?.grantStatus) {
+    //       case 1:
+    //         // 草稿
+    //         text = "EDIT";
+    //         link = `/incentive/grant/${record?.grant?.incentivePlanId}/create?grantId=${record?.grant?.grantId}`;
+    //         break;
+
+    //       case 2:
+    //         // signing
+    //         text = "SIGN";
+    //         link = `/grants/${record?.grant?.grantId}/sign`;
+    //         break;
+
+    //       default:
+    //         // view-
+    //         text = "VIEW";
+    //         link = `/incentive/grant/${record?.grant?.incentivePlanId}/${record?.grant?.grantId}/detail`;
+    //     }
+
+    //     return <Link to={link}>{text}</Link>;
+    //   },
+    // },
   ];
 
   return (
     <Table
+      bordered
       columns={columns}
       rowKey={(record) => record?.grant?.grantId}
       dataSource={list}

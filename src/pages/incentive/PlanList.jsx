@@ -86,7 +86,7 @@ function PlanList() {
         </div>
       </div>
 
-      <div className="w-full mb-4">
+      <div className="w-full mb-5 lg:mb-12">
         <h2 className="pb-2 text-[32px] lg:text-[24px]">Plans</h2>
 
         <div
@@ -121,9 +121,7 @@ function PlanList() {
                   >
                     {({ isActive }) => {
                       return (
-                        <NavLink
-                          to={`/incentive/${tip.incentivePlanId}`}
-                        >
+                        <NavLink to={`/incentive/${tip.incentivePlanId}`}>
                           <div
                             className={clsx(
                               "px-1.5 shadow-c2 border rounded-[10px] relative",
@@ -174,30 +172,31 @@ function PlanList() {
       </div>
 
       <div>
-        <h1 className="pb-6 text-3xl font-bold md:text-3xl text-slate-800">
-          Grants
-        </h1>
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-[32px] lg:text-[24px]">Grants</h2>
 
-        <div>
-          <div className="flex flex-row-reverse items-center mb-2">
-            {tipList.length === 0 ? (
-              <Button type="primary" disabled>
-                + New Grant
+          {tipList.length === 0 ? (
+            <Button type="primary" shape="round" size="large" disabled>
+              <span>
+                <PlusOutlined />
+                <span className="font-roboto">New Grant</span>
+              </span>
+            </Button>
+          ) : (
+            <Link to="/incentive/grant/tmp/create">
+              <Button type="primary" shape="round" size="large">
+                <span>
+                  <PlusOutlined />
+                  <span className="font-roboto">New Grant</span>
+                </span>
               </Button>
-            ) : (
-              <Link to="/incentive/grant/tmp/create">
-                <Button type="primary">+ New Grant</Button>
-              </Link>
-            )}
-          </div>
+            </Link>
+          )}
+        </div>
+
+        <div className="hidden lg:block">
           <GrantTable
             list={grantList}
-            title={() => (
-              <h2 className="inline text-base font-bold">
-                All The Grants{" "}
-                <p className="inline font-light">{grantList.length}</p>
-              </h2>
-            )}
           />
         </div>
       </div>

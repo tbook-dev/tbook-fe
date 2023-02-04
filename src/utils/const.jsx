@@ -3,7 +3,7 @@ import clsx from "clsx";
 import _ from "lodash";
 import Ethereum from "../components/icon/Ethereum";
 import BSC from "../components/icon/BSC";
-
+import dateIcon from '@/images/icon/date.svg'
 /**
  * 激励目标target
  * 0：default/unknown
@@ -36,11 +36,14 @@ export const grantType = [
   {
     name: "By Duration",
     value: 1,
+    label: "Duration",
     disabled: false,
+    icon: dateIcon
   },
   {
     name: "By Milestone",
     value: 2,
+    label: "Milestone",
     disabled: true,
   },
 ];
@@ -60,7 +63,7 @@ export const grantStatusList = [
     render: (v = "", ...props) => (
       <div
         className={clsx(
-          "w-[105px] text-sm	text-[#7D7D7D] bg-[#FBFAFA] py-1 rounded-2xl text-center border border-[#7D7D7D]",
+          "w-[75px] text-sm	text-[#7D7D7D] bg-[#FBFAFA] py-1 rounded-2xl text-center border border-[#7D7D7D]",
           v
         )}
         {...props}
@@ -76,7 +79,7 @@ export const grantStatusList = [
     render: (v = "", ...props) => (
       <div
         className={clsx(
-          "w-[105px] text-sm	text-[#D97706] bg-[#FEF3C7] py-1 rounded-2xl text-center",
+          "w-[75px] text-sm	text-[#D97706] bg-[#FEF3C7] py-1 rounded-2xl text-center",
           v
         )}
         {...props}
@@ -92,7 +95,7 @@ export const grantStatusList = [
     render: (v = "", ...props) => (
       <div
         className={clsx(
-          "w-[105px] text-sm	text-[#35AE86] bg-[#D1FAE5] py-1 rounded-2xl text-center",
+          "w-[75px] text-sm	text-[#35AE86] bg-[#D1FAE5] py-1 rounded-2xl text-center",
           v
         )}
         {...props}
@@ -108,7 +111,7 @@ export const grantStatusList = [
     render: (v = "", ...props) => (
       <div
         className={clsx(
-          "w-[105px] text-sm	text-[#6366F1] bg-[#DADBFF] py-1 rounded-2xl text-center",
+          "w-[75px] text-sm	text-[#6366F1] bg-[#DADBFF] py-1 rounded-2xl text-center",
           v
         )}
         {...props}
@@ -123,7 +126,7 @@ export const grantStatusList = [
     render: (v = "", ...props) => (
       <div
         className={clsx(
-          "w-[105px] text-sm	text-[#D91F06] bg-[#FEC7C7] py-1 rounded-2xl text-center",
+          "w-[75px] text-sm	text-[#D91F06] bg-[#FEC7C7] py-1 rounded-2xl text-center",
           v
         )}
         {...props}
@@ -138,7 +141,7 @@ export const grantStatusList = [
     render: (v = "", ...props) => (
       <div
         className={clsx(
-          "w-[105px] text-sm	text-[#000000] bg-[#606060] py-1 rounded-2xl text-center",
+          "w-[75px] text-sm	text-[#000000] bg-[#606060] py-1 rounded-2xl text-center",
           v
         )}
         {...props}
@@ -216,6 +219,14 @@ export const periodMap = {
 
 export const formatDollar = (v = "") => {
   return `${v}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+export const shortAddress = (address) => {
+  return (
+    `${address}`.slice(0, 6) +
+    "..." +
+    `${address}`.slice(`${address}`.length - 4)
+  );
 };
 
 export const chains = [
