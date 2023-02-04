@@ -22,7 +22,6 @@ export default function ({ list = [] }) {
       align: "center",
       dataIndex: "granteeId",
       render(_, record) {
-        console.log("record?.grantee", record?.grantee);
         return (
           <div className="flex">
             <img

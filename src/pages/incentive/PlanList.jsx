@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import LayoutAdmin from "@/layout/Layout.admin";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
@@ -8,7 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { PlusOutlined } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
-import { Button } from "antd";
+import { Button, Drawer } from "antd";
 import { Link } from "react-router-dom";
 import { useAsyncEffect } from "ahooks";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
@@ -27,6 +26,7 @@ function PlanList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.user.authUser);
+  const [drawerOpen, setDrawer] = useState(false);
 
   async function handleSignIn() {
     console.log("authUser", authUser);
@@ -90,7 +90,7 @@ function PlanList() {
         <h2 className="pb-2 text-[32px] lg:text-[24px]">Plans</h2>
 
         <div
-          className="relative h-[194px]"
+          className="relative h-[200px] lg:h-[194px]"
           style={{ "--swiper-navigation-size": "16px" }}
         >
           <div className="hidden lg:block absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>
@@ -124,22 +124,21 @@ function PlanList() {
                         <NavLink to={`/incentive/${tip.incentivePlanId}`}>
                           <div
                             className={clsx(
-                              "px-1.5 shadow-c2 border rounded-[10px] relative",
+                              "px-4 lg:px-8 shadow-c2 border rounded-[10px] relative",
                               isActive
-                                ? "w-[80vw] h-[360px] lg:w-[264px] lg:h-[194px]"
-                                : "w-[70vw] h-[320px] lg:w-[220px] lg:h-[136px]"
+                                ? "w-[80vw] h-[200px] lg:w-[264px] lg:h-[194px]"
+                                : "w-[70vw] h-[180px] lg:w-[220px] lg:h-[136px]"
                             )}
                           >
-                            <div className="pt-[9px]">
-                              <span className="border px-1.5 text-xs py-[3px] border-[#CBD5E1] rounded-[3px]">
+                            <div className="flex py-5">
+                              <p className="mr-2 text-base text-[#202124]">{tip.incentivePlanName}</p>
+                              <span className="border px-4  text-xs py-[3px] text-[#0049FF] border-[#0049FF] rounded-full">
                                 {tip.target == "7"
                                   ? tip.customized_target_name
                                   : targetMap[tip.target]}
                               </span>
                             </div>
-                            <div className="text-base text-[#1E293B] font-semibold	 mb-[20px]">
-                              <p>{tip.incentivePlanName}</p>
-                            </div>
+                          
 
                             <div className="absolute inset-x-0 h-1.5 overflow-hidden bottom-5 bg-[#CBD5E1]">
                               <div
@@ -171,7 +170,7 @@ function PlanList() {
         </div>
       </div>
 
-      <div>
+      <div className="hidden lg:block">
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-[32px] lg:text-[24px]">Grants</h2>
 
@@ -199,6 +198,26 @@ function PlanList() {
             list={grantList}
           />
         </div>
+      </div>
+
+      <div className="block lg:hidden">
+
+        <nav>
+            <Button onClick={() => setDrawer(true)}>open</Button>
+        </nav>
+        <Drawer 
+          placement="bottom"
+          open={drawerOpen}
+          contentWrapperStyle={{
+            height: '50vh'
+          }}
+          onClose={() => setDrawer(false)}
+        >
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Drawer>
+
       </div>
     </div>
   );
