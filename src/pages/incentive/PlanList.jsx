@@ -19,6 +19,8 @@ import { setAuthUser, fetchUserInfo } from "@/store/user";
 import planIcon from "@/images/incentive/plan.svg";
 import clsx from "clsx";
 import newPlanUrl from "@/images/incentive/new-plan.png";
+import inActivePlan from "@/images/incentive/inactive-plan.png";
+import activePlan from "@/images/incentive/active-plan.png";
 
 function PlanList() {
   const [tipList, updateTipList] = useState([]);
@@ -119,13 +121,22 @@ function PlanList() {
                         <NavLink to={`/incentive/${tip.incentivePlanId}`}>
                           <div
                             className={clsx(
-                              "px-4 lg:px-8 shadow-c2 border rounded-[10px] relative",
+                              "bg-cover lg:px-8 shadow-c2 border rounded-[10px] overflow-hidden relative",
                               isActive
-                                ? "w-[80vw] h-[200px] lg:w-[264px] lg:h-[194px]"
-                                : "w-[70vw] h-[180px] lg:w-[220px] lg:h-[136px]"
+                                ? "w-[80vw] h-[200px] flex flex-col lg:w-[264px] lg:h-[194px]"
+                                : "w-[70vw] h-[180px] flex flex-col-reverse lg:flex-col lg:w-[220px] lg:h-[136px]"
                             )}
+                            style={{
+                              backgroundImage: `url(${
+                                !pc
+                                  ? !isActive
+                                    ? inActivePlan
+                                    : activePlan
+                                  : null
+                              })`,
+                            }}
                           >
-                            <div className="flex py-5">
+                            <div className="flex px-4 py-5">
                               <p className="mr-2 text-base text-[#202124]">
                                 {tip.incentivePlanName}
                               </p>
@@ -135,25 +146,34 @@ function PlanList() {
                                   : targetMap[tip.target]}
                               </span>
                             </div>
+                            {pc ? (
+                              isActive ? (
+                                <>active</>
+                              ) : (
+                                <>inactive</>
+                              )
+                            ) : isActive ? (
+                              <div className="flex-auto bg-white">
+                                <div className="absolute inset-x-0 h-1.5 overflow-hidden bottom-5 bg-[#CBD5E1]">
+                                  <div
+                                    className="h-1.5	bg-[#475569]"
+                                    style={{ width: tip.percentage + "%" }}
+                                  />
+                                </div>
 
-                            <div className="absolute inset-x-0 h-1.5 overflow-hidden bottom-5 bg-[#CBD5E1]">
-                              <div
-                                className="h-1.5	bg-[#475569]"
-                                style={{ width: tip.percentage + "%" }}
-                              />
-                            </div>
-
-                            <div className="inset-x-1.5 absolute bottom-0 origin-left	scale-50 text-[#94A3B8] whitespace-nowrap">
-                              Granted {tip.grantedTokenNum}
-                            </div>
-                            <div className="inset-x-1.5 absolute bottom-0 origin-right text-right	scale-50 whitespace-nowrap	text-[#94A3B8]">
-                              Total: {tip.totalTokenNum}(
-                              {getDividePercent(
-                                tip.grantedTokenNum,
-                                tip.totalTokenNum
-                              )}
-                              %)
-                            </div>
+                                <div className="inset-x-1.5 absolute bottom-0 origin-left	scale-50 text-[#94A3B8] whitespace-nowrap">
+                                  Granted {tip.grantedTokenNum}
+                                </div>
+                                <div className="inset-x-1.5 absolute bottom-0 origin-right text-right	scale-50 whitespace-nowrap	text-[#94A3B8]">
+                                  Total: {tip.totalTokenNum}(
+                                  {getDividePercent(
+                                    tip.grantedTokenNum,
+                                    tip.totalTokenNum
+                                  )}
+                                  %)
+                                </div>
+                              </div>
+                            ) : null}
                           </div>
                         </NavLink>
                       );
@@ -174,7 +194,9 @@ function PlanList() {
                         )}
                         style={{ backgroundImage: `url(${newPlanUrl})` }}
                       >
-                      <span className="flex items-center justify-center w-20 h-20 bg-white rounded-full">+</span>
+                        <span className="flex items-center justify-center w-20 h-20 bg-white rounded-full">
+                          +
+                        </span>
                       </div>
                     </NavLink>
                   );
