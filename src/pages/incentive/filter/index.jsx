@@ -1,5 +1,6 @@
 import { grantStatusList, grantType } from "@/utils/const";
 import React from "react";
+import clsx from "clsx";
 
 const getFilterOpitons = (plans) => {
   return [
@@ -13,11 +14,19 @@ const getFilterOpitons = (plans) => {
     },
     {
       group: "Plan",
-      list: plans?.map((v) => ({
-        label: v.incentivePlanName,
-        value: v.incentivePlanId,
-        disabled: false,
-      })),
+      list: [
+        {
+          label: "all",
+          value: -1,
+          disabled: false,
+        },
+      ].concat(
+        plans?.map((v) => ({
+          label: v.incentivePlanName,
+          value: v.incentivePlanId,
+          disabled: false,
+        }))
+      ),
     },
     {
       group: "Vesting Type",
@@ -45,9 +54,7 @@ const getFilterOpitons = (plans) => {
   ];
 };
 
-export default React.memo(function ({ tipList }) {
-  console.log("xxx");
-
+export default React.memo(function ({ tipList, filters, dispatch }) {
   return (
     <div>
       {getFilterOpitons(tipList).map((conf) => {
@@ -59,7 +66,15 @@ export default React.memo(function ({ tipList }) {
                 return (
                   <div
                     key={v.value}
-                    className="w-[108px] text-xs h-[28px] leading-[28px] text-center truncate px-2 bg-[#F0F0F0] rounded-2xl text-[#606368]"
+                    className={clsx(
+                      "w-[108px] text-xs h-[28px] leading-[28px] text-center truncate px-2 rounded-2xl",
+                      filters[conf.group] === v.value
+                        ? "bg-[#0049FF] text-white"
+                        : "bg-[#F0F0F0] text-[#606368]"
+                    )}
+                    onClick={() =>
+                      dispatch({ type: conf.group, payload: v.value })
+                    }
                   >
                     {v.label}
                   </div>

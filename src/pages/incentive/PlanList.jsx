@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -21,7 +21,38 @@ import newPlanUrl from "@/images/incentive/new-plan.png";
 import ActiveCard from "./planCard/Active";
 import InActiveCard from "./planCard/InActive";
 import GrantCard from "./grantCard";
-import FilterPanel from './filter'
+import FilterPanel from "./filter";
+
+function filterReducer(filters, action) {
+  const preVal = filters[action.type];
+  const curlVal = action.payload;
+
+  if (action.type === "Plan") {
+    if (preVal === curlVal) {
+      // 点自己
+      if (preVal === -1) {
+        return filters;
+      } else {
+        return { ...filters, [action.type]: -1 };
+      }
+    } else {
+      // 点别的
+      return { ...filters, [action.type]: curlVal };
+    }
+  }
+
+  return {
+    ...filters,
+    [action.type]: preVal === curlVal ? null : curlVal,
+  };
+}
+
+const initialFilters = {
+  Status: null,
+  Plan: -1,
+  "Vesting Type": null,
+  "Grant Type": null,
+};
 
 function PlanList() {
   const [tipList, updateTipList] = useState([]);
@@ -32,6 +63,8 @@ function PlanList() {
   const authUser = useSelector((state) => state.user.authUser);
   const [drawerOpen, setDrawer] = useState(false);
   const { pc } = useResponsive();
+  const [filters, dispatchFilter] = useReducer(filterReducer, initialFilters);
+  // console.log("filters--->", filters);
 
   async function handleSignIn() {
     console.log("authUser", authUser);
@@ -197,7 +230,11 @@ function PlanList() {
           }}
           onClose={() => setDrawer(false)}
         >
-          <FilterPanel tipList={tipList}/>
+          <FilterPanel
+            tipList={tipList}
+            filters={filters}
+            dispatch={dispatchFilter}
+          />
         </Drawer>
 
         <nav>
