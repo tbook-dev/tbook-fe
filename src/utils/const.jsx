@@ -53,11 +53,11 @@ export const dateFormat = "YYYY-MM-DD";
 
 // grant状态：0-default/unknown，1-draft草稿，2-signing签约中，3-effective生效，4-completed完成，5-suspended暂停，6-terminated终止
 export const grantStatusList = [
-  {
-    value: 0,
-    label: "default/unknown",
-    render: () => null,
-  },
+  // {
+  //   value: 0,
+  //   label: "default/unknown",
+  //   render: () => null,
+  // },
   {
     value: 1,
     label: "draft",

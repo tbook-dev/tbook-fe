@@ -57,7 +57,7 @@ export default function ({ tip, pc }) {
         {conf.map((v) => {
           return (
             <div
-              className="flex justify-between text-xs lg:text-xs lg:leading-[14px]"
+              className="flex justify-between text-xs leading-4 lg:text-xs lg:leading-[14px]"
               key={v.title}
             >
               <p className="text-[#8C8C8C]">{v.title}</p>

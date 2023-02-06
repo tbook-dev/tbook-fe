@@ -21,6 +21,7 @@ import newPlanUrl from "@/images/incentive/new-plan.png";
 import ActiveCard from "./planCard/Active";
 import InActiveCard from "./planCard/InActive";
 import GrantCard from "./grantCard";
+import FilterPanel from './filter'
 
 function PlanList() {
   const [tipList, updateTipList] = useState([]);
@@ -190,15 +191,13 @@ function PlanList() {
           closable={false}
           open={drawerOpen}
           contentWrapperStyle={{
-            height: "50vh",
+            height: "70vh",
             borderRadius: "24px 24px 0px 0px",
             overflow: "hidden",
           }}
           onClose={() => setDrawer(false)}
         >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          <FilterPanel tipList={tipList}/>
         </Drawer>
 
         <nav>
