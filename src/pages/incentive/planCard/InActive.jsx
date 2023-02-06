@@ -24,7 +24,7 @@ export default function ({ tip, pc }) {
     <div
       className={clsx(
         "flex flex-col justify-between bg-cover shadow-c2 border rounded-2xl overflow-hidden relative",
-        "w-[70vw] h-[180px] flex flex-col-reverse lg:flex-col lg:w-[220px] lg:h-[136px]"
+        "w-[70vw] h-[160px] flex flex-col-reverse lg:flex-col lg:w-[220px] lg:h-[136px]"
       )}
       style={{
         backgroundImage: `url(${!pc ? inActivePlan : null})`,

@@ -1,8 +1,37 @@
-import { shortAddress, grantStatusList, grantType } from "@/utils/const";
+import { shortAddress, grantStatusList, grantType, dateFormat } from "@/utils/const";
 import { useMemo } from "react";
 import { formatThousands } from "@/utils/Utils";
+import dayjs from "dayjs";
+
+// const v = [
+//     {
+//         "date": "2023-12-01",
+//         "quantity": 8000,
+//         "cumulative": 10000,
+//         "isVested": false
+//     },
+//     {
+//         "date": "2023-01-01",
+//         "quantity": 2000,
+//         "cumulative": 2000,
+//         "isVested": true
+//     },
+//     {
+//         "date": "2023-02-02",
+//         "quantity": 3000,
+//         "cumulative": 3000,
+//         "isVested": true
+//     }
+// ]
+function getLastVested(list){
+    const  vestedList = list.filter(m => m.isVested).sort((a,b) =>{
+        return dayjs(a.date, dateFormat).isAfter(dayjs(b.date)) ? 1 : -1
+    })
+    return vestedList.pop()
+}
 
 export default function ({ grant }) {
+    // console.log(grant.grant.vestingSchedule.vestingDetail,'grant')
   const conf = useMemo(
     () => [
       {
@@ -15,7 +44,7 @@ export default function ({ grant }) {
       },
       {
         label: "Latest Vesting",
-        render: () => grant?.grant?.grantDate,
+        render: () => getLastVested(grant?.grant?.vestingSchedule?.vestingDetail)?.date || '-',
       },
       {
         label: "Vesting Type",
@@ -25,7 +54,7 @@ export default function ({ grant }) {
           );
           return (
             <div className="flex justify-end">
-              <img src={type?.icon} className="ml-2" />
+              <img src={type?.icon} className="mr-1" />
               {type?.label}
             </div>
           );
@@ -40,8 +69,8 @@ export default function ({ grant }) {
   );
 
   return (
-    <div className="p-2 text-sm bg-white rounded-2xl">
-      <div className="flex justify-between mb-2">
+    <div className="p-2 text-xs bg-white rounded-lg ">
+      <div className="flex justify-between mb-2.5">
         <span className="block px-2 border rounded text-[#8C8C8C]">
           {grant.grant.granteeId}
         </span>
@@ -50,7 +79,7 @@ export default function ({ grant }) {
         </span>
       </div>
 
-      <div className="flex">
+      <div className="flex mb-[13px]">
         <img
           src={grant?.grantee?.avatar}
           className="w-[40px] h-[40px] rounded-full mr-1.5"
@@ -65,7 +94,7 @@ export default function ({ grant }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 text-[26px] bg-[#ECF1FF] rounded px-1">
+      <div className="grid grid-cols-2 text-[13px] bg-[#ECF1FF] rounded -mx-1 px-1 mb-3">
         <div className="truncate">Total</div>
         <div className="text-right truncate text-[#0049FF]">
           {formatThousands(grant?.grant?.grantNum)}

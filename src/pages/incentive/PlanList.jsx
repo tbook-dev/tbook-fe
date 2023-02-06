@@ -94,7 +94,7 @@ function PlanList() {
         <h2 className="pb-2 text-[32px] lg:text-[24px]">Plans</h2>
 
         <div
-          className="relative h-[240px] lg:h-[200px]"
+          className="relative h-[190px]"
           style={{ "--swiper-navigation-size": "16px" }}
         >
           <div className="hidden lg:block absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>
@@ -139,7 +139,7 @@ function PlanList() {
                       <div
                         className={clsx(
                           "bg-cover rounded-[24px] text-[#0049FF] text-[60px] flex justify-center items-center",
-                          isActive ? "w-[80vw] h-[240px]" : "w-[70vw] h-[180px]"
+                          isActive ? "w-[80vw] h-[180px]" : "w-[70vw] h-[160px]"
                         )}
                         style={{ backgroundImage: `url(${newPlanUrl})` }}
                       >
@@ -205,7 +205,7 @@ function PlanList() {
           <Button onClick={() => setDrawer(true)}>open</Button>
         </nav>
 
-        <div className="grid grid-cols-2 gap-x-1 gap-y-1">
+        <div className="grid grid-cols-2 gap-x-2 gap-y-2">
           {grantList.slice(0, 6).map((grant) => (
             <GrantCard grant={grant} key={grant.grant.grantId} />
           ))}

@@ -36,13 +36,13 @@ export default function ({ tip, pc }) {
     <div
       className={clsx(
         "flex flex-col justify-between bg-cover shadow-c2 border rounded-2xl overflow-hidden relative",
-        "w-[80vw] h-[240px] flex flex-col lg:w-[264px] lg:h-[194px]"
+        "w-[80vw] h-[180px] flex flex-col lg:w-[264px] lg:h-[194px]"
       )}
       style={{
         backgroundImage: `url(${!pc ? activePlan : null})`,
       }}
     >
-      <div className="flex items-center px-4 pt-4 lg:items-start lg:flex-col-reverse">
+      <div className="flex items-center px-4 py-2.5 lg:items-start lg:flex-col-reverse">
         <p className="mr-2 text-base leading-none m-0 lg:text-xl lg:leading-none text-[#202124]">
           {tip.incentivePlanName}
         </p>
@@ -57,7 +57,7 @@ export default function ({ tip, pc }) {
         {conf.map((v) => {
           return (
             <div
-              className="flex justify-between text-sm lg:text-xs lg:leading-[14px]"
+              className="flex justify-between text-xs lg:text-xs lg:leading-[14px]"
               key={v.title}
             >
               <p className="text-[#8C8C8C]">{v.title}</p>
