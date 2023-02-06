@@ -23,11 +23,11 @@ export default function ({ tip, pc }) {
       },
       {
         title: "Grantee",
-        value: 1,
+        value: tip.granteeNum,
       },
       {
         title: "Grants",
-        value: 2,
+        value: tip.grantsNum,
       },
     ];
   }, [tip]);

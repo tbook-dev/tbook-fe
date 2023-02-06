@@ -1,6 +1,6 @@
-import { Tag } from "antd";
-import { shortAddress } from "@/utils/const";
+import { shortAddress, grantStatusList, grantType } from "@/utils/const";
 import { useMemo } from "react";
+import { formatThousands } from "@/utils/Utils";
 
 export default function ({ grant }) {
   const conf = useMemo(
@@ -11,26 +11,43 @@ export default function ({ grant }) {
       },
       {
         label: "Vested",
-        render: () => "token option", //现在都是这个功能
+        render: () => formatThousands(grant?.vestedAmount),
       },
       {
         label: "Latest Vesting",
-        render: () => "token option", //现在都是这个功能
+        render: () => grant?.grant?.grantDate,
       },
       {
         label: "Vesting Type",
-        render: () => "token option", //现在都是这个功能
+        render: () => {
+          const type = grantType.find(
+            (item) => item.value === grant?.grant?.grantType
+          );
+          return (
+            <div className="flex justify-end">
+              <img src={type?.icon} className="ml-2" />
+              {type?.label}
+            </div>
+          );
+        },
       },
     ],
     [grant]
   );
 
-  console.log(grant, conf);
+  const status = grantStatusList.find(
+    (item) => grant.grant?.grantStatus === item.value
+  );
 
   return (
-    <div className="p-2 bg-white rounded-2xl">
+    <div className="p-2 text-sm bg-white rounded-2xl">
       <div className="flex justify-between mb-2">
-        <Tag>{grant.grant.granteeId}</Tag>
+        <span className="block px-2 border rounded text-[#8C8C8C]">
+          {grant.grant.granteeId}
+        </span>
+        <span className="text-right" style={{ color: status?.color }}>
+          {status?.text}
+        </span>
       </div>
 
       <div className="flex">
@@ -48,12 +65,19 @@ export default function ({ grant }) {
         </div>
       </div>
 
-      <div>
+      <div className="grid grid-cols-2 text-[26px] bg-[#ECF1FF] rounded px-1">
+        <div className="truncate">Total</div>
+        <div className="text-right truncate text-[#0049FF]">
+          {formatThousands(grant?.grant?.grantNum)}
+        </div>
+      </div>
+
+      <div className="space-y-2">
         {conf.map((v) => {
           return (
-            <div key={v.label} className="flex justify-between">
-              <div className="">{v.label}</div>
-              <div className="">
+            <div key={v.label} className="grid grid-cols-2">
+              <div className="truncate">{v.label}</div>
+              <div className="text-right truncate">
                 <v.render />
               </div>
             </div>

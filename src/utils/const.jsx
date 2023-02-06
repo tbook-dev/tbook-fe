@@ -3,7 +3,8 @@ import clsx from "clsx";
 import _ from "lodash";
 import Ethereum from "../components/icon/Ethereum";
 import BSC from "../components/icon/BSC";
-import dateIcon from '@/images/icon/date.svg'
+import dateIcon from "@/images/icon/date.svg";
+
 /**
  * 激励目标target
  * 0：default/unknown
@@ -38,7 +39,7 @@ export const grantType = [
     value: 1,
     label: "Duration",
     disabled: false,
-    icon: dateIcon
+    icon: dateIcon,
   },
   {
     name: "By Milestone",
@@ -71,6 +72,8 @@ export const grantStatusList = [
         draft
       </div>
     ),
+    text: "draft",
+    color: "#7D7D7D",
   },
   {
     value: 2,
@@ -87,6 +90,8 @@ export const grantStatusList = [
         signing
       </div>
     ),
+    text: "signing",
+    color: "#D97706",
   },
   {
     value: 3,
@@ -103,6 +108,8 @@ export const grantStatusList = [
         effective
       </div>
     ),
+    value: "effective",
+    color: "#35AE86",
   },
   {
     value: 4,
@@ -119,6 +126,8 @@ export const grantStatusList = [
         completed
       </div>
     ),
+    text: "completed",
+    color: "#6366F1",
   },
   {
     value: 5,
@@ -134,6 +143,8 @@ export const grantStatusList = [
         suspended
       </div>
     ),
+    text: "suspended",
+    color: "#D91F06",
   },
   {
     value: 6,
@@ -149,6 +160,8 @@ export const grantStatusList = [
         terminated
       </div>
     ),
+    text: "terminated",
+    color: "#000000",
   },
 ];
 
