@@ -20,6 +20,7 @@ import clsx from "clsx";
 import newPlanUrl from "@/images/incentive/new-plan.png";
 import ActiveCard from "./planCard/Active";
 import InActiveCard from "./planCard/InActive";
+import GrantCard from "./grantCard";
 
 function PlanList() {
   const [tipList, updateTipList] = useState([]);
@@ -119,9 +120,9 @@ function PlanList() {
                       return (
                         <NavLink to={`/incentive/${tip.incentivePlanId}`}>
                           {isActive ? (
-                            <ActiveCard tip={tip} pc={pc}/>
+                            <ActiveCard tip={tip} pc={pc} />
                           ) : (
-                            <InActiveCard tip={tip} pc={pc}/>
+                            <InActiveCard tip={tip} pc={pc} />
                           )}
                         </NavLink>
                       );
@@ -184,14 +185,14 @@ function PlanList() {
       </div>
 
       <div className="block lg:hidden">
-        <nav>
-          <Button onClick={() => setDrawer(true)}>open</Button>
-        </nav>
         <Drawer
           placement="bottom"
+          closable={false}
           open={drawerOpen}
           contentWrapperStyle={{
             height: "50vh",
+            borderRadius: "24px 24px 0px 0px",
+            overflow: "hidden",
           }}
           onClose={() => setDrawer(false)}
         >
@@ -199,6 +200,16 @@ function PlanList() {
           <p>Some contents...</p>
           <p>Some contents...</p>
         </Drawer>
+
+        <nav>
+          <Button onClick={() => setDrawer(true)}>open</Button>
+        </nav>
+
+        <div className="grid grid-cols-2 gap-x-1 gap-y-1">
+          {grantList.slice(0, 6).map((grant) => (
+            <GrantCard grant={grant} key={grant.grant.grantId} />
+          ))}
+        </div>
       </div>
     </div>
   );
