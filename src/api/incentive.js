@@ -15,7 +15,8 @@ export const createProject = async function(values){
 }
 
 export const getIncentiveList = async function (projectId) {
-    return request(`${host}/projects/${projectId}/tips`)
+    const res = await request(`${host}/projects/${projectId}/tips`)
+    return Array.isArray(res) ? res : []
 };
 
 export const getTIPInfo = async function (incentivePlanId) {

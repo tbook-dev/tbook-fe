@@ -4,7 +4,7 @@ import { grantStatusList, grantType, formatDollar } from "@/utils/const";
 import { Link } from "react-router-dom";
 import { shortAddress } from "@/utils/const";
 
-export default function ({ list = [] }) {
+export default function ({ list = [], loading = false }) {
   const columns = [
     {
       title: "GRANT ID",
@@ -127,6 +127,7 @@ export default function ({ list = [] }) {
   return (
     <Table
       bordered
+      loading={loading}
       columns={columns}
       rowKey={(record) => record?.grant?.grantId}
       dataSource={list}

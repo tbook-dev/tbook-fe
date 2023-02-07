@@ -9,7 +9,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
 import { Button, Drawer } from "antd";
 import { Link } from "react-router-dom";
-import { useAsyncEffect, useResponsive } from "ahooks";
+import { useAsyncEffect, useResponsive, useRequest } from "ahooks";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import _ from "lodash";
 import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
@@ -22,41 +22,16 @@ import ActiveCard from "./planCard/Active";
 import InActiveCard from "./planCard/InActive";
 import GrantCard from "./grantCard";
 import FilterPanel from "./filter";
+import { Spin } from "antd";
+import { filterReducer, initialFilters } from '@/store/parts'
 
-function filterReducer(filters, action) {
-  const preVal = filters[action.type];
-  const curlVal = action.payload;
-
-  if (action.type === "Plan") {
-    if (preVal === curlVal) {
-      // 点自己
-      if (preVal === -1) {
-        return filters;
-      } else {
-        return { ...filters, [action.type]: -1 };
-      }
-    } else {
-      // 点别的
-      return { ...filters, [action.type]: curlVal };
-    }
-  }
-
-  return {
-    ...filters,
-    [action.type]: preVal === curlVal ? null : curlVal,
-  };
-}
-
-const initialFilters = {
-  Status: null,
-  Plan: -1,
-  "Vesting Type": null,
-  "Grant Type": null,
-};
 
 function PlanList() {
+  const [swiper, setSwiper] = useState(null);
   const [tipList, updateTipList] = useState([]);
+  const [tipLoading, setTipLoading] = useState(false);
   const [grantList, updateGrantList] = useState([]);
+  const [grantLoading, setGrantLoading] = useState(false);
   const projectId = useCurrentProjectId();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,36 +39,31 @@ function PlanList() {
   const [drawerOpen, setDrawer] = useState(false);
   const { pc } = useResponsive();
   const [filters, dispatchFilter] = useReducer(filterReducer, initialFilters);
-  // console.log("filters--->", filters);
 
-  async function handleSignIn() {
-    console.log("authUser", authUser);
-    if (authUser) {
-      navigate("/incentive/create");
-    } else {
-      const web3 = await loadWeb3();
-      await signLoginMetaMask(web3);
-      dispatch(fetchUserInfo());
-      dispatch(setAuthUser(true));
-    }
-  }
+  console.log({ tipList, tipLoading });
 
   useAsyncEffect(async () => {
     if (!projectId) return;
-    const data = await getIncentiveList(projectId);
-    if (Array.isArray(data)) {
-      updateTipList(data);
-    }
+
+    // tips
+    setTipLoading(true);
+    const list1 = await getIncentiveList(projectId);
+    // format
+
+    updateTipList(list1);
+    setTipLoading(false);
+
+
+    // grants
+    setGrantLoading(true);
+    const list2 = await Promise.all(
+      list1.map((tip) => getTipGrantList(tip.incentivePlanId))
+    );
+    updateGrantList(_.flattenDeep(list2));
+    setGrantLoading(false);
   }, [projectId]);
 
-  useAsyncEffect(async () => {
-    if (!projectId) return;
-    const list = await Promise.all(
-      tipList.map((tip) => getTipGrantList(tip.incentivePlanId))
-    );
-    // console.log(tipList.length)
-    updateGrantList(_.flattenDeep(list));
-  }, [tipList]);
+
 
   return (
     <div className="w-full text-[#202124] mb-4">
@@ -133,60 +103,72 @@ function PlanList() {
         >
           <div className="hidden lg:block absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>
           <div className="hidden lg:block absolute swiper-button-prev !-left-12 border !w-8 !h-8 rounded-full"></div>
-          <Swiper
-            modules={[Navigation]}
-            spaceBetween={16}
-            slidesPerView="auto"
-            centeredSlides={pc}
-            navigation={{
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
-            }}
-          >
-            {Array.isArray(tipList) &&
-              tipList.map((tip) => {
-                return (
-                  <SwiperSlide
-                    key={tip.incentivePlanId}
-                    style={{ width: "auto" }}
-                  >
+          {tipLoading ? (
+            <div className="flex items-center justify-center w-full h-full">
+              <Spin />
+            </div>
+          ) : (
+            <>
+              <Swiper
+                modules={[Navigation]}
+                spaceBetween={16}
+                slidesPerView="auto"
+                centeredSlides={pc}
+                onSwiper={setSwiper}
+                initialSlide={2}
+                navigation={{
+                  nextEl: ".swiper-button-next",
+                  prevEl: ".swiper-button-prev",
+                }}
+              >
+                {Array.isArray(tipList) &&
+                  tipList.map((tip) => {
+                    return (
+                      <SwiperSlide
+                        key={tip.incentivePlanId}
+                        style={{ width: "auto" }}
+                      >
+                        {({ isActive }) => {
+                          return (
+                            <NavLink to={`/incentive/${tip.incentivePlanId}`}>
+                              {isActive ? (
+                                <ActiveCard tip={tip} pc={pc} />
+                              ) : (
+                                <InActiveCard tip={tip} pc={pc} />
+                              )}
+                            </NavLink>
+                          );
+                        }}
+                      </SwiperSlide>
+                    );
+                  })}
+
+                {!pc && (
+                  <SwiperSlide key="add" style={{ width: "auto" }}>
                     {({ isActive }) => {
                       return (
-                        <NavLink to={`/incentive/${tip.incentivePlanId}`}>
-                          {isActive ? (
-                            <ActiveCard tip={tip} pc={pc} />
-                          ) : (
-                            <InActiveCard tip={tip} pc={pc} />
-                          )}
+                        <NavLink to={`/incentive/create`}>
+                          <div
+                            className={clsx(
+                              "bg-cover rounded-[24px] text-[#0049FF] text-[60px] flex justify-center items-center",
+                              isActive
+                                ? "w-[80vw] h-[180px]"
+                                : "w-[70vw] h-[160px]"
+                            )}
+                            style={{ backgroundImage: `url(${newPlanUrl})` }}
+                          >
+                            <span className="flex items-center justify-center w-20 h-20 bg-white rounded-full">
+                              +
+                            </span>
+                          </div>
                         </NavLink>
                       );
                     }}
                   </SwiperSlide>
-                );
-              })}
-
-            {!pc && (
-              <SwiperSlide key="add" style={{ width: "auto" }}>
-                {({ isActive }) => {
-                  return (
-                    <NavLink to={`/incentive/create`}>
-                      <div
-                        className={clsx(
-                          "bg-cover rounded-[24px] text-[#0049FF] text-[60px] flex justify-center items-center",
-                          isActive ? "w-[80vw] h-[180px]" : "w-[70vw] h-[160px]"
-                        )}
-                        style={{ backgroundImage: `url(${newPlanUrl})` }}
-                      >
-                        <span className="flex items-center justify-center w-20 h-20 bg-white rounded-full">
-                          +
-                        </span>
-                      </div>
-                    </NavLink>
-                  );
-                }}
-              </SwiperSlide>
-            )}
-          </Swiper>
+                )}
+              </Swiper>
+            </>
+          )}
         </div>
       </div>
 
@@ -214,7 +196,7 @@ function PlanList() {
         </div>
 
         <div className="hidden lg:block">
-          <GrantTable list={grantList} />
+          <GrantTable list={grantList} loading={grantLoading} />
         </div>
       </div>
 
