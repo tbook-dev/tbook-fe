@@ -95,7 +95,7 @@ function PlanList() {
     }
     return res;
   }, [grantList, filters]);
-
+  console.log(filters);
   return (
     <div className="w-full text-[#202124] mb-4">
       <div className="hidden pt-6 mb-4 lg:block">
@@ -152,12 +152,18 @@ function PlanList() {
                 prevEl: ".swiper-button-prev",
               }}
               onSlideChange={(w) => {
-                if (!pc) {
-                  dispatchFilter({
+                let incentivePlanId = tipList[w.activeIndex]?.incentivePlanId;
+                if (pc && w.activeIndex === 0) {
+                  return dispatchFilter({
                     type: "Plan",
-                    payload: tipList[w.activeIndex]?.incentivePlanId,
+                    payload: -1,
                   });
                 }
+                if (!pc && w.activeIndex === tipList.length) return;
+                dispatchFilter({
+                  type: "Plan",
+                  payload: incentivePlanId,
+                });
               }}
             >
               {pc && (
@@ -240,7 +246,10 @@ function PlanList() {
         </div>
 
         <div className="hidden lg:block">
-          <GrantTable list={grantList} loading={grantLoading} />
+          <GrantTable
+            list={filterGrantList(grantList)}
+            loading={grantLoading}
+          />
         </div>
       </div>
 
