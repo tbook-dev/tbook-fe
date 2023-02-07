@@ -70,9 +70,12 @@ export default React.memo(function ({ tipList, filters, dispatch }) {
                       "w-[108px] text-xs h-[28px] leading-[28px] text-center truncate px-2 rounded-2xl",
                       filters[conf.group] === v.value
                         ? "bg-[#0049FF] text-white"
+                        : v.disabled
+                        ? "bg-[#F0F0F0] text-[#B8B8B8]"
                         : "bg-[#F0F0F0] text-[#606368]"
                     )}
                     onClick={() =>
+                      !v.disabled &&
                       dispatch({ type: conf.group, payload: v.value })
                     }
                   >

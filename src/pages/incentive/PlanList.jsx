@@ -96,7 +96,7 @@ function PlanList() {
   }, [tipList]);
 
   return (
-    <div className="w-full text-[#202124]">
+    <div className="w-full text-[#202124] mb-4">
       <div className="hidden pt-6 mb-4 lg:block">
         <h1 className="text-[56px] leading-[64px] mb-10 text-center">
           Incentive List
@@ -242,7 +242,7 @@ function PlanList() {
         </nav>
 
         <div className="grid grid-cols-2 gap-x-2 gap-y-2">
-          {grantList.slice(0, 6).map((grant) => (
+          {grantList.map((grant) => (
             <GrantCard grant={grant} key={grant.grant.grantId} />
           ))}
         </div>
