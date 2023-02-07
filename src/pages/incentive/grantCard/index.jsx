@@ -1,7 +1,13 @@
-import { shortAddress, grantStatusList, grantType, dateFormat } from "@/utils/const";
+import {
+  shortAddress,
+  grantStatusList,
+  grantType,
+  dateFormat,
+} from "@/utils/const";
 import { useMemo } from "react";
 import { formatThousands } from "@/utils/Utils";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 // const v = [
 //     {
@@ -23,15 +29,17 @@ import dayjs from "dayjs";
 //         "isVested": true
 //     }
 // ]
-function getLastVested(list){
-    const  vestedList = list.filter(m => m.isVested).sort((a,b) =>{
-        return dayjs(a.date, dateFormat).isAfter(dayjs(b.date)) ? 1 : -1
-    })
-    return vestedList.pop()
+function getLastVested(list) {
+  const vestedList = list
+    .filter((m) => m.isVested)
+    .sort((a, b) => {
+      return dayjs(a.date, dateFormat).isAfter(dayjs(b.date)) ? 1 : -1;
+    });
+  return vestedList.pop();
 }
 
 export default function ({ grant }) {
-    // console.log(grant.grant.vestingSchedule.vestingDetail,'grant')
+  // console.log(grant.grant.vestingSchedule.vestingDetail,'grant')
   const conf = useMemo(
     () => [
       {
@@ -44,7 +52,9 @@ export default function ({ grant }) {
       },
       {
         label: "Latest Vesting",
-        render: () => getLastVested(grant?.grant?.vestingSchedule?.vestingDetail)?.date || '-',
+        render: () =>
+          getLastVested(grant?.grant?.vestingSchedule?.vestingDetail)?.date ||
+          "-",
       },
       {
         label: "Vesting Type",
@@ -69,7 +79,10 @@ export default function ({ grant }) {
   );
 
   return (
-    <div className="p-2 text-xs bg-white rounded-lg ">
+    <Link
+      className="p-2 text-xs bg-white rounded-lg "
+      to={`/incentive/grant/${grant?.grant?.incentivePlanId}/${grant?.grant?.grantId}/detail`}
+    >
       <div className="flex justify-between mb-2.5">
         <span className="block px-2 border rounded text-[#8C8C8C]">
           {grant.grant.granteeId}
@@ -113,6 +126,6 @@ export default function ({ grant }) {
           );
         })}
       </div>
-    </div>
+    </Link>
   );
 }
