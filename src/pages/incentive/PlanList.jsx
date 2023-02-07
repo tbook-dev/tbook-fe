@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useCallback } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { PlusOutlined } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
-import { Button, Drawer } from "antd";
+import { Button, Drawer, Empty } from "antd";
 import { Link } from "react-router-dom";
 import { useAsyncEffect, useResponsive, useRequest } from "ahooks";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
@@ -31,7 +31,7 @@ function PlanList() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [tipList, updateTipList] = useState([]);
   const [grantList, updateGrantList] = useState([]);
-  const [grantLoading, setGrantLoading] = useState(false);
+  const [grantLoading, setGrantLoading] = useState(true);
   const projectId = useCurrentProjectId();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -71,13 +71,30 @@ function PlanList() {
       });
 
     const activeIdx = list2Formated[0]?.idx || 0;
-    setActiveIndex(activeIdx);
+    setActiveIndex(pc ? activeIdx + 1 : activeIdx);
+    // console.log(list1[activeIdx]?.incentivePlanId)
+    !pc &&
+      dispatchFilter({
+        type: "Plan",
+        payload: list1[activeIdx]?.incentivePlanId,
+      });
     setGrantLoading(false);
     updateGrantList(_.flattenDeep(list2));
     // console.log("activeIdx--in", activeIdx);
   }, [projectId]);
 
-  // console.log(activeIndex);
+  const filterGrantList = useCallback(() => {
+    const { Status, Plan } = filters;
+    let res = grantList;
+    if (Status !== null) {
+      res = res.filter((grant) => grant?.grant?.grantStatus === Status);
+    }
+
+    if (Plan !== -1) {
+      res = res.filter((grant) => grant?.grant?.incentivePlanId === Plan);
+    }
+    return res;
+  }, [grantList, filters]);
 
   return (
     <div className="w-full text-[#202124] mb-4">
@@ -134,7 +151,21 @@ function PlanList() {
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
               }}
+              onSlideChange={(w) => {
+                if (!pc) {
+                  dispatchFilter({
+                    type: "Plan",
+                    payload: tipList[w.activeIndex]?.incentivePlanId,
+                  });
+                }
+              }}
             >
+              {pc && (
+                <SwiperSlide key="all" style={{ width: "auto" }}>
+                  all
+                </SwiperSlide>
+              )}
+
               {Array.isArray(tipList) &&
                 tipList.map((tip) => {
                   return (
@@ -236,10 +267,25 @@ function PlanList() {
           <Button onClick={() => setDrawer(true)}>open</Button>
         </nav>
 
-        <div className="grid grid-cols-2 gap-x-2 gap-y-2">
-          {grantList.map((grant) => (
-            <GrantCard grant={grant} key={grant.grant.grantId} />
-          ))}
+        <div
+          className={clsx(
+            "grid gap-x-2 gap-y-2",
+            filterGrantList(grantList).length > 0
+              ? "grid-cols-2"
+              : "grid-cols-1"
+          )}
+        >
+          {grantLoading ? (
+            <Spin />
+          ) : filterGrantList(grantList).length > 0 ? (
+            filterGrantList(grantList).map((grant) => (
+              <GrantCard grant={grant} key={grant.grant.grantId} />
+            ))
+          ) : (
+            <div className="h-[222px] rounded-lg bg-white flex items-center justify-center">
+              <Empty description="No grant" />
+            </div>
+          )}
         </div>
       </div>
     </div>

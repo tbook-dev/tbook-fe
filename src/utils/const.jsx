@@ -108,7 +108,7 @@ export const grantStatusList = [
         effective
       </div>
     ),
-    value: "effective",
+    text: "effective",
     color: "#35AE86",
   },
   {
