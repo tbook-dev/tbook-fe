@@ -153,13 +153,16 @@ function PlanList() {
               }}
               onSlideChange={(w) => {
                 let incentivePlanId = tipList[w.activeIndex]?.incentivePlanId;
-                if (pc && w.activeIndex === 0) {
+                if (
+                  (pc && w.activeIndex === 0) ||
+                  (!pc && w.activeIndex === tipList.length)
+                ) {
                   return dispatchFilter({
                     type: "Plan",
                     payload: -1,
                   });
                 }
-                if (!pc && w.activeIndex === tipList.length) return;
+                // if (!pc && w.activeIndex === tipList.length) return;
                 dispatchFilter({
                   type: "Plan",
                   payload: incentivePlanId,
