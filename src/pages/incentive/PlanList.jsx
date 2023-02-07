@@ -23,13 +23,13 @@ import InActiveCard from "./planCard/InActive";
 import GrantCard from "./grantCard";
 import FilterPanel from "./filter";
 import { Spin } from "antd";
-import { filterReducer, initialFilters } from '@/store/parts'
-
+import { filterReducer, initialFilters } from "@/store/parts";
+import dayjs from "dayjs";
 
 function PlanList() {
   const [swiper, setSwiper] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [tipList, updateTipList] = useState([]);
-  const [tipLoading, setTipLoading] = useState(false);
   const [grantList, updateGrantList] = useState([]);
   const [grantLoading, setGrantLoading] = useState(false);
   const projectId = useCurrentProjectId();
@@ -40,30 +40,44 @@ function PlanList() {
   const { pc } = useResponsive();
   const [filters, dispatchFilter] = useReducer(filterReducer, initialFilters);
 
-  console.log({ tipList, tipLoading });
-
   useAsyncEffect(async () => {
     if (!projectId) return;
-
-    // tips
-    setTipLoading(true);
+    setGrantLoading(true);
     const list1 = await getIncentiveList(projectId);
     // format
-
     updateTipList(list1);
-    setTipLoading(false);
-
-
     // grants
-    setGrantLoading(true);
     const list2 = await Promise.all(
       list1.map((tip) => getTipGrantList(tip.incentivePlanId))
     );
-    updateGrantList(_.flattenDeep(list2));
+    const list2Formated = _.cloneDeep(list2)
+      ?.map((planGrants) => {
+        const sortedList = planGrants.sort((a, b) => {
+          return dayjs(a?.grant?.updateTime).isBefore(
+            dayjs(b?.grant?.updateTime)
+          )
+            ? -1
+            : 1;
+        });
+        const lastOne = sortedList.pop();
+        return lastOne;
+      })
+      .map((item, idx) => ({ ...item, idx }))
+      .filter((item) => item.grant)
+      .sort((a, b) => {
+        return dayjs(a?.grant?.updateTime).isBefore(dayjs(b?.grant?.updateTime))
+          ? 1
+          : -1;
+      });
+
+    const activeIdx = list2Formated[0]?.idx || 0;
+    setActiveIndex(activeIdx);
     setGrantLoading(false);
+    updateGrantList(_.flattenDeep(list2));
+    // console.log("activeIdx--in", activeIdx);
   }, [projectId]);
 
-
+  // console.log(activeIndex);
 
   return (
     <div className="w-full text-[#202124] mb-4">
@@ -103,71 +117,70 @@ function PlanList() {
         >
           <div className="hidden lg:block absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>
           <div className="hidden lg:block absolute swiper-button-prev !-left-12 border !w-8 !h-8 rounded-full"></div>
-          {tipLoading ? (
+          {grantLoading ? (
             <div className="flex items-center justify-center w-full h-full">
               <Spin />
             </div>
           ) : (
-            <>
-              <Swiper
-                modules={[Navigation]}
-                spaceBetween={16}
-                slidesPerView="auto"
-                centeredSlides={pc}
-                onSwiper={setSwiper}
-                initialSlide={2}
-                navigation={{
-                  nextEl: ".swiper-button-next",
-                  prevEl: ".swiper-button-prev",
-                }}
-              >
-                {Array.isArray(tipList) &&
-                  tipList.map((tip) => {
-                    return (
-                      <SwiperSlide
-                        key={tip.incentivePlanId}
-                        style={{ width: "auto" }}
-                      >
-                        {({ isActive }) => {
-                          return (
-                            <NavLink to={`/incentive/${tip.incentivePlanId}`}>
-                              {isActive ? (
-                                <ActiveCard tip={tip} pc={pc} />
-                              ) : (
-                                <InActiveCard tip={tip} pc={pc} />
-                              )}
-                            </NavLink>
-                          );
-                        }}
-                      </SwiperSlide>
-                    );
-                  })}
-
-                {!pc && (
-                  <SwiperSlide key="add" style={{ width: "auto" }}>
-                    {({ isActive }) => {
-                      return (
-                        <NavLink to={`/incentive/create`}>
-                          <div
-                            className={clsx(
-                              "bg-cover rounded-[24px] text-[#0049FF] text-[60px] flex justify-center items-center",
-                              isActive
-                                ? "w-[80vw] h-[180px]"
-                                : "w-[70vw] h-[160px]"
+            <Swiper
+              modules={[Navigation]}
+              spaceBetween={16}
+              slidesPerView="auto"
+              centeredSlides={pc}
+              onSwiper={setSwiper}
+              initialSlide={activeIndex}
+              observeSlideChildren
+              navigation={{
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+              }}
+            >
+              {Array.isArray(tipList) &&
+                tipList.map((tip) => {
+                  return (
+                    <SwiperSlide
+                      key={tip.incentivePlanId}
+                      style={{ width: "auto" }}
+                    >
+                      {({ isActive }) => {
+                        return (
+                          <NavLink to={`/incentive/${tip.incentivePlanId}`}>
+                            {isActive ? (
+                              <ActiveCard tip={tip} pc={pc} />
+                            ) : (
+                              <InActiveCard tip={tip} pc={pc} />
                             )}
-                            style={{ backgroundImage: `url(${newPlanUrl})` }}
-                          >
-                            <span className="flex items-center justify-center w-20 h-20 bg-white rounded-full">
-                              +
-                            </span>
-                          </div>
-                        </NavLink>
-                      );
-                    }}
-                  </SwiperSlide>
-                )}
-              </Swiper>
-            </>
+                          </NavLink>
+                        );
+                      }}
+                    </SwiperSlide>
+                  );
+                })}
+
+              {!pc && (
+                <SwiperSlide key="add" style={{ width: "auto" }}>
+                  {({ isActive }) => {
+                    return (
+                      <NavLink to={`/incentive/create`}>
+                        <div
+                          className={clsx(
+                            "bg-cover rounded-[24px] text-[#0049FF] text-[60px] flex justify-center items-center",
+                            isActive
+                              ? "w-[80vw] h-[180px]"
+                              : "w-[70vw] h-[160px]"
+                          )}
+                          style={{ backgroundImage: `url(${newPlanUrl})` }}
+                        >
+                          <span className="flex items-center justify-center w-20 h-20 bg-white rounded-full">
+                            +
+                          </span>
+                        </div>
+                      </NavLink>
+                    );
+                  }}
+                </SwiperSlide>
+              )}
+            </Swiper>
           )}
         </div>
       </div>
