@@ -182,7 +182,7 @@ function PlanList() {
                   return (
                     <SwiperSlide
                       key={tip.incentivePlanId}
-                      style={{ width: "auto" }}
+                      style={{ width: "auto", paddingBottom: "10px" }}
                     >
                       {({ isActive }) => {
                         return (
@@ -200,22 +200,27 @@ function PlanList() {
                 })}
 
               {!pc && (
-                <SwiperSlide key="add" style={{ width: "auto" }}>
+                <SwiperSlide
+                  key="add"
+                  style={{ width: "auto", paddingBottom: "10px" }}
+                >
                   {({ isActive }) => {
                     return (
                       <NavLink to={`/incentive/create`}>
                         <div
                           className={clsx(
-                            "bg-cover rounded-[24px] text-[#0049FF] text-[60px] flex justify-center items-center",
-                            isActive
-                              ? "w-[80vw] h-[180px]"
-                              : "w-[70vw] h-[160px]"
+                            "w-[80vw] h-[180px]",
+                            !isActive && "py-2.5"
                           )}
-                          style={{ backgroundImage: `url(${newPlanUrl})` }}
                         >
-                          <span className="flex items-center justify-center w-20 h-20 bg-white rounded-full">
-                            +
-                          </span>
+                          <div
+                            style={{ backgroundImage: `url(${newPlanUrl})` }}
+                            className="h-full bg-cover rounded-[24px] text-[#0049FF] text-[60px] flex justify-center items-center"
+                          >
+                            <span className="flex items-center justify-center w-20 h-20 bg-white rounded-full">
+                              +
+                            </span>
+                          </div>
                         </div>
                       </NavLink>
                     );
