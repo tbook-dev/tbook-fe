@@ -154,6 +154,8 @@ function PlanList() {
                 prevEl: ".swiper-button-prev",
               }}
               onSlideChange={(w) => {
+                console.log('xxx')
+                if(drawerOpen) return;
                 let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
                 // console.log(w, incentivePlanId, w.realIndex);
                 if (
@@ -162,7 +164,7 @@ function PlanList() {
                 ) {
                   return dispatchFilter({
                     type: "Plan",
-                    payload: -1,
+                    payload: null,
                   });
                 }
                 // if (!pc && w.activeIndex === tipList.length) return;

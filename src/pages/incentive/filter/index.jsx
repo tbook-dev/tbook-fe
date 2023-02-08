@@ -75,13 +75,12 @@ export default React.memo(function ({ tipList, filters, dispatch, swiper }) {
                         : "bg-[#F0F0F0] text-[#606368]"
                     )}
                     onClick={() => {
-                      !v.disabled &&
-                        dispatch({ type: conf.group, payload: v.value });
+                      if (v.disabled) return;
 
-                        
+                      dispatch({ type: conf.group, payload: v.value });
+
                       if (conf.group === "Plan") {
                         // swiper
-                        console.log("idx", idx);
                         if (idx === 0) {
                           // all
                           swiper.slideTo(arr.length - 1);
