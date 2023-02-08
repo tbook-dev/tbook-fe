@@ -1,7 +1,7 @@
 export function filterReducer(filters, action) {
   const preVal = filters[action.type];
   const curlVal = action.payload;
-
+  console.log(action)
   // if (action.type === "Plan") {
   //   if (preVal === curlVal) {
   //     // 点自己

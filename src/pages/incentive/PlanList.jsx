@@ -71,13 +71,14 @@ function PlanList() {
       });
 
     const activeIdx = list2Formated[0]?.idx || 0;
+    // pc后面增加1，手机端后面增加1
     setActiveIndex(pc ? activeIdx + 1 : activeIdx);
     // console.log(list1[activeIdx]?.incentivePlanId)
-    !pc &&
-      dispatchFilter({
-        type: "Plan",
-        payload: list1[activeIdx]?.incentivePlanId,
-      });
+    // !pc &&
+    //   dispatchFilter({
+    //     type: "Plan",
+    //     payload: list1[activeIdx]?.incentivePlanId,
+    //   });
     setGrantLoading(false);
     updateGrantList(_.flattenDeep(list2));
     // console.log("activeIdx--in", activeIdx);
@@ -90,12 +91,12 @@ function PlanList() {
       res = res.filter((grant) => grant?.grant?.grantStatus === Status);
     }
 
-    if (Plan !== -1) {
+    if (Plan !== null) {
       res = res.filter((grant) => grant?.grant?.incentivePlanId === Plan);
     }
     return res;
   }, [grantList, filters]);
-  console.log(filters);
+  console.log('out',filters);
   return (
     <div className="w-full text-[#202124] mb-4">
       <div className="hidden pt-6 mb-4 lg:block">
@@ -154,7 +155,7 @@ function PlanList() {
               }}
               onSlideChange={(w) => {
                 let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
-                console.log(w, incentivePlanId, w.realIndex);
+                // console.log(w, incentivePlanId, w.realIndex);
                 if (
                   (pc && w.realIndex === 0) ||
                   (!pc && w.realIndex === tipList.length)

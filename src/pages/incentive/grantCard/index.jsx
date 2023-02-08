@@ -80,7 +80,7 @@ export default function ({ grant }) {
 
   return (
     <Link
-      className="p-2 text-xs bg-white rounded-lg "
+      className="p-2 text-xs bg-white rounded-lg text-[#202124]"
       to={`/incentive/grant/${grant?.grant?.incentivePlanId}/${grant?.grant?.grantId}/detail`}
     >
       <div className="flex justify-between mb-2.5">
@@ -93,22 +93,22 @@ export default function ({ grant }) {
       </div>
 
       <div className="flex mb-[13px]">
-        <img
-          src={grant?.grantee?.avatar}
-          className="w-[40px] h-[40px] rounded-full mr-1.5"
-        />
+        <div className="w-[28px] h-[28px] rounded-full bg-[#F0F0F0] flex justify-center items-center mr-1.5">
+          <img src={grant?.grantee?.avatar} className="w-[17px] h-[17px]" />
+        </div>
+
         <div className="flex flex-col justify-center flex-none">
           <h3 className="text-ellipsis w-max-[130px truncate font-bold text-[#202124] text-base">
             {grant?.grantee?.name}
           </h3>
-          <p className="text-ellipsis	truncate text-[#45484F] text-sm">
+          <p className="text-ellipsis	truncate text-[#8C8C8C] text-sm">
             {shortAddress(grant?.grantee?.mainWallet)}
           </p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 text-[13px] bg-[#ECF1FF] rounded -mx-1 px-1 mb-3">
-        <div className="truncate">Total</div>
+        <div className="truncate text-[#8C8C8C]">Total</div>
         <div className="text-right truncate text-[#0049FF]">
           {formatThousands(grant?.grant?.grantNum)}
         </div>
@@ -118,7 +118,7 @@ export default function ({ grant }) {
         {conf.map((v) => {
           return (
             <div key={v.label} className="grid grid-cols-2">
-              <div className="truncate">{v.label}</div>
+              <div className="truncate text-[#8C8C8C]">{v.label}</div>
               <div className="text-right truncate">
                 <v.render />
               </div>
