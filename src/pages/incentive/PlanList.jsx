@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useCallback } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
@@ -8,7 +8,6 @@ import "swiper/css/navigation";
 import { PlusOutlined } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
 import { Button, Drawer, Empty } from "antd";
-import { Link } from "react-router-dom";
 import { useAsyncEffect, useResponsive, useRequest } from "ahooks";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import _ from "lodash";
@@ -96,7 +95,8 @@ function PlanList() {
     }
     return res;
   }, [grantList, filters]);
-  console.log('out',filters);
+  
+  // console.log("out", filters);
   return (
     <div className="w-full text-[#202124] mb-4">
       <div className="hidden pt-6 mb-4 lg:block">
@@ -154,8 +154,8 @@ function PlanList() {
                 prevEl: ".swiper-button-prev",
               }}
               onSlideChange={(w) => {
-                console.log('xxx')
-                if(drawerOpen) return;
+                console.log("xxx");
+                if (drawerOpen) return;
                 let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
                 // console.log(w, incentivePlanId, w.realIndex);
                 if (
@@ -268,6 +268,15 @@ function PlanList() {
         </div>
       ) : (
         <div className="block lg:hidden">
+          <div className="fixed left-0 right-0 bottom-8">
+            <Link
+              to="/incentive/create"
+              className="flex items-center justify-center  w-60 h-[35px] bg-[#0049FF] text-white text-[16px] leading-[20px] mx-auto rounded-3xl"
+            >
+              <PlusOutlined />
+              <span className="mx-6">New Grant</span>
+            </Link>
+          </div>
           <Drawer
             placement="bottom"
             closable={false}
