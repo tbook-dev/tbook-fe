@@ -17,7 +17,7 @@ const getFilterOpitons = (plans) => {
       list: [
         {
           label: "all",
-          value: -1,
+          value: null,
           disabled: false,
         },
       ].concat(
@@ -54,7 +54,7 @@ const getFilterOpitons = (plans) => {
   ];
 };
 
-export default React.memo(function ({ tipList, filters, dispatch }) {
+export default React.memo(function ({ tipList, filters, dispatch, swiper }) {
   return (
     <div>
       {getFilterOpitons(tipList).map((conf) => {
@@ -62,7 +62,7 @@ export default React.memo(function ({ tipList, filters, dispatch }) {
           <div key={conf.group}>
             <h3 className="text-[#606368] text-[16px] mb-3">{conf.group}</h3>
             <div className="grid grid-cols-3 gap-x-2.5 gap-y-2 mb-6">
-              {conf.list.map((v) => {
+              {conf.list.map((v, idx, arr) => {
                 return (
                   <div
                     key={v.value}
@@ -74,10 +74,22 @@ export default React.memo(function ({ tipList, filters, dispatch }) {
                         ? "bg-[#F0F0F0] text-[#B8B8B8]"
                         : "bg-[#F0F0F0] text-[#606368]"
                     )}
-                    onClick={() =>
+                    onClick={() => {
                       !v.disabled &&
-                      dispatch({ type: conf.group, payload: v.value })
-                    }
+                        dispatch({ type: conf.group, payload: v.value });
+
+                        
+                      if (conf.group === "Plan") {
+                        // swiper
+                        console.log("idx", idx);
+                        if (idx === 0) {
+                          // all
+                          swiper.slideTo(arr.length - 1);
+                        } else {
+                          swiper.slideTo(idx - 1);
+                        }
+                      }
+                    }}
                   >
                     {v.label}
                   </div>

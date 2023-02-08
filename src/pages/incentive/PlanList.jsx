@@ -125,13 +125,13 @@ function PlanList() {
         </div>
       </div>
 
-      <div className="w-full mb-5 lg:mb-12">
+      <div
+        className="w-full mb-5"
+        style={{ "--swiper-navigation-size": "16px" }}
+      >
         <h2 className="pb-2 text-[32px] lg:text-[24px]">Plans</h2>
 
-        <div
-          className="relative h-[190px]"
-          style={{ "--swiper-navigation-size": "16px" }}
-        >
+        <div className="relative h-[190px]">
           <div className="hidden lg:block absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>
           <div className="hidden lg:block absolute swiper-button-prev !-left-12 border !w-8 !h-8 rounded-full"></div>
           {grantLoading ? (
@@ -147,15 +147,17 @@ function PlanList() {
               onSwiper={setSwiper}
               initialSlide={activeIndex}
               observeSlideChildren
+              loop={pc}
               navigation={{
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
               }}
               onSlideChange={(w) => {
-                let incentivePlanId = tipList[w.activeIndex]?.incentivePlanId;
+                let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
+                console.log(w, incentivePlanId, w.realIndex);
                 if (
-                  (pc && w.activeIndex === 0) ||
-                  (!pc && w.activeIndex === tipList.length)
+                  (pc && w.realIndex === 0) ||
+                  (!pc && w.realIndex === tipList.length)
                 ) {
                   return dispatchFilter({
                     type: "Plan",
@@ -225,81 +227,84 @@ function PlanList() {
         </div>
       </div>
 
-      <div className="hidden lg:block">
-        <div className="flex items-center justify-between mb-2">
-          <h2 className="text-[32px] lg:text-[24px]">Grants</h2>
+      {pc ? (
+        <div className="hidden lg:block">
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-[32px] lg:text-[24px]">Grants</h2>
 
-          {tipList.length === 0 ? (
-            <Button type="primary" shape="round" size="large" disabled>
-              <span>
-                <PlusOutlined />
-                <span className="font-roboto">New Grant</span>
-              </span>
-            </Button>
-          ) : (
-            <Link to="/incentive/grant/tmp/create">
-              <Button type="primary" shape="round" size="large">
+            {tipList.length === 0 ? (
+              <Button type="primary" shape="round" size="large" disabled>
                 <span>
                   <PlusOutlined />
                   <span className="font-roboto">New Grant</span>
                 </span>
               </Button>
-            </Link>
-          )}
+            ) : (
+              <Link to="/incentive/grant/tmp/create">
+                <Button type="primary" shape="round" size="large">
+                  <span>
+                    <PlusOutlined />
+                    <span className="font-roboto">New Grant</span>
+                  </span>
+                </Button>
+              </Link>
+            )}
+          </div>
+
+          <div className="hidden lg:block">
+            <GrantTable
+              list={filterGrantList(grantList)}
+              loading={grantLoading}
+            />
+          </div>
         </div>
+      ) : (
+        <div className="block lg:hidden">
+          <Drawer
+            placement="bottom"
+            closable={false}
+            open={drawerOpen}
+            contentWrapperStyle={{
+              height: "70vh",
+              borderRadius: "24px 24px 0px 0px",
+              overflow: "hidden",
+            }}
+            onClose={() => setDrawer(false)}
+          >
+            <FilterPanel
+              tipList={tipList}
+              filters={filters}
+              dispatch={dispatchFilter}
+              swiper={swiper}
+            />
+          </Drawer>
 
-        <div className="hidden lg:block">
-          <GrantTable
-            list={filterGrantList(grantList)}
-            loading={grantLoading}
-          />
+          <nav>
+            <Button onClick={() => setDrawer(true)}>open</Button>
+          </nav>
+
+          <div
+            className={clsx(
+              "grid gap-x-2 gap-y-2",
+              filterGrantList(grantList).length > 0
+                ? "grid-cols-2"
+                : "grid-cols-1"
+            )}
+          >
+            {grantLoading ? (
+              <Spin />
+            ) : filterGrantList(grantList).length > 0 ? (
+              filterGrantList(grantList).map((grant) => (
+                <GrantCard grant={grant} key={grant.grant.grantId} />
+              ))
+            ) : (
+              <div className="h-[222px] rounded-lg bg-white flex items-center justify-center">
+                <Empty description="No grant" />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-
-      <div className="block lg:hidden">
-        <Drawer
-          placement="bottom"
-          closable={false}
-          open={drawerOpen}
-          contentWrapperStyle={{
-            height: "70vh",
-            borderRadius: "24px 24px 0px 0px",
-            overflow: "hidden",
-          }}
-          onClose={() => setDrawer(false)}
-        >
-          <FilterPanel
-            tipList={tipList}
-            filters={filters}
-            dispatch={dispatchFilter}
-          />
-        </Drawer>
-
-        <nav>
-          <Button onClick={() => setDrawer(true)}>open</Button>
-        </nav>
-
-        <div
-          className={clsx(
-            "grid gap-x-2 gap-y-2",
-            filterGrantList(grantList).length > 0
-              ? "grid-cols-2"
-              : "grid-cols-1"
-          )}
-        >
-          {grantLoading ? (
-            <Spin />
-          ) : filterGrantList(grantList).length > 0 ? (
-            filterGrantList(grantList).map((grant) => (
-              <GrantCard grant={grant} key={grant.grant.grantId} />
-            ))
-          ) : (
-            <div className="h-[222px] rounded-lg bg-white flex items-center justify-center">
-              <Empty description="No grant" />
-            </div>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 }
