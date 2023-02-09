@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, useRef } from "react";
+import React, {  useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   Button,
@@ -8,7 +8,6 @@ import {
   Tooltip,
   InputNumber,
   Divider,
-  Typography,
 } from "antd";
 import {
   CheckOutlined,
@@ -27,10 +26,9 @@ import AvatarWallet from "./avatarWallet";
 import useProjects from "@/hooks/useProjects";
 
 import planIcon from "@/images/incentive/plan.svg";
-import cardbgpc from "@/images/incentive/cardbgpc.png";
+import cardbgpc from "@/images/incentive/headers/planpc.png";
 import cardbg from "@/images/incentive/headers/plan.png";
 
-const { Paragraph } = Typography;
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
 function PlanCreate() {
