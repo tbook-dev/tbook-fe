@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 import clsx from "clsx";
 import Statistic from "@/components/local/Statistic";
 import { chains } from "../utils/const";
-import LayoutV2 from "./incentive/LayoutV2";
 import { useHover } from "ahooks";
 
 const { Search } = Input;
