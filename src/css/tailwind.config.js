@@ -1,15 +1,15 @@
 const plugin = require("tailwindcss/plugin");
-const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
-      screens:{
-        'lg': '1120px',// 96*2+928=1120
+      screens: {
+        lg: "1120px", // 96*2+928=1120
       },
-      backgroundImage:{
-        c1:"radial-gradient(66.68% 50.5% at 50% 119.25%, #FBBF24 0%, #FFFBEC 100%)"
+      backgroundImage: {
+        c1: "radial-gradient(66.68% 50.5% at 50% 119.25%, #FBBF24 0%, #FFFBEC 100%)",
       },
       boxShadow: {
         DEFAULT:
@@ -21,6 +21,7 @@ module.exports = {
         c2: "4px 4px 4px rgba(0, 0, 0, 0.25)",
         c3: "0px 1px 2px rgba(15, 23, 42, 0.04)",
         c4: "4px 4px 8px rgba(15, 23, 42, 0.04)",
+        c5: "1px 1px 10px rgba(0, 0, 0, 0.1)",
       },
       outline: {
         blue: "2px solid rgba(0, 112, 244, 0.5)",
