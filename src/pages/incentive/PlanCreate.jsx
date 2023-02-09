@@ -2,39 +2,41 @@ import React, { useCallback, useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   Button,
-  Space,
   Form,
   Input,
   Select,
   InputNumber,
-  Modal,
-  Statistic,
   Divider,
 } from "antd";
 import {
   CheckOutlined,
   //  DeleteOutlined
 } from "@ant-design/icons";
-import { targetMap } from "../../utils/const";
+import { targetMap, formatDollar } from "@/utils/const";
 import { useSelector } from "react-redux";
 import { createTIP } from "../../api/incentive";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import useCurrentProject from "@/hooks/useCurrentProject";
 import _ from "lodash";
+import { useResponsive } from "ahooks";
+import AvatarWallet from "./avatarWallet";
+
+import planIcon from "@/images/incentive/plan.svg";
+import cardbgpc from "@/images/incentive/cardbgpc.png";
+import cardbg from "@/images/incentive/headers/plan.png";
+
+const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
 function PlanCreate() {
   const [form] = Form.useForm();
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const nameValue = Form.useWatch("incentivePlanName", form);
-  const totalValue = Form.useWatch("totalTokenNum", form);
-  const targetValue = Form.useWatch("target", form);
   const userStore = useSelector((state) => state.user);
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const navigate = useNavigate();
   const projectId = useCurrentProjectId();
   const project = useCurrentProject();
-  const [showModal, setModal] = useState(false);
   const [customizeOptions, setCustomizeOptions] = useState(null);
   const inputRef = useRef(null);
+  const { pc } = useResponsive();
   const preOptions = Object.entries(targetMap).map(([value, desc]) => ({
     label: desc,
     value: value,
@@ -51,33 +53,10 @@ function PlanCreate() {
     }
   }, [userStore?.user?.userId]);
 
-  const formatPercent = useCallback(() => {
-    const res =
-      _.divide(
-        totalValue || 0,
-        project?.tokenInfo?.tokenTotalAmount || Number.MAX_SAFE_INTEGER
-      ) * 100;
 
-    const r2 = _.round(res, 4);
-
-    return r2;
-  }, [project, totalValue]);
 
   function handleCreate() {
-    form
-      .validateFields()
-      .then((values) => {
-        console.log(values);
-        setModal(true);
-      })
-      .catch((err) => {
-        console.log(err, "error");
-        setModal(false);
-      });
-  }
-  function handleConfirm() {
     setConfirmLoading(true);
-
     form
       .validateFields()
       .then((values) => {
@@ -89,28 +68,42 @@ function PlanCreate() {
 
         createTIP(values).then((res) => {
           setConfirmLoading(false);
-          setModal(false);
           navigate(`/incentive/${res.incentivePlanId}`);
         });
       })
       .catch((err) => {
         console.log(err, "error");
-        setModal(false);
       });
   }
 
   return (
-    <>
-      <div className="w-full lg:w-[600px] mx-auto">
-        <div className="pt-3 lg:pt-6">
-          <div className="mb-6 lg:mb-0">
-            <header className="mb-6">
-              <h1 className="mb-2 text-2xl font-bold md:text-3xl text-slate-800">
-                New Token Incentive Plan
-              </h1>
-            </header>
-            <div>
-              <Form form={form} layout="vertical" requiredMark={false}>
+    <div className="w-full lg:w-[600px] mx-auto text-[#1E293B]">
+      <div className="pt-3 lg:pt-6">
+        <div className="mb-6 lg:mb-0">
+          <header className="mb-6">
+            <img src={planIcon} className="hidden w-24 h-24 mx-auto lg:block" />
+            <h1 className="mb-6 lg:mb-10 text-[28px] leading-[32px] text-center lg:text-[56px] lg:leading-[64px]">
+              New Incentive Plan
+            </h1>
+          </header>
+
+          <div className="overflow-hidden bg-white rounded-xl">
+            <div className="h-10 lg:h-[67px] relative overflow-hidden">
+              <img
+                src={pc ? cardbgpc : cardbg}
+                className="absolute top-0 left-0 w-full"
+              />
+            </div>
+
+            <div className="relative px-2 pt-2 pb-4 lg:pb-0 lg:pt-6 lg:px-4">
+              <Form
+                {...(pc ? formItemCol : null)}
+                form={form}
+                labelAlign="left"
+                colon={false}
+                layout={pc ? "horizontal" : "vertical"}
+                requiredMark={false}
+              >
                 <Form.Item
                   label="Plan Name"
                   name="incentivePlanName"
@@ -121,45 +114,11 @@ function PlanCreate() {
                     },
                   ]}
                 >
-                  <Input placeholder="the name for your incentive plan, like GoPlusCommunityGrowth..." />
+                  <Input placeholder="Ethereum" />
                 </Form.Item>
-                <Form.Item label="Token Options Pool Size">
-                  <Space>
-                    <Form.Item
-                      name="totalTokenNum"
-                      noStyle
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input the Token Options Pool Size!",
-                        },
-                      ]}
-                    >
-                      <InputNumber
-                        placeholder="0"
-                        min={0}
-                        max={project?.tokenInfo?.surplusTokenNum}
-                        style={{ width: 350 }}
-                      />
-                    </Form.Item>
-                    <div className="text-[#94A3B8] text-xs">
-                      （{formatPercent()}% Total Token)
-                    </div>
-                  </Space>
-                  <div className="text-[#94A3B8] text-xs mt-1 flex">
-                    There are
-                    <Statistic
-                      value={project?.tokenInfo?.surplusTokenNum}
-                      valueStyle={{
-                        color: "#94A3B8",
-                        fontSize: "12px",
-                      }}
-                    />
-                    virtual tokens available
-                  </div>
-                </Form.Item>
+
                 <Form.Item
-                  label="Target Audiende"
+                  label="Label Your Target Audience"
                   name="target"
                   rules={[
                     {
@@ -171,7 +130,7 @@ function PlanCreate() {
                   <Select
                     allowClear
                     optionLabelProp="label"
-                    placeholder="mark a label for you incentive plan"
+                    placeholder="Employee"
                     // options={preOptions}
                     dropdownRender={(menu) => {
                       return (
@@ -216,131 +175,81 @@ function PlanCreate() {
                       >
                         <div className="flex justify-between">
                           <span>{option.label}</span>
-                          {/* {option.value == "7" && (
-                              <Button
-                                onClick={(evt) => {
-                                  evt.stopPropagation();
-                                  form.setFieldValue('target','1')
-                                  setCustomizeOptions(null);
-                                }}
-                                type="text"
-                                className="mr-2"
-                              >
-                                <DeleteOutlined />
-                              </Button>
-                            )} */}
                         </div>
                       </Select.Option>
                     ))}
                   </Select>
                 </Form.Item>
+
+                <Form.Item label="Token Options Pool Size">
+                  <Form.Item
+                    name="totalTokenNum"
+                    noStyle
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the Token Options Pool Size!",
+                      },
+                    ]}
+                  >
+                    <InputNumber
+                      placeholder="Editable"
+                      min={0}
+                      max={project?.tokenInfo?.surplusTokenNum}
+                      style={{ width: "100%" }}
+                    />
+                  </Form.Item>
+                  <div className="text-[#94A3B8] text-xs mt-1 flex">
+                    There are{" "}
+                    {formatDollar(project?.tokenInfo?.surplusTokenNum)} virtual
+                    tokens available
+                  </div>
+                </Form.Item>
+
                 <Form.Item
                   label="Plan Administrator"
                   name="incentivePlanAdminId"
                 >
-                  <div className="w-[143px] flex items-center	flex-col">
-                    <img
-                      src={userStore?.user?.avatar}
-                      className="w-[50px] h-[50px] block bg-white rounded-full"
-                    />
-                    <h3 className="text-sm font-semibold ">
-                      {userStore?.user?.name}
-                    </h3>
-                    <p className="w-[82px] text-[#94A3B8] truncate text-ellipsis overflow-hidden">
-                      {userStore?.user?.mainWallet}
-                    </p>
-                  </div>
+                  <AvatarWallet
+                    avatar={userStore?.user?.avatar}
+                    name={userStore?.user?.name}
+                    mainWallet={userStore?.user?.mainWallet}
+                  />
                 </Form.Item>
+
+                <div className="hidden pt-2 pb-6 lg:block">
+                  <div className="flex justify-center">
+                    <Link to="/incentive" className="hidden mr-10 lg:block">
+                      <Button>Cancel</Button>
+                    </Link>
+
+                    <Button
+                      onClick={handleCreate}
+                      type="primary"
+                      className="bg-[#6366F1]"
+                      loading={confirmLoading}
+                    >
+                      Create
+                    </Button>
+                  </div>
+                </div>
               </Form>
             </div>
           </div>
 
-          <div className="pt-5 lg:pt-8">
-            <hr className="my-6 border-t border-slate-200" />
-            <div className="flex justify-around">
-              <Link to="/incentive">
-                <Button>Cancel</Button>
-              </Link>
-
-              <Button
-                onClick={handleCreate}
-                type="primary"
-                className="bg-[#6366F1]"
-              >
-                Next
-              </Button>
-            </div>
+          <div className="flex justify-center py-5 lg:hidden">
+            <Button
+              onClick={handleCreate}
+              type="primary"
+              className="bg-[#6366F1] w-[64vw]"
+              loading={confirmLoading}
+            >
+              Create
+            </Button>
           </div>
         </div>
       </div>
-
-      <Modal
-        width={460}
-        title="Plan Confirmation"
-        open={showModal}
-        okText="Confirm"
-        onOk={handleConfirm}
-        cancelText="Close"
-        confirmLoading={confirmLoading}
-        onCancel={() => {
-          setModal(false);
-        }}
-      >
-        <div className="border-[#E2E8F0] border-y px-[26px] py-[19px] mx-[-24px]">
-          <div>
-            <p className="text-[#475569] text-sm">Plan Name</p>
-            <p className="text-[#1E293B] text-base	font-semibold">{nameValue}</p>
-          </div>
-
-          <div className="mt-7">
-            <p className="text-[#475569] text-sm">Total Token</p>
-            <div className="flex">
-              <Statistic
-                value={totalValue}
-                valueStyle={{
-                  color: "#1E293B",
-                  fontSize: "16px",
-                  lineHeight: "20px",
-                  fontWeight: "600",
-                }}
-                suffix="Token"
-              />
-              <span className="ml-2 text-[#1E293B] leading-5	text-[12px]">
-                ({formatPercent()}% of Total Token)
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-7">
-            <p className="text-[#475569] text-sm">Target Audiende</p>
-            <div className="text-[#1E293B] text-base	font-semibold">
-              {targetValue === "7"
-                ? customizeOptions.label
-                : targetMap[targetValue]}
-            </div>
-          </div>
-
-          <div className="mt-7">
-            <p className="text-[#475569] text-sm">Plan Administrator</p>
-
-            <div className="flex">
-              <img
-                src={userStore?.user?.avatar}
-                className="flex-none w-[50px] h-[50px] mr-2 block bg-white rounded-full"
-              />
-              <div className="flex-auto">
-                <h3 className="text-sm font-semibold">
-                  {userStore?.user?.name}
-                </h3>
-                <p className="w-[82px] text-[#94A3B8] truncate text-ellipsis overflow-hidden">
-                  {userStore?.user?.mainWallet}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Modal>
-    </>
+    </div>
   );
 }
 
