@@ -95,7 +95,7 @@ function PlanList() {
     }
     return res;
   }, [grantList, filters]);
-  
+
   // console.log("out", filters);
   return (
     <div className="w-full text-[#202124] mb-4">
@@ -248,7 +248,13 @@ function PlanList() {
                 </span>
               </Button>
             ) : (
-              <Link to="/incentive/grant/tmp/create">
+              <Link
+                to={`/incentive/grant/${
+                  swiper?.realIndex !== 0
+                    ? tipList[swiper?.realIndex]?.incentivePlanId
+                    : "tmp"
+                }/create`}
+              >
                 <Button type="primary" shape="round" size="large">
                   <span>
                     <PlusOutlined />
