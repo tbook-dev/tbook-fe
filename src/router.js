@@ -28,7 +28,7 @@ const routes =[
     },
     {
         path: '/incentive/grant/:tipId/create',
-        component: lazy(() => import('@/pages/incentive/GrantCreate'))
+        component: lazy(() => import('@/pages/grant/GrantCreate'))
     },
     {
         path: '/incentive/grant/:tipId/:grantId/detail',

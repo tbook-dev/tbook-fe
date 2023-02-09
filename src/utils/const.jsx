@@ -258,3 +258,7 @@ export const chains = [
     render: BSC,
   },
 ];
+
+export function getTargeAudince(target, customized_target_name) {
+  return target === 7 ? customized_target_name : targetMap[target];
+}
