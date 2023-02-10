@@ -5,7 +5,7 @@ import {
   dateFormat,
 } from "@/utils/const";
 import { useMemo } from "react";
-import { formatThousands } from "@/utils/Utils";
+import { formatThousands, getLastVested } from "@/utils/Utils";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
@@ -29,14 +29,6 @@ import { Link } from "react-router-dom";
 //         "isVested": true
 //     }
 // ]
-function getLastVested(list) {
-  const vestedList = list
-    .filter((m) => m.isVested)
-    .sort((a, b) => {
-      return dayjs(a.date, dateFormat).isAfter(dayjs(b.date)) ? 1 : -1;
-    });
-  return vestedList.pop();
-}
 
 export default function ({ grant }) {
   // console.log(grant.grant.vestingSchedule.vestingDetail,'grant')

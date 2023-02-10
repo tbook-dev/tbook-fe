@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Button, Typography } from "antd";
-import { LeftCircleOutlined } from "@ant-design/icons";
 import {
   getGrantInfo,
   getGrantSignInfo,
@@ -10,8 +9,6 @@ import {
   getGrantVestingScheduleInfo,
 } from "@/api/incentive";
 import { loadWeb3 } from "@/utils/web3";
-import KV from "@/components/local/KV2";
-import Title from "@/components/local/Title2";
 import { useAsyncEffect } from "ahooks";
 import {
   targetMap,
@@ -21,14 +18,11 @@ import {
   // getTargeAudince,
 } from "@/utils/const";
 import VestingSchedule from "../incentive/VestingSchedule";
-import Done from "@/components/icon/Done";
-import Loading from "@/components/icon/Loading";
-import Eth from "@/components/local/Eth";
 import { useSelector } from "react-redux";
 import Header from "../component/Header";
-import grantIcon from "@/images/incentive/grant.svg";
 import Card from "./card";
 import clsx from "clsx";
+import VestedCard from "./vested";
 
 const { Paragraph } = Typography;
 
@@ -50,7 +44,7 @@ function GrantSign() {
       : "pending";
   }, [signList]);
 
-  console.log(signStatus);
+  // console.log(signStatus);
   useAsyncEffect(async () => {
     const list = await getGrantSignInfo(null, grantId);
     setSignList(list);
@@ -234,7 +228,7 @@ function GrantSign() {
       },
     ];
 
-    return signStatus !== "pending" ? pendingConf : doneConf;
+    return signStatus === "pending" ? pendingConf : doneConf;
   }, [grantInfo, tipInfo, signStatus, grantId]);
 
   const vestingConf = useMemo(() => {
@@ -280,14 +274,23 @@ function GrantSign() {
   // console.log("periodMap", periodMap, grantInfo.vestingTotalPeriod);
   return (
     <main className="relative w-full lg:w-[600px] pb-10 lg:pb-0 mx-auto text-[#1E293B]">
-      <div className="pt-3 space-y-6 lg:pt-6  mb-[300px] lg:mb-4">
+      <div
+        className={clsx(
+          "pt-3 space-y-6 lg:pt-6 lg:mb-4",
+          signStatus === "pending" && " mb-[300px]"
+        )}
+      >
         <Header title="Grant Detail" className="mb-0" />
 
-        <Card title="Grantee" list={granteeConf} />
+        {signStatus === "pending" ? (
+          <Card title="Grantee" list={granteeConf} />
+        ) : (
+          <VestedCard scheduleInfo={scheduleInfo}/>
+        )}
 
         <Card title="Grant" list={grantConf} />
 
-        <div className="!lg:mb-16">
+        <div className="overflow-hidden rounded-b-md shadow-c5 lg:rounded-b-lg">
           <Card
             title="Vesting"
             list={vestingConf}
@@ -301,9 +304,11 @@ function GrantSign() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white rounded-t-lg lg:relative lg:-mx-[318px] lg:p-0 lg:bg-transparent lg:shadow-none shadow-c6">
-        <Sign />
-      </div>
+      {signStatus === "pending" && (
+        <div className="fixed bottom-0 left-0 right-0 p-4 bg-white rounded-t-lg lg:relative lg:-mx-[318px] lg:p-0 lg:bg-transparent lg:shadow-none shadow-c6">
+          <Sign />
+        </div>
+      )}
     </main>
   );
 }

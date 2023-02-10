@@ -285,6 +285,14 @@ export function maxValidator(max, label){
   }
 }
 
+export function getLastVested(list=[]) {
+  const vestedList = list
+    .filter((m) => m.isVested)
+    .sort((a, b) => {
+      return dayjs(a.date, dateFormat).isAfter(dayjs(b.date)) ? 1 : -1;
+    });
+  return vestedList.pop();
+}
 
 export const tokenTypeList = [
   {
