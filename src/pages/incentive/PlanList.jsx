@@ -25,7 +25,6 @@ import { Spin } from "antd";
 import { filterReducer, initialFilters } from "@/store/parts";
 import dayjs from "dayjs";
 
-
 function PlanList() {
   const [swiper, setSwiper] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -155,7 +154,6 @@ function PlanList() {
                 prevEl: ".swiper-button-prev",
               }}
               onSlideChange={(w) => {
-                console.log("xxx");
                 if (drawerOpen) return;
                 let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
                 // console.log(w, incentivePlanId, w.realIndex);
@@ -249,20 +247,22 @@ function PlanList() {
                 </span>
               </Button>
             ) : (
-              <Link
-                to={`/incentive/grant/${
-                  swiper?.realIndex !== 0
-                    ? tipList[swiper?.realIndex]?.incentivePlanId
-                    : "tmp"
-                }/create`}
-              >
-                <Button type="primary" shape="round" size="large">
-                  <span>
-                    <PlusOutlined />
-                    <span className="font-roboto">New Grant</span>
-                  </span>
-                </Button>
-              </Link>
+              swiper?.realIndex !== 0 && (
+                <Link
+                  to={`/incentive/grant/${
+                    swiper?.realIndex !== 0
+                      ? tipList[swiper?.realIndex]?.incentivePlanId
+                      : "tmp"
+                  }/create`}
+                >
+                  <Button type="primary" shape="round" size="large">
+                    <span>
+                      <PlusOutlined />
+                      <span className="font-roboto">New Grant</span>
+                    </span>
+                  </Button>
+                </Link>
+              )
             )}
           </div>
 
@@ -275,15 +275,22 @@ function PlanList() {
         </div>
       ) : (
         <div className="block lg:hidden">
-          <div className="fixed left-0 right-0 bottom-8">
-            <Link
-              to="/incentive/create"
-              className="flex items-center justify-center  w-60 h-[35px] bg-[#0049FF] text-white text-[16px] leading-[20px] mx-auto rounded-3xl"
-            >
-              <PlusOutlined />
-              <span className="mx-6">New Grant</span>
-            </Link>
-          </div>
+          {swiper?.realIndex !== tipList.length && (
+            <div className="fixed left-0 right-0 bottom-8">
+              <Link
+                to={`/incentive/grant/${
+                  swiper?.realIndex !== tipList.length
+                    ? tipList[swiper?.realIndex]?.incentivePlanId
+                    : "tmp"
+                }/create`}
+                className="flex items-center justify-center  w-60 h-[35px] bg-[#0049FF] text-white text-[16px] leading-[20px] mx-auto rounded-3xl"
+              >
+                <PlusOutlined />
+                <span className="mx-6">New Grant</span>
+              </Link>
+            </div>
+          )}
+
           <Drawer
             placement="bottom"
             closable={false}
