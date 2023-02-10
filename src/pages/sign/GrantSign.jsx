@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 import { LeftCircleOutlined } from "@ant-design/icons";
 import {
   getGrantInfo,
@@ -18,7 +18,7 @@ import {
   formatDollar,
   periodMap,
   shortAddress,
-  getTargeAudince,
+  // getTargeAudince,
 } from "@/utils/const";
 import VestingSchedule from "../incentive/VestingSchedule";
 import Done from "@/components/icon/Done";
@@ -28,6 +28,7 @@ import { useSelector } from "react-redux";
 import Header from "../component/Header";
 import grantIcon from "@/images/incentive/grant.svg";
 import Card from "./card";
+import clsx from "clsx";
 
 const { Paragraph } = Typography;
 
@@ -102,50 +103,78 @@ function GrantSign() {
       });
   }
 
-  const Tip = () => {
+  const Sign = () => {
     return (
-      <div className="text-[#1E293B] mb-[12px]">
-        <h2 className="text-3xl	font-bold  mb-[18px]">Signing ...</h2>
-        <div className="mb-3 text-base">
-          <p>1.Please sign to complete the contract.</p>
-          <p>
-            2.Please copy the following link and send it to the grantee and
-            remind the grantee to sign (if you are the grantee, please ignore
-            it).
-          </p>
-          <p>
-            3.After the administrator and the grantee complete the signature,
-            this grant will come into effect.
-          </p>
-        </div>
-        <div className="px-[18px] py-[2px] border mb-7">
-          <a href={location.href} target="_blank">
-            <Paragraph copyable className="flex justify-between my-4 underline">
-              {location.href}
-            </Paragraph>
-          </a>
+      <div className="text-[#333] lg:bg-white lg:rounded-t-lg lg:w-[1316px] shadow-none lg:shadow-c7 mx-auto">
+        <div className="lg:w-[600px] mx-auto lg:py-20">
+          <div className="mb-2 lg:mb-4 text-[12px] leading-[16px] lg:text-[16px] lg:leading-[28px]">
+            <p>1. Please confirm and sign this grant.</p>
+            <p>
+              2. Please copy and send the following link to the grantee.(if you
+              are the grantee, please ignore it).
+            </p>
+            <p>
+              3. After the administrator and the grantee complete the signature,
+              this grant will come into effect.
+            </p>
+          </div>
+          <div className="px-1 rounded-lg mb-2 lg:mb-6 lg:px-6 lg:py-2.5 border shadow-c8">
+            <a href={location.href} target="_blank">
+              <Paragraph copyable className="flex justify-between my-4 ">
+                <span className="text-[#7CA2FF] underline decoration-[#7CA2FF]">
+                  {location.href}
+                </span>
+              </Paragraph>
+            </a>
+          </div>
+
+          <div className="grid grid-cols-1 gap-y-2 lg:gap-y-4">
+            {signList.map((sg, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className={clsx(
+                    "flex justify-between py-1 px-2  rounded-md",
+                    sg.signer.userId == userInfo.userId
+                      ? "bg-[#ECF1FF]"
+                      : "bg-[#f2f2f2]"
+                  )}
+                >
+                  <div className="flex items-center ">
+                    <div className="w-6 h-6 bg-[#0049FF] mr-2 rounded-full flex justify-center items-center">
+                      <img src={sg.signer.avatar} className="w-6 h-6" />
+                    </div>
+                    <div className="flex flex-col justify-center">
+                      <h3 className="text-[12px] leading-[16px] text-[#1C1B1F]">
+                        {sg.signer.name}
+                      </h3>
+
+                      <p className="text-xxs leading-[15px] text-[#999] lg:text-[14px] lg:leading-[20px]">
+                        {shortAddress(sg.signer.mainWallet)}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    {sg.grantSign.signStatus === 1 &&
+                    sg.signer.userId == userInfo.userId ? (
+                      <Button
+                        type="primary"
+                        onClick={() => handleSign(sg.grantSign)}
+                      >
+                        Sign
+                      </Button>
+                    ) : null}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     );
   };
 
-  const SignSucess = () => {
-    return (
-      <div className="flex flex-col items-center">
-        <Done size="large" />
-        <div className="text-3xl font-bold text-[#1E293B] pt-6 pb-8">
-          Grant Effective! 🙌
-        </div>
-        <Link
-          to={`/incentive/grant/${tipInfo.incentivePlanId}/${grantId}/detail`}
-        >
-          <button className="text-white bg-indigo-500 px-11 btn hover:bg-indigo-600 mb-11">
-            View Details -{">"}
-          </button>
-        </Link>
-      </div>
-    );
-  };
   const granteeConf = useMemo(() => {
     return [
       {
@@ -164,7 +193,7 @@ function GrantSign() {
   }, [grantInfo]);
 
   const grantConf = useMemo(() => {
-    return [
+    const pendingConf = [
       {
         label: "Grant Type",
         value: "Token Option",
@@ -177,142 +206,103 @@ function GrantSign() {
         label: "Exercise Price",
         value: `${formatDollar(grantInfo.exercisePrice)} USD`,
       },
+      // {
+      //   label: "Target Audience",
+      //   value: getTargeAudince(
+      //     tipInfo?.target,
+      //     tipInfo?.customized_target_name
+      //   ),
+      // },
+    ];
+    const doneConf = [
+      {
+        label: "Grant ID",
+        value: grantId,
+      },
+      ...pendingConf,
       {
         label: "Plan",
-        value: getTargeAudince(
-          tipInfo?.target,
-          tipInfo?.customized_target_name
+        value: tipInfo?.incentivePlanName,
+      },
+      {
+        label: "Grantee",
+        value: () => (
+          <span className="text-[#0049FF]">
+            {shortAddress(grantInfo?.granteeEthAddress)}
+          </span>
         ),
       },
     ];
-  }, [grantInfo, tipInfo]);
+
+    return signStatus !== "pending" ? pendingConf : doneConf;
+  }, [grantInfo, tipInfo, signStatus, grantId]);
+
+  const vestingConf = useMemo(() => {
+    return [
+      {
+        label: "Vesting Start Date",
+        value: scheduleInfo?.grantStartDate,
+      },
+      {
+        label: "Vesting Type",
+        value: grantInfo.grantType === 1 ? "Duration" : "Milestone",
+      },
+      {
+        label: "Length",
+        value: `${grantInfo.vestingTotalLength} ${
+          periodMap[grantInfo.vestingTotalPeriod]
+        }`,
+      },
+      {
+        label: "Vesting Frequency",
+        value: `${grantInfo.vestingFrequency}  ${
+          periodMap[grantInfo.vestingPeriod]
+        }`,
+      },
+      {
+        label: "Cliff Duration",
+        value:
+          grantInfo.cliffTime !== 0
+            ? `${grantInfo.cliffTime} ${periodMap[grantInfo.cliffPeriod]}`
+            : null,
+      },
+      {
+        label: "Cliff Amount",
+        value: grantInfo.cliffAmount !== 0 ? `${grantInfo.cliffAmount}%` : null,
+      },
+      {
+        label: "Vesting Times",
+        value: scheduleInfo?.vestingSchedule?.vestingDetail?.length,
+      },
+    ];
+  }, [scheduleInfo, grantInfo]);
 
   // console.log("periodMap", periodMap, grantInfo.vestingTotalPeriod);
   return (
-    <main className="relative w-full lg:w-[600px] mx-auto text-[#1E293B]">
-      <div className="pt-3 space-y-6 lg:pt-6">
+    <main className="relative w-full lg:w-[600px] pb-10 lg:pb-0 mx-auto text-[#1E293B]">
+      <div className="pt-3 space-y-6 lg:pt-6  mb-[300px] lg:mb-4">
         <Header title="Grant Detail" className="mb-0" />
 
         <Card title="Grantee" list={granteeConf} />
 
         <Card title="Grant" list={grantConf} />
 
-        <section className="mb-6 lg:mb-0">
-          <Title title="Grant Details" />
-          <div className="grid grid-cols-2 gap-x-12 gap-y-3">
-            <KV label="Plan Name" value={tipInfo.incentivePlanName} />
-            <KV label="Grant Type" value="token option" />
-            <KV
-              label="Total Amount"
-              value={formatDollar(grantInfo?.grantNum) + " Token"}
-            />
-            <KV
-              label="Exercise Price"
-              value={`${formatDollar(grantInfo.exercisePrice)} USD`}
-            />
-          </div>
-        </section>
-        <section className="mb-8">
-          <div className="mb-4">
-            <Title title="Vesting Schedule" />
-            <div className="grid grid-cols-2 gap-x-12 gap-y-3">
-              <KV
-                label="Vesting Start Date"
-                value={scheduleInfo.grantStartDate}
-              />
-              <KV
-                label="Vesting by"
-                value={grantInfo.grantType === 1 ? "Duration" : "Milestone"}
-              />
-              <KV
-                label="Length"
-                value={`${grantInfo.vestingTotalLength} ${
-                  periodMap[grantInfo.vestingTotalPeriod]
-                }`}
-              />
-              <KV
-                label="Vesting Frequency"
-                value={`${grantInfo.vestingFrequency}  ${
-                  periodMap[grantInfo.vestingPeriod]
-                }`}
-              />
-
-              {grantInfo.cliffTime !== 0 && (
-                <KV
-                  label="Cliff Duration"
-                  value={`${grantInfo.cliffTime} ${
-                    periodMap[grantInfo.cliffPeriod]
-                  }`}
-                />
-              )}
-              {grantInfo.cliffAmount !== 0 && (
-                <KV label="Cliff Amount" value={`${grantInfo.cliffAmount}%`} />
-              )}
-
-              <KV
-                label="Vesting Times"
-                value={scheduleInfo?.vestingSchedule?.vestingDetail?.length}
-              />
-            </div>
-          </div>
+        <div className="!lg:mb-16">
+          <Card
+            title="Vesting"
+            list={vestingConf}
+            containertClassName="rounded-b-none"
+          />
           <VestingSchedule
-            pagination={{ defaultPageSize: 5 }}
+            pagination={false}
+            scroll={{ y: 275 }}
             dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []}
           />
-        </section>
+        </div>
       </div>
 
-      <div className="flex items-center justify-center min-h-full bg-white">
-        <div className="w-[440px]">
-          <div className="">
-            {signList.filter((item) => item.grantSign.signStatus === 2)
-              .length === 2 ? (
-              <SignSucess />
-            ) : (
-              <Tip />
-            )}
-          </div>
-
-          <div className="flex justify-around mb-12">
-            {signList.map((sg, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className="flex flex-col items-center text-center"
-                >
-                  <div className="flex items-center justify-center w-16 h-16 border-2 border-[#F1F5F9] rounded-full">
-                    <img width="38" height="38" src={sg.signer.avatar}></img>
-                  </div>
-
-                  <div className="text-lg font-semibold text-[#1E293B] mb-2">
-                    <p>{sg.signer.name}</p>
-                    <Eth style={{ width: 115 }}>{sg.signer.mainWallet}</Eth>
-                  </div>
-                  <div>
-                    {sg.grantSign.signStatus === 2 ? <Done /> : <Loading />}
-                  </div>
-
-                  <div className="mt-8">
-                    {sg.grantSign.signStatus === 1 &&
-                    sg.signer.userId == userInfo.userId ? (
-                      <button
-                        className="text-white bg-indigo-500 btn hover:bg-indigo-600"
-                        onClick={() => handleSign(sg.grantSign)}
-                      >
-                        Sign
-                      </button>
-                    ) : null}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <Link to="/incentive" className="text-[#497EED] text-sm">
-            <LeftCircleOutlined className="mr-2" />
-            Back to Incentive List
-          </Link>
-        </div>
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white rounded-t-lg lg:relative lg:-mx-[318px] lg:p-0 lg:bg-transparent lg:shadow-none shadow-c6">
+        <Sign />
       </div>
     </main>
   );

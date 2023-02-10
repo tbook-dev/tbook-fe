@@ -2,6 +2,7 @@ const plugin = require("tailwindcss/plugin");
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
+  important: true,
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
@@ -22,6 +23,9 @@ module.exports = {
         c3: "0px 1px 2px rgba(15, 23, 42, 0.04)",
         c4: "4px 4px 8px rgba(15, 23, 42, 0.04)",
         c5: "1px 1px 10px rgba(0, 0, 0, 0.1)",
+        c6: "0px -3px 20px rgba(0, 0, 0, 0.1)",
+        c7: "0px -4px 16px rgba(0, 0, 0, 0.1)",
+        c8: "0px 0px 6px rgba(0, 0, 0, 0.1)"
       },
       outline: {
         blue: "2px solid rgba(0, 112, 244, 0.5)",
@@ -30,6 +34,7 @@ module.exports = {
         roboto: ["Roboto", "sans-serif"],
       },
       fontSize: {
+        xxs: ["11px", { lineHeight: '30px', "transform-origin-x": 0, "transform": 'scale(0.9)'}],
         xs: ["0.75rem", { lineHeight: "1.5" }],
         sm: ["0.875rem", { lineHeight: "1.5715" }],
         base: ["1rem", { lineHeight: "1.5", letterSpacing: "-0.01em" }],
