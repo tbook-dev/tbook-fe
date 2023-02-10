@@ -3,7 +3,6 @@ import { SwapOutlined } from "@ant-design/icons";
 import cardbgpc from "@/images/incentive/headers/grant-planpc.png";
 import cardbg from "@/images/incentive/headers/grant-plan.png";
 import Title from "@/pages/component/Title";
-import useProjects from "@/hooks/useProjects";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import React, { useState } from "react";
 import { Drawer, theme } from "antd";
@@ -11,6 +10,7 @@ import { Divider, Dropdown, Space } from "antd";
 import { useAsyncEffect } from "ahooks";
 import { getIncentiveList } from "@/api/incentive";
 import { useParams, useNavigate } from "react-router-dom";
+import clsx from "clsx";
 
 const { useToken } = theme;
 
@@ -121,8 +121,43 @@ export default function ({ planName, targetAudince, availableAmount }) {
         })}
       </div>
       {!pc && isOpen && (
-        <Drawer open={isOpen} onClose={() => setOpen(false)}>
-          x
+        <Drawer
+          headerStyle={{ display: "flex" }}
+          placement="bottom"
+          title="Switch to another incentive plan"
+          // closable={false}
+          contentWrapperStyle={{
+            height: "50vh",
+            borderRadius: "24px 24px 0px 0px",
+            overflow: "scroll",
+          }}
+          open={isOpen}
+          onClose={() => setOpen(false)}
+        >
+          {tipList
+            ?.map((v) => ({
+              label: v.incentivePlanName,
+              value: v.incentivePlanId,
+              key: v.incentivePlanId,
+              disabled: v.incentivePlanId == tipId,
+            }))
+            .map((item) => {
+              return (
+                <div
+                  key={item.key}
+                  className={clsx(
+                    "text-[16px] leading-[16px] py-3 text-center -mx-6",
+                    item.disabled ? "text-[#fff] bg-[#0049FF]" : "text-[#999]"
+                  )}
+                  onClick={()=>{
+                    if(item.disabled) return;
+                    navigate(`/incentive/grant/${item.key}/create`);
+                  }}
+                >
+                  {item.label}
+                </div>
+              );
+            })}
         </Drawer>
       )}
     </div>
