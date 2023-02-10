@@ -15,6 +15,7 @@ import {
   InputNumber,
   Modal,
   Divider,
+  Input,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import {
@@ -33,7 +34,7 @@ import {
   periodMap,
   getTargeAudince,
   formatDollar,
-} from "../../utils/const";
+} from "@/utils/const";
 import GranteeFrom from "../incentive/GranteeForm";
 import dayjs from "dayjs";
 import { useAsyncEffect, useResponsive } from "ahooks";
@@ -44,6 +45,7 @@ import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import grantIcon from "@/images/incentive/grant.svg";
 import Plan from "./plan";
 import Title from "../component/Title";
+import { minZeroValidator, tokenTypeList } from "@/utils/const";
 
 dayjs.extend(customParseFormat);
 
@@ -239,6 +241,7 @@ function GrantCreate() {
                   vestingTotalPeriod: 3,
                   vestingPeriod: 3,
                   cliffPeriod: 3,
+                  tokenType: 1,
                   isIncludingCliff: false,
                 }}
               >
@@ -277,7 +280,7 @@ function GrantCreate() {
                 <div className="lg:px-4">
                   <Title text="Grantee" />
                   <Form.Item
-                    label="Grantee"
+                    label="Choose a Grantee"
                     name="granteeId"
                     rules={[
                       { required: true, message: "Please input the grantee!" },
@@ -316,21 +319,31 @@ function GrantCreate() {
 
                 <div className="lg:px-4">
                   <Title text="Grant" />
+                  <Form.Item name="tokenType">
+                    <Radio.Group>
+                      {tokenTypeList.map(({ label, value, disabled }) => {
+                        return (
+                          <Radio disabled={disabled} value={value} key={value}>
+                            {label}
+                          </Radio>
+                        );
+                      })}
+                    </Radio.Group>
+                  </Form.Item>
                   <Form.Item
                     label="Total Amount"
                     name="grantNum"
                     rules={[
                       {
-                        required: true,
-                        message: "Please input the Total Amount!",
+                        validator: minZeroValidator("Total Amount"),
                       },
                     ]}
                   >
-                    <InputNumber
-                      min={0}
-                      style={{ width: "100%" }}
+                    <Input
                       placeholder="Editable amout"
-                      addonAfter="Token"
+                      type="number"
+                      suffix="Token"
+                      min={0}
                     />
                   </Form.Item>
                   <Form.Item
@@ -338,16 +351,15 @@ function GrantCreate() {
                     name="exercisePrice"
                     rules={[
                       {
-                        required: true,
-                        message: "Please input the Exercise Price!",
+                        validator: minZeroValidator("Exercise Price"),
                       },
                     ]}
                   >
-                    <InputNumber
-                      min={0}
-                      style={{ width: "100%" }}
+                    <Input
                       placeholder="Editable amout"
-                      addonAfter="USD"
+                      type="number"
+                      suffix="USD"
+                      min={0}
                     />
                   </Form.Item>
                 </div>

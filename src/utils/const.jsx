@@ -262,3 +262,29 @@ export const chains = [
 export function getTargeAudince(target, customized_target_name) {
   return target === 7 ? customized_target_name : targetMap[target];
 }
+
+export function minZeroValidator(label) {
+  return function (_, value) {
+    // console.log('value', value)
+    if (value === "") {
+      return Promise.reject(new Error(`Please input the ${label}!`));
+    }
+    if (value > 0) {
+      return Promise.resolve();
+    }
+    return Promise.reject(new Error(`${label} must be greater than zero!`));
+  };
+}
+
+export const tokenTypeList = [
+  {
+    label: "Token Option",
+    value: 1,
+    disabled: false,
+  },
+  {
+    label: "Token",
+    value: 2,
+    disabled: true,
+  },
+]
