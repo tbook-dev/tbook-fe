@@ -208,7 +208,7 @@ function GrantCreate() {
     });
   }
 
-  console.log("detail->", detail);
+  // console.log("detail->", detail);
   return (
     <>
       <div className="w-full lg:w-[600px] mx-auto text-[#1E293B]">
