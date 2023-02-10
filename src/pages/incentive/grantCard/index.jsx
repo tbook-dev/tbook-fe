@@ -5,8 +5,8 @@ import {
   dateFormat,
 } from "@/utils/const";
 import { useMemo } from "react";
-import { formatThousands, getLastVested } from "@/utils/Utils";
-import dayjs from "dayjs";
+import { formatThousands } from "@/utils/Utils";
+import { getLastVested } from "@/utils/const";
 import { Link } from "react-router-dom";
 
 // const v = [
