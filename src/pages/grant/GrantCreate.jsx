@@ -32,7 +32,7 @@ import {
   dateFormat,
   periodMap,
   getTargeAudince,
-  formatDollar
+  formatDollar,
 } from "../../utils/const";
 import GranteeFrom from "../incentive/GranteeForm";
 import dayjs from "dayjs";
@@ -43,6 +43,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import grantIcon from "@/images/incentive/grant.svg";
 import Plan from "./plan";
+import Title from "../component/Title";
 
 dayjs.extend(customParseFormat);
 
@@ -241,7 +242,7 @@ function GrantCreate() {
                   isIncludingCliff: false,
                 }}
               >
-                <div className="mb-4 font-semibold text-slate-800">
+                {/* <div className="mb-4 font-semibold text-slate-800">
                   Plan Detail
                 </div>
 
@@ -271,339 +272,337 @@ function GrantCreate() {
                       }))}
                     />
                   </Form.Item>
-                )}
+                )} */}
 
-                <div className="mb-4 font-semibold text-slate-800">
-                  Grantee Detail
-                </div>
-
-                <Form.Item
-                  label="Grantee"
-                  name="granteeId"
-                  rules={[
-                    { required: true, message: "Please input the grantee!" },
-                  ]}
-                >
-                  <Select
-                    placeholder="Search/Select"
-                    dropdownRender={(menu) => {
-                      return (
-                        <>
-                          {menu}
-                          <Divider style={{ margin: "8px 0" }} />
-                          <Button
-                            type="text"
-                            className="w-full"
-                            onClick={() => setModal(true)}
-                          >
-                            <div className="flex items-center justify-center w-full">
-                              <PlusOutlined />
-                              Set up a new grantee
-                            </div>
-                          </Button>
-                        </>
-                      );
-                    }}
-                    options={userlist.map((item) => ({
-                      label:
-                        item.name && item.name.length > 0
-                          ? item.name
-                          : item.mainWallet,
-                      value: item.userId,
-                    }))}
-                  />
-                </Form.Item>
-
-                <div className="mb-4 font-semibold text-slate-800">
-                  Grant Detail
-                </div>
-
-                <Form.Item
-                  label="Total Amount"
-                  name="grantNum"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input the Total Amount!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    min={0}
-                    style={{ width: "100%" }}
-                    placeholder="Editable amout"
-                    addonAfter="Token"
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Exercise Price"
-                  name="exercisePrice"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input the Exercise Price!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    min={0}
-                    style={{ width: "100%" }}
-                    placeholder="Editable amout"
-                    addonAfter="USD"
-                  />
-                </Form.Item>
-
-                <div className="mb-4 font-semibold text-slate-800">
-                  Vesting Schedule
-                </div>
-                <Form.Item name="grantType">
-                  <Radio.Group>
-                    {grantType.map(({ name, value, disabled }) => {
-                      return (
-                        <Radio disabled={disabled} value={value} key={value}>
-                          {name}
-                        </Radio>
-                      );
-                    })}
-                  </Radio.Group>
-                </Form.Item>
-
-                <Form.Item
-                  label="Vesting Start Date"
-                  name="grantDate"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input the Vesting Start Date!",
-                    },
-                  ]}
-                >
-                  <DatePicker className="w-full" />
-                </Form.Item>
-                <Form.Item
-                  label="Total Vesting Length"
-                  name="vestingTotalLength"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input the Total Vesting Length!",
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    step={1}
-                    precision={0}
-                    min={1}
-                    style={{ width: "100%" }}
-                    placeholder="Editable amout"
-                    addonAfter={
-                      <Form.Item name="vestingTotalPeriod" noStyle>
-                        <Select style={{ width: 100 }}>
-                          <Option value={1}>day</Option>
-                          <Option value={2}>week</Option>
-                          <Option value={3}>month</Option>
-                          <Option value={4}>year</Option>
-                        </Select>
-                      </Form.Item>
-                    }
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Vesting Frequency"
-                  name="vestingFrequency"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input the Vesting Frequency Length!",
-                    },
-                    {
-                      validator: async (_, vestingFrequencyV) => {
-                        const grantDateV = await form.getFieldValue(
-                          "grantDate"
+                <div className="lg:px-4">
+                  <Title text="Grantee" />
+                  <Form.Item
+                    label="Grantee"
+                    name="granteeId"
+                    rules={[
+                      { required: true, message: "Please input the grantee!" },
+                    ]}
+                  >
+                    <Select
+                      placeholder="Search/Select"
+                      dropdownRender={(menu) => {
+                        return (
+                          <>
+                            {menu}
+                            <Divider style={{ margin: "8px 0" }} />
+                            <Button
+                              type="text"
+                              className="w-full"
+                              onClick={() => setModal(true)}
+                            >
+                              <div className="flex items-center justify-center w-full">
+                                <PlusOutlined />
+                                Set up a new grantee
+                              </div>
+                            </Button>
+                          </>
                         );
-                        if (vestingFrequencyV && grantDateV) {
-                          const vestingTotalLengthV = await form.getFieldValue(
-                            "vestingTotalLength"
-                          );
-                          const vestingTotalPeriodV = await form.getFieldValue(
-                            "vestingTotalPeriod"
-                          );
-                          const totalEnd = grantDateV.add(
-                            vestingTotalLengthV,
-                            periodMap[vestingTotalPeriodV].toLowerCase()
-                          );
+                      }}
+                      options={userlist.map((item) => ({
+                        label:
+                          item.name && item.name.length > 0
+                            ? item.name
+                            : item.mainWallet,
+                        value: item.userId,
+                      }))}
+                    />
+                  </Form.Item>
+                </div>
 
-                          const vestingPeriodV = await form.getFieldValue(
-                            "vestingPeriod"
-                          );
-                          const vestEnd = grantDateV.add(
-                            vestingFrequencyV,
-                            periodMap[vestingPeriodV].toLowerCase()
-                          );
-                          // console.log('totalEnd',totalEnd.format(dateFormat))
-                          // console.log('vestEnd',vestEnd.format(dateFormat))
-
-                          if (totalEnd.isBefore(vestEnd)) {
-                            return Promise.reject(
-                              new Error(
-                                "Total Vesting end time should before Vesting Frequency!"
-                              )
-                            );
-                          }
-                        }
+                <div className="lg:px-4">
+                  <Title text="Grant" />
+                  <Form.Item
+                    label="Total Amount"
+                    name="grantNum"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the Total Amount!",
                       },
-                    },
-                  ]}
-                >
-                  <InputNumber
-                    step={1}
-                    precision={0}
-                    min={1}
-                    style={{ width: "100%" }}
-                    placeholder="Editable amout"
-                    addonAfter={
-                      <Form.Item name="vestingPeriod" noStyle>
-                        <Select style={{ width: 100 }}>
-                          <Option value={1}>day</Option>
-                          <Option value={2}>week</Option>
-                          <Option value={3}>month</Option>
-                          <Option value={4}>year</Option>
-                        </Select>
-                      </Form.Item>
-                    }
-                  />
-                </Form.Item>
-                <Form.Item
-                  label=""
-                  name="isIncludingCliff"
-                  valuePropName="checked"
-                >
-                  <Checkbox>including cliff duration</Checkbox>
-                </Form.Item>
+                    ]}
+                  >
+                    <InputNumber
+                      min={0}
+                      style={{ width: "100%" }}
+                      placeholder="Editable amout"
+                      addonAfter="Token"
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="Exercise Price"
+                    name="exercisePrice"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the Exercise Price!",
+                      },
+                    ]}
+                  >
+                    <InputNumber
+                      min={0}
+                      style={{ width: "100%" }}
+                      placeholder="Editable amout"
+                      addonAfter="USD"
+                    />
+                  </Form.Item>
+                </div>
 
-                <Form.Item
-                  noStyle
-                  shouldUpdate={(prevValues, currentValues) =>
-                    prevValues.isIncludingCliff !==
-                    currentValues.isIncludingCliff
-                  }
-                >
-                  {({ getFieldValue }) =>
-                    getFieldValue("isIncludingCliff") === true ? (
-                      <Form.Item
-                        name="cliffTime"
-                        label="Cliff Duration"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please input the Cliff Duration Length!",
-                          },
-                          {
-                            validator: async (_, cliffTimeV) => {
-                              const grantDateV = await form.getFieldValue(
-                                "grantDate"
+                <div className="lg:px-4">
+                  <Title text="Vesting" />
+                  <Form.Item name="grantType">
+                    <Radio.Group>
+                      {grantType.map(({ name, value, disabled }) => {
+                        return (
+                          <Radio disabled={disabled} value={value} key={value}>
+                            {name}
+                          </Radio>
+                        );
+                      })}
+                    </Radio.Group>
+                  </Form.Item>
+
+                  <Form.Item
+                    label="Vesting Start Date"
+                    name="grantDate"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the Vesting Start Date!",
+                      },
+                    ]}
+                  >
+                    <DatePicker className="w-full" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Total Vesting Length"
+                    name="vestingTotalLength"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the Total Vesting Length!",
+                      },
+                    ]}
+                  >
+                    <InputNumber
+                      step={1}
+                      precision={0}
+                      min={1}
+                      style={{ width: "100%" }}
+                      placeholder="Editable amout"
+                      addonAfter={
+                        <Form.Item name="vestingTotalPeriod" noStyle>
+                          <Select style={{ width: 100 }}>
+                            <Option value={1}>day</Option>
+                            <Option value={2}>week</Option>
+                            <Option value={3}>month</Option>
+                            <Option value={4}>year</Option>
+                          </Select>
+                        </Form.Item>
+                      }
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="Vesting Frequency"
+                    name="vestingFrequency"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input the Vesting Frequency Length!",
+                      },
+                      {
+                        validator: async (_, vestingFrequencyV) => {
+                          const grantDateV = await form.getFieldValue(
+                            "grantDate"
+                          );
+                          if (vestingFrequencyV && grantDateV) {
+                            const vestingTotalLengthV =
+                              await form.getFieldValue("vestingTotalLength");
+                            const vestingTotalPeriodV =
+                              await form.getFieldValue("vestingTotalPeriod");
+                            const totalEnd = grantDateV.add(
+                              vestingTotalLengthV,
+                              periodMap[vestingTotalPeriodV].toLowerCase()
+                            );
+
+                            const vestingPeriodV = await form.getFieldValue(
+                              "vestingPeriod"
+                            );
+                            const vestEnd = grantDateV.add(
+                              vestingFrequencyV,
+                              periodMap[vestingPeriodV].toLowerCase()
+                            );
+                            // console.log('totalEnd',totalEnd.format(dateFormat))
+                            // console.log('vestEnd',vestEnd.format(dateFormat))
+
+                            if (totalEnd.isBefore(vestEnd)) {
+                              return Promise.reject(
+                                new Error(
+                                  "Total Vesting end time should before Vesting Frequency!"
+                                )
                               );
-                              if (cliffTimeV && grantDateV) {
-                                const vestingTotalLengthV =
-                                  await form.getFieldValue(
-                                    "vestingTotalLength"
-                                  );
-                                const vestingTotalPeriodV =
-                                  await form.getFieldValue(
-                                    "vestingTotalPeriod"
-                                  );
-                                const totalEnd = grantDateV.add(
-                                  vestingTotalLengthV,
-                                  periodMap[vestingTotalPeriodV].toLowerCase()
-                                );
-
-                                const cliffPeriodV = await form.getFieldValue(
-                                  "cliffPeriod"
-                                );
-                                const cliffEnd = grantDateV.add(
-                                  cliffTimeV,
-                                  periodMap[cliffPeriodV].toLowerCase()
-                                );
-                                // console.log('totalEnd',totalEnd.format(dateFormat))
-                                // console.log('vestEnd',vestEnd.format(dateFormat))
-
-                                if (totalEnd.isBefore(cliffEnd)) {
-                                  return Promise.reject(
-                                    new Error(
-                                      "Total Vesting end time should before cliff end!"
-                                    )
-                                  );
-                                }
-                              }
-                            },
-                          },
-                        ]}
-                      >
-                        <InputNumber
-                          min={1}
-                          step={1}
-                          precision={0}
-                          style={{ width: "100%" }}
-                          placeholder="Editable amout"
-                          addonAfter={
-                            <Form.Item name="cliffPeriod" noStyle>
-                              <Select style={{ width: 100 }}>
-                                <Option value={1}>day</Option>
-                                <Option value={2}>week</Option>
-                                <Option value={3}>month</Option>
-                                <Option value={4}>year</Option>
-                              </Select>
-                            </Form.Item>
+                            }
                           }
-                        />
-                      </Form.Item>
-                    ) : null
-                  }
-                </Form.Item>
-                <Form.Item
-                  noStyle
-                  shouldUpdate={(prevValues, currentValues) =>
-                    prevValues.isIncludingCliff !==
-                    currentValues.isIncludingCliff
-                  }
-                >
-                  {({ getFieldValue }) =>
-                    getFieldValue("isIncludingCliff") === true ? (
-                      <Form.Item
-                        name="cliffAmount"
-                        label="Cliff Amount"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please input the Cliff Amount!",
-                          },
-                        ]}
-                      >
-                        <InputNumber
-                          placeholder="Editable amout"
-                          style={{ width: "100%" }}
-                          addonAfter="%"
-                          max={100}
-                        />
-                      </Form.Item>
-                    ) : null
-                  }
-                </Form.Item>
+                        },
+                      },
+                    ]}
+                  >
+                    <InputNumber
+                      step={1}
+                      precision={0}
+                      min={1}
+                      style={{ width: "100%" }}
+                      placeholder="Editable amout"
+                      addonAfter={
+                        <Form.Item name="vestingPeriod" noStyle>
+                          <Select style={{ width: 100 }}>
+                            <Option value={1}>day</Option>
+                            <Option value={2}>week</Option>
+                            <Option value={3}>month</Option>
+                            <Option value={4}>year</Option>
+                          </Select>
+                        </Form.Item>
+                      }
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label=""
+                    name="isIncludingCliff"
+                    valuePropName="checked"
+                  >
+                    <Checkbox>including cliff duration</Checkbox>
+                  </Form.Item>
+
+                  <Form.Item
+                    noStyle
+                    shouldUpdate={(prevValues, currentValues) =>
+                      prevValues.isIncludingCliff !==
+                      currentValues.isIncludingCliff
+                    }
+                  >
+                    {({ getFieldValue }) =>
+                      getFieldValue("isIncludingCliff") === true ? (
+                        <Form.Item
+                          name="cliffTime"
+                          label="Cliff Duration"
+                          rules={[
+                            {
+                              required: true,
+                              message:
+                                "Please input the Cliff Duration Length!",
+                            },
+                            {
+                              validator: async (_, cliffTimeV) => {
+                                const grantDateV = await form.getFieldValue(
+                                  "grantDate"
+                                );
+                                if (cliffTimeV && grantDateV) {
+                                  const vestingTotalLengthV =
+                                    await form.getFieldValue(
+                                      "vestingTotalLength"
+                                    );
+                                  const vestingTotalPeriodV =
+                                    await form.getFieldValue(
+                                      "vestingTotalPeriod"
+                                    );
+                                  const totalEnd = grantDateV.add(
+                                    vestingTotalLengthV,
+                                    periodMap[vestingTotalPeriodV].toLowerCase()
+                                  );
+
+                                  const cliffPeriodV = await form.getFieldValue(
+                                    "cliffPeriod"
+                                  );
+                                  const cliffEnd = grantDateV.add(
+                                    cliffTimeV,
+                                    periodMap[cliffPeriodV].toLowerCase()
+                                  );
+                                  // console.log('totalEnd',totalEnd.format(dateFormat))
+                                  // console.log('vestEnd',vestEnd.format(dateFormat))
+
+                                  if (totalEnd.isBefore(cliffEnd)) {
+                                    return Promise.reject(
+                                      new Error(
+                                        "Total Vesting end time should before cliff end!"
+                                      )
+                                    );
+                                  }
+                                }
+                              },
+                            },
+                          ]}
+                        >
+                          <InputNumber
+                            min={1}
+                            step={1}
+                            precision={0}
+                            style={{ width: "100%" }}
+                            placeholder="Editable amout"
+                            addonAfter={
+                              <Form.Item name="cliffPeriod" noStyle>
+                                <Select style={{ width: 100 }}>
+                                  <Option value={1}>day</Option>
+                                  <Option value={2}>week</Option>
+                                  <Option value={3}>month</Option>
+                                  <Option value={4}>year</Option>
+                                </Select>
+                              </Form.Item>
+                            }
+                          />
+                        </Form.Item>
+                      ) : null
+                    }
+                  </Form.Item>
+                  <Form.Item
+                    noStyle
+                    shouldUpdate={(prevValues, currentValues) =>
+                      prevValues.isIncludingCliff !==
+                      currentValues.isIncludingCliff
+                    }
+                  >
+                    {({ getFieldValue }) =>
+                      getFieldValue("isIncludingCliff") === true ? (
+                        <Form.Item
+                          name="cliffAmount"
+                          label="Cliff Amount"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please input the Cliff Amount!",
+                            },
+                          ]}
+                        >
+                          <InputNumber
+                            placeholder="Editable amout"
+                            style={{ width: "100%" }}
+                            addonAfter="%"
+                            max={100}
+                          />
+                        </Form.Item>
+                      ) : null
+                    }
+                  </Form.Item>
+                </div>
               </Form>
             </div>
           </div>
 
-          <div className="max-w-[600px] pt-40	">
-            <hr className="my-6 border-t border-slate-200" />
-            <div className="flex justify-around">
-              <Link to="/incentive">Cancel</Link>
+          <div className="pt-10 pb-[60px]">
+            <div className="flex justify-center">
+              <Link to="/incentive" className="hidden lg:block">
+                <Button>Cancel</Button>
+              </Link>
               <Button
                 onClick={handleCreate}
                 type="primary"
-                className="bg-[#6366F1]"
+                className="bg-[#6366F1] lg:ml-10 w-[64vw] lg:w-auto ml-0"
                 loading={loadingCreate}
               >
-                {grantId ? "update" : "create"}
+                {grantId ? "Update" : "Create"}
               </Button>
             </div>
           </div>

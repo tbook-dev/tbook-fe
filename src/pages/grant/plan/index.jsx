@@ -15,7 +15,6 @@ export default function ({ planName, targetAudince, availableAmount }) {
       title: "Target Audience",
       value: targetAudince,
     },
-
     {
       title: "Available Amount",
       value: availableAmount + " Token",
@@ -29,7 +28,7 @@ export default function ({ planName, targetAudince, availableAmount }) {
           src={pc ? cardbgpc : cardbg}
           className="absolute top-0 left-0 w-full"
         />
-        <Title  text="Plan" className="relative z-10"/>
+        <Title  text="Plan" className="relative z-10 px-4"/>
       </div>
       <div className="divide-y">
         {conf.map((v) => {
