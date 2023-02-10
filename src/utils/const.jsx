@@ -266,7 +266,7 @@ export function getTargeAudince(target, customized_target_name) {
 export function minZeroValidator(label) {
   return function (_, value) {
     // console.log('value', value)
-    if (value === "") {
+    if (value === "" || value === undefined) {
       return Promise.reject(new Error(`Please input the ${label}!`));
     }
     if (value > 0) {
