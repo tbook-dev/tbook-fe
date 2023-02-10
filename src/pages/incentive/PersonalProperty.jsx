@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from "react";
-import LayoutV2 from "./LayoutV2";
 import clsx from "clsx";
 import { personalPropertyList } from "@/utils/const";
 import { getUserAssets } from "@/api/incentive";
