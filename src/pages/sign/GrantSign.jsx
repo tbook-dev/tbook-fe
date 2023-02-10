@@ -13,12 +13,17 @@ import { loadWeb3 } from "@/utils/web3";
 import KV from "@/components/local/KV2";
 import Title from "@/components/local/Title2";
 import { useAsyncEffect } from "ahooks";
-import { targetMap, formatDollar, periodMap } from "@/utils/const";
+import {
+  targetMap,
+  formatDollar,
+  periodMap,
+  shortAddress,
+  getTargeAudince,
+} from "@/utils/const";
 import VestingSchedule from "../incentive/VestingSchedule";
 import Done from "@/components/icon/Done";
 import Loading from "@/components/icon/Loading";
 import Eth from "@/components/local/Eth";
-import aircraft from "@/images/tbook/aircraft.png";
 import { useSelector } from "react-redux";
 import Header from "../component/Header";
 import grantIcon from "@/images/incentive/grant.svg";
@@ -141,17 +146,56 @@ function GrantSign() {
       </div>
     );
   };
-  const GranteeConf = useMemo(()=>{
+  const granteeConf = useMemo(() => {
+    return [
+      {
+        label: "Name",
+        value: grantInfo?.granteeName,
+      },
+      {
+        label: "ETH Address",
+        value: shortAddress(grantInfo?.granteeEthAddress),
+      },
+      {
+        label: "Email Address",
+        value: grantInfo?.granteeEmail,
+      },
+    ];
+  }, [grantInfo]);
 
-  },[])
+  const grantConf = useMemo(() => {
+    return [
+      {
+        label: "Grant Type",
+        value: "Token Option",
+      },
+      {
+        label: "Total Amount",
+        value: `${formatDollar(grantInfo?.grantNum)} Token`,
+      },
+      {
+        label: "Exercise Price",
+        value: `${formatDollar(grantInfo.exercisePrice)} USD`,
+      },
+      {
+        label: "Plan",
+        value: getTargeAudince(
+          tipInfo?.target,
+          tipInfo?.customized_target_name
+        ),
+      },
+    ];
+  }, [grantInfo, tipInfo]);
+
   // console.log("periodMap", periodMap, grantInfo.vestingTotalPeriod);
   return (
     <main className="relative w-full lg:w-[600px] mx-auto text-[#1E293B]">
       <div className="pt-3 space-y-6 lg:pt-6">
-        <Header title="Grant Detail" iconUrl={grantIcon} className="mb-0" />
+        <Header title="Grant Detail" className="mb-0" />
 
+        <Card title="Grantee" list={granteeConf} />
 
-        <Card title="Grantee" list={GranteeConf}/>
+        <Card title="Grant" list={grantConf} />
 
         <section className="mb-6 lg:mb-0">
           <Title title="Grant Details" />

@@ -9,7 +9,7 @@ export default function ({ avatar, name, mainWallet }) {
           <img src={avatar} className="w-6 h-6" />
         </div>
 
-        <div>
+        <div className="flex flex-col justify-center">
           {name && <h3 className="lg:text-[16px] lg:leading-[24px] text-[#333]">{name}</h3>}
           {mainWallet && (
             <p className=" text-[#999] lg:text-[14px] lg:leading-[20px]">
