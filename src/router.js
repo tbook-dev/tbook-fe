@@ -40,8 +40,8 @@ const routes =[
     },
     {
         path: '/grants/:grantId/sign',
-        layout: 'v2',
-        component: lazy(() => import('@/pages/incentive/GrantSign'))
+        layout: 'v1',
+        component: lazy(() => import('@/pages/sign/GrantSign'))
     },
     {
         path: '/new-project',

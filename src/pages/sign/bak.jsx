@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Typography } from "antd";
 import { LeftCircleOutlined } from "@ant-design/icons";
@@ -14,7 +14,7 @@ import KV from "@/components/local/KV2";
 import Title from "@/components/local/Title2";
 import { useAsyncEffect } from "ahooks";
 import { targetMap, formatDollar, periodMap } from "@/utils/const";
-import VestingSchedule from "./VestingSchedule";
+import VestingSchedule from "../incentive/VestingSchedule";
 import Done from "@/components/icon/Done";
 import Loading from "@/components/icon/Loading";
 import Eth from "@/components/local/Eth";
@@ -35,6 +35,13 @@ function GrantSign() {
   // const projects = useSelector((state) => state.user.projects);
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
+  const signStatus = useMemo(() => {
+    return signList.filter((sg) => sg.grantSign.signStatus === 2).length === 2
+      ? "done"
+      : "pending";
+  }, [signList]);
+  
+  console.log(signStatus)
   useAsyncEffect(async () => {
     const list = await getGrantSignInfo(null, grantId);
     setSignList(list);
@@ -121,7 +128,9 @@ function GrantSign() {
         <div className="text-3xl font-bold text-[#1E293B] pt-6 pb-8">
           Grant Effective! 🙌
         </div>
-        <Link to={`/incentive/grant/${tipInfo.incentivePlanId}/${grantId}/detail`}>
+        <Link
+          to={`/incentive/grant/${tipInfo.incentivePlanId}/${grantId}/detail`}
+        >
           <button className="text-white bg-indigo-500 px-11 btn hover:bg-indigo-600 mb-11">
             View Details -{">"}
           </button>
@@ -224,7 +233,8 @@ function GrantSign() {
       <div className="flex items-center justify-center min-h-full bg-white">
         <div className="w-[440px]">
           <div className="">
-            {signList.filter((item) => item.grantSign.signStatus === 2).length === 2 ? (
+            {signList.filter((item) => item.grantSign.signStatus === 2)
+              .length === 2 ? (
               <SignSucess />
             ) : (
               <Tip />
