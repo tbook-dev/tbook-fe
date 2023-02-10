@@ -276,6 +276,16 @@ export function minZeroValidator(label) {
   };
 }
 
+
+export function maxValidator(max, label){
+  return function(_, value){
+    if(value > max){
+      return Promise.reject(new Error(`${label} must be less than ${max}!`));
+    }
+  }
+}
+
+
 export const tokenTypeList = [
   {
     label: "Token Option",
@@ -287,4 +297,23 @@ export const tokenTypeList = [
     value: 2,
     disabled: true,
   },
+]
+
+export const timeLengthList = [
+  {
+    label: "day",
+    value: 1,
+  },
+  {
+    label: "week",
+    value: 2,
+  },
+  {
+    label: "month",
+    value: 3,
+  },
+  {
+    label: "year",
+    value: 4,
+  }
 ]
