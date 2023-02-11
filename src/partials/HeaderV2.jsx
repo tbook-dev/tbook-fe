@@ -1,7 +1,6 @@
 import React from "react";
 import UserMenu from "../components/DropdownProfile";
 import Logo from "../components/icon/Logo";
-import ProjectMenu from "../components/DropdownProject";
 
 function Header() {
   return (
@@ -12,8 +11,6 @@ function Header() {
             <Logo />
           </div>
           <div className="flex items-center space-x-3">
-            <ProjectMenu align="right" />
-            <hr className="w-px h-6 mx-3 bg-slate-200" />
             <UserMenu align="right" />
           </div>
         </div>
