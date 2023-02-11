@@ -2,11 +2,14 @@ import React from "react";
 import UserMenu from "@/components/DropdownProfile";
 import { useSelector } from "react-redux";
 import Connect from "@/components/connect";
-import useProjects from "@/hooks/useProjects";
-import logoText from '@/images/icon/logo-text.svg'
+import logoText from "@/images/icon/logo-text.svg";
+import logo from "@/images/icon/logo.svg";
+import { useResponsive } from "ahooks";
+import { Link } from "react-router-dom";
 
 function Header({ sidebarOpen, setSidebarOpen }) {
   const authUser = useSelector((state) => state.user.authUser);
+  const { pc } = useResponsive();
 
   return (
     <header className="sticky top-0 z-30 bg-white border-b border-slate-200">
@@ -14,9 +17,9 @@ function Header({ sidebarOpen, setSidebarOpen }) {
         <div className="flex items-center justify-between h-16 -mb-px">
           {/* Header: Left side */}
           <div className="flex">
-            <div className="hidden lg:block">
-              <img src={logoText}/>
-            </div>
+            <Link to="/incentive">
+              <img src={pc ? logoText : logo} className="mr-2 h-9 lg:h-auto"/>
+            </Link>
 
             {/* Hamburger button */}
             <button
@@ -43,11 +46,7 @@ function Header({ sidebarOpen, setSidebarOpen }) {
 
           {/* Header: Right side */}
           <div className="flex items-center space-x-3">
-            {authUser ? (
-                <UserMenu align="right" />
-            ) : (
-              <Connect />
-            )}
+            {authUser ? <UserMenu align="right" /> : <Connect />}
           </div>
         </div>
       </div>
