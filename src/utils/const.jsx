@@ -283,6 +283,7 @@ export function maxValidator(max, label){
     if(value > max){
       return Promise.reject(new Error(`${label} must be less than ${max}!`));
     }
+    return Promise.resolve();
   }
 }
 
