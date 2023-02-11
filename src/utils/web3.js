@@ -1,6 +1,33 @@
 import Web3 from "web3";
 import { host, getGrantSignInfo, postGrantSignInfo } from "@/api/incentive";
 
+import {
+  EthereumClient,
+  modalConnectors,
+  walletConnectProvider,
+} from "@web3modal/ethereum";
+
+import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { publicProvider } from 'wagmi/providers/public'
+import { mainnet, bsc } from "wagmi/chains";
+
+import {ConnectButton, useAccountBalance, useWallet, useCoinBalance, useChain, SuiChainId} from "@suiet/wallet-kit";
+
+const chains = [mainnet, bsc];
+
+const wcProvider = walletConnectProvider({ projectId: import.meta.env.VITE_WC_PROJECT_ID });
+
+const { provider } = configureChains(chains, [wcProvider, publicProvider()]);
+
+const connectors = modalConnectors({ appName: "tbook", chains });
+
+export const wagmiClient = createClient({
+  autoConnect: true,
+  connectors: connectors,
+  provider,
+});
+export const ethereumClient = new EthereumClient(wagmiClient, chains)
+
 export async function loadWeb3() {
   // Wait for loading completion to avoid race conditions with web3 injection timing.
   if (window.ethereum) {
@@ -23,28 +50,74 @@ export async function loadWeb3() {
   }
 }
 
-export async function signLoginMetaMask(web3) {
+export async function fetchLoginNonce(address) {
   return fetch(
-    `${host}/nonce?address=${web3.currentProvider.selectedAddress}`,
+    `${host}/nonce?address=${address}`,
+    { credentials: "include" }
+  ).then(r => r.text())
+}
+
+export async function loginWithSign(address, sign) {
+  const d = new FormData();
+  d.append("address", address);
+  d.append("sign", sign);
+  return fetch(`${host}/authenticate`, {
+    credentials: "include",
+    method: "POST",
+    body: d,
+  });
+}
+
+async function signLogin(addr, signer, chain, pubKey) {
+  const address = addr.toLowerCase()
+  return fetch(
+    `${host}/nonce?address=${address}`,
     { credentials: "include" }
   )
     .then((r) => r.text())
-    .then((t) =>
-      web3.eth.personal.sign(
-        web3.utils.fromUtf8(t),
-        web3.currentProvider.selectedAddress
-      )
-    )
+    .then((t) =>  signer.signMessage(t))
     .then((s) => {
       const d = new FormData();
-      d.append("address", web3.currentProvider.selectedAddress);
+      d.append("address", address);
       d.append("sign", s);
+      d.append("chain", chain);
+      if (pubKey) {
+        d.append("publicKey", pubKey);
+      }
       return fetch(`${host}/authenticate`, {
         credentials: "include",
         method: "POST",
         body: d,
       });
     });
+}
+
+export function logout() {
+  return fetch(
+    `${host}/logout`,
+    { credentials: "include" }
+  )
+}
+
+export async function changeAccountSignIn(addr, signer) {
+  return fetch(
+    `${host}/logout`,
+    { credentials: "include" }
+  ).then(() => signLoginMetaMask(addr, signer))
+}
+
+export async function signLoginMetaMask(addr, signer) {
+  return signLogin(addr, signer, "Ethereum")
+}
+
+export async function loginSui(wallet) {
+  const signer = {
+    signMessage: (message) => 
+      wallet.signMessage({
+        message: new TextEncoder().encode(message)
+      })
+  }
+  return signLogin(wallet.account.address, signer, "Sui", wallet.account.publicKey.toString('hex'))
 }
 
 export async function signGrantMetaMask(web3, projectId, grantId, userId) {

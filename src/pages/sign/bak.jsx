@@ -20,6 +20,7 @@ import Loading from "@/components/icon/Loading";
 import Eth from "@/components/local/Eth";
 import aircraft from "@/images/tbook/aircraft.png";
 import { useSelector } from "react-redux";
+import { useSigner } from "wagmi";
 
 const { Paragraph } = Typography;
 
@@ -32,6 +33,7 @@ function GrantSign() {
   // const navigate = useNavigate();
   const [scheduleInfo, setSchedule] = useState({});
   const userInfo = useSelector((state) => state.user.user);
+  const { signer } = useSigner()
   // const projects = useSelector((state) => state.user.projects);
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
@@ -71,11 +73,7 @@ function GrantSign() {
 
   async function handleSign(sign) {
     const web3 = await loadWeb3();
-    web3?.eth.personal
-      .sign(
-        web3.utils.fromUtf8(sign.signInfo),
-        web3.currentProvider.selectedAddress
-      )
+    signer.signMessage(t)
       .then((s) => {
         return postGrantSignInfo(null, grantId, sign.grantSignId, s);
       })

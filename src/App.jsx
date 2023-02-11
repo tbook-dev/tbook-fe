@@ -1,4 +1,4 @@
-import React, { Suspense, useLayoutEffect, useState } from "react";
+import React, { Suspense, useCallback, useLayoutEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useAsyncEffect } from "ahooks";
 import "./css/style.css";
@@ -15,8 +15,24 @@ import { configResponsive } from 'ahooks';
 import routes from "./router";
 import { Spin } from "antd";
 
+import { WagmiConfig } from "wagmi";
+import { watchAccount, getAccount, fetchSigner } from "wagmi/actions"; 
+import { Web3Modal } from "@web3modal/react";
+import { WalletProvider, SuietWallet } from '@suiet/wallet-kit';
+import '@suiet/wallet-kit/style.css';
+import { wagmiClient, ethereumClient, changeAccountSignIn } from "./utils/web3";
+
 configResponsive({
   pc: 1120,
+})
+
+const currentAccount = getAccount()
+watchAccount(async (acc) => {
+  console.log("account changed:", acc)
+  if (acc.address != currentAccount.address) {
+    const signer = await fetchSigner()
+    changeAccountSignIn(acc.address, signer).then((r) => {location.href = location})
+  }
 })
 
 function App() {
@@ -35,6 +51,8 @@ function App() {
   }, []);
 
   return (
+    <>
+    <WagmiConfig client={wagmiClient}>
     <Layout>
       <Routes>
         {routes.map((route) => {
@@ -60,6 +78,13 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Layout>
+    </WagmiConfig>
+        <Web3Modal
+        projectId={import.meta.env.VITE_WC_PROJECT_ID}
+        ethereumClient={ethereumClient}
+    />
+    <WalletProvider defaultWallets={[SuietWallet]}></WalletProvider>
+    </>
   );
 }
 

@@ -24,6 +24,7 @@ import FilterPanel from "./filter";
 import { Spin } from "antd";
 import { filterReducer, initialFilters } from "@/store/parts";
 import dayjs from "dayjs";
+import { useSigner, useAccount } from "wagmi";
 
 function PlanList() {
   const [swiper, setSwiper] = useState(null);
@@ -38,6 +39,20 @@ function PlanList() {
   const [drawerOpen, setDrawer] = useState(false);
   const { pc } = useResponsive();
   const [filters, dispatchFilter] = useReducer(filterReducer, initialFilters);
+
+  const { data: signer } = useSigner()
+  const { address } = useAccount()
+
+  async function handleSignIn() {
+    console.log("authUser", authUser);
+    if (authUser) {
+      navigate("/incentive/create");
+    } else {
+      await signLoginMetaMask(address, signer);
+      dispatch(fetchUserInfo());
+      dispatch(setAuthUser(true));
+    }
+  }
 
   useAsyncEffect(async () => {
     if (!projectId) return;

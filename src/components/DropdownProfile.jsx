@@ -4,6 +4,7 @@ import Transition from "../utils/Transition";
 import { useSelector } from "react-redux";
 import Eth from "./local/Eth";
 import { Typography } from "antd";
+import { useAccount, useEnsName } from "wagmi";
 
 const { Text } = Typography;
 
@@ -13,6 +14,8 @@ function DropdownProfile({ align }) {
 
   const trigger = useRef(null);
   const dropdown = useRef(null);
+  const { address } = useAccount()
+  const { data: ensName } = useEnsName({ address })
 
   // close on click outside
   useEffect(() => {
@@ -67,7 +70,7 @@ function DropdownProfile({ align }) {
                   color: "#94A3B8",
                 }}
               >
-                {userStore?.mainWallet}
+                {ensName || userStore?.mainWallet}
               </Eth>
           </span>
         </div>
@@ -120,7 +123,7 @@ function DropdownProfile({ align }) {
                   color: "#94A3B8",
                 }}
               >
-                {userStore?.mainWallet}
+                {ensName || userStore?.mainWallet}
               </Eth>
             </div>
           </div>

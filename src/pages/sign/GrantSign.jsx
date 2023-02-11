@@ -23,6 +23,7 @@ import Header from "../component/Header";
 import Card from "./card";
 import clsx from "clsx";
 import VestedCard from "./vested";
+import { useSignMessage } from "wagmi";
 
 const { Paragraph } = Typography;
 
@@ -35,6 +36,7 @@ function GrantSign() {
   // const navigate = useNavigate();
   const [scheduleInfo, setSchedule] = useState({});
   const userInfo = useSelector((state) => state.user.user);
+  const { signMessageAsync } = useSignMessage()
   // const projects = useSelector((state) => state.user.projects);
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
@@ -73,12 +75,8 @@ function GrantSign() {
   }, [grantId]);
 
   async function handleSign(sign) {
-    const web3 = await loadWeb3();
-    web3?.eth.personal
-      .sign(
-        web3.utils.fromUtf8(sign.signInfo),
-        web3.currentProvider.selectedAddress
-      )
+    //const web3 = await loadWeb3();
+    signMessageAsync({ message: sign.signInfo })
       .then((s) => {
         return postGrantSignInfo(null, grantId, sign.grantSignId, s);
       })

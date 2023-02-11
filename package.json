@@ -11,7 +11,10 @@
     "@ant-design/icons": "^4.8.0",
     "@ant-design/plots": "^1.2.3",
     "@reduxjs/toolkit": "^1.9.1",
+    "@suiet/wallet-kit": "^0.1.20",
     "@tailwindcss/forms": "^0.5.2",
+    "@web3modal/ethereum": "^2.1.1",
+    "@web3modal/react": "^2.1.1",
     "ahooks": "^3.7.3",
     "antd": "^5.0.7",
     "chart.js": "^3.8.0",
@@ -32,6 +35,8 @@
     "rollup": "2.79.1",
     "swiper": "^8.4.5",
     "tslib": "^2.4.1",
+    "tweetnacl": "^1.0.3",
+    "wagmi": "^0.11.4",
     "web3": "^1.8.1"
   },
   "devDependencies": {
