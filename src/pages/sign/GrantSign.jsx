@@ -97,7 +97,7 @@ function GrantSign() {
 
   const Sign = () => {
     return (
-      <div className="text-[#333] lg:bg-white lg:rounded-t-lg lg:w-[1316px] shadow-none lg:shadow-c7 mx-auto">
+      <div className="text-[#333] lg:bg-white lg:rounded-t-lg shadow-none lg:shadow-c7 mx-auto">
         <div className="lg:w-[600px] mx-auto lg:py-20">
           <div className="mb-2 lg:mb-4 text-[12px] leading-[16px] lg:text-[16px] lg:leading-[28px]">
             <p>1. Please confirm and sign this grant.</p>
