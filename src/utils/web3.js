@@ -69,6 +69,7 @@ export async function loginWithSign(address, sign) {
 }
 
 async function signLogin(addr, signer, chain, pubKey) {
+  if(!addr) return;
   const address = addr.toLowerCase()
   return fetch(
     `${host}/nonce?address=${address}`,

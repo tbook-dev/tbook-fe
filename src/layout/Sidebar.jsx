@@ -8,12 +8,17 @@ import dashboardIcon1 from "@/images/icon/dashboard1.svg";
 import dashboardIcon2 from "@/images/icon/dashboard2.svg";
 import settingIcon1 from "@/images/icon/setting1.svg";
 import settingIcon2 from "@/images/icon/setting2.svg";
+import { useNetwork } from "wagmi";
+import SwitchNet from "@/components/connect/switch";
+import { useResponsive } from "ahooks";
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
-
-
   const trigger = useRef(null);
   const sidebar = useRef(null);
+  const { chain } = useNetwork();
+  const { pc } = useResponsive();
+
+  const authUser = useSelector((state) => state.user.authUser);
 
   const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
   const [sidebarExpanded, setSidebarExpanded] = useState(
@@ -144,6 +149,12 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </div>
 
             <div className="pb-[145px]">
+              {chain && authUser && pc && (
+                <div className="flex flex-col items-center justify-center cursor-pointer">
+                  <SwitchNet type="logo" placement="right" />
+                </div>
+              )}
+
               <NavLink
                 to="/setting"
                 className="flex flex-col items-center justify-center h-20 mb-6 transition duration-150"
@@ -155,7 +166,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </div>
           </div>
         </div>
-        
       </div>
     </div>
   );

@@ -1,8 +1,6 @@
 import React from "react";
 import clsx from "clsx";
 import _ from "lodash";
-import Ethereum from "../components/icon/Ethereum";
-import BSC from "../components/icon/BSC";
 import dateIcon from "@/images/icon/date.svg";
 import dayjs from "dayjs";
 
@@ -249,14 +247,12 @@ export const chains = [
     fullName: "Ethereum MainNet",
     evm: true,
     evmChainId: 1,
-    render: Ethereum,
   },
   {
     name: "BSC",
     fullName: "Binance Smart Chain",
     evm: true,
     evmChainId: 56,
-    render: BSC,
   },
 ];
 

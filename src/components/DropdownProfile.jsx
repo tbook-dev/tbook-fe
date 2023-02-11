@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Popover, Drawer } from "antd";
@@ -14,7 +14,7 @@ import useProjects from "@/hooks/useProjects";
 import useCurrentProject from "@/hooks/useCurrentProject";
 import { useResponsive } from "ahooks";
 
-function DropdownProfile({ align }) {
+function DropdownProfile() {
   const userStore = useSelector((state) => state.user.user);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dispatch = useDispatch();
@@ -59,6 +59,7 @@ function DropdownProfile({ align }) {
           <img src={closeIcon} />
         </div>
       </div>
+
       <div className="text-[18px] leading-[24px] text-center pt-[30px] pb-2.5">
         <p className="text-[#333]">Switch to another project</p>
         <p className="flex items-center justify-center text-[#0049FF]">
@@ -71,6 +72,7 @@ function DropdownProfile({ align }) {
           </svg>
         </p>
       </div>
+      
       <div className="divide-y max-h-[160px] text-center overflow-y-auto">
         {projects.map((project) => {
           const isSelected = project.projectId === currentProjectId;
@@ -134,6 +136,7 @@ function DropdownProfile({ align }) {
           open={dropdownOpen}
           content={<Content />}
           placement="bottomRight"
+          onOpenChange={(v) => setDropdownOpen(v)}
         >
           <Avator />
         </Popover>

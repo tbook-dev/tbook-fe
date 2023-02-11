@@ -1,15 +1,15 @@
 import eth from "@/images/icon/eth-rainbow.svg";
 import bsc from "@/images/icon/bsc-rainbow.svg";
-import sui from "@/images/icon/sui-rainbow.svg";
+// import sui from "@/images/icon/sui-rainbow.svg";
 
-export default function NetWork({ type = "", ...props }) {
-  const url = eth;
-  if (type === "bsc") {
+export default function NetWork({ id , ...props }) {
+  let url = null
+  if (id === 1) {
+    url = eth;
+  }
+  if (id === 56) {
     url = bsc;
   }
-  if (type === "sui") {
-    url = sui;
-  }
 
-  return <img src={url} {...props} />;
+  return url ?  <img src={url} {...props} /> : null;
 }

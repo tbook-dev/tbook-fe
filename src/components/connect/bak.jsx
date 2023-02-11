@@ -24,7 +24,8 @@ import {
 } from "@suiet/wallet-kit";
 import { useDisconnect } from "wagmi";
 import { useResponsive } from "ahooks";
-import SwitchNet from './switch'
+import { Popover } from "antd";
+import clsx from "clsx";
 
 export default function () {
   const [loading, setLoading] = useState(false);
@@ -66,10 +67,86 @@ export default function () {
     setLoading(false);
   }
 
+  function handleSwitch(id) {
+    // 1 Ethereum
+    // 56 BNB
+    switchNetwork(id);
+    setOpenLay(false);
+    // disconnect();
+    // logout();
+  }
+
+  const Lay = () => (
+    <div className="-mx-6 lg:-mx-3 w-[300px]">
+      <div className="text-[18px] leading-[24px] text-center pt-7 pb-6">
+        <p className="text-[#333]">Choose the network</p>
+      </div>
+      <div>
+        {chains.map((v) => (
+          <div
+            className={clsx(
+              "flex items-center py-2 pl-24  hover:text-[#666] cursor-pointer",
+              chain?.id === v.evmChainId
+                ? "text-[#0049FF] bg-[#ECF1FF]"
+                : "text-[#999] hover:bg-white"
+            )}
+            onClick={() => {
+              handleSwitch(v.evmChainId);
+            }}
+            key={v.evmChainId}
+          >
+            <Network id={v?.evmChainId} className="lg:mr-2" />
+            <span className="hidden lg:block">{v?.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const content = (
+    <Button
+      className="flex items-center"
+      onClick={() => {
+        setOpenLay(true);
+      }}
+    >
+      <Network id={chain?.id} className="lg:mr-2" />
+      <span className="hidden lg:block">{chain?.name}</span>
+    </Button>
+  );
 
   return (
     <>
-      <SwitchNet />
+      {chain ? (
+        pc ? (
+          <Popover
+            onOpenChange={(v) => setOpenLay(v)}
+            content={<Lay />}
+            trigger="click"
+            open={openLay}
+            placement="bottomRight"
+          >
+            {content}
+          </Popover>
+        ) : (
+          <>
+            {content}
+            <Drawer
+              placement="bottom"
+              closable={false}
+              open={openLay}
+              contentWrapperStyle={{
+                height: "50vh",
+                borderRadius: "24px 24px 0px 0px",
+                overflow: "hidden",
+              }}
+              onClose={() => setOpenLay(false)}
+            >
+              <Lay />
+            </Drawer>
+          </>
+        )
+      ) : null}
 
       <Button type="primary" loading={loading} onClick={handleSignIn}>
         Connect
