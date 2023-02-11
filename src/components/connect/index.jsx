@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
+import { signLoginMetaMask, logout } from "@/utils/web3";
 import { useDispatch } from "react-redux";
 import { setAuthUser, fetchUserInfo } from "@/store/user";
 import { Button } from "antd";
@@ -8,6 +8,7 @@ import { useWeb3Modal } from "@web3modal/react";
 import { useAccount, useConnect, useEnsName, useNetwork, useSwitchNetwork } from "wagmi";
 import { fetchSigner } from 'wagmi/actions'
 import { useAccountBalance, useWallet, useCoinBalance, useChain, SuiChainId, ConnectModal } from "@suiet/wallet-kit";
+import { useDisconnect } from "wagmi";
 
 export default function () {
   const [loading, setLoading] = useState(false);
@@ -15,6 +16,7 @@ export default function () {
   const { address, isDisconnected } = useAccount()
   const { open } = useWeb3Modal()
   const { connectAsync, connectors } = useConnect()
+  const { disconnect } = useDisconnect()
   const { chain } = useNetwork()
   const { switchNetwork } = useSwitchNetwork()
 
@@ -46,6 +48,8 @@ export default function () {
     // 1 Ethereum
     // 56 BNB
     switchNetwork(56)
+    disconnect()
+    logout()
   }
 
   const ethConf = chains.find((v) => v.evmChainId === 1);
