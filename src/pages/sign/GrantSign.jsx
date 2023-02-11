@@ -36,7 +36,7 @@ function GrantSign() {
   // const navigate = useNavigate();
   const [scheduleInfo, setSchedule] = useState({});
   const userInfo = useSelector((state) => state.user.user);
-  const { signMessageAsync } = useSignMessage()
+  const { signMessageAsync } = useSignMessage();
   // const projects = useSelector((state) => state.user.projects);
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
@@ -112,7 +112,10 @@ function GrantSign() {
           </div>
           <div className="px-1 rounded-lg mb-2 lg:mb-6 lg:px-6 lg:py-2.5 border shadow-c8">
             <a href={location.href} target="_blank">
-              <Paragraph copyable className="flex justify-between my-4 ">
+              <Paragraph
+                copyable={{ text: location.href }}
+                className="flex justify-between my-4 "
+              >
                 <span className="text-[#7CA2FF] underline decoration-[#7CA2FF]">
                   {location.href}
                 </span>
@@ -126,7 +129,7 @@ function GrantSign() {
                 <div
                   key={idx}
                   className={clsx(
-                    "flex justify-between py-1 px-2  rounded-md",
+                    "flex justify-between items-center py-1 px-2  rounded-md",
                     sg.signer.userId == userInfo.userId
                       ? "bg-[#ECF1FF]"
                       : "bg-[#f2f2f2]"
@@ -283,7 +286,7 @@ function GrantSign() {
         {signStatus === "pending" ? (
           <Card title="Grantee" list={granteeConf} />
         ) : (
-          <VestedCard scheduleInfo={scheduleInfo}/>
+          <VestedCard scheduleInfo={scheduleInfo} />
         )}
 
         <Card title="Grant" list={grantConf} />
