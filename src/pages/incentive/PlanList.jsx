@@ -148,8 +148,8 @@ function PlanList() {
         <h2 className="pb-2 text-[32px] lg:text-[24px]">Plans</h2>
 
         <div className="relative h-[190px]">
-          <div className="hidden lg:block absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>
-          <div className="hidden lg:block absolute swiper-button-prev !-left-12 border !w-8 !h-8 rounded-full"></div>
+          <div className="hidden lg:flex lg:justify-center lg:items-center absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>
+          <div className="hidden lg:flex lg:justify-center lg:items-center absolute swiper-button-prev !-left-12 border !w-8 !h-8 rounded-full"></div>
           {grantLoading ? (
             <div className="flex items-center justify-center w-full h-full">
               <Spin />
