@@ -41,9 +41,12 @@ function GrantSign() {
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
   const signStatus = useMemo(() => {
-    return signList.filter((sg) => sg.grantSign.signStatus === 2).length === 2
-      ? "done"
-      : "pending";
+    if(signList.length === 0 ){
+      return 'pending'
+    }
+    return signList.filter((sg) => sg.grantSign.signStatus === 1).length !== 0
+      ? "pending"
+      : "others";
   }, [signList]);
 
   // console.log(signStatus);

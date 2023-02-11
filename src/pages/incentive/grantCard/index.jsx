@@ -73,7 +73,7 @@ export default function ({ grant }) {
   return (
     <Link
       className="p-2 text-xs bg-white rounded-lg text-[#202124]"
-      to={`/incentive/grant/${grant?.grant?.incentivePlanId}/${grant?.grant?.grantId}/detail`}
+      to={`/grants/${grant?.grant?.grantId}/sign`}
     >
       <div className="flex justify-between mb-2.5">
         <span className="block px-2 border rounded text-[#8C8C8C]">

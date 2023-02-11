@@ -50,11 +50,7 @@ export default function ({ list = [], loading = false }) {
           ?.render();
         // Draft-编辑操作-跳转对应grant创建编辑页
         // signing的是链接
-        return stauts === 2 ? (
-          <Link to={`/grants/${record.grant?.grantId}/sign`}>{content}</Link>
-        ) : (
-          content
-        );
+        return <Link to={`/grants/${record.grant?.grantId}/sign`}>{content}</Link>
       },
     },
     {

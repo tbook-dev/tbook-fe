@@ -87,7 +87,7 @@ function PlanList() {
     const activeIdx = list2Formated[0]?.idx || 0;
     // pc后面增加1，手机端后面增加1
     setActiveIndex(pc ? activeIdx + 1 : activeIdx);
-    // console.log(list1[activeIdx]?.incentivePlanId)
+    // console.log(list1[activeIdx+1]?.incentivePlanId)
     // !pc &&
     //   dispatchFilter({
     //     type: "Plan",
@@ -104,7 +104,7 @@ function PlanList() {
     if (Status !== null) {
       res = res.filter((grant) => grant?.grant?.grantStatus === Status);
     }
-
+    // console.log(filters)
     if (Plan !== null) {
       res = res.filter((grant) => grant?.grant?.incentivePlanId === Plan);
     }
@@ -170,7 +170,7 @@ function PlanList() {
               }}
               onSlideChange={(w) => {
                 if (drawerOpen) return;
-                let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
+                let incentivePlanId = tipList[pc?w.realIndex -1 : w.realIndex]?.incentivePlanId;
                 // console.log(w, incentivePlanId, w.realIndex);
                 if (
                   (pc && w.realIndex === 0) ||
