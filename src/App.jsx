@@ -20,7 +20,7 @@ import { watchAccount, getAccount, fetchSigner } from "wagmi/actions";
 import { Web3Modal } from "@web3modal/react";
 import { WalletProvider, SuietWallet } from '@suiet/wallet-kit';
 import '@suiet/wallet-kit/style.css';
-import { wagmiClient, ethereumClient, changeAccountSignIn } from "./utils/web3";
+import { wagmiClient, ethereumClient, changeAccountSignIn, logout } from "./utils/web3";
 
 configResponsive({
   pc: 1120,
@@ -29,7 +29,10 @@ configResponsive({
 const currentAccount = getAccount()
 watchAccount(async (acc) => {
   console.log("account changed:", acc)
-  if (acc.address != currentAccount.address) {
+  if (currentAccount.address == acc.address) return
+  if (!acc.address) {  // disconnect
+    logout().then((r) => {location.href = location})
+  } else {
     const signer = await fetchSigner()
     changeAccountSignIn(acc.address, signer).then((r) => {location.href = location})
   }

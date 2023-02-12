@@ -12,6 +12,7 @@ import { publicProvider } from 'wagmi/providers/public'
 import { mainnet, bsc } from "wagmi/chains";
 
 import {ConnectButton, useAccountBalance, useWallet, useCoinBalance, useChain, SuiChainId} from "@suiet/wallet-kit";
+import { reset } from "../store/user";
 
 const chains = [mainnet, bsc];
 
@@ -71,29 +72,29 @@ export async function loginWithSign(address, sign) {
 async function signLogin(addr, signer, chain, pubKey) {
   if(!addr) return;
   const address = addr.toLowerCase()
-  return fetch(
+  const r = await fetch(
     `${host}/nonce?address=${address}`,
     { credentials: "include" }
   )
-    .then((r) => r.text())
-    .then((t) =>  signer.signMessage(t))
-    .then((s) => {
-      const d = new FormData();
-      d.append("address", address);
-      d.append("sign", s);
-      d.append("chain", chain);
-      if (pubKey) {
-        d.append("publicKey", pubKey);
-      }
-      return fetch(`${host}/authenticate`, {
+  const nonce = await r.text()
+  const sign = await signer.signMessage(nonce)
+  const d = new FormData();
+  d.append("address", address);
+  d.append("sign", sign);
+  d.append("chain", chain);
+  if (pubKey) {
+    d.append("publicKey", pubKey);
+  }
+  const authResult = await fetch(`${host}/authenticate`, {
         credentials: "include",
         method: "POST",
         body: d,
       });
-    });
+  return authResult;
 }
 
 export function logout() {
+  reset()
   return fetch(
     `${host}/signout`,
     { credentials: "include" }

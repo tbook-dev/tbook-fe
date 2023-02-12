@@ -37,11 +37,13 @@ function GrantSign() {
   const [tipInfo, setTipInfo] = useState({});
   // const navigate = useNavigate();
   const [scheduleInfo, setSchedule] = useState({});
+  const authUser = useSelector((state) => state.user.authUser);
   const userInfo = useSelector((state) => state.user.user);
   const { signMessageAsync } = useSignMessage();
   const { isDisconnected } = useAccount()
   const { connectAsync, connectors } = useConnect();
   const { open } = useWeb3Modal();
+
   // const projects = useSelector((state) => state.user.projects);
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
@@ -56,31 +58,34 @@ function GrantSign() {
 
   // console.log(signStatus);
   useAsyncEffect(async () => {
+    if (!authUser) return;
     const list = await getGrantSignInfo(null, grantId);
     setSignList(list);
-  }, [grantId]);
+  }, [grantId, authUser]);
 
   // 获取grant信息
   useAsyncEffect(async () => {
+    if (!authUser) return;
     const info = await getGrantInfo(grantId);
     setGrantInfo(info);
     setTipId(info.incentivePlanId);
-  }, [grantId]);
+  }, [grantId, authUser]);
 
   // 获取tip信息
   useAsyncEffect(async () => {
-    if (!tipId) return;
+    if (!authUser || !tipId) return;
     const tipInfo = await getTIPInfo(tipId);
     setTipInfo(tipInfo);
-  }, [tipId]);
+  }, [tipId, authUser]);
 
   // vesting schedule信息
 
   useAsyncEffect(async () => {
+    if (!authUser) return;
     const vestingSchedule = await getGrantVestingScheduleInfo(grantId);
     // console.log("vestingSchedule->", vestingSchedule);
     setSchedule(vestingSchedule || {});
-  }, [grantId]);
+  }, [grantId, authUser]);
 
   async function handleSign(sign) {
     if (isDisconnected) {
