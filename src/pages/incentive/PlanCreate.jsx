@@ -1,4 +1,4 @@
-import React, {  useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   Button,
@@ -60,10 +60,11 @@ function PlanCreate() {
   console.log("project->", project);
 
   function handleCreatePlan() {
-    setConfirmLoading(true);
     form
       .validateFields()
       .then((values) => {
+        setConfirmLoading(true);
+
         values.incentivePlanAdminId = userStore?.user?.userId;
         values.projectId = projectId;
         if (values.target === "7") {
