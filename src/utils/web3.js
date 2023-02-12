@@ -95,7 +95,7 @@ async function signLogin(addr, signer, chain, pubKey) {
 
 export function logout() {
   return fetch(
-    `${host}/logout`,
+    `${host}/signout`,
     { credentials: "include" }
   )
 }

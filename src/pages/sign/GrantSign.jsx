@@ -23,7 +23,9 @@ import Header from "../component/Header";
 import Card from "./card";
 import clsx from "clsx";
 import VestedCard from "./vested";
-import { useSignMessage } from "wagmi";
+import { useSignMessage, useConnect } from "wagmi";
+import { useAccount } from "wagmi";
+import { useWeb3Modal } from "@web3modal/react";
 
 const { Paragraph } = Typography;
 
@@ -37,6 +39,9 @@ function GrantSign() {
   const [scheduleInfo, setSchedule] = useState({});
   const userInfo = useSelector((state) => state.user.user);
   const { signMessageAsync } = useSignMessage();
+  const { isDisconnected } = useAccount()
+  const { connectAsync, connectors } = useConnect();
+  const { open } = useWeb3Modal();
   // const projects = useSelector((state) => state.user.projects);
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
@@ -78,7 +83,15 @@ function GrantSign() {
   }, [grantId]);
 
   async function handleSign(sign) {
-    //const web3 = await loadWeb3();
+    if (isDisconnected) {
+      if (window.ethereum) {
+        await connectAsync({
+          connector: connectors.find((c) => c.id == "injected"),
+        });
+      } else {
+        await open("ConnectWallet");
+      }
+    }
     signMessageAsync({ message: sign.signInfo })
       .then((s) => {
         return postGrantSignInfo(null, grantId, sign.grantSignId, s);
