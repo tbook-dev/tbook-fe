@@ -135,7 +135,7 @@ function PlanList() {
               <Spin />
             </div>
           ) : !authUser ? (
-            <PlanTipNoConnect pc={pc}/>
+            <PlanTipNoConnect pc={pc} />
           ) : (
             <>
               <div className="hidden lg:flex lg:justify-center lg:items-center absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>
@@ -279,21 +279,33 @@ function PlanList() {
         </div>
       ) : (
         <div className="block lg:hidden">
-          {swiper?.realIndex !== tipList.length && (
-            <div className="fixed left-0 right-0 bottom-8">
-              <Link
-                to={`/incentive/grant/${
-                  swiper?.realIndex !== tipList.length
-                    ? tipList[swiper?.realIndex]?.incentivePlanId
-                    : "tmp"
-                }/create`}
-                className="flex items-center justify-center  w-60 h-[35px] bg-[#0049FF] text-white text-[16px] leading-[20px] mx-auto rounded-3xl"
-              >
-                <PlusOutlined />
-                <span className="mx-6">New Grant</span>
-              </Link>
-            </div>
-          )}
+          <div className="fixed left-0 right-0 flex justify-center bottom-8">
+            {tipList.length === 0 ? (
+              <Button type="primary" size="large" disabled>
+                <span>
+                  <PlusOutlined />
+                  <span className="font-roboto">New Grant</span>
+                </span>
+              </Button>
+            ) : (
+              swiper?.realIndex !== 0 && (
+                <Link
+                  to={`/incentive/grant/${
+                    swiper?.realIndex !== 0
+                      ? tipList[swiper?.realIndex]?.incentivePlanId
+                      : "tmp"
+                  }/create`}
+                >
+                  <Button type="primary" size="large">
+                    <span>
+                      <PlusOutlined />
+                      <span className="font-roboto">New Grant</span>
+                    </span>
+                  </Button>
+                </Link>
+              )
+            )}
+          </div>
 
           {/* <Drawer
             placement="bottom"
