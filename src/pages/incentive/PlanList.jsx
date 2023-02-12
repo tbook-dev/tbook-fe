@@ -135,12 +135,12 @@ function PlanList() {
               <Spin />
             </div>
           ) : !authUser ? (
-            <PlanTipNoConnect />
+            <PlanTipNoConnect pc={pc}/>
           ) : (
             <>
               <div className="hidden lg:flex lg:justify-center lg:items-center absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>
               <div className="hidden lg:flex lg:justify-center lg:items-center absolute swiper-button-prev !-left-12 border !w-8 !h-8 rounded-full"></div>
-              
+
               <Swiper
                 modules={[Navigation]}
                 spaceBetween={16}
@@ -244,7 +244,7 @@ function PlanList() {
             <h2 className="text-[32px] lg:text-[24px]">Grants</h2>
 
             {tipList.length === 0 ? (
-              <Button type="primary" shape="round" size="large" disabled>
+              <Button type="primary" size="large" disabled>
                 <span>
                   <PlusOutlined />
                   <span className="font-roboto">New Grant</span>
@@ -259,7 +259,7 @@ function PlanList() {
                       : "tmp"
                   }/create`}
                 >
-                  <Button type="primary" shape="round" size="large">
+                  <Button type="primary" size="large">
                     <span>
                       <PlusOutlined />
                       <span className="font-roboto">New Grant</span>
