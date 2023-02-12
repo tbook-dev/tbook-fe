@@ -102,7 +102,7 @@ function DropdownProfile() {
         })}
       </div>
 
-      <Link to="/incentive/create" onClick={() => setDropdownOpen(false)}>
+      <Link to="/create/project" onClick={() => setDropdownOpen(false)}>
         <div className="px-3 border-t text-center py-2 text-[#999] text-[16px] leading-[24px]">
           New Incentive plan for a new project
         </div>

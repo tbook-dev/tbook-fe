@@ -130,7 +130,7 @@ function PlanList() {
             </div>
           </div>
 
-          <Link to="/incentive/create">
+          <Link to="/create/plan">
             <Button type="primary" shape="round" ghost size="large">
               <span>
                 <PlusOutlined />
@@ -223,7 +223,7 @@ function PlanList() {
                 >
                   {({ isActive }) => {
                     return (
-                      <NavLink to={`/incentive/create`}>
+                      <NavLink to={`/create/plan`}>
                         <div
                           className={clsx(
                             "w-[80vw] h-[180px]",

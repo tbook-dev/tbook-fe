@@ -24,10 +24,11 @@ import _ from "lodash";
 import { useResponsive } from "ahooks";
 import AvatarWallet from "./avatarWallet";
 import useProjects from "@/hooks/useProjects";
-
+import NetWork from "@/components/icon/NetWork";
 import planIcon from "@/images/incentive/plan.svg";
 import cardbgpc from "@/images/incentive/headers/planpc.png";
 import cardbg from "@/images/incentive/headers/plan.png";
+import { useParams } from "react-router-dom";
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
@@ -49,6 +50,8 @@ function PlanCreate() {
   const inputRef = useRef(null);
   const { pc } = useResponsive();
   const mainNetwork = project?.chain;
+
+  const { pageType } = useParams();
 
   const preOptions = Object.entries(targetMap).map(([value, desc]) => ({
     label: desc,
@@ -104,7 +107,7 @@ function PlanCreate() {
             </h1>
           </header>
 
-          {projects.length === 0 ? (
+          {pageType === "project" ? (
             <div className="lg:bg-white lg:shadow-c5 rounded-xl lg:px-4 lg:py-6">
               <div className="text-[#333] mb-3 text-[14px] leading-[24px] lg:mb-2 lg:text-[24px] lg:leading-[32px]">
                 Label your project name to start incentive plan
@@ -125,9 +128,7 @@ function PlanCreate() {
                     if (mainNetwork !== v.name) return null;
                     return (
                       <div className="flex items-center" key={v.evmChainId}>
-                        {React.createElement(v.render, {
-                          className: "mr-1",
-                        })}
+                        <NetWork id={v.evmChainId} className="mr-1" />
                         <span className="text-[#333]">{v.name}</span>
                       </div>
                     );
@@ -184,9 +185,7 @@ function PlanCreate() {
                                 className="flex items-center"
                                 key={v.evmChainId}
                               >
-                                {React.createElement(v.render, {
-                                  className: "mr-1",
-                                })}
+                                <NetWork id={v.evmChainId} className="mr-1" />
                                 <span className="text-[#333]">
                                   {project?.projectName}
                                 </span>
@@ -212,7 +211,10 @@ function PlanCreate() {
                 </div>
               )}
 
-              <div className="overflow-hidden bg-white rounded-xl shadow-c5" id="plan">
+              <div
+                className="overflow-hidden bg-white rounded-xl shadow-c5"
+                id="plan"
+              >
                 <div className="h-10 lg:h-[67px] relative overflow-hidden">
                   <img
                     src={pc ? cardbgpc : cardbg}

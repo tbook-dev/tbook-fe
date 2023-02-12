@@ -17,7 +17,7 @@ const routes =[
         component: lazy(() => import('@/pages/incentive/ProjectPlanCreate'))
     },
     {
-        path: '/incentive/create',
+        path: '/create/:pageType',
         layout: 'v1',
         component: lazy(() => import('@/pages/incentive/PlanCreate'))
     },
