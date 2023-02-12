@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { targetMap, getDividePercent, formatDollar } from "@/utils/const";
 import { useMemo } from "react";
 import inActivePlan from "@/images/incentive/inactive-plan.png";
+import bgpc from "@/images/incentive/all-plan.png";
 
 export default function ({ tip, pc }) {
   const conf = useMemo(() => {
@@ -28,14 +29,14 @@ export default function ({ tip, pc }) {
           "h-full flex flex-col-reverse  justify-between lg:flex-col"
         )}
         style={{
-          backgroundImage: `url(${!pc ? inActivePlan : null})`,
+          backgroundImage: `url(${pc ? bgpc : inActivePlan})`,
         }}
       >
-        <div className="flex items-center px-4 pt-4 pb-6 lg:pb-0 lg:items-start lg:flex-col-reverse">
+        <div className="flex items-center px-4 pt-4 pb-6 lg:pb-0">
           <p className="mr-2 text-base leading-none m-0 lg:text-xl lg:leading-none text-[#202124]">
             {tip.incentivePlanName}
           </p>
-          <span className="border m-0 lg:mb-2 flex items-center px-4 text-xs leading-none py-[3px] text-[#0049FF] border-[#0049FF] rounded-full">
+          <span className="border m-0 flex items-center px-4 text-xs leading-none py-[3px] text-[#0049FF] border-[#0049FF] rounded-full">
             {tip.target == "7"
               ? tip.customized_target_name
               : targetMap[tip.target]}

@@ -20,6 +20,8 @@ import clsx from "clsx";
 import newPlanUrl from "@/images/incentive/new-plan.png";
 import ActiveCard from "./planCard/Active";
 import InActiveCard from "./planCard/InActive";
+import AllActiveCard from "./planCard/AllActive";
+import AllInActiveCard from "./planCard/AllInActive";
 import GrantCard from "./grantCard";
 import FilterPanel from "./filter";
 import { Spin } from "antd";
@@ -139,8 +141,11 @@ function PlanList() {
             </div>
           ) : !authUser ? (
             <PlanTipNoConnect pc={pc} />
-          ) : projects.length === 0 ? (
-            <PlanTipNoProject pc={pc} />
+          ) : projects.length === 0 || tipList.length === 0 ? (
+            <PlanTipNoProject
+              pc={pc}
+              link={projects.length === 0 ? "/create/project" : "/create/plan"}
+            />
           ) : (
             <>
               <div className="hidden lg:flex lg:justify-center lg:items-center absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>
@@ -153,8 +158,8 @@ function PlanList() {
                 centeredSlides={pc}
                 onSwiper={setSwiper}
                 initialSlide={activeIndex}
-                observeSlideChildren
-                loop={pc}
+                // observeSlideChildren
+                loop={pc && tipList.length > 3}
                 navigation={{
                   nextEl: ".swiper-button-next",
                   prevEl: ".swiper-button-prev",
@@ -181,9 +186,18 @@ function PlanList() {
                   });
                 }}
               >
-                {pc && (
-                  <SwiperSlide key="all" style={{ width: "auto" }}>
-                    all
+                {tipList.length > 1 && (
+                  <SwiperSlide
+                    key="all"
+                    style={{ width: "auto", paddingBottom: "10px" }}
+                  >
+                    {({ isActive }) => {
+                      return isActive ? (
+                        <AllActiveCard pc={pc} />
+                      ) : (
+                        <AllInActiveCard pc={pc} />
+                      );
+                    }}
                   </SwiperSlide>
                 )}
 
@@ -195,14 +209,10 @@ function PlanList() {
                         style={{ width: "auto", paddingBottom: "10px" }}
                       >
                         {({ isActive }) => {
-                          return (
-                            <NavLink to={`/incentive/${tip.incentivePlanId}`}>
-                              {isActive ? (
-                                <ActiveCard tip={tip} pc={pc} />
-                              ) : (
-                                <InActiveCard tip={tip} pc={pc} />
-                              )}
-                            </NavLink>
+                          return isActive ? (
+                            <ActiveCard tip={tip} pc={pc} />
+                          ) : (
+                            <InActiveCard tip={tip} pc={pc} />
                           );
                         }}
                       </SwiperSlide>

@@ -3,7 +3,7 @@ import bg from "./noProject.png";
 import bgm from "@/images/incentive/all-plan-m.png";
 import { Link } from "react-router-dom";
 
-export default function ({ pc }) {
+export default function ({ pc, link }) {
   // console.log({ loading, handleSignIn})
   return pc ? (
     <div
@@ -19,7 +19,7 @@ export default function ({ pc }) {
         </p>
       </div>
 
-      <Link to="/create/project">
+      <Link to={link}>
         <Button size="large" type="primary">
           + New Plan
         </Button>
@@ -32,7 +32,7 @@ export default function ({ pc }) {
         backgroundImage: `url(${bgm})`,
       }}
     >
-      <Link to="/create/project">
+      <Link to={link}>
         <Button size="large" type="primary">
           + New Plan
         </Button>
