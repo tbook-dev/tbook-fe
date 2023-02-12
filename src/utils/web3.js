@@ -95,16 +95,13 @@ async function signLogin(addr, signer, chain, pubKey) {
 
 export function logout() {
   return fetch(
-    `${host}/logout`,
+    `${host}/signout`,
     { credentials: "include" }
   )
 }
 
 export async function changeAccountSignIn(addr, signer) {
-  return fetch(
-    `${host}/logout`,
-    { credentials: "include" }
-  ).then(() => signLoginMetaMask(addr, signer))
+  return logout().then(() => signLoginMetaMask(addr, signer))
 }
 
 export async function signLoginMetaMask(addr, signer) {
