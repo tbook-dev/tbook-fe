@@ -29,6 +29,7 @@ import planIcon from "@/images/incentive/plan.svg";
 import cardbgpc from "@/images/incentive/headers/planpc.png";
 import cardbg from "@/images/incentive/headers/plan.png";
 import { useParams } from "react-router-dom";
+import { useNetwork } from "wagmi";
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
@@ -36,6 +37,7 @@ function PlanCreate() {
   const [form] = Form.useForm();
   const [formProject] = Form.useForm();
   const dispatch = useDispatch();
+  const { chain } = useNetwork();
 
   const userStore = useSelector((state) => state.user);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -49,7 +51,8 @@ function PlanCreate() {
   const [customizeOptions, setCustomizeOptions] = useState(null);
   const inputRef = useRef(null);
   const { pc } = useResponsive();
-  const mainNetwork = project?.chain;
+  const mainNetwork = project?.chain || chain?.name || "Ethereum";
+  // console.log("mainNetwork", mainNetwork, chain);
 
   const { pageType } = useParams();
 
@@ -61,7 +64,7 @@ function PlanCreate() {
     ? [...preOptions, customizeOptions]
     : preOptions;
 
-  console.log("project->", project);
+  // console.log("project->", project);
 
   function handleCreatePlan() {
     form

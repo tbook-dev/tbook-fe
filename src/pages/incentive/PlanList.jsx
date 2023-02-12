@@ -11,6 +11,7 @@ import { Button, Drawer, Empty } from "antd";
 import { useAsyncEffect, useResponsive } from "ahooks";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import useUserInfoLoading from "@/hooks/useUserInfoLoading";
+import useProjects from "@/hooks/useProjects";
 import _ from "lodash";
 import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +27,7 @@ import { filterReducer, initialFilters } from "@/store/parts";
 import dayjs from "dayjs";
 import { useSigner, useAccount } from "wagmi";
 import PlanTipNoConnect from "./planTip/NoConnect";
+import PlanTipNoProject from "./planTip/NoProject";
 
 function PlanList() {
   const [swiper, setSwiper] = useState(null);
@@ -41,6 +43,7 @@ function PlanList() {
   const [drawerOpen, setDrawer] = useState(false);
   const { pc } = useResponsive();
   const [filters, dispatchFilter] = useReducer(filterReducer, initialFilters);
+  const projects = useProjects();
 
   const { data: signer } = useSigner();
   const { address } = useAccount();
@@ -136,6 +139,8 @@ function PlanList() {
             </div>
           ) : !authUser ? (
             <PlanTipNoConnect pc={pc} />
+          ) : projects.length === 0 ? (
+            <PlanTipNoProject pc={pc} />
           ) : (
             <>
               <div className="hidden lg:flex lg:justify-center lg:items-center absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>

@@ -1,33 +1,40 @@
-import { Link } from "react-router-dom";
 import { Button } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import planIcon from "@/images/incentive/plan.svg";
-import bg from "./noConnect.png";
+import bg from "./noProject.png";
+import bgm from "@/images/incentive/all-plan-m.png";
+import { Link } from "react-router-dom";
 
-export default function () {
-  return (
+export default function ({ pc }) {
+  // console.log({ loading, handleSignIn})
+  return pc ? (
     <div
-      className="flex items-center justify-between rounded-2xl border bg-cover border-[#DADCE0] pt-7 pb-5 px-4"
+      className="hidden lg:flex items-center justify-between rounded-2xl border bg-cover border-[#DADCE0] px-8 py-[38px]"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="flex items-center">
-        <img className="mr-4 w-14" src={planIcon} />
-        <div className="flex-auto">
-          <p className="text-2xl leading-[32px] mb-1">
-            New Token Incentive Plan
-          </p>
-          <p className="text-base">
-            Connect wallet to set up your incentive plan.
-          </p>
-        </div>
+      <div>
+        <p className="text-[24px] leading-[32px] text-[#333] mb-1">
+          New Token Incentive Plan
+        </p>
+        <p className="text-[16px] leading-[24px] text-[#999]">
+          Connect wallet to set up your incentive plan.
+        </p>
       </div>
 
-      <Link to="/create/plan">
-        <Button type="primary" shape="round" ghost size="large">
-          <span>
-            <PlusOutlined />
-            <span className="ml-2 font-roboto">New Plan</span>
-          </span>
+      <Link to="/create/project">
+        <Button size="large" type="primary">
+          + New Plan
+        </Button>
+      </Link>
+    </div>
+  ) : (
+    <div
+      className="h-[180px] bg-cover shadow-c2 rounded-2xl flex justify-center items-center"
+      style={{
+        backgroundImage: `url(${bgm})`,
+      }}
+    >
+      <Link to="/create/project">
+        <Button size="large" type="primary">
+          + New Plan
         </Button>
       </Link>
     </div>
