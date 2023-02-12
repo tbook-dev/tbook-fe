@@ -1,4 +1,4 @@
-import React, { Children, useState } from "react";
+import React, { useState } from "react";
 import { Button, Drawer } from "antd";
 import { chains } from "@/utils/const";
 import Network from "../icon/NetWork";
@@ -7,7 +7,6 @@ import { useResponsive } from "ahooks";
 import { Popover } from "antd";
 import clsx from "clsx";
 import { logout } from "@/utils/web3";
-import { reset } from '@/store/user';
 import { useDispatch } from "react-redux";
 
 
@@ -24,6 +23,7 @@ export default function ({
   const { chain } = useNetwork();
   const  currentId = networkId || chain?.id || 1
 
+  // console.log('currentId', {chain}, currentId)
   // sui
   // console.log("chain", chain);
 
@@ -52,9 +52,9 @@ export default function ({
           <div
             className={clsx(
               "flex items-center py-2 pl-24  hover:text-[#666] cursor-pointer",
-              networkId === v.evmChainId
+              currentId === v.evmChainId
                 ? "text-[#0049FF] bg-[#ECF1FF]"
-                : "text-[#999] hover:bg-white"
+                : "text-[#999] bg-white hover:bg-white"
             )}
             onClick={() => {
               setOpenLay(false);
