@@ -308,7 +308,7 @@ function PlanList() {
             </div>
           )}
 
-          <Drawer
+          {/* <Drawer
             placement="bottom"
             closable={false}
             open={drawerOpen}
@@ -329,7 +329,7 @@ function PlanList() {
 
           <nav>
             <Button onClick={() => setDrawer(true)}>open</Button>
-          </nav>
+          </nav> */}
 
           <div
             className={clsx(
