@@ -17,11 +17,12 @@ import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser, fetchUserInfo } from "@/store/user";
 import clsx from "clsx";
-import newPlanUrl from "@/images/incentive/new-plan.png";
 import ActiveCard from "./planCard/Active";
 import InActiveCard from "./planCard/InActive";
 import AllActiveCard from "./planCard/AllActive";
 import AllInActiveCard from "./planCard/AllInActive";
+import AddActiveCard from "./planCard/AddActive";
+import AddInActiveCard from "./planCard/AddInActive";
 import GrantCard from "./grantCard";
 import FilterPanel from "./filter";
 import { Spin } from "antd";
@@ -75,32 +76,34 @@ function PlanList() {
     const list2 = await Promise.all(
       list1.map((tip) => getTipGrantList(tip.incentivePlanId))
     );
-    let activeIdx = list1.findIndex(t => t.incentivePlanId == selectedTipId);
+    let activeIdx = list1.findIndex((t) => t.incentivePlanId == selectedTipId);
     if (!activeIdx) {
       const list2Formated = _.cloneDeep(list2)
-      ?.map((planGrants) => {
-        const sortedList = planGrants.sort((a, b) => {
+        ?.map((planGrants) => {
+          const sortedList = planGrants.sort((a, b) => {
+            return dayjs(a?.grant?.updateTime).isBefore(
+              dayjs(b?.grant?.updateTime)
+            )
+              ? -1
+              : 1;
+          });
+          const lastOne = sortedList.pop();
+          return lastOne;
+        })
+        .map((item, idx) => ({ ...item, idx }))
+        .filter((item) => item.grant)
+        .sort((a, b) => {
           return dayjs(a?.grant?.updateTime).isBefore(
             dayjs(b?.grant?.updateTime)
           )
-            ? -1
-            : 1;
+            ? 1
+            : -1;
         });
-        const lastOne = sortedList.pop();
-        return lastOne;
-      })
-      .map((item, idx) => ({ ...item, idx }))
-      .filter((item) => item.grant)
-      .sort((a, b) => {
-        return dayjs(a?.grant?.updateTime).isBefore(dayjs(b?.grant?.updateTime))
-          ? 1
-          : -1;
-      });
       activeIdx = list2Formated[0]?.idx || 0;
     }
     // const activeIdx = list2Formated[0]?.idx || 0;
     // pc后面增加1，手机端后面增加1
-    setActiveIndex(pc ? activeIdx + 1 : activeIdx);
+    setActiveIndex(activeIdx + 1);
     // console.log(list1[activeIdx+1]?.incentivePlanId)
     // !pc &&
     //   dispatchFilter({
@@ -173,16 +176,18 @@ function PlanList() {
                 onSlideChange={(w) => {
                   if (drawerOpen) return;
                   let incentivePlanId =
-                    tipList[pc ? w.realIndex - 1 : w.realIndex]
-                      ?.incentivePlanId;
+                    tipList[w.realIndex - 1]?.incentivePlanId;
                   // console.log(w, incentivePlanId, w.realIndex);
-                  if (
-                    (pc && w.realIndex === 0) ||
-                    (!pc && w.realIndex === tipList.length)
-                  ) {
+                  if (w.realIndex === 0) {
                     return dispatchFilter({
                       type: "Plan",
                       payload: null,
+                    });
+                  }
+                  if (w.realIndex === tipList.length) {
+                    return dispatchFilter({
+                      type: "Plan",
+                      payload: -1,
                     });
                   }
                   // if (!pc && w.activeIndex === tipList.length) return;
@@ -225,34 +230,20 @@ function PlanList() {
                     );
                   })}
 
-                {!pc && (
+                {
                   <SwiperSlide
                     key="add"
                     style={{ width: "auto", paddingBottom: "10px" }}
                   >
                     {({ isActive }) => {
-                      return (
-                        <NavLink to={`/create/plan`}>
-                          <div
-                            className={clsx(
-                              "w-[80vw] h-[180px]",
-                              !isActive && "py-2.5"
-                            )}
-                          >
-                            <div
-                              style={{ backgroundImage: `url(${newPlanUrl})` }}
-                              className="h-full bg-cover rounded-[24px] text-[#0049FF] text-[60px] flex justify-center items-center"
-                            >
-                              <span className="flex items-center justify-center w-20 h-20 bg-white rounded-full">
-                                +
-                              </span>
-                            </div>
-                          </div>
-                        </NavLink>
+                      return isActive ? (
+                        <AddActiveCard pc={pc} />
+                      ) : (
+                        <AddInActiveCard pc={pc} />
                       );
                     }}
                   </SwiperSlide>
-                )}
+                }
               </Swiper>
             </>
           )}
