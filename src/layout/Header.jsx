@@ -6,9 +6,15 @@ import logoText from "@/images/icon/logo-text.svg";
 import logo from "@/images/icon/logo.svg";
 import { useResponsive } from "ahooks";
 import { Link } from "react-router-dom";
+import { Spin } from "antd";
 
 function Header({ sidebarOpen, setSidebarOpen }) {
   const authUser = useSelector((state) => state.user.authUser);
+
+  const loadingUserStatus = useSelector(
+    (state) => state.user.loadingUserStatus
+  );
+  // console.log('loadingUserStatus->',loadingUserStatus)
   const { pc } = useResponsive();
 
   return (
@@ -18,7 +24,7 @@ function Header({ sidebarOpen, setSidebarOpen }) {
           {/* Header: Left side */}
           <div className="flex">
             <Link to="/incentive">
-              <img src={pc ? logoText : logo} className="mr-2 h-9 lg:h-auto"/>
+              <img src={pc ? logoText : logo} className="mr-2 h-9 lg:h-auto" />
             </Link>
 
             {/* Hamburger button */}
@@ -46,7 +52,13 @@ function Header({ sidebarOpen, setSidebarOpen }) {
 
           {/* Header: Right side */}
           <div className="flex items-center space-x-3">
-            {authUser ? <UserMenu align="right" /> : <Connect />}
+            {loadingUserStatus ? (
+              <Spin />
+            ) : authUser ? (
+              <UserMenu align="right" />
+            ) : (
+              <Connect />
+            )}
           </div>
         </div>
       </div>

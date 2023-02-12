@@ -10,6 +10,7 @@ import GrantTable from "./GrantTable";
 import { Button, Drawer, Empty } from "antd";
 import { useAsyncEffect, useResponsive } from "ahooks";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
+import useUserInfoLoading from "@/hooks/useUserInfoLoading";
 import _ from "lodash";
 import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +32,8 @@ function PlanList() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [tipList, updateTipList] = useState([]);
   const [grantList, updateGrantList] = useState([]);
-  const [grantLoading, setGrantLoading] = useState(true);
+  const [grantLoading, setGrantLoading] = useState(false);
+  const userLoading = useUserInfoLoading()
   const projectId = useCurrentProjectId();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -150,7 +152,7 @@ function PlanList() {
         <div className="relative h-[190px]">
           <div className="hidden lg:flex lg:justify-center lg:items-center absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>
           <div className="hidden lg:flex lg:justify-center lg:items-center absolute swiper-button-prev !-left-12 border !w-8 !h-8 rounded-full"></div>
-          {grantLoading ? (
+          { (userLoading || grantLoading) ? (
             <div className="flex items-center justify-center w-full h-full">
               <Spin />
             </div>
@@ -337,7 +339,7 @@ function PlanList() {
                 : "grid-cols-1"
             )}
           >
-            {grantLoading ? (
+            {(userLoading || grantLoading)  ? (
               <Spin />
             ) : filterGrantList(grantList).length > 0 ? (
               filterGrantList(grantList).map((grant) => (

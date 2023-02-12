@@ -6,6 +6,7 @@ const initialState = {
   value: 0,
   authUser: false,
   authHeader: "",
+  loadingUserStatus: false,
   currentProjectId: getCurrentProjectId(),
   projects: [
     // {
@@ -33,10 +34,23 @@ const initialState = {
 export const fetchUserInfo = createAsyncThunk(
   `userInfo`,
   async (_, thunkAPI) => {
-    const response = await getUserInfo();
-    thunkAPI.dispatch(setUser(response?.user || {}));
-    thunkAPI.dispatch(setProjects(response?.projects || []));
-    return response.data;
+    thunkAPI.dispatch(setLoadingUserStatus(true));
+    try {
+      return getUserInfo()
+        .then((response) => {
+          console.log("response", response);
+          thunkAPI.dispatch(setUser(response?.user || {}));
+          thunkAPI.dispatch(setProjects(response?.projects || []));
+        })
+        .catch((err) => {
+          console.log(err, "xxx");
+        })
+        .finally(() => {
+          thunkAPI.dispatch(setLoadingUserStatus(false));
+        });
+    } catch (error) {
+      console.log("error getUserInfo", err);
+    }
   }
 );
 
@@ -61,6 +75,9 @@ export const userSlice = createSlice({
       state.authUser = action.payload;
       // console.log(action);
     },
+    setLoadingUserStatus: (state, action) => {
+      state.loadingUserStatus = action.payload;
+    },
     reset: (state) => {
       saveCurrentProjectId(null);
       state = { ...initialState, currentProjectId: null };
@@ -76,6 +93,7 @@ export const {
   setAuthUser,
   setCurrentProjectId,
   reset,
+  setLoadingUserStatus,
 } = userSlice.actions;
 
 export default userSlice.reducer;
