@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getUserInfo } from "@/api/incentive";
-import { getCurrentProjectId, saveCurrentProjectId } from '@/api/ls'
-
+import { getCurrentProjectId, saveCurrentProjectId } from "@/api/ls";
 
 const initialState = {
   value: 0,
@@ -31,13 +30,15 @@ const initialState = {
   },
 };
 
-
-export const fetchUserInfo = createAsyncThunk(`userInfo`, async (_, thunkAPI) => {
-  const response = await getUserInfo();
-  thunkAPI.dispatch(setUser(response?.user || {}));
-  thunkAPI.dispatch(setProjects(response?.projects || []));
-  return response.data;
-});
+export const fetchUserInfo = createAsyncThunk(
+  `userInfo`,
+  async (_, thunkAPI) => {
+    const response = await getUserInfo();
+    thunkAPI.dispatch(setUser(response?.user || {}));
+    thunkAPI.dispatch(setProjects(response?.projects || []));
+    return response.data;
+  }
+);
 
 export const userSlice = createSlice({
   name: "user",
@@ -47,8 +48,8 @@ export const userSlice = createSlice({
       state.authHeader = action.payload;
     },
     setCurrentProjectId: (state, action) => {
-      state.currentProjectId = action.payload
-      saveCurrentProjectId(action.payload)
+      state.currentProjectId = action.payload;
+      saveCurrentProjectId(action.payload);
     },
     setUser: (state, action) => {
       state.user = action.payload;
@@ -60,11 +61,21 @@ export const userSlice = createSlice({
       state.authUser = action.payload;
       // console.log(action);
     },
+    reset: (state) => {
+      saveCurrentProjectId(null);
+      state = { ...initialState, currentProjectId: null };
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, setProjects, updateAuthHeader, setAuthUser, setCurrentProjectId } =
-  userSlice.actions;
+export const {
+  setUser,
+  setProjects,
+  updateAuthHeader,
+  setAuthUser,
+  setCurrentProjectId,
+  reset,
+} = userSlice.actions;
 
 export default userSlice.reducer;

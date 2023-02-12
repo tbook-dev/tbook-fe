@@ -6,23 +6,39 @@ import { useNetwork, useSwitchNetwork } from "wagmi";
 import { useResponsive } from "ahooks";
 import { Popover } from "antd";
 import clsx from "clsx";
+import { logout } from "@/utils/web3";
+import { reset } from '@/store/user';
+import { useDispatch } from "react-redux";
+
 
 // type = [button,logo]
-export default function ({ type = "button", placement = "bottomRight" }) {
+export default function ({
+  type = "button",
+  networkId,
+  placement = "bottomRight",
+}) {
   const { pc } = useResponsive();
   const [openLay, setOpenLay] = useState(false);
-  const { chain } = useNetwork();
+  const dispatch = useDispatch();
   const { switchNetwork } = useSwitchNetwork();
-  // sui
-  console.log("chain", chain);
+  const { chain } = useNetwork();
+  const  currentId = networkId || chain?.id || 1
 
-  function handleSwitch(id) {
+  // sui
+  // console.log("chain", chain);
+
+  async function handleSwitch(id) {
     // 1 Ethereum
     // 56 BNB
-    switchNetwork(id);
-    setOpenLay(false);
+    if(switchNetwork){
+      switchNetwork(id)
+    }
+    // switchNetwork && switchNetwork(id);
+    // setOpenLay(false);
     // disconnect();
-    // logout();
+    // dispatch(reset());
+    await logout();
+    window.location.reload();
   }
 
   const Lay = () => (
@@ -35,13 +51,13 @@ export default function ({ type = "button", placement = "bottomRight" }) {
           <div
             className={clsx(
               "flex items-center py-2 pl-24  hover:text-[#666] cursor-pointer",
-              chain?.id === v.evmChainId
+              networkId === v.evmChainId
                 ? "text-[#0049FF] bg-[#ECF1FF]"
                 : "text-[#999] hover:bg-white"
             )}
             onClick={() => {
               setOpenLay(false);
-              if (chain?.id === v.evmChainId) {
+              if (currentId === v.evmChainId) {
                 return;
               }
               handleSwitch(v.evmChainId);
@@ -57,6 +73,8 @@ export default function ({ type = "button", placement = "bottomRight" }) {
   );
 
   const Content = () => {
+    const chain = chains.find((v) => v.evmChainId === currentId);
+
     if (type === "button") {
       return (
         <Button
@@ -65,7 +83,7 @@ export default function ({ type = "button", placement = "bottomRight" }) {
             setOpenLay(true);
           }}
         >
-          <Network id={chain?.id} className="lg:mr-2" />
+          <Network id={chain?.evmChainId} className="lg:mr-2" />
           <span className="hidden lg:block">{chain?.name}</span>
         </Button>
       );
@@ -77,7 +95,7 @@ export default function ({ type = "button", placement = "bottomRight" }) {
             setOpenLay(true);
           }}
         >
-          <Network id={chain?.id} />
+          <Network id={chain?.evmChainId} />
         </span>
       );
     }
@@ -86,36 +104,34 @@ export default function ({ type = "button", placement = "bottomRight" }) {
 
   return (
     <>
-      {chain ? (
-        pc ? (
-          <Popover
-            onOpenChange={(v) => setOpenLay(v)}
-            content={<Lay />}
-            trigger="click"
+      {pc ? (
+        <Popover
+          onOpenChange={(v) => setOpenLay(v)}
+          content={<Lay />}
+          trigger="click"
+          open={openLay}
+          placement={placement}
+        >
+          <Content />
+        </Popover>
+      ) : (
+        <>
+          <Content />
+          <Drawer
+            placement="bottom"
+            closable={false}
             open={openLay}
-            placement={placement}
+            contentWrapperStyle={{
+              height: "50vh",
+              borderRadius: "24px 24px 0px 0px",
+              overflow: "hidden",
+            }}
+            onClose={() => setOpenLay(false)}
           >
-            <Content />
-          </Popover>
-        ) : (
-          <>
-            <Content />
-            <Drawer
-              placement="bottom"
-              closable={false}
-              open={openLay}
-              contentWrapperStyle={{
-                height: "50vh",
-                borderRadius: "24px 24px 0px 0px",
-                overflow: "hidden",
-              }}
-              onClose={() => setOpenLay(false)}
-            >
-              <Lay />
-            </Drawer>
-          </>
-        )
-      ) : null}
+            <Lay />
+          </Drawer>
+        </>
+      )}
     </>
   );
 }

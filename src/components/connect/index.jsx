@@ -40,7 +40,7 @@ export default function () {
   const { switchNetwork } = useSwitchNetwork();
   // sui
   const suiWallet = useWallet();
-  console.log("chain", chain);
+  // console.log("chain", chain);
 
   const [showSuiModal, setShowSuiModal] = useState(false);
 

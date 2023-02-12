@@ -8,16 +8,19 @@ import dashboardIcon1 from "@/images/icon/dashboard1.svg";
 import dashboardIcon2 from "@/images/icon/dashboard2.svg";
 import settingIcon1 from "@/images/icon/setting1.svg";
 import settingIcon2 from "@/images/icon/setting2.svg";
-import { useNetwork } from "wagmi";
 import SwitchNet from "@/components/connect/switch";
 import { useResponsive } from "ahooks";
+import useCurrentProject from '@/hooks/useCurrentProject'
+import { chains } from "@/utils/const";
+
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const trigger = useRef(null);
   const sidebar = useRef(null);
-  const { chain } = useNetwork();
   const { pc } = useResponsive();
-
+  const project = useCurrentProject();
+  const projectChain = chains.find(v => project.chain === v.name )
+  // console.log('projectChain', projectChain)
   const authUser = useSelector((state) => state.user.authUser);
 
   const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
@@ -149,9 +152,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             </div>
 
             <div className="pb-[145px]">
-              {chain && authUser && pc && (
+              {/* 1、当前项目的网络; 2、默认以太坊*/}
+              {authUser && pc && (
                 <div className="flex flex-col items-center justify-center cursor-pointer">
-                  <SwitchNet type="logo" placement="right" />
+                  <SwitchNet type="logo" placement="right" networkId={projectChain?.evmChainId || 1}/>
                 </div>
               )}
 
