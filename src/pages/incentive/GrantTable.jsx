@@ -1,5 +1,5 @@
 import React from "react";
-import { Table } from "antd";
+import { Table, ConfigProvider, Empty } from "antd";
 import { grantStatusList, grantType, formatDollar } from "@/utils/const";
 import { Link } from "react-router-dom";
 import { shortAddress } from "@/utils/const";
@@ -50,7 +50,9 @@ export default function ({ list = [], loading = false }) {
           ?.render();
         // Draft-编辑操作-跳转对应grant创建编辑页
         // signing的是链接
-        return <Link to={`/grants/${record.grant?.grantId}/sign`}>{content}</Link>
+        return (
+          <Link to={`/grants/${record.grant?.grantId}/sign`}>{content}</Link>
+        );
       },
     },
     {
@@ -121,12 +123,14 @@ export default function ({ list = [], loading = false }) {
   ];
 
   return (
-    <Table
-      bordered
-      loading={loading}
-      columns={columns}
-      rowKey={(record) => record?.grant?.grantId}
-      dataSource={list}
-    />
+    <ConfigProvider renderEmpty={() => <Empty description="No Grants" />}>
+      <Table
+        bordered
+        loading={loading}
+        columns={columns}
+        rowKey={(record) => record?.grant?.grantId}
+        dataSource={list}
+      />
+    </ConfigProvider>
   );
 }
