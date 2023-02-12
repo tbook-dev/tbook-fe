@@ -46,7 +46,7 @@ function DropdownProfile() {
 
   async function handleLogout(){
     await logout();
-    window.location.reload()
+    window.location.href = `${location.origin}/incentive`
   }
 
   const Content = () => (

@@ -38,7 +38,8 @@ export default function ({
     // disconnect();
     // dispatch(reset());
     await logout();
-    window.location.reload();
+    // window.location.reload();
+    window.location.href = `${location.origin}/incentive`
   }
 
   const Lay = () => (
