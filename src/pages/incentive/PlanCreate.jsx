@@ -74,7 +74,7 @@ function PlanCreate() {
 
         createTIP(values).then((res) => {
           setConfirmLoading(false);
-          navigate(`/incentive/${res.incentivePlanId}`);
+          navigate(`/incentive`);
         });
       })
       .catch((err) => {
