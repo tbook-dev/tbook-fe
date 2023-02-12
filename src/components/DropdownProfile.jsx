@@ -13,6 +13,8 @@ import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import useProjects from "@/hooks/useProjects";
 import useCurrentProject from "@/hooks/useCurrentProject";
 import { useResponsive } from "ahooks";
+import { logout } from "@/utils/web3";
+
 
 function DropdownProfile() {
   const userStore = useSelector((state) => state.user.user);
@@ -42,6 +44,11 @@ function DropdownProfile() {
     setDropdownOpen(false);
   };
 
+  async function handleLogout(){
+    await logout();
+    window.location.reload()
+  }
+
   const Content = () => (
     <div className="-mx-6 lg:-mx-3">
       <div className="relative flex items-center justify-between lg:justify-end w-full px-6 pb-2.5 lg:border-b">
@@ -53,7 +60,7 @@ function DropdownProfile() {
         </div>
 
         <div
-          onClick={() => setDropdownOpen(false)}
+          onClick={handleLogout}
           className="cursor-pointer w-6 h-6 bg-[#ECF1FF] rounded-lg flex items-center justify-center"
         >
           <img src={closeIcon} />
