@@ -101,10 +101,7 @@ export function logout() {
 }
 
 export async function changeAccountSignIn(addr, signer) {
-  return fetch(
-    `${host}/logout`,
-    { credentials: "include" }
-  ).then(() => signLoginMetaMask(addr, signer))
+  return logout().then(() => signLoginMetaMask(addr, signer))
 }
 
 export async function signLoginMetaMask(addr, signer) {
