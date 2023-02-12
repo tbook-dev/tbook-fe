@@ -40,7 +40,6 @@ function PlanCreate() {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [projectLoading, setProjectLoading] = useState(false);
   const [firstCreated, setFirstCreated] = useState(false);
-  const [mainNetwork] = useState("Ethereum");
 
   const navigate = useNavigate();
   const projectId = useCurrentProjectId();
@@ -49,6 +48,8 @@ function PlanCreate() {
   const [customizeOptions, setCustomizeOptions] = useState(null);
   const inputRef = useRef(null);
   const { pc } = useResponsive();
+  const mainNetwork = project?.chain;
+
   const preOptions = Object.entries(targetMap).map(([value, desc]) => ({
     label: desc,
     value: value,
@@ -211,7 +212,7 @@ function PlanCreate() {
                 </div>
               )}
 
-              <div className="overflow-hidden bg-white rounded-xl shadow-c5">
+              <div className="overflow-hidden bg-white rounded-xl shadow-c5" id="plan">
                 <div className="h-10 lg:h-[67px] relative overflow-hidden">
                   <img
                     src={pc ? cardbgpc : cardbg}
@@ -281,7 +282,6 @@ function PlanCreate() {
                                             label: val,
                                             value: "7",
                                           });
-                                        form.setFieldValue("target", "7");
                                       }}
                                       icon={<CheckOutlined />}
                                     />
