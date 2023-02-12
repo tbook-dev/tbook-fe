@@ -38,7 +38,7 @@ export const fetchUserInfo = createAsyncThunk(
     try {
       return getUserInfo()
         .then((response) => {
-          console.log("response", response);
+          // console.log("response", response);
           thunkAPI.dispatch(setUser(response?.user || {}));
           thunkAPI.dispatch(setProjects(response?.projects || []));
         })

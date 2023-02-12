@@ -54,9 +54,9 @@ function PlanList() {
 
   const selectedTipId = searchParams.get("tipId");
 
-  console.log("authUser", authUser);
+  // console.log("authUser", authUser);
   async function handleSignIn() {
-    console.log("authUser", authUser);
+    // console.log("authUser", authUser);
     if (authUser) {
       navigate("/incentive/create");
     } else {
@@ -77,7 +77,7 @@ function PlanList() {
       list1.map((tip) => getTipGrantList(tip.incentivePlanId))
     );
     let activeIdx = list1.findIndex((t) => t.incentivePlanId == selectedTipId);
-    if (!activeIdx) {
+    if (activeIdx === -1) {
       const list2Formated = _.cloneDeep(list2)
         ?.map((planGrants) => {
           const sortedList = planGrants.sort((a, b) => {
@@ -100,10 +100,13 @@ function PlanList() {
             : -1;
         });
       activeIdx = list2Formated[0]?.idx || 0;
+      // console.log(list2Formated[0].incentivePlanId)`
     }
     // const activeIdx = list2Formated[0]?.idx || 0;
     // pc后面增加1，手机端后面增加1
     setActiveIndex(activeIdx + 1);
+    // console.log('activeIdx',activeIdx + 1)
+
     // console.log(list1[activeIdx+1]?.incentivePlanId)
     // !pc &&
     //   dispatchFilter({
@@ -177,7 +180,7 @@ function PlanList() {
                   if (drawerOpen) return;
                   let incentivePlanId =
                     tipList[w.realIndex - 1]?.incentivePlanId;
-                  // console.log(w, incentivePlanId, w.realIndex);
+                  // console.log(incentivePlanId, w.realIndex);
                   if (w.realIndex === 0) {
                     return dispatchFilter({
                       type: "Plan",
