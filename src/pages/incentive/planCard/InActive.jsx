@@ -32,18 +32,18 @@ export default function ({ tip, pc }) {
           backgroundImage: `url(${pc ? bgpc : inActivePlan})`,
         }}
       >
-        <div className="flex items-center px-4 pt-4 pb-6 lg:pb-0">
-          <p className="mr-2 text-base leading-none m-0 lg:text-xl lg:leading-none text-[#202124]">
+        <div className="flex items-center px-4 pt-4 pb-6 lg:pb-0 lg:pt-5">
+          <p className="max-w-[80px] truncate mr-2 text-base leading-none m-0 lg:text-xl lg:leading-none text-[#202124]">
             {tip.incentivePlanName}
           </p>
-          <span className="border m-0 flex items-center px-4 text-xs leading-none py-[3px] text-[#0049FF] border-[#0049FF] rounded-full">
+          <span className="max-w-[80px] truncate border m-0 flex items-center px-4 text-xs leading-none py-[3px] text-[#0049FF] border-[#0049FF] rounded-full">
             {tip.target == "7"
               ? tip.customized_target_name
               : targetMap[tip.target]}
           </span>
         </div>
 
-        <div className="hidden lg:grid grid-cols-1 bg-white gap-y-2 lg:gap-y-1 px-4 pt-4 lg:pt-0 pb-2.5">
+        <div className="hidden grid-cols-1 px-4 pt-4 pb-5 lg:grid gap-y-2 lg:gap-y-1 lg:pt-0">
           {conf.map((v) => {
             return (
               <div

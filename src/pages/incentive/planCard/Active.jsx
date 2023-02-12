@@ -44,25 +44,25 @@ export default function ({ tip, pc }) {
       }}
     >
       <div className="flex items-center px-4 py-2.5">
-        <p className="mr-2 text-base leading-none m-0 lg:text-xl lg:leading-none text-[#202124]">
+        <p className="max-w-[80px] truncate mr-2 text-base leading-none m-0 lg:text-xl lg:leading-[24px] text-[#202124]">
           {tip.incentivePlanName}
         </p>
-        <span className="border m-0 flex items-center px-4 text-xs leading-none py-[3px] text-[#0049FF] border-[#0049FF] rounded-full">
+        <span className="max-w-[80px] truncate border m-0 flex items-center px-4 text-xs leading-none lg:leading-[20px] py-[3px] text-[#0049FF] border-[#0049FF] rounded-full">
           {tip.target == "7"
             ? tip.customized_target_name
             : targetMap[tip.target]}
         </span>
       </div>
 
-      <div className="grid grid-cols-1 bg-white gap-y-2 lg:gap-y-1 px-4 pt-4 lg:pt-0 pb-2.5">
+      <div className="grid grid-cols-1 bg-white gap-y-2 lg:gap-y-1 px-4 pt-4 pb-2.5 lg:py-6">
         {conf.map((v) => {
           return (
             <div
               className="flex justify-between text-xs leading-4 lg:text-xs lg:leading-[14px]"
               key={v.title}
             >
-              <p className="text-[#8C8C8C]">{v.title}</p>
-              <p className="text-[#202124]">{v.value}</p>
+              <p className="text-[#666]">{v.title}</p>
+              <p className="text-[#333]">{v.value}</p>
             </div>
           );
         })}
