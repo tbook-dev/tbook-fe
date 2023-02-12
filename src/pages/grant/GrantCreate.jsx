@@ -182,7 +182,8 @@ function GrantCreate() {
       return;
     }
     setLoadingCreate(false);
-    navigate(`/grants/${grantInfo?.entity?.grantId}/sign`);
+    navigate(`/incentive?tipId=${values.incentivePlanId}`);
+    // navigate(`/grants/${grantInfo?.entity?.grantId}/sign`);
   }
 
   function handleAddGrantee() {

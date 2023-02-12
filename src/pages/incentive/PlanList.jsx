@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useCallback } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate, useSearchParams } from "react-router-dom";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
@@ -43,10 +43,13 @@ function PlanList() {
   const [drawerOpen, setDrawer] = useState(false);
   const { pc } = useResponsive();
   const [filters, dispatchFilter] = useReducer(filterReducer, initialFilters);
+  const [searchParams] = useSearchParams();
   const projects = useProjects();
 
   const { data: signer } = useSigner();
   const { address } = useAccount();
+
+  const selectedTipId = searchParams.get("tipId");
 
   console.log("authUser", authUser);
   async function handleSignIn() {
@@ -70,7 +73,9 @@ function PlanList() {
     const list2 = await Promise.all(
       list1.map((tip) => getTipGrantList(tip.incentivePlanId))
     );
-    const list2Formated = _.cloneDeep(list2)
+    let activeIdx = list1.findIndex(t => t.incentivePlanId == selectedTipId);
+    if (!activeIdx) {
+      const list2Formated = _.cloneDeep(list2)
       ?.map((planGrants) => {
         const sortedList = planGrants.sort((a, b) => {
           return dayjs(a?.grant?.updateTime).isBefore(
@@ -89,8 +94,9 @@ function PlanList() {
           ? 1
           : -1;
       });
-
-    const activeIdx = list2Formated[0]?.idx || 0;
+      activeIdx = list2Formated[0]?.idx || 0;
+    }
+    // const activeIdx = list2Formated[0]?.idx || 0;
     // pc后面增加1，手机端后面增加1
     setActiveIndex(pc ? activeIdx + 1 : activeIdx);
     // console.log(list1[activeIdx+1]?.incentivePlanId)

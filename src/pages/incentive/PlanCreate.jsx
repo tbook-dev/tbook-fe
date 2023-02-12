@@ -78,9 +78,9 @@ function PlanCreate() {
           values.customized_target_name = customizeOptions.label;
         }
 
-        createTIP(values).then((res) => {
+        createTIP(values).then((tip) => {
           setConfirmLoading(false);
-          navigate(`/incentive`);
+          navigate(`/incentive?tipId=${tip.incentivePlanId}`);
         });
       })
       .catch((err) => {
