@@ -9,7 +9,7 @@ export default function ({ pc }) {
     <div
       className={clsx(
         "flex justify-center items-center bg-cover shadow-c2 rounded-lg overflow-hidden relative",
-        "w-[80vw] h-[180px] flex flex-col lg:w-[264px] lg:h-[194px]"
+        "w-[80vw] h-[180px] flex flex-col lg:w-[264px]"
       )}
       style={{
         backgroundImage: `url(${pc ? bgpc : bg})`,
