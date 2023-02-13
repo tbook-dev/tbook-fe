@@ -19,7 +19,7 @@ module.exports = {
         lg: "0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.01)",
         xl: "0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.01)",
         c1: "1px 2px 2px rgba(0, 0, 0, 0.25)",
-        c2: "4px 4px 4px rgba(0, 0, 0, 0.25)",
+        c2: "1px 1px 10px rgba(0, 0, 0, 0.1)",
         c3: "0px 1px 2px rgba(15, 23, 42, 0.04)",
         c4: "4px 4px 8px rgba(15, 23, 42, 0.04)",
         c5: "1px 1px 10px rgba(0, 0, 0, 0.1)",
@@ -27,7 +27,8 @@ module.exports = {
         c7: "0px -4px 16px rgba(0, 0, 0, 0.1)",
         c8: "0px 0px 6px rgba(0, 0, 0, 0.1)",
         c9: "0px 2px 4px rgba(0, 0, 0, 0.04)",
-        c10: "0px -4px 20px rgba(0, 0, 0, 0.1)"
+        c10: "0px -4px 20px rgba(0, 0, 0, 0.1)",
+        c11: "0px 2px 6px rgba(0, 0, 0, 0.04)"
       },
       outline: {
         blue: "2px solid rgba(0, 112, 244, 0.5)",

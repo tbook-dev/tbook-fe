@@ -6,7 +6,7 @@ export default function ({ pc }) {
   return (
     <div
       className={clsx(
-        "flex justify-center items-center bg-cover shadow-c2 border rounded-2xl overflow-hidden relative",
+        "flex justify-center items-center bg-cover shadow-c2 rounded-lg overflow-hidden relative",
         "w-[80vw] h-[180px] flex flex-col lg:w-[264px] lg:h-[194px]"
       )}
       style={{

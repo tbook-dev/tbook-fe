@@ -7,7 +7,7 @@ export default function ({ pc }) {
     <div className="w-[70vw] h-[180px] py-2.5 px-0 lg:w-[220px] lg:h-[136px] lg:py-0 lg:px-0">
       <div
         className={clsx(
-          "bg-cover shadow-c2 border rounded-2xl overflow-hidden relative",
+          "bg-cover shadow-c2 rounded-lg overflow-hidden relative",
           "h-full flex flex-col-reverse  justify-between lg:flex-end lg:pb-[22px] lg:pl-4"
         )}
         style={{

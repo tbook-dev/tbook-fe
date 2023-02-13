@@ -25,7 +25,7 @@ export default function ({ tip, pc }) {
     <div className="w-[70vw] h-[180px] py-2.5 px-0 lg:w-[220px] lg:h-[136px] lg:py-0 lg:px-0">
       <div
         className={clsx(
-          "bg-cover shadow-c2 border rounded-2xl overflow-hidden relative",
+          "bg-cover shadow-c2 rounded-lg overflow-hidden relative",
           "h-full flex flex-col-reverse  justify-between lg:flex-col"
         )}
         style={{
@@ -33,10 +33,10 @@ export default function ({ tip, pc }) {
         }}
       >
         <div className="flex items-center px-4 pt-4 pb-6 lg:pb-0 lg:pt-5">
-          <p className="max-w-[80px] truncate mr-2 text-base leading-none m-0 lg:text-xl lg:leading-none text-[#202124]">
+          <p className="max-w-[50%] truncate mr-2 text-base leading-none m-0 lg:text-xl lg:leading-none text-[#202124]">
             {tip.incentivePlanName}
           </p>
-          <span className="max-w-[80px] truncate border m-0 flex items-center px-4 text-xs leading-none py-[3px] text-[#0049FF] border-[#0049FF] rounded-full">
+          <span className="max-w-[50%] truncate border m-0 flex items-center px-4 text-xs leading-[16px] py-px lg:leading-[20px]  text-[#0049FF] border-[#0049FF] rounded	 lg:rounded-md">
             {tip.target == "7"
               ? tip.customized_target_name
               : targetMap[tip.target]}
