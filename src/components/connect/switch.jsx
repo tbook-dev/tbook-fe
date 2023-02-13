@@ -43,7 +43,7 @@ export default function ({
   }
 
   const Lay = () => (
-    <div className="-mx-6 lg:-mx-3 w-[300px]">
+    <div className="-mx-6 lg:-mx-3 w-auto lg:w-[300px]">
       <div className="text-[18px] leading-[24px] text-center pt-7 pb-6">
         <p className="text-[#333]">Choose the network</p>
       </div>
@@ -51,7 +51,7 @@ export default function ({
         {chains.map((v) => (
           <div
             className={clsx(
-              "flex items-center py-2 pl-24  hover:text-[#666] cursor-pointer",
+              "flex items-center justify-center py-2  hover:text-[#666] cursor-pointer",
               currentId === v.evmChainId
                 ? "text-[#0049FF] bg-[#ECF1FF]"
                 : "text-[#999] bg-white hover:bg-white"
@@ -65,8 +65,8 @@ export default function ({
             }}
             key={v.evmChainId}
           >
-            <Network id={v?.evmChainId} className="lg:mr-2" />
-            <span className="hidden lg:block">{v?.name}</span>
+            <Network id={v?.evmChainId} className="mr-1 lg:mr-2" />
+            <span className="!lg:block">{v?.name}</span>
           </div>
         ))}
       </div>
@@ -79,12 +79,12 @@ export default function ({
     if (type === "button") {
       return (
         <Button
-          className="flex items-center"
+          className="!flex !items-center"
           onClick={() => {
             setOpenLay(true);
           }}
         >
-          <Network id={chain?.evmChainId} className="lg:mr-2" />
+          <Network id={chain?.evmChainId} className="mr-1 lg:mr-2" />
           <span className="hidden lg:block">{chain?.name}</span>
         </Button>
       );
