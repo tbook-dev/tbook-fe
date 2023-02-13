@@ -10,23 +10,17 @@ import settingIcon1 from "@/images/icon/setting1.svg";
 import settingIcon2 from "@/images/icon/setting2.svg";
 import SwitchNet from "@/components/connect/switch";
 import { useResponsive } from "ahooks";
-import useCurrentProject from '@/hooks/useCurrentProject'
+import useCurrentProject from "@/hooks/useCurrentProject";
 import { chains } from "@/utils/const";
-
 
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const trigger = useRef(null);
   const sidebar = useRef(null);
   const { pc } = useResponsive();
   const project = useCurrentProject();
-  const projectChain = chains.find(v => project.chain === v.name )
+  const projectChain = chains.find((v) => project.chain === v.name);
   // console.log('projectChain', projectChain)
   const authUser = useSelector((state) => state.user.authUser);
-
-  const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
-  const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
-  );
 
   // close on click outside
   useEffect(() => {
@@ -53,15 +47,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
     document.addEventListener("keydown", keyHandler);
     return () => document.removeEventListener("keydown", keyHandler);
   });
-
-  useEffect(() => {
-    localStorage.setItem("sidebar-expanded", sidebarExpanded);
-    if (sidebarExpanded) {
-      document.querySelector("body").classList.add("sidebar-expanded");
-    } else {
-      document.querySelector("body").classList.remove("sidebar-expanded");
-    }
-  }, [sidebarExpanded]);
 
   return (
     <div className="fixed top-0 left-0 z-40 h-screen lg:top-16">
@@ -155,7 +140,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               {/* 1、当前项目的网络; 2、默认以太坊*/}
               {authUser && pc && (
                 <div className="flex flex-col items-center justify-center cursor-pointer">
-                  <SwitchNet type="logo" placement="right" networkId={projectChain?.evmChainId || 1}/>
+                  <SwitchNet
+                    type="logo"
+                    placement="right"
+                    networkId={projectChain?.evmChainId || 1}
+                  />
                 </div>
               )}
 
