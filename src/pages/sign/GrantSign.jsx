@@ -40,7 +40,7 @@ function GrantSign() {
   const authUser = useSelector((state) => state.user.authUser);
   const userInfo = useSelector((state) => state.user.user);
   const { signMessageAsync } = useSignMessage();
-  const { isDisconnected } = useAccount()
+  const { isDisconnected } = useAccount();
   const { connectAsync, connectors } = useConnect();
   const { open } = useWeb3Modal();
 
@@ -48,8 +48,8 @@ function GrantSign() {
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
   const signStatus = useMemo(() => {
-    if(signList.length === 0 ){
-      return 'pending'
+    if (signList.length === 0) {
+      return "pending";
     }
     return signList.filter((sg) => sg.grantSign.signStatus === 1).length !== 0
       ? "pending"
@@ -118,73 +118,76 @@ function GrantSign() {
 
   const Sign = () => {
     return (
-      <div className="text-[#333] lg:bg-white lg:rounded-t-lg shadow-none lg:shadow-c7 mx-auto">
-        <div className="lg:w-[600px] mx-auto lg:py-20">
-          <div className="mb-2 lg:mb-4 text-[12px] leading-[16px] lg:text-[16px] lg:leading-[28px]">
-            <p>1. Please confirm and sign this grant.</p>
-            <p>
-              2. Please copy and send the following link to the grantee.(if you
-              are the grantee, please ignore it).
-            </p>
-            <p>
-              3. After the administrator and the grantee complete the signature,
-              this grant will come into effect.
-            </p>
-          </div>
-          <div className="px-1 rounded-lg mb-2 lg:mb-6 lg:px-6 lg:py-2.5 border shadow-c8">
-            <a href={location.href} target="_blank">
-              <Paragraph
-                copyable={{ text: location.href }}
-                className="flex justify-between my-4 "
-              >
-                <span className="text-[#7CA2FF] underline decoration-[#7CA2FF]">
-                  {location.href}
-                </span>
-              </Paragraph>
-            </a>
-          </div>
-
-          <div className="grid grid-cols-1 gap-y-2 lg:gap-y-4">
-            {signList.map((sg, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className={clsx(
-                    "flex justify-between items-center py-1 px-2  rounded-md",
-                    sg.signer.userId == userInfo.userId
-                      ? "bg-[#ECF1FF]"
-                      : "bg-[#f2f2f2]"
-                  )}
+      <div className="text-[#333] lg:w-[600px] mx-auto">
+        <div className=" lg:bg-white lg:-mx-[310px] lg:py-8 lg:rounded-t-lg lg:shadow-c10">
+          <div className="lg:w-[600px] mx-auto">
+            <div className="mb-2 lg:mb-4 text-[12px] leading-[16px] lg:text-[14px] lg:leading-[22px]">
+              <p>1. Please confirm and sign this grant.</p>
+              <p>
+                2. Please copy and send the following link to the grantee.(if
+                you are the grantee, please ignore it).
+              </p>
+              <p>
+                3. After the administrator and the grantee complete the
+                signature,this grant will come into effect.
+              </p>
+            </div>
+            <div className="px-2 rounded-lg mb-2 lg:mb-4 lg:px-6 lg:py-2.5 shadow-c8">
+              <a href={location.href} target="_blank">
+                <Paragraph
+                  copyable={{ text: location.href }}
+                  className="flex justify-between py-3 lg:py-0"
+                  style={{ marginBottom: 0 }}
                 >
-                  <div className="flex items-center ">
-                    <div className="w-6 h-6 bg-[#0049FF] mr-2 rounded-full flex justify-center items-center">
-                      <img src={sg.signer.avatar} className="w-6 h-6" />
-                    </div>
-                    <div className="flex flex-col justify-center">
-                      <h3 className="text-[12px] leading-[16px] text-[#1C1B1F]">
-                        {sg.signer.name}
-                      </h3>
+                  <span className="text-[#7CA2FF] underline decoration-[#7CA2FF]">
+                    {location.href}
+                  </span>
+                </Paragraph>
+              </a>
+            </div>
 
-                      <p className="text-xxs leading-[15px] text-[#999] lg:text-[14px] lg:leading-[20px]">
-                        {shortAddress(sg.signer.mainWallet)}
-                      </p>
+            <div className="grid grid-cols-1 gap-y-2 lg:gap-y-4">
+              {signList.map((sg, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className={clsx(
+                      "flex justify-between items-center py-1 px-2 lg:pr-6 lg:pl-0 lg:h-14 rounded-md",
+                      sg.signer.userId == userInfo.userId
+                        ? "bg-[#ECF1FF]"
+                        : "bg-[#f2f2f2]"
+                    )}
+                  >
+                    <div className="flex items-center ">
+                      <div className="w-6 h-6 bg-[#0049FF] lg:w-10 lg:h-10 lg:mx-4 mr-2 rounded-full flex justify-center items-center">
+                        <img src={sg.signer.avatar} className="w-6 h-6" />
+                      </div>
+                      <div className="flex flex-col justify-center">
+                        <h3 className="text-[12px] leading-[16px] text-[#1C1B1F]">
+                          {sg.signer.name}
+                        </h3>
+
+                        <p className="text-xxs leading-[15px] text-[#999] lg:text-[14px] lg:leading-[20px]">
+                          {shortAddress(sg.signer.mainWallet)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div>
+                      {sg.grantSign.signStatus === 1 &&
+                      sg.signer.userId == userInfo.userId ? (
+                        <Button
+                          type="primary"
+                          onClick={() => handleSign(sg.grantSign)}
+                        >
+                          Sign
+                        </Button>
+                      ) : null}
                     </div>
                   </div>
-
-                  <div>
-                    {sg.grantSign.signStatus === 1 &&
-                    sg.signer.userId == userInfo.userId ? (
-                      <Button
-                        type="primary"
-                        onClick={() => handleSign(sg.grantSign)}
-                      >
-                        Sign
-                      </Button>
-                    ) : null}
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
@@ -299,7 +302,7 @@ function GrantSign() {
       <div
         className={clsx(
           "pt-3 space-y-6 lg:pt-6 lg:mb-4",
-          signStatus === "pending" && " mb-[300px]"
+          signStatus === "pending" && " mb-[300px] lg:mb-[440px]"
         )}
       >
         <Header title="Grant Detail" className="mb-0" />
@@ -327,7 +330,7 @@ function GrantSign() {
       </div>
 
       {signStatus === "pending" && (
-        <div className="fixed bottom-0 left-0 right-0 p-4 bg-white rounded-t-lg lg:relative lg:-mx-[318px] lg:p-0 lg:bg-transparent lg:shadow-none shadow-c6">
+        <div className="fixed bottom-0 left-0 right-0 p-4 bg-white rounded-t-lg lg:bg-transparent lg:pb-0 lg:shadow-none shadow-c6">
           <Sign />
         </div>
       )}
