@@ -8,6 +8,7 @@ specifiers:
   '@suiet/wallet-kit': ^0.1.20
   '@tailwindcss/forms': ^0.5.2
   '@vitejs/plugin-react': ^2.0.0
+  '@walletconnect/ethereum-provider': ^2.4.0
   '@web3modal/ethereum': ^2.1.1
   '@web3modal/react': ^2.1.1
   ahooks: ^3.7.3
@@ -47,6 +48,7 @@ dependencies:
   '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
   '@suiet/wallet-kit': 0.1.20_biqbaboplfbrettd7655fr4n2y
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
+  '@walletconnect/ethereum-provider': 2.4.0_react@18.2.0
   '@web3modal/ethereum': 2.1.1
   '@web3modal/react': 2.1.1_biqbaboplfbrettd7655fr4n2y
   ahooks: 3.7.4_react@18.2.0
@@ -3397,6 +3399,36 @@ packages:
       - utf-8-validate
     dev: false
 
+  /@walletconnect/core/2.4.0:
+    resolution: {integrity: sha512-JsyKtzSmwtKDCaMFe3Vr5Dx2JVOLKsZJ55m8lC/C3Dt5Nph1KAAq/7xO/rkTSkbRB4e3KuqKO11ynhhrvks/aw==}
+    dependencies:
+      '@walletconnect/heartbeat': 1.2.0
+      '@walletconnect/jsonrpc-provider': 1.0.6
+      '@walletconnect/jsonrpc-utils': 1.0.4
+      '@walletconnect/jsonrpc-ws-connection': 1.0.7
+      '@walletconnect/keyvaluestorage': 1.0.2
+      '@walletconnect/logger': 2.0.1
+      '@walletconnect/relay-api': 1.0.7
+      '@walletconnect/relay-auth': 1.0.4
+      '@walletconnect/safe-json': 1.0.1
+      '@walletconnect/time': 1.0.2
+      '@walletconnect/types': 2.4.0
+      '@walletconnect/utils': 2.4.0
+      events: 3.3.0
+      lodash.isequal: 4.5.0
+      pino: 7.11.0
+      uint8arrays: 3.1.0
+    transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - bufferutil
+      - lokijs
+      - typescript
+      - utf-8-validate
+    dev: false
+
   /@walletconnect/crypto/1.0.3:
     resolution: {integrity: sha512-+2jdORD7XQs76I2Odgr3wwrtyuLUXD/kprNVsjWRhhhdO9Mt6WqVzOPu0/t7OHSmgal8k7SoBQzUc5hu/8zL/g==}
     dependencies:
@@ -3438,6 +3470,34 @@ packages:
       - bufferutil
       - debug
       - encoding
+      - utf-8-validate
+    dev: false
+
+  /@walletconnect/ethereum-provider/2.4.0_react@18.2.0:
+    resolution: {integrity: sha512-ARMJN1Gl0apaUY7iZ5SAJ0h2u1eBu9bub9DGVbSOw7QTFNcfSJyyp2q+EjrPesUioaJG6nQ8/FMUaP26CV6ikw==}
+    dependencies:
+      '@walletconnect/jsonrpc-http-connection': 1.0.4
+      '@walletconnect/jsonrpc-provider': 1.0.6
+      '@walletconnect/jsonrpc-types': 1.0.2
+      '@walletconnect/jsonrpc-utils': 1.0.4
+      '@walletconnect/sign-client': 2.4.0
+      '@walletconnect/types': 2.4.0
+      '@walletconnect/universal-provider': 2.3.3
+      '@walletconnect/utils': 2.4.0
+      '@web3modal/standalone': 2.1.1_react@18.2.0
+      eip1193-provider: 1.0.1
+      events: 3.3.0
+    transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - bufferutil
+      - debug
+      - encoding
+      - lokijs
+      - react
+      - typescript
       - utf-8-validate
     dev: false
 
@@ -3618,6 +3678,31 @@ packages:
       - utf-8-validate
     dev: false
 
+  /@walletconnect/sign-client/2.4.0:
+    resolution: {integrity: sha512-0QTKcpel6hQeiXJGFS4TpxbOVbKAbgyp34tkkU/jWuvdEI+ISZWinwbYlGavBzwSUNe2coFtooFTCFgMcUh74w==}
+    dependencies:
+      '@walletconnect/core': 2.4.0
+      '@walletconnect/events': 1.0.1
+      '@walletconnect/heartbeat': 1.2.0
+      '@walletconnect/jsonrpc-provider': 1.0.6
+      '@walletconnect/jsonrpc-utils': 1.0.4
+      '@walletconnect/logger': 2.0.1
+      '@walletconnect/time': 1.0.2
+      '@walletconnect/types': 2.4.0
+      '@walletconnect/utils': 2.4.0
+      events: 3.3.0
+      pino: 7.11.0
+    transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - bufferutil
+      - lokijs
+      - typescript
+      - utf-8-validate
+    dev: false
+
   /@walletconnect/signer-connection/1.8.0:
     resolution: {integrity: sha512-+YAaTAP52MWZJ2wWnqKClKCPlPHBo6reURFe0cWidLADh9mi/kPWGALZ5AENK22zpem1bbKV466rF5Rzvu0ehA==}
     dependencies:
@@ -3656,6 +3741,24 @@ packages:
 
   /@walletconnect/types/2.3.3:
     resolution: {integrity: sha512-g2x27MloGElcRTwYM9Md/1E2RQ5ifYBCFZ/sfnpQrZPVxK3NzSMHJlcV6qrQm9ST82i+UrLEce9RkDgvjKk7+w==}
+    dependencies:
+      '@walletconnect/events': 1.0.1
+      '@walletconnect/heartbeat': 1.2.0
+      '@walletconnect/jsonrpc-types': 1.0.2
+      '@walletconnect/keyvaluestorage': 1.0.2
+      '@walletconnect/logger': 2.0.1
+      events: 3.3.0
+    transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - lokijs
+      - typescript
+    dev: false
+
+  /@walletconnect/types/2.4.0:
+    resolution: {integrity: sha512-hUdvwte7jnycq+B4Wa9czWraH3fDilbzr2/uziQTs61hiafoP7BkS+OrMymeb4HGmo+I2YOgVlc8ngVtdAxOSQ==}
     dependencies:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.0
@@ -3724,6 +3827,33 @@ packages:
       '@walletconnect/safe-json': 1.0.1
       '@walletconnect/time': 1.0.2
       '@walletconnect/types': 2.3.3
+      '@walletconnect/window-getters': 1.0.1
+      '@walletconnect/window-metadata': 1.0.1
+      detect-browser: 5.3.0
+      query-string: 7.1.1
+      uint8arrays: 3.1.0
+    transitivePeerDependencies:
+      - '@react-native-async-storage/async-storage'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - lokijs
+      - typescript
+    dev: false
+
+  /@walletconnect/utils/2.4.0:
+    resolution: {integrity: sha512-wXmy35hCpCNQLr21uFYM0+Wu1ON5J8bKTZ5x4FKaaw5qL24gjHridqUwdepjjkMpU1l3JX2OJGpmmKMyCBSu0g==}
+    dependencies:
+      '@stablelib/chacha20poly1305': 1.0.1
+      '@stablelib/hkdf': 1.0.1
+      '@stablelib/random': 1.0.2
+      '@stablelib/sha256': 1.0.1
+      '@stablelib/x25519': 1.0.3
+      '@walletconnect/jsonrpc-utils': 1.0.4
+      '@walletconnect/relay-api': 1.0.7
+      '@walletconnect/safe-json': 1.0.1
+      '@walletconnect/time': 1.0.2
+      '@walletconnect/types': 2.4.0
       '@walletconnect/window-getters': 1.0.1
       '@walletconnect/window-metadata': 1.0.1
       detect-browser: 5.3.0
