@@ -16,7 +16,7 @@ import { Spin, Drawer } from "antd";
 import clsx from "clsx";
 import { chains } from "@/utils/const";
 import useCurrentProject from "@/hooks/useCurrentProject";
-import SwitchNet from "@/components/connect/switch";
+import SwitchNet from "@/components/connect/switchV0";
 
 function Header() {
   const authUser = useSelector((state) => state.user.authUser);
@@ -115,19 +115,17 @@ function Header() {
           </NavLink>
 
           {/* 1、当前项目的网络; 2、默认以太坊*/}
-          {/* {authUser && (
+          {authUser && (
             <div className="flex items-center px-4 h-14">
               <span className="text-[24px] leading-[32px] text-[#666]">
                 Network ｜
               </span>
               <SwitchNet
-                type="button"
                 placement="rightBottom"
-                forceDrop
                 networkId={projectChain?.evmChainId || 1}
               />
             </div>
-          )} */}
+          )}
         </div>
       </div>
     );
