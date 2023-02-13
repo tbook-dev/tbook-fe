@@ -22,7 +22,6 @@ export default function ({ planName, targetAudince, availableAmount }) {
   const { tipId } = useParams();
   const navigate = useNavigate();
   const { token } = useToken();
-
   useAsyncEffect(async () => {
     if (!projectId) return;
     const list = await getIncentiveList(projectId);
@@ -55,7 +54,7 @@ export default function ({ planName, targetAudince, availableAmount }) {
   return (
     <div className="bg-white rounded-lg shadow-c5">
       <div className="h-10 relative rounded-lg  lg:h-[67px] lg:pr-4 flex justify-between items-center overflow-hidden">
-        <Title text="Plan" className="relative z-10 px-4" color="text-white"/>
+        <Title text="Plan" className="relative z-10 px-4" color="text-white" />
 
         <img
           src={pc ? cardbgpc : cardbg}
@@ -67,6 +66,8 @@ export default function ({ planName, targetAudince, availableAmount }) {
             arrow={{ pointAtCenter: true }}
             trigger="click"
             placement="bottomRight"
+            open={isOpen}
+            onOpenChange={(v) => setOpen(v)}
             menu={{
               items: tipList?.map((v) => ({
                 label: v.incentivePlanName,
@@ -92,8 +93,16 @@ export default function ({ planName, targetAudince, availableAmount }) {
               </div>
             )}
           >
-            <span className=" lg:bg-[rgba(124,162,255,0.12)] z-10 rounded-xl lg:h-12 lg:w-12 flex items-center justify-center cursor-pointer">
-              <SwapOutlined style={{ color: pc ? "#0049FF" : "#7CA2FF" }} />
+            <span
+              onClick={() => {
+                setOpen(true)
+              }}
+              className={clsx(
+                "z-10 rounded-xl lg:h-12 lg:w-12 flex items-center justify-center cursor-pointer",
+                isOpen && "lg:bg-[rgba(124,162,255,0.12)]"
+              )}
+            >
+              <SwapOutlined style={{ color: "#7CA2FF" }} />
             </span>
           </Dropdown>
         ) : (
@@ -101,10 +110,11 @@ export default function ({ planName, targetAudince, availableAmount }) {
             onClick={() => setOpen(!isOpen)}
             className="absolute lg:bg-[rgba(124,162,255,0.12)] rounded-xl bottom-0 top-0  lg:top-2 lg:bottom-2 lg:h-12 lg:w-12 flex items-center justify-center cursor-pointer right-2.5 lg:right-2"
           >
-            <SwapOutlined style={{ color: pc ? "#0049FF" : "#7CA2FF" }} />
+            <SwapOutlined style={{ color: "#7CA2FF" }} />
           </span>
         )}
       </div>
+      
       <div className="divide-y">
         {conf.map((v) => {
           return (
@@ -149,8 +159,8 @@ export default function ({ planName, targetAudince, availableAmount }) {
                     "text-[16px] leading-[16px] py-3 text-center -mx-6",
                     item.disabled ? "text-[#fff] bg-[#0049FF]" : "text-[#999]"
                   )}
-                  onClick={()=>{
-                    if(item.disabled) return;
+                  onClick={() => {
+                    if (item.disabled) return;
                     navigate(`/incentive/grant/${item.key}/create`);
                   }}
                 >
