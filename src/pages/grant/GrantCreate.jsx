@@ -281,7 +281,7 @@ function GrantCreate() {
                   </Form.Item>
                 )} */}
 
-                <div className="lg:px-4">
+                <div>
                   <Title text="Grantee" />
                   <Form.Item
                     label="Choose a Grantee"
@@ -321,7 +321,7 @@ function GrantCreate() {
                   </Form.Item>
                 </div>
 
-                <div className="lg:px-4">
+                <div>
                   <Title text="Grant" />
                   <Form.Item name="tokenType">
                     <Radio.Group>
@@ -368,7 +368,7 @@ function GrantCreate() {
                   </Form.Item>
                 </div>
 
-                <div className="lg:px-4">
+                <div>
                   <Title text="Vesting" />
                   <Form.Item name="grantType">
                     <Radio.Group>
