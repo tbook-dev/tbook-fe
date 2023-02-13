@@ -53,9 +53,9 @@ export default function ({ planName, targetAudince, availableAmount }) {
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-c5">
-      <div className="h-10 relative lg:h-[67px] lg:pr-4 flex justify-between items-center overflow-hidden">
-        <Title text="Plan" className="relative z-10 px-4" />
+    <div className="bg-white rounded-lg shadow-c5">
+      <div className="h-10 relative rounded-lg  lg:h-[67px] lg:pr-4 flex justify-between items-center overflow-hidden">
+        <Title text="Plan" className="relative z-10 px-4" color="text-white"/>
 
         <img
           src={pc ? cardbgpc : cardbg}

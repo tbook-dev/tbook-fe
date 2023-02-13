@@ -30,6 +30,8 @@ import cardbgpc from "@/images/incentive/headers/planpc.png";
 import cardbg from "@/images/incentive/headers/plan.png";
 import { useParams } from "react-router-dom";
 import { useNetwork } from "wagmi";
+import Title from "@/pages/component/Title";
+
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
@@ -215,14 +217,15 @@ function PlanCreate() {
               )}
 
               <div
-                className="overflow-hidden bg-white rounded-xl shadow-c5"
+                className="overflow-hidden bg-white rounded-lg shadow-c5"
                 id="plan"
               >
-                <div className="h-10 lg:h-[67px] relative overflow-hidden">
+                <div className="h-10 lg:h-[67px] relative flex justify-between items-center overflow-hidden">
                   <img
                     src={pc ? cardbgpc : cardbg}
                     className="absolute top-0 left-0 w-full"
                   />
+                  <Title text="Plan" className="relative z-10 px-4" color="text-white"/>
                 </div>
 
                 <div className="relative px-2 pt-2 pb-4 lg:pb-0 lg:pt-6 lg:px-4">
@@ -330,7 +333,7 @@ function PlanCreate() {
                           style={{ width: "100%" }}
                         />
                       </Form.Item>
-                      <div className="text-[#94A3B8] text-xs mt-1 flex">
+                      <div className="text-[#999] text-xs mt-1 flex">
                         There are{" "}
                         {formatDollar(project?.tokenInfo?.surplusTokenNum)}{" "}
                         virtual tokens available
