@@ -85,7 +85,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
         </div>
 
         {/* Links */}
-        <div className="flex-auto mt-16">
+        <div className="flex-auto mt-6">
           {/* Pages group */}
           <div className="flex flex-col justify-between h-full max-h-[900px]">
             <div>
@@ -150,7 +150,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
               <NavLink
                 to="/setting"
-                className="flex flex-col items-center justify-center h-20 mb-6 transition duration-150"
+                className="flex flex-col items-center justify-center h-20 transition duration-150"
               >
                 {({ isActive }) => {
                   return <img src={isActive ? settingIcon2 : settingIcon1} />;
