@@ -41,7 +41,7 @@ function Header() {
                 "flex px-4 items-center h-14 transition duration-150",
                 isActive
                   ? "!text-[#0049FF] rounded-r-2xl !bg-[#ECF1FF]"
-                  : "text-[#1]"
+                  : "!text-[#666]"
               )
             }
           >
