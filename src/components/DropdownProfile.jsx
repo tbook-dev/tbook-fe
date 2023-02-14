@@ -17,7 +17,7 @@ import { logout } from "@/utils/web3";
 
 function DropdownProfile() {
   const userStore = useSelector((state) => state.user.user);
-  const [dropdownOpen, setDropdownOpen] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [expanded, setExpaned] = useState(false);
   const dispatch = useDispatch();
   const currentProjectId = useCurrentProjectId();
