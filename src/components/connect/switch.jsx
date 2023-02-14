@@ -21,7 +21,7 @@ export default function ({
   const dispatch = useDispatch();
   const { switchNetwork } = useSwitchNetwork();
   const { chain } = useNetwork();
-  const  currentId = networkId || chain?.id || 1
+  const  currentId = networkId || chain?.id || parseInt(localStorage.getItem("chainId")) || 1
 
   // console.log('currentId', {chain}, currentId)
   // sui
@@ -37,6 +37,7 @@ export default function ({
     // setOpenLay(false);
     // disconnect();
     // dispatch(reset());
+    localStorage.setItem("chainId", id);
     await logout();
     // window.location.reload();
     window.location.href = `${location.origin}/incentive`

@@ -10,7 +10,9 @@ import {
   useEnsName,
   useNetwork,
   useSwitchNetwork,
+  useDisconnect,
 } from "wagmi";
+import { bsc } from "wagmi/chains";
 import { fetchSigner } from "wagmi/actions";
 import {
   useAccountBalance,
@@ -20,7 +22,7 @@ import {
   SuiChainId,
   ConnectModal,
 } from "@suiet/wallet-kit";
-import { useDisconnect } from "wagmi";
+
 import { useResponsive } from "ahooks";
 
 export default function () {
@@ -35,11 +37,17 @@ export default function () {
   const { disconnect } = useDisconnect();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
+  const { setDefaultChain } = useWeb3Modal()
+
   // sui
   const suiWallet = useWallet();
-  // console.log("chain", chain);
-
   const [showSuiModal, setShowSuiModal] = useState(false);
+
+  if (chain) {
+    setDefaultChain(chain)
+  } else if (localStorage.getItem('chainId') == '56') { // bsc
+    setDefaultChain(bsc)
+  }
 
   async function handleSignIn() {
     setLoading(true);
@@ -48,6 +56,7 @@ export default function () {
         if (window.ethereum) {
           await connectAsync({
             connector: connectors.find((c) => c.id == "injected"),
+            chainId: localStorage.getItem("chainId")
           });
         } else {
           await open("ConnectWallet");
