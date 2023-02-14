@@ -1,44 +1,46 @@
 import React from "react";
-import { Table, Statistic } from "antd";
+import { Table } from "antd";
+import { formatDollar} from '@/utils/const';
+import { useResponsive } from "ahooks";
+
 
 export default function VestingSchedule({ dataList = [], ...props }) {
-  const StatisticStyle = {
-    margin: 0,
-    fontSize: "14px",
-    lineHeight: "20px",
-  };
+  const { pc } = useResponsive();
   const col = [
     {
       title: "#",
       dataIndex: "idx",
-      align: "center",
+      align: "left",
+      className:"!font-normal !pr-0 before:hidden",
+      width: pc? 'auto': 40,
       render(v) {
-        return <span className="text-[#38BDF8] text-sm">{v}</span>;
+        return <span className="w-10">{v}</span>;
       },
     },
     {
       title: "Vesting Date",
       dataIndex: "date",
-      align: "center",
-      className: "text-sm",
+      align: "left",
+      className:"!font-normal !p-0 before:hidden",
     },
     {
       title: "Vested Amount",
       dataIndex: "quantity",
-      align: "center",
-
+      align: "right",
+      className:"!font-normal !p-0 before:hidden",
       render(v) {
-        return <Statistic value={v} valueStyle={StatisticStyle} />;
+        return <span className="">{formatDollar(v)}</span>;
       },
     },
     {
       title: "Cumulative",
-      align: "center",
+      align: "right",
+      className:"!font-normal !pl-0",
       render(_, record) {
         const list = dataList.slice(0, record.idx);
         const sum = list.reduce((pre, cur) => pre + cur.quantity, 0);
         // console.log(record, idx, sum);
-        return <Statistic value={sum} valueStyle={StatisticStyle} />;
+        return <span className="font-medium">{formatDollar(sum)}</span>;
       },
     },
   ];

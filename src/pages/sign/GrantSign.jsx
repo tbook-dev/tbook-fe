@@ -315,18 +315,13 @@ function GrantSign() {
 
         <Card title="Grant" list={grantConf} />
 
-        <div className="overflow-hidden rounded-b-md shadow-c5 lg:rounded-b-lg">
-          <Card
-            title="Vesting"
-            list={vestingConf}
-            containertClassName="rounded-b-none"
-          />
+        <Card title="Vesting" list={vestingConf}>
           <VestingSchedule
             pagination={false}
             scroll={{ y: 275 }}
             dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []}
           />
-        </div>
+        </Card>
       </div>
 
       {signStatus === "pending" && (

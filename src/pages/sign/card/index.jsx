@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import React from "react";
 
-export default function ({ title, list = [], containertClassName }) {
+export default function ({ title, list = [], className, children }) {
   return (
     <div
       className={clsx(
-        "bg-white divide-y rounded-md shadow-c5 lg:rounded-lg",
-        containertClassName
+        "bg-white divide-y rounded-md shadow-c5 lg:rounded-lg overflow-hidden",
+        className
       )}
     >
       {title && (
@@ -27,6 +27,7 @@ export default function ({ title, list = [], containertClassName }) {
           </div>
         ) : null;
       })}
+      {children}
     </div>
   );
 }
