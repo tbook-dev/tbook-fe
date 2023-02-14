@@ -15,10 +15,10 @@ import useCurrentProject from "@/hooks/useCurrentProject";
 import { useResponsive } from "ahooks";
 import { logout } from "@/utils/web3";
 
-
 function DropdownProfile() {
   const userStore = useSelector((state) => state.user.user);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(true);
+  const [expanded, setExpaned] = useState(false);
   const dispatch = useDispatch();
   const currentProjectId = useCurrentProjectId();
 
@@ -44,9 +44,9 @@ function DropdownProfile() {
     setDropdownOpen(false);
   };
 
-  async function handleLogout(){
+  async function handleLogout() {
     await logout();
-    window.location.href = `${location.origin}/incentive`
+    window.location.href = `${location.origin}/incentive`;
   }
 
   const Content = () => (
@@ -69,7 +69,13 @@ function DropdownProfile() {
 
       <div className="text-[18px] leading-[24px] text-center pt-[30px] pb-2.5">
         <p className="text-[#333]">Switch to another project</p>
-        <p className="flex items-center justify-center text-[#0049FF]">
+        <div
+          className="flex items-center justify-center hover:font-medium text-[#0049FF] cursor-pointer"
+          onClick={(evt) => {
+            evt?.stopPropagation();
+            setExpaned(!expanded);
+          }}
+        >
           {currentProject?.projectName}
           <svg
             className="w-3 h-3 ml-1 fill-current shrink-0 text-[#0049FF]"
@@ -77,30 +83,32 @@ function DropdownProfile() {
           >
             <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
           </svg>
-        </p>
+        </div>
       </div>
-      
-      <div className="divide-y max-h-[160px] text-center overflow-y-auto">
-        {projects.map((project) => {
-          const isSelected = project.projectId === currentProjectId;
-          return (
-            <div
-              key={project.projectId}
-              onClick={() => hanldeChangeProject(project)}
-              className={clsx(
-                "px-6 py-2",
-                isSelected
-                  ? "text-[#0049FF] bg-[#ECF1FF] cursor-not-allowed"
-                  : "hover:font-semibold text-[#999] bg-white cursor-pointer"
-              )}
-            >
-              <div className="flex items-center justify-center mr-2 lg:justify-start">
-                {project.projectName}
+
+      {expanded && (
+        <div className="divide-y max-h-[160px] text-center overflow-y-auto">
+          {projects.map((project) => {
+            const isSelected = project.projectId === currentProjectId;
+            return (
+              <div
+                key={project.projectId}
+                onClick={() => hanldeChangeProject(project)}
+                className={clsx(
+                  "px-6 py-2",
+                  isSelected
+                    ? "text-[#0049FF] bg-[#ECF1FF] cursor-not-allowed"
+                    : "hover:font-semibold text-[#999] bg-white cursor-pointer"
+                )}
+              >
+                <div className="flex items-center justify-center mr-2 lg:justify-start">
+                  {project.projectName}
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
 
       <Link to="/create/project" onClick={() => setDropdownOpen(false)}>
         <div className="px-3 border-t text-center py-2 text-[#999] text-[16px] leading-[24px]">
@@ -112,7 +120,10 @@ function DropdownProfile() {
   const Avator = () => (
     <div
       className="flex items-center cursor-pointer"
-      onClick={() => setDropdownOpen(true)}
+      onClick={() => {
+        setDropdownOpen(true);
+        setExpaned(false);
+      }}
     >
       <div
         className={clsx(
