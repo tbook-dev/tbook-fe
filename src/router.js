@@ -12,28 +12,23 @@ const routes =[
         component: lazy(() => import('@/pages/incentive/PlanList'))
     },
     {
-        path: '/create',
-        layout: 'v1',
-        component: lazy(() => import('@/pages/incentive/ProjectPlanCreate'))
-    },
-    {
         path: '/create/:pageType',
         layout: 'v1',
         component: lazy(() => import('@/pages/incentive/PlanCreate'))
     },
-    {
-        path: '/incentive/:id',
-        layout: 'v1',
-        component: lazy(() => import('@/pages/incentive/PlanDetail'))
-    },
+    // {
+    //     path: '/incentive/:id',
+    //     layout: 'v1',
+    //     component: lazy(() => import('@/pages/incentive/PlanDetail'))
+    // },
     {
         path: '/incentive/grant/:tipId/create',
         component: lazy(() => import('@/pages/grant/GrantCreate'))
     },
-    {
-        path: '/incentive/grant/:tipId/:grantId/detail',
-        component: lazy(() => import('@/pages/incentive/GrantDetail'))
-    },
+    // {
+    //     path: '/incentive/grant/:tipId/:grantId/detail',
+    //     component: lazy(() => import('@/pages/incentive/GrantDetail'))
+    // },
     {
         path: '/incentive/grant/:tipId/:grantId/schedule',
         component: lazy(() => import('@/pages/incentive/GrantsSchedule'))
