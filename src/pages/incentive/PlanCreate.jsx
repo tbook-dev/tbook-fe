@@ -32,7 +32,6 @@ import { useParams } from "react-router-dom";
 import { useNetwork } from "wagmi";
 import Title from "@/pages/component/Title";
 
-
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
 function PlanCreate() {
@@ -112,7 +111,7 @@ function PlanCreate() {
             </h1>
           </header>
 
-          {pageType === "project" ? (
+          {pageType === "project" && !firstCreated ? (
             <div className="lg:bg-white lg:shadow-c5 rounded-xl lg:px-4 lg:py-6">
               <div className="text-[#333] mb-3 text-[14px] leading-[24px] lg:mb-2 lg:text-[24px] lg:leading-[32px]">
                 Label your project name to start incentive plan
@@ -225,7 +224,11 @@ function PlanCreate() {
                     src={pc ? cardbgpc : cardbg}
                     className="absolute top-0 left-0 w-full"
                   />
-                  <Title text="Plan" className="relative z-10 px-4" color="text-white"/>
+                  <Title
+                    text="Plan"
+                    className="relative z-10 px-4"
+                    color="text-white"
+                  />
                 </div>
 
                 <div className="relative px-2 pt-2 pb-4 lg:pb-0 lg:pt-6 lg:px-4">
