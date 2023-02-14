@@ -5,9 +5,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
-import { PlusOutlined } from "@ant-design/icons";
+import {
+  PlusOutlined,
+  AppstoreOutlined,
+  BarsOutlined,
+} from "@ant-design/icons";
 import GrantTable from "./GrantTable";
-import { Button, Drawer, Empty } from "antd";
+import { Button, Drawer, Empty, Space } from "antd";
 import { useAsyncEffect, useResponsive } from "ahooks";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import useUserInfoLoading from "@/hooks/useUserInfoLoading";
@@ -48,6 +52,8 @@ function PlanList() {
   const [filters, dispatchFilter] = useReducer(filterReducer, initialFilters);
   const [searchParams] = useSearchParams();
   const projects = useProjects();
+  // type, 0是卡片，1是表格
+  const [displayType, setDisplayType] = useState(0);
 
   const { data: signer } = useSigner();
   const { address } = useAccount();
@@ -137,7 +143,7 @@ function PlanList() {
     }
     return res;
   }, [grantList, filters]);
-
+  console.log('userLoading || grantLoading',{userLoading, grantLoading})
   // console.log("filters.plan", filters.Plan);
   return (
     <div className="w-full text-[#202124] mb-4">
@@ -284,7 +290,7 @@ function PlanList() {
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-[32px] lg:text-[24px]">Grants</h2>
 
-            {tipList.length === 0 ? (
+            {userLoading || grantLoading ? null : tipList.length === 0 ? (
               <Button type="primary" size="large" disabled>
                 <span>
                   <PlusOutlined />
@@ -305,11 +311,71 @@ function PlanList() {
             )}
           </div>
 
+          {userLoading || grantLoading ? null : (
+            <div className="justify-end hidden my-4 lg:flex">
+              <div className="flex items-center overflow-hidden bg-white !divide-x rounded-lg shadow-c12">
+                <span>
+                  <Button
+                    type="text"
+                    icon={
+                      <BarsOutlined
+                        style={{
+                          color: displayType === 0 ? "#0049FF" : "#BFBFBF",
+                        }}
+                      />
+                    }
+                    onClick={() => setDisplayType(0)}
+                    className="!flex justify-center items-center"
+                  />
+                </span>
+                <span>
+                  <Button
+                    type="text"
+                    icon={
+                      <AppstoreOutlined
+                        style={{
+                          color: displayType === 1 ? "#0049FF" : "#BFBFBF",
+                        }}
+                      />
+                    }
+                    onClick={() => setDisplayType(1)}
+                    className="!flex justify-center items-center"
+                  />
+                </span>
+              </div>
+            </div>
+          )}
+
           <div className="hidden lg:block">
-            <GrantTable
-              list={filterGrantList(grantList)}
-              loading={grantLoading}
-            />
+            {displayType === 1 && (
+              <GrantTable
+                list={filterGrantList(grantList)}
+                loading={grantLoading}
+              />
+            )}
+
+            {displayType === 0 && (
+              <div
+                className={clsx(
+                  "grid gap-x-2.5 gap-y-2.5",
+                  filterGrantList(grantList).length > 0
+                    ? "grid-cols-4"
+                    : "grid-cols-1"
+                )}
+              >
+                {userLoading || grantLoading ? (
+                  <Spin />
+                ) : filterGrantList(grantList).length > 0 ? (
+                  filterGrantList(grantList).map((grant) => (
+                    <GrantCard grant={grant} key={grant.grant.grantId} />
+                  ))
+                ) : (
+                  <div className="h-[222px] rounded-lg bg-white flex items-center justify-center">
+                    <Empty description="No grant" />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       ) : (
