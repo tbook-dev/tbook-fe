@@ -15,7 +15,7 @@ export function filterReducer(filters, action) {
   //     return { ...filters, [action.type]: curlVal };
   //   }
   // }
-
+  // console.log({preVal, curlVal})
   return {
     ...filters,
     [action.type]: preVal === curlVal ? null : curlVal,

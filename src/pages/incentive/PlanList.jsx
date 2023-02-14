@@ -113,7 +113,7 @@ function PlanList() {
     // 前面增加一个all, 后面增加一个new, 永远不会为all,new
     setActiveIndex(list1.length === 1 ? 0 : activeIdx + 1);
     // console.log("activeIdx+1", list1, activeIdx + 1);
-    if (list1.length === 1 || activeIdx === 0) {
+    if (list1.length === 1) {
       // 手动dispatch
       dispatchFilter({
         type: "Plan",
@@ -144,8 +144,7 @@ function PlanList() {
     }
     return res;
   }, [grantList, filters]);
-  console.log('userLoading || grantLoading',{userLoading, grantLoading})
-  // console.log("filters.plan", filters.Plan);
+  console.log("filters.plan", filters.Plan);
   return (
     <div className="w-full text-[#202124] mb-4">
       <div className="hidden pt-6 mb-4 lg:block">
@@ -191,6 +190,7 @@ function PlanList() {
                   prevEl: ".swiper-button-prev",
                 }}
                 onSlideChange={(w) => {
+                  console.log('------>onSlideChange',w.realIndex)
                   if (drawerOpen) return;
                   let incentivePlanId =
                     tipList[
@@ -226,6 +226,7 @@ function PlanList() {
                       });
                     }
                   }
+                  console.log('------>incentivePlanId', incentivePlanId)
                   // if (!pc && w.activeIndex === tipList.length) return;
                   dispatchFilter({
                     type: "Plan",
