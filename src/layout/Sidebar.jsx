@@ -136,27 +136,29 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               </NavLink>
             </div>
 
-            <div className="pb-[145px]">
-              {/* 1、当前项目的网络; 2、默认以太坊*/}
-              {authUser && pc && (
-                <div className="flex flex-col items-center justify-center cursor-pointer">
-                  <SwitchNet
-                    type="logo"
-                    placement="right"
-                    networkId={projectChain?.evmChainId || 1}
-                  />
-                </div>
-              )}
+            {authUser && (
+              <div className="pb-[145px]">
+                {/* 1、当前项目的网络; 2、默认以太坊*/}
+                {pc && (
+                  <div className="flex flex-col items-center justify-center cursor-pointer">
+                    <SwitchNet
+                      type="logo"
+                      placement="right"
+                      networkId={projectChain?.evmChainId || 1}
+                    />
+                  </div>
+                )}
 
-              <NavLink
-                to="/setting"
-                className="flex flex-col items-center justify-center h-20 transition duration-150"
-              >
-                {({ isActive }) => {
-                  return <img src={isActive ? settingIcon2 : settingIcon1} />;
-                }}
-              </NavLink>
-            </div>
+                <NavLink
+                  to="/setting"
+                  className="flex flex-col items-center justify-center h-20 transition duration-150"
+                >
+                  {({ isActive }) => {
+                    return <img src={isActive ? settingIcon2 : settingIcon1} />;
+                  }}
+                </NavLink>
+              </div>
+            )}
           </div>
         </div>
       </div>

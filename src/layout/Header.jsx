@@ -27,7 +27,7 @@ function Header() {
   const loadingUserStatus = useSelector(
     (state) => state.user.loadingUserStatus
   );
-  
+
   // console.log('loadingUserStatus->',loadingUserStatus)
   const { pc } = useResponsive();
   const Content = () => {
@@ -87,35 +87,35 @@ function Header() {
           </NavLink>
         </div>
 
-        <div className="border-t pb-9">
-          <NavLink
-            to="/setting"
-            className={({ isActive }) =>
-              clsx(
-                "flex px-4 items-center h-14 transition duration-150",
-                isActive
-                  ? "!text-[#0049FF] rounded-r-2xl !bg-[#ECF1FF]"
-                  : "!text-[#666]"
-              )
-            }
-          >
-            {({ isActive }) => {
-              return (
-                <>
-                  <img
-                    src={isActive ? settingIcon2 : settingIcon1}
-                    className="w-7"
-                  />
-                  <span className="ml-4 text-[24px] leading-[32px]">
-                    Settings
-                  </span>
-                </>
-              );
-            }}
-          </NavLink>
+        {authUser && (
+          <div className="border-t pb-9">
+            <NavLink
+              to="/setting"
+              className={({ isActive }) =>
+                clsx(
+                  "flex px-4 items-center h-14 transition duration-150",
+                  isActive
+                    ? "!text-[#0049FF] rounded-r-2xl !bg-[#ECF1FF]"
+                    : "!text-[#666]"
+                )
+              }
+            >
+              {({ isActive }) => {
+                return (
+                  <>
+                    <img
+                      src={isActive ? settingIcon2 : settingIcon1}
+                      className="w-7"
+                    />
+                    <span className="ml-4 text-[24px] leading-[32px]">
+                      Settings
+                    </span>
+                  </>
+                );
+              }}
+            </NavLink>
 
-          {/* 1、当前项目的网络; 2、默认以太坊*/}
-          {authUser && (
+            {/* 1、当前项目的网络; 2、默认以太坊*/}
             <div className="flex items-center px-4 h-14">
               <span className="text-[24px] leading-[32px] text-[#666]">
                 Network ｜
@@ -125,8 +125,8 @@ function Header() {
                 networkId={projectChain?.evmChainId || 1}
               />
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     );
   };
