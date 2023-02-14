@@ -182,6 +182,7 @@ function PlanList() {
                 slidesPerView="auto"
                 centeredSlides={pc}
                 onSwiper={setSwiper}
+                slideToClickedSlide={pc}
                 initialSlide={activeIndex}
                 // observeSlideChildren
                 loop={pc && tipList.length > 3}
@@ -226,7 +227,7 @@ function PlanList() {
                       });
                     }
                   }
-                  console.log('------>incentivePlanId', incentivePlanId)
+                  // console.log('------>incentivePlanId', incentivePlanId)
                   // if (!pc && w.activeIndex === tipList.length) return;
                   dispatchFilter({
                     type: "Plan",
