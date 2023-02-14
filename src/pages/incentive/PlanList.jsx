@@ -103,9 +103,16 @@ function PlanList() {
       // console.log(list2Formated[0].incentivePlanId)`
     }
     // const activeIdx = list2Formated[0]?.idx || 0;
-    // pc后面增加1，手机端后面增加1
+    // 前面增加一个all, 后面增加一个new, 永远不会为all,new
     setActiveIndex(list1.length === 1 ? 0 : activeIdx + 1);
-    // console.log('activeIdx',activeIdx + 1)
+    // console.log("activeIdx+1", list1, activeIdx + 1);
+    if (list1.length === 1 || activeIdx === 0) {
+      // 手动dispatch
+      dispatchFilter({
+        type: "Plan",
+        payload: list1[0]?.incentivePlanId,
+      });
+    }
 
     // console.log(list1[activeIdx+1]?.incentivePlanId)
     // !pc &&
@@ -131,7 +138,7 @@ function PlanList() {
     return res;
   }, [grantList, filters]);
 
-  // console.log("out", filters);
+  // console.log("filters.plan", filters.Plan);
   return (
     <div className="w-full text-[#202124] mb-4">
       <div className="hidden pt-6 mb-4 lg:block">
@@ -183,17 +190,34 @@ function PlanList() {
                       tipList.length === 1 ? w.realIndex : w.realIndex - 1
                     ]?.incentivePlanId;
                   // console.log(incentivePlanId, w.realIndex);
-                  if (w.realIndex === 0) {
-                    return dispatchFilter({
-                      type: "Plan",
-                      payload: null,
-                    });
-                  }
-                  if (w.realIndex === tipList.length) {
-                    return dispatchFilter({
-                      type: "Plan",
-                      payload: -1,
-                    });
+
+                  // // console.log("---->", w.realIndex, tipList.length);
+                  // console.log("tipList------>", tipList.length, w.realIndex);
+                  if (tipList.length === 1) {
+                    if (w.realIndex === tipList.length) {
+                      return dispatchFilter({
+                        type: "Plan",
+                        payload: -1,
+                      });
+                    } else {
+                      return dispatchFilter({
+                        type: "Plan",
+                        payload: incentivePlanId,
+                      });
+                    }
+                  } else {
+                    if (w.realIndex === 0) {
+                      return dispatchFilter({
+                        type: "Plan",
+                        payload: null,
+                      });
+                    }
+                    if (w.realIndex === tipList.length + 1) {
+                      return dispatchFilter({
+                        type: "Plan",
+                        payload: -1,
+                      });
+                    }
                   }
                   // if (!pc && w.activeIndex === tipList.length) return;
                   dispatchFilter({
@@ -268,14 +292,8 @@ function PlanList() {
                 </span>
               </Button>
             ) : (
-              swiper?.realIndex !== 0 && (
-                <Link
-                  to={`/incentive/grant/${
-                    swiper?.realIndex !== 0
-                      ? tipList[swiper?.realIndex]?.incentivePlanId
-                      : "tmp"
-                  }/create`}
-                >
+              ![null, -1].includes(filters.Plan) && (
+                <Link to={`/incentive/grant/${filters.Plan}/create`}>
                   <Button type="primary" size="large">
                     <span>
                       <PlusOutlined />
@@ -325,14 +343,8 @@ function PlanList() {
                 </span>
               </Button>
             ) : (
-              swiper?.realIndex !== 0 && (
-                <Link
-                  to={`/incentive/grant/${
-                    swiper?.realIndex !== 0
-                      ? tipList[swiper?.realIndex]?.incentivePlanId
-                      : "tmp"
-                  }/create`}
-                >
+              ![null, -1].includes(filters.Plan) && (
+                <Link to={`/incentive/grant/${filters.Plan}/create`}>
                   <Button
                     type="primary"
                     size="large"
