@@ -44,14 +44,14 @@ export default function ({
 
   const Lay = () => (
     <div className="-mx-6 lg:-mx-3 w-auto lg:w-[300px]">
-      <div className="text-[18px] leading-[24px] text-center pt-7 pb-6">
+      <div className="text-[18px] leading-[26px] text-center pb-4 pt-1">
         <p className="text-[#333]">Choose the network</p>
       </div>
       <div>
         {chains.map((v) => (
           <div
             className={clsx(
-              "flex items-center justify-center py-2  hover:text-[#666] cursor-pointer",
+              "flex items-center justify-start py-2 pl-6  hover:text-[#666] cursor-pointer",
               currentId === v.evmChainId
                 ? "text-[#0049FF] bg-[#ECF1FF]"
                 : "text-[#999] bg-white hover:bg-white"
