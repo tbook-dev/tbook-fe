@@ -28,6 +28,7 @@ import AllInActiveCard from "./planCard/AllInActive";
 import AddActiveCard from "./planCard/AddActive";
 import AddInActiveCard from "./planCard/AddInActive";
 import GrantCard from "./grantCard";
+import GrantCardV2 from "./grantCard/v2";
 import FilterPanel from "./filter";
 import { Spin } from "antd";
 import { filterReducer, initialFilters } from "@/store/parts";
@@ -320,11 +321,11 @@ function PlanList() {
                     icon={
                       <BarsOutlined
                         style={{
-                          color: displayType === 0 ? "#0049FF" : "#BFBFBF",
+                          color: displayType === 1 ? "#0049FF" : "#BFBFBF",
                         }}
                       />
                     }
-                    onClick={() => setDisplayType(0)}
+                    onClick={() => setDisplayType(1)}
                     className="!flex justify-center items-center"
                   />
                 </span>
@@ -334,11 +335,11 @@ function PlanList() {
                     icon={
                       <AppstoreOutlined
                         style={{
-                          color: displayType === 1 ? "#0049FF" : "#BFBFBF",
+                          color: displayType === 0 ? "#0049FF" : "#BFBFBF",
                         }}
                       />
                     }
-                    onClick={() => setDisplayType(1)}
+                    onClick={() => setDisplayType(0)}
                     className="!flex justify-center items-center"
                   />
                 </span>
@@ -367,7 +368,7 @@ function PlanList() {
                   <Spin />
                 ) : filterGrantList(grantList).length > 0 ? (
                   filterGrantList(grantList).map((grant) => (
-                    <GrantCard grant={grant} key={grant.grant.grantId} />
+                    <GrantCardV2 grant={grant} key={grant.grant.grantId} />
                   ))
                 ) : (
                   <div className="h-[222px] rounded-lg bg-white flex items-center justify-center">

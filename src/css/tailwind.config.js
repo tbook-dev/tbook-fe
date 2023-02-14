@@ -30,6 +30,7 @@ module.exports = {
         c10: "0px -4px 20px rgba(0, 0, 0, 0.1)",
         c11: "0px 2px 6px rgba(0, 0, 0, 0.04)",
         c12: '0px 2px 10px rgba(0, 0, 0, 0.08)',
+        c13: '1px 2px 10px rgba(0, 0, 0, 0.08)',
       },
       outline: {
         blue: "2px solid rgba(0, 112, 244, 0.5)",
