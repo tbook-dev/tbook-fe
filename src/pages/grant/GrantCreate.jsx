@@ -51,6 +51,7 @@ import Plan from "./plan";
 import Title from "../component/Title";
 
 dayjs.extend(customParseFormat);
+const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
 const { Option } = Select;
 
@@ -237,9 +238,12 @@ function GrantCreate() {
 
             <div className="mt-3 lg:mt-6">
               <Form
+                {...(pc ? formItemCol : null)}
                 form={form}
-                layout="vertical"
+                layout={pc ? "horizontal" : "vertical"}
                 requiredMark={false}
+                labelAlign="left"
+                colon={false}
                 initialValues={{
                   grantType: 1,
                   vestingTotalPeriod: 3,
