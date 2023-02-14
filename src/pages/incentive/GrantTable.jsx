@@ -11,7 +11,7 @@ export default function ({ list = [], loading = false }) {
       align: "center",
       render: (_, v) => (
         <Link
-          to={`/incentive/grant/${v?.grant?.incentivePlanId}/${v?.grant?.grantId}/detail`}
+          to={`/grants/${v?.grant?.grantId}/sign`}
         >
           <p className="text-[#0049FF]">{v?.grant?.grantId}</p>
         </Link>
