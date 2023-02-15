@@ -203,6 +203,9 @@ function PlanList() {
                   // console.log("tipList------>", tipList.length, w.realIndex);
                   if (tipList.length === 1) {
                     if (w.realIndex === tipList.length) {
+                      if(pc){
+                        navigate('/create/plan')
+                      }
                       return dispatchFilter({
                         type: "Plan",
                         payload: -1,
@@ -221,6 +224,9 @@ function PlanList() {
                       });
                     }
                     if (w.realIndex === tipList.length + 1) {
+                      if(pc){
+                        navigate('/create/plan')
+                      }
                       return dispatchFilter({
                         type: "Plan",
                         payload: -1,
