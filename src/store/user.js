@@ -8,6 +8,7 @@ const initialState = {
   authHeader: "",
   loadingUserStatus: false,
   currentProjectId: getCurrentProjectId(),
+  extraAudience:[],
   projects: [
     // {
     //   projectId: 21859680007,
@@ -78,6 +79,9 @@ export const userSlice = createSlice({
     setLoadingUserStatus: (state, action) => {
       state.loadingUserStatus = action.payload;
     },
+    setExtraAudience:( state, action) => {
+      state.extraAudience = action.payload
+    },
     reset: (state) => {
       saveCurrentProjectId(null);
       state = { ...initialState, currentProjectId: null };
@@ -94,6 +98,7 @@ export const {
   setCurrentProjectId,
   reset,
   setLoadingUserStatus,
+  setExtraAudience
 } = userSlice.actions;
 
 export default userSlice.reducer;

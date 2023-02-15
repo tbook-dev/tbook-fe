@@ -21,6 +21,7 @@ import { fetchUserInfo, setCurrentProjectId } from "@/store/user";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import useCurrentProject from "@/hooks/useCurrentProject";
 import _ from "lodash";
+import { setExtraAudience } from "@/store/user";
 import { useResponsive } from "ahooks";
 import AvatarWallet from "./avatarWallet";
 import useProjects from "@/hooks/useProjects";
@@ -44,13 +45,15 @@ function PlanCreate() {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [projectLoading, setProjectLoading] = useState(false);
   const [firstCreated, setFirstCreated] = useState(false);
+  const [selectOpen, setSelectOpen] = useState(false);
 
   const navigate = useNavigate();
   const projectId = useCurrentProjectId();
   const project = useCurrentProject();
   const projects = useProjects();
-  const [customizeOptions, setCustomizeOptions] = useState(null);
-  const inputRef = useRef(null);
+  // const [customizeOptions, setCustomizeOptions] = useState(null);
+  const extraAudience = useSelector((state) => state.user.extraAudience);
+  const [inputVal, setInputVal] = useState("");
   const { pc } = useResponsive();
   const mainNetwork = project?.chain || chain?.name || "Ethereum";
   // console.log("mainNetwork", mainNetwork, chain);
@@ -61,9 +64,7 @@ function PlanCreate() {
     label: desc,
     value: value,
   }));
-  const options = customizeOptions
-    ? [...preOptions, customizeOptions]
-    : preOptions;
+  const options = [...preOptions, ...extraAudience];
 
   // console.log("project->", project);
 
@@ -268,37 +269,49 @@ function PlanCreate() {
                         optionLabelProp="label"
                         placeholder="Employee"
                         // options={preOptions}
+                        open={selectOpen}
+                        onDropdownVisibleChange={(visible) =>
+                          setSelectOpen(visible)
+                        }
                         dropdownRender={(menu) => {
                           return (
                             <>
                               {menu}
-                              {!customizeOptions && (
-                                <>
-                                  <Divider style={{ margin: "8px 0" }} />
-                                  <div className="flex items-center px-2 pb-1">
-                                    <Input
-                                      placeholder="Editable..."
-                                      maxLength={30}
-                                      ref={inputRef}
-                                      style={{ marginRight: 8 }}
-                                    />
-                                    <Button
-                                      type="text"
-                                      onClick={async () => {
-                                        const val =
-                                          inputRef.current?.input?.value;
-
-                                        val &&
-                                          setCustomizeOptions({
-                                            label: val,
-                                            value: "7",
-                                          });
-                                      }}
-                                      icon={<CheckOutlined />}
-                                    />
-                                  </div>
-                                </>
-                              )}
+                              <Divider style={{ margin: "8px 0" }} />
+                              <div className="flex items-center px-2 pb-1">
+                                <Input
+                                  placeholder="Editable..."
+                                  maxLength={30}
+                                  value={inputVal}
+                                  onChange={(evt) =>
+                                    setInputVal(evt.target.value)
+                                  }
+                                  style={{ marginRight: 8 }}
+                                />
+                                <Button
+                                  type="text"
+                                  onClick={async () => {
+                                    setInputVal("");
+                                    const val = options.length + '1';
+                                    dispatch(
+                                      setExtraAudience([
+                                        ...extraAudience,
+                                        {
+                                          label: inputVal,
+                                          value: val,
+                                        },
+                                      ])
+                                    );
+                                    // setCustomizeOptions({
+                                    //   label: val,
+                                    //   value: "7",
+                                    // });
+                                    form.setFieldValue("target", val);
+                                    setSelectOpen(false);
+                                  }}
+                                  icon={<CheckOutlined />}
+                                />
+                              </div>
                             </>
                           );
                         }}
