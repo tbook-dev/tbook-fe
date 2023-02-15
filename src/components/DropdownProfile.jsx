@@ -14,6 +14,7 @@ import useProjects from "@/hooks/useProjects";
 import useCurrentProject from "@/hooks/useCurrentProject";
 import { useResponsive } from "ahooks";
 import { logout } from "@/utils/web3";
+import { PlusOutlined } from "@ant-design/icons";
 
 function DropdownProfile() {
   const userStore = useSelector((state) => state.user.user);
@@ -50,27 +51,29 @@ function DropdownProfile() {
   }
 
   const Content = () => (
-    <div className="-mx-6 lg:-mx-3">
-      <div className="relative flex items-center justify-between lg:justify-end w-full px-6 pb-2.5 lg:border-b">
-        <div className="flex">
+    <div className="-mx-6 lg:-mx-3 lg:w-[330px]">
+      <div className="relative flex items-center justify-center w-full px-6 pb-2.5 shadow-c9">
+        <div className="flex h-full">
           <NetWork />
-          <span className="ml-1.5 mr-12 block text-[18px] lg:leading-[20px] text-[#333]">
+          <span className="text-[18px] lg:leading-[20px] text-[#333]">
             {ensName || shortAddress(userStore?.mainWallet)}
           </span>
         </div>
 
-        <div
-          onClick={handleLogout}
-          className="cursor-pointer w-6 h-6 bg-[#ECF1FF] rounded-lg flex items-center justify-center"
-        >
-          <img src={closeIcon} />
+        <div className="absolute top-[-3px] flex items-center justify-end right-6">
+          <div
+            onClick={handleLogout}
+            className="cursor-pointer w-6 h-6 bg-[#ECF1FF] rounded-lg flex items-center justify-center"
+          >
+            <img src={closeIcon} />
+          </div>
         </div>
       </div>
 
       <div className="text-[18px] leading-[24px] text-center pt-[30px] pb-2.5">
         <p className="text-[#333]">Switch to another project</p>
         <div
-          className="flex items-center justify-center hover:font-medium text-[#0049FF] cursor-pointer"
+          className="flex items-center justify-center font-medium text-[#333] cursor-pointer"
           onClick={(evt) => {
             evt?.stopPropagation();
             setExpaned(!expanded);
@@ -78,7 +81,10 @@ function DropdownProfile() {
         >
           {currentProject?.projectName}
           <svg
-            className="w-3 h-3 ml-1 fill-current shrink-0 text-[#0049FF]"
+            className={clsx(
+              "w-3 h-3 ml-1 fill-current shrink-0 text-[#0049FF]",
+              expanded && "rotate-180"
+            )}
             viewBox="0 0 12 12"
           >
             <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
@@ -87,34 +93,37 @@ function DropdownProfile() {
       </div>
 
       {expanded && (
-        <div className="divide-y max-h-[160px] text-center overflow-y-auto">
-          {projects.map((project) => {
-            const isSelected = project.projectId === currentProjectId;
-            return (
-              <div
-                key={project.projectId}
-                onClick={() => hanldeChangeProject(project)}
-                className={clsx(
-                  "px-6 py-2",
-                  isSelected
-                    ? "text-[#0049FF] bg-[#ECF1FF] cursor-not-allowed"
-                    : "hover:font-semibold text-[#999] bg-white cursor-pointer"
-                )}
-              >
-                <div className="flex items-center justify-center mr-2 lg:justify-start">
-                  {project.projectName}
+        <>
+          <div className="max-h-[160px] text-[16px] leading-[24px] text-center overflow-y-auto">
+            {projects.map((project) => {
+              const isSelected = project.projectId === currentProjectId;
+              return (
+                <div
+                  key={project.projectId}
+                  onClick={() => hanldeChangeProject(project)}
+                  className={clsx(
+                    "px-6 py-2",
+                    isSelected
+                      ? "text-[#333] bg-[#f2f2f2] font-medium cursor-not-allowed"
+                      : "hover:text-[#333] text-[#999] bg-white cursor-pointer"
+                  )}
+                >
+                  <div className="flex items-center justify-center mr-2">
+                    {project.projectName}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+              );
+            })}
+          </div>
 
-      <Link to="/create/project" onClick={() => setDropdownOpen(false)}>
-        <div className="px-3 border-t text-center py-2 text-[#999] text-[16px] leading-[24px]">
-          New Incentive plan for a new project
-        </div>
-      </Link>
+          <Link to="/create/project" onClick={() => setDropdownOpen(false)}>
+            <div className="px-3 border-t text-center py-2 mt-4 mb-3 bg-[#f2f2f2] mx-2.5 rounded-lg text-[#999] hover:text-[#333] text-[16px] leading-[24px]">
+              <PlusOutlined style={{ color: "#0049FF", marginRight: 8 }} /> New
+              Incentive plan for a new project
+            </div>
+          </Link>
+        </>
+      )}
     </div>
   );
   const Avator = () => (
@@ -152,6 +161,7 @@ function DropdownProfile() {
       {pc ? (
         <Popover
           open={dropdownOpen}
+          // open
           content={<Content />}
           placement="bottomRight"
           onOpenChange={(v) => setDropdownOpen(v)}
