@@ -328,7 +328,7 @@ function PlanList() {
                       />
                     }
                     onClick={() => setDisplayType(1)}
-                    className="!flex justify-center items-center"
+                    className="!flex !rounded-none justify-center items-center"
                   />
                 </span>
                 <span>
@@ -342,7 +342,7 @@ function PlanList() {
                       />
                     }
                     onClick={() => setDisplayType(0)}
-                    className="!flex justify-center items-center"
+                    className="!flex !rounded-none justify-center items-center"
                   />
                 </span>
               </div>
