@@ -37,7 +37,7 @@ function Login() {
     const user = await getUserInfo();
     // console.log('user', user)
     if (user.projects.length > 0) {
-      let link = `/incentive`;
+      let link = `/`;
       if (!getCurrentProjectId()) {
         // 如果之前没有浏览，即ls没有数据，则去最后一个project相关信息
         const project = user.projects.pop();
