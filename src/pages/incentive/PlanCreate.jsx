@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   Button,
@@ -14,14 +14,13 @@ import {
   InfoCircleOutlined,
   FormOutlined,
 } from "@ant-design/icons";
-import { targetMap, chains, formatDollar } from "@/utils/const";
+import { chains, formatDollar } from "@/utils/const";
 import { useSelector, useDispatch } from "react-redux";
 import { createTIP, createProject } from "@/api/incentive";
 import { fetchUserInfo, setCurrentProjectId } from "@/store/user";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import useCurrentProject from "@/hooks/useCurrentProject";
 import _ from "lodash";
-import { setExtraAudience } from "@/store/user";
 import { useResponsive } from "ahooks";
 import AvatarWallet from "./avatarWallet";
 import useProjects from "@/hooks/useProjects";
@@ -32,6 +31,7 @@ import cardbg from "@/images/incentive/headers/plan.png";
 import { useParams } from "react-router-dom";
 import { useNetwork } from "wagmi";
 import Title from "@/pages/component/Title";
+import useProjectAudience from "@/hooks/useProjectAudience";
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
@@ -46,13 +46,14 @@ function PlanCreate() {
   const [projectLoading, setProjectLoading] = useState(false);
   const [firstCreated, setFirstCreated] = useState(false);
   const [selectOpen, setSelectOpen] = useState(false);
+  const [addedAudience, setAddedAudience] = useState([]);
 
   const navigate = useNavigate();
   const projectId = useCurrentProjectId();
   const project = useCurrentProject();
   const projects = useProjects();
   // const [customizeOptions, setCustomizeOptions] = useState(null);
-  const extraAudience = useSelector((state) => state.user.extraAudience);
+  const projectAudience = useProjectAudience();
   const [inputVal, setInputVal] = useState("");
   const { pc } = useResponsive();
   const mainNetwork = project?.chain || chain?.name || "Ethereum";
@@ -60,11 +61,7 @@ function PlanCreate() {
 
   const { pageType } = useParams();
 
-  const preOptions = Object.entries(targetMap).map(([value, desc]) => ({
-    label: desc,
-    value: value,
-  }));
-  const options = [...preOptions, ...extraAudience];
+  const options = [...projectAudience, ...addedAudience];
 
   // console.log("project->", project);
 
@@ -76,12 +73,18 @@ function PlanCreate() {
 
         values.incentivePlanAdminId = userStore?.user?.userId;
         values.projectId = projectId;
-        if (values.target === "7") {
-          values.customized_target_name = customizeOptions.label;
-        }
 
+        if (addedAudience.length === 0) {
+          values.labelList = null;
+        } else {
+          values.labelList = JSON.stringify(addedAudience.map((v) => v.label));
+        }
+        // console.log(values)
+        // console.log(JSON.stringify(values))
+        // return;
         createTIP(values).then((tip) => {
           setConfirmLoading(false);
+          dispatch(fetchUserInfo(false));
           navigate(`/incentive?tipId=${tip.incentivePlanId}`);
         });
       })
@@ -96,7 +99,7 @@ function PlanCreate() {
     values.chain = mainNetwork;
     const projectInfo = await createProject(values);
     dispatch(setCurrentProjectId(projectInfo.projectId));
-    dispatch(fetchUserInfo());
+    dispatch(fetchUserInfo(false));
     setProjectLoading(false);
     setFirstCreated(true);
   }
@@ -292,20 +295,11 @@ function PlanCreate() {
                                   type="text"
                                   onClick={async () => {
                                     setInputVal("");
-                                    const val = options.length + '1';
-                                    dispatch(
-                                      setExtraAudience([
-                                        ...extraAudience,
-                                        {
-                                          label: inputVal,
-                                          value: val,
-                                        },
-                                      ])
-                                    );
-                                    // setCustomizeOptions({
-                                    //   label: val,
-                                    //   value: "7",
-                                    // });
+                                    const val = options.length + 1;
+                                    setAddedAudience([
+                                      ...addedAudience,
+                                      { label: inputVal, value: val },
+                                    ]);
                                     form.setFieldValue("target", val);
                                     setSelectOpen(false);
                                   }}

@@ -8,7 +8,6 @@ const initialState = {
   authHeader: "",
   loadingUserStatus: false,
   currentProjectId: getCurrentProjectId(),
-  extraAudience:[],
   projects: [
     // {
     //   projectId: 21859680007,
@@ -34,8 +33,10 @@ const initialState = {
 
 export const fetchUserInfo = createAsyncThunk(
   `userInfo`,
-  async (_, thunkAPI) => {
-    thunkAPI.dispatch(setLoadingUserStatus(true));
+  async (showLoading = true, thunkAPI) => {
+    if(showLoading){
+      thunkAPI.dispatch(setLoadingUserStatus(true));
+    }
     try {
       return getUserInfo()
         .then((response) => {
@@ -79,9 +80,6 @@ export const userSlice = createSlice({
     setLoadingUserStatus: (state, action) => {
       state.loadingUserStatus = action.payload;
     },
-    setExtraAudience:( state, action) => {
-      state.extraAudience = action.payload
-    },
     reset: (state) => {
       saveCurrentProjectId(null);
       state = { ...initialState, currentProjectId: null };
@@ -98,7 +96,6 @@ export const {
   setCurrentProjectId,
   reset,
   setLoadingUserStatus,
-  setExtraAudience
 } = userSlice.actions;
 
 export default userSlice.reducer;

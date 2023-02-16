@@ -256,10 +256,6 @@ export const chains = [
   },
 ];
 
-export function getTargeAudince(target, customized_target_name) {
-  return target === 7 ? customized_target_name : targetMap[target];
-}
-
 export function minZeroValidator(label) {
   return function (_, value) {
     // console.log('value', value)

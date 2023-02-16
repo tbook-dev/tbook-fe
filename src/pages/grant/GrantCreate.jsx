@@ -32,13 +32,13 @@ import {
   grantType,
   dateFormat,
   periodMap,
-  getTargeAudince,
   formatDollar,
   maxValidator,
   minZeroValidator,
   tokenTypeList,
   timeLengthList,
 } from "@/utils/const";
+import useProjectAudience from "@/hooks/useProjectAudience";
 import GranteeFrom from "../incentive/GranteeForm";
 import dayjs from "dayjs";
 import { useAsyncEffect, useResponsive } from "ahooks";
@@ -68,6 +68,7 @@ function GrantCreate() {
   const [searchParms] = useSearchParams();
   // console.log(searchParms.get('grantId'))
   const grantId = searchParms.get("grantId");
+  const projectAudience = useProjectAudience();
 
   const { pc } = useResponsive();
 
@@ -229,10 +230,9 @@ function GrantCreate() {
 
             <Plan
               planName={detail?.incentivePlanName}
-              targetAudince={getTargeAudince(
-                detail?.target,
-                detail?.customized_target_name
-              )}
+              targetAudince={
+                projectAudience.find((v) => v.value == tip.target)?.label
+              }
               availableAmount={formatDollar(detail?.totalTokenNum)}
             />
 

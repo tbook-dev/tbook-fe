@@ -11,11 +11,9 @@ import {
 import { loadWeb3 } from "@/utils/web3";
 import { useAsyncEffect } from "ahooks";
 import {
-  targetMap,
   formatDollar,
   periodMap,
   shortAddress,
-  // getTargeAudince,
 } from "@/utils/const";
 import VestingSchedule from "../incentive/VestingSchedule";
 import { useSelector } from "react-redux";
@@ -224,14 +222,7 @@ function GrantSign() {
       {
         label: "Exercise Price",
         value: `${formatDollar(grantInfo.exercisePrice)} USD`,
-      },
-      // {
-      //   label: "Target Audience",
-      //   value: getTargeAudince(
-      //     tipInfo?.target,
-      //     tipInfo?.customized_target_name
-      //   ),
-      // },
+      }
     ];
     const doneConf = [
       {

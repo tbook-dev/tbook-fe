@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { targetMap, getDividePercent, formatDollar } from "@/utils/const";
+import { getDividePercent, formatDollar } from "@/utils/const";
+import useProjectAudience from "@/hooks/useProjectAudience";
 import { useMemo } from "react";
 import inActivePlan from "@/images/incentive/inactive-plan.png";
 import bgpc from "@/images/incentive/all-plan.png";
@@ -21,6 +22,11 @@ export default function ({ tip, pc }) {
     ];
   }, [tip]);
 
+  const projectAudience = useProjectAudience();
+  const targetAudience = projectAudience.find(
+    (v) => v.value == tip.target
+  )?.label;
+
   return (
     <div className="w-[70vw] h-[180px] py-2.5 px-0 lg:w-[220px] lg:h-[136px] lg:py-0 lg:px-0">
       <div
@@ -36,11 +42,12 @@ export default function ({ tip, pc }) {
           <p className="max-w-[50%] truncate mr-2 text-base leading-none m-0 lg:text-xl lg:leading-none text-[#202124]">
             {tip.incentivePlanName}
           </p>
-          <span className="max-w-[50%] truncate border m-0 flex items-center px-4 text-xs leading-[16px] py-px lg:leading-[20px]  text-[#0049FF] border-[#0049FF] rounded	 lg:rounded-md">
-            {tip.target == "7"
-              ? tip.customized_target_name
-              : targetMap[tip.target]}
-          </span>
+
+          {targetAudience && (
+            <span className="max-w-[50%] truncate border m-0 flex items-center px-4 text-xs leading-[16px] py-px lg:leading-[20px]  text-[#0049FF] border-[#0049FF] rounded	 lg:rounded-md">
+              {targetAudience}
+            </span>
+          )}
         </div>
 
         <div className="hidden grid-cols-1 px-4 pt-4 pb-5 lg:grid gap-y-2 lg:gap-y-1 lg:pt-0">
