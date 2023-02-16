@@ -116,9 +116,9 @@ function DropdownProfile() {
           </div>
 
           <Link to="/create/project" onClick={() => setDropdownOpen(false)}>
-            <div className="px-3 border-t text-center py-2 mt-4 mb-3 bg-[#f2f2f2] mx-2.5 rounded-lg text-[#999] hover:text-[#333] text-[16px] leading-[24px]">
-              <PlusOutlined style={{ color: "#0049FF", marginRight: 8 }} /> New
-              Incentive plan for a new project
+            <div className="px-3 text-center py-2 mt-4 mb-3 bg-[#f2f2f2] mx-2.5 rounded-lg text-[#999] hover:text-[#333] text-[16px] leading-[24px]">
+              <PlusOutlined style={{ color: "#0049FF", marginRight: 8 }} />
+              Incentivize a new project
             </div>
           </Link>
         </>
@@ -175,7 +175,7 @@ function DropdownProfile() {
             closable={false}
             open={dropdownOpen}
             contentWrapperStyle={{
-              height: expanded ? "50vh" : "35vh",
+              height: expanded ? "405px" : "35vh",
               borderRadius: "24px 24px 0px 0px",
               overflow: "hidden",
             }}

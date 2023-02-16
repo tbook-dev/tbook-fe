@@ -104,7 +104,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   return (
                     <>
                       <img src={isActive ? incentiveIcon2 : incentiveIcon1} />
-                      <span className="mt-1 text-xs lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100">
+                      <span className="mt-1 text-xs">
                         Incentive
                       </span>
                     </>
@@ -127,7 +127,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   return (
                     <>
                       <img src={isActive ? dashboardIcon2 : dashboardIcon1} />
-                      <span className="mt-1 text-xs lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100">
+                      <span className="mt-1 text-xs">
                         Dashboard
                       </span>
                     </>
