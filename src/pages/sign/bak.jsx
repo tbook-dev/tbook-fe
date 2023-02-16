@@ -274,7 +274,7 @@ function GrantSign() {
             })}
           </div>
 
-          <Link to="/incentive" className="text-[#497EED] text-sm">
+          <Link to="/" className="text-[#497EED] text-sm">
             <LeftCircleOutlined className="mr-2" />
             Back to Incentive List
           </Link>

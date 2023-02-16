@@ -692,7 +692,7 @@ function GrantCreate() {
 
           <div className="pt-10 pb-[60px]">
             <div className="flex justify-center">
-              <Link to="/incentive" className="hidden lg:block">
+              <Link to="/" className="hidden lg:block">
                 <Button>Cancel</Button>
               </Link>
               <Button

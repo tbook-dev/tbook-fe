@@ -90,7 +90,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
           <div className="flex flex-col justify-between h-full max-h-[900px]">
             <div>
               <NavLink
-                to="/incentive"
+                to="/"
                 className={({ isActive }) =>
                   clsx(
                     "flex flex-col items-center justify-center h-20 transition duration-150 mb-6",
@@ -113,7 +113,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               </NavLink>
 
               <NavLink
-                to="/"
+                to="/dashboard"
                 className={({ isActive }) =>
                   clsx(
                     "flex flex-col items-center justify-center h-20 transition duration-150 mb-6",

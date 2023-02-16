@@ -85,7 +85,7 @@ function PlanCreate() {
         createTIP(values).then((tip) => {
           setConfirmLoading(false);
           dispatch(fetchUserInfo(false));
-          navigate(`/incentive?tipId=${tip.incentivePlanId}`);
+          navigate(`/?tipId=${tip.incentivePlanId}`);
         });
       })
       .catch((err) => {
@@ -363,7 +363,7 @@ function PlanCreate() {
 
                     <div className="hidden pt-2 pb-6 lg:block">
                       <div className="flex justify-center">
-                        <Link to="/incentive" className="hidden mr-10 lg:block">
+                        <Link to="/" className="hidden mr-10 lg:block">
                           <Button>Cancel</Button>
                         </Link>
 

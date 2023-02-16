@@ -317,7 +317,7 @@ function ProjectPlanCreate() {
         <div className="max-w-[600px] pt-12">
           <hr className="my-6 border-t border-slate-200" />
           <div className="flex justify-around">
-            <Link to="/incentive">
+            <Link to="/">
               <Button>Cancel</Button>
             </Link>
 

@@ -21,7 +21,7 @@ function PageNotFound() {
               Hmm...this page doesn’t exist. Try searching for something else!
             </div>
             <Link
-              to="/incentive"
+              to="/"
               className="text-white bg-indigo-500 btn hover:bg-indigo-600"
             >
               Back To Home

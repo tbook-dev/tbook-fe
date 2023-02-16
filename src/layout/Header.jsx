@@ -35,7 +35,7 @@ function Header() {
       <div className="flex flex-col justify-between h-full -mx-6">
         <div className="border-b">
           <NavLink
-            to="/incentive"
+            to="/"
             className={({ isActive }) =>
               clsx(
                 "flex px-4 items-center h-14 transition duration-150",
@@ -61,7 +61,7 @@ function Header() {
           </NavLink>
 
           <NavLink
-            to="/"
+            to="/dashboard"
             className={({ isActive }) =>
               clsx(
                 "flex px-4 items-center h-14 transition duration-150",
@@ -136,7 +136,7 @@ function Header() {
         <div className="flex items-center justify-between h-16 -mb-px">
           {/* Header: Left side */}
           <div className="flex">
-            <Link to="/incentive">
+            <Link to="/">
               <img src={pc ? logoText : logo} className="mr-2 h-9 lg:h-auto" />
             </Link>
 

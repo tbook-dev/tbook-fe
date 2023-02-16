@@ -4,12 +4,12 @@ const routes =[
     {
         path: '/',
         layout: 'v1',
-        component: lazy(() => import('@/pages/Dashboard'))
+        component: lazy(() => import('@/pages/incentive/PlanList'))
     },
     {
-        path: '/incentive',
+        path: '/dashboard',
         layout: 'v1',
-        component: lazy(() => import('@/pages/incentive/PlanList'))
+        component: lazy(() => import('@/pages/Dashboard'))
     },
     {
         path: '/create/:pageType',
