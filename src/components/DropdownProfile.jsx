@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { setCurrentProjectId } from "@/store/user";
 import NetWork from "./icon/NetWork";
 import closeIcon from "@/images/icon/close.svg";
+import arrowIcon from "@/images/icon/arrow.svg";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import useProjects from "@/hooks/useProjects";
 import useCurrentProject from "@/hooks/useCurrentProject";
@@ -80,15 +81,13 @@ function DropdownProfile() {
           }}
         >
           {currentProject?.projectName}
-          <svg
+          <img
             className={clsx(
-              "w-3 h-3 ml-1 fill-current shrink-0 text-[#0049FF]",
+              "w-3 h-3 ml-1 fill-current shrink-0",
               expanded && "rotate-180"
             )}
-            viewBox="0 0 12 12"
-          >
-            <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-          </svg>
+            src={arrowIcon}
+          />
         </div>
       </div>
 
@@ -176,7 +175,7 @@ function DropdownProfile() {
             closable={false}
             open={dropdownOpen}
             contentWrapperStyle={{
-              height: "50vh",
+              height: expanded ? "50vh" : "35vh",
               borderRadius: "24px 24px 0px 0px",
               overflow: "hidden",
             }}
