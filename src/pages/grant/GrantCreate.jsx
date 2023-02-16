@@ -142,12 +142,6 @@ function GrantCreate() {
     form.setFieldsValue(formValue);
   }, [grantId]);
 
-  useEffect(() => {
-    if(!showModal){
-      formGrantee.resetFields()
-    }
-  }, [showModal])
-
   const formatValue = useCallback((planValues, userlist, userId) => {
     const grantValues = userlist.find((v) => v.userId === planValues.granteeId);
     const finalTipId = hasTipId ? tipId : planValues.incentivePlanId;
@@ -719,6 +713,7 @@ function GrantCreate() {
           confirmLoading={confirmLoadingMember}
           onCancel={() => {
             setModal(false);
+            formGrantee.resetFields();
             setConfirmLoadingMember(false);
           }}
         >
@@ -739,7 +734,11 @@ function GrantCreate() {
             borderRadius: "24px 24px 0px 0px",
             overflow: "hidden",
           }}
-          onClose={() => setModal(false)}
+          onClose={() => {
+            setModal(false);
+            formGrantee.resetFields();
+            setConfirmLoadingMember(false);
+          }}
         >
           <GranteeFrom form={formGrantee} />
           <div className="flex justify-center mt-2">

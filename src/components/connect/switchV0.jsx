@@ -35,7 +35,7 @@ export default function ({ networkId, placement = "bottomRight" }) {
     localStorage.setItem("chainId", id);
     await logout();
     // window.location.reload();
-    window.location.href = `${location.origin}/incentive`;
+    window.location.href = `${location.origin}`;
   }
 
   const Lay = () => (
