@@ -16,6 +16,8 @@ import {
   Modal,
   Divider,
   Input,
+  Drawer,
+  message,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import {
@@ -42,7 +44,6 @@ import useProjectAudience from "@/hooks/useProjectAudience";
 import GranteeFrom from "../incentive/GranteeForm";
 import dayjs from "dayjs";
 import { useAsyncEffect, useResponsive } from "ahooks";
-import { message } from "antd";
 import BorderModalContent from "../component/BorderModalContent";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
@@ -61,6 +62,7 @@ function GrantCreate() {
   const [form] = Form.useForm();
   const [formGrantee] = Form.useForm();
   const [showModal, setModal] = useState(false);
+  const [openGrantee, setOpenGrantee] = useState(false);
   const userStore = useSelector((state) => state.user);
   const [confirmLoadingMember, setConfirmLoadingMember] = useState(false);
   const [loadingCreate, setLoadingCreate] = useState(false);
@@ -140,6 +142,12 @@ function GrantCreate() {
     form.setFieldsValue(formValue);
   }, [grantId]);
 
+  useEffect(() => {
+    if(!showModal){
+      formGrantee.resetFields()
+    }
+  }, [showModal])
+
   const formatValue = useCallback((planValues, userlist, userId) => {
     const grantValues = userlist.find((v) => v.userId === planValues.granteeId);
     const finalTipId = hasTipId ? tipId : planValues.incentivePlanId;
@@ -203,6 +211,9 @@ function GrantCreate() {
         setConfirmLoadingMember(false);
         setModal(false);
         newGrantee.current = userRes?.entity?.userId;
+        if (!userRes.success) {
+          message.error(userRes.message);
+        }
         getProjectUsers(projectId).then((res) => {
           setUserlist(res?.users || []);
           // console.log(userRes);
@@ -231,7 +242,7 @@ function GrantCreate() {
             <Plan
               planName={detail?.incentivePlanName}
               targetAudince={
-                projectAudience.find((v) => v.value == tip.target)?.label
+                projectAudience.find((v) => v.value == detail.target)?.label
               }
               availableAmount={formatDollar(detail?.totalTokenNum)}
             />
@@ -296,6 +307,8 @@ function GrantCreate() {
                   >
                     <Select
                       placeholder="Search/Select"
+                      open={openGrantee}
+                      onDropdownVisibleChange={(v) => setOpenGrantee(v)}
                       dropdownRender={(menu) => {
                         return (
                           <>
@@ -304,7 +317,12 @@ function GrantCreate() {
                             <Button
                               type="text"
                               className="w-full"
-                              onClick={() => setModal(true)}
+                              onClick={() => {
+                                setOpenGrantee(false);
+                                setTimeout(() => {
+                                  setModal(true);
+                                }, 300);
+                              }}
                             >
                               <div className="flex items-center justify-center w-full">
                                 <PlusOutlined />
@@ -690,23 +708,52 @@ function GrantCreate() {
         </div>
       </div>
 
-      <Modal
-        width={460}
-        title="Set up a new grantee"
-        open={showModal}
-        okText="Done"
-        cancelText="Close"
-        onOk={handleAddGrantee}
-        confirmLoading={confirmLoadingMember}
-        onCancel={() => {
-          setModal(false);
-          setConfirmLoadingMember(false);
-        }}
-      >
-        <BorderModalContent>
+      {pc ? (
+        <Modal
+          width={460}
+          title="Set up a new grantee"
+          open={showModal}
+          okText="Done"
+          cancelText="Close"
+          onOk={handleAddGrantee}
+          confirmLoading={confirmLoadingMember}
+          onCancel={() => {
+            setModal(false);
+            setConfirmLoadingMember(false);
+          }}
+        >
+          <BorderModalContent>
+            <GranteeFrom form={formGrantee} />
+          </BorderModalContent>
+        </Modal>
+      ) : (
+        <Drawer
+          closable={false}
+          placement="bottom"
+          open={showModal}
+          title={
+            <div className="font-normal text-center">Set up a new grantee</div>
+          }
+          contentWrapperStyle={{
+            height: "400px",
+            borderRadius: "24px 24px 0px 0px",
+            overflow: "hidden",
+          }}
+          onClose={() => setModal(false)}
+        >
           <GranteeFrom form={formGrantee} />
-        </BorderModalContent>
-      </Modal>
+          <div className="flex justify-center mt-2">
+            <Button
+              type="primary"
+              className="w-[64vw]"
+              loading={confirmLoadingMember}
+              onClick={handleAddGrantee}
+            >
+              Save
+            </Button>
+          </div>
+        </Drawer>
+      )}
     </>
   );
 }
