@@ -290,12 +290,12 @@ export function getLastVested(list=[]) {
 
 export const tokenTypeList = [
   {
-    label: "Token Option",
+    name: "Token Option",
     value: 1,
     disabled: false,
   },
   {
-    label: "Token",
+    name: "Token",
     value: 2,
     disabled: true,
   },

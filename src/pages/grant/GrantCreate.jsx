@@ -19,6 +19,7 @@ import {
   Drawer,
   message,
 } from "antd";
+import Switch from "@/components/switch";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   getTIPInfo,
@@ -128,6 +129,7 @@ function GrantCreate() {
       grantNum: grantInfo.grantNum,
       exercisePrice: grantInfo.exercisePrice,
       grantType: grantInfo.grantType,
+      tokenType: grantInfo.tokenType,
       grantDate: dayjs(grantInfo.grantDate, dateFormat),
       vestingTotalLength: grantInfo.vestingTotalLength,
       vestingTotalPeriod: grantInfo.vestingTotalPeriod,
@@ -154,6 +156,7 @@ function GrantCreate() {
       granteeEmail: grantValues.email,
       grantType: planValues.grantType,
       grantNum: planValues.grantNum,
+      tokenType: planValues.tokenType,
       exercisePrice: planValues.exercisePrice,
       grantDate: planValues.grantDate.format(dateFormat),
       vestingScheduleDate: dayjs().format(dateFormat),
@@ -340,7 +343,7 @@ function GrantCreate() {
                 <div>
                   <Title text="Grant" />
                   <Form.Item name="tokenType">
-                    <Radio.Group>
+                    {/* <Radio.Group>
                       {tokenTypeList.map(({ label, value, disabled }) => {
                         return (
                           <Radio disabled={disabled} value={value} key={value}>
@@ -348,7 +351,30 @@ function GrantCreate() {
                           </Radio>
                         );
                       })}
-                    </Radio.Group>
+                    </Radio.Group> */}
+
+                  {pc ? (
+                    <Form.Item name="tokenType">
+                      <Radio.Group>
+                        {tokenTypeList.map(({ name, value, disabled }) => {
+                          return (
+                            <Radio
+                              disabled={disabled}
+                              value={value}
+                              key={value}
+                            >
+                              {name}
+                            </Radio>
+                          );
+                        })}
+                      </Radio.Group>
+                    </Form.Item>
+                  ) : (
+                    <Form.Item name="tokenType">
+                      <Switch list={tokenTypeList} />
+                    </Form.Item>
+                  )}
+
                   </Form.Item>
                   <Form.Item
                     label="Total Amount"
@@ -386,17 +412,28 @@ function GrantCreate() {
 
                 <div>
                   <Title text="Vesting" />
-                  <Form.Item name="grantType">
-                    <Radio.Group>
-                      {grantType.map(({ name, value, disabled }) => {
-                        return (
-                          <Radio disabled={disabled} value={value} key={value}>
-                            {name}
-                          </Radio>
-                        );
-                      })}
-                    </Radio.Group>
-                  </Form.Item>
+
+                  {pc ? (
+                    <Form.Item name="grantType">
+                      <Radio.Group>
+                        {grantType.map(({ name, value, disabled }) => {
+                          return (
+                            <Radio
+                              disabled={disabled}
+                              value={value}
+                              key={value}
+                            >
+                              {name}
+                            </Radio>
+                          );
+                        })}
+                      </Radio.Group>
+                    </Form.Item>
+                  ) : (
+                    <Form.Item name="grantType">
+                      <Switch list={grantType} />
+                    </Form.Item>
+                  )}
 
                   <Form.Item
                     label="Vesting Start Date"
