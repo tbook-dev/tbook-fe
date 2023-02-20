@@ -18,7 +18,7 @@ export default function ({ tip, pc }) {
         value: `${formatDollar(tip.grantedTokenNum)}(${getDividePercent(
           tip.grantedTokenNum,
           tip.totalTokenNum
-        )})%`,
+        )}%)`,
       },
       {
         title: "Vested Token",
