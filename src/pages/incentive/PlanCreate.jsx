@@ -254,7 +254,7 @@ function PlanCreate() {
                         },
                       ]}
                     >
-                      <Input placeholder="Ethereum" />
+                      <Input placeholder="the name for your incentive plan, like GoPlus..." />
                     </Form.Item>
 
                     <Form.Item
