@@ -89,7 +89,7 @@ function Header() {
 
         {authUser && (
           <div className="border-t pb-9">
-            <NavLink
+            {/* <NavLink
               to="/setting"
               className={({ isActive }) =>
                 clsx(
@@ -113,7 +113,7 @@ function Header() {
                   </>
                 );
               }}
-            </NavLink>
+            </NavLink> */}
 
             {/* 1、当前项目的网络; 2、默认以太坊*/}
             <div className="flex items-center px-4 h-14">

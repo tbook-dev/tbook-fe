@@ -269,17 +269,16 @@ export function minZeroValidator(label) {
   };
 }
 
-
-export function maxValidator(max, label){
-  return function(_, value){
-    if(value > max){
+export function maxValidator(max, label) {
+  return function (_, value) {
+    if (value > max) {
       return Promise.reject(new Error(`${label} must be less than ${max}!`));
     }
     return Promise.resolve();
-  }
+  };
 }
 
-export function getLastVested(list=[]) {
+export function getLastVested(list = []) {
   const vestedList = list
     .filter((m) => m.isVested)
     .sort((a, b) => {
@@ -299,7 +298,7 @@ export const tokenTypeList = [
     value: 2,
     disabled: true,
   },
-]
+];
 
 export const timeLengthList = [
   {
@@ -317,5 +316,8 @@ export const timeLengthList = [
   {
     label: "year",
     value: 4,
-  }
-]
+  },
+];
+
+export const findTimeType = (v) =>
+  timeLengthList.find((t) => t.value === v)?.label;

@@ -149,14 +149,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   </div>
                 )}
 
-                <NavLink
+                {/* <NavLink
                   to="/setting"
                   className="flex flex-col items-center justify-center h-20 transition duration-150"
                 >
                   {({ isActive }) => {
                     return <img src={isActive ? settingIcon2 : settingIcon1} />;
                   }}
-                </NavLink>
+                </NavLink> */}
               </div>
             )}
           </div>
