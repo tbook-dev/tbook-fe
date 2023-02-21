@@ -300,19 +300,19 @@ function PlanList() {
             <h2 className="text-[32px] lg:text-[24px]">Grants</h2>
 
             {userLoading || grantLoading ? null : tipList.length === 0 ? (
-              <Button type="primary" size="large" disabled>
+              <Button type="primary"  className="!py-4 !px-9 !h-12 !flex items-center !rounded-lg" disabled>
                 <span>
                   <PlusOutlined />
-                  <span className="font-roboto">New Grant</span>
+                  <span className="ml-2 font-roboto text-[14px]">New Grant</span>
                 </span>
               </Button>
             ) : (
               ![null, -1].includes(filters.Plan) && (
                 <Link to={`/incentive/grant/${filters.Plan}/create`}>
-                  <Button type="primary" size="large">
+                  <Button type="primary"  className="!py-4 !px-9 !h-12 !flex items-center !rounded-lg">
                     <span>
                       <PlusOutlined />
-                      <span className="font-roboto">New Grant</span>
+                      <span className="ml-2 font-roboto text-[14px]">New Grant</span>
                     </span>
                   </Button>
                 </Link>
