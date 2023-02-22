@@ -29,33 +29,33 @@ const routes =[
     //     path: '/incentive/grant/:tipId/:grantId/detail',
     //     component: lazy(() => import('@/pages/incentive/GrantDetail'))
     // },
-    {
-        path: '/incentive/grant/:tipId/:grantId/schedule',
-        component: lazy(() => import('@/pages/incentive/GrantsSchedule'))
-    },
+    // {
+    //     path: '/incentive/grant/:tipId/:grantId/schedule',
+    //     component: lazy(() => import('@/pages/incentive/GrantsSchedule'))
+    // },
     {
         path: '/grants/:grantId/sign',
         layout: 'v1',
         component: lazy(() => import('@/pages/sign/GrantSign'))
     },
-    {
-        path: '/new-project',
-        layout: 'v2',
-        component: lazy(() => import('@/pages/CreateProject'))
-    },
-    {
-        path: '/my-grants',
-        layout: 'v2',
-        component: lazy(() => import('@/pages/incentive/PersonalProperty'))
-    },
-    {
-        path: '/settings/project',
-        component: lazy(() => import('@/pages/settings/Project'))
-    },
-    {
-        path: '/settings/member',
-        component: lazy(() => import('@/pages/settings/Member'))
-    },
+    // {
+    //     path: '/new-project',
+    //     layout: 'v2',
+    //     component: lazy(() => import('@/pages/CreateProject'))
+    // },
+    // {
+    //     path: '/my-grants',
+    //     layout: 'v2',
+    //     component: lazy(() => import('@/pages/incentive/PersonalProperty'))
+    // },
+    // {
+    //     path: '/settings/project',
+    //     component: lazy(() => import('@/pages/settings/Project'))
+    // },
+    // {
+    //     path: '/settings/member',
+    //     component: lazy(() => import('@/pages/settings/Member'))
+    // },
     
 ]
 

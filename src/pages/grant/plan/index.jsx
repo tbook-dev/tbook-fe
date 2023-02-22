@@ -76,6 +76,7 @@ export default function ({ planName, targetAudince, availableAmount }) {
                 disabled: v.incentivePlanId == tipId,
               })),
               onClick: (evt) => {
+                setOpen(false);
                 navigate(`/incentive/grant/${evt.key}/create`);
               },
             }}
@@ -161,6 +162,7 @@ export default function ({ planName, targetAudince, availableAmount }) {
                   )}
                   onClick={() => {
                     if (item.disabled) return;
+                    setOpen(false);
                     navigate(`/incentive/grant/${item.key}/create`);
                   }}
                 >
