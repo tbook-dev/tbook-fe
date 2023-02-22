@@ -321,3 +321,5 @@ export const timeLengthList = [
 
 export const findTimeType = (v) =>
   timeLengthList.find((t) => t.value === v)?.label;
+
+export const defaultErrorMsg = 'An error happens, plase try it later!';

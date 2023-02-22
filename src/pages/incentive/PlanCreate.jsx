@@ -8,6 +8,7 @@ import {
   Tooltip,
   InputNumber,
   Divider,
+  message
 } from "antd";
 import {
   CheckOutlined,
@@ -32,6 +33,7 @@ import { useParams } from "react-router-dom";
 import { useNetwork } from "wagmi";
 import Title from "@/pages/component/Title";
 import useProjectAudience from "@/hooks/useProjectAudience";
+import { defaultErrorMsg } from '@/utils/const';
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
@@ -98,10 +100,15 @@ function PlanCreate() {
     // 应该获取当前链，暂时不处理
     values.chain = mainNetwork;
     const projectInfo = await createProject(values);
-    dispatch(setCurrentProjectId(projectInfo.projectId));
-    dispatch(fetchUserInfo(false));
-    setProjectLoading(false);
-    setFirstCreated(true);
+    if(projectInfo.success){
+      dispatch(setCurrentProjectId(projectInfo?.entity?.projectId));
+      dispatch(fetchUserInfo(false));
+      setProjectLoading(false);
+      setFirstCreated(true);
+    }else{
+      setProjectLoading(false);
+      message.error(projectInfo.message || defaultErrorMsg)
+    }
   }
 
   return (
