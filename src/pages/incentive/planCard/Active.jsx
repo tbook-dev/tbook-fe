@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useMemo } from "react";
 import { getDividePercent, formatDollar } from "@/utils/const";
-import useProjectAudience from "@/hooks/useProjectAudience";
+import useFindAudience from '@/hooks/useFindAudience';
 
 import activePlan from "@/images/incentive/active-plan.png";
 import bgpc from "@/images/incentive/all-plan-ap.png";
@@ -34,10 +34,8 @@ export default function ({ tip, pc }) {
       },
     ];
   }, [tip]);
-  const projectAudience = useProjectAudience();
-  const targetAudience = projectAudience.find(
-    (v) => v.value == tip.target
-  )?.label;
+  const findAudience = useFindAudience();
+  const targetAudience = findAudience(tip.target)
 
   return (
     <div

@@ -19,6 +19,8 @@ const initialState = {
     //   tokenTotalAmount: 0,
     //   tokenContractAddress: "",
     //   latestValuation: 100000000,
+    //   customizedTargetList: [],
+    //   targetList: []
     // },
   ],
   user: {

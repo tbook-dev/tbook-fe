@@ -24,7 +24,7 @@ import useCurrentProject from "@/hooks/useCurrentProject";
 import _ from "lodash";
 import { useResponsive } from "ahooks";
 import AvatarWallet from "./avatarWallet";
-import useProjects from "@/hooks/useProjects";
+// import useProjects from "@/hooks/useProjects";
 import NetWork from "@/components/icon/NetWork";
 import planIcon from "@/images/incentive/plan.svg";
 import cardbgpc from "@/images/incentive/headers/planpc.png";
@@ -53,7 +53,7 @@ function PlanCreate() {
   const navigate = useNavigate();
   const projectId = useCurrentProjectId();
   const project = useCurrentProject();
-  const projects = useProjects();
+  // const projects = useProjects();
   // const [customizeOptions, setCustomizeOptions] = useState(null);
   const projectAudience = useProjectAudience();
   const [inputVal, setInputVal] = useState("");
@@ -77,7 +77,7 @@ function PlanCreate() {
         values.projectId = projectId;
 
         if (addedAudience.length === 0) {
-          values.labelList = null;
+          values.labelList = '';
         } else {
           values.labelList = JSON.stringify(addedAudience.map((v) => v.label));
         }

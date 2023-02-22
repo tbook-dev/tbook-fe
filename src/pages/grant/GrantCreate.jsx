@@ -41,7 +41,7 @@ import {
   tokenTypeList,
   timeLengthList,
 } from "@/utils/const";
-import useProjectAudience from "@/hooks/useProjectAudience";
+import useFindAudience from "@/hooks/useFindAudience";
 import GranteeFrom from "../incentive/GranteeForm";
 import dayjs from "dayjs";
 import { useAsyncEffect, useResponsive } from "ahooks";
@@ -71,7 +71,7 @@ function GrantCreate() {
   const [searchParms] = useSearchParams();
   // console.log(searchParms.get('grantId'))
   const grantId = searchParms.get("grantId");
-  const projectAudience = useProjectAudience();
+  const findAudience = useFindAudience();
 
   const { pc } = useResponsive();
 
@@ -238,9 +238,7 @@ function GrantCreate() {
 
             <Plan
               planName={detail?.incentivePlanName}
-              targetAudince={
-                projectAudience.find((v) => v.value == detail.target)?.label
-              }
+              targetAudince={findAudience(detail.target)}
               availableAmount={formatDollar(detail?.totalTokenNum)}
             />
 

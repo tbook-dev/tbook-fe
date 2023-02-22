@@ -1,18 +1,15 @@
-import useProjects from "./useProjects";
-import { targetMap } from "@/utils/const";
+import useCurrentProject from "./useCurrentProject";
 
-// targetMap 值最大开始, 初始值为7；
+// 值从1开始；
 export default function () {
   // console.log('id', id)
-  const projects = useProjects();
-  const preOptions = Object.entries(targetMap).map(([value, desc]) => ({
-    label: desc,
-    value: value,
-  }));
+  const { targetList = [], customizedTargetList = [] } = useCurrentProject();
+  const options = [...targetList, ...customizedTargetList].map(
+    (label, idx) => ({
+      label,
+      value: idx + 1,
+    })
+  );
 
-  const coustom = (projects?.targetList || []).map((v, idx) => {
-    return { label: v, value: `${7 + idx}` };
-  });
-
-  return [...preOptions, ...coustom];
+  return options;
 }
