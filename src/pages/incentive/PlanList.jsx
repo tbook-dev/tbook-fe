@@ -106,16 +106,12 @@ function PlanList() {
       // console.log(list2Formated[0].incentivePlanId)`
     }
     // const activeIdx = list2Formated[0]?.idx || 0;
-    // 前面增加一个all, 后面增加一个new, 永远不会为all,new
-    setActiveIndex(list1.length === 1 ? 0 : activeIdx + 1);
+    setActiveIndex(activeIdx);
     // console.log("activeIdx+1", list1, activeIdx + 1);
-    if (list1.length === 1) {
-      // 手动dispatch
-      dispatchFilter({
-        type: "Plan",
-        payload: list1[0]?.incentivePlanId,
-      });
-    }
+    dispatchFilter({
+      type: "Plan",
+      payload: list1[activeIdx]?.incentivePlanId,
+    });
 
     // console.log(list1[activeIdx+1]?.incentivePlanId)
     // !pc &&
@@ -170,7 +166,7 @@ function PlanList() {
 
               <Swiper
                 modules={[Navigation]}
-                spaceBetween={16}
+                spaceBetween={10}
                 slidesPerView={pc ? 4 : "auto"}
                 // centeredSlides={pc}
                 onSwiper={setSwiper}
@@ -185,6 +181,7 @@ function PlanList() {
               >
                 {Array.isArray(tipList) &&
                   tipList.map((tip) => {
+                    console.log('filters.Plan',filters.Plan,tip.incentivePlanId)
                     return (
                       <SwiperSlide
                         key={tip.incentivePlanId}
@@ -261,7 +258,7 @@ function PlanList() {
                     style={{
                       cursor: authUser ? null : "not-allowed",
                       color: authUser
-                        ? displayType === 1
+                        ? displayType === 0
                           ? "#0049FF"
                           : "#BFBFBF"
                         : "rgba(255,255,255,.2)",

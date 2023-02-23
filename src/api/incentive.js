@@ -17,7 +17,7 @@ export const createProject = async function(values){
 export const getIncentiveList = async function (projectId) {
     try {
         const res = await request(`${host}/projects/${projectId}/tips`)
-        return (Array.isArray(res) ? res : []).slice(0,4)
+        return (Array.isArray(res) ? res : []).slice()
     }catch(error){
         return []
     }

@@ -11,16 +11,15 @@ module.exports = {
         lg: "1120px", // 96*2+928=1120
       },
       backgroundImage: {
-        cw1:'linear-gradient(57.39deg, #6AB3F7 -4.5%, #67EBD4 96.91%);'
+        cw1: "linear-gradient(57.39deg, #6AB3F7 -4.5%, #67EBD4 96.91%);",
+        cw2: "linear-gradient(57.39deg, rgba(106, 179, 247, 0.15) -4.5%, rgba(103, 235, 212, 0.15)  96.91%);",
       },
       boxShadow: {
         d1: "0px 0px 8px rgba(0, 0, 0, 0.08)",
         d2: "0px 8px 24px rgba(69, 160, 245, 0.2)",
         d3: "0px 0px 8px rgba(255, 255, 255, 0.25)",
         d4: "0px 0px 2px rgba(255, 255, 255, 0.25)",
-
-
-
+        d5: "0px 0px 8px rgba(255, 255, 255, 0.6)",
 
         DEFAULT:
           "0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.02)",
@@ -51,8 +50,7 @@ module.exports = {
         c1: ["14px", { lineHeight: "22px" }],
         // coustom web h1
         cwh1: ["32px", { lineHeight: "40px" }],
-        cwh2: ["24px", { lineHeight: "32px" }]
-
+        cwh2: ["24px", { lineHeight: "32px" }],
 
         // xxs: ["11px", { lineHeight: '30px', "transform-origin-x": 0, "transform": 'scale(0.9)'}],
         // xs: ["0.75rem", { lineHeight: "1.5" }],
@@ -75,11 +73,10 @@ module.exports = {
         },
         // black
         b: {
-          1 : "rgba(255, 255, 255, 0.1)"
+          1: "rgba(255, 255, 255, 0.1)",
         },
         // disable
-        disable: "rgba(255, 255, 255, 0.2)"
-
+        disable: "rgba(255, 255, 255, 0.2)",
       },
       borderWidth: {
         3: "3px",

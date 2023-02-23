@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useMemo } from "react";
 import { getDividePercent, formatDollar } from "@/utils/const";
-import useFindAudience from '@/hooks/useFindAudience';
+import useFindAudience from "@/hooks/useFindAudience";
 
 import activePlan from "@/images/incentive/active-plan.png";
 import bgpc from "@/images/incentive/all-plan-ap.png";
@@ -35,17 +35,18 @@ export default function ({ tip, pc, isActive }) {
     ];
   }, [tip]);
   const findAudience = useFindAudience();
-  const targetAudience = findAudience(tip.target)
-
+  const targetAudience = findAudience(tip.target);
+  console.log({ isActive });
   return (
     <div
+      isactive={isActive}
       className={clsx(
         "flex flex-col justify-between bg-cover shadow-c2 rounded-lg overflow-hidden relative",
-        "w-[80vw] h-[180px] flex flex-col lg:w-[226px] lg:h-[140px]"
+        "w-[80vw] h-[180px] flex flex-col lg:w-[226px] lg:h-[140px]",
+        isActive
+          ? "dark:bg-cw1"
+          : "dark:bg-black  dark:hover:bg-cw2 dark:shadow-d5"
       )}
-      style={{
-        backgroundImage: `url(${pc ? bgpc : activePlan})`,
-      }}
     >
       <div className="flex items-center px-4 py-2.5">
         <p className="max-w-[50%] truncate mr-2 text-base leading-none m-0 lg:text-xl lg:leading-[24px] text-[#202124]">
@@ -58,7 +59,7 @@ export default function ({ tip, pc, isActive }) {
         )}
       </div>
 
-      <div className="flex-auto grid grid-cols-1 bg-white gap-y-2 lg:gap-y-1 px-4 pt-4 pb-2.5 lg:py-6">
+      <div className="flex-auto grid grid-cols-1 gap-y-2 lg:gap-y-1 px-4 pt-4 pb-2.5 lg:py-6">
         {conf.map((v) => {
           return (
             <div
