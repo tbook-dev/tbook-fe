@@ -16,6 +16,8 @@ module.exports = {
       boxShadow: {
         d1: "0px 0px 8px rgba(0, 0, 0, 0.08)",
         d2: "0px 8px 24px rgba(69, 160, 245, 0.2)",
+        d3: "0px 0px 8px rgba(255, 255, 255, 0.25)",
+        d4: "0px 0px 2px rgba(255, 255, 255, 0.25)",
         DEFAULT:
           "0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.02)",
         md: "0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.02)",
@@ -59,6 +61,7 @@ module.exports = {
         c: {
           0: "#000",
           3: "#333",
+          6: "#666",
           9: "#999",
         },
       },

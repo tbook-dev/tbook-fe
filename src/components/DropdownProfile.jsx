@@ -135,16 +135,16 @@ function DropdownProfile() {
     >
       <div
         className={clsx(
-          "w-9 h-9 lg:w-8 lg:h-8 rounded-full  flex justify-center items-center mr-2 shadow-c9",
-          dropdownOpen ? "bg-[#0049FF]" : "bg-[#e6e6e6]"
+          "w-9 h-9 lg:w-8 lg:h-8 rounded-full  flex justify-center items-center mr-2 shadow-c4",
+          dropdownOpen ? "bg-[#0049FF]" : "bg-[#141414]"
         )}
       >
         <img src={userStore?.avatar} className="lg:w-5 w-[25px]" />
       </div>
       <span
         className={clsx(
-          "hidden lg:block text-[14px] leading-[22px]",
-          clsx(dropdownOpen ? "text-[#0049FF]" : "text-[#333]")
+          "hidden lg:block text-c1",
+          clsx(dropdownOpen ? "text-[#0049FF]" : "dark:text-c-9")
         )}
       >
         {ensName || shortAddress(userStore?.mainWallet)}
@@ -153,7 +153,7 @@ function DropdownProfile() {
   );
   return (
     <div className="relative inline-flex">
-      <span className="text-[14px] leading-[32px] mr-4 text-[#666]">
+      <span className="text-[14px] leading-[32px] mr-4 dark:text-c-9">
         {currentProject?.projectName}
       </span>
 

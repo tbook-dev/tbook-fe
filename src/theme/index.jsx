@@ -25,6 +25,7 @@ export default function ({ children }) {
           },
         },
         token: {
+          ...darkConf.token,
           fontFamily: "'Red Hat Display', sans-serif;",
         },
       }}

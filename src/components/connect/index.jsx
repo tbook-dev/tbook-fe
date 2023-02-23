@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "antd";
+import  Button  from "@/components/button";
 import { useWallet, ConnectModal } from "@suiet/wallet-kit";
 
 import useSignIn from "@/hooks/useSignIn";
@@ -19,7 +19,7 @@ export default function () {
     <>
       <SwitchNet />
 
-      <Button type="primary" loading={loading} onClick={handleSignIn}>
+      <Button className="dark:hover:!font-medium !px-8" loading={loading} onClick={handleSignIn}>
         Connect
       </Button>
       <ConnectModal
