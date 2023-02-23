@@ -80,7 +80,7 @@ export default function ({
     if (type === "button") {
       return (
         <Button
-          className="!flex !items-center"
+          className="!flex !items-center !px-8"
           onClick={() => {
             setOpenLay(true);
           }}
