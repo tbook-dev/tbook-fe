@@ -84,6 +84,19 @@ function App() {
         <Web3Modal
         projectId={import.meta.env.VITE_WC_PROJECT_ID}
         ethereumClient={ethereumClient}
+        walletImages={{
+          metamask: 'https://explorer-api.walletconnect.com/v3/logo/md/5195e9db-94d8-4579-6f11-ef553be95100?projectId=2f05ae7f1116030fde2d36508f472bfb'
+        }}
+        mobileWallets={[
+          {
+            id: 'metamask',
+            name: 'MetaMask',
+            links: {
+              native: '',
+              universal: 'https://metamask.app.link/dapp/app.tbook.com'
+            }
+          }
+        ]}
     />
     <WalletProvider defaultWallets={[SuietWallet]}></WalletProvider>
     </>
