@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
 import { Button, Drawer, Space } from "antd";
-import Empty from '@/components/empty';
+import Empty from "@/components/empty";
 import { useAsyncEffect, useResponsive } from "ahooks";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import useUserInfoLoading from "@/hooks/useUserInfoLoading";
@@ -23,11 +23,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser, fetchUserInfo } from "@/store/user";
 import clsx from "clsx";
 import ActiveCard from "./planCard/Active";
-import InActiveCard from "./planCard/InActive";
-import AllActiveCard from "./planCard/AllActive";
-import AllInActiveCard from "./planCard/AllInActive";
-import AddActiveCard from "./planCard/AddActive";
-import AddInActiveCard from "./planCard/AddInActive";
 import GrantCard from "./grantCard";
 import GrantCardV2 from "./grantCard/v2";
 import FilterPanel from "./filter";
@@ -156,7 +151,7 @@ function PlanList() {
           Incentive Plans
         </h2>
 
-        <div className="relative h-[190px]">
+        <div className="relative lg:h-[140px]">
           {userLoading || grantLoading ? (
             <div className="flex items-center justify-center w-full h-full">
               <Spin />
@@ -176,83 +171,18 @@ function PlanList() {
               <Swiper
                 modules={[Navigation]}
                 spaceBetween={16}
-                slidesPerView="auto"
-                centeredSlides={pc}
+                slidesPerView={pc ? 4 : "auto"}
+                // centeredSlides={pc}
                 onSwiper={setSwiper}
                 slideToClickedSlide={pc}
                 initialSlide={activeIndex}
                 // observeSlideChildren
-                loop={pc && tipList.length > 3}
+                // loop={pc && tipList.length > 3}
                 navigation={{
                   nextEl: ".swiper-button-next",
                   prevEl: ".swiper-button-prev",
                 }}
-                onSlideChange={(w) => {
-                  console.log("------>onSlideChange", w.realIndex);
-                  if (drawerOpen) return;
-                  let incentivePlanId =
-                    tipList[
-                      tipList.length === 1 ? w.realIndex : w.realIndex - 1
-                    ]?.incentivePlanId;
-                  // console.log(incentivePlanId, w.realIndex);
-
-                  // // console.log("---->", w.realIndex, tipList.length);
-                  // console.log("tipList------>", tipList.length, w.realIndex);
-                  if (tipList.length === 1) {
-                    if (w.realIndex === tipList.length) {
-                      if (pc) {
-                        navigate("/create/plan");
-                      }
-                      return dispatchFilter({
-                        type: "Plan",
-                        payload: -1,
-                      });
-                    } else {
-                      return dispatchFilter({
-                        type: "Plan",
-                        payload: incentivePlanId,
-                      });
-                    }
-                  } else {
-                    if (w.realIndex === 0) {
-                      return dispatchFilter({
-                        type: "Plan",
-                        payload: null,
-                      });
-                    }
-                    if (w.realIndex === tipList.length + 1) {
-                      if (pc) {
-                        navigate("/create/plan");
-                      }
-                      return dispatchFilter({
-                        type: "Plan",
-                        payload: -1,
-                      });
-                    }
-                  }
-                  // console.log('------>incentivePlanId', incentivePlanId)
-                  // if (!pc && w.activeIndex === tipList.length) return;
-                  dispatchFilter({
-                    type: "Plan",
-                    payload: incentivePlanId,
-                  });
-                }}
               >
-                {tipList.length > 1 && (
-                  <SwiperSlide
-                    key="all"
-                    style={{ width: "auto", paddingBottom: "10px" }}
-                  >
-                    {({ isActive }) => {
-                      return isActive ? (
-                        <AllActiveCard pc={pc} />
-                      ) : (
-                        <AllInActiveCard pc={pc} />
-                      );
-                    }}
-                  </SwiperSlide>
-                )}
-
                 {Array.isArray(tipList) &&
                   tipList.map((tip) => {
                     return (
@@ -260,31 +190,14 @@ function PlanList() {
                         key={tip.incentivePlanId}
                         style={{ width: "auto", paddingBottom: "10px" }}
                       >
-                        {({ isActive }) => {
-                          return isActive ? (
-                            <ActiveCard tip={tip} pc={pc} />
-                          ) : (
-                            <InActiveCard tip={tip} pc={pc} />
-                          );
-                        }}
+                        <ActiveCard
+                          isActive={filters.Plan === tip.incentivePlanId}
+                          tip={tip}
+                          pc={pc}
+                        />
                       </SwiperSlide>
                     );
                   })}
-
-                {
-                  <SwiperSlide
-                    key="add"
-                    style={{ width: "auto", paddingBottom: "10px" }}
-                  >
-                    {({ isActive }) => {
-                      return isActive ? (
-                        <AddActiveCard pc={pc} />
-                      ) : (
-                        <AddInActiveCard pc={pc} />
-                      );
-                    }}
-                  </SwiperSlide>
-                }
               </Swiper>
             </>
           )}

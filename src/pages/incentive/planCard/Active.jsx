@@ -6,7 +6,7 @@ import useFindAudience from '@/hooks/useFindAudience';
 import activePlan from "@/images/incentive/active-plan.png";
 import bgpc from "@/images/incentive/all-plan-ap.png";
 
-export default function ({ tip, pc }) {
+export default function ({ tip, pc, isActive }) {
   const conf = useMemo(() => {
     return [
       {
@@ -41,7 +41,7 @@ export default function ({ tip, pc }) {
     <div
       className={clsx(
         "flex flex-col justify-between bg-cover shadow-c2 rounded-lg overflow-hidden relative",
-        "w-[80vw] h-[180px] flex flex-col lg:w-[264px]"
+        "w-[80vw] h-[180px] flex flex-col lg:w-[226px] lg:h-[140px]"
       )}
       style={{
         backgroundImage: `url(${pc ? bgpc : activePlan})`,
