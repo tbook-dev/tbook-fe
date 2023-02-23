@@ -2,7 +2,6 @@ import React, { Suspense, useCallback, useLayoutEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useAsyncEffect } from "ahooks";
 import "./css/style.css";
-import "./charts/ChartjsConfig";
 import { useDispatch } from "react-redux";
 import { fetchUserInfo } from "@/store/user";
 import { match } from "path-to-regexp";
