@@ -144,20 +144,14 @@ function PlanList() {
     }
     return res;
   }, [grantList, filters]);
-  console.log("filters.plan", filters.Plan);
+  // console.log("filters.plan", filters.Plan);
   return (
     <div className="w-full text-[#202124] mb-4">
-      <div className="hidden pt-6 mb-4 lg:block">
-        <h1 className="text-[56px] leading-[64px] mb-10 text-center">
-          Incentive List
-        </h1>
-      </div>
-
       <div
-        className="w-full mb-5"
+        className="w-full mb-5 lg:mt-12"
         style={{ "--swiper-navigation-size": "16px" }}
       >
-        <h2 className="pb-2 text-[32px] lg:text-[24px]">Plans</h2>
+        <h2 className="mb-6 text-[32px] lg:text-cwh1 dark:text-white font-bold">Incentive Plans</h2>
 
         <div className="relative h-[190px]">
           {userLoading || grantLoading ? (
@@ -297,7 +291,7 @@ function PlanList() {
       {pc ? (
         <div className="hidden lg:block">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-[32px] lg:text-[24px]">Grants</h2>
+            <h2 className="text-[32px] lg:text-cwh2 dark:text-white font-bold">Grants</h2>
 
             {userLoading || grantLoading ? null : tipList.length === 0 ? (
               <Button type="primary"  className="!py-4 !px-9 !h-12 !flex items-center !rounded-lg" disabled>
