@@ -151,7 +151,9 @@ function PlanList() {
         className="w-full mb-5 lg:mt-12"
         style={{ "--swiper-navigation-size": "16px" }}
       >
-        <h2 className="mb-6 text-[32px] lg:text-cwh1 dark:text-white font-bold">Incentive Plans</h2>
+        <h2 className="mb-6 text-[32px] lg:text-cwh1 dark:text-white font-bold">
+          Incentive Plans
+        </h2>
 
         <div className="relative h-[190px]">
           {userLoading || grantLoading ? (
@@ -185,7 +187,7 @@ function PlanList() {
                   prevEl: ".swiper-button-prev",
                 }}
                 onSlideChange={(w) => {
-                  console.log('------>onSlideChange',w.realIndex)
+                  console.log("------>onSlideChange", w.realIndex);
                   if (drawerOpen) return;
                   let incentivePlanId =
                     tipList[
@@ -197,8 +199,8 @@ function PlanList() {
                   // console.log("tipList------>", tipList.length, w.realIndex);
                   if (tipList.length === 1) {
                     if (w.realIndex === tipList.length) {
-                      if(pc){
-                        navigate('/create/plan')
+                      if (pc) {
+                        navigate("/create/plan");
                       }
                       return dispatchFilter({
                         type: "Plan",
@@ -218,8 +220,8 @@ function PlanList() {
                       });
                     }
                     if (w.realIndex === tipList.length + 1) {
-                      if(pc){
-                        navigate('/create/plan')
+                      if (pc) {
+                        navigate("/create/plan");
                       }
                       return dispatchFilter({
                         type: "Plan",
@@ -291,22 +293,31 @@ function PlanList() {
       {pc ? (
         <div className="hidden lg:block">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-[32px] lg:text-cwh2 dark:text-white font-bold">Grants</h2>
+            <h2 className="text-[32px] lg:text-cwh2 dark:text-white font-bold">
+              Grants
+            </h2>
 
             {userLoading || grantLoading ? null : tipList.length === 0 ? (
-              <Button type="primary"  className="!py-4 !px-9 !h-12 !flex items-center !rounded-lg" disabled>
+              <Button
+                type="primary"
+                className="!px-9 !h-12 !flex items-center !rounded-lg !border-none"
+                disabled
+              >
                 <span>
                   <PlusOutlined />
-                  <span className="ml-2 font-roboto text-[14px]">New Grant</span>
+                  <span className="ml-2 text-[14px]">New Grant</span>
                 </span>
               </Button>
             ) : (
               ![null, -1].includes(filters.Plan) && (
                 <Link to={`/incentive/grant/${filters.Plan}/create`}>
-                  <Button type="primary"  className="!py-4 !px-9 !h-12 !flex items-center !rounded-lg">
+                  <Button
+                    type="primary"
+                    className="!px-9 !h-12 !flex items-center !rounded-lg !border-none"
+                  >
                     <span>
                       <PlusOutlined />
-                      <span className="ml-2 font-roboto text-[14px]">New Grant</span>
+                      <span className="ml-2 text-[14px]">New Grant</span>
                     </span>
                   </Button>
                 </Link>
@@ -316,35 +327,33 @@ function PlanList() {
 
           {userLoading || grantLoading ? null : (
             <div className="justify-end hidden my-4 lg:flex">
-              <div className="flex items-center overflow-hidden bg-white !divide-x rounded-lg shadow-c12">
-                <span>
-                  <Button
-                    type="text"
-                    icon={
-                      <BarsOutlined
-                        style={{
-                          color: displayType === 1 ? "#0049FF" : "#BFBFBF",
-                        }}
-                      />
-                    }
-                    onClick={() => setDisplayType(1)}
-                    className="!flex !rounded-none justify-center items-center"
+              <div className="flex items-center overflow-hidden bg-white dark:bg-black !divide-x dark:divide-black rounded-lg shadow-c12">
+                <div className="flex items-center justify-center w-10 h-10 bg-b-1">
+                  <BarsOutlined
+                    onClick={() => authUser && setDisplayType(1)}
+                    style={{
+                      cursor: authUser ? null : "not-allowed",
+                      color: authUser
+                        ? displayType === 1
+                          ? "#0049FF"
+                          : "#BFBFBF"
+                        : "rgba(255,255,255,.2)",
+                    }}
                   />
-                </span>
-                <span>
-                  <Button
-                    type="text"
-                    icon={
-                      <AppstoreOutlined
-                        style={{
-                          color: displayType === 0 ? "#0049FF" : "#BFBFBF",
-                        }}
-                      />
-                    }
-                    onClick={() => setDisplayType(0)}
-                    className="!flex !rounded-none justify-center items-center"
+                </div>
+                <div className="flex items-center justify-center w-10 h-10 bg-b-1">
+                  <AppstoreOutlined
+                    onClick={() => authUser && setDisplayType(0)}
+                    style={{
+                      cursor: authUser ? null : "not-allowed",
+                      color: authUser
+                        ? displayType === 1
+                          ? "#0049FF"
+                          : "#BFBFBF"
+                        : "rgba(255,255,255,.2)",
+                    }}
                   />
-                </span>
+                </div>
               </div>
             </div>
           )}

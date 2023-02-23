@@ -11,7 +11,7 @@ module.exports = {
         lg: "1120px", // 96*2+928=1120
       },
       backgroundImage: {
-        c1: "radial-gradient(66.68% 50.5% at 50% 119.25%, #FBBF24 0%, #FFFBEC 100%)",
+        cw1:'linear-gradient(57.39deg, #6AB3F7 -4.5%, #67EBD4 96.91%);'
       },
       boxShadow: {
         d1: "0px 0px 8px rgba(0, 0, 0, 0.08)",
@@ -73,6 +73,13 @@ module.exports = {
           6: "#666",
           9: "#999",
         },
+        // black
+        b: {
+          1 : "rgba(255, 255, 255, 0.1)"
+        },
+        // disable
+        disable: "rgba(255, 255, 255, 0.2)"
+
       },
       borderWidth: {
         3: "3px",

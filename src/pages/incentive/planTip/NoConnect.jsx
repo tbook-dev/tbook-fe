@@ -1,5 +1,4 @@
-import { Button } from "antd";
-import bg from "./noConnect.png";
+import Button from "@/components/button";
 import bgm from "@/images/incentive/all-plan-m.png";
 import useSignIn from "@/hooks/useSignIn";
 
@@ -8,20 +7,19 @@ export default function ({ pc }) {
   // console.log({ loading, handleSignIn})
   return pc ? (
     <div
-      className="hidden lg:flex items-center justify-between rounded-2xl border bg-cover border-[#DADCE0] px-8 py-[38px]"
-      style={{ backgroundImage: `url(${bg})` }}
+      className="hidden lg:flex items-center justify-between rounded-xl dark:bg-cw1 px-8 py-[38px]"
     >
       <div>
-        <p className="text-[24px] leading-[32px] text-[#333] mb-1">
+        <p className="mb-1 text-cwh2 text-c-3">
           New Token Incentive Plan
         </p>
-        <p className="text-[16px] leading-[24px] text-[#999]">
+        <p className="text-base text-c-3">
           Connect wallet to set up your incentive plan.
         </p>
       </div>
 
-      <Button size="large"  loading={loading} onClick={handleSignIn}>
-        <span className="text-[#0049FF]">Connect Wallet</span>
+      <Button className="dark:hover:!font-medium !border-none" loading={loading} onClick={handleSignIn}>
+        Connect Wallet
       </Button>
     </div>
   ) : (
