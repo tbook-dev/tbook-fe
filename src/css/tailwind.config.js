@@ -1,4 +1,4 @@
-const plugin = require("tailwindcss/plugin");
+// const plugin = require("tailwindcss/plugin");
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
@@ -37,7 +37,7 @@ module.exports = {
         blue: "2px solid rgba(0, 112, 244, 0.5)",
       },
       fontFamily: {
-        roboto: ["Roboto", "sans-serif"],
+        rhd: ["Red Hat Display", "sans-serif"],
       },
       fontSize: {
         xxs: ["11px", { lineHeight: '30px', "transform-origin-x": 0, "transform": 'scale(0.9)'}],
@@ -72,19 +72,4 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    // eslint-disable-next-line global-require
-    require("@tailwindcss/forms"),
-    // add custom variant for expanding sidebar
-    plugin(({ addVariant, e }) => {
-      addVariant("sidebar-expanded", ({ modifySelectors, separator }) => {
-        modifySelectors(
-          ({ className }) =>
-            `.sidebar-expanded .${e(
-              `sidebar-expanded${separator}${className}`
-            )}`
-        );
-      });
-    }),
-  ],
 };
