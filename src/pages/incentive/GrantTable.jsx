@@ -10,9 +10,7 @@ export default function ({ list = [], loading = false }) {
       title: "GRANT ID",
       align: "center",
       render: (_, v) => (
-        <Link
-          to={`/grants/${v?.grant?.grantId}/sign`}
-        >
+        <Link to={`/grants/${v?.grant?.grantId}/sign`}>
           <p className="text-[#0049FF]">{v?.grant?.grantId}</p>
         </Link>
       ),
@@ -123,14 +121,12 @@ export default function ({ list = [], loading = false }) {
   ];
 
   return (
-    <ConfigProvider renderEmpty={() => <Empty description="No Grants" />}>
-      <Table
-        bordered
-        loading={loading}
-        columns={columns}
-        rowKey={(record) => record?.grant?.grantId}
-        dataSource={list}
-      />
-    </ConfigProvider>
+    <Table
+      bordered
+      loading={loading}
+      columns={columns}
+      rowKey={(record) => record?.grant?.grantId}
+      dataSource={list}
+    />
   );
 }

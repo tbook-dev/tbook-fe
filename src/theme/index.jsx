@@ -1,10 +1,13 @@
-import { ConfigProvider, theme } from "antd";
+import { ConfigProvider, theme, Empty } from "antd";
 import { StyleProvider } from "@ant-design/cssinjs";
 import darkConf from "./dark";
+
+
 
 export default function ({ children }) {
   return (
     <ConfigProvider
+      // renderEmpty={Empty}
       theme={{
         algorithm: theme.darkAlgorithm,
         components: {

@@ -11,7 +11,8 @@ import {
   BarsOutlined,
 } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
-import { Button, Drawer, Empty, Space } from "antd";
+import { Button, Drawer, Space } from "antd";
+import Empty from '@/components/empty';
 import { useAsyncEffect, useResponsive } from "ahooks";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import useUserInfoLoading from "@/hooks/useUserInfoLoading";
@@ -382,8 +383,8 @@ function PlanList() {
                     <GrantCardV2 grant={grant} key={grant.grant.grantId} />
                   ))
                 ) : (
-                  <div className="h-[222px] rounded-lg bg-white flex items-center justify-center">
-                    <Empty description="No grant" />
+                  <div className="h-[272px] rounded-xl bg-white dark:bg-b-1 flex items-center justify-center">
+                    <Empty />
                   </div>
                 )}
               </div>
@@ -476,7 +477,7 @@ function PlanList() {
                 <GrantCard grant={grant} key={grant.grant.grantId} />
               ))
             ) : (
-              <div className="h-[222px] rounded-lg bg-white flex items-center justify-center">
+              <div className="h-[222px] rounded-lg bg-white dark:bg-b-1 flex items-center justify-center">
                 <Empty description="No grant" />
               </div>
             )}
