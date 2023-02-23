@@ -1,5 +1,5 @@
 import React from "react";
-import UserMenu from "@/components/DropdownProfile";
+import UserMenu from "@/components/UserMenu";
 import { useSelector } from "react-redux";
 import Connect from "@/components/connect";
 import logo from "@/images/icon/logo.svg";

@@ -127,7 +127,7 @@ function DropdownProfile() {
   );
   const Avator = () => (
     <div
-      className="flex items-center cursor-pointer"
+      className="flex items-center px-6 rounded-lg cursor-pointer lg:h-10 dark:shadow-d3"
       onClick={() => {
         setDropdownOpen(true);
         setExpaned(false);
@@ -135,11 +135,11 @@ function DropdownProfile() {
     >
       <div
         className={clsx(
-          "w-9 h-9 lg:w-8 lg:h-8 rounded-full  flex justify-center items-center mr-2 shadow-c4",
+          "w-9 h-9 lg:w-6 lg:h-6 rounded-full  flex justify-center items-center mr-1 shadow-d4",
           dropdownOpen ? "bg-[#0049FF]" : "bg-[#141414]"
         )}
       >
-        <img src={userStore?.avatar} className="lg:w-5 w-[25px]" />
+        <img src={userStore?.avatar} className="lg:w-[14px] w-[25px]" />
       </div>
       <span
         className={clsx(
@@ -153,9 +153,9 @@ function DropdownProfile() {
   );
   return (
     <div className="relative inline-flex">
-      <span className="text-[14px] leading-[32px] mr-4 dark:text-c-9">
+      <div className="flex items-center h-10 px-4 py-2 mr-4 rounded-lg text-c1 dark:text-c-9 dark:shadow-d3">
         {currentProject?.projectName}
-      </span>
+      </div>
 
       {pc ? (
         <Popover

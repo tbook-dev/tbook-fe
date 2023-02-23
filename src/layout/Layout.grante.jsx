@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import HeaderV2 from "@/partials/HeaderV2";
+import HeaderV2 from "./HeaderV2";
 
 export default function LayoutGrante({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);

@@ -1,5 +1,5 @@
 import React from "react";
-import UserMenu from "../components/DropdownProfile";
+import UserMenu from "@/components/UserMenu";
 import Logo from "../components/icon/Logo";
 
 function Header() {
