@@ -1,7 +1,7 @@
 export default {
   components: {
     Button: {
-      colorPrimary: "#000000",
+      // colorPrimary: "#000000",
       "borderRadius": 8,
       "colorPrimaryBorder": "transparent",
       "colorBorder": "transparent",

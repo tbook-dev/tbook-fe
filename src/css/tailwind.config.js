@@ -51,6 +51,8 @@ module.exports = {
         // coustom web h1
         cwh1: ["32px", { lineHeight: "40px" }],
         cwh2: ["24px", { lineHeight: "32px" }],
+        cwh3: ["40px", { lineHeight: "40px" }],
+
 
         // xxs: ["11px", { lineHeight: '30px', "transform-origin-x": 0, "transform": 'scale(0.9)'}],
         // xs: ["0.75rem", { lineHeight: "1.5" }],
@@ -74,6 +76,8 @@ module.exports = {
         // black
         b: {
           1: "rgba(255, 255, 255, 0.1)",
+          4: "rgba(255, 255, 255, 0.4)",
+          8: "rgba(255, 255, 255, 0.8)",
         },
         // disable
         disable: "rgba(255, 255, 255, 0.2)",

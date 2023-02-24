@@ -8,7 +8,7 @@ import {
   Tooltip,
   InputNumber,
   Divider,
-  message
+  message,
 } from "antd";
 import {
   CheckOutlined,
@@ -32,8 +32,9 @@ import cardbg from "@/images/incentive/headers/plan.png";
 import { useParams } from "react-router-dom";
 import { useNetwork } from "wagmi";
 import Title from "@/pages/component/Title";
+import Banner from "../component/banner";
 import useProjectAudience from "@/hooks/useProjectAudience";
-import { defaultErrorMsg } from '@/utils/const';
+import { defaultErrorMsg } from "@/utils/const";
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
@@ -77,7 +78,7 @@ function PlanCreate() {
         values.projectId = projectId;
 
         if (addedAudience.length === 0) {
-          values.labelList = '';
+          values.labelList = "";
         } else {
           values.labelList = JSON.stringify(addedAudience.map((v) => v.label));
         }
@@ -100,34 +101,34 @@ function PlanCreate() {
     // 应该获取当前链，暂时不处理
     values.chain = mainNetwork;
     const projectInfo = await createProject(values);
-    if(projectInfo.success){
+    if (projectInfo.success) {
       dispatch(setCurrentProjectId(projectInfo?.entity?.projectId));
       dispatch(fetchUserInfo(false));
       setProjectLoading(false);
       setFirstCreated(true);
-    }else{
+    } else {
       setProjectLoading(false);
-      message.error(projectInfo.message || defaultErrorMsg)
+      message.error(projectInfo.message || defaultErrorMsg);
     }
   }
 
   return (
-    <div className="w-full lg:w-[600px] mx-auto text-[#1E293B]">
-      <div className="pt-3 lg:pt-6">
-        <div className="mb-6 lg:mb-0">
-          <header className="mb-6">
-            <img src={planIcon} className="hidden w-24 h-24 mx-auto lg:block" />
-            <h1 className="mb-6 lg:mb-10 text-[28px] leading-[32px] text-center lg:text-[56px] lg:leading-[64px]">
-              New Incentive Plan
-            </h1>
-          </header>
+    <div className="w-full text-[#1E293B]">
+      <div className="pt-3 lg:pt-12">
+        <Banner
+          img={planIcon}
+          title="New Incentive Plan"
+          description={
+            pageType === "project" && !firstCreated
+              ? "Label your project name to start incentive plan"
+              : "A few steps to complete your plan"
+          }
+          className="w-[640px] mx-auto mb-12"
+        />
 
+        <div className="mb-6  lg:w-[600px] mx-auto lg:mb-0">
           {pageType === "project" && !firstCreated ? (
-            <div className="lg:bg-white lg:shadow-c5 rounded-xl lg:px-4 lg:py-6">
-              <div className="text-[#333] mb-3 text-[14px] leading-[24px] lg:mb-2 lg:text-[24px] lg:leading-[32px]">
-                Label your project name to start incentive plan
-              </div>
-
+            <div className="lg:bg-white lg:shadow-c5 dark:lg:bg-cw1 rounded-xl lg:px-4 lg:py-6">
               <Form
                 {...(pc ? formItemCol : null)}
                 form={formProject}
@@ -164,6 +165,9 @@ function PlanCreate() {
                 </Form.Item>
 
                 <div className="flex justify-center pt-2">
+                  <Button className="w-[64vw] lg:w-[132px] mx-auto">
+                    cancel
+                  </Button>
                   <Button
                     loading={projectLoading}
                     type="primary"
