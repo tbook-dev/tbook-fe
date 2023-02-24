@@ -289,7 +289,7 @@ function PlanList() {
             {displayType === 0 && (
               <div
                 className={clsx(
-                  "grid gap-x-2.5 gap-y-2.5",
+                  "grid gap-x-2 gap-y-3",
                   filterGrantList(grantList).length > 0
                     ? "grid-cols-4"
                     : "grid-cols-1"

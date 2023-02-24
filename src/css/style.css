@@ -19,3 +19,11 @@
 .swiper-slide{
     cursor: pointer;
 }
+
+.text-colorful1{
+    background: linear-gradient(57.39deg, #6AB3F7 -4.5%, #67EBD4 96.91%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}

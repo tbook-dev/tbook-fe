@@ -5,8 +5,7 @@ import {
   dateFormat,
 } from "@/utils/const";
 import { useMemo } from "react";
-import { formatThousands } from "@/utils/Utils";
-import { getLastVested } from "@/utils/const";
+import { getLastVested, formatDollar } from "@/utils/const";
 import { Link } from "react-router-dom";
 
 // const v = [
@@ -40,7 +39,7 @@ export default function ({ grant }) {
       },
       {
         label: "Vested",
-        render: () => formatThousands(grant?.vestedAmount),
+        render: () => formatDollar(grant?.vestedAmount),
       },
       {
         label: "Latest Vesting",
@@ -72,51 +71,56 @@ export default function ({ grant }) {
 
   return (
     <Link
-      className="px-3 py-4 text-[12px] leading-[20px] bg-white rounded-xl shadow-c13 text-[#202124]"
+      className="p-1 overflow-hidden bg-white rounded-lg dark:bg-black dark:hover:bg-cw3 dark:text-b-8"
       to={`/grants/${grant?.grant?.grantId}/sign`}
     >
-      <div className="flex justify-between mb-6">
-        <span className="block px-2 border rounded text-[#8C8C8C]">
-          {grant.grant.granteeId}
-        </span>
-        <span className="text-right text-[16px] leading-[20px] font-medium" style={{ color: status?.color }}>
-          {status?.text}
-        </span>
-      </div>
-
-      <div className="flex mb-4">
-        <div className="w-10 h-10 rounded-full bg-[#e6e6e6] flex justify-center items-center mr-4">
-          <img src={grant?.grantee?.avatar} className="w-6 h-6 ml-0.5" />
+      <div className="px-2 py-3 rounded-lg text-c5 shadow-d6 hover:shadow-d7">
+        <div className="flex justify-between mb-6">
+          <span className="block px-2">{grant.grant.granteeId}</span>
+          <span className="text-center max-w-[100px] w-20 truncate border rounded text-colorful1 border-theme">
+            {status?.text}
+          </span>
         </div>
 
-        <div className="flex flex-col justify-center flex-none">
-          <h3 className="text-ellipsis text-[16px] leading-[24px] max-w-[130px] truncate text-[#333] text-base">
-            {grant?.grantee?.name}
-          </h3>
-          <p className="text-ellipsis text-[14px] leading-[22px] truncate text-[#8C8C8C] text-sm">
-            {shortAddress(grant?.grantee?.mainWallet)}
-          </p>
-        </div>
-      </div>
+        <div className="flex mb-4 h-[46px] items-center">
+          <div className="w-10 h-10 rounded-full dark:bg-[#141414] flex justify-center items-center mr-4">
+            <img src={grant?.grantee?.avatar} className="w-6 h-6" />
+          </div>
 
-      <div className="grid grid-cols-2  bg-[#ECF1FF] rounded -mx-1 p-2 mb-6">
-        <div className="truncate text-[#666] text-[20px] leading-[28px]">Total</div>
-        <div className="text-right truncate text-[24px] leading-[32px] text-[#0049FF]">
-          {formatThousands(grant?.grant?.grantNum)}
+          <div className="flex flex-col justify-center flex-none">
+            <h3 className="text-ellipsis text-c6 max-w-[130px] truncate text-b-8">
+              {grant?.grantee?.name}
+            </h3>
+            <p className="truncate text-ellipsis text-c1 text-b-8">
+              {shortAddress(grant?.grantee?.mainWallet)}
+            </p>
+          </div>
         </div>
-      </div>
 
-      <div className="space-y-3">
-        {conf.map((v) => {
-          return (
-            <div key={v.label} className="grid grid-cols-2 text-[14px] leading-[22px]">
-              <div className="truncate text-[#666]">{v.label}</div>
-              <div className="text-right truncate text-[#333]">
-                <v.render />
+        <div className="grid grid-cols-2 p-2 mb-6">
+          <div className="truncate text-c3">
+            Total
+          </div>
+          <span className="text-right truncate text-cwh2 text-colorful1">
+            {formatDollar(grant?.grant?.grantNum)}
+          </span>
+        </div>
+
+        <div className="px-2 space-y-3">
+          {conf.map((v) => {
+            return (
+              <div
+                key={v.label}
+                className="grid grid-cols-2 text-[14px] leading-[22px]"
+              >
+                <div className="truncate">{v.label}</div>
+                <div className="text-right text-white truncate">
+                  <v.render />
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </Link>
   );

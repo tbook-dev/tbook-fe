@@ -13,6 +13,7 @@ module.exports = {
       backgroundImage: {
         cw1: "linear-gradient(57.39deg, #6AB3F7 -4.5%, #67EBD4 96.91%);",
         cw2: "linear-gradient(57.39deg, rgba(106, 179, 247, 0.15) -4.5%, rgba(103, 235, 212, 0.15)  96.91%);",
+        cw3: "linear-gradient(57.39deg, rgba(106, 179, 247, 0.1) -4.5%, rgba(103, 235, 212, 0.1) 96.91%);",
       },
       boxShadow: {
         d1: "0px 0px 8px rgba(0, 0, 0, 0.08)",
@@ -20,6 +21,8 @@ module.exports = {
         d3: "0px 0px 8px rgba(255, 255, 255, 0.25)",
         d4: "0px 0px 2px rgba(255, 255, 255, 0.25)",
         d5: "0px 0px 8px rgba(255, 255, 255, 0.6)",
+        d6: "0px 0px 8px rgba(255, 255, 255, 0.3)",
+        d7: "0px 0px 8px rgba(255, 255, 255, 0.6)",
 
         DEFAULT:
           "0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.02)",
@@ -51,6 +54,10 @@ module.exports = {
         c2: ["14px", { lineHeight: "16px" }],
         c3: ["20px", { lineHeight: "28px" }],
         c4: ["12px", { lineHeight: "16px" }],
+        c5: ["12px", { lineHeight: "20px" }],
+        c6: ["16px", { lineHeight: "24px" }],
+
+
 
 
 
@@ -91,6 +98,7 @@ module.exports = {
         },
         // disable
         disable: "rgba(255, 255, 255, 0.2)",
+        theme: '#69D0E5',
       },
       borderWidth: {
         3: "3px",
