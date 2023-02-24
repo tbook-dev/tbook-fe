@@ -100,7 +100,7 @@ export default function ({ tip, pc, isActive }) {
               </p>
               <p
                 className={clsx(
-                  "font-medium",
+                  "font-medium max-w-[90px] truncate",
                   isActive ? "text-black" : "text-white"
                 )}
               >

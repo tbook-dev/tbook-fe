@@ -141,11 +141,28 @@ function PlanList() {
     <div className="w-full text-[#202124] mb-4">
       <div
         className="w-full mb-5 lg:mt-12"
-        style={{ "--swiper-navigation-size": "16px", "--swiper-theme-color": "#fff" }}
+        style={{
+          "--swiper-navigation-size": "16px",
+          "--swiper-theme-color": "#fff",
+        }}
       >
-        <h2 className="mb-6 text-[32px] lg:text-cwh1 dark:text-white font-bold">
-          Incentive Plans
-        </h2>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-[32px] lg:text-cwh1 dark:text-white font-bold">
+            Incentive Plans
+          </h2>
+
+          <Link to="/create/plan">
+            <Button
+              type="primary"
+              className="w-40 !h-10 !flex justify-center items-center !rounded-lg !border-none"
+            >
+              <span>
+                <PlusOutlined />
+                <span className="ml-2 text-[14px]">New Plan</span>
+              </span>
+            </Button>
+          </Link>
+        </div>
 
         <div className="relative lg:h-[150px] lg:flex lg:justify-center">
           {userLoading || grantLoading ? (
@@ -184,10 +201,10 @@ function PlanList() {
                     return (
                       <SwiperSlide
                         key={tip.incentivePlanId}
-                        style={{ width: "auto"}}
+                        style={{ width: "auto" }}
                       >
                         <div
-                          style={{padding: '6px 4px 4px'}}
+                          style={{ padding: "6px 4px 4px" }}
                           onClick={() => {
                             dispatchFilter({
                               type: "Plan",
@@ -217,31 +234,20 @@ function PlanList() {
               Grants
             </h2>
 
-            {userLoading || grantLoading ? null : tipList.length === 0 ? (
+            {userLoading || grantLoading ? null : (
               <Button
                 type="primary"
-                className="!px-9 !h-12 !flex items-center !rounded-lg !border-none"
-                disabled
+                className="w-40 !h-10 !flex justify-center items-center !rounded-lg !border-none"
+                disabled={filters.Plan === null}
+                onClick={() =>
+                  navigate(`/incentive/grant/${filters.Plan}/create`)
+                }
               >
                 <span>
                   <PlusOutlined />
                   <span className="ml-2 text-[14px]">New Grant</span>
                 </span>
               </Button>
-            ) : (
-              ![null, -1].includes(filters.Plan) && (
-                <Link to={`/incentive/grant/${filters.Plan}/create`}>
-                  <Button
-                    type="primary"
-                    className="!px-9 !h-12 !flex items-center !rounded-lg !border-none"
-                  >
-                    <span>
-                      <PlusOutlined />
-                      <span className="ml-2 text-[14px]">New Grant</span>
-                    </span>
-                  </Button>
-                </Link>
-              )
             )}
           </div>
 
