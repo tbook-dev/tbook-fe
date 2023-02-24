@@ -7,7 +7,7 @@ export default function ({ pc }) {
   // console.log({ loading, handleSignIn})
   return pc ? (
     <div
-      className="hidden lg:flex items-center justify-between rounded-xl dark:bg-cw1 px-8 py-[38px]"
+      className="hidden lg:flex items-center justify-between rounded-xl dark:bg-cw1 w-full px-8 py-[38px]"
     >
       <div>
         <p className="mb-1 text-cwh2 text-c-3">

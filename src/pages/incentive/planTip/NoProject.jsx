@@ -7,15 +7,14 @@ export default function ({ pc, link }) {
   // console.log({ loading, handleSignIn})
   return pc ? (
     <div
-      className="hidden lg:flex items-center justify-between rounded-2xl border bg-cover border-[#DADCE0] px-8 py-[38px]"
-      style={{ backgroundImage: `url(${bg})` }}
+      className="hidden lg:flex items-center justify-between rounded-xl  w-full dark:bg-cw1 px-8 py-[38px]"
     >
       <div>
-        <p className="text-[24px] leading-[32px] text-[#333] mb-1">
+        <p className="mb-1 text-cwh2 text-c-3">
           New Token Incentive Plan
         </p>
-        <p className="text-[16px] leading-[24px] text-[#999]">
-          Connect wallet to set up your incentive plan.
+        <p className="text-base text-c-3">
+          Click to set up your incentive plan.
         </p>
       </div>
 

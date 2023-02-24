@@ -107,7 +107,7 @@ function PlanList() {
     }
     // const activeIdx = list2Formated[0]?.idx || 0;
     setActiveIndex(activeIdx);
-    // console.log("activeIdx+1", list1, activeIdx + 1);
+    console.log("activeIdx+1", list1, activeIdx);
     dispatchFilter({
       type: "Plan",
       payload: list1[activeIdx]?.incentivePlanId,
@@ -136,7 +136,7 @@ function PlanList() {
     }
     return res;
   }, [grantList, filters]);
-  // console.log("filters.plan", filters.Plan);
+  console.log("filters.plan", filters.Plan);
   return (
     <div className="w-full text-[#202124] mb-4">
       <div
@@ -184,13 +184,12 @@ function PlanList() {
               <Swiper
                 modules={[Navigation]}
                 spaceBetween={10}
-                slidesPerView={pc ? 4 : "auto"}
+                slidesPerView={"auto"}
                 slidesPerGroup={pc ? 4 : 1}
-                // centeredSlides={pc}
                 onSwiper={setSwiper}
+                style={{ marginLeft: pc && tipList.length < 4 ? "0" : "auto" }}
                 slideToClickedSlide={pc}
                 initialSlide={activeIndex}
-                // observeSlideChildren
                 navigation={{
                   nextEl: ".swiper-button-next",
                   prevEl: ".swiper-button-prev",
