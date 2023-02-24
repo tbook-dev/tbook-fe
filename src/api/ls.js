@@ -1,29 +1,3 @@
-// 如果是从`/incentive/grant/tmp/create`来创建页面，那么tipId就是tmp
-const getDraftGrantDataLSKey = (projectId, tipId) =>
-  `_draftDataLSKey_${projectId}_${tipId}`;
-
-export function getDraftGrantData(projectId, tipId) {
-  const key = getDraftGrantDataLSKey(projectId, tipId);
-  let data = null;
-  try {
-    data = JSON.parse(localStorage.getItem(key));
-  } catch (error) {
-    clearDraftGrantData(projectId, tipId)
-    console.log(error);
-  }
-  return data;
-}
-
-export function saveDraftGrantData(projectId, tipId, data) {
-  const key = getDraftGrantDataLSKey(projectId, tipId);
-  localStorage.setItem(key, JSON.stringify(data));
-}
-
-export function clearDraftGrantData(projectId, tipId) {
-  const key = getDraftGrantDataLSKey(projectId, tipId);
-  localStorage.removeItem(key);
-}
-
 const currentProjectId = "__currentProjectId";
 export function getCurrentProjectId() {
   let id = null;
@@ -39,3 +13,27 @@ export function getCurrentProjectId() {
 export function saveCurrentProjectId(id) {
   localStorage.setItem(currentProjectId, id);
 }
+
+const themeKey = '__theme';
+const themeList = ['dark', 'light'];
+export function getCurrentTheme() {
+  const storedTheme = localStorage.getItem(themeKey);
+  if(themeList.includes(storedTheme)){
+    return storedTheme
+  }else{
+    localStorage.setItem('themeKey', 'dark')
+    return 'dark';
+  }
+}
+
+export function setCurrentTheme(value){
+  if(!themeList.includes(value)) return;
+  if(value === 'light'){
+    document.documentElement.classList.remove('dark');
+  }
+  if(value === 'dark'){
+    document.documentElement.classList.add('dark');
+  }
+  localStorage.setItem(themeKey, value)
+}
+

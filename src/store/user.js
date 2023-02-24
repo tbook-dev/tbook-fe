@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getUserInfo } from "@/api/incentive";
-import { getCurrentProjectId, saveCurrentProjectId } from "@/api/ls";
+import { getCurrentProjectId, saveCurrentProjectId, setCurrentTheme, getCurrentTheme  } from "@/api/ls";
 
 const initialState = {
   value: 0,
@@ -8,6 +8,7 @@ const initialState = {
   authHeader: "",
   loadingUserStatus: false,
   currentProjectId: getCurrentProjectId(),
+  theme: getCurrentTheme(),
   projects: [
     // {
     //   projectId: 21859680007,
@@ -81,6 +82,10 @@ export const userSlice = createSlice({
     },
     setLoadingUserStatus: (state, action) => {
       state.loadingUserStatus = action.payload;
+    },
+    setTheme: (state, action)=>{
+      state.theme = action.payload;
+      setCurrentTheme(action.payload);
     },
     reset: (state) => {
       saveCurrentProjectId(null);
