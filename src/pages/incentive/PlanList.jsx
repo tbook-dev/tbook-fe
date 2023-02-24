@@ -168,12 +168,12 @@ function PlanList() {
                 modules={[Navigation]}
                 spaceBetween={10}
                 slidesPerView={pc ? 4 : "auto"}
+                slidesPerGroup={pc ? 4 : 1}
                 // centeredSlides={pc}
                 onSwiper={setSwiper}
                 slideToClickedSlide={pc}
                 initialSlide={activeIndex}
                 // observeSlideChildren
-                // loop={pc && tipList.length > 3}
                 navigation={{
                   nextEl: ".swiper-button-next",
                   prevEl: ".swiper-button-prev",
@@ -181,17 +181,25 @@ function PlanList() {
               >
                 {Array.isArray(tipList) &&
                   tipList.map((tip) => {
-                    console.log('filters.Plan',filters.Plan,tip.incentivePlanId)
                     return (
                       <SwiperSlide
                         key={tip.incentivePlanId}
                         style={{ width: "auto", paddingBottom: "10px" }}
                       >
-                        <ActiveCard
-                          isActive={filters.Plan === tip.incentivePlanId}
-                          tip={tip}
-                          pc={pc}
-                        />
+                        <div
+                          onClick={() => {
+                            dispatchFilter({
+                              type: "Plan",
+                              payload: tip.incentivePlanId,
+                            });
+                          }}
+                        >
+                          <ActiveCard
+                            isActive={filters.Plan === tip.incentivePlanId}
+                            tip={tip}
+                            pc={pc}
+                          />
+                        </div>
                       </SwiperSlide>
                     );
                   })}
