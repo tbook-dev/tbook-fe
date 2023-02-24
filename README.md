@@ -1,6 +1,7 @@
 # host
 
-https://app.tbook.vip/
+https://app.tbook.com/
+https://app-staging.tbook.com/
 
 ## 接口文档
 

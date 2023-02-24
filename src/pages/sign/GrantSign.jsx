@@ -17,7 +17,7 @@ import {
 } from "@/utils/const";
 import VestingSchedule from "../incentive/VestingSchedule";
 import { useSelector } from "react-redux";
-import Header from "../component/Header";
+// import Header from "../component/Header";
 import Card from "./card";
 import clsx from "clsx";
 import VestedCard from "./vested";
@@ -296,7 +296,7 @@ function GrantSign() {
           signStatus === "pending" && " mb-[300px] lg:mb-[440px]"
         )}
       >
-        <Header title="Grant Detail" className="mb-0" />
+        {/* <Header title="Grant Detail" className="mb-0" /> */}
 
         {signStatus === "pending" ? (
           <Card title="Grantee" list={granteeConf} />

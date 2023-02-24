@@ -9,7 +9,7 @@ export default {
     },
   },
   token: {
-    colorPrimary: "#67EBD4",
+    colorPrimary: "#69D0E5",
     // colorBgBase: '#fff'
   },
 };

@@ -10,7 +10,7 @@ export default function ({ children }) {
     <ConfigProvider
       // renderEmpty={Empty}
       theme={{
-        algorithm: theme.darkAlgorithm,
+        // algorithm: theme.darkAlgorithm,
         components: {
           Form: {
             marginLG: 12,

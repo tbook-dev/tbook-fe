@@ -48,10 +48,17 @@ module.exports = {
       },
       fontSize: {
         c1: ["14px", { lineHeight: "22px" }],
+        c2: ["14px", { lineHeight: "16px" }],
+        c3: ["20px", { lineHeight: "28px" }],
+        c4: ["12px", { lineHeight: "16px" }],
+
+
+
         // coustom web h1
         cwh1: ["32px", { lineHeight: "40px" }],
         cwh2: ["24px", { lineHeight: "32px" }],
         cwh3: ["40px", { lineHeight: "40px" }],
+
 
 
         // xxs: ["11px", { lineHeight: '30px', "transform-origin-x": 0, "transform": 'scale(0.9)'}],
@@ -78,6 +85,9 @@ module.exports = {
           1: "rgba(255, 255, 255, 0.1)",
           4: "rgba(255, 255, 255, 0.4)",
           8: "rgba(255, 255, 255, 0.8)",
+        },
+        l:{
+          8: "rgba(0, 0, 0, 0.8)",
         },
         // disable
         disable: "rgba(255, 255, 255, 0.2)",

@@ -22,7 +22,7 @@ import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser, fetchUserInfo } from "@/store/user";
 import clsx from "clsx";
-import ActiveCard from "./planCard/Active";
+import PlanCard from "./planCard/Active";
 import GrantCard from "./grantCard";
 import GrantCardV2 from "./grantCard/v2";
 import FilterPanel from "./filter";
@@ -141,13 +141,13 @@ function PlanList() {
     <div className="w-full text-[#202124] mb-4">
       <div
         className="w-full mb-5 lg:mt-12"
-        style={{ "--swiper-navigation-size": "16px" }}
+        style={{ "--swiper-navigation-size": "16px", "--swiper-theme-color": "#fff" }}
       >
         <h2 className="mb-6 text-[32px] lg:text-cwh1 dark:text-white font-bold">
           Incentive Plans
         </h2>
 
-        <div className="relative lg:h-[140px]">
+        <div className="relative lg:h-[150px] lg:flex lg:justify-center">
           {userLoading || grantLoading ? (
             <div className="flex items-center justify-center w-full h-full">
               <Spin />
@@ -184,9 +184,10 @@ function PlanList() {
                     return (
                       <SwiperSlide
                         key={tip.incentivePlanId}
-                        style={{ width: "auto", paddingBottom: "10px" }}
+                        style={{ width: "auto"}}
                       >
                         <div
+                          style={{padding: '6px 4px 4px'}}
                           onClick={() => {
                             dispatchFilter({
                               type: "Plan",
@@ -194,7 +195,7 @@ function PlanList() {
                             });
                           }}
                         >
-                          <ActiveCard
+                          <PlanCard
                             isActive={filters.Plan === tip.incentivePlanId}
                             tip={tip}
                             pc={pc}
@@ -244,7 +245,7 @@ function PlanList() {
             )}
           </div>
 
-          {userLoading || grantLoading ? null : (
+          {/* {userLoading || grantLoading ? null : (
             <div className="justify-end hidden my-4 lg:flex">
               <div className="flex items-center overflow-hidden bg-white dark:bg-black !divide-x dark:divide-black rounded-lg shadow-c12">
                 <div className="flex items-center justify-center w-10 h-10 bg-b-1">
@@ -275,7 +276,7 @@ function PlanList() {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
 
           <div className="hidden lg:block">
             {displayType === 1 && (
