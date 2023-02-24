@@ -4,15 +4,14 @@ import { shortAddress } from '@/utils/const'
 export default function ({ avatar, name, mainWallet }) {
   return (
     <div>
-      <div className="flex py-2 pl-4 rounded-lg bg-[#ECF1FF]">
-        <div className="w-10 h-10 bg-[#0049FF] mr-4 rounded-full flex justify-center items-center">
-          <img src={avatar} className="w-6 h-6" />
+      <div className="flex py-1 pl-4 rounded-lg bg-b-6">
+        <div className="flex items-center justify-center w-8 h-8 mr-2 rounded-full bg-l-1">
+          <img src={avatar} className="w-5 h-5" />
         </div>
 
         <div className="flex flex-col justify-center">
-          {name && <h3 className="lg:text-[16px] lg:leading-[24px] text-[#333]">{name}</h3>}
           {mainWallet && (
-            <p className=" text-[#999] lg:text-[14px] lg:leading-[20px]">
+            <p className="text-black lg:text-c1">
               {shortAddress(mainWallet)}
             </p>
           )}

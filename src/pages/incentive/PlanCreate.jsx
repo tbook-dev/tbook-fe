@@ -130,7 +130,7 @@ function PlanCreate() {
         <FormConfigProvider>
           <div className="mb-6  lg:w-[600px] mx-auto lg:mb-0">
             {pageType === "project" && !firstCreated ? (
-              <div className="lg:bg-white lg:shadow-c5 dark:lg:bg-cw1 rounded-xl lg:px-4 lg:py-6">
+              <div className="lg:bg-white lg:shadow-c5 dark:lg:bg-cw1 dark:lg:shadow-d3 rounded-xl lg:px-4 lg:py-6">
                 <Form
                   {...(pc ? formItemCol : null)}
                   form={formProject}
@@ -237,22 +237,7 @@ function PlanCreate() {
                   </div>
                 )}
 
-                <div
-                  className="overflow-hidden bg-white rounded-lg shadow-c5"
-                  id="plan"
-                >
-                  <div className="h-10 lg:h-[67px] relative flex justify-between items-center overflow-hidden">
-                    <img
-                      src={pc ? cardbgpc : cardbg}
-                      className="absolute top-0 left-0 w-full"
-                    />
-                    <Title
-                      text="Plan"
-                      className="relative z-10 px-4"
-                      color="text-white"
-                    />
-                  </div>
-
+                <div className="overflow-hidden dark:lg:bg-cw1 dark:lg:shadow-d3 rounded-xl ">
                   <div className="relative px-2 pt-2 pb-4 lg:pb-0 lg:pt-6 lg:px-4">
                     <Form
                       {...(pc ? formItemCol : null)}
@@ -342,30 +327,29 @@ function PlanCreate() {
                         </Select>
                       </Form.Item>
 
-                      <Form.Item label="Token Options Pool Size">
-                        <Form.Item
-                          name="totalTokenNum"
-                          noStyle
-                          rules={[
-                            {
-                              required: true,
-                              message:
-                                "Please input the Token Options Pool Size!",
-                            },
-                          ]}
-                        >
-                          <InputNumber
-                            placeholder="Editable"
-                            min={0}
-                            max={project?.tokenInfo?.surplusTokenNum}
-                            style={{ width: "100%" }}
-                          />
-                        </Form.Item>
-                        <div className="text-[#999] text-xs mt-1 flex">
-                          There are{" "}
-                          {formatDollar(project?.tokenInfo?.surplusTokenNum)}{" "}
-                          virtual tokens available
-                        </div>
+                      <Form.Item
+                        label="Token Options Pool Size"
+                        name="totalTokenNum"
+                        tooltip={{
+                          title: ` There are ${formatDollar(
+                            project?.tokenInfo?.surplusTokenNum
+                          )} virtual tokens available`,
+                          icon: <InfoCircleOutlined />,
+                        }}
+                        rules={[
+                          {
+                            required: true,
+                            message:
+                              "Please input the Token Options Pool Size!",
+                          },
+                        ]}
+                      >
+                        <InputNumber
+                          placeholder="Editable"
+                          min={0}
+                          max={project?.tokenInfo?.surplusTokenNum}
+                          style={{ width: "100%" }}
+                        />
                       </Form.Item>
 
                       <Form.Item
