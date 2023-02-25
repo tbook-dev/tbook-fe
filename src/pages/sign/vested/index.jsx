@@ -21,32 +21,31 @@ export default function ({ scheduleInfo }) {
   // console.log("scheduleInfo", scheduleInfo);
 
   return (
-    <div className="overflow-hidden bg-white divide-y rounded-md lg:rounded-lg shadow-c5">
-      <div className="h-10 lg:h-[67px] relative overflow-hidden">
-        <img
-          src={pc ? cardbgpc : cardbg}
-          className="absolute top-0 left-0 w-full"
-        />
-        <h2 className="text-[#333] relative z-10 px-4 py-1.5 text-[20px] leading-[24px] lg:py-3 lg:text-[24px] lg:leading-[32px]">
-          Vested
-        </h2>
-      </div>
+    <div className="overflow-hidden bg-white divide-y rounded-md dark:bg-black divide-b-1 lg:pt-4 lg:pb-1.5 shadow-d3 lg:rounded-lg">
+      <h2 className="text-[#333] dark:text-white font-medium px-4 py-1.5 text-[20px] leading-[24px] lg:px-6 lg:py-1 lg:text-cwh2">
+        Vested
+      </h2>
 
       {list.map((v) => {
         return v.value ? (
-          <div key={v.label} className="flex px-4 py-3 text-[14px]">
-            <span className="flex-[10] leading-[16px] text-[#666] lg:leading-[22px]">
+          <div
+            key={v.label}
+            className="flex px-4 lg:py-2 lg:px-6 py-3 text-[14px]"
+          >
+            <span className="flex-[10] leading-[16px] text-[#666] dark:text-b-8 lg:text-c1">
               {v.label}
             </span>
-            <span className="flex-[14] text-right lg:text-left leading-[18px] lg:leading-[20px]">
+            <span className="flex-[14] text-right dark:text-white lg:text-left leading-[18px] lg:lg:text-c1">
               {typeof v.value === "function" ? <v.value /> : v.value}
             </span>
           </div>
         ) : null;
       })}
 
-      <div className="flex justify-end px-4 py-3 lg:justify-start">
-        <Button type="primary" disabled={scheduleInfo?.vestedAmount == 0}>Buyback</Button>
+      <div className="flex items-center justify-end px-6 lg:h-10 lg:justify-start">
+        <Button type="primary" disabled={scheduleInfo?.vestedAmount == 0}>
+          Buyback
+        </Button>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ export default function ({ title, list = [], className, children }) {
   return (
     <div
       className={clsx(
-        "bg-white dark:bg-black divide-y divide-b-1 rounded-md shadow-d3 lg:py-4 lg:rounded-lg overflow-hidden",
+        "bg-white dark:bg-black divide-y divide-b-1 rounded-md shadow-d3 lg:pt-4 lg:pb-1.5 lg:rounded-lg overflow-hidden",
         className
       )}
     >
