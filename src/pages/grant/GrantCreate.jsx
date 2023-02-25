@@ -51,6 +51,8 @@ import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import grantIcon from "@/images/incentive/grant.svg";
 import Plan from "./plan";
 import Title from "../component/Title";
+import Banner from "../component/banner";
+
 
 dayjs.extend(customParseFormat);
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
@@ -222,27 +224,21 @@ function GrantCreate() {
   // console.log("detail->", detail);
   return (
     <>
-      <div className="w-full lg:w-[600px] mx-auto text-[#1E293B]">
-        <div className="pt-3 lg:pt-6">
-          <div className="mb-6 lg:mb-0">
-            <header className="mb-6">
-              <img
-                src={grantIcon}
-                className="hidden w-24 h-24 mx-auto lg:block"
-              />
-
-              <h1 className="mb-6 lg:mb-10 text-[28px] leading-[32px] text-center lg:text-[56px] lg:leading-[64px]">
-                New Grant
-              </h1>
-            </header>
-
+      <div className="w-full mx-auto">
+        <div className="pt-3 lg:pt-12">
+          <Banner
+            img={grantIcon}
+            title="New Grant"
+            description="Motivate the valuable contributions"
+            className="w-[640px] mx-auto mb-12"
+          />
+          <div className="mb-6 lg:w-[600px] mx-auto lg:mb-0">
             <Plan
               planName={detail?.incentivePlanName}
               targetAudince={findAudience(detail.target)}
               availableAmount={formatDollar(detail?.totalTokenNum)}
             />
-
-            <div className="mt-3 lg:mt-6">
+            <div className="mt-3 lg:mt-10">
               <Form
                 {...(pc ? formItemCol : null)}
                 form={form}
@@ -291,8 +287,8 @@ function GrantCreate() {
                   </Form.Item>
                 )} */}
 
-                <div>
-                  <Title text="Grantee" />
+                <div className="overflow-hidden lg:px-4 lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10">
+                  <h2 className="dark:text-white dark:lg:text-cwh2">Grantee</h2>
                   <Form.Item
                     label="Choose a Grantee"
                     name="granteeId"
@@ -338,8 +334,8 @@ function GrantCreate() {
                   </Form.Item>
                 </div>
 
-                <div>
-                  <Title text="Grant" />
+                <div className="overflow-hidden lg:px-4 lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10" >
+                  <h2 className="dark:text-white dark:lg:text-cwh2">Grant</h2>
                   <Form.Item name="tokenType">
                     {/* <Radio.Group>
                       {tokenTypeList.map(({ label, value, disabled }) => {
@@ -351,28 +347,27 @@ function GrantCreate() {
                       })}
                     </Radio.Group> */}
 
-                  {pc ? (
-                    <Form.Item name="tokenType">
-                      <Radio.Group>
-                        {tokenTypeList.map(({ name, value, disabled }) => {
-                          return (
-                            <Radio
-                              disabled={disabled}
-                              value={value}
-                              key={value}
-                            >
-                              {name}
-                            </Radio>
-                          );
-                        })}
-                      </Radio.Group>
-                    </Form.Item>
-                  ) : (
-                    <Form.Item name="tokenType">
-                      <Switch list={tokenTypeList} />
-                    </Form.Item>
-                  )}
-
+                    {pc ? (
+                      <Form.Item name="tokenType">
+                        <Radio.Group>
+                          {tokenTypeList.map(({ name, value, disabled }) => {
+                            return (
+                              <Radio
+                                disabled={disabled}
+                                value={value}
+                                key={value}
+                              >
+                                {name}
+                              </Radio>
+                            );
+                          })}
+                        </Radio.Group>
+                      </Form.Item>
+                    ) : (
+                      <Form.Item name="tokenType">
+                        <Switch list={tokenTypeList} />
+                      </Form.Item>
+                    )}
                   </Form.Item>
                   <Form.Item
                     label="Total Amount"
@@ -408,8 +403,8 @@ function GrantCreate() {
                   </Form.Item>
                 </div>
 
-                <div>
-                  <Title text="Vesting" />
+                <div  className="overflow-hidden lg:px-4 lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10">
+                  <h2 className="dark:text-white dark:lg:text-cwh2">Vesting</h2>
 
                   {pc ? (
                     <Form.Item name="grantType">

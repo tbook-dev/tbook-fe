@@ -1,7 +1,7 @@
 // dark 模式下表单情况，紧紧包裹表单
 import { ConfigProvider, theme } from "antd";
 import { useSelector } from "react-redux";
-import conf from "./conf";
+import components from "./conf";
 
 export default function ({ children }) {
   const userTheme = useSelector((state) => state.user.theme);
@@ -9,9 +9,9 @@ export default function ({ children }) {
   return (
     <ConfigProvider
       theme={{
-        algorithm:
-          userTheme === "dark" ? theme.defaultAlgorithm : theme.darkAlgorithm,
-        components: conf,
+        algorithm: userTheme === "dark" ? theme.defaultAlgorithm : theme.darkAlgorithm,
+        // theme.defaultAlgorithm,
+        components,
         token:
           userTheme === "dark"
             ? {

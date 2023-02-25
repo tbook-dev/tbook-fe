@@ -43,7 +43,7 @@ export default function ({ planName, targetAudince, availableAmount }) {
     },
     {
       title: "Target Audience",
-      value: targetAudince,
+      value: () => <span className="border border-white rounded lg:px-4 lg:py-px">{targetAudince}</span>,
     },
     {
       title: "Available Amount",
@@ -52,14 +52,9 @@ export default function ({ planName, targetAudince, availableAmount }) {
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow-c5">
-      <div className="h-10 relative rounded-lg  lg:h-[67px] lg:pr-4 flex justify-between items-center overflow-hidden">
-        <Title text="Plan" className="relative z-10 px-4" color="text-white" />
-
-        <img
-          src={pc ? cardbgpc : cardbg}
-          className="absolute top-0 left-0 w-full"
-        />
+    <div className="bg-white rounded-lg dark:bg-black shadow-d3">
+      <div className="h-10 relative lg:h-[67px] lg:pr-4  border-b-1 border-b  flex justify-between items-center overflow-hidden">
+        <h2 className="lg:px-6 text-cwh2 dark:text-white">Plan</h2>
 
         {pc ? (
           <Dropdown
@@ -96,7 +91,7 @@ export default function ({ planName, targetAudince, availableAmount }) {
           >
             <span
               onClick={() => {
-                setOpen(true)
+                setOpen(true);
               }}
               className={clsx(
                 "z-10 rounded-xl lg:h-12 lg:w-12 flex items-center justify-center cursor-pointer",
@@ -115,17 +110,17 @@ export default function ({ planName, targetAudince, availableAmount }) {
           </span>
         )}
       </div>
-      
+
       <div className="divide-y">
         {conf.map((v) => {
           return (
             <div
               key={v.title}
-              className="flex px-4 py-2 text-[14px] leading-[18px] lg:leading-[22px]"
+              className="flex border-b-1 px-6 py-2 text-[14px] leading-[18px] lg:text-c1"
             >
-              <span className="flex-[10] text-[#666]">{v.title}</span>
-              <span className="flex-[14] flex justify-end lg:justify-between">
-                {v.value}
+              <span className="flex-[10] text-b-8">{v.title}</span>
+              <span className="flex-[14] text-white flex justify-end lg:justify-between">
+                {typeof v.value === 'function' ? <v.value />: v.value}
               </span>
             </div>
           );
