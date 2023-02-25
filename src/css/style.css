@@ -28,5 +28,5 @@
     text-fill-color: transparent;
 }
 .dark .ant-form-item-label label{
-    color: rgba(0, 0, 0, 0.4) !important;
+    /* color: rgba(0, 0, 0, 0.4) !important; */
 }

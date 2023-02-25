@@ -52,7 +52,7 @@ import grantIcon from "@/images/incentive/grant.svg";
 import Plan from "./plan";
 import Title from "../component/Title";
 import Banner from "../component/banner";
-
+import Spot from "./spot";
 
 dayjs.extend(customParseFormat);
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
@@ -287,7 +287,13 @@ function GrantCreate() {
                   </Form.Item>
                 )} */}
 
-                <div className="overflow-hidden lg:px-4 lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10">
+                <Spot
+                  id="grantee"
+                  className="overflow-hidden lg:px-4 lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10"
+                  close={() => {
+                    setOpenGrantee(false);
+                  }}
+                >
                   <h2 className="dark:text-white dark:lg:text-cwh2">Grantee</h2>
                   <Form.Item
                     label="Choose a Grantee"
@@ -299,6 +305,9 @@ function GrantCreate() {
                     <Select
                       placeholder="Search/Select"
                       open={openGrantee}
+                      getPopupContainer={() =>
+                        document.getElementById("grantee")
+                      }
                       onDropdownVisibleChange={(v) => setOpenGrantee(v)}
                       dropdownRender={(menu) => {
                         return (
@@ -332,9 +341,9 @@ function GrantCreate() {
                       }))}
                     />
                   </Form.Item>
-                </div>
+                </Spot>
 
-                <div className="overflow-hidden lg:px-4 lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10" >
+                <Spot className="overflow-hidden lg:px-4 lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10">
                   <h2 className="dark:text-white dark:lg:text-cwh2">Grant</h2>
                   <Form.Item name="tokenType">
                     {/* <Radio.Group>
@@ -401,9 +410,12 @@ function GrantCreate() {
                       min={0}
                     />
                   </Form.Item>
-                </div>
+                </Spot>
 
-                <div  className="overflow-hidden lg:px-4 lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10">
+                <Spot
+                  id="vesting"
+                  className="overflow-hidden lg:px-4 lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10"
+                >
                   <h2 className="dark:text-white dark:lg:text-cwh2">Vesting</h2>
 
                   {pc ? (
@@ -438,7 +450,12 @@ function GrantCreate() {
                       },
                     ]}
                   >
-                    <DatePicker className="w-full" />
+                    <DatePicker
+                      getPopupContainer={() =>
+                        document.getElementById("vesting")
+                      }
+                      className="w-full"
+                    />
                   </Form.Item>
 
                   <Form.Item
@@ -482,7 +499,11 @@ function GrantCreate() {
                         marginLeft: 8,
                       }}
                     >
-                      <Select>
+                      <Select
+                        getPopupContainer={() =>
+                          document.getElementById("vesting")
+                        }
+                      >
                         {timeLengthList.map((v) => (
                           <Option value={v.value} key={v.value}>
                             {v.label}
@@ -562,7 +583,11 @@ function GrantCreate() {
                         marginLeft: 8,
                       }}
                     >
-                      <Select>
+                      <Select
+                        getPopupContainer={() =>
+                          document.getElementById("vesting")
+                        }
+                      >
                         {timeLengthList.map((v) => (
                           <Option value={v.value} key={v.value}>
                             {v.label}
@@ -665,7 +690,11 @@ function GrantCreate() {
                               marginLeft: 8,
                             }}
                           >
-                            <Select>
+                            <Select
+                              getPopupContainer={() =>
+                                document.getElementById("vesting")
+                              }
+                            >
                               {timeLengthList.map((v) => (
                                 <Option value={v.value} key={v.value}>
                                   {v.label}
@@ -709,7 +738,7 @@ function GrantCreate() {
                       ) : null
                     }
                   </Form.Item>
-                </div>
+                </Spot>
               </Form>
             </div>
           </div>
