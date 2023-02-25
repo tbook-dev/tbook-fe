@@ -8,13 +8,9 @@ import {
   getTIPInfo,
   getGrantVestingScheduleInfo,
 } from "@/api/incentive";
-import { loadWeb3 } from "@/utils/web3";
+import { CheckCircleOutlined } from "@ant-design/icons";
 import { useAsyncEffect } from "ahooks";
-import {
-  formatDollar,
-  periodMap,
-  shortAddress,
-} from "@/utils/const";
+import { formatDollar, periodMap, shortAddress } from "@/utils/const";
 import VestingSchedule from "../incentive/VestingSchedule";
 import { useSelector } from "react-redux";
 // import Header from "../component/Header";
@@ -24,6 +20,10 @@ import VestedCard from "./vested";
 import { useSignMessage, useConnect } from "wagmi";
 import { useAccount } from "wagmi";
 import { useWeb3Modal } from "@web3modal/react";
+import Banner from "../component/banner";
+import signIcon from "@/images/incentive/sign.svg";
+import ConfigProviderV2 from "@/theme/ConfigProviderV2";
+import { Spin } from "antd";
 
 const { Paragraph } = Typography;
 
@@ -46,12 +46,20 @@ function GrantSign() {
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
   const signStatus = useMemo(() => {
+    // return 'allDone';
     if (signList.length === 0) {
-      return "pending";
+      return null;
     }
-    return signList.filter((sg) => sg.grantSign.signStatus === 1).length !== 0
-      ? "pending"
-      : "others";
+    const sg = signList.find(
+      (sg) => sg?.signer?.mainWallet === userInfo.mainWallet
+    );
+    if (sg?.grantSign.signStatu === 1) {
+      return "notyet";
+    } else {
+      return signList.filter((sg) => sg.grantSign.signStatus === 2).length === 2
+        ? "allDone"
+        : "done";
+    }
   }, [signList]);
 
   // console.log(signStatus);
@@ -115,78 +123,97 @@ function GrantSign() {
   }
 
   const Sign = () => {
+    const sg = signList.find(
+      (sg) => sg?.signer?.mainWallet === userInfo.mainWallet
+    );
+    if (!sg)
+      return (
+        <div className="flex justify-center">
+          <Spin />
+        </div>
+      );
+
     return (
-      <div className="text-[#333] lg:w-[600px] mx-auto">
-        <div className=" lg:bg-white lg:-mx-[310px] lg:py-8 lg:rounded-t-lg lg:shadow-c10">
-          <div className="lg:w-[600px] mx-auto">
-            <div className="mb-2 lg:mb-4 text-[12px] leading-[16px] lg:text-[14px] lg:leading-[22px]">
-              <p>1. Please confirm and sign this grant.</p>
-              <p>
-                2. Please copy and send the following link to the grantee.(if
-                you are the grantee, please ignore it).
+      <div
+        className={clsx(
+          "lg:w-[600px] mx-auto lg:px-6 lg:py-4 lg:shadow-d3  rounded-lg",
+          signStatus === "notyet" && "lg:h-[72px]",
+          signStatus === "done" && "bg-cw1",
+          signStatus === "allDone" && "lg:h-[72px]"
+        )}
+      >
+        <div
+          className={clsx(
+            "flex h-full",
+            signStatus === "notyet" && "items-center justify-between",
+            signStatus === "done" && "flex-col",
+            signStatus === "allDone" && "items-center justify-between flex-col"
+          )}
+        >
+          {signStatus === "notyet" && (
+            <>
+              <div className="flex items-center ">
+                <div className="flex items-center justify-center w-8 h-8 mr-2 rounded-full bg-cw1 lg:w-8 lg:h-8">
+                  <img src={sg.signer.avatar} className="w-5 h-5" />
+                </div>
+                <p className="text-c1 text-colorful1">
+                  {shortAddress(sg.signer.mainWallet)}
+                </p>
+              </div>
+
+              <Button type="primary" onClick={() => handleSign(sg.grantSign)}>
+                Sign
+              </Button>
+            </>
+          )}
+          {signStatus === "done" && (
+            <>
+              <div className="flex items-center mb-2.5">
+                <CheckCircleOutlined
+                  style={{
+                    fontSize: "32px",
+                    marginRight: "8px",
+                    color: "#69D0E5",
+                  }}
+                />
+                <span className="font-medium text-black text-c1">
+                  {shortAddress(sg.signer.mainWallet)}
+                </span>
+              </div>
+              <p className="text-black text-c5 py-2.5">
+                Please copy and send the following link to the grantee.
               </p>
-              <p>
-                3. After the administrator and the grantee complete the
-                signature,this grant will come into effect.
-              </p>
-            </div>
-            <div className="px-2 rounded-lg mb-2 lg:mb-4 lg:px-6 lg:py-2.5 shadow-c8">
-              <a href={location.href} target="_blank">
-                <Paragraph
-                  copyable={{ text: location.href }}
-                  className="flex justify-between py-3 lg:py-0"
-                  style={{ marginBottom: 0 }}
-                >
-                  <span className="text-[#7CA2FF] underline decoration-[#7CA2FF]">
-                    {location.href}
-                  </span>
-                </Paragraph>
-              </a>
-            </div>
-
-            <div className="grid grid-cols-1 gap-y-2 lg:gap-y-4">
-              {signList.map((sg, idx) => {
-                return (
-                  <div
-                    key={idx}
-                    className={clsx(
-                      "flex justify-between items-center py-1 px-2 lg:pr-6 lg:pl-0 lg:h-14 rounded-md",
-                      sg.signer.userId == userInfo.userId
-                        ? "bg-[#ECF1FF]"
-                        : "bg-[#f2f2f2]"
-                    )}
-                  >
-                    <div className="flex items-center ">
-                      <div className="w-6 h-6 bg-[#0049FF] lg:w-10 lg:h-10 lg:mx-4 mr-2 rounded-full flex justify-center items-center">
-                        <img src={sg.signer.avatar} className="w-6 h-6" />
-                      </div>
-                      <div className="flex flex-col justify-center">
-                        <h3 className="text-[12px] leading-[16px] text-[#1C1B1F]">
-                          {sg.signer.name}
-                        </h3>
-
-                        <p className="text-xxs leading-[15px] text-[#999] lg:text-[14px] lg:leading-[20px]">
-                          {shortAddress(sg.signer.mainWallet)}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div>
-                      {sg.grantSign.signStatus === 1 &&
-                      sg.signer.userId == userInfo.userId ? (
-                        <Button
-                          type="primary"
-                          onClick={() => handleSign(sg.grantSign)}
-                        >
-                          Sign
-                        </Button>
-                      ) : null}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+              <Paragraph
+                copyable={{ text: location.href }}
+                className="flex justify-between rounded-md lg:py-0"
+                style={{
+                  marginBottom: 0,
+                  backgroundColor: "#fff",
+                  padding: "8px 16px",
+                  boxShadow:
+                    "0px 0px 8px rgba(38, 227, 194, 0.25), 0px 0px 6px rgba(69, 160, 245, 0.6)",
+                }}
+              >
+                <span className="text-[rgba(153, 153, 153, 0.4)] text-c1">
+                  {location.href}
+                </span>
+              </Paragraph>
+            </>
+          )}
+          {signStatus === "allDone" && (
+              <div className="flex items-center">
+                <CheckCircleOutlined
+                  style={{
+                    fontSize: "32px",
+                    marginRight: "8px",
+                    color: "#69D0E5",
+                  }}
+                />
+                <span className="font-medium text-c1 text-colorful1">
+                  {shortAddress(sg.signer.mainWallet)}
+                </span>
+              </div>
+          )}
         </div>
       </div>
     );
@@ -222,7 +249,7 @@ function GrantSign() {
       {
         label: "Exercise Price",
         value: `${formatDollar(grantInfo.exercisePrice)} USD`,
-      }
+      },
     ];
     const doneConf = [
       {
@@ -289,37 +316,73 @@ function GrantSign() {
 
   // console.log("periodMap", periodMap, grantInfo.vestingTotalPeriod);
   return (
-    <main className="relative w-full lg:w-[600px] pb-10 lg:pb-0 mx-auto text-[#1E293B]">
+    <main className="relative w-full pb-10 lg:pb-0 lg:pt-12">
+      {signStatus === null && (
+        <div className="flex justify-center">
+          <Spin />
+        </div>
+      )}
+      {signStatus === "notyet" && (
+        <Banner
+          img={signIcon}
+          title="Signing"
+          description="Please confirm and sign this grant"
+          className="w-[640px] mx-auto mb-12"
+        />
+      )}
+      {(signStatus === "done" || signStatus === "allDone") && (
+        <div className="w-[600px] mx-auto mb-12">
+          <h2 className="font-bold lg:text-cwh3 dark:text-white mb-2.5">
+            Grant Detail
+          </h2>
+          <span className="py-px px-4 border border-[#69D0E5] rounded text-c5 text-colorful1">
+            Effective
+          </span>
+        </div>
+      )}
+
       <div
         className={clsx(
-          "pt-3 space-y-6 lg:pt-6 lg:mb-4",
-          signStatus === "pending" && " mb-[300px] lg:mb-[440px]"
+          "space-y-10 lg:w-[600px] mx-auto",
+          (signStatus === "notyet" || signStatus === "allDone") &&
+            "mb-[300px] lg:mb-[170px]",
+          signStatus === "done" && " mb-[300px] lg:mb-[250px]"
         )}
       >
         {/* <Header title="Grant Detail" className="mb-0" /> */}
 
-        {signStatus === "pending" ? (
-          <Card title="Grantee" list={granteeConf} />
-        ) : (
+        {signStatus === "notyet" && <Card title="Grantee" list={granteeConf} />}
+        {(signStatus === "done" || signStatus === "allDone") && (
           <VestedCard scheduleInfo={scheduleInfo} />
         )}
 
         <Card title="Grant" list={grantConf} />
 
         <Card title="Vesting" list={vestingConf}>
-          <VestingSchedule
-            pagination={false}
-            scroll={{ y: 275 }}
-            dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []}
-          />
+          <ConfigProviderV2
+            conf={{
+              components: {
+                Table: {
+                  colorBgContainer: "#000",
+                  controlItemBgActive: "#000000",
+                  colorPrimary: "#000",
+                  colorBorderSecondary: "#000",
+                },
+              },
+            }}
+          >
+            <VestingSchedule
+              pagination={false}
+              scroll={{ y: 275 }}
+              dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []}
+            />
+          </ConfigProviderV2>
         </Card>
       </div>
 
-      {signStatus === "pending" && (
-        <div className="fixed bottom-0 left-0 right-0 p-4 bg-white rounded-t-lg lg:bg-transparent lg:pb-0 lg:shadow-none shadow-c6">
-          <Sign />
-        </div>
-      )}
+      <div className="fixed bottom-0 left-0 right-0 lg:py-9 dark:bg-[#191919]">
+        <Sign />
+      </div>
     </main>
   );
 }

@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { Typography } from "antd";
-import { LeftCircleOutlined } from "@ant-design/icons";
+import { useParams } from "react-router-dom";
+import { Button, Typography } from "antd";
 import {
   getGrantInfo,
   getGrantSignInfo,
@@ -10,17 +9,20 @@ import {
   getGrantVestingScheduleInfo,
 } from "@/api/incentive";
 import { loadWeb3 } from "@/utils/web3";
-import KV from "@/components/local/KV2";
-import Title from "@/components/local/Title2";
 import { useAsyncEffect } from "ahooks";
-import { targetMap, formatDollar, periodMap } from "@/utils/const";
+import { formatDollar, periodMap, shortAddress } from "@/utils/const";
 import VestingSchedule from "../incentive/VestingSchedule";
-import Done from "@/components/icon/Done";
-import Loading from "@/components/icon/Loading";
-import Eth from "@/components/local/Eth";
-import aircraft from "@/images/tbook/aircraft.png";
 import { useSelector } from "react-redux";
-import { useSigner } from "wagmi";
+// import Header from "../component/Header";
+import Card from "./card";
+import clsx from "clsx";
+import VestedCard from "./vested";
+import { useSignMessage, useConnect } from "wagmi";
+import { useAccount } from "wagmi";
+import { useWeb3Modal } from "@web3modal/react";
+import Banner from "../component/banner";
+import signIcon from "@/images/incentive/sign.svg";
+import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 
 const { Paragraph } = Typography;
 
@@ -32,48 +34,67 @@ function GrantSign() {
   const [tipInfo, setTipInfo] = useState({});
   // const navigate = useNavigate();
   const [scheduleInfo, setSchedule] = useState({});
+  const authUser = useSelector((state) => state.user.authUser);
   const userInfo = useSelector((state) => state.user.user);
-  const { signer } = useSigner()
+  const { signMessageAsync } = useSignMessage();
+  const { isDisconnected } = useAccount();
+  const { connectAsync, connectors } = useConnect();
+  const { open } = useWeb3Modal();
+
   // const projects = useSelector((state) => state.user.projects);
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
   const signStatus = useMemo(() => {
-    return signList.filter((sg) => sg.grantSign.signStatus === 2).length === 2
-      ? "done"
-      : "pending";
+    if (signList.length === 0) {
+      return "pending";
+    }
+    return signList.filter((sg) => sg.grantSign.signStatus === 1).length !== 0
+      ? "pending"
+      : "others";
   }, [signList]);
-  
-  console.log(signStatus)
+
+  // console.log(signStatus);
   useAsyncEffect(async () => {
+    if (!authUser) return;
     const list = await getGrantSignInfo(null, grantId);
     setSignList(list);
-  }, [grantId]);
+  }, [grantId, authUser]);
 
   // 获取grant信息
   useAsyncEffect(async () => {
+    if (!authUser) return;
     const info = await getGrantInfo(grantId);
     setGrantInfo(info);
     setTipId(info.incentivePlanId);
-  }, [grantId]);
+  }, [grantId, authUser]);
 
   // 获取tip信息
   useAsyncEffect(async () => {
-    if (!tipId) return;
+    if (!authUser || !tipId) return;
     const tipInfo = await getTIPInfo(tipId);
     setTipInfo(tipInfo);
-  }, [tipId]);
+  }, [tipId, authUser]);
 
   // vesting schedule信息
 
   useAsyncEffect(async () => {
+    if (!authUser) return;
     const vestingSchedule = await getGrantVestingScheduleInfo(grantId);
     // console.log("vestingSchedule->", vestingSchedule);
     setSchedule(vestingSchedule || {});
-  }, [grantId]);
+  }, [grantId, authUser]);
 
   async function handleSign(sign) {
-    const web3 = await loadWeb3();
-    signer.signMessage(t)
+    if (isDisconnected) {
+      if (window.ethereum) {
+        await connectAsync({
+          connector: connectors.find((c) => c.id == "injected"),
+        });
+      } else {
+        await open("ConnectWallet");
+      }
+    }
+    signMessageAsync({ message: sign.signInfo })
       .then((s) => {
         return postGrantSignInfo(null, grantId, sign.grantSignId, s);
       })
@@ -92,194 +113,232 @@ function GrantSign() {
       });
   }
 
-  const Tip = () => {
+  const Sign = () => {
     return (
-      <div className="text-[#1E293B] mb-[12px]">
-        <h2 className="text-3xl	font-bold  mb-[18px]">Signing ...</h2>
-        <div className="mb-3 text-base">
-          <p>1.Please sign to complete the contract.</p>
-          <p>
-            2.Please copy the following link and send it to the grantee and
-            remind the grantee to sign (if you are the grantee, please ignore
-            it).
-          </p>
-          <p>
-            3.After the administrator and the grantee complete the signature,
-            this grant will come into effect.
-          </p>
-        </div>
-        <div className="px-[18px] py-[2px] border mb-7">
-          <a href={location.href} target="_blank">
-            <Paragraph copyable className="flex justify-between my-4 underline">
-              {location.href}
-            </Paragraph>
-          </a>
-        </div>
-      </div>
-    );
-  };
+      <div className="lg:w-[600px] mx-auto">
+        <div className=" lg:bg-white lg:-mx-[310px] lg:py-8 lg:rounded-t-lg lg:shadow-c10">
+          <div className="lg:w-[600px] mx-auto">
+            <div className="px-2 rounded-lg mb-2 lg:mb-4 lg:px-6 lg:py-2.5 shadow-c8">
+              <a href={location.href} target="_blank">
+                <Paragraph
+                  copyable={{ text: location.href }}
+                  className="flex justify-between py-3 lg:py-0"
+                  style={{ marginBottom: 0 }}
+                >
+                  <span className="text-[#7CA2FF] underline decoration-[#7CA2FF]">
+                    {location.href}
+                  </span>
+                </Paragraph>
+              </a>
+            </div>
 
-  const SignSucess = () => {
-    return (
-      <div className="flex flex-col items-center">
-        <Done size="large" />
-        <div className="text-3xl font-bold text-[#1E293B] pt-6 pb-8">
-          Grant Effective! 🙌
-        </div>
-        <Link
-          to={`/incentive/grant/${tipInfo.incentivePlanId}/${grantId}/detail`}
-        >
-          <button className="text-white bg-indigo-500 px-11 btn hover:bg-indigo-600 mb-11">
-            View Details -{">"}
-          </button>
-        </Link>
-      </div>
-    );
-  };
-  // console.log("periodMap", periodMap, grantInfo.vestingTotalPeriod);
-  return (
-    <main className="relative grid flex-auto grid-cols-2">
-      <img
-        width="218"
-        height="224"
-        src={aircraft}
-        className="absolute left-1/2 translate-x-[-50%] top-1/4"
-      />
+            <div className="grid grid-cols-1 gap-y-2 lg:gap-y-4">
+              {signList.map((sg, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className={clsx(
+                      "flex justify-between items-center py-1 px-2 lg:pr-6 lg:pl-0 lg:h-14 rounded-md",
+                      sg.signer.userId == userInfo.userId
+                        ? "bg-[#ECF1FF]"
+                        : "bg-[#f2f2f2]"
+                    )}
+                  >
+                    <div className="flex items-center ">
+                      <div className="w-6 h-6 bg-[#0049FF] lg:w-10 lg:h-10 lg:mx-4 mr-2 rounded-full flex justify-center items-center">
+                        <img src={sg.signer.avatar} className="w-6 h-6" />
+                      </div>
+                      <div className="flex flex-col justify-center">
+                        <h3 className="text-[12px] leading-[16px] text-[#1C1B1F]">
+                          {sg.signer.name}
+                        </h3>
 
-      <div className="px-4 py-8 sm:px-6 lg:px-16 lg:pr-8 xl:pr-16">
-        <section className="mb-8 mt-7">
-          <Title title="Grantee Information" />
-          <div className="grid grid-cols-2 gap-x-12 gap-y-3">
-            <KV label="Name" value={grantInfo.granteeName} />
-            <KV
-              label="Target Audience"
-              value={
-                tipInfo.target == "7"
-                  ? tipInfo.customized_target_name
-                  : targetMap[tipInfo.target]
-              }
-            />
-            <KV label="Email Address" value={grantInfo.granteeEmail} />
-            <KV label="Ethereum Address" value={grantInfo.granteeEthAddress} />
-          </div>
-        </section>
-        <section className="mb-8">
-          <Title title="Grant Details" />
-          <div className="grid grid-cols-2 gap-x-12 gap-y-3">
-            <KV label="Plan Name" value={tipInfo.incentivePlanName} />
-            <KV label="Grant Type" value="token option" />
-            <KV
-              label="Total Amount"
-              value={formatDollar(grantInfo?.grantNum) + " Token"}
-            />
-            <KV
-              label="Exercise Price"
-              value={`${formatDollar(grantInfo.exercisePrice)} USD`}
-            />
-          </div>
-        </section>
-        <section className="mb-8">
-          <div className="mb-4">
-            <Title title="Vesting Schedule" />
-            <div className="grid grid-cols-2 gap-x-12 gap-y-3">
-              <KV
-                label="Vesting Start Date"
-                value={scheduleInfo.grantStartDate}
-              />
-              <KV
-                label="Vesting by"
-                value={grantInfo.grantType === 1 ? "Duration" : "Milestone"}
-              />
-              <KV
-                label="Length"
-                value={`${grantInfo.vestingTotalLength} ${
-                  periodMap[grantInfo.vestingTotalPeriod]
-                }`}
-              />
-              <KV
-                label="Vesting Frequency"
-                value={`${grantInfo.vestingFrequency}  ${
-                  periodMap[grantInfo.vestingPeriod]
-                }`}
-              />
+                        <p className="text-xxs leading-[15px] text-[#999] lg:text-[14px] lg:leading-[20px]">
+                          {shortAddress(sg.signer.mainWallet)}
+                        </p>
+                      </div>
+                    </div>
 
-              {grantInfo.cliffTime !== 0 && (
-                <KV
-                  label="Cliff Duration"
-                  value={`${grantInfo.cliffTime} ${
-                    periodMap[grantInfo.cliffPeriod]
-                  }`}
-                />
-              )}
-              {grantInfo.cliffAmount !== 0 && (
-                <KV label="Cliff Amount" value={`${grantInfo.cliffAmount}%`} />
-              )}
-
-              <KV
-                label="Vesting Times"
-                value={scheduleInfo?.vestingSchedule?.vestingDetail?.length}
-              />
+                    <div>
+                      {sg.grantSign.signStatus === 1 &&
+                      sg.signer.userId == userInfo.userId ? (
+                        <Button
+                          type="primary"
+                          onClick={() => handleSign(sg.grantSign)}
+                        >
+                          Sign
+                        </Button>
+                      ) : null}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
-          <VestingSchedule
-            pagination={{ defaultPageSize: 5 }}
-            dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []}
-          />
-        </section>
-      </div>
-
-      <div className="flex items-center justify-center min-h-full bg-white">
-        <div className="w-[440px]">
-          <div className="">
-            {signList.filter((item) => item.grantSign.signStatus === 2)
-              .length === 2 ? (
-              <SignSucess />
-            ) : (
-              <Tip />
-            )}
-          </div>
-
-          <div className="flex justify-around mb-12">
-            {signList.map((sg, idx) => {
-              return (
-                <div
-                  key={idx}
-                  className="flex flex-col items-center text-center"
-                >
-                  <div className="flex items-center justify-center w-16 h-16 border-2 border-[#F1F5F9] rounded-full">
-                    <img width="38" height="38" src={sg.signer.avatar}></img>
-                  </div>
-
-                  <div className="text-lg font-semibold text-[#1E293B] mb-2">
-                    <p>{sg.signer.name}</p>
-                    <Eth style={{ width: 115 }}>{sg.signer.mainWallet}</Eth>
-                  </div>
-                  <div>
-                    {sg.grantSign.signStatus === 2 ? <Done /> : <Loading />}
-                  </div>
-
-                  <div className="mt-8">
-                    {sg.grantSign.signStatus === 1 &&
-                    sg.signer.userId == userInfo.userId ? (
-                      <button
-                        className="text-white bg-indigo-500 btn hover:bg-indigo-600"
-                        onClick={() => handleSign(sg.grantSign)}
-                      >
-                        Sign
-                      </button>
-                    ) : null}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <Link to="/" className="text-[#497EED] text-sm">
-            <LeftCircleOutlined className="mr-2" />
-            Back to Incentive List
-          </Link>
         </div>
       </div>
+    );
+  };
+
+  const granteeConf = useMemo(() => {
+    return [
+      {
+        label: "Name",
+        value: grantInfo?.granteeName,
+      },
+      {
+        label: "ETH Address",
+        value: shortAddress(grantInfo?.granteeEthAddress),
+      },
+      {
+        label: "Email Address",
+        value: grantInfo?.granteeEmail,
+      },
+    ];
+  }, [grantInfo]);
+
+  const grantConf = useMemo(() => {
+    const pendingConf = [
+      {
+        label: "Grant Type",
+        value: "Token Option",
+      },
+      {
+        label: "Total Amount",
+        value: `${formatDollar(grantInfo?.grantNum)} Token`,
+      },
+      {
+        label: "Exercise Price",
+        value: `${formatDollar(grantInfo.exercisePrice)} USD`,
+      },
+    ];
+    const doneConf = [
+      {
+        label: "Grant ID",
+        value: grantId,
+      },
+      ...pendingConf,
+      {
+        label: "Plan",
+        value: tipInfo?.incentivePlanName,
+      },
+      {
+        label: "Grantee",
+        value: () => (
+          <span className="text-[#0049FF]">
+            {shortAddress(grantInfo?.granteeEthAddress)}
+          </span>
+        ),
+      },
+    ];
+
+    return signStatus === "pending" ? pendingConf : doneConf;
+  }, [grantInfo, tipInfo, signStatus, grantId]);
+
+  const vestingConf = useMemo(() => {
+    return [
+      {
+        label: "Vesting Start Date",
+        value: scheduleInfo?.grantStartDate,
+      },
+      {
+        label: "Vesting Type",
+        value: grantInfo.grantType === 1 ? "Duration" : "Milestone",
+      },
+      {
+        label: "Length",
+        value: `${grantInfo.vestingTotalLength} ${
+          periodMap[grantInfo.vestingTotalPeriod]
+        }`,
+      },
+      {
+        label: "Vesting Frequency",
+        value: `${grantInfo.vestingFrequency}  ${
+          periodMap[grantInfo.vestingPeriod]
+        }`,
+      },
+      {
+        label: "Cliff Duration",
+        value:
+          grantInfo.cliffTime !== 0
+            ? `${grantInfo.cliffTime} ${periodMap[grantInfo.cliffPeriod]}`
+            : null,
+      },
+      {
+        label: "Cliff Amount",
+        value: grantInfo.cliffAmount !== 0 ? `${grantInfo.cliffAmount}%` : null,
+      },
+      {
+        label: "Vesting Times",
+        value: scheduleInfo?.vestingSchedule?.vestingDetail?.length,
+      },
+    ];
+  }, [scheduleInfo, grantInfo]);
+
+  // console.log("periodMap", periodMap, grantInfo.vestingTotalPeriod);
+  return (
+    <main className="relative w-full pb-10 lg:pb-0 lg:pt-12">
+      {signStatus === "pending" ? (
+        <Banner
+          img={signIcon}
+          title="Signing"
+          description="Please confirm and sign this grant"
+          className="w-[640px] mx-auto mb-12"
+        />
+      ) : (
+        <div className="w-[600px] mx-auto mb-12">
+          <h2 className="font-bold lg:text-cwh3 dark:text-white mb-2.5">
+            Grant Detail
+          </h2>
+          <span className="py-px px-4 border border-[#69D0E5] rounded text-c5 text-colorful1">
+            Effective
+          </span>
+        </div>
+      )}
+
+      <div
+        className={clsx(
+          "pt-3 space-y-6 lg:w-[600px] mx-auto lg:pt-6 lg:mb-4",
+          signStatus === "pending" && " mb-[300px] lg:mb-[440px]"
+        )}
+      >
+        {/* <Header title="Grant Detail" className="mb-0" /> */}
+
+        {signStatus === "pending" ? (
+          <Card title="Grantee" list={granteeConf} />
+        ) : (
+          <VestedCard scheduleInfo={scheduleInfo} />
+        )}
+
+        <Card title="Grant" list={grantConf} />
+
+        <Card title="Vesting" list={vestingConf}>
+          <ConfigProviderV2
+            conf={{
+              components: {
+                Table: {
+                  colorBgContainer: "#000",
+                  controlItemBgActive: "#000000",
+                  colorPrimary: "#000",
+                  colorBorderSecondary: "#000",
+                },
+              },
+            }}
+          >
+            <VestingSchedule
+              pagination={false}
+              scroll={{ y: 275 }}
+              dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []}
+            />
+          </ConfigProviderV2>
+        </Card>
+      </div>
+
+      {signStatus === "pending" && (
+        <div className="fixed bottom-0 left-0 right-0 rounded-t-lg lg:py-9 dark:bg-b-1">
+          <Sign />
+        </div>
+      )}
     </main>
   );
 }

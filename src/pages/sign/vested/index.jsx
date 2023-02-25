@@ -18,7 +18,7 @@ export default function ({ scheduleInfo }) {
         "-",
     },
   ];
-  console.log("scheduleInfo", scheduleInfo);
+  // console.log("scheduleInfo", scheduleInfo);
 
   return (
     <div className="overflow-hidden bg-white divide-y rounded-md lg:rounded-lg shadow-c5">
