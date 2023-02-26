@@ -107,7 +107,7 @@ function PlanList() {
     }
     // const activeIdx = list2Formated[0]?.idx || 0;
     setActiveIndex(activeIdx);
-    console.log("activeIdx+1", list1, activeIdx);
+    // console.log("activeIdx+1", list1, activeIdx);
     dispatchFilter({
       type: "Plan",
       payload: list1[activeIdx]?.incentivePlanId,
@@ -136,7 +136,7 @@ function PlanList() {
     }
     return res;
   }, [grantList, filters]);
-  console.log("filters.plan", filters.Plan);
+  // console.log("filters.plan", filters.Plan);
   return (
     <div className="w-full text-[#202124] mb-4">
       <div
@@ -187,9 +187,10 @@ function PlanList() {
                 slidesPerView={"auto"}
                 slidesPerGroup={pc ? 4 : 1}
                 onSwiper={setSwiper}
-                style={{ marginLeft: pc && tipList.length < 4 ? "0" : "auto" }}
+                // style={{ marginLeft: pc && tipList.length < 4 ? "0" : "auto" }}
                 slideToClickedSlide={pc}
                 initialSlide={activeIndex}
+                loopFillGroupWithBlank
                 navigation={{
                   nextEl: ".swiper-button-next",
                   prevEl: ".swiper-button-prev",
@@ -200,7 +201,7 @@ function PlanList() {
                     return (
                       <SwiperSlide
                         key={tip.incentivePlanId}
-                        style={{ width: "auto" }}
+                        style={{ width: "auto", cursor: 'pointer' }}
                       >
                         <div
                           style={{ padding: "6px 4px 4px" }}
@@ -220,6 +221,15 @@ function PlanList() {
                       </SwiperSlide>
                     );
                   })}
+
+                {pc &&
+                  new Array(4 - (tipList.length % 4)).fill().map((_, v) => (
+                    <SwiperSlide style={{ width: "auto" }} key={v}>
+                      <div style={{ padding: "6px 4px 4px" }}>
+                        <div className="w-[218px] h-[140px]" />
+                      </div>
+                    </SwiperSlide>
+                  ))}
               </Swiper>
             </>
           )}

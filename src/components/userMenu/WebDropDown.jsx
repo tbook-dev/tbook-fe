@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 import { Popover } from "antd";
 import Avator from "./Avator";
 import Info from "./Info";

@@ -53,7 +53,7 @@ export default function ({ tip, pc, isActive }) {
     <div
       className={clsx(
         "flex flex-col justify-between bg-cover shadow-c2 rounded-lg overflow-hidden relative",
-        "w-[80vw] h-[180px] flex flex-col lg:w-[216px] lg:h-[140px] dark:shadow-d5",
+        "w-[80vw] h-[180px] flex flex-col lg:w-[218px] lg:h-[140px] dark:shadow-d5",
         isActive ? "dark:bg-cw1 " : "dark:bg-black  dark:hover:bg-cw2"
       )}
     >
