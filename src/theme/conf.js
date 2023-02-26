@@ -1,6 +1,7 @@
 export default {
   Button: {
     borderRadius: 8,
+    controlHeight: 40
   },
   Form: {
     marginLG: 12,
