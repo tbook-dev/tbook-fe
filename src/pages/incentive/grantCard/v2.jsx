@@ -101,7 +101,7 @@ export default function ({ grant }) {
           <div className="truncate text-c3">
             Total
           </div>
-          <span className="text-right truncate text-cwh2 text-colorful1">
+          <span className="font-bold text-right truncate text-cwh2 text-colorful1">
             {formatDollar(grant?.grant?.grantNum)}
           </span>
         </div>

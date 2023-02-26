@@ -140,7 +140,7 @@ function PlanList() {
   return (
     <div className="w-full text-[#202124] mb-4">
       <div
-        className="w-full mb-5 lg:mt-12"
+        className="w-full mb-5 lg:my-12"
         style={{
           "--swiper-navigation-size": "16px",
           "--swiper-theme-color": "#fff",

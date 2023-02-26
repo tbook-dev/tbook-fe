@@ -19,7 +19,7 @@ export default function () {
     window.location.href = `${location.origin}`;
   }
   return (
-    <div className="flex items-center justify-between lg:mb-6">
+    <div className="flex items-center justify-between mb-6">
       <div className="flex">
         <NetWork id={projectChain?.evmChainId || 1} />
         <span className="lg:ml-2 text-[18px] lg:text-c7 dark:text-black">

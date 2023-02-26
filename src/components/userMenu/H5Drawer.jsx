@@ -87,6 +87,7 @@ export default function ({ open, setOpen }) {
   return (
     <>
       <Avator
+        id={1}
         setOpen={() => {
           setOpen(true);
           setExpaned(false);
