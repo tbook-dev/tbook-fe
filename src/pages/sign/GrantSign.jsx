@@ -53,7 +53,7 @@ function GrantSign() {
     const sg = signList.find(
       (sg) => sg?.signer?.mainWallet === userInfo.mainWallet
     );
-    if (sg?.grantSign.signStatu === 1) {
+    if (sg?.grantSign.signStatus === 1) {
       return "notyet";
     } else {
       return signList.filter((sg) => sg.grantSign.signStatus === 2).length === 2
