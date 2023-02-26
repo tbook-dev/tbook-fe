@@ -159,8 +159,8 @@ function DropdownProfile() {
 
       {pc ? (
         <Popover
-          open={dropdownOpen}
-          // open
+          // open={dropdownOpen}
+          open
           content={<Content />}
           placement="bottomRight"
           onOpenChange={(v) => setDropdownOpen(v)}

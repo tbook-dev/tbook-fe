@@ -1,11 +1,10 @@
 import React from "react";
-import UserMenu from "@/components/UserMenu";
+import UserMenu from "@/components/userMenu";
 import { useSelector } from "react-redux";
 import Connect from "@/components/connect";
 import logo from "@/images/icon/logo.svg";
 import { Link } from "react-router-dom";
 import { Spin } from "antd";
-import clsx from "clsx";
 
 function Header() {
   const authUser = useSelector((state) => state.user.authUser);
@@ -37,7 +36,7 @@ function Header() {
             {loadingUserStatus ? (
               <Spin />
             ) : authUser ? (
-              <UserMenu align="right" />
+              <UserMenu />
             ) : (
               <Connect />
             )}

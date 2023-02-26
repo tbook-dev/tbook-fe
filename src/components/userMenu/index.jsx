@@ -1,0 +1,24 @@
+import React, { useState } from "react";
+import useCurrentProject from "@/hooks/useCurrentProject";
+import { useResponsive } from "ahooks";
+import H5Drawer from "./H5Drawer";
+import WebDropDown from "./WebDropDown";
+
+export default function () {
+  const currentProject = useCurrentProject();
+  const { pc } = useResponsive();
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="relative inline-flex">
+      <div className="flex items-center h-10 px-4 py-2 mr-4 rounded-lg text-c1 dark:text-c-9 dark:shadow-d3">
+        {currentProject?.projectName}
+      </div>
+      {pc ? (
+        <WebDropDown open={open} setOpen={setOpen} />
+      ) : (
+        <H5Drawer open={open} setOpen={setOpen} />
+      )}
+    </div>
+  );
+}
