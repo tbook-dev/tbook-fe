@@ -96,7 +96,7 @@ export default function ({ open, setOpen }) {
 
   const Content = () => (
     <div className="-mx-6 lg:-mx-3">
-      <div className="px-6 pt- pb-5 pt-3 w-[306px]">
+      <div className="px-6 pb-5 pt-3 w-[306px]">
         {menuStep === 0 && <InitMenu />}
         {menuStep === 1 && <Setting />}
       </div>
@@ -108,6 +108,7 @@ export default function ({ open, setOpen }) {
       open={open}
       content={<Content />}
       placement="bottomRight"
+      trigger="click"
       onOpenChange={(v) => {
         setOpen(v);
         if (!v) {

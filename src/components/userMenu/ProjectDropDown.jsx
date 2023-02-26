@@ -1,0 +1,71 @@
+import React, { useState } from "react";
+import { Popover } from "antd";
+import clsx from "clsx";
+import useProjects from "@/hooks/useProjects";
+import useCurrentProject from "@/hooks/useCurrentProject";
+import { Link } from "react-router-dom";
+import { PlusOutlined } from "@ant-design/icons";
+import { setCurrentProjectId } from "@/store/user";
+import { useDispatch } from "react-redux";
+
+
+export default function ({ children }) {
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const projects = useProjects();
+  const currentProject = useCurrentProject();
+
+  const hanldeChangeProject = function (projectId) {
+    if (currentProject.projectId === projectId) return;
+    dispatch(setCurrentProjectId(projectId));
+    setOpen(false);
+  };
+
+  const Content = () => (
+    <div className="-mx-6 lg:-mx-3">
+      <div className="pb-5 pt-3 w-[306px]">
+        <div className="max-h-[400px] overflow-y-auto">
+          {projects.map((project) => {
+            return (
+              <div
+                key={project.projectId}
+                className={clsx(
+                  project.projectId === currentProject.projectId
+                    ? "bg-cw1  text-black"
+                    : "text-c-9",
+                  "px-6 flex items-center h-10 text-c6 font-medium cursor-pointer"
+                )}
+                onClick={() => {
+                  hanldeChangeProject(project.projectId);
+                }}
+              >
+                {project.projectName}
+              </div>
+            );
+          })}
+        </div>
+
+        <Link to="/create/project" onClick={() => setOpen(false)}>
+          <div className="px-6 text-center text-c2">
+            <PlusOutlined style={{ color: "#69D0E5", marginRight: 8 }} />
+            New Project
+          </div>
+        </Link>
+      </div>
+    </div>
+  );
+
+  return (
+    <Popover
+      open={open}
+      trigger="click"
+      content={<Content />}
+      placement="bottomRight"
+      onOpenChange={(v) => {
+        setOpen(v);
+      }}
+    >
+      {children(setOpen)}
+    </Popover>
+  );
+}
