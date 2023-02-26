@@ -201,18 +201,18 @@ function GrantSign() {
             </>
           )}
           {signStatus === "allDone" && (
-              <div className="flex items-center">
-                <CheckCircleOutlined
-                  style={{
-                    fontSize: "32px",
-                    marginRight: "8px",
-                    color: "#69D0E5",
-                  }}
-                />
-                <span className="font-medium text-c1 text-colorful1">
-                  {shortAddress(sg.signer.mainWallet)}
-                </span>
-              </div>
+            <div className="flex items-center">
+              <CheckCircleOutlined
+                style={{
+                  fontSize: "32px",
+                  marginRight: "8px",
+                  color: "#69D0E5",
+                }}
+              />
+              <span className="font-medium text-c1 text-colorful1">
+                {shortAddress(sg.signer.mainWallet)}
+              </span>
+            </div>
           )}
         </div>
       </div>
@@ -322,7 +322,7 @@ function GrantSign() {
           <Spin />
         </div>
       )}
-      {signStatus === "notyet" && (
+      {(signStatus === "notyet" || signStatus === "done") && (
         <Banner
           img={signIcon}
           title="Signing"
@@ -330,7 +330,7 @@ function GrantSign() {
           className="w-[640px] mx-auto mb-12"
         />
       )}
-      {(signStatus === "done" || signStatus === "allDone") && (
+      {signStatus === "allDone" && (
         <div className="w-[600px] mx-auto mb-12">
           <h2 className="font-bold lg:text-cwh3 dark:text-white mb-2.5">
             Grant Detail

@@ -56,6 +56,8 @@ module.exports = {
         c4: ["12px", { lineHeight: "16px" }],
         c5: ["12px", { lineHeight: "20px" }],
         c6: ["16px", { lineHeight: "24px" }],
+        c7: ["18px", { lineHeight: "24px" }],
+
 
 
 
