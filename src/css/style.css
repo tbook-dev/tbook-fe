@@ -2,11 +2,11 @@
 @import 'tailwindcss/components';
 
 /* Additional styles */
-@import 'additional-styles/utility-patterns.css';
+/* @import 'additional-styles/utility-patterns.css';
 @import 'additional-styles/range-slider.css';
 @import 'additional-styles/toggle-switch.css';
 @import 'additional-styles/flatpickr.css';
-@import 'additional-styles/theme.css';
+@import 'additional-styles/theme.css'; */
 
 @import 'tailwindcss/utilities';
 
@@ -17,12 +17,14 @@
     align-items: center;
 }
 
-.text-colorful1{
-    background: linear-gradient(57.39deg, #6AB3F7 -4.5%, #67EBD4 96.91%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
+@layer components { 
+    .text-colorful1{
+        background: linear-gradient(57.39deg, #6AB3F7 -4.5%, #67EBD4 96.91%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+    }
 }
 
 @media (min-width: 1120px){

@@ -1,5 +1,5 @@
 import React from "react";
-import UserMenu from "@/components/UserMenu";
+import UserMenu from "@/components/userMenu";
 import Logo from "../components/icon/Logo";
 
 function Header() {
