@@ -60,6 +60,10 @@ export const getGrantInfo = async function(grantId) {
     return request(`${host}/grant/grantInfo?grantId=${grantId}`)
 }
 
+export const getGrantInfoWithPlan = async function(grantId) {
+    return request(`${host}/grant/grantInfoWithPlan?grantId=${grantId}`)
+}
+
 export const updateGrantInfo = async function(values){
     return request.Post(`/grant/updateGrant`, values)
 }

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Typography } from "antd";
 import {
-  getGrantInfo,
+  getGrantInfoWithPlan,
   getGrantSignInfo,
   postGrantSignInfo,
   getTIPInfo,
@@ -73,17 +73,18 @@ function GrantSign() {
   // 获取grant信息
   useAsyncEffect(async () => {
     if (!authUser) return;
-    const info = await getGrantInfo(grantId);
-    setGrantInfo(info);
+    const info = await getGrantInfoWithPlan(grantId);
+    setGrantInfo(info.grant);
     setTipId(info.incentivePlanId);
+    setTipInfo(info.tip)
   }, [grantId, authUser]);
 
   // 获取tip信息
-  useAsyncEffect(async () => {
-    if (!authUser || !tipId) return;
-    const tipInfo = await getTIPInfo(tipId);
-    setTipInfo(tipInfo);
-  }, [tipId, authUser]);
+  // useAsyncEffect(async () => {
+  //   if (!authUser || !tipId) return;
+  //   const tipInfo = await getTIPInfo(tipId);
+  //   setTipInfo(tipInfo);
+  // }, [tipId, authUser]);
 
   // vesting schedule信息
 
