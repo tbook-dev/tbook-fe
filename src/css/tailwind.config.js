@@ -4,7 +4,11 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   darkMode: "class",
   // important: true,
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/tw-elements/dist/js/**/*.js",
+  ],
   theme: {
     extend: {
       screens: {
@@ -58,17 +62,10 @@ module.exports = {
         c6: ["16px", { lineHeight: "24px" }],
         c7: ["18px", { lineHeight: "24px" }],
 
-
-
-
-
-
         // coustom web h1
         cwh1: ["32px", { lineHeight: "40px" }],
         cwh2: ["24px", { lineHeight: "32px" }],
         cwh3: ["40px", { lineHeight: "40px" }],
-
-
 
         // xxs: ["11px", { lineHeight: '30px', "transform-origin-x": 0, "transform": 'scale(0.9)'}],
         // xs: ["0.75rem", { lineHeight: "1.5" }],
@@ -96,13 +93,13 @@ module.exports = {
           6: "rgba(255, 255, 255, 0.6)",
           8: "rgba(255, 255, 255, 0.8)",
         },
-        l:{
+        l: {
           1: "rgba(0, 0, 0, 0.1)",
           8: "rgba(0, 0, 0, 0.8)",
         },
         // disable
         disable: "rgba(255, 255, 255, 0.2)",
-        theme: '#69D0E5',
+        theme: "#69D0E5",
       },
       borderWidth: {
         3: "3px",
@@ -124,4 +121,5 @@ module.exports = {
       },
     },
   },
+  plugins: [require("tw-elements/dist/plugin")]
 };
