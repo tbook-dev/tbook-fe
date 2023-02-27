@@ -187,52 +187,41 @@ function PlanCreate() {
             ) : (
               <>
                 {firstCreated && (
-                  <div className="mb-6">
-                    <h2 className="hidden mb-2 text-2xl text-[#333] lg:block">
+                  <div className="py-4 mb-12 rounded-lg dark:bg-black shadow-d3">
+                    <h2 className="block px-4 py-2 lg:hidden text-[20px] leading-[24px] text-[#333]">
                       Project
                     </h2>
-                    <div className="bg-white divide-y rounded-xl shadow-c5">
-                      <h2 className="block px-4 py-2 lg:hidden text-[20px] leading-[24px] text-[#333]">
-                        Project
-                      </h2>
-                      <div className="flex px-4 py-2 text-[14px] leading-[18px] lg:leading-[22px]">
-                        <span className="flex-[10] text-[#666]">
-                          Project Name
+                    <div className="flex border-b border-b-1  px-6 py-2 text-[14px] leading-[18px] lg:text-c1">
+                      <span className="flex-[10] text-b-8">Project Name</span>
+                      <span className="flex-[14] text-white flex justify-end lg:justify-between">
+                        <span className="mr-2">
+                          {chains.map((v) => {
+                            // 目前应该监听网络环境
+                            if (project?.chain !== v.name) return null;
+                            return (
+                              <div
+                                className="flex items-center"
+                                key={v.evmChainId}
+                              >
+                                <NetWork id={v.evmChainId} className="mr-1" />
+                                {project?.projectName}
+                              </div>
+                            );
+                          })}
                         </span>
-                        <span className="flex-[14] flex justify-end lg:justify-between">
-                          <span className="mr-2">
-                            {chains.map((v) => {
-                              // 目前应该监听网络环境
-                              if (project?.chain !== v.name) return null;
-                              return (
-                                <div
-                                  className="flex items-center"
-                                  key={v.evmChainId}
-                                >
-                                  <NetWork id={v.evmChainId} className="mr-1" />
-                                  <span className="text-[#333]">
-                                    {project?.projectName}
-                                  </span>
-                                </div>
-                              );
-                            })}
-                          </span>
-                          <FormOutlined className="cursor-pointer" />
+                        <FormOutlined className="cursor-pointer" />
+                      </span>
+                    </div>
+                    <div className="flex px-6 py-2 text-[14px] leading-[18px] lg:text-c1">
+                      <span className="flex-[10] text-b-8">Total Token</span>
+                      <span className="flex-[14] text-white flex justify-end lg:justify-between">
+                        <span className="mr-2">
+                          {formatDollar(project?.tokenTotalAmount)} Token
                         </span>
-                      </div>
-                      <div className="flex px-4 py-2 text-[14px] leading-[18px] lg:leading-[22px]">
-                        <span className="flex-[10] text-[#666]">
-                          Total Token
-                        </span>
-                        <span className="flex-[14] flex justify-end lg:justify-between">
-                          <span className="mr-2">
-                            {formatDollar(project?.tokenTotalAmount)} Token
-                          </span>
-                          <Tooltip title="This is the total of virtual tokens only used to anchor ratio before TGE to facilitate calculation and granting. It will be converted into the actual number of tokens after TGE.">
-                            <InfoCircleOutlined className="cursor-pointer" />
-                          </Tooltip>
-                        </span>
-                      </div>
+                        <Tooltip title="This is the total of virtual tokens only used to anchor ratio before TGE to facilitate calculation and granting. It will be converted into the actual number of tokens after TGE.">
+                          <InfoCircleOutlined className="cursor-pointer" />
+                        </Tooltip>
+                      </span>
                     </div>
                   </div>
                 )}
