@@ -24,7 +24,7 @@ import Banner from "../component/banner";
 import signIcon from "@/images/incentive/sign.svg";
 import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 import { Spin } from "antd";
-import copyIcon from '@/images/icon/copy.svg';
+import copyIcon from "@/images/icon/copy.svg";
 
 const { Paragraph } = Typography;
 
@@ -183,7 +183,7 @@ function GrantSign() {
                 Please copy and send the following link to the grantee.
               </p>
               <Paragraph
-                copyable={{ text: location.href, icon: <img src={copyIcon}/> }}
+                copyable={{ text: location.href, icon: <img src={copyIcon} /> }}
                 className="flex justify-between rounded-md lg:py-0"
                 style={{
                   marginBottom: 0,
@@ -339,10 +339,10 @@ function GrantSign() {
       >
         {/* <Header title="Grant Detail" className="mb-0" /> */}
 
-        {signStatus === "notyet" && <Card title="Grantee" list={granteeConf} />}
-        {(signStatus === "done" || signStatus === "allDone") && (
-          <VestedCard scheduleInfo={scheduleInfo} />
+        {(signStatus === "notyet" || signStatus === "done") && (
+          <Card title="Grantee" list={granteeConf} />
         )}
+        {signStatus === "allDone" && <VestedCard scheduleInfo={scheduleInfo} />}
 
         <Card title="Grant" list={grantConf} />
 
