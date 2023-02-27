@@ -11,7 +11,7 @@ export default function VestingSchedule({ dataList = [], ...props }) {
       title: "#",
       dataIndex: "idx",
       align: "left",
-      className:"!font-normal !pr-0 before:hidden",
+      className:"!font-normal lg:!pl-6 !pr-0 before:hidden",
       width: pc? 'auto': 40,
       render(v) {
         return <span className="w-10">{v}</span>;
@@ -35,7 +35,7 @@ export default function VestingSchedule({ dataList = [], ...props }) {
     {
       title: "Cumulative",
       align: "right",
-      className:"!font-normal !pl-0",
+      className:"!font-normal lg:!pr-6 !pl-0",
       render(_, record) {
         const list = dataList.slice(0, record.idx);
         const sum = list.reduce((pre, cur) => pre + cur.quantity, 0);

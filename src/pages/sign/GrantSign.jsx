@@ -8,11 +8,11 @@ import {
   getTIPInfo,
   getGrantVestingScheduleInfo,
 } from "@/api/incentive";
-import { CheckCircleOutlined } from "@ant-design/icons";
 import { useAsyncEffect } from "ahooks";
 import { formatDollar, periodMap, shortAddress } from "@/utils/const";
 import VestingSchedule from "../incentive/VestingSchedule";
 import { useSelector } from "react-redux";
+import doneIcon from "@/images/icon/done.svg";
 // import Header from "../component/Header";
 import Card from "./card";
 import clsx from "clsx";
@@ -128,7 +128,7 @@ function GrantSign() {
     );
     if (!sg)
       return (
-        <div className="flex justify-center">
+        <div className="flex justify-center lg:w-[600px] mx-auto">
           <Spin />
         </div>
       );
@@ -136,7 +136,7 @@ function GrantSign() {
     return (
       <div
         className={clsx(
-          "lg:w-[600px] mx-auto lg:px-6 lg:py-4 lg:shadow-d3  rounded-lg",
+          "lg:w-[600px] mx-auto lg:px-6 lg:py-4 lg:shadow-d3  rounded-lg bg-black",
           signStatus === "notyet" && "lg:h-[72px]",
           signStatus === "done" && "bg-cw1",
           signStatus === "allDone" && "lg:h-[72px]"
@@ -161,7 +161,11 @@ function GrantSign() {
                 </p>
               </div>
 
-              <Button type="primary" onClick={() => handleSign(sg.grantSign)}>
+              <Button
+                type="primary"
+                className="lg:w-[120px]"
+                onClick={() => handleSign(sg.grantSign)}
+              >
                 Sign
               </Button>
             </>
@@ -169,13 +173,7 @@ function GrantSign() {
           {signStatus === "done" && (
             <>
               <div className="flex items-center mb-2.5">
-                <CheckCircleOutlined
-                  style={{
-                    fontSize: "32px",
-                    marginRight: "8px",
-                    color: "#69D0E5",
-                  }}
-                />
+                <img src={doneIcon} className="mr-2" />
                 <span className="font-medium text-black text-c1">
                   {shortAddress(sg.signer.mainWallet)}
                 </span>
@@ -202,13 +200,7 @@ function GrantSign() {
           )}
           {signStatus === "allDone" && (
             <div className="flex items-center">
-              <CheckCircleOutlined
-                style={{
-                  fontSize: "32px",
-                  marginRight: "8px",
-                  color: "#69D0E5",
-                }}
-              />
+              <img src={doneIcon} className="mr-2" />
               <span className="font-medium text-c1 text-colorful1">
                 {shortAddress(sg.signer.mainWallet)}
               </span>
@@ -250,28 +242,23 @@ function GrantSign() {
         label: "Exercise Price",
         value: `${formatDollar(grantInfo.exercisePrice)} USD`,
       },
-    ];
-    const doneConf = [
-      {
-        label: "Grant ID",
-        value: grantId,
-      },
-      ...pendingConf,
       {
         label: "Plan",
         value: tipInfo?.incentivePlanName,
       },
+    ];
+    const doneConf = [
+      ...pendingConf,
+      {
+        label: "Grant ID",
+        value: grantId,
+      },
       {
         label: "Grantee",
-        value: () => (
-          <span className="text-[#0049FF]">
-            {shortAddress(grantInfo?.granteeEthAddress)}
-          </span>
-        ),
+        value: shortAddress(grantInfo?.granteeEthAddress),
       },
     ];
-
-    return signStatus === "pending" ? pendingConf : doneConf;
+    return signStatus === "notyet" ? pendingConf : doneConf;
   }, [grantInfo, tipInfo, signStatus, grantId]);
 
   const vestingConf = useMemo(() => {
@@ -380,7 +367,15 @@ function GrantSign() {
         </Card>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 lg:py-9 dark:bg-[#191919]">
+      <div
+        className={clsx(
+          "fixed bottom-0 left-0 right-0 lg:py-9 dark:bg-b-1 blur-[1px] backdrop-blur-sm",
+          signStatus === "notyet" && "lg:h-[144px]",
+          signStatus === "done" && "lg:h-[224px]",
+          signStatus === "allDone" && "lg:h-[144px]"
+        )}
+      ></div>
+      <div className="fixed bottom-0 left-0 right-0 lg:py-9">
         <Sign />
       </div>
     </main>

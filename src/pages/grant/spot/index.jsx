@@ -15,7 +15,7 @@ export default function ({ className, id, children, close = () => {} }) {
     <div
       ref={ref}
       id={id}
-      className={clsx(className, pc && isHovering && "bg-cw1")}
+      className={clsx(className, pc && isHovering && "bg-cw1", "transition-colors	ease-[cubic-bezier(0.645, 0.045, 0.355, 1)]	duration-200")}
     >
       <ConfigProvider
         theme={{
