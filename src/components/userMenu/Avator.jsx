@@ -14,8 +14,8 @@ function Avator({ setOpen, open, id }) {
   return (
     <div
       className={clsx(
-        "flex items-center px-6 rounded-lg cursor-pointer lg:h-10 dark:shadow-d3",
-        open ? "bg-cw1 dark:shadow-d7" : "bg-[#141414]"
+        "flex items-center px-6 rounded-lg cursor-pointer dark:hover:bg-cw1 dark:hover:text-white dark:hover:shadow-d7 lg:h-10 dark:shadow-d3",
+        open ? "bg-cw1 dark:shadow-d7 dark:text-white" : "bg-[#141414] dark:text-c-9"
       )}
       onClick={setOpen}
     >
@@ -29,7 +29,6 @@ function Avator({ setOpen, open, id }) {
       <span
         className={clsx(
           "hidden lg:block text-c1",
-          clsx(open ? "dark:text-white  font-bold" : "dark:text-c-9 font-medium")
         )}
       >
         {ensName || shortAddress(userStore?.mainWallet)}
