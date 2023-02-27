@@ -1,8 +1,5 @@
 import { useResponsive } from "ahooks";
-import cardbgpc from "@/images/incentive/headers/vestedpc.png";
-import cardbg from "@/images/incentive/headers/vested.png";
 import { formatDollar, getLastVested } from "@/utils/const";
-import { Button } from "antd";
 
 export default function ({ scheduleInfo }) {
   const { pc } = useResponsive();
@@ -42,10 +39,13 @@ export default function ({ scheduleInfo }) {
         ) : null;
       })}
 
-      <div className="flex items-center justify-end px-6 lg:h-10 lg:justify-start">
-        <Button type="primary" disabled={scheduleInfo?.vestedAmount == 0}>
+      <div className="flex items-center justify-end px-6 lg:py-1 lg:justify-start">
+        <button
+          type="button"
+          className="flex items-center justify-center text-xs font-medium leading-normal transition duration-150 ease-in-out lg:w-[120px] lg:h-10 dark:bg-white lg:rounded-lg dark:text-black shadow-d3 hover:text-white hover:bg-cw1 hover:shadow-d7 dark:disabled:bg-b-1 dark:disabled:text-b-2 hover:disabled:bg-none hover:disabled:shadow-none"
+        >
           Buyback
-        </Button>
+        </button>
       </div>
     </div>
   );
