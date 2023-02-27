@@ -332,9 +332,10 @@ function GrantSign() {
       <div
         className={clsx(
           "space-y-10 lg:w-[600px] mx-auto",
-          (signStatus === "notyet" || signStatus === "allDone") &&
+          signStatus === "notyet"  &&
             "mb-[300px] lg:mb-[170px]",
-          signStatus === "done" && " mb-[300px] lg:mb-[250px]"
+          signStatus === "done" && " mb-[300px] lg:mb-[250px]",
+          signStatus === "allDone" &&  "mb-[300px] lg:mb-10",
         )}
       >
         {/* <Header title="Grant Detail" className="mb-0" /> */}
@@ -368,17 +369,21 @@ function GrantSign() {
         </Card>
       </div>
 
-      <div
-        className={clsx(
-          "fixed bottom-0 left-0 right-0 lg:py-9 dark:bg-b-1 blur-[1px] backdrop-blur-sm",
-          signStatus === "notyet" && "lg:h-[144px]",
-          signStatus === "done" && "lg:h-[224px]",
-          signStatus === "allDone" && "lg:h-[144px]"
-        )}
-      ></div>
-      <div className="fixed bottom-0 left-0 right-0 lg:py-9">
-        <Sign />
-      </div>
+      {(signStatus === "notyet" || signStatus === "done") && (
+        <>
+          <div
+            className={clsx(
+              "fixed bottom-0 left-0 right-0 lg:py-9 dark:bg-b-1 blur-[1px] backdrop-blur-sm",
+              signStatus === "notyet" && "lg:h-[144px]",
+              signStatus === "done" && "lg:h-[224px]",
+              signStatus === "allDone" && "lg:h-[144px]"
+            )}
+          ></div>
+          <div className="fixed bottom-0 left-0 right-0 lg:py-9">
+            <Sign />
+          </div>
+        </>
+      )}
     </main>
   );
 }
