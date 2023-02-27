@@ -24,6 +24,7 @@ export default function ({ children }) {
   const Content = () => (
     <div className="-mx-6 lg:-mx-3">
       <div className="pb-5 pt-3 w-[306px]">
+        <h2 className="px-6 pt-3 pb-6 font-medium text-center text-c7">Switch to another project</h2>
         <div className="max-h-[400px] overflow-y-auto">
           {projects.map((project) => {
             return (
@@ -33,7 +34,7 @@ export default function ({ children }) {
                   project.projectId === currentProject.projectId
                     ? "bg-cw1  text-black"
                     : "text-c-9",
-                  "px-6 flex items-center h-10 text-c6 font-medium cursor-pointer"
+                  "px-6 flex items-center h-10 text-c6 font-medium cursor-pointer dark:hover:text-black dark:hover:bg-cw1 dark:hover:opacity-60"
                 )}
                 onClick={() => {
                   hanldeChangeProject(project.projectId);
@@ -46,7 +47,7 @@ export default function ({ children }) {
         </div>
 
         <Link to="/create/project" onClick={() => setOpen(false)}>
-          <div className="px-6 text-center text-c2">
+          <div className="px-6 font-medium text-center text-c2 text-c-9">
             <PlusOutlined style={{ color: "#69D0E5", marginRight: 8 }} />
             New Project
           </div>

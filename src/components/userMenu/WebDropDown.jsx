@@ -60,7 +60,7 @@ export default function ({ open, setOpen }) {
             key={chain.evmChainId}
             className={clsx(
               chain.evmChainId === id ? "bg-cw1  text-black" : "text-c-9",
-              "lg:-mx-6 px-6 flex items-center h-10 text-c6 font-medium cursor-pointer"
+              "lg:-mx-6 px-6 flex items-center h-10 text-c6 font-medium cursor-pointer dark:hover:text-black dark:hover:bg-cw1 dark:hover:opacity-60"
             )}
             onClick={() => {
               if (chain.evmChainId !== id) {
