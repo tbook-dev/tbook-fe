@@ -151,17 +151,19 @@ function PlanList() {
             Incentive Plans
           </h2>
 
-          <Link to="/create/plan">
-            <Button
-              type="primary"
-              className="w-40 !h-10 !flex justify-center items-center !rounded-lg !border-none"
-            >
-              <span>
-                <PlusOutlined />
-                <span className="ml-2 text-[14px]">New Plan</span>
-              </span>
-            </Button>
-          </Link>
+          {authUser && (
+            <Link to="/create/plan">
+              <Button
+                type="primary"
+                className="w-40 !h-10 !flex justify-center items-center !rounded-lg !border-none"
+              >
+                <span>
+                  <PlusOutlined />
+                  <span className="ml-2 text-[14px]">New Plan</span>
+                </span>
+              </Button>
+            </Link>
+          )}
         </div>
 
         <div className="relative lg:h-[150px] lg:flex lg:justify-center">
@@ -201,7 +203,7 @@ function PlanList() {
                     return (
                       <SwiperSlide
                         key={tip.incentivePlanId}
-                        style={{ width: "auto", cursor: 'pointer' }}
+                        style={{ width: "auto", cursor: "pointer" }}
                       >
                         <div
                           style={{ padding: "6px 4px 4px" }}
