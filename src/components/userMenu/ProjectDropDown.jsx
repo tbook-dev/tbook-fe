@@ -65,7 +65,7 @@ export default function ({ children }) {
         setOpen(v);
       }}
     >
-      {children(setOpen)}
+      {children(setOpen, open)}
     </Popover>
   );
 }
