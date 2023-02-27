@@ -15,10 +15,13 @@ export default function ({ className, id, children, close = () => {} }) {
     <div
       ref={ref}
       id={id}
-      className={clsx(className, pc && isHovering && "bg-cw1", "transition-colors	ease-linear	duration-200")}
+      className={clsx(className, pc && isHovering && "bg-cw1")}
     >
       <ConfigProvider
         theme={{
+          token:{
+            motionUnit:0
+          },
           algorithm: pc
             ? isHovering
               ? theme.defaultAlgorithm
