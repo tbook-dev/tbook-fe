@@ -9,30 +9,58 @@ import {
 
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { publicProvider } from 'wagmi/providers/public'
+import { alchemyProvider } from "wagmi/providers/alchemy"
 import { mainnet, bsc } from "wagmi/chains";
 
 import {ConnectButton, useAccountBalance, useWallet, useCoinBalance, useChain, SuiChainId} from "@suiet/wallet-kit";
 import { reset } from "../store/user";
+import { createAuthenticationAdapter, connectorsForWallets } from "@rainbow-me/rainbowkit";
+import {
+  metaMaskWallet,
+  coinbaseWallet,
+  trustWallet
+} from '@rainbow-me/rainbowkit/wallets';
 
-const chains = [mainnet, bsc];
+//const chains = [mainnet, bsc];
 
-const wcProvider = walletConnectProvider({ projectId: import.meta.env.VITE_WC_PROJECT_ID });
+//const wcProvider = walletConnectProvider({ projectId: import.meta.env.VITE_WC_PROJECT_ID });
 
-const { provider } = configureChains(chains, [wcProvider, publicProvider()]);
+const { provider, webSocketProvider, chains:cs } = configureChains(
+  [mainnet, bsc], 
+  [alchemyProvider({ apiKey: 'O4FZQaR97p-2pg3AQHNxg0Ck4Vs8NQ4m' }), publicProvider()]);
 
-const connectors = modalConnectors({ 
-  appName: "tbook", 
-  projectId: import.meta.env.VITE_WC_PROJECT_ID,
-  chains, 
-  version: '2' 
-});
+export const chains = cs;
+
+// const { connectors } = getDefaultWallets({
+//   appName: "TBook",
+//   chains
+// });
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Recommended',
+    wallets: [
+      //injectedWallet({ chains }),
+      metaMaskWallet({ chains }),
+      trustWallet({ chains }),
+      coinbaseWallet({ chains })
+    ],
+  },
+]);
+
+// const connectors = modalConnectors({ 
+//   appName: "tbook", 
+//   projectId: import.meta.env.VITE_WC_PROJECT_ID,
+//   chains, 
+//   version: '2' 
+// });
 
 export const wagmiClient = createClient({
   autoConnect: true,
   connectors: connectors,
   provider,
+  webSocketProvider
 });
-export const ethereumClient = new EthereumClient(wagmiClient, chains)
+//export const ethereumClient = new EthereumClient(wagmiClient, chains)
 
 export async function loadWeb3() {
   // Wait for loading completion to avoid race conditions with web3 injection timing.
@@ -145,3 +173,43 @@ export async function signGrantMetaMask(web3, projectId, grantId, userId) {
     return error;
   }
 }
+
+export const authenticationAdapter = createAuthenticationAdapter({
+  getNonce: async () => {
+    const response = await fetch(
+      //`${host}/nonce?address=${address}`,
+      `${host}/nonce`,
+      { credentials: "include" });
+    return await response.text();
+  },
+  
+  createMessage: ({ nonce, address, chainId }) => {
+    return new SiweMessage({
+      domain: window.location.host,
+      address,
+      statement: '',
+      uri: window.location.origin,
+      version: '1',
+      chainId,
+      nonce,
+    });
+  },
+
+  getMessageBody: ({ message }) => {
+    return message.prepareMessage();
+  },
+
+  verify: async ({ message, signature }) => {
+    const verifyRes = await fetch('/api/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message, signature }),
+    });
+
+    return Boolean(verifyRes.ok);
+  },
+
+  signOut: async () => {
+    await fetch('/api/signout');
+  },
+})
