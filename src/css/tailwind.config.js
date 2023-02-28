@@ -67,6 +67,9 @@ module.exports = {
         cwh2: ["24px", { lineHeight: "32px" }],
         cwh3: ["40px", { lineHeight: "40px" }],
 
+        cwh4: ["56px", { lineHeight: "74px" }],
+
+
         // xxs: ["11px", { lineHeight: '30px', "transform-origin-x": 0, "transform": 'scale(0.9)'}],
         // xs: ["0.75rem", { lineHeight: "1.5" }],
         // sm: ["0.875rem", { lineHeight: "1.5715" }],

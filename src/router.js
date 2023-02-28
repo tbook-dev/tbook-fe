@@ -23,6 +23,7 @@ const routes =[
     // },
     {
         path: '/incentive/grant/:tipId/create',
+        layout: 'v1',
         component: lazy(() => import('@/pages/grant/GrantCreate'))
     },
     // {
@@ -37,6 +38,12 @@ const routes =[
         path: '/grants/:grantId/sign',
         layout: 'v1',
         component: lazy(() => import('@/pages/sign/GrantSign'))
+    },
+    // grantee视角
+    {
+        path: '/grantee/:grantId/sign',
+        layout: 'v2',
+        component: lazy(() => import('@/pages/sign/GranteeSign'))
     },
     // {
     //     path: '/new-project',

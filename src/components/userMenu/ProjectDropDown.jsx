@@ -47,7 +47,7 @@ export default function ({ children }) {
         </div>
 
         <Link to="/create/project" onClick={() => setOpen(false)}>
-          <div className="px-6 font-medium text-center text-c2 text-c-9">
+          <div className="flex items-center justify-center px-6 font-medium lg:h-10 text-c2 text-c-9">
             <PlusOutlined style={{ color: "#69D0E5", marginRight: 8 }} />
             New Project
           </div>

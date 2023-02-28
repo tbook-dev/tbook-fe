@@ -8,7 +8,7 @@ import { match } from "path-to-regexp";
 
 import PageNotFound from "./pages/utility/PageNotFound";
 import LayoutV1 from "./layout/Layout.admin";
-import LayoutV2 from "./layout/Layout.grante";
+import LayoutV2 from "./layout/Layout.grantee";
 import { configResponsive } from 'ahooks';
 
 import routes from "./router";

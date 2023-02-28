@@ -1,14 +1,13 @@
 import { shortAddress } from "@/utils/const";
 import { Typography, Button, Spin } from "antd";
 import { useSelector } from "react-redux";
-import { useConnect,useAccount, useSignMessage } from "wagmi";
+import { useConnect, useAccount, useSignMessage } from "wagmi";
 import doneIcon from "@/images/icon/done.svg";
 import { getGrantSignInfo, postGrantSignInfo } from "@/api/incentive";
 import { useWeb3Modal } from "@web3modal/react";
 import clsx from "clsx";
 import { useParams } from "react-router-dom";
 import copyIcon from "@/images/icon/copy.svg";
-
 
 const { Paragraph } = Typography;
 
@@ -18,8 +17,6 @@ export default function ({ signStatus, signList, setSignList }) {
   const { isDisconnected } = useAccount();
   const { signMessageAsync } = useSignMessage();
   const { grantId } = useParams();
-
-
   const { open } = useWeb3Modal();
 
   async function handleSign(sign) {
@@ -99,6 +96,7 @@ export default function ({ signStatus, signList, setSignList }) {
               </Button>
             </>
           )}
+          
           {signStatus === "done" && (
             <>
               <div className="flex items-center mb-2.5">
@@ -111,7 +109,10 @@ export default function ({ signStatus, signList, setSignList }) {
                 Please copy and send the following link to the grantee.
               </p>
               <Paragraph
-                copyable={{ text: location.href, icon: <img src={copyIcon} /> }}
+                copyable={{
+                  text: `${location.origin}/grantee/${grantId}/sign`,
+                  icon: <img src={copyIcon} />,
+                }}
                 className="flex justify-between rounded-md lg:py-0"
                 style={{
                   marginBottom: 0,
@@ -122,7 +123,7 @@ export default function ({ signStatus, signList, setSignList }) {
                 }}
               >
                 <span className="text-[rgba(153, 153, 153, 0.4)] text-c1">
-                  {location.href}
+                  {`${location.origin}/grantee/${grantId}/sign`}
                 </span>
               </Paragraph>
             </>

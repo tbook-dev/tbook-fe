@@ -1,8 +1,7 @@
 import React from "react";
 import Header from "./Header";
 
-export default function LayoutAdmin({ children }) {
-
+export default function LayoutGrantee({ children }) {
   return (
     <div className="flex flex-col min-h-screen dark:bg-black">
       <Header />

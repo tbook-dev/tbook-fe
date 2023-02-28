@@ -18,6 +18,8 @@ import signIcon from "@/images/incentive/sign.svg";
 import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 import { Spin } from "antd";
 import Action from "./action";
+import NoProject from "./GranteeSign/NoProject";
+import useUserInfoLoading from "@/hooks/useUserInfoLoading";
 
 
 function GrantSign() {
@@ -30,7 +32,8 @@ function GrantSign() {
   const [scheduleInfo, setSchedule] = useState({});
   const authUser = useSelector((state) => state.user.authUser);
   const userInfo = useSelector((state) => state.user.user);
-
+  const [granteeAuth, setGranteeAuth] = useState(null);
+  const userLoading = useUserInfoLoading();
 
   // const projects = useSelector((state) => state.user.projects);
   // console.log("scheduleInfo", scheduleInfo);
@@ -62,10 +65,18 @@ function GrantSign() {
   // 获取grant信息
   useAsyncEffect(async () => {
     if (!authUser) return;
-    const info = await getGrantInfoWithPlan(grantId);
-    setGrantInfo(info.grant);
-    // setTipId(info.incentivePlanId);
-    setTipInfo(info.tip);
+
+    try {
+      const info = await getGrantInfoWithPlan(grantId);
+      console.log(info)
+      setGranteeAuth(true);
+      setGrantInfo(info.grant);
+      setTipInfo(info.tip);
+    } catch (error) {
+      // 403 没有权限
+      console.log('getGrantInfoWithPlan-403',error)
+      setGranteeAuth(false);
+    }
   }, [grantId, authUser]);
 
   // 获取tip信息
@@ -79,10 +90,19 @@ function GrantSign() {
 
   useAsyncEffect(async () => {
     if (!authUser) return;
-    const vestingSchedule = await getGrantVestingScheduleInfo(grantId);
-    // console.log("vestingSchedule->", vestingSchedule);
-    setSchedule(vestingSchedule || {});
+    try {
+      const vestingSchedule = await getGrantVestingScheduleInfo(grantId);
+      setGranteeAuth(true);
+      // console.log("vestingSchedule->", vestingSchedule);
+      setSchedule(vestingSchedule || {});
+    } catch (error) {
+      // 403 没有权限
+      console.log('vestingSchedule-403',error)
+      setGranteeAuth(false);
+    }
+   
   }, [grantId, authUser]);
+  // console.log({grantInfo})
 
   const granteeConf = useMemo(() => {
     return [
@@ -113,7 +133,7 @@ function GrantSign() {
       },
       {
         label: "Exercise Price",
-        value: `${formatDollar(grantInfo.exercisePrice)} USD`,
+        value: `${formatDollar(grantInfo?.exercisePrice)} USD`,
       },
       {
         label: "Plan",
@@ -174,7 +194,20 @@ function GrantSign() {
     ];
   }, [scheduleInfo, grantInfo]);
 
+  // 
   // console.log("periodMap", periodMap, grantInfo.vestingTotalPeriod);
+
+  if (userLoading || granteeAuth === null) {
+    return (
+      <div className="flex pt-[120px] items-center justify-center">
+        <Spin />
+      </div>
+    );
+  }
+  if(granteeAuth === false){
+    // 失败没有权限
+    return <NoProject />
+  }
   return (
     <main className="relative w-full pb-10 lg:pb-0 lg:pt-12">
       {signStatus === null && (
