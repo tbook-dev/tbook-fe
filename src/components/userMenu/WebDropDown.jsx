@@ -68,7 +68,7 @@ export default function ({ open, setOpen }) {
               }
             }}
           >
-            <div className="items-center justify-center w-6 h-6">
+            <div className="flex items-center justify-center w-6 h-6">
               <NetWork id={chain.evmChainId} />
             </div>
             <span className={clsx("ml-2 ")}>{chain.name}</span>

@@ -21,7 +21,7 @@ function Header() {
             <Link to="/" className="lg:mr-16">
               <img src={logo} className="h-7" />
             </Link>
-            <div className="flex items-center">
+            <div className="items-center hidden lg:flex">
               <Link to="/" className="mr-12 font-bold dark:text-white text-c1">
                 INCENTIVE
               </Link>
