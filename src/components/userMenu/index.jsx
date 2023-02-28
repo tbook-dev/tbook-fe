@@ -34,7 +34,7 @@ export default function () {
             )}
           </ProjectDropDown>
         ) : (
-          <div className="flex items-center h-10 px-4 py-2 mr-4 rounded-lg text-c1 dark:text-c-9 dark:shadow-d3">
+          <div className="flex items-center h-10 px-4 py-2 rounded-lg text-c1 dark:text-c-9 lg:dark:shadow-d3">
             {currentProject?.projectName}
           </div>
         ))}
