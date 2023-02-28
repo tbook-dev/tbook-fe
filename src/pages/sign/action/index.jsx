@@ -96,7 +96,7 @@ export default function ({ signStatus, signList, setSignList }) {
               </Button>
             </>
           )}
-          
+
           {signStatus === "done" && (
             <>
               <div className="flex items-center mb-2.5">
@@ -110,7 +110,7 @@ export default function ({ signStatus, signList, setSignList }) {
               </p>
               <Paragraph
                 copyable={{
-                  text: `${location.origin}/grantee/${grantId}/sign`,
+                  text: location.href,
                   icon: <img src={copyIcon} />,
                 }}
                 className="flex justify-between rounded-md lg:py-0"
@@ -123,7 +123,7 @@ export default function ({ signStatus, signList, setSignList }) {
                 }}
               >
                 <span className="text-[rgba(153, 153, 153, 0.4)] text-c1">
-                  {`${location.origin}/grantee/${grantId}/sign`}
+                  {location.href}
                 </span>
               </Paragraph>
             </>

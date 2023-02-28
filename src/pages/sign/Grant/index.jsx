@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import useUserInfoLoading from "@/hooks/useUserInfoLoading";
 import useProjects from "@/hooks/useProjects";
 import { Spin } from "antd";
-import GrantSign from "../GrantSign";
+import GrantSign from "./GrantSign";
 
 
 

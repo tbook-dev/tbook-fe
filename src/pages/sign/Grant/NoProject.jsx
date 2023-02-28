@@ -8,7 +8,7 @@ export default function () {
     >
       <div className="lg:w-[700px] lg:ml-[120px]">
         <span className="py-px px-4 mb-1 border border-[#69D0E5] rounded text-c5 text-colorful1">
-          Effective
+          Error
         </span>
         <h2 className="font-extrabold text-white text-cwh4 lg:mb-6">
           <span className="mr-4 text-colorful1">Switch</span>

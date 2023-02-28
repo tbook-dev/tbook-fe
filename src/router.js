@@ -37,13 +37,7 @@ const routes =[
     {
         path: '/grants/:grantId/sign',
         layout: 'v1',
-        component: lazy(() => import('@/pages/sign/GrantSign'))
-    },
-    // grantee视角
-    {
-        path: '/grantee/:grantId/sign',
-        layout: 'v2',
-        component: lazy(() => import('@/pages/sign/GranteeSign'))
+        component: lazy(() => import('@/pages/sign/Grant'))
     },
     // {
     //     path: '/new-project',

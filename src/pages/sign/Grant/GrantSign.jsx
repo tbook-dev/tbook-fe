@@ -7,18 +7,18 @@ import {
 } from "@/api/incentive";
 import { useAsyncEffect } from "ahooks";
 import { formatDollar, periodMap, shortAddress } from "@/utils/const";
-import VestingSchedule from "../incentive/VestingSchedule";
+import VestingSchedule from "../../incentive/VestingSchedule";
 import { useSelector } from "react-redux";
 // import Header from "../component/Header";
-import Card from "./card";
+import Card from "../card";
 import clsx from "clsx";
-import VestedCard from "./vested";
-import Banner from "../component/banner";
+import VestedCard from "../vested";
+import Banner from "../../component/banner";
 import signIcon from "@/images/incentive/sign.svg";
 import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 import { Spin } from "antd";
-import Action from "./action";
-import NoProject from "./GranteeSign/NoProject";
+import Action from "../action";
+import NoProject from "./NoProject";
 import useUserInfoLoading from "@/hooks/useUserInfoLoading";
 
 
