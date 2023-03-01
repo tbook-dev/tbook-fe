@@ -54,7 +54,7 @@ export default function ({ tip, pc, isActive }) {
       className={clsx(
         "flex flex-col justify-between bg-cover shadow-c2 rounded-xl lg:rounded-lg overflow-hidden relative",
         "w-[80vw] h-[180px] flex flex-col lg:w-[218px] lg:h-[140px] lg:dark:shadow-d5",
-        isActive ? "dark:bg-cw1" : "dark:bg-black  lg:dark:hover:bg-cw2 lg:bg-cw2 dark:shadow-d3"
+        isActive ? "dark:bg-cw1" : "dark:bg-black  lg:dark:hover:bg-cw2 dark:shadow-d3"
       )}
     >
       <div className="flex items-center lg:justify-between pt-3 px-4 lg:pt-2.5 ">
