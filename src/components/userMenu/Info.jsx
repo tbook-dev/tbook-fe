@@ -22,7 +22,7 @@ export default function () {
     <div className="flex items-center justify-between mb-6">
       <div className="flex">
         <NetWork id={projectChain?.evmChainId || 1} />
-        <span className="lg:ml-2 text-[18px] lg:text-c7 dark:text-black">
+        <span className="ml-1 lg:ml-2 text-[18px] lg:text-c7 dark:text-black">
           {ensName || shortAddress(userStore?.mainWallet)}
         </span>
       </div>

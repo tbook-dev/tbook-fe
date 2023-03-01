@@ -4,7 +4,7 @@ import { Drawer } from "antd";
 import clsx from "clsx";
 import { useDispatch } from "react-redux";
 import { setCurrentProjectId } from "@/store/user";
-import arrowIcon from "@/images/icon/arrow.svg";
+import switchIcon from "@/images/icon/pop-switch.svg";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import useProjects from "@/hooks/useProjects";
 import useCurrentProject from "@/hooks/useCurrentProject";
@@ -26,11 +26,11 @@ export default function ({ open, setOpen }) {
   };
 
   const Content = () => (
-    <div className="-mx-6 lg:-mx-3 lg:w-[330px]">
+    <div className="lg:-mx-3 lg:w-[330px]">
       <Info />
 
-      <div className="text-[18px] leading-[24px] text-center pt-[30px] pb-2.5">
-        <p className="text-[#333]">Switch to another project</p>
+      <div className="text-c9 text-center pt-[30px] pb-2.5">
+        <p className="mb-2 text-black">Switch to another project</p>
         <div
           className="flex items-center justify-center font-medium text-[#333] cursor-pointer"
           onClick={(evt) => {
@@ -38,13 +38,13 @@ export default function ({ open, setOpen }) {
             setExpaned(!expanded);
           }}
         >
-          {currentProject?.projectName}
+          <span className="text-colorful1">{currentProject?.projectName}</span>
           <img
             className={clsx(
-              "w-3 h-3 ml-1 fill-current shrink-0",
+              "w-5 h-5 ml-1",
               expanded && "rotate-180"
             )}
-            src={arrowIcon}
+            src={switchIcon}
           />
         </div>
       </div>
