@@ -73,7 +73,7 @@ export default function ({ grant }) {
   const status = grantStatusList.find(
     (item) => grant.grant?.grantStatus === item.value
   );
-  console.log({ status });
+  // console.log({ status });
 
   return (
     <Link
