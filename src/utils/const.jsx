@@ -51,116 +51,38 @@ export const grantType = [
 export const dateFormat = "YYYY-MM-DD";
 
 // grant状态：0-default/unknown，1-draft草稿，2-signing签约中，3-effective生效，4-completed完成，5-suspended暂停，6-terminated终止
+// 0,1,已经取消 completed也属于effective了
+// 
 export const grantStatusList = [
   // {
-  //   value: 0,
-  //   label: "default/unknown",
-  //   render: () => null,
+  //   value: 1,
+  //   text: "draft",
+  //   color: "#7D7D7D",
   // },
   {
-    value: 1,
-    label: "draft",
-    render: (v = "", ...props) => (
-      <div
-        className={clsx(
-          "w-[75px] text-sm	text-[#7D7D7D] bg-[#FBFAFA] py-1 rounded-2xl text-center border border-[#7D7D7D]",
-          v
-        )}
-        {...props}
-      >
-        draft
-      </div>
-    ),
-    text: "draft",
-    color: "#7D7D7D",
-  },
-  {
     value: 2,
-    label: "signing",
-    isPersonalProperty: true,
-    render: (v = "", ...props) => (
-      <div
-        className={clsx(
-          "w-[75px] text-sm	text-[#D97706] bg-[#FEF3C7] py-1 rounded-2xl text-center",
-          v
-        )}
-        {...props}
-      >
-        signing
-      </div>
-    ),
-    text: "signing",
-    color: "#D97706",
+    text: "Signing",
+    darkColor: "#FFB300",
   },
   {
     value: 3,
-    label: "effective",
-    isPersonalProperty: true,
-    render: (v = "", ...props) => (
-      <div
-        className={clsx(
-          "w-[75px] text-sm	text-[#35AE86] bg-[#D1FAE5] py-1 rounded-2xl text-center",
-          v
-        )}
-        {...props}
-      >
-        effective
-      </div>
-    ),
-    text: "effective",
-    color: "#35AE86",
+    text: "Effective",
+    darkColor: "#6AB3F7",
   },
-  {
-    value: 4,
-    label: "completed",
-    isPersonalProperty: true,
-    render: (v = "", ...props) => (
-      <div
-        className={clsx(
-          "w-[75px] text-sm	text-[#6366F1] bg-[#DADBFF] py-1 rounded-2xl text-center",
-          v
-        )}
-        {...props}
-      >
-        completed
-      </div>
-    ),
-    text: "completed",
-    color: "#6366F1",
-  },
+  // {
+  //   value: 4,
+  //   text: "completed",
+  //   color: "#6366F1",
+  // },
   {
     value: 5,
-    label: "suspended",
-    render: (v = "", ...props) => (
-      <div
-        className={clsx(
-          "w-[75px] text-sm	text-[#D91F06] bg-[#FEC7C7] py-1 rounded-2xl text-center",
-          v
-        )}
-        {...props}
-      >
-        suspended
-      </div>
-    ),
-    text: "suspended",
-    color: "#D91F06",
+    text: "Suspend",
+    darkColor: "#45A0F5",
   },
   {
     value: 6,
-    label: "terminated",
-    render: (v = "", ...props) => (
-      <div
-        className={clsx(
-          "w-[75px] text-sm	text-[#000000] bg-[#606060] py-1 rounded-2xl text-center",
-          v
-        )}
-        {...props}
-      >
-        terminated
-      </div>
-    ),
-    text: "terminated",
-    color: "#000000",
+    text: "Terminate",
+    darkColor: "#666666",
   },
 ];
 

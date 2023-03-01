@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import { formatThousands } from "@/utils/Utils";
 import { getLastVested } from "@/utils/const";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // const v = [
 //     {
@@ -32,6 +33,9 @@ import { Link } from "react-router-dom";
 
 export default function ({ grant }) {
   // console.log(grant.grant.vestingSchedule.vestingDetail,'grant')
+  const theme = useSelector((state) => state.user.theme);
+  const isDark = theme === "dark";
+
   const conf = useMemo(
     () => [
       {
@@ -69,49 +73,58 @@ export default function ({ grant }) {
   const status = grantStatusList.find(
     (item) => grant.grant?.grantStatus === item.value
   );
+  console.log({ status });
 
   return (
     <Link
-      className="px-3 pt-3 pb-2.5 text-xs rounded-lg text-[#202124] shadow-d3"
+      className="px-3 pt-3 pb-2.5 text-xs rounded-lg shadow-d3 text-b-8"
       to={`/grants/${grant?.grant?.grantId}/sign`}
     >
-      <div className="flex justify-between mb-2.5">
-        <span className="block px-2 border rounded text-[#8C8C8C]">
+      <div className="flex items-center justify-between mb-2.5 text-c4">
+        <span className="flex-none max-w-[50%] truncate">
           {grant.grant.granteeId}
         </span>
-        <span className="text-right" style={{ color: status?.color }}>
-          {status?.text}
-        </span>
+        {status && (
+          <span
+            className="flex-none max-w-[50%] w-[73px] rounded h-5 flex justify-center items-center border"
+            style={{
+              color: isDark ? status?.darkColor : "",
+              borderColor: isDark ? status?.darkColor : "",
+            }}
+          >
+            {status?.text}
+          </span>
+        )}
       </div>
 
-      <div className="flex mb-[13px]">
-        <div className="w-[28px] h-[28px] rounded-full flex justify-center items-center mr-1.5">
+      <div className="flex mb-3">
+        <div className="flex items-center justify-center mr-2 rounded-full w-7 h-7 dark:bg-[#141414]">
           <img src={grant?.grantee?.avatar} className="w-[17px] h-[17px]" />
         </div>
 
         <div className="flex flex-col justify-center flex-none">
-          <h3 className="text-ellipsis w-max-[130px truncate font-bold text-[#202124] text-base">
+          <h3 className="w-full truncate text-c8 text-b-8">
             {grant?.grantee?.name}
           </h3>
-          <p className="text-ellipsis	truncate text-[#8C8C8C] text-sm">
+          <p className="w-full truncate text-c4 text-b-8">
             {shortAddress(grant?.grantee?.mainWallet)}
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 text-[13px] rounded -mx-1 px-1 mb-3">
-        <div className="truncate text-[#8C8C8C]">Total</div>
-        <div className="text-right truncate text-[#0049FF]">
+      <div className="grid items-center grid-cols-2 px-1 mb-5">
+        <div className="truncate text-c8">Total</div>
+        <div className="font-bold text-right truncate text-c9 text-colorful1">
           {formatThousands(grant?.grant?.grantNum)}
         </div>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         {conf.map((v) => {
           return (
-            <div key={v.label} className="grid grid-cols-2">
-              <div className="truncate text-[#8C8C8C]">{v.label}</div>
-              <div className="text-right truncate">
+            <div key={v.label} className="grid grid-cols-2 text-c4">
+              <div className="truncate text-b-8">{v.label}</div>
+              <div className="font-medium text-right text-white truncate">
                 <v.render />
               </div>
             </div>

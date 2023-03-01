@@ -7,6 +7,7 @@ import {
 import { useMemo } from "react";
 import { getLastVested, formatDollar } from "@/utils/const";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // const v = [
 //     {
@@ -31,6 +32,9 @@ import { Link } from "react-router-dom";
 //   pc版本的card, card本身有多种风格，不应当为同一个组件，会很乱。
 export default function ({ grant }) {
   // console.log(grant.grant.vestingSchedule.vestingDetail,'grant')
+  const theme = useSelector((state) => state.user.theme);
+  const isDark = theme === "dark";
+
   const conf = useMemo(
     () => [
       {
@@ -75,11 +79,19 @@ export default function ({ grant }) {
       to={`/grants/${grant?.grant?.grantId}/sign`}
     >
       <div className="px-2 py-3 rounded-lg text-c5 shadow-d6 hover:shadow-d7">
-        <div className="flex justify-between mb-6">
+        <div className="flex items-center justify-between mb-6">
           <span className="block px-2">{grant.grant.granteeId}</span>
-          <span className="text-center max-w-[100px] w-20 truncate border rounded text-colorful1 border-theme">
-            {status?.text}
-          </span>
+          {status && (
+            <span
+              className="text-center max-w-[100px] w-20 truncate border rounded"
+              style={{
+                color: isDark ? status?.darkColor : "",
+                borderColor: isDark ? status?.darkColor : "",
+              }}
+            >
+              {status?.text}
+            </span>
+          )}
         </div>
 
         <div className="flex mb-4 h-[46px] items-center">
@@ -98,9 +110,7 @@ export default function ({ grant }) {
         </div>
 
         <div className="grid grid-cols-2 p-2 mb-6">
-          <div className="truncate text-c3">
-            Total
-          </div>
+          <div className="truncate text-c3">Total</div>
           <span className="font-bold text-right truncate text-cwh2 text-colorful1">
             {formatDollar(grant?.grant?.grantNum)}
           </span>
