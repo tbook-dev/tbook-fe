@@ -66,12 +66,12 @@ function Header() {
   };
   return (
     <header className="sticky top-0 z-30 dark:bg-black dark:shadow-d2">
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 -mb-px">
+      <div className="px-4 lg:px-8">
+        <div className="flex items-center justify-between h-14 lg:h-16">
           {/* Header: Left side */}
           <div className="flex items-center">
-            <Link to="/" className="lg:mr-16">
-              <img src={logo} className="h-7" />
+            <Link to="/" className="mr-1 lg:mr-16">
+              <img src={logo} className="h-8 lg:h-7" />
             </Link>
 
             {pc ? (
@@ -88,7 +88,7 @@ function Header() {
               </div>
             ) : (
               <button onClick={() => setOpenDrawer(true)}>
-                <img src={menuIcon} className="h-8 ml-1" />
+                <img src={menuIcon} className="h-8" />
                 <Drawer
                   placement="top"
                   closable={false}

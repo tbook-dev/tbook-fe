@@ -27,6 +27,7 @@ module.exports = {
         d5: "0px 0px 8px rgba(255, 255, 255, 0.6)",
         d6: "0px 0px 8px rgba(255, 255, 255, 0.3)",
         d7: "0px 0px 8px rgba(255, 255, 255, 0.6)",
+        d8: "0px 1px 4px rgba(0, 0, 0, 0.1)",
 
         DEFAULT:
           "0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.02)",
@@ -68,6 +69,10 @@ module.exports = {
         cwh3: ["40px", { lineHeight: "40px" }],
 
         cwh4: ["56px", { lineHeight: "74px" }],
+        // coustom h5 h1
+        ch1: ["28px", { lineHeight: "36px" }],
+
+
 
 
         // xxs: ["11px", { lineHeight: '30px', "transform-origin-x": 0, "transform": 'scale(0.9)'}],

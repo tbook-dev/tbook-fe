@@ -140,14 +140,14 @@ function PlanList() {
   return (
     <div className="w-full text-[#202124] mb-4 px-4 lg:px-0 lg:w-[936px] mx-auto">
       <div
-        className="w-full mb-5 lg:my-12"
+        className="w-full mt-3 mb-5 lg:my-12"
         style={{
           "--swiper-navigation-size": "16px",
           "--swiper-theme-color": "#fff",
         }}
       >
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-[32px] lg:text-cwh1 dark:text-white font-bold">
+          <h2 className="font-bold text-ch1 lg:text-cwh1 dark:text-white">
             Incentive Plans
           </h2>
 

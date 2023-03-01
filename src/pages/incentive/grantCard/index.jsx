@@ -72,7 +72,7 @@ export default function ({ grant }) {
 
   return (
     <Link
-      className="p-2 text-xs bg-white rounded-lg text-[#202124]"
+      className="px-3 pt-3 pb-2.5 text-xs rounded-lg text-[#202124] shadow-d3"
       to={`/grants/${grant?.grant?.grantId}/sign`}
     >
       <div className="flex justify-between mb-2.5">
@@ -85,7 +85,7 @@ export default function ({ grant }) {
       </div>
 
       <div className="flex mb-[13px]">
-        <div className="w-[28px] h-[28px] rounded-full bg-[#F0F0F0] flex justify-center items-center mr-1.5">
+        <div className="w-[28px] h-[28px] rounded-full flex justify-center items-center mr-1.5">
           <img src={grant?.grantee?.avatar} className="w-[17px] h-[17px]" />
         </div>
 
@@ -99,7 +99,7 @@ export default function ({ grant }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 text-[13px] bg-[#ECF1FF] rounded -mx-1 px-1 mb-3">
+      <div className="grid grid-cols-2 text-[13px] rounded -mx-1 px-1 mb-3">
         <div className="truncate text-[#8C8C8C]">Total</div>
         <div className="text-right truncate text-[#0049FF]">
           {formatThousands(grant?.grant?.grantNum)}
