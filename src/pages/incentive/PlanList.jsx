@@ -194,7 +194,6 @@ function PlanList() {
                 // style={{ marginLeft: pc && tipList.length < 4 ? "0" : "auto" }}
                 slideToClickedSlide={pc}
                 initialSlide={activeIndex}
-                loopFillGroupWithBlank
                 navigation={{
                   nextEl: ".swiper-button-next",
                   prevEl: ".swiper-button-prev",
@@ -344,36 +343,22 @@ function PlanList() {
               </Link>
             </div>
           )}  */}
-          <div className="fixed left-0 right-0 flex justify-center bottom-8">
-            {tipList.length === 0 ? (
-              <Button
-                type="primary"
-                size="large"
-                disabled
-                className="w-60 h-[35px] px-7 "
+
+          {userLoading || grantLoading ? null : (
+            <div className="fixed left-0 right-0 flex justify-center bottom-8">
+              <button
+                type="button"
+                disabled={filters.Plan === null || filters.Plan === undefined}
+                onClick={() =>
+                  navigate(`/incentive/grant/${filters.Plan}/create`)
+                }
+                className="flex items-center justify-center h-10 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md w-60 dark:disabled:bg-none	dark:bg-cw1 dark:text-black shadow-d3 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
               >
-                <span>
-                  <PlusOutlined />
-                  <span className="ml-10">New Grant</span>
-                </span>
-              </Button>
-            ) : (
-              ![null, -1].includes(filters.Plan) && (
-                <Link to={`/incentive/grant/${filters.Plan}/create`}>
-                  <Button
-                    type="primary"
-                    size="large"
-                    className="w-60 h-[35px] px-7 "
-                  >
-                    <span>
-                      <PlusOutlined />
-                      <span className="ml-10">New Grant</span>
-                    </span>
-                  </Button>
-                </Link>
-              )
-            )}
-          </div>
+                <PlusOutlined />
+                <span className="ml-2 text-[14px]">New Grant</span>
+              </button>
+            </div>
+          )}
 
           {/* <Drawer
             placement="bottom"
