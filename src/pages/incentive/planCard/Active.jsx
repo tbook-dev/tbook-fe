@@ -52,15 +52,15 @@ export default function ({ tip, pc, isActive }) {
   return (
     <div
       className={clsx(
-        "flex flex-col justify-between bg-cover shadow-c2 rounded-lg overflow-hidden relative",
-        "w-[80vw] h-[180px] flex flex-col lg:w-[218px] lg:h-[140px] dark:shadow-d5",
-        isActive ? "dark:bg-cw1 " : "dark:bg-black  dark:hover:bg-cw2"
+        "flex flex-col justify-between bg-cover shadow-c2 rounded-xl lg:rounded-lg overflow-hidden relative",
+        "w-[80vw] h-[180px] flex flex-col lg:w-[218px] lg:h-[140px] lg:dark:shadow-d5",
+        isActive ? "dark:bg-cw1" : "dark:bg-black  lg:dark:hover:bg-cw2 lg:bg-cw2 dark:shadow-d3"
       )}
     >
-      <div className="flex items-center justify-between px-4 lg:pt-2.5">
+      <div className="flex items-center lg:justify-between pt-3 px-4 lg:pt-2.5 ">
         <p
           className={clsx(
-            "max-w-[96px] truncate text-ellipsis font-medium text-base leading-none m-0 lg:text-c3",
+            "max-w-[96px] truncate text-c10  font-medium leading-none m-0 mr-1 lg:mr-0 lg:text-c3",
             isActive ? "text-black" : "text-white"
           )}
         >
@@ -80,20 +80,20 @@ export default function ({ tip, pc, isActive }) {
 
       <div
         className={clsx(
-          "flex-none grid grid-cols-1 gap-y-2 lg:gap-y-1 px-4 pt-4 pb-2.5 lg:pt-0 lg:py-6",
+          "flex-none grid grid-cols-1 gap-y-2 lg:gap-y-1 px-4 pt-4 pb-3 lg:pt-0 lg:py-6",
           isActive ? "lg:pb-1" : "lg:pb-4"
         )}
       >
         {conf.map((v) => {
           return (
             <div
-              className="flex justify-between leading-4 lg:text-c4"
+              className="flex justify-between text-c4"
               key={v.title}
             >
               <p
                 className={clsx(
                   "font-normal",
-                  isActive ? "text-l-8" : "text-b-8 font-medium"
+                  isActive ? "dark:text-l-8" : "dark:text-b-8 font-medium"
                 )}
               >
                 {v.title}
@@ -101,7 +101,7 @@ export default function ({ tip, pc, isActive }) {
               <p
                 className={clsx(
                   "font-medium max-w-[90px] truncate",
-                  isActive ? "text-black" : "text-white"
+                  isActive ? "dark:text-black" : "dark:text-white"
                 )}
               >
                 {v.value}

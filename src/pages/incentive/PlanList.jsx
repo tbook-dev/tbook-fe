@@ -208,7 +208,7 @@ function PlanList() {
                         style={{ width: "auto", cursor: "pointer" }}
                       >
                         <div
-                          style={{ padding: "6px 4px 4px" }}
+                          style={{ padding: "4px 4px" }}
                           onClick={() => {
                             dispatchFilter({
                               type: "Plan",
