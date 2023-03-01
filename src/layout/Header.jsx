@@ -87,12 +87,15 @@ function Header() {
                 </span>
               </div>
             ) : (
-              <button onClick={() => setOpenDrawer(true)}>
-                <img src={menuIcon} className="h-8" />
+              <>
+                <button onClick={() => setOpenDrawer(true)}>
+                  <img src={menuIcon} className="h-8" />
+                </button>
                 <Drawer
                   placement="top"
                   closable={false}
                   open={openDrawer}
+                  maskStyle={{ backdropFilter: "blur(7px)" }}
                   contentWrapperStyle={{
                     height: "50vh",
                     borderRadius: "0 0 24px 24px",
@@ -102,7 +105,7 @@ function Header() {
                 >
                   <Content />
                 </Drawer>
-              </button>
+              </>
             )}
           </div>
 
