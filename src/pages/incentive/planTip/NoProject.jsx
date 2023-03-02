@@ -1,8 +1,6 @@
-import { Button } from "antd";
-// import bg from "./noProject.png";
-import bgm from "@/images/incentive/all-plan-m.png";
+import Button from "@/components/button";
 import { Link } from "react-router-dom";
-import { PlusOutlined } from '@ant-design/icons'
+import { PlusOutlined } from "@ant-design/icons";
 
 export default function ({ pc, link }) {
   // console.log({ loading, handleSignIn})
@@ -26,15 +24,11 @@ export default function ({ pc, link }) {
       </Link>
     </div>
   ) : (
-    <div
-      className="h-[180px] bg-cover shadow-c2 rounded-2xl flex justify-center items-center"
-      style={{
-        backgroundImage: `url(${bgm})`,
-      }}
-    >
+    <div className="h-[180px] bg-cw1 rounded-xl flex justify-center items-center">
       <Link to={link}>
-        <Button size="large" type="primary">
-          + New Plan
+        <Button className="w-[80vw] bg-none bg-black dark:text-white">
+          <PlusOutlined />
+          <span className="ml-3">New Plan</span>
         </Button>
       </Link>
     </div>
