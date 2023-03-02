@@ -16,7 +16,8 @@ export default function ({ networkId, placement = "bottomRight" }) {
   const dispatch = useDispatch();
   const { switchNetwork } = useSwitchNetwork();
   const { chain } = useNetwork();
-  const currentId = networkId || chain?.id || parseInt(localStorage.getItem("chainId")) || 1;
+  const currentId =
+    networkId || chain?.id || parseInt(localStorage.getItem("chainId")) || 1;
 
   // console.log('currentId', {chain}, currentId)
   // sui
@@ -39,13 +40,13 @@ export default function ({ networkId, placement = "bottomRight" }) {
   }
 
   const Lay = () => (
-    <div className="-mx-3 w-[150px]">
+    <div className="-mx-3 w-[150px] rounded-lg overflow-hidden">
       {chains.map((v) => (
         <div
           className={clsx(
             "flex items-center pl-2 py-2 hover:text-[#666] cursor-pointer",
             currentId === v.evmChainId
-              ? "text-[#0049FF] bg-[#ECF1FF]"
+              ? "text-black bg-cw1"
               : "text-[#999] bg-white hover:bg-white"
           )}
           onClick={() => {
@@ -69,13 +70,16 @@ export default function ({ networkId, placement = "bottomRight" }) {
 
     return (
       <span
-        className="flex items-center"
+        className={clsx(
+          "flex items-center h-8 rounded-lg px-3",
+          openLay ? "text-black bg-cw1" : ""
+        )}
         onClick={() => {
           setOpenLay(true);
         }}
       >
         <Network id={chain?.evmChainId} />
-        <DownOutlined className="ml-1"/>
+        <span className="ml-2 text-white">{chain.name}</span>
       </span>
     );
   };
@@ -86,7 +90,7 @@ export default function ({ networkId, placement = "bottomRight" }) {
       content={<Lay />}
       trigger="click"
       open={openLay}
-      placement={placement}
+      // placement={placement}
     >
       <Content />
     </Popover>

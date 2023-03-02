@@ -3,6 +3,7 @@ import { ConfigProvider, theme } from "antd";
 import { useSelector } from "react-redux";
 import components from "./conf";
 
+// 普调情况
 export default function ({ children }) {
   const userTheme = useSelector((state) => state.user.theme);
 

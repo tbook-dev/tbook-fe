@@ -53,7 +53,6 @@ import Plan from "./plan";
 import Title from "../component/Title";
 import Banner from "../component/banner";
 import Spot from "./spot";
-import FormConfigProvider from "@/theme/FormConfigProvider";
 
 dayjs.extend(customParseFormat);
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };

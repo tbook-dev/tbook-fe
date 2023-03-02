@@ -11,6 +11,7 @@ import useCurrentProject from "@/hooks/useCurrentProject";
 import SwitchNet from "@/components/connect/switchV0";
 import { chains } from "@/utils/const";
 import clsx from "clsx";
+import DarkProvider from "@/theme/DarkProvider";
 
 function Header() {
   const authUser = useSelector((state) => state.user.authUser);
@@ -25,34 +26,39 @@ function Header() {
 
   const Content = () => {
     return (
-      <div className="flex flex-col justify-between h-full -mx-6">
-        <div className="border-b">
+      <div className="flex flex-col justify-between h-full pt-5 -mx-6">
+        <div>
           <NavLink
             to="/"
             className={({ isActive }) =>
-              clsx(
-                "flex px-4 items-center h-14 transition duration-150",
-                isActive
-                  ? "!text-[#0049FF] rounded-r-2xl !bg-[#ECF1FF]"
-                  : "!text-[#666]"
-              )
+              clsx("flex h-14 items-center px-8 text-cwh2")
             }
           >
             {({ isActive }) => {
-              return (
-                <span className="ml-4 text-[24px] leading-[32px]">
-                  Incentive
-                </span>
-              );
+              return <span className="font-bold text-white">Incentive</span>;
+            }}
+          </NavLink>
+
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              clsx("flex h-14 items-center px-8 text-cwh2")
+            }
+          >
+            {({ isActive }) => {
+              return <span className="text-[#666]">Tokentable</span>;
             }}
           </NavLink>
         </div>
 
         {authUser && (
-          <div className="border-t pb-9">
+          <div className="border-t border-b-1">
             {/* 1、当前项目的网络; 2、默认以太坊*/}
-            <div className="flex items-center px-4 h-14">
-              <span className="text-[24px] leading-[32px] text-[#666]">
+            <div className="flex items-center px-8 text-c12 h-14 text-[#666]">
+              Settings
+            </div>
+            <div className="flex items-center px-8 text-c12 h-14">
+              <span className="text-[#666] mr-2">
                 Network ｜
               </span>
               <SwitchNet
@@ -92,20 +98,22 @@ function Header() {
                 <button onClick={() => setOpenDrawer(true)}>
                   <img src={menuIcon} className="h-8" />
                 </button>
-                <Drawer
-                  placement="top"
-                  closable={false}
-                  open={openDrawer}
-                  maskStyle={{ backdropFilter: "blur(7px)" }}
-                  contentWrapperStyle={{
-                    height: "50vh",
-                    borderRadius: "0 0 24px 24px",
-                    overflow: "hidden",
-                  }}
-                  onClose={() => setOpenDrawer(false)}
-                >
-                  <Content />
-                </Drawer>
+                <DarkProvider>
+                  <Drawer
+                    placement="top"
+                    closable={false}
+                    open={openDrawer}
+                    maskStyle={{ backdropFilter: "blur(7px)" }}
+                    contentWrapperStyle={{
+                      height: "50vh",
+                      borderRadius: "0 0 24px 24px",
+                      overflow: "hidden",
+                    }}
+                    onClose={() => setOpenDrawer(false)}
+                  >
+                    <Content />
+                  </Drawer>
+                </DarkProvider>
               </>
             )}
           </div>

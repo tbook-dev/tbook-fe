@@ -10,7 +10,7 @@ import {
   Divider,
   message,
 } from "antd";
-import FormConfigProvider from "@/theme/FormConfigProvider";
+import AppConfigProvider from "@/theme/AppConfigProvider";
 import {
   CheckOutlined,
   InfoCircleOutlined,
@@ -28,11 +28,8 @@ import AvatarWallet from "./avatarWallet";
 // import useProjects from "@/hooks/useProjects";
 import NetWork from "@/components/icon/NetWork";
 import planIcon from "@/images/incentive/plan.svg";
-import cardbgpc from "@/images/incentive/headers/planpc.png";
-import cardbg from "@/images/incentive/headers/plan.png";
 import { useParams } from "react-router-dom";
 import { useNetwork } from "wagmi";
-import Title from "@/pages/component/Title";
 import Banner from "../component/banner";
 import useProjectAudience from "@/hooks/useProjectAudience";
 import { defaultErrorMsg } from "@/utils/const";
@@ -166,7 +163,7 @@ function PlanCreate() {
                 </Form.Item>
 
                 <div className="flex justify-center pt-2">
-                  <FormConfigProvider>
+                  <AppConfigProvider>
                     <Button
                       className="!hidden lg:!block w-[120px] mx-auto"
                       onClick={() => navigate(-1)}
@@ -181,7 +178,7 @@ function PlanCreate() {
                     >
                       Next
                     </Button>
-                  </FormConfigProvider>
+                  </AppConfigProvider>
                 </div>
               </Form>
             </div>
@@ -349,7 +346,7 @@ function PlanCreate() {
                       />
                     </Form.Item>
 
-                    <FormConfigProvider>
+                    <AppConfigProvider>
                       <div className="pt-3 lg:pb-6 lg:pt-2">
                         <div className="flex justify-center">
                           <Link to="/" className="hidden mr-10 lg:block">
@@ -366,7 +363,7 @@ function PlanCreate() {
                           </Button>
                         </div>
                       </div>
-                    </FormConfigProvider>
+                    </AppConfigProvider>
                   </Form>
                 </div>
               </div>
