@@ -226,6 +226,7 @@ function PlanList() {
                   })}
 
                 {pc &&
+                  tipList.length % 4 !== 0 &&
                   new Array(4 - (tipList.length % 4)).fill().map((_, v) => (
                     <SwiperSlide style={{ width: "auto" }} key={v}>
                       <div style={{ padding: "6px 4px 4px" }}>
