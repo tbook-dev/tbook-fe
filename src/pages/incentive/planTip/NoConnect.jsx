@@ -1,5 +1,4 @@
 import Button from "@/components/button";
-import bgm from "@/images/incentive/all-plan-m.png";
 import useSignIn from "@/hooks/useSignIn";
 
 export default function ({ pc }) {
@@ -24,10 +23,7 @@ export default function ({ pc }) {
     </div>
   ) : (
     <div
-      className="h-[180px] bg-cover shadow-c2 rounded-2xl flex justify-center items-center"
-      style={{
-        backgroundImage: `url(${bgm})`,
-      }}
+      className="h-[180px] bg-cw1 rounded-xl flex justify-center items-center"
     >
       <Button size="large" type="primary" loading={loading} onClick={handleSignIn}>
         Connect Wallet
