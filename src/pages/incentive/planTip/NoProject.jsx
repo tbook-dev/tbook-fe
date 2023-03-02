@@ -14,13 +14,13 @@ export default function ({ pc, link }) {
       </div>
 
       <Link to={link}>
-        <button
+        <Button
           type="button"
           className="flex items-center justify-center text-xs font-medium leading-normal transition duration-150 ease-in-out lg:w-40 lg:h-10 dark:bg-white lg:rounded-lg dark:text-black shadow-d3 hover:text-white hover:bg-cw1 hover:shadow-d7"
         >
           <PlusOutlined />
           <span className="ml-2 text-[14px]">New Plan</span>
-        </button>
+        </Button>
       </Link>
     </div>
   ) : (
