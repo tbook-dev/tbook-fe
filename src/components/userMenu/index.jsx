@@ -7,18 +7,21 @@ import WebDropDown from "./WebDropDown";
 import clsx from "clsx";
 import switchIcon from "@/images/icon/switch.svg";
 import useProjects from "@/hooks/useProjects";
+import { useSelector } from "react-redux";
+
 
 export default function () {
   const currentProject = useCurrentProject();
   const { pc } = useResponsive();
   const [open, setOpen] = useState(false);
   const projects = useProjects();
+  const showLessNav = useSelector((state) => state.user.showLessNav);
 
   return (
     <div className="relative inline-flex">
       {Array.isArray(projects) &&
         projects.length > 0 &&
-        (pc ? (
+        (showLessNav ? null : pc ? (
           <ProjectDropDown>
             {(setOpen, open) => (
               <div

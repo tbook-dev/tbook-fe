@@ -5,6 +5,7 @@ import { getCurrentProjectId, saveCurrentProjectId, setCurrentTheme, getCurrentT
 const initialState = {
   value: 0,
   authUser: false,
+  showLessNav: false,// 默认导航都展示
   authHeader: "",
   loadingUserStatus: false,
   currentProjectId: getCurrentProjectId(),
@@ -87,6 +88,9 @@ export const userSlice = createSlice({
       state.theme = action.payload;
       setCurrentTheme(action.payload);
     },
+    setLessNav: (state, action) => {
+      state.showLessNav = action.payload;
+    },
     reset: (state) => {
       saveCurrentProjectId(null);
       state = { ...initialState, currentProjectId: null };
@@ -103,6 +107,7 @@ export const {
   setCurrentProjectId,
   reset,
   setLoadingUserStatus,
+  setLessNav,
 } = userSlice.actions;
 
 export default userSlice.reducer;

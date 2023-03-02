@@ -21,6 +21,7 @@ function Header() {
   const { pc } = useResponsive();
   const project = useCurrentProject();
   const projectChain = chains.find((v) => project.chain === v.name);
+  const showLessNav = useSelector((state) => state.user.showLessNav);
 
   const Content = () => {
     return (
@@ -74,7 +75,7 @@ function Header() {
               <img src={logo} className="h-8 lg:h-7" />
             </Link>
 
-            {pc ? (
+            {showLessNav ? null : pc ? (
               <div className="items-center hidden lg:flex">
                 <Link
                   to="/"

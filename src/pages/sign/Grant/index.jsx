@@ -7,7 +7,6 @@ import { Spin } from "antd";
 import GrantSign from "./GrantSign";
 
 
-
 export default function () {
   const userLoading = useUserInfoLoading();
   const authUser = useSelector((state) => state.user.authUser);

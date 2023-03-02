@@ -5,9 +5,14 @@ import { useWallet, ConnectModal } from "@suiet/wallet-kit";
 import useSignIn from "@/hooks/useSignIn";
 
 import SwitchNet from "./switch";
+import { useSelector } from "react-redux";
 
 export default function () {
   const { loading, handleSignIn } = useSignIn();
+
+  const showLessNav = useSelector((state) => state.user.showLessNav);
+
+  // console.log({ authUser });
 
   // sui
   const suiWallet = useWallet();
@@ -17,7 +22,7 @@ export default function () {
 
   return (
     <>
-      <SwitchNet />
+      {!showLessNav && <SwitchNet />}
 
       <Button
         className="dark:hover:!font-medium !px-8"
