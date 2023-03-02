@@ -6,10 +6,11 @@ import useSignIn from "@/hooks/useSignIn";
 
 import SwitchNet from "./switch";
 import { useSelector } from "react-redux";
+import { useResponsive } from "ahooks";
 
 export default function () {
   const { loading, handleSignIn } = useSignIn();
-
+  const { pc } = useResponsive();
   const showLessNav = useSelector((state) => state.user.showLessNav);
 
   // console.log({ authUser });
@@ -25,8 +26,9 @@ export default function () {
       {!showLessNav && <SwitchNet />}
 
       <Button
-        className="dark:hover:!font-medium !px-8"
+        className="px-8 lg:bg-white lg:bg-none"
         loading={loading}
+        loadingColor={pc ? "#69D0E5" : "white"}
         onClick={handleSignIn}
       >
         Connect

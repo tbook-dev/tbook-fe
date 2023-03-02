@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {  Drawer } from "antd";
-import Button  from '@/components/button/dark';
+import Button  from '@/components/button';
 import { chains } from "@/utils/const";
 import Network from "../icon/NetWork";
 import { useNetwork, useSwitchNetwork } from "wagmi";
@@ -81,12 +81,12 @@ export default function ({
     if (type === "button") {
       return (
         <Button
-          className="!flex !items-center !px-8"
+          className="flex items-center px-4 bg-black shadow-d3 lg:shadow-none lg:px-8 bg-none lg:bg-cw1"
           onClick={() => {
             setOpenLay(true);
           }}
         >
-          <Network id={chain?.evmChainId} className="mr-1 lg:mr-2" />
+          <Network id={chain?.evmChainId} className="lg:mr-2" />
           <span className="hidden lg:block">{chain?.name}</span>
         </Button>
       );

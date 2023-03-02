@@ -30,8 +30,9 @@ export default function () {
           check your grants.
         </h2>
         <Button
-          className="dark:hover:!font-medium !border-none"
+          className="lg:text-white lg:bg-white lg:bg-none w-[80vw] lg:w-auto"
           loading={loading}
+          loadingColor={pc ? "#69D0E5" : "white"}
           onClick={handleSignIn}
         >
           Connect Wallet
