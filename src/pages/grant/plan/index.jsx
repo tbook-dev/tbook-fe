@@ -1,7 +1,5 @@
 import { useResponsive } from "ahooks";
 import { SwapOutlined } from "@ant-design/icons";
-import cardbgpc from "@/images/incentive/headers/grant-planpc.png";
-import cardbg from "@/images/incentive/headers/grant-plan.png";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import React, { useState } from "react";
 import { Drawer, theme } from "antd";
@@ -130,7 +128,7 @@ export default function ({ planName, targetAudince, availableAmount }) {
         <Drawer
           headerStyle={{ display: "flex" }}
           placement="bottom"
-          title="Switch to another incentive plan"
+          title={<div className="flex items-center justify-center font-medium text-c6">Switch to another incentive plan</div>}
           // closable={false}
           contentWrapperStyle={{
             height: "50vh",
@@ -152,8 +150,8 @@ export default function ({ planName, targetAudince, availableAmount }) {
                 <div
                   key={item.key}
                   className={clsx(
-                    "text-[16px] leading-[16px] py-3 text-center -mx-6",
-                    item.disabled ? "text-[#fff] bg-[#0049FF]" : "text-[#999]"
+                    "text-c6 h-10 flex items-center justify-center -mx-6",
+                    item.disabled ? "text-black bg-cw1" : "text-[#666]"
                   )}
                   onClick={() => {
                     if (item.disabled) return;
