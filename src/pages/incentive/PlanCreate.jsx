@@ -124,12 +124,12 @@ function PlanCreate() {
               ? "Label your project name to start incentive plan"
               : "A few steps to complete your plan"
           }
-          className="w-[640px] mx-auto mb-12"
+          className="lg:w-[640px] mx-auto mb-6 lg:mb-12"
         />
 
-        <div className="mb-6  lg:w-[600px] mx-auto lg:mb-0">
+        <div className="mb-6  lg:w-[600px] mx-4 lg:mx-auto lg:mb-0">
           {pageType === "project" && !firstCreated ? (
-            <div className="lg:bg-white lg:shadow-c5 dark:lg:bg-cw1 dark:lg:shadow-d3 rounded-xl lg:px-4 lg:py-6">
+            <div className="px-3 pt-4 pb-8 lg:bg-white lg:shadow-c5 dark:bg-cw1 dark:lg:shadow-d3 rounded-xl lg:px-4 lg:py-6">
               <Form
                 {...(pc ? formItemCol : null)}
                 form={formProject}
@@ -144,9 +144,9 @@ function PlanCreate() {
                     // 目前应该监听网络环境
                     if (mainNetwork !== v.name) return null;
                     return (
-                      <div className="flex items-center" key={v.evmChainId}>
+                      <div className="flex items-center justify-center h-10 rounded-md bg-b-1 lg:bg-transparent lg:justify-start" key={v.evmChainId}>
                         <NetWork id={v.evmChainId} className="mr-1" />
-                        <span className="text-[#333]">{v.name}</span>
+                        <span className="text-black text-c9">{v.name}</span>
                       </div>
                     );
                   })}
@@ -166,31 +166,30 @@ function PlanCreate() {
                 </Form.Item>
 
                 <div className="flex justify-center pt-2">
-                  <Button
-                    className="w-[64vw] lg:w-[132px] mx-auto"
-                    onClick={() => navigate(-1)}
-                  >
-                    cancel
-                  </Button>
-                  <Button
-                    loading={projectLoading}
-                    type="primary"
-                    htmlType="submit"
-                    className="w-[64vw] lg:w-[132px] mx-auto"
-                  >
-                    Next
-                  </Button>
+                  <FormConfigProvider>
+                    <Button
+                      className="!hidden lg:!block w-[120px] mx-auto"
+                      onClick={() => navigate(-1)}
+                    >
+                      cancel
+                    </Button>
+                    <Button
+                      loading={projectLoading}
+                      type="primary"
+                      htmlType="submit"
+                      className="w-[64vw] lg:w-[120px] mx-auto"
+                    >
+                      Next
+                    </Button>
+                  </FormConfigProvider>
                 </div>
               </Form>
             </div>
           ) : (
             <>
               {firstCreated && (
-                <div className="py-4 mb-12 rounded-lg dark:bg-black shadow-d3">
-                  <h2 className="block px-4 py-2 lg:hidden text-[20px] leading-[24px] text-[#333]">
-                    Project
-                  </h2>
-                  <div className="flex border-b border-b-1  px-6 py-2 text-[14px] leading-[18px] lg:text-c1">
+                <div className="mb-6 rounded-md lg:py-4 lg:mb-12 lg:rounded-lg dark:bg-black shadow-d3">
+                  <div className="flex items-center h-10 px-6 border-b border-b-1 text-c1">
                     <span className="flex-[10] text-b-8">Project Name</span>
                     <span className="flex-[14] text-white flex justify-end lg:justify-between">
                       <span className="mr-2">
@@ -211,7 +210,7 @@ function PlanCreate() {
                       <FormOutlined className="cursor-pointer" />
                     </span>
                   </div>
-                  <div className="flex px-6 py-2 text-[14px] leading-[18px] lg:text-c1">
+                  <div className="flex items-center h-10 px-6 text-c1">
                     <span className="flex-[10] text-b-8">Total Token</span>
                     <span className="flex-[14] text-white flex justify-end lg:justify-between">
                       <span className="mr-2">
@@ -225,8 +224,8 @@ function PlanCreate() {
                 </div>
               )}
 
-              <div className="overflow-hidden dark:lg:bg-cw1 dark:lg:shadow-d3 rounded-xl ">
-                <div className="relative px-2 pt-2 pb-4 lg:pb-0 lg:pt-6 lg:px-4">
+              <div className="overflow-hidden dark:bg-cw1 dark:lg:shadow-d3 rounded-xl ">
+                <div className="relative px-3 py-4 lg:pb-0 lg:pt-6 lg:px-4">
                   <Form
                     {...(pc ? formItemCol : null)}
                     form={form}
@@ -351,16 +350,16 @@ function PlanCreate() {
                     </Form.Item>
 
                     <FormConfigProvider>
-                      <div className="hidden pt-2 pb-6 lg:block">
+                      <div className="pt-3 lg:pb-6 lg:pt-2">
                         <div className="flex justify-center">
                           <Link to="/" className="hidden mr-10 lg:block">
-                            <Button>Cancel</Button>
+                            <Button className="w-[120px]">Cancel</Button>
                           </Link>
 
                           <Button
                             onClick={handleCreatePlan}
                             type="primary"
-                            className="bg-[#6366F1]"
+                            className="w-[64vw] lg:w-[120px]"
                             loading={confirmLoading}
                           >
                             Create
@@ -371,7 +370,7 @@ function PlanCreate() {
                   </Form>
                 </div>
               </div>
-              <div className="flex justify-center py-5 lg:hidden">
+              {/* <div className="flex justify-center py-5 lg:hidden">
                 <Button
                   onClick={handleCreatePlan}
                   type="primary"
@@ -380,7 +379,7 @@ function PlanCreate() {
                 >
                   Create
                 </Button>
-              </div>
+              </div> */}
             </>
           )}
         </div>
