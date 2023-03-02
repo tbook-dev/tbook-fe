@@ -108,10 +108,12 @@ function PlanList() {
     // const activeIdx = list2Formated[0]?.idx || 0;
     setActiveIndex(activeIdx);
     // console.log("activeIdx+1", list1, activeIdx);
-    dispatchFilter({
-      type: "Plan",
-      payload: list1[activeIdx]?.incentivePlanId,
-    });
+    if (pc) {
+      dispatchFilter({
+        type: "Plan",
+        payload: list1[activeIdx]?.incentivePlanId,
+      });
+    }
 
     // console.log(list1[activeIdx+1]?.incentivePlanId)
     // !pc &&
@@ -197,6 +199,16 @@ function PlanList() {
                 navigation={{
                   nextEl: ".swiper-button-next",
                   prevEl: ".swiper-button-prev",
+                }}
+                onSlideChange={(w) => {
+                  if (!pc && !drawerOpen) {
+                    let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
+                    // console.log({ incentivePlanId });
+                    dispatchFilter({
+                      type: "Plan",
+                      payload: incentivePlanId,
+                    });
+                  }
                 }}
               >
                 {Array.isArray(tipList) &&
