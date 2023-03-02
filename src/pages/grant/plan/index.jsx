@@ -2,7 +2,6 @@ import { useResponsive } from "ahooks";
 import { SwapOutlined } from "@ant-design/icons";
 import cardbgpc from "@/images/incentive/headers/grant-planpc.png";
 import cardbg from "@/images/incentive/headers/grant-plan.png";
-import Title from "@/pages/component/Title";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import React, { useState } from "react";
 import { Drawer, theme } from "antd";
@@ -11,6 +10,7 @@ import { useAsyncEffect } from "ahooks";
 import { getIncentiveList } from "@/api/incentive";
 import { useParams, useNavigate } from "react-router-dom";
 import clsx from "clsx";
+import switchIcon from '@/images/icon/switch-plan.svg';
 
 const { useToken } = theme;
 
@@ -52,9 +52,9 @@ export default function ({ planName, targetAudince, availableAmount }) {
   ];
 
   return (
-    <div className="bg-white rounded-lg dark:bg-black shadow-d3">
-      <div className="h-10 relative lg:h-[67px] lg:pr-4  border-b-1 border-b  flex justify-between items-center overflow-hidden">
-        <h2 className="lg:px-6 text-cwh2 dark:text-white">Plan</h2>
+    <div className="bg-white rounded-lg dark:bg-black lg:pt-4 lg:pb-[18px] shadow-d3">
+      <div className="relative flex items-center justify-between h-10 overflow-hidden border-b lg:h-10 lg:pr-4 border-b-1">
+        <h2 className="flex items-center h-10 pl-4 lg:pl-6 text-cwh2 dark:text-white">Plan</h2>
 
         {pc ? (
           <Dropdown
@@ -98,7 +98,7 @@ export default function ({ planName, targetAudince, availableAmount }) {
                 isOpen && "lg:bg-[rgba(124,162,255,0.12)]"
               )}
             >
-              <SwapOutlined style={{ color: "#7CA2FF" }} />
+              <img src={switchIcon} className="w-4"/>
             </span>
           </Dropdown>
         ) : (
@@ -106,7 +106,7 @@ export default function ({ planName, targetAudince, availableAmount }) {
             onClick={() => setOpen(!isOpen)}
             className="absolute lg:bg-[rgba(124,162,255,0.12)] rounded-xl bottom-0 top-0  lg:top-2 lg:bottom-2 lg:h-12 lg:w-12 flex items-center justify-center cursor-pointer right-2.5 lg:right-2"
           >
-            <SwapOutlined style={{ color: "#7CA2FF" }} />
+            <img src={switchIcon} className="w-5"/>
           </span>
         )}
       </div>
@@ -116,7 +116,7 @@ export default function ({ planName, targetAudince, availableAmount }) {
           return (
             <div
               key={v.title}
-              className="flex border-b-1 px-6 py-2 text-[14px] leading-[18px] lg:text-c1"
+              className="flex items-center h-10 px-4 border-b-1 lg:px-6 lg:py-2 lg:text-c1"
             >
               <span className="flex-[10] text-b-8">{v.title}</span>
               <span className="flex-[14] text-white flex justify-end lg:justify-between">

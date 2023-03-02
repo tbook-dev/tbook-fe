@@ -231,15 +231,15 @@ function GrantCreate() {
             img={grantIcon}
             title="New Grant"
             description="Motivate the valuable contributions"
-            className="w-[640px] mx-auto mb-12"
+            className="lg:w-[640px] mx-auto mb-6 lg:mb-12"
           />
-          <div className="mb-6 lg:w-[600px] mx-auto lg:mb-0">
+          <div className="mb-6 lg:w-[600px] lg:mx-auto mx-4 lg:mb-0">
             <Plan
               planName={detail?.incentivePlanName}
               targetAudince={findAudience(detail.target)}
               availableAmount={formatDollar(detail?.totalTokenNum)}
             />
-            <div className="mt-3 lg:mt-10">
+            <div className="mt-5 lg:mt-10">
               <Form
                 {...(pc ? formItemCol : null)}
                 form={form}
@@ -290,7 +290,7 @@ function GrantCreate() {
 
                 <Spot
                   id="grantee"
-                  className="overflow-hidden lg:px-4 lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10"
+                  className="px-4 pt-2 pb-3 mb-5 overflow-hidden lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10"
                   close={() => {
                     setOpenGrantee(false);
                   }}
@@ -344,7 +344,7 @@ function GrantCreate() {
                   </Form.Item>
                 </Spot>
 
-                <Spot className="overflow-hidden lg:px-4 lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10">
+                <Spot className="px-4 pt-2 pb-3 mb-5 overflow-hidden lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10">
                   <h2 className="dark:text-white dark:lg:text-cwh2">Grant</h2>
                   <Form.Item name="tokenType">
                     {/* <Radio.Group>
@@ -415,7 +415,7 @@ function GrantCreate() {
 
                 <Spot
                   id="vesting"
-                  className="overflow-hidden lg:px-4 lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10"
+                  className="px-4 pt-2 pb-3 mb-5 overflow-hidden lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10"
                 >
                   <h2 className="dark:text-white dark:lg:text-cwh2">Vesting</h2>
 

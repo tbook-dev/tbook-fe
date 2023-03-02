@@ -209,7 +209,7 @@ function GrantSign() {
     return <NoProject />
   }
   return (
-    <main className="relative w-full pb-10 lg:pb-0 lg:pt-12">
+    <main className="relative w-full pt-3 pb-10 lg:pb-0 lg:pt-12">
       {signStatus === null && (
         <div className="flex justify-center">
           <Spin />
@@ -220,7 +220,7 @@ function GrantSign() {
           img={signIcon}
           title="Signing"
           description="Please confirm and sign this grant"
-          className="w-[640px] mx-auto mb-12"
+          className="lg:w-[640px] mx-auto mb-6 lg:mb-12"
         />
       )}
       {signStatus === "allDone" && (
@@ -236,7 +236,7 @@ function GrantSign() {
 
       <div
         className={clsx(
-          "space-y-10 lg:w-[600px] mx-auto",
+          "space-y-10 lg:w-[600px] lg:mx-auto mx-4",
           signStatus === "notyet" && "mb-[300px] lg:mb-[170px]",
           signStatus === "done" && " mb-[300px] lg:mb-[250px]",
           signStatus === "allDone" && "mb-[300px] lg:mb-10"
