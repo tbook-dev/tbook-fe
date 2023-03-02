@@ -290,64 +290,74 @@ function GrantCreate() {
 
                 <Spot
                   id="grantee"
-                  className="px-4 pt-2 pb-3 mb-5 overflow-hidden lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10"
+                  className="pt-2 mb-5 overflow-hidden divide-y divide-b-1 lg:divide-none lg:pb-1 lg:pt-4 rounded-xl shadow-d6 lg:mb-10"
                   close={() => {
                     setOpenGrantee(false);
                   }}
                 >
-                  <h2 className="dark:text-white dark:lg:text-cwh2">Grantee</h2>
-                  <Form.Item
-                    label="Choose a Grantee"
-                    name="granteeId"
-                    rules={[
-                      { required: true, message: "Please input the grantee!" },
-                    ]}
-                  >
-                    <Select
-                      placeholder="Search/Select"
-                      open={openGrantee}
-                      getPopupContainer={() =>
-                        document.getElementById("grantee")
-                      }
-                      onDropdownVisibleChange={(v) => setOpenGrantee(v)}
-                      dropdownRender={(menu) => {
-                        return (
-                          <>
-                            {menu}
-                            <Divider style={{ margin: "8px 0" }} />
-                            <Button
-                              type="text"
-                              className="w-full"
-                              onClick={() => {
-                                setOpenGrantee(false);
-                                setTimeout(() => {
-                                  setModal(true);
-                                }, 300);
-                              }}
-                            >
-                              <div className="flex items-center justify-center w-full">
-                                <PlusOutlined />
-                                Set up a new grantee
-                              </div>
-                            </Button>
-                          </>
-                        );
-                      }}
-                      options={userlist.map((item) => ({
-                        label:
-                          item.name && item.name.length > 0
-                            ? item.name
-                            : item.mainWallet,
-                        value: item.userId,
-                      }))}
-                    />
-                  </Form.Item>
+                  <h2 className="h-10 px-4 leading-10 dark:text-white text-c3 dark:lg:text-cwh2">
+                    Grantee
+                  </h2>
+                  <div className="px-4">
+                    <Form.Item
+                      label="Choose a Grantee"
+                      name="granteeId"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input the grantee!",
+                        },
+                      ]}
+                    >
+                      <Select
+                        placeholder="Search/Select"
+                        open={openGrantee}
+                        getPopupContainer={() =>
+                          document.getElementById("grantee")
+                        }
+                        onDropdownVisibleChange={(v) => setOpenGrantee(v)}
+                        dropdownRender={(menu) => {
+                          return (
+                            <>
+                              {menu}
+                              <Divider style={{ margin: "8px 0" }} />
+                              <Button
+                                type="text"
+                                className="w-full"
+                                onClick={() => {
+                                  setOpenGrantee(false);
+                                  setTimeout(() => {
+                                    setModal(true);
+                                  }, 300);
+                                }}
+                              >
+                                <div className="flex items-center justify-center w-full">
+                                  <PlusOutlined />
+                                  Set up a new grantee
+                                </div>
+                              </Button>
+                            </>
+                          );
+                        }}
+                        options={userlist.map((item) => ({
+                          label:
+                            item.name && item.name.length > 0
+                              ? item.name
+                              : item.mainWallet,
+                          value: item.userId,
+                        }))}
+                      />
+                    </Form.Item>
+                  </div>
                 </Spot>
 
-                <Spot className="px-4 pt-2 pb-3 mb-5 overflow-hidden lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10">
-                  <h2 className="dark:text-white dark:lg:text-cwh2">Grant</h2>
-                  <Form.Item name="tokenType">
-                    {/* <Radio.Group>
+                <Spot className="pt-2 mb-5 overflow-hidden divide-y divide-b-1 lg:divide-none lg:pb-1 lg:pt-4 rounded-xl shadow-d6 lg:mb-10">
+                  <h2 className="h-10 px-4 leading-10 dark:text-white text-c3 dark:lg:text-cwh2">
+                    Grant
+                  </h2>
+                  <div className="px-4">
+                    <Form.Item name="tokenType">
+                      {/* <Radio.Group>
                       {tokenTypeList.map(({ label, value, disabled }) => {
                         return (
                           <Radio disabled={disabled} value={value} key={value}>
@@ -357,10 +367,76 @@ function GrantCreate() {
                       })}
                     </Radio.Group> */}
 
+                      {pc ? (
+                        <Form.Item name="tokenType">
+                          <Radio.Group>
+                            {tokenTypeList.map(({ name, value, disabled }) => {
+                              return (
+                                <Radio
+                                  disabled={disabled}
+                                  value={value}
+                                  key={value}
+                                >
+                                  {name}
+                                </Radio>
+                              );
+                            })}
+                          </Radio.Group>
+                        </Form.Item>
+                      ) : (
+                        <Form.Item name="tokenType" className="!mt-3">
+                          <Switch list={tokenTypeList} />
+                        </Form.Item>
+                      )}
+                    </Form.Item>
+                    <Form.Item
+                      label="Total Amount"
+                      name="grantNum"
+                      rules={[
+                        {
+                          validator: minZeroValidator("Total Amount"),
+                        },
+                      ]}
+                    >
+                      <Input
+                        placeholder="Editable"
+                        type="number"
+                        suffix="Token"
+                        min={0}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      label="Exercise Price"
+                      name="exercisePrice"
+                      rules={[
+                        {
+                          validator: minZeroValidator("Exercise Price"),
+                        },
+                      ]}
+                    >
+                      <Input
+                        placeholder="Editable"
+                        type="number"
+                        suffix="USD"
+                        min={0}
+                      />
+                    </Form.Item>
+                  </div>
+                </Spot>
+
+                <Spot
+                  id="vesting"
+                  className="pt-2 mb-5 overflow-hidden divide-y divide-b-1 lg:divide-none lg:pb-1 lg:pt-4 rounded-xl shadow-d6 lg:mb-10"
+                >
+                  <h2 className="h-10 px-4 leading-10 dark:text-white text-c3 dark:lg:text-cwh2">
+                    Vesting
+                  </h2>
+
+                  <div className="px-4">
                     {pc ? (
-                      <Form.Item name="tokenType">
+                      <Form.Item name="grantType">
                         <Radio.Group>
-                          {tokenTypeList.map(({ name, value, disabled }) => {
+                          {grantType.map(({ name, value, disabled }) => {
                             return (
                               <Radio
                                 disabled={disabled}
@@ -374,377 +450,321 @@ function GrantCreate() {
                         </Radio.Group>
                       </Form.Item>
                     ) : (
-                      <Form.Item name="tokenType">
-                        <Switch list={tokenTypeList} />
+                      <Form.Item name="grantType" className="!mt-3">
+                        <Switch list={grantType} />
                       </Form.Item>
                     )}
-                  </Form.Item>
-                  <Form.Item
-                    label="Total Amount"
-                    name="grantNum"
-                    rules={[
-                      {
-                        validator: minZeroValidator("Total Amount"),
-                      },
-                    ]}
-                  >
-                    <Input
-                      placeholder="Editable"
-                      type="number"
-                      suffix="Token"
-                      min={0}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    label="Exercise Price"
-                    name="exercisePrice"
-                    rules={[
-                      {
-                        validator: minZeroValidator("Exercise Price"),
-                      },
-                    ]}
-                  >
-                    <Input
-                      placeholder="Editable"
-                      type="number"
-                      suffix="USD"
-                      min={0}
-                    />
-                  </Form.Item>
-                </Spot>
 
-                <Spot
-                  id="vesting"
-                  className="px-4 pt-2 pb-3 mb-5 overflow-hidden lg:pt-4 lg:pb-1 rounded-xl shadow-d6 lg:mb-10"
-                >
-                  <h2 className="dark:text-white dark:lg:text-cwh2">Vesting</h2>
-
-                  {pc ? (
-                    <Form.Item name="grantType">
-                      <Radio.Group>
-                        {grantType.map(({ name, value, disabled }) => {
-                          return (
-                            <Radio
-                              disabled={disabled}
-                              value={value}
-                              key={value}
-                            >
-                              {name}
-                            </Radio>
-                          );
-                        })}
-                      </Radio.Group>
-                    </Form.Item>
-                  ) : (
-                    <Form.Item name="grantType">
-                      <Switch list={grantType} />
-                    </Form.Item>
-                  )}
-
-                  <Form.Item
-                    label="Vesting Start Date"
-                    name="grantDate"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input the Vesting Start Date!",
-                      },
-                    ]}
-                  >
-                    <DatePicker
-                      getPopupContainer={() =>
-                        document.getElementById("vesting")
-                      }
-                      className="w-full"
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    label="Total Vesting Length"
-                    style={{
-                      marginBottom: 0,
-                    }}
-                  >
                     <Form.Item
-                      name="vestingTotalLength"
+                      label="Vesting Start Date"
+                      name="grantDate"
                       rules={[
                         {
                           required: true,
-                          message: "Please input the Total Vesting Length!",
+                          message: "Please input the Vesting Start Date!",
                         },
                       ]}
-                      style={{
-                        display: "inline-block",
-                        width: "calc(100% - 108px)",
-                      }}
                     >
-                      <InputNumber
-                        step={1}
-                        precision={0}
-                        min={1}
-                        style={{ width: "100%" }}
-                        placeholder="Editable"
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      name="vestingTotalPeriod"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input the Total Vesting Length!",
-                        },
-                      ]}
-                      style={{
-                        display: "inline-block",
-                        width: "100px",
-                        marginLeft: 8,
-                      }}
-                    >
-                      <Select
+                      <DatePicker
                         getPopupContainer={() =>
                           document.getElementById("vesting")
                         }
-                      >
-                        {timeLengthList.map((v) => (
-                          <Option value={v.value} key={v.value}>
-                            {v.label}
-                          </Option>
-                        ))}
-                      </Select>
+                        className="w-full"
+                      />
                     </Form.Item>
-                  </Form.Item>
 
-                  <Form.Item
-                    label="Vesting Frequency"
-                    style={{
-                      marginBottom: 0,
-                    }}
-                  >
                     <Form.Item
-                      name="vestingFrequency"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input the Vesting Frequency Length!",
-                        },
-                        {
-                          validator: async (_, vestingFrequencyV) => {
-                            const grantDateV = await form.getFieldValue(
-                              "grantDate"
-                            );
-                            if (vestingFrequencyV && grantDateV) {
-                              const vestingTotalLengthV =
-                                await form.getFieldValue("vestingTotalLength");
-                              const vestingTotalPeriodV =
-                                await form.getFieldValue("vestingTotalPeriod");
-                              const totalEnd = grantDateV.add(
-                                vestingTotalLengthV,
-                                periodMap[vestingTotalPeriodV].toLowerCase()
-                              );
-
-                              const vestingPeriodV = await form.getFieldValue(
-                                "vestingPeriod"
-                              );
-                              const vestEnd = grantDateV.add(
-                                vestingFrequencyV,
-                                periodMap[vestingPeriodV].toLowerCase()
-                              );
-                              // console.log('totalEnd',totalEnd.format(dateFormat))
-                              // console.log('vestEnd',vestEnd.format(dateFormat))
-
-                              if (totalEnd.isBefore(vestEnd)) {
-                                return Promise.reject(
-                                  new Error(
-                                    "Total Vesting end time should before Vesting Frequency!"
-                                  )
-                                );
-                              }
-                            }
+                      label="Total Vesting Length"
+                      style={{
+                        marginBottom: 0,
+                      }}
+                    >
+                      <Form.Item
+                        name="vestingTotalLength"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input the Total Vesting Length!",
                           },
-                        },
-                      ]}
+                        ]}
+                        style={{
+                          display: "inline-block",
+                          width: "calc(100% - 108px)",
+                        }}
+                      >
+                        <InputNumber
+                          step={1}
+                          precision={0}
+                          min={1}
+                          style={{ width: "100%" }}
+                          placeholder="Editable"
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="vestingTotalPeriod"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input the Total Vesting Length!",
+                          },
+                        ]}
+                        style={{
+                          display: "inline-block",
+                          width: "100px",
+                          marginLeft: 8,
+                        }}
+                      >
+                        <Select
+                          getPopupContainer={() =>
+                            document.getElementById("vesting")
+                          }
+                        >
+                          {timeLengthList.map((v) => (
+                            <Option value={v.value} key={v.value}>
+                              {v.label}
+                            </Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                    </Form.Item>
+
+                    <Form.Item
+                      label="Vesting Frequency"
                       style={{
-                        display: "inline-block",
-                        width: "calc(100% - 108px)",
+                        marginBottom: 0,
                       }}
                     >
-                      <InputNumber
-                        step={1}
-                        precision={0}
-                        min={1}
-                        style={{ width: "100%" }}
-                        placeholder="Editable"
-                      />
+                      <Form.Item
+                        name="vestingFrequency"
+                        rules={[
+                          {
+                            required: true,
+                            message:
+                              "Please input the Vesting Frequency Length!",
+                          },
+                          {
+                            validator: async (_, vestingFrequencyV) => {
+                              const grantDateV = await form.getFieldValue(
+                                "grantDate"
+                              );
+                              if (vestingFrequencyV && grantDateV) {
+                                const vestingTotalLengthV =
+                                  await form.getFieldValue(
+                                    "vestingTotalLength"
+                                  );
+                                const vestingTotalPeriodV =
+                                  await form.getFieldValue(
+                                    "vestingTotalPeriod"
+                                  );
+                                const totalEnd = grantDateV.add(
+                                  vestingTotalLengthV,
+                                  periodMap[vestingTotalPeriodV].toLowerCase()
+                                );
+
+                                const vestingPeriodV = await form.getFieldValue(
+                                  "vestingPeriod"
+                                );
+                                const vestEnd = grantDateV.add(
+                                  vestingFrequencyV,
+                                  periodMap[vestingPeriodV].toLowerCase()
+                                );
+                                // console.log('totalEnd',totalEnd.format(dateFormat))
+                                // console.log('vestEnd',vestEnd.format(dateFormat))
+
+                                if (totalEnd.isBefore(vestEnd)) {
+                                  return Promise.reject(
+                                    new Error(
+                                      "Total Vesting end time should before Vesting Frequency!"
+                                    )
+                                  );
+                                }
+                              }
+                            },
+                          },
+                        ]}
+                        style={{
+                          display: "inline-block",
+                          width: "calc(100% - 108px)",
+                        }}
+                      >
+                        <InputNumber
+                          step={1}
+                          precision={0}
+                          min={1}
+                          style={{ width: "100%" }}
+                          placeholder="Editable"
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="vestingPeriod"
+                        style={{
+                          display: "inline-block",
+                          width: "100px",
+                          marginLeft: 8,
+                        }}
+                      >
+                        <Select
+                          getPopupContainer={() =>
+                            document.getElementById("vesting")
+                          }
+                        >
+                          {timeLengthList.map((v) => (
+                            <Option value={v.value} key={v.value}>
+                              {v.label}
+                            </Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                    </Form.Item>
+
+                    <Form.Item
+                      label=""
+                      name="isIncludingCliff"
+                      valuePropName="checked"
+                    >
+                      <Checkbox>including cliff duration</Checkbox>
+                    </Form.Item>
+
+                    <Form.Item
+                      noStyle
+                      shouldUpdate={(prevValues, currentValues) =>
+                        prevValues.isIncludingCliff !==
+                        currentValues.isIncludingCliff
+                      }
+                    >
+                      {({ getFieldValue }) =>
+                        getFieldValue("isIncludingCliff") === true ? (
+                          <Form.Item
+                            label="Cliff Duration"
+                            style={{
+                              marginBottom: 0,
+                            }}
+                          >
+                            <Form.Item
+                              name="cliffTime"
+                              rules={[
+                                {
+                                  required: true,
+                                  message:
+                                    "Please input the Cliff Duration Length!",
+                                },
+                                {
+                                  validator: async (_, cliffTimeV) => {
+                                    const grantDateV = await form.getFieldValue(
+                                      "grantDate"
+                                    );
+                                    if (cliffTimeV && grantDateV) {
+                                      const vestingTotalLengthV =
+                                        await form.getFieldValue(
+                                          "vestingTotalLength"
+                                        );
+                                      const vestingTotalPeriodV =
+                                        await form.getFieldValue(
+                                          "vestingTotalPeriod"
+                                        );
+                                      const totalEnd = grantDateV.add(
+                                        vestingTotalLengthV,
+                                        periodMap[
+                                          vestingTotalPeriodV
+                                        ].toLowerCase()
+                                      );
+
+                                      const cliffPeriodV =
+                                        await form.getFieldValue("cliffPeriod");
+                                      const cliffEnd = grantDateV.add(
+                                        cliffTimeV,
+                                        periodMap[cliffPeriodV].toLowerCase()
+                                      );
+                                      // console.log('totalEnd',totalEnd.format(dateFormat))
+                                      // console.log('vestEnd',vestEnd.format(dateFormat))
+
+                                      if (totalEnd.isBefore(cliffEnd)) {
+                                        return Promise.reject(
+                                          new Error(
+                                            "Total Vesting end time should before cliff end!"
+                                          )
+                                        );
+                                      }
+                                    }
+                                  },
+                                },
+                              ]}
+                              style={{
+                                display: "inline-block",
+                                width: "calc(100% - 108px)",
+                              }}
+                            >
+                              <InputNumber
+                                min={1}
+                                step={1}
+                                precision={0}
+                                style={{ width: "100%" }}
+                                placeholder="Editable"
+                              />
+                            </Form.Item>
+                            <Form.Item
+                              name="cliffPeriod"
+                              style={{
+                                display: "inline-block",
+                                width: "100px",
+                                marginLeft: 8,
+                              }}
+                            >
+                              <Select
+                                getPopupContainer={() =>
+                                  document.getElementById("vesting")
+                                }
+                              >
+                                {timeLengthList.map((v) => (
+                                  <Option value={v.value} key={v.value}>
+                                    {v.label}
+                                  </Option>
+                                ))}
+                              </Select>
+                            </Form.Item>
+                          </Form.Item>
+                        ) : null
+                      }
                     </Form.Item>
                     <Form.Item
-                      name="vestingPeriod"
-                      style={{
-                        display: "inline-block",
-                        width: "100px",
-                        marginLeft: 8,
-                      }}
+                      noStyle
+                      shouldUpdate={(prevValues, currentValues) =>
+                        prevValues.isIncludingCliff !==
+                        currentValues.isIncludingCliff
+                      }
                     >
-                      <Select
-                        getPopupContainer={() =>
-                          document.getElementById("vesting")
-                        }
-                      >
-                        {timeLengthList.map((v) => (
-                          <Option value={v.value} key={v.value}>
-                            {v.label}
-                          </Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
-                  </Form.Item>
-
-                  <Form.Item
-                    label=""
-                    name="isIncludingCliff"
-                    valuePropName="checked"
-                  >
-                    <Checkbox>including cliff duration</Checkbox>
-                  </Form.Item>
-
-                  <Form.Item
-                    noStyle
-                    shouldUpdate={(prevValues, currentValues) =>
-                      prevValues.isIncludingCliff !==
-                      currentValues.isIncludingCliff
-                    }
-                  >
-                    {({ getFieldValue }) =>
-                      getFieldValue("isIncludingCliff") === true ? (
-                        <Form.Item
-                          label="Cliff Duration"
-                          style={{
-                            marginBottom: 0,
-                          }}
-                        >
+                      {({ getFieldValue }) =>
+                        getFieldValue("isIncludingCliff") === true ? (
                           <Form.Item
-                            name="cliffTime"
+                            name="cliffAmount"
+                            label="Cliff Amount"
                             rules={[
                               {
-                                required: true,
-                                message:
-                                  "Please input the Cliff Duration Length!",
+                                validator: minZeroValidator("Cliff Amount"),
                               },
                               {
-                                validator: async (_, cliffTimeV) => {
-                                  const grantDateV = await form.getFieldValue(
-                                    "grantDate"
-                                  );
-                                  if (cliffTimeV && grantDateV) {
-                                    const vestingTotalLengthV =
-                                      await form.getFieldValue(
-                                        "vestingTotalLength"
-                                      );
-                                    const vestingTotalPeriodV =
-                                      await form.getFieldValue(
-                                        "vestingTotalPeriod"
-                                      );
-                                    const totalEnd = grantDateV.add(
-                                      vestingTotalLengthV,
-                                      periodMap[
-                                        vestingTotalPeriodV
-                                      ].toLowerCase()
-                                    );
-
-                                    const cliffPeriodV =
-                                      await form.getFieldValue("cliffPeriod");
-                                    const cliffEnd = grantDateV.add(
-                                      cliffTimeV,
-                                      periodMap[cliffPeriodV].toLowerCase()
-                                    );
-                                    // console.log('totalEnd',totalEnd.format(dateFormat))
-                                    // console.log('vestEnd',vestEnd.format(dateFormat))
-
-                                    if (totalEnd.isBefore(cliffEnd)) {
-                                      return Promise.reject(
-                                        new Error(
-                                          "Total Vesting end time should before cliff end!"
-                                        )
-                                      );
-                                    }
-                                  }
-                                },
+                                validator: maxValidator(100, "Cliff Amount"),
                               },
                             ]}
-                            style={{
-                              display: "inline-block",
-                              width: "calc(100% - 108px)",
-                            }}
                           >
-                            <InputNumber
-                              min={1}
-                              step={1}
-                              precision={0}
-                              style={{ width: "100%" }}
+                            <Input
                               placeholder="Editable"
+                              suffix="%"
+                              type="number"
+                              max={100}
+                              min={0}
                             />
                           </Form.Item>
-                          <Form.Item
-                            name="cliffPeriod"
-                            style={{
-                              display: "inline-block",
-                              width: "100px",
-                              marginLeft: 8,
-                            }}
-                          >
-                            <Select
-                              getPopupContainer={() =>
-                                document.getElementById("vesting")
-                              }
-                            >
-                              {timeLengthList.map((v) => (
-                                <Option value={v.value} key={v.value}>
-                                  {v.label}
-                                </Option>
-                              ))}
-                            </Select>
-                          </Form.Item>
-                        </Form.Item>
-                      ) : null
-                    }
-                  </Form.Item>
-                  <Form.Item
-                    noStyle
-                    shouldUpdate={(prevValues, currentValues) =>
-                      prevValues.isIncludingCliff !==
-                      currentValues.isIncludingCliff
-                    }
-                  >
-                    {({ getFieldValue }) =>
-                      getFieldValue("isIncludingCliff") === true ? (
-                        <Form.Item
-                          name="cliffAmount"
-                          label="Cliff Amount"
-                          rules={[
-                            {
-                              validator: minZeroValidator("Cliff Amount"),
-                            },
-                            {
-                              validator: maxValidator(100, "Cliff Amount"),
-                            },
-                          ]}
-                        >
-                          <Input
-                            placeholder="Editable"
-                            suffix="%"
-                            type="number"
-                            max={100}
-                            min={0}
-                          />
-                        </Form.Item>
-                      ) : null
-                    }
-                  </Form.Item>
+                        ) : null
+                      }
+                    </Form.Item>
+                  </div>
                 </Spot>
               </Form>
             </div>
           </div>
 
-          <div className="pt-10 pb-[60px]">
+          <div className="lg:pt-10 pb-[60px]">
             <div className="flex justify-center">
               <Link to="/" className="hidden lg:block">
                 <Button>Cancel</Button>
@@ -752,7 +772,7 @@ function GrantCreate() {
               <Button
                 onClick={handleCreate}
                 type="primary"
-                className="bg-[#6366F1] lg:ml-10 w-[64vw] lg:w-auto ml-0"
+                className="lg:ml-10 w-[64vw] lg:w-auto ml-0"
                 loading={loadingCreate}
               >
                 {grantId ? "Update" : "Create"}
