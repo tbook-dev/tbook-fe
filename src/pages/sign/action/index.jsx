@@ -53,7 +53,7 @@ export default function ({ signStatus, signList, setSignList }) {
     );
     if (!sg) {
       return (
-        <div className="flex justify-center lg:w-[600px] mx-auto">
+        <div className="relative z-10 flex justify-center lg:w-[600px] mx-auto">
           <Spin />
         </div>
       );
@@ -62,10 +62,10 @@ export default function ({ signStatus, signList, setSignList }) {
     return (
       <div
         className={clsx(
-          "lg:w-[600px] mx-auto lg:px-6 lg:py-4 lg:shadow-d3  rounded-lg bg-black",
-          signStatus === "notyet" && "lg:h-[72px]",
+          "relative z-10 my-[26px] lg:w-[600px] lg:mx-auto mx-4 p-2 lg:px-6 lg:shadow-d3  rounded-lg bg-black",
+          // signStatus === "notyet" && "lg:h-[72px]",
           signStatus === "done" && "bg-cw1",
-          signStatus === "allDone" && "lg:h-[72px]"
+          // signStatus === "allDone" && "lg:h-[72px]"
         )}
       >
         <div
@@ -79,21 +79,21 @@ export default function ({ signStatus, signList, setSignList }) {
           {signStatus === "notyet" && (
             <>
               <div className="flex items-center ">
-                <div className="flex items-center justify-center w-8 h-8 mr-2 rounded-full bg-cw1 lg:w-8 lg:h-8">
-                  <img src={sg.signer.avatar} className="w-5 h-5" />
+                <div className="flex items-center justify-center w-6 h-6 mr-2 rounded-full bg-cw1 lg:w-8 lg:h-8">
+                  <img src={sg.signer.avatar} className="w-3 h-3 lg:w-5 lg:h-5" />
                 </div>
-                <p className="text-c1 text-colorful1">
+                <p className="text-c4 lg:text-c1 text-colorful1">
                   {shortAddress(sg.signer.mainWallet)}
                 </p>
               </div>
 
-              <Button
-                type="primary"
-                className="lg:w-[120px]"
+              <button
+                type="button"
+                className="w-[70px] h-[24px] rounded-md bg-cw1  text-c9 lg:w-[120px] lg:h-10 lg:rounded-lg text-black"
                 onClick={() => handleSign(sg.grantSign)}
               >
                 Sign
-              </Button>
+              </button>
             </>
           )}
 
@@ -101,11 +101,11 @@ export default function ({ signStatus, signList, setSignList }) {
             <>
               <div className="flex items-center mb-2.5">
                 <img src={doneIcon} className="mr-2" />
-                <span className="font-medium text-black text-c1">
+                <span className="font-medium text-black text-c4 lg:text-c1">
                   {shortAddress(sg.signer.mainWallet)}
                 </span>
               </div>
-              <p className="text-black text-c5 py-2.5">
+              <p className="text-black text-c4 py-2.5">
                 Please copy and send the following link to the grantee.
               </p>
               <Paragraph
@@ -122,7 +122,7 @@ export default function ({ signStatus, signList, setSignList }) {
                     "0px 0px 8px rgba(38, 227, 194, 0.25), 0px 0px 6px rgba(69, 160, 245, 0.6)",
                 }}
               >
-                <span className="text-[rgba(153, 153, 153, 0.4)] text-c1">
+                <span className="text-[rgba(153, 153, 153, 0.4)] text-c4 lg:text-c1">
                   {location.href}
                 </span>
               </Paragraph>
@@ -131,7 +131,7 @@ export default function ({ signStatus, signList, setSignList }) {
           {signStatus === "allDone" && (
             <div className="flex items-center">
               <img src={doneIcon} className="mr-2" />
-              <span className="font-medium text-c1 text-colorful1">
+              <span className="font-medium text-c4 lg:text-c1 text-colorful1">
                 {shortAddress(sg.signer.mainWallet)}
               </span>
             </div>
@@ -142,19 +142,9 @@ export default function ({ signStatus, signList, setSignList }) {
   };
   return (
     (signStatus === "notyet" || signStatus === "done") && (
-      <>
-        <div
-          className={clsx(
-            "fixed bottom-0 left-0 right-0 lg:py-9 dark:bg-b-1 blur-[1px] backdrop-blur-sm",
-            signStatus === "notyet" && "lg:h-[144px]",
-            signStatus === "done" && "lg:h-[224px]",
-            signStatus === "allDone" && "lg:h-[144px]"
-          )}
-        ></div>
-        <div className="fixed bottom-0 left-0 right-0 lg:py-9">
-          <Sign />
-        </div>
-      </>
+      <div className="fixed bottom-0 left-0 right-0 before:absolute before:inset-0 before:dark:bg-b-1 before:blur-[1px] before:backdrop-blur-sm">
+        <Sign />
+      </div>
     )
   );
 }

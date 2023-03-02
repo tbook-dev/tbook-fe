@@ -39,11 +39,11 @@ export default function ({ scheduleInfo }) {
         ) : null;
       })}
 
-      <div className="flex items-center justify-end px-6 lg:py-1 lg:justify-start">
+      <div className="flex items-center justify-start px-6 py-1">
         <button
           type="button"
           disabled={scheduleInfo?.vestedAmount === 0}
-          className="flex items-center justify-center text-xs font-medium leading-normal transition duration-150 ease-in-out lg:w-[120px] lg:h-10 dark:bg-white lg:rounded-lg dark:text-black shadow-d3 hover:text-white hover:bg-cw1 hover:shadow-d7 dark:disabled:bg-b-1 dark:disabled:text-b-2 hover:disabled:bg-none hover:disabled:shadow-none"
+          className="flex items-center justify-center text-xs font-medium leading-normal transition duration-150 ease-in-out w-[120px] h-10 bg-cw1 lg:dark:bg-white rounded-lg dark:text-black shadow-d3 hover:text-white hover:bg-cw1 hover:shadow-d7 dark:disabled:bg-b-1 dark:disabled:text-b-2 hover:disabled:bg-none hover:disabled:shadow-none disabled:bg-none"
         >
           Buyback
         </button>

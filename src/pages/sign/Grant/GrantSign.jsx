@@ -39,7 +39,7 @@ function GrantSign() {
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
   const signStatus = useMemo(() => {
-    // return 'allDone';
+    // return 'done';
     if (signList.length === 0) {
       return null;
     }
@@ -224,11 +224,11 @@ function GrantSign() {
         />
       )}
       {signStatus === "allDone" && (
-        <div className="w-[600px] mx-auto mb-12">
-          <h2 className="font-bold lg:text-cwh3 dark:text-white mb-2.5">
+        <div className="w-[600px] lg:mx-auto ml-[52px] mb-6 lg:mb-12">
+          <h2 className="font-bold text-c11 lg:text-cwh3 dark:text-white mb-1 lg:mb-2.5">
             Grant Detail
           </h2>
-          <span className="py-px px-4 border border-[#69D0E5] rounded text-c5 text-colorful1">
+          <span className="py-px px-3 lg:px-4 border border-[#69D0E5] rounded text-c4 lg:text-c5 text-colorful1">
             Effective
           </span>
         </div>
@@ -237,9 +237,9 @@ function GrantSign() {
       <div
         className={clsx(
           "space-y-10 lg:w-[600px] lg:mx-auto mx-4",
-          signStatus === "notyet" && "mb-[300px] lg:mb-[170px]",
-          signStatus === "done" && " mb-[300px] lg:mb-[250px]",
-          signStatus === "allDone" && "mb-[300px] lg:mb-10"
+          signStatus === "notyet" && "mb-[120px] lg:mb-[170px]",
+          signStatus === "done" && " mb-[220px] lg:mb-[250px]",
+          signStatus === "allDone" && "lg:mb-10"
         )}
       >
         {/* <Header title="Grant Detail" className="mb-0" /> */}
