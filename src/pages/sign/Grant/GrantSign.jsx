@@ -69,6 +69,9 @@ function GrantSign() {
     try {
       const info = await getGrantInfoWithPlan(grantId);
       console.log(info)
+      if(granteeAuth === null){
+        setGranteeAuth(true);
+      }
       setGrantInfo(info.grant);
       setTipInfo(info.tip);
     } catch (error) {
@@ -92,6 +95,9 @@ function GrantSign() {
     try {
       const vestingSchedule = await getGrantVestingScheduleInfo(grantId);
       // console.log("vestingSchedule->", vestingSchedule);
+      if(granteeAuth === null){
+        setGranteeAuth(true);
+      }
       setSchedule(vestingSchedule || {});
     } catch (error) {
       // 403 没有权限
