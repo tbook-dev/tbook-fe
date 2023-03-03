@@ -36,6 +36,7 @@ import {
   tokenTypeList,
   timeLengthList,
   vestingOccursOptions,
+  getDividePercent,
 } from "@/utils/const";
 import useFindAudience from "@/hooks/useFindAudience";
 import GranteeFrom from "../incentive/GranteeForm";
@@ -53,6 +54,7 @@ import clsx from "clsx";
 import minusIconp from "@/images/icon/minus-gray.svg";
 import minusIcon from "@/images/icon/minus-red.svg";
 import ThemeSpan from "@/components/span";
+import _ from "lodash";
 
 dayjs.extend(customParseFormat);
 const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
@@ -75,11 +77,10 @@ function GrantCreate() {
   const grantId = searchParms.get("grantId");
   const findAudience = useFindAudience();
   const { pc } = useResponsive();
-
   const [userlist, setUserlist] = useState([]);
   const [tipList, setTipList] = useState([]);
   const newGrantee = useRef(null);
-
+  const [formPeriodSum, setPeriodSum] = useState(0);
   const [detail, setDetail] = useState({
     incentivePlanId: 0,
     projectId: 0,
@@ -148,6 +149,26 @@ function GrantCreate() {
   const formatValue = useCallback((planValues, userlist, userId) => {
     const grantValues = userlist.find((v) => v.userId === planValues.granteeId);
     const finalTipId = hasTipId ? tipId : planValues.incentivePlanId;
+    const cliffValues = {
+      vestingTotalLength: planValues.vestingTotalLength,
+      vestingTotalPeriod: planValues.vestingTotalPeriod,
+      cliffTime: planValues.cliffTime,
+      cliffAmount: planValues.cliffAmount,
+      cliffPeriod: planValues.cliffPeriod,
+      vestingFrequency: planValues.vestingFrequency,
+      vestingPeriod: planValues.vestingPeriod,
+    };
+    const periodsPlan = {
+      startDate: planValues.grantDate.format(dateFormat),
+      vestingOccureType: planValues.vestingOccureType,
+      periodList:
+        JSON.stringify(
+          planValues?.periodsPlan?.map((plan) => {
+            delete plan.tokenNumPercent;
+            return plan;
+          })
+        ) || [],
+    };
     const values = {
       incentivePlanId: finalTipId,
       grantCreatorId: userId,
@@ -162,14 +183,11 @@ function GrantCreate() {
       grantDate: planValues.grantDate.format(dateFormat),
       vestingScheduleDate: dayjs().format(dateFormat),
       grantStatus: 1,
-      vestingTotalLength: planValues.vestingTotalLength,
-      vestingTotalPeriod: planValues.vestingTotalPeriod,
-      cliffTime: planValues.cliffTime,
-      cliffAmount: planValues.cliffAmount,
-      cliffPeriod: planValues.cliffPeriod,
-      vestingFrequency: planValues.vestingFrequency,
-      vestingPeriod: planValues.vestingPeriod,
+      ...cliffValues,
     };
+    if (planValues?.grantType === 2) {
+      values.periodsPlan = periodsPlan;
+    }
     return values;
   }, []);
 
@@ -690,9 +708,11 @@ function GrantCreate() {
                         }
                         // Periods
                         if (getFieldValue("grantType") === 2) {
+                          const totalGrantToken = form.getFieldValue("grantNum");
+                          console.log({ totalGrantToken });
                           return (
                             <>
-                              <Form.Item label="Vesting Occurs" name="vestingOccurType">
+                              <Form.Item label="Vesting Occurs" name="vestingOccureType">
                                 <Select getPopupContainer={() => document.getElementById("vesting")}>
                                   {vestingOccursOptions.map((v) => (
                                     <Option value={v.value} key={v.value}>
@@ -705,15 +725,28 @@ function GrantCreate() {
                                 name="periodsPlan"
                                 rules={[
                                   {
-                                    validator: async (_, names) => {
-                                      if (!names || names.length < 1) {
+                                    validator: async (x, plans) => {
+                                      if (!plans || plans.length < 1) {
                                         return Promise.reject(new Error("At least 1 periodsPlan"));
+                                      }
+                                      //
+                                      const divideToken = _.sumBy(plans, "tokenNum");
+
+                                      if (totalGrantToken && divideToken > Number(totalGrantToken)) {
+                                        return Promise.reject(
+                                          new Error("Customized Vesting Amount exceed the Total Amount")
+                                        );
                                       }
                                     },
                                   },
                                 ]}
                               >
                                 {(fields, { add, remove }, { errors }) => {
+                                  const formPeriodPlan = form.getFieldValue("periodsPlan");
+                                  // console.log({ formPeriodPlan });
+                                  // 这里只会列表增加减少才会触发
+                                  // setPeriodSum(_.sumBy(formPeriodPlan, "tokenNum"));
+
                                   return (
                                     <>
                                       <div className="flex justify-between font-medium text-c1">
@@ -721,9 +754,14 @@ function GrantCreate() {
                                           <ThemeSpan>Customized Vesting Time</ThemeSpan>
                                         </div>
                                         <div className="hidden mb-2 space-x-4 lg:flex ">
-                                          <ThemeSpan>{fields.length} times</ThemeSpan>
-                                          <ThemeSpan>{fields.length} Token</ThemeSpan>
-                                          <ThemeSpan>{fields.length} %</ThemeSpan>
+                                          <ThemeSpan>{formPeriodPlan.length} times</ThemeSpan>
+                                          <ThemeSpan>{formPeriodSum} Token</ThemeSpan>
+                                          <ThemeSpan>
+                                            {totalGrantToken
+                                              ? getDividePercent(formPeriodSum, Number(totalGrantToken), 2)
+                                              : 0}
+                                            %
+                                          </ThemeSpan>
                                         </div>
                                       </div>
 
@@ -737,7 +775,10 @@ function GrantCreate() {
                                             <img
                                               src={pc ? minusIconp : minusIcon}
                                               className="w-4 mr-3 cursor-pointer"
-                                              onClick={() => remove(name)}
+                                              onClick={() => {
+                                                setPeriodSum(_.sumBy(formPeriodPlan, "tokenNum"));
+                                                remove(name);
+                                              }}
                                             />
                                             <ThemeSpan>{`${idx + 1}`.padStart(2, "0")}</ThemeSpan>
                                           </div>
@@ -752,7 +793,7 @@ function GrantCreate() {
                                               rules={[
                                                 {
                                                   required: true,
-                                                  message: "Please input the Total Vesting Length!",
+                                                  message: "Missing!",
                                                 },
                                               ]}
                                             >
@@ -761,13 +802,19 @@ function GrantCreate() {
                                                 step={1}
                                                 precision={0}
                                                 min={1}
-                                                placeholder="Editable"
+                                                placeholder="Length"
                                               />
                                             </Form.Item>
                                             <Form.Item
                                               {...restField}
                                               name={[name, "timeUnit"]}
                                               // style={{ width: "100%" }}
+                                              rules={[
+                                                {
+                                                  required: true,
+                                                  message: "Missing!",
+                                                },
+                                              ]}
                                             >
                                               <Select
                                                 style={{ width: pc ? 88 : "100%" }}
@@ -783,48 +830,76 @@ function GrantCreate() {
                                             </Form.Item>
                                             <Form.Item
                                               {...restField}
-                                              name={[name, "tokenNumPercent"]}
-                                              rules={[
-                                                {
-                                                  required: true,
-                                                  message: "Please input the Total Vesting Length!",
-                                                },
-                                              ]}
-                                            >
-                                              <InputNumber
-                                                style={pc ? null : { width: "100%" }}
-                                                step={1}
-                                                precision={0}
-                                                min={1}
-                                                placeholder="Editable"
-                                              />
-                                            </Form.Item>
-                                            <Form.Item
-                                              {...restField}
                                               name={[name, "tokenNum"]}
                                               rules={[
                                                 {
                                                   required: true,
-                                                  message: "Please input the Total Vesting Length!",
+                                                  message: "Missing!",
                                                 },
                                               ]}
                                             >
                                               <InputNumber
+                                                onChange={(val) => {
+                                                  if (totalGrantToken) {
+                                                    const formPeriodPlan = form.getFieldValue("periodsPlan");
+                                                    setPeriodSum(_.sumBy(formPeriodPlan, "tokenNum"));
+                                                    form.setFieldValue(
+                                                      ["periodsPlan", name, "tokenNumPercent"],
+                                                      getDividePercent(val, Number(totalGrantToken), 2)
+                                                    );
+                                                  }
+                                                }}
                                                 style={pc ? null : { width: "100%" }}
                                                 step={1}
                                                 precision={0}
                                                 min={1}
-                                                placeholder="Editable"
+                                                placeholder="Token Amount"
+                                              />
+                                            </Form.Item>
+                                            <Form.Item
+                                              {...restField}
+                                              name={[name, "tokenNumPercent"]}
+                                              rules={[
+                                                {
+                                                  required: true,
+                                                  message: "Missing!",
+                                                },
+                                              ]}
+                                            >
+                                              <Input
+                                                style={{ width: pc ? 88 : "100%" }}
+                                                step={1}
+                                                precision={0}
+                                                min={1}
+                                                max={100}
+                                                placeholder="0"
+                                                type="number"
+                                                suffix="%"
+                                                onChange={(evt) => {
+                                                  const val = Number(evt.target.value);
+                                                  if (totalGrantToken) {
+                                                    form.setFieldValue(
+                                                      ["periodsPlan", name, "tokenNum"],
+                                                      (totalGrantToken * val) / 100
+                                                    );
+                                                    const formPeriodPlan = form.getFieldValue("periodsPlan");
+                                                    setPeriodSum(_.sumBy(formPeriodPlan, "tokenNum"));
+                                                  }
+                                                }}
                                               />
                                             </Form.Item>
                                           </div>
                                         </div>
                                       ))}
-                                      <p style={{color:'#dc4446'}}>{errors}</p>
+                                      <p style={{ color: "#dc4446", marginBottom: 12 }}>{errors}</p>
 
                                       <div className="mb-4">
-                                        <Button onClick={() => add()} block icon={<PlusOutlined />}>
-                                          New Period
+                                        <Button
+                                          onClick={() => add()}
+                                          block
+                                          className="!flex items-center justify-center"
+                                        >
+                                          <PlusOutlined /> New Period
                                         </Button>
                                       </div>
                                     </>

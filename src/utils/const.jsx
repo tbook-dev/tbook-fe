@@ -158,9 +158,9 @@ export const inviteList = [
   },
 ];
 
-export const getDividePercent = (dividend, divisor) => {
+export const getDividePercent = (dividend, divisor, len = 4) => {
   const r1 = _.divide(dividend || 0, divisor || Number.MAX_SAFE_INTEGER) * 100;
-  const r2 = _.round(r1, 4);
+  const r2 = _.round(r1, len);
 
   return r2;
 };

@@ -69,13 +69,12 @@ function GrantSign() {
     try {
       const info = await getGrantInfoWithPlan(grantId);
       console.log(info)
-      setGranteeAuth(true);
       setGrantInfo(info.grant);
       setTipInfo(info.tip);
     } catch (error) {
       // 403 没有权限
-      console.log('getGrantInfoWithPlan-403',error)
       setGranteeAuth(false);
+      console.log('getGrantInfoWithPlan-403',error,  false)
     }
   }, [grantId, authUser]);
 
@@ -92,7 +91,6 @@ function GrantSign() {
     if (!authUser) return;
     try {
       const vestingSchedule = await getGrantVestingScheduleInfo(grantId);
-      setGranteeAuth(true);
       // console.log("vestingSchedule->", vestingSchedule);
       setSchedule(vestingSchedule || {});
     } catch (error) {
