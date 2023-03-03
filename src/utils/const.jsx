@@ -34,19 +34,40 @@ export const targetMap = {
 export const grantType = [
   //    0: 'default/unknown',
   {
-    name: "By Duration",
+    name: "Cliff Vesting",
     value: 1,
-    label: "Duration",
+    label: "Cliff Vesting",
     disabled: false,
     icon: dateIcon,
   },
   {
-    name: "By Milestone",
+    name: "Periods",
     value: 2,
+    label: "Periods",
+    disabled: false,
+  },
+  {
+    name: "Milestone",
+    value: 3,
     label: "Milestone",
     disabled: true,
   },
 ];
+
+export const vestingOccursOptions = [
+  {
+    name: 'On the same day as the Start Date',
+    value: 0,
+  },
+  {
+    name: 'On the previous day as the Start date',
+    value: 1,
+  },
+  {
+    name: 'On the next day as the Start date',
+    value: 2,
+  }
+]
 
 export const dateFormat = "YYYY-MM-DD";
 

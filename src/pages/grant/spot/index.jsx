@@ -10,6 +10,7 @@ export default function ({ className, id, children, close = () => {} }) {
   // const userTheme = useSelector((state) => state.user.theme);
 
   const isHovering = useHover(ref, { onLeave: close });
+  // const isHovering = true;
 
   return (
     <div
