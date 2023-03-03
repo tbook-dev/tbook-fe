@@ -38,6 +38,7 @@ export default function () {
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
   const { setDefaultChain } = useWeb3Modal()
+  const isMobileDevice = /Mobi/i.test(window.navigator.userAgent);
 
   // sui
   const suiWallet = useWallet();
@@ -58,6 +59,11 @@ export default function () {
             connector: connectors.find((c) => c.id == "injected"),
             chainId: localStorage.getItem("chainId")
           });
+        } else if (isMobileDevice) {
+          const host = new URL(window.location).host;
+          window.open(`https://metamask.app.link/dapp/${host}`);
+          setLoading(false);
+          return
         } else {
           await open("ConnectWallet");
         }
