@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tbook/conf":"workspace:*",
+    "@tbook/ui":"workspace:*",
     "@ant-design/cssinjs": "^1.2.0",
     "@ant-design/icons": "^4.8.0",
     "@ant-design/plots": "^1.2.3",

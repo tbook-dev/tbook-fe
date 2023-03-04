@@ -18,6 +18,8 @@ importers:
       '@reduxjs/toolkit': ^1.9.1
       '@suiet/wallet-kit': ^0.1.20
       '@tailwindcss/forms': ^0.5.2
+      '@tbook/conf': workspace:*
+      '@tbook/ui': workspace:*
       '@vitejs/plugin-react': ^3.1.0
       '@walletconnect/ethereum-provider': ^2.4.0
       '@web3modal/ethereum': ^2.1.1
@@ -59,6 +61,8 @@ importers:
       '@reduxjs/toolkit': 1.9.3_k4ae6lp43ej6mezo3ztvx6pykq
       '@suiet/wallet-kit': 0.1.26_h5qs2i4asusvpt7us4lhel5jue
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.7
+      '@tbook/conf': link:../../packages/conf
+      '@tbook/ui': link:../../packages/ui
       '@walletconnect/ethereum-provider': 2.4.6_qcxb3kq6t5zizsxye3woazlspm
       '@web3modal/ethereum': 2.1.1_s5q72wmkdehf4mjfxv6ejbfnfa
       '@web3modal/react': 2.1.1_biqbaboplfbrettd7655fr4n2y
@@ -114,7 +118,12 @@ importers:
 
   packages/conf:
     specifiers:
+      dayjs: ^1.11.7
+      lodash: ^4.17.21
       vite: ^4.1.0
+    dependencies:
+      dayjs: 1.11.7
+      lodash: 4.17.21
     devDependencies:
       vite: 4.1.4
 

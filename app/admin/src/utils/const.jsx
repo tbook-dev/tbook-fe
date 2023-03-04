@@ -1,7 +1,5 @@
-import React from "react";
-import clsx from "clsx";
 import _ from "lodash";
-import dateIcon from "@/images/icon/date.svg";
+// import dateIcon from "@/images/icon/date.svg";
 import dayjs from "dayjs";
 
 /**
@@ -38,7 +36,7 @@ export const grantType = [
     value: 1,
     label: "Cliff Vesting",
     disabled: false,
-    icon: dateIcon,
+    // icon: dateIcon,
   },
   {
     name: "Periods",

@@ -32,7 +32,7 @@ import { useParams } from "react-router-dom";
 import { useNetwork } from "wagmi";
 import Banner from "../component/banner";
 import useProjectAudience from "@/hooks/useProjectAudience";
-import { defaultErrorMsg } from "@/utils/const";
+import { defaultErrorMsg } from "@tbook/conf";
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
