@@ -828,34 +828,7 @@ function GrantCreate() {
                                                 ))}
                                               </Select>
                                             </Form.Item>
-                                            <Form.Item
-                                              {...restField}
-                                              name={[name, "tokenNum"]}
-                                              rules={[
-                                                {
-                                                  required: true,
-                                                  message: "Missing!",
-                                                },
-                                              ]}
-                                            >
-                                              <InputNumber
-                                                onChange={(val) => {
-                                                  if (totalGrantToken) {
-                                                    const formPeriodPlan = form.getFieldValue("periodsPlan");
-                                                    setPeriodSum(_.sumBy(formPeriodPlan, "tokenNum"));
-                                                    form.setFieldValue(
-                                                      ["periodsPlan", name, "tokenNumPercent"],
-                                                      getDividePercent(val, Number(totalGrantToken), 2)
-                                                    );
-                                                  }
-                                                }}
-                                                style={pc ? null : { width: "100%" }}
-                                                step={1}
-                                                precision={0}
-                                                min={1}
-                                                placeholder="Token Amount"
-                                              />
-                                            </Form.Item>
+                                            
                                             <Form.Item
                                               {...restField}
                                               name={[name, "tokenNumPercent"]}
@@ -886,6 +859,34 @@ function GrantCreate() {
                                                     setPeriodSum(_.sumBy(formPeriodPlan, "tokenNum"));
                                                   }
                                                 }}
+                                              />
+                                            </Form.Item>
+                                            <Form.Item
+                                              {...restField}
+                                              name={[name, "tokenNum"]}
+                                              rules={[
+                                                {
+                                                  required: true,
+                                                  message: "Missing!",
+                                                },
+                                              ]}
+                                            >
+                                              <InputNumber
+                                                onChange={(val) => {
+                                                  if (totalGrantToken) {
+                                                    const formPeriodPlan = form.getFieldValue("periodsPlan");
+                                                    setPeriodSum(_.sumBy(formPeriodPlan, "tokenNum"));
+                                                    form.setFieldValue(
+                                                      ["periodsPlan", name, "tokenNumPercent"],
+                                                      getDividePercent(val, Number(totalGrantToken), 2)
+                                                    );
+                                                  }
+                                                }}
+                                                style={pc ? null : { width: "100%" }}
+                                                step={1}
+                                                precision={0}
+                                                min={1}
+                                                placeholder="Token Amount"
                                               />
                                             </Form.Item>
                                           </div>
