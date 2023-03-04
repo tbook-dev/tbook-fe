@@ -104,8 +104,8 @@ function GrantCreate() {
       // console.log('setUserlist')
       const res = await getProjectUsers(projectId);
       // console.log({list:  res.users})
-      const cuserId = userStore.user.userId
-      setUserlist(res?.users?.filter(m => m.userId !== cuserId));
+      const cuserId = userStore.user.userId;
+      setUserlist(res?.users?.filter((m) => m.userId !== cuserId));
     }
   }, [projectId]);
 
@@ -272,7 +272,8 @@ function GrantCreate() {
                   cliffPeriod: 3,
                   tokenType: 1,
                   isIncludingCliff: false,
-                  periodsPlan: [{}],
+                  periodsPlan: [{ timeUnit: 3 }],
+                  vestingOccureType: 0,
                 }}
               >
                 {/* <div className="mb-4 font-semibold text-slate-800">
@@ -715,7 +716,7 @@ function GrantCreate() {
                           return (
                             <>
                               <Form.Item label="Vesting Occurs" name="vestingOccureType">
-                                <Select getPopupContainer={() => document.getElementById("vesting")} defaultValue={0}>
+                                <Select getPopupContainer={() => document.getElementById("vesting")}>
                                   {vestingOccursOptions.map((v) => (
                                     <Option value={v.value} key={v.value}>
                                       {v.name}
@@ -822,7 +823,6 @@ function GrantCreate() {
                                                 style={{ width: pc ? 88 : "100%" }}
                                                 getPopupContainer={() => document.getElementById("vesting")}
                                                 placeholder="Month"
-                                                defaultValue={3}
                                               >
                                                 {timeLengthList.map((v) => (
                                                   <Option value={v.value} key={v.value}>
@@ -831,7 +831,7 @@ function GrantCreate() {
                                                 ))}
                                               </Select>
                                             </Form.Item>
-                                            
+
                                             <Form.Item
                                               {...restField}
                                               name={[name, "tokenNumPercent"]}
@@ -899,7 +899,13 @@ function GrantCreate() {
 
                                       <div className="mb-4">
                                         <Button
-                                          onClick={() => add()}
+                                          onClick={() => {
+                                            add();
+                                            const plans = form.getFieldValue("periodsPlan");
+                                            console.log({ plans });
+
+                                            form.setFieldValue(["periodsPlan", plans.length - 1, 'timeUnit'],3);
+                                          }}
                                           block
                                           className="!flex items-center justify-center"
                                         >
