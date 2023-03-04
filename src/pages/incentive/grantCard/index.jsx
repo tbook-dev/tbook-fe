@@ -1,9 +1,4 @@
-import {
-  shortAddress,
-  grantStatusList,
-  grantType,
-  dateFormat,
-} from "@/utils/const";
+import { shortAddress, grantStatusList, grantType, dateFormat } from "@/utils/const";
 import { useMemo } from "react";
 import { formatThousands } from "@/utils/Utils";
 import { getLastVested } from "@/utils/const";
@@ -48,31 +43,20 @@ export default function ({ grant }) {
       },
       {
         label: "Latest Vesting",
-        render: () =>
-          getLastVested(grant?.grant?.vestingSchedule?.vestingDetail)?.date ||
-          "-",
+        render: () => getLastVested(grant?.grant?.vestingSchedule?.vestingDetail)?.date || "-",
       },
       {
         label: "Vesting Type",
         render: () => {
-          const type = grantType.find(
-            (item) => item.value === grant?.grant?.grantType
-          );
-          return (
-            <div className="flex justify-end">
-              <img src={type?.icon} className="mr-1" />
-              {type?.label}
-            </div>
-          );
+          const type = grantType.find((item) => item.value === grant?.grant?.grantType);
+          return type?.label;
         },
       },
     ],
     [grant]
   );
 
-  const status = grantStatusList.find(
-    (item) => grant.grant?.grantStatus === item.value
-  );
+  const status = grantStatusList.find((item) => grant.grant?.grantStatus === item.value);
   // console.log({ status });
 
   return (
@@ -81,9 +65,7 @@ export default function ({ grant }) {
       to={`/grants/${grant?.grant?.grantId}/sign`}
     >
       <div className="flex items-center justify-between mb-2.5 text-c4">
-        <span className="flex-none max-w-[50%] truncate">
-          {grant.grant.granteeId}
-        </span>
+        <span className="flex-none max-w-[50%] truncate">{grant.grant.granteeId}</span>
         {status && (
           <span
             className="flex-none max-w-[50%] w-[73px] rounded h-5 flex justify-center items-center border"
@@ -103,12 +85,8 @@ export default function ({ grant }) {
         </div>
 
         <div className="flex flex-col justify-center flex-none">
-          <h3 className="w-full truncate text-c8 text-b-8">
-            {grant?.grantee?.name}
-          </h3>
-          <p className="w-full truncate text-c4 text-b-8">
-            {shortAddress(grant?.grantee?.mainWallet)}
-          </p>
+          <h3 className="w-full truncate text-c8 text-b-8">{grant?.grantee?.name}</h3>
+          <p className="w-full truncate text-c4 text-b-8">{shortAddress(grant?.grantee?.mainWallet)}</p>
         </div>
       </div>
 
