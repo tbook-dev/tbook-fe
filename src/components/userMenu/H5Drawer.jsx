@@ -11,6 +11,7 @@ import useCurrentProject from "@/hooks/useCurrentProject";
 import { PlusOutlined } from "@ant-design/icons";
 import Avator from "./Avator";
 import Info from "./Info";
+import { useNavigate } from "react-router-dom";
 
 export default function ({ open, setOpen }) {
   const [expanded, setExpaned] = useState(false);
@@ -18,11 +19,13 @@ export default function ({ open, setOpen }) {
   const currentProjectId = useCurrentProjectId();
   const projects = useProjects();
   const currentProject = useCurrentProject();
+  const navigate = useNavigate();
 
   const hanldeChangeProject = function (project) {
     if (currentProjectId === project.projectId) return;
     dispatch(setCurrentProjectId(project.projectId));
-    setDropdownOpen(false);
+    setOpen(false);
+    navigate('/')
   };
 
   const Content = () => (
@@ -73,7 +76,7 @@ export default function ({ open, setOpen }) {
             })}
           </div>
 
-          <Link to="/create/project" onClick={() => setDropdownOpen(false)}>
+          <Link to="/create/project" onClick={() => setOpen(false)}>
             <div className="px-3 text-center py-2 mt-4 mb-3 bg-[#f2f2f2] mx-2.5 rounded-lg text-[#999] hover:text-[#333] text-[16px] leading-[24px]">
               <PlusOutlined style={{ color: "#0049FF", marginRight: 8 }} />
               Incentivize a new project

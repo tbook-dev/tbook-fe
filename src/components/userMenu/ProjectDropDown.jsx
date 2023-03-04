@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import { setCurrentProjectId } from "@/store/user";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 
 export default function ({ children }) {
@@ -14,11 +15,13 @@ export default function ({ children }) {
   const [open, setOpen] = useState(false);
   const projects = useProjects();
   const currentProject = useCurrentProject();
+  const navigate = useNavigate();
 
   const hanldeChangeProject = function (projectId) {
     if (currentProject.projectId === projectId) return;
     dispatch(setCurrentProjectId(projectId));
     setOpen(false);
+    navigate('/')
   };
 
   const Content = () => (
