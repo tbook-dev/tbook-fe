@@ -713,7 +713,7 @@ function GrantCreate() {
                           return (
                             <>
                               <Form.Item label="Vesting Occurs" name="vestingOccureType">
-                                <Select getPopupContainer={() => document.getElementById("vesting")}>
+                                <Select getPopupContainer={() => document.getElementById("vesting")} defaultValue={0}>
                                   {vestingOccursOptions.map((v) => (
                                     <Option value={v.value} key={v.value}>
                                       {v.name}
@@ -820,6 +820,7 @@ function GrantCreate() {
                                                 style={{ width: pc ? 88 : "100%" }}
                                                 getPopupContainer={() => document.getElementById("vesting")}
                                                 placeholder="Month"
+                                                defaultValue={3}
                                               >
                                                 {timeLengthList.map((v) => (
                                                   <Option value={v.value} key={v.value}>
