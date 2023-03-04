@@ -54,6 +54,10 @@ export const grantType = [
   },
 ];
 
+export const findGrantType = value => {
+  return grantType.find(v => v.value == value)?.name
+}
+
 export const vestingOccursOptions = [
   {
     name: 'On the same day as the Start Date',

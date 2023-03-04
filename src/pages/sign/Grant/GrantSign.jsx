@@ -1,12 +1,8 @@
 import React, { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import {
-  getGrantInfoWithPlan,
-  getGrantSignInfo,
-  getGrantVestingScheduleInfo,
-} from "@/api/incentive";
+import { getGrantInfoWithPlan, getGrantSignInfo, getGrantVestingScheduleInfo } from "@/api/incentive";
 import { useAsyncEffect } from "ahooks";
-import { formatDollar, periodMap, shortAddress } from "@/utils/const";
+import { formatDollar, periodMap, shortAddress, findGrantType } from "@/utils/const";
 import VestingSchedule from "../../incentive/VestingSchedule";
 import { useSelector } from "react-redux";
 // import Header from "../component/Header";
@@ -20,7 +16,6 @@ import { Spin } from "antd";
 import Action from "../action";
 import NoProject from "./NoProject";
 import useUserInfoLoading from "@/hooks/useUserInfoLoading";
-
 
 function GrantSign() {
   const { grantId } = useParams();
@@ -43,15 +38,11 @@ function GrantSign() {
     if (signList.length === 0) {
       return null;
     }
-    const sg = signList.find(
-      (sg) => sg?.signer?.mainWallet === userInfo.mainWallet
-    );
+    const sg = signList.find((sg) => sg?.signer?.mainWallet === userInfo.mainWallet);
     if (sg?.grantSign.signStatus === 1) {
       return "notyet";
     } else {
-      return signList.filter((sg) => sg.grantSign.signStatus === 2).length === 2
-        ? "allDone"
-        : "done";
+      return signList.filter((sg) => sg.grantSign.signStatus === 2).length === 2 ? "allDone" : "done";
     }
   }, [signList]);
 
@@ -68,8 +59,8 @@ function GrantSign() {
 
     try {
       const info = await getGrantInfoWithPlan(grantId);
-      console.log(info)
-      if(granteeAuth === null){
+      console.log(info);
+      if (granteeAuth === null) {
         setGranteeAuth(true);
       }
       setGrantInfo(info.grant);
@@ -77,7 +68,7 @@ function GrantSign() {
     } catch (error) {
       // 403 没有权限
       setGranteeAuth(false);
-      console.log('getGrantInfoWithPlan-403',error,  false)
+      console.log("getGrantInfoWithPlan-403", error, false);
     }
   }, [grantId, authUser]);
 
@@ -95,16 +86,15 @@ function GrantSign() {
     try {
       const vestingSchedule = await getGrantVestingScheduleInfo(grantId);
       // console.log("vestingSchedule->", vestingSchedule);
-      if(granteeAuth === null){
+      if (granteeAuth === null) {
         setGranteeAuth(true);
       }
       setSchedule(vestingSchedule || {});
     } catch (error) {
       // 403 没有权限
-      console.log('vestingSchedule-403',error)
+      console.log("vestingSchedule-403", error);
       setGranteeAuth(false);
     }
-   
   }, [grantId, authUser]);
   // console.log({grantInfo})
 
@@ -166,31 +156,29 @@ function GrantSign() {
       },
       {
         label: "Vesting Type",
-        value: grantInfo.grantType === 1 ? "Duration" : "Milestone",
+        value: findGrantType(grantInfo.grantType),
       },
-      {
-        label: "Length",
-        value: `${grantInfo.vestingTotalLength} ${
-          periodMap[grantInfo.vestingTotalPeriod]
-        }`,
-      },
-      {
-        label: "Vesting Frequency",
-        value: `${grantInfo.vestingFrequency}  ${
-          periodMap[grantInfo.vestingPeriod]
-        }`,
-      },
-      {
-        label: "Cliff Duration",
-        value:
-          grantInfo.cliffTime !== 0
-            ? `${grantInfo.cliffTime} ${periodMap[grantInfo.cliffPeriod]}`
-            : null,
-      },
-      {
-        label: "Cliff Amount",
-        value: grantInfo.cliffAmount !== 0 ? `${grantInfo.cliffAmount}%` : null,
-      },
+      ...(grantInfo.grantType == 1
+        ? [
+            {
+              label: "Length",
+              value: `${grantInfo.vestingTotalLength} ${periodMap[grantInfo.vestingTotalPeriod]}`,
+            },
+            {
+              label: "Vesting Frequency",
+              value: `${grantInfo.vestingFrequency}  ${periodMap[grantInfo.vestingPeriod]}`,
+            },
+
+            {
+              label: "Cliff Duration",
+              value: `${grantInfo.cliffTime} ${periodMap[grantInfo.cliffPeriod]}`,
+            },
+            {
+              label: "Cliff Amount",
+              value: `${grantInfo.cliffAmount}%`,
+            },
+          ]
+        : []),
       {
         label: "Vesting Times",
         value: scheduleInfo?.vestingSchedule?.vestingDetail?.length,
@@ -198,7 +186,7 @@ function GrantSign() {
     ];
   }, [scheduleInfo, grantInfo]);
 
-  // 
+  //
   // console.log("periodMap", periodMap, grantInfo.vestingTotalPeriod);
 
   if (userLoading || granteeAuth === null) {
@@ -208,9 +196,9 @@ function GrantSign() {
       </div>
     );
   }
-  if(granteeAuth === false){
+  if (granteeAuth === false) {
     // 失败没有权限
-    return <NoProject />
+    return <NoProject />;
   }
   return (
     <main className="relative w-full pt-3 pb-10 lg:pb-0 lg:pt-12">
@@ -229,9 +217,7 @@ function GrantSign() {
       )}
       {signStatus === "allDone" && (
         <div className="w-[600px] lg:mx-auto ml-[52px] mb-6 lg:mb-12">
-          <h2 className="font-bold text-c11 lg:text-cwh3 dark:text-white mb-1 lg:mb-2.5">
-            Grant Detail
-          </h2>
+          <h2 className="font-bold text-c11 lg:text-cwh3 dark:text-white mb-1 lg:mb-2.5">Grant Detail</h2>
           <span className="py-px px-3 lg:px-4 border border-[#69D0E5] rounded text-c4 lg:text-c5 text-colorful1">
             Effective
           </span>
@@ -248,9 +234,7 @@ function GrantSign() {
       >
         {/* <Header title="Grant Detail" className="mb-0" /> */}
 
-        {(signStatus === "notyet" || signStatus === "done") && (
-          <Card title="Grantee" list={granteeConf} />
-        )}
+        {(signStatus === "notyet" || signStatus === "done") && <Card title="Grantee" list={granteeConf} />}
         {signStatus === "allDone" && <VestedCard scheduleInfo={scheduleInfo} />}
 
         <Card title="Grant" list={grantConf} />
