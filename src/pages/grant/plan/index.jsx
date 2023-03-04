@@ -41,7 +41,7 @@ export default function ({ planName, targetAudince, availableAmount }) {
     },
     {
       title: "Target Audience",
-      value: () => <span className="border border-white rounded py-0.5 px-2 lg:px-4 lg:py-px">{targetAudince}</span>,
+      value: () => <span className="max-w-full truncate border border-white rounded py-0.5 px-2 lg:px-4 lg:py-px">{targetAudince}</span>,
     },
     {
       title: "Available Amount",
@@ -116,8 +116,8 @@ export default function ({ planName, targetAudince, availableAmount }) {
               key={v.title}
               className="flex items-center h-10 px-4 border-b-1 lg:px-6 lg:py-2 text-c1"
             >
-              <span className="flex-[10] text-b-8">{v.title}</span>
-              <span className="flex-[14] text-white flex justify-end lg:justify-between">
+              <span className="w-[41%] text-b-8">{v.title}</span>
+              <span className="w-[59%] text-white flex justify-end lg:justify-between">
                 {typeof v.value === 'function' ? <v.value />: v.value}
               </span>
             </div>
