@@ -103,7 +103,9 @@ function GrantCreate() {
     if (projectId) {
       // console.log('setUserlist')
       const res = await getProjectUsers(projectId);
-      setUserlist(res.users);
+      // console.log({list:  res.users})
+      const cuserId = userStore.user.userId
+      setUserlist(res?.users?.filter(m => m.userId !== cuserId));
     }
   }, [projectId]);
 
