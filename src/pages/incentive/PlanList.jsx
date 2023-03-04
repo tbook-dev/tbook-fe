@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useCallback } from "react";
+import React, { useState, useReducer,useEffect, useCallback } from "react";
 import { NavLink, Link, useNavigate, useSearchParams } from "react-router-dom";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -68,6 +68,11 @@ function PlanList() {
       dispatch(setAuthUser(true));
     }
   }
+  useEffect(() => {
+    return () => {
+      swiper?.destroy();
+    };
+  }, []);
 
   useAsyncEffect(async () => {
     if (!projectId) return;
