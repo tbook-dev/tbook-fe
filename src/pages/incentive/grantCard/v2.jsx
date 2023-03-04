@@ -80,7 +80,7 @@ export default function ({ grant }) {
     >
       <div className="px-2 py-3 rounded-lg text-c5 shadow-d6 hover:shadow-d7">
         <div className="flex items-center justify-between mb-6">
-          <span className="block px-2">{grant.grant.granteeId}</span>
+          <span className="block px-2">{grant?.grant?.grantId}</span>
           {status && (
             <span
               className="text-center max-w-[100px] w-20 truncate border rounded"

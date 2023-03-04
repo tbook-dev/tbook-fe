@@ -65,7 +65,7 @@ export default function ({ grant }) {
       to={`/grants/${grant?.grant?.grantId}/sign`}
     >
       <div className="flex items-center justify-between mb-2.5 text-c4">
-        <span className="flex-none max-w-[50%] truncate">{grant.grant.granteeId}</span>
+        <span className="flex-none max-w-[50%] truncate">{grant?.grant?.grantId}</span>
         {status && (
           <span
             className="flex-none max-w-[50%] w-[73px] rounded h-5 flex justify-center items-center border"
