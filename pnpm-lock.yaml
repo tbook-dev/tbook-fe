@@ -4,24 +4,13 @@ importers:
 
   .:
     specifiers:
-      prettier: ^2.5.1
-      vite: ^4.0.0
-    devDependencies:
-      prettier: 2.8.4
-      vite: 4.1.4
-
-  app/admin:
-    specifiers:
       '@ant-design/cssinjs': ^1.2.0
       '@ant-design/icons': ^4.8.0
       '@ant-design/plots': ^1.2.3
       '@reduxjs/toolkit': ^1.9.1
       '@suiet/wallet-kit': ^0.1.20
       '@tailwindcss/forms': ^0.5.2
-      '@tbook/conf': workspace:*
-      '@tbook/share': workspace:*
-      '@tbook/ui': workspace:*
-      '@vitejs/plugin-react': ^3.1.0
+      '@vitejs/plugin-react': ^3.0.0
       '@walletconnect/ethereum-provider': ^2.4.0
       '@web3modal/ethereum': ^2.1.1
       '@web3modal/react': ^2.1.1
@@ -38,6 +27,7 @@ importers:
       moment: ^2.29.4
       path-to-regexp: ^6.2.1
       postcss: ^8.4.14
+      prettier: ^2.5.1
       rc-motion: ^2.6.2
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -50,7 +40,7 @@ importers:
       tailwindcss: ^3.1.6
       tslib: ^2.4.1
       tweetnacl: ^1.0.3
-      vite: ^4.1.0
+      vite: ^4.0.0
       wagmi: ^0.11.4
       web3: ^1.8.1
     dependencies:
@@ -60,9 +50,6 @@ importers:
       '@reduxjs/toolkit': 1.9.3_k4ae6lp43ej6mezo3ztvx6pykq
       '@suiet/wallet-kit': 0.1.26_biqbaboplfbrettd7655fr4n2y
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.7
-      '@tbook/conf': link:../../packages/conf
-      '@tbook/share': link:../../packages/share
-      '@tbook/ui': link:../../packages/ui
       '@walletconnect/ethereum-provider': 2.4.6_react@18.2.0
       '@web3modal/ethereum': 2.1.1
       '@web3modal/react': 2.1.1_biqbaboplfbrettd7655fr4n2y
@@ -94,8 +81,23 @@ importers:
       autoprefixer: 10.4.13_postcss@8.4.21
       flatpickr: 4.6.13
       postcss: 8.4.21
+      prettier: 2.8.4
       tailwindcss: 3.2.7
       vite: 4.1.4
+
+  app/admin:
+    specifiers:
+      '@tbook/hooks': workspace:*
+      '@tbook/share': workspace:*
+      '@tbook/store': workspace:*
+      '@tbook/ui': workspace:*
+      '@tbook/utils': workspace:*
+    dependencies:
+      '@tbook/hooks': link:../../packages/hooks
+      '@tbook/share': link:../../packages/share
+      '@tbook/store': link:../../packages/store
+      '@tbook/ui': link:../../packages/ui
+      '@tbook/utils': link:../../packages/utils
 
   app/grantee:
     specifiers:
@@ -114,31 +116,67 @@ importers:
       '@vitejs/plugin-react': 3.1.0_vite@4.1.4
       vite: 4.1.4
 
-  packages/conf:
+  packages/hooks:
     specifiers:
-      vite: ^4.1.0
-    devDependencies:
-      vite: 4.1.4
+      '@tbook/share': workspace:*
+      '@tbook/store': workspace:*
+      '@tbook/ui': workspace:*
+      '@tbook/utils': workspace:*
+    dependencies:
+      '@tbook/share': link:../share
+      '@tbook/store': link:../store
+      '@tbook/ui': link:../ui
+      '@tbook/utils': link:../utils
 
   packages/share:
-    specifiers: {}
+    specifiers:
+      '@tbook/hooks': workspace:*
+      '@tbook/store': workspace:*
+      '@tbook/ui': workspace:*
+      '@tbook/utils': workspace:*
+    dependencies:
+      '@tbook/hooks': link:../hooks
+      '@tbook/store': link:../store
+      '@tbook/ui': link:../ui
+      '@tbook/utils': link:../utils
+
+  packages/store:
+    specifiers:
+      '@tbook/hooks': workspace:*
+      '@tbook/share': workspace:*
+      '@tbook/ui': workspace:*
+      '@tbook/utils': workspace:*
+    dependencies:
+      '@tbook/hooks': link:../hooks
+      '@tbook/share': link:../share
+      '@tbook/ui': link:../ui
+      '@tbook/utils': link:../utils
 
   packages/ui:
     specifiers:
-      '@types/react': ^18.0.27
-      '@types/react-dom': ^18.0.10
-      '@vitejs/plugin-react': ^3.1.0
-      react: ^18.2.0
-      react-dom: ^18.2.0
-      vite: ^4.1.0
+      '@tbook/hooks': workspace:*
+      '@tbook/share': workspace:*
+      '@tbook/store': workspace:*
+      '@tbook/utils': workspace:*
     dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@types/react': 18.0.28
-      '@types/react-dom': 18.0.11
-      '@vitejs/plugin-react': 3.1.0_vite@4.1.4
-      vite: 4.1.4
+      '@tbook/hooks': link:../hooks
+      '@tbook/share': link:../share
+      '@tbook/store': link:../store
+      '@tbook/utils': link:../utils
+
+  packages/utils:
+    specifiers:
+      '@tbook/hooks': workspace:*
+      '@tbook/share': workspace:*
+      '@tbook/store': workspace:*
+      '@tbook/ui': workspace:*
+      '@tbook/utils': workspace:*
+    dependencies:
+      '@tbook/hooks': link:../hooks
+      '@tbook/share': link:../share
+      '@tbook/store': link:../store
+      '@tbook/ui': link:../ui
+      '@tbook/utils': 'link:'
 
 packages:
 

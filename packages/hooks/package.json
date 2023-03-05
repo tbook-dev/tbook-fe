@@ -8,5 +8,11 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@tbook/share": "workspace:*",
+    "@tbook/store": "workspace:*",
+    "@tbook/ui": "workspace:*",
+    "@tbook/utils": "workspace:*"
+  }
 }

@@ -1,8 +1,11 @@
 {
-  "name": "@tbook/share",
+  "name": "@tbook/store",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@tbook/hooks":"workspace:*",
-    "@tbook/store": "workspace:*",
+    "@tbook/share": "workspace:*",
     "@tbook/ui": "workspace:*",
     "@tbook/utils": "workspace:*"
   }
