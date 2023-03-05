@@ -1,6 +1,6 @@
 import { useResponsive } from "ahooks";
 import { SwapOutlined } from "@ant-design/icons";
-import useCurrentProjectId from "@/hooks/useCurrentProjectId";
+import { useCurrentProjectId } from "@tbook/hooks";
 import React, { useState } from "react";
 import { Drawer, theme } from "antd";
 import { Divider, Dropdown, Space } from "antd";
@@ -8,7 +8,7 @@ import { useAsyncEffect } from "ahooks";
 import { getIncentiveList } from "@/api/incentive";
 import { useParams, useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import switchIcon from '@tbook/share/images/icon/switch-plan.png';
+import switchIcon from "@tbook/share/images/icon/switch-plan.png";
 
 const { useToken } = theme;
 
@@ -41,7 +41,11 @@ export default function ({ planName, targetAudince, availableAmount }) {
     },
     {
       title: "Target Audience",
-      value: () => <span className="max-w-full truncate border border-white rounded py-0.5 px-2 lg:px-4 lg:py-px">{targetAudince}</span>,
+      value: () => (
+        <span className="max-w-full truncate border border-white rounded py-0.5 px-2 lg:px-4 lg:py-px">
+          {targetAudince}
+        </span>
+      ),
     },
     {
       title: "Available Amount",
@@ -74,13 +78,9 @@ export default function ({ planName, targetAudince, availableAmount }) {
               },
             }}
             dropdownRender={(menu) => (
-              <div
-                style={{ ...contentStyle, height: "175px", overflow: "scroll" }}
-              >
+              <div style={{ ...contentStyle, height: "175px", overflow: "scroll" }}>
                 <Space style={{ padding: 8 }}>
-                  <p className="text-[#333]">
-                    Switch to another incentive plan
-                  </p>
+                  <p className="text-[#333]">Switch to another incentive plan</p>
                 </Space>
                 <Divider style={{ margin: 0 }} />
                 {React.cloneElement(menu, { style: menuStyle })}
@@ -96,7 +96,7 @@ export default function ({ planName, targetAudince, availableAmount }) {
                 isOpen && "lg:bg-[rgba(124,162,255,0.12)]"
               )}
             >
-              <img src={switchIcon} className="w-9"/>
+              <img src={switchIcon} className="w-9" />
             </span>
           </Dropdown>
         ) : (
@@ -104,7 +104,7 @@ export default function ({ planName, targetAudince, availableAmount }) {
             onClick={() => setOpen(!isOpen)}
             className="absolute lg:bg-[rgba(124,162,255,0.12)] rounded-xl bottom-0 top-0  lg:top-2 lg:bottom-2 lg:h-12 lg:w-12 flex items-center justify-center cursor-pointer right-2.5 lg:right-2"
           >
-            <img src={switchIcon} className="w-9"/>
+            <img src={switchIcon} className="w-9" />
           </span>
         )}
       </div>
@@ -112,13 +112,10 @@ export default function ({ planName, targetAudince, availableAmount }) {
       <div className="divide-y">
         {conf.map((v) => {
           return (
-            <div
-              key={v.title}
-              className="flex items-center h-10 px-4 border-b-1 lg:px-6 lg:py-2 text-c1"
-            >
+            <div key={v.title} className="flex items-center h-10 px-4 border-b-1 lg:px-6 lg:py-2 text-c1">
               <span className="w-[41%] text-b-8">{v.title}</span>
               <span className="w-[59%] text-white flex justify-end lg:justify-between">
-                {typeof v.value === 'function' ? <v.value />: v.value}
+                {typeof v.value === "function" ? <v.value /> : v.value}
               </span>
             </div>
           );
@@ -128,7 +125,9 @@ export default function ({ planName, targetAudince, availableAmount }) {
         <Drawer
           headerStyle={{ display: "flex" }}
           placement="bottom"
-          title={<div className="flex items-center justify-center font-medium text-c6">Switch to another incentive plan</div>}
+          title={
+            <div className="flex items-center justify-center font-medium text-c6">Switch to another incentive plan</div>
+          }
           // closable={false}
           contentWrapperStyle={{
             height: "50vh",

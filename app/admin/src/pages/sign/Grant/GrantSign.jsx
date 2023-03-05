@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { getGrantInfoWithPlan, getGrantSignInfo, getGrantVestingScheduleInfo } from "@/api/incentive";
 import { useAsyncEffect } from "ahooks";
-import { formatDollar, periodMap, shortAddress, findGrantType } from "@/utils/const";
+import { conf } from "@tbook/utils";
 import VestingSchedule from "../../incentive/VestingSchedule";
 import { useSelector } from "react-redux";
 // import Header from "../component/Header";
@@ -15,7 +15,9 @@ import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 import { Spin } from "antd";
 import Action from "../action";
 import NoProject from "./NoProject";
-import useUserInfoLoading from "@/hooks/useUserInfoLoading";
+import { useUserInfoLoading } from "@tbook/hooks";
+
+const { formatDollar, periodMap, shortAddress, findGrantType } = conf;
 
 function GrantSign() {
   const { grantId } = useParams();

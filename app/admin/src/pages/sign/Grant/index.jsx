@@ -1,8 +1,7 @@
 import NotConnect from "./NotConnect";
 import NoProject from "./NoProject";
 import { useSelector } from "react-redux";
-import useUserInfoLoading from "@/hooks/useUserInfoLoading";
-import useProjects from "@/hooks/useProjects";
+import { useUserInfoLoading , useProjects} from "@tbook/hooks";
 import { Spin } from "antd";
 import GrantSign from "./GrantSign";
 

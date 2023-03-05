@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { Popover } from "antd";
 import Avator from "./Avator";
 import Info from "./Info";
-import useCurrentProject from "@/hooks/useCurrentProject";
-import { chains } from "@/utils/const";
+import { useCurrentProject } from "@tbook/hooks";
+import { conf } from "@tbook/utils";
 import NetWork from "../Icon/NetWork";
 import back from "@tbook/share/images/icon/back.svg";
 import clsx from "clsx";
 import { logout } from "@/utils/web3";
 import { useSwitchNetwork } from "wagmi";
 
+const { chains } = conf;
 export default function ({ open, setOpen }) {
   const project = useCurrentProject();
   const projectChain = chains.find((v) => project.chain === v.name);

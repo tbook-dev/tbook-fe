@@ -1,38 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import {
-  Button,
-  Form,
-  Input,
-  Select,
-  Tooltip,
-  InputNumber,
-  Divider,
-  message,
-} from "antd";
+import { Button, Form, Input, Select, Tooltip, InputNumber, Divider, message } from "antd";
 import AppConfigProvider from "@/theme/AppConfigProvider";
-import {
-  CheckOutlined,
-  InfoCircleOutlined,
-  FormOutlined,
-} from "@ant-design/icons";
+import { CheckOutlined, InfoCircleOutlined, FormOutlined } from "@ant-design/icons";
 import { chains, formatDollar } from "@/utils/const";
 import { useSelector, useDispatch } from "react-redux";
 import { createTIP, createProject } from "@/api/incentive";
 import { fetchUserInfo, setCurrentProjectId } from "@/store/user";
-import useCurrentProjectId from "@/hooks/useCurrentProjectId";
-import useCurrentProject from "@/hooks/useCurrentProject";
+import { useCurrentProjectId, useCurrentProject, useProjectAudience } from "@tbook/hooks";
 import _ from "lodash";
 import { useResponsive } from "ahooks";
 import AvatarWallet from "./avatarWallet";
-// import useProjects from "@/hooks/useProjects";
 import { Icon } from "@tbook/ui";
 import planIcon from "@tbook/share/images/incentive/plan.svg";
 import { useParams } from "react-router-dom";
 import { useNetwork } from "wagmi";
 import Banner from "../component/banner";
-import useProjectAudience from "@/hooks/useProjectAudience";
-import { conf} from "@tbook/utils";
+import { conf } from "@tbook/utils";
 
 const { defaultErrorMsg } = conf;
 const { NetWork } = Icon;
@@ -144,7 +128,10 @@ function PlanCreate() {
                     // 目前应该监听网络环境
                     if (mainNetwork !== v.name) return null;
                     return (
-                      <div className="flex items-center justify-center h-10 rounded-md bg-b-1 lg:bg-transparent lg:justify-start" key={v.evmChainId}>
+                      <div
+                        className="flex items-center justify-center h-10 rounded-md bg-b-1 lg:bg-transparent lg:justify-start"
+                        key={v.evmChainId}
+                      >
                         <NetWork id={v.evmChainId} className="mr-1" />
                         <span className="text-black text-c9">{v.name}</span>
                       </div>
@@ -167,10 +154,7 @@ function PlanCreate() {
 
                 <div className="flex justify-center pt-2">
                   <AppConfigProvider>
-                    <Button
-                      className="!hidden lg:!block w-[120px] mx-auto"
-                      onClick={() => navigate(-1)}
-                    >
+                    <Button className="!hidden lg:!block w-[120px] mx-auto" onClick={() => navigate(-1)}>
                       cancel
                     </Button>
                     <Button
@@ -197,10 +181,7 @@ function PlanCreate() {
                           // 目前应该监听网络环境
                           if (project?.chain !== v.name) return null;
                           return (
-                            <div
-                              className="flex items-center"
-                              key={v.evmChainId}
-                            >
+                            <div className="flex items-center" key={v.evmChainId}>
                               <NetWork id={v.evmChainId} className="mr-1" />
                               {project?.projectName}
                             </div>
@@ -213,9 +194,7 @@ function PlanCreate() {
                   <div className="flex items-center h-10 px-6 text-c1">
                     <span className="flex-[10] text-b-8">Total Token</span>
                     <span className="flex-[14] text-white flex justify-end lg:justify-between">
-                      <span className="mr-2">
-                        {formatDollar(project?.tokenTotalAmount)} Token
-                      </span>
+                      <span className="mr-2">{formatDollar(project?.tokenTotalAmount)} Token</span>
                       <Tooltip title="This is the total of virtual tokens only used to anchor ratio before TGE to facilitate calculation and granting. It will be converted into the actual number of tokens after TGE.">
                         <InfoCircleOutlined className="cursor-pointer" />
                       </Tooltip>
@@ -263,9 +242,7 @@ function PlanCreate() {
                         placeholder="Employee"
                         // options={preOptions}
                         open={selectOpen}
-                        onDropdownVisibleChange={(visible) =>
-                          setSelectOpen(visible)
-                        }
+                        onDropdownVisibleChange={(visible) => setSelectOpen(visible)}
                         dropdownRender={(menu) => {
                           return (
                             <>
@@ -276,9 +253,7 @@ function PlanCreate() {
                                   placeholder="Editable..."
                                   maxLength={30}
                                   value={inputVal}
-                                  onChange={(evt) =>
-                                    setInputVal(evt.target.value)
-                                  }
+                                  onChange={(evt) => setInputVal(evt.target.value)}
                                   style={{ marginRight: 8 }}
                                 />
                                 <Button
@@ -286,10 +261,7 @@ function PlanCreate() {
                                   onClick={async () => {
                                     setInputVal("");
                                     const val = options.length + 1;
-                                    setAddedAudience([
-                                      ...addedAudience,
-                                      { label: inputVal, value: val },
-                                    ]);
+                                    setAddedAudience([...addedAudience, { label: inputVal, value: val }]);
                                     form.setFieldValue("target", val);
                                     setSelectOpen(false);
                                   }}
@@ -301,11 +273,7 @@ function PlanCreate() {
                         }}
                       >
                         {options.map((option) => (
-                          <Select.Option
-                            label={option.label}
-                            value={option.value}
-                            key={option.value}
-                          >
+                          <Select.Option label={option.label} value={option.value} key={option.value}>
                             <div className="flex justify-between">
                               <span>{option.label}</span>
                             </div>
@@ -338,10 +306,7 @@ function PlanCreate() {
                       />
                     </Form.Item>
 
-                    <Form.Item
-                      label="Plan Administrator"
-                      name="incentivePlanAdminId"
-                    >
+                    <Form.Item label="Plan Administrator" name="incentivePlanAdminId">
                       <AvatarWallet
                         avatar={userStore?.user?.avatar}
                         name={userStore?.user?.name}

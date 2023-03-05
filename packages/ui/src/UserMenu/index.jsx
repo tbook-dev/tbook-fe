@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import useCurrentProject from "@/hooks/useCurrentProject";
+import { useCurrentProject, useProjects } from "@tbook/hooks";
 import { useResponsive } from "ahooks";
 import ProjectDropDown from "./ProjectDropDown";
 import H5Drawer from "./H5Drawer";
 import WebDropDown from "./WebDropDown";
 import clsx from "clsx";
 import switchIcon from "@tbook/share/images/icon/switch.svg";
-import useProjects from "@/hooks/useProjects";
 import { useSelector } from "react-redux";
 
 

@@ -1,7 +1,9 @@
 import clsx from "clsx";
 import { useMemo } from "react";
-import { getDividePercent, formatDollar } from "@/utils/const";
-import useFindAudience from "@/hooks/useFindAudience";
+import { conf } from "@tbook/utils";
+import { useFindAudience } from "@tbook/hooks";
+
+const  { getDividePercent, formatDollar } = conf;
 
 export default function ({ tip, pc, isActive }) {
   const conf = useMemo(() => {

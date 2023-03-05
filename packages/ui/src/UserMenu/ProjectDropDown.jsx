@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Popover } from "antd";
 import clsx from "clsx";
-import useProjects from "@/hooks/useProjects";
-import useCurrentProject from "@/hooks/useCurrentProject";
+import { useProjects , useCurrentProject } from "@tbook/hooks";
 import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import { setCurrentProjectId } from "@/store/user";

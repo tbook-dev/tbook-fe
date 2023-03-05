@@ -27,7 +27,7 @@ import {
 } from "@/api/incentive";
 import { useSelector } from "react-redux";
 
-import useFindAudience from "@/hooks/useFindAudience";
+import { useFindAudience } from "@tbook/hooks";
 import GranteeFrom from "../incentive/GranteeForm";
 import dayjs from "dayjs";
 import { useAsyncEffect, useResponsive } from "ahooks";

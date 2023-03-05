@@ -4,7 +4,7 @@ import { shortAddress } from "@/utils/const";
 import { logout } from "@/utils/web3";
 import closeIcon from "@tbook/share/images/icon/close.svg";
 import { useSelector } from "react-redux";
-import useCurrentProject from "@/hooks/useCurrentProject";
+import { useCurrentProject } from "@tbook/hooks";
 import { chains } from "@/utils/const";
 
 export default function () {
