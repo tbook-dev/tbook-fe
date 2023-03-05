@@ -44,7 +44,7 @@ import minusIconp from "@tbook/share/images/icon/minus-gray.svg";
 import minusIcon from "@tbook/share/images/icon/minus-red.svg";
 import { Span as ThemeSpan } from "@tbook/ui";
 import _ from "lodash";
-import { conf } from "@tbook/share";
+import { conf } from "@tbook/utils";
 
 const {
   grantType,

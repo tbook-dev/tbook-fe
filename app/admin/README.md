@@ -90,3 +90,6 @@ git@github.com:tbook-dev/tbook-fe.git
 ##
 app.tbook.vip
 api.tbook.vip
+
+## 内存不够
+
