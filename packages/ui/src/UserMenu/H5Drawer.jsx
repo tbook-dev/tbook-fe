@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Drawer } from "antd";
 import clsx from "clsx";
 import { useDispatch } from "react-redux";
-import { setCurrentProjectId } from "@/store/user";
+import { user } from "@tbook/store";
 import switchIcon from "@tbook/share/images/icon/switch-plan.png";
 import { useCurrentProjectId, useProjects ,useCurrentProject } from "@tbook/hooks";
 import { PlusOutlined } from "@ant-design/icons";
@@ -11,6 +11,7 @@ import Avator from "./Avator";
 import Info from "./Info";
 import { useNavigate } from "react-router-dom";
 
+const { setCurrentProjectId } = user;
 export default function ({ open, setOpen }) {
   const [expanded, setExpaned] = useState(false);
   const dispatch = useDispatch();

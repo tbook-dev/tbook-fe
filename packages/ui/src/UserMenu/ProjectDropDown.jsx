@@ -4,10 +4,11 @@ import clsx from "clsx";
 import { useProjects , useCurrentProject } from "@tbook/hooks";
 import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
-import { setCurrentProjectId } from "@/store/user";
+import { user } from "@tbook/store";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+const { setCurrentProjectId } = user;
 
 export default function ({ children }) {
   const dispatch = useDispatch();

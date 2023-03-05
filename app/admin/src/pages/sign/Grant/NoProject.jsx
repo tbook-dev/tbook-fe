@@ -2,9 +2,11 @@ import grante403 from "@tbook/share/images/incentive/grantee403.png";
 import mgrante403 from "@tbook/share/images/incentive/mgrantee403.png";
 import { useResponsive } from "ahooks";
 import { useEffect } from 'react';
-import { setLessNav } from '@/store/user'
+import { user } from "@tbook/store";
 import { useDispatch } from "react-redux";
 
+
+const { setLessNav } = user;
 
 export default function () {
   const { pc } = useResponsive();

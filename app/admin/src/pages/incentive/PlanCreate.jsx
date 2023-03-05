@@ -5,7 +5,7 @@ import AppConfigProvider from "@/theme/AppConfigProvider";
 import { CheckOutlined, InfoCircleOutlined, FormOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { createTIP, createProject } from "@/api/incentive";
-import { fetchUserInfo, setCurrentProjectId } from "@/store/user";
+import { user } from "@tbook/store";
 import { useCurrentProjectId, useCurrentProject, useProjectAudience } from "@tbook/hooks";
 import _ from "lodash";
 import { useResponsive } from "ahooks";
@@ -18,7 +18,7 @@ import Banner from "../component/banner";
 import { conf } from "@tbook/utils";
 
 const { defaultErrorMsg, chains, formatDollar } = conf;
-
+const { fetchUserInfo, setCurrentProjectId } = user;
 const { NetWork } = Icon;
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
