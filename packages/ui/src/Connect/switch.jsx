@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 
 
 // type = [button,logo]
-export default function ({
+export default function Switch ({
   type = "button",
   networkId,
   placement = "bottomRight",

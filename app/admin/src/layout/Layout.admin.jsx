@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import Back from "@/components/back";
+import { Back } from "@tbook/ui";
 import { useLocation } from "react-router-dom";
 import { useResponsive } from "ahooks";
 

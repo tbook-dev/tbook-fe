@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import Button from "@/components/button";
+import Button from "../Button";
 import { useWallet, ConnectModal } from "@suiet/wallet-kit";
-
-import useSignIn from "@/hooks/useSignIn";
+import Switch from "./switch";
+import SwitchV0 from "./switchV0";
+import { useSignIn } from "@tbook/hooks";
 
 import SwitchNet from "./switch";
 import { useSelector } from "react-redux";
 import { useResponsive } from "ahooks";
 
-export default function () {
+
+function Connect () {
   const { loading, handleSignIn } = useSignIn();
   const { pc } = useResponsive();
   const showLessNav = useSelector((state) => state.user.showLessNav);
@@ -40,3 +42,10 @@ export default function () {
     </>
   );
 }
+
+
+
+Connect.Switch = Switch;
+Connect.SwitchV0 = SwitchV0;
+
+export default Connect;

@@ -1,6 +1,6 @@
 export { default as Back } from './Back';
 export { default as Button } from './Button';
-// export { default as Connect } from './Connect';
+export { default as Connect } from './Connect';
 
 export { default as Empty } from './Empty';
 // export { default as Icon } from './Icon';

@@ -12,7 +12,9 @@ import { publicProvider } from 'wagmi/providers/public'
 import { mainnet, bsc } from "wagmi/chains";
 
 import {ConnectButton, useAccountBalance, useWallet, useCoinBalance, useChain, SuiChainId} from "@suiet/wallet-kit";
-import { reset } from "../store/user";
+import { user } from "@tbook/store";
+
+const { reset } = user;
 
 const chains = [mainnet, bsc];
 
