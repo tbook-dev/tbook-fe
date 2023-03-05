@@ -3,14 +3,13 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { useAsyncEffect } from "ahooks";
 import "@tbook/share/css/style.css";
 import { useDispatch } from "react-redux";
-import { fetchUserInfo } from "@/store/user";
+import { user } from "@tbook/store";
 import { match } from "path-to-regexp";
 
 // import PageNotFound from "./pages/utility/PageNotFound";
 import LayoutV1 from "./layout/Layout.admin";
 import LayoutV2 from "./layout/Layout.grantee";
 import { configResponsive } from 'ahooks';
-
 import routes from "./router";
 import { Spin } from "antd";
 
@@ -19,7 +18,10 @@ import { watchAccount, getAccount, fetchSigner } from "wagmi/actions";
 import { Web3Modal } from "@web3modal/react";
 import { WalletProvider, SuietWallet } from '@suiet/wallet-kit';
 import '@suiet/wallet-kit/style.css';
-import { wagmiClient, ethereumClient, changeAccountSignIn, logout } from "./utils/web3";
+import { web3 } from '@tbook/utils';
+
+const { wagmiClient, ethereumClient, changeAccountSignIn, logout } =  web3;
+const  { fetchUserInfo } = user;
 
 configResponsive({
   pc: 1120,

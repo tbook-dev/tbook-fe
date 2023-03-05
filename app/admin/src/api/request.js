@@ -1,6 +1,9 @@
-import { setAuthUser } from "../store/user";
+// import { setAuthUser } from "../store/user";
+import { user } from "@tbook/store";
 import { message } from "antd";
 let store;
+
+const { setAuthUser } = user;
 
 export const injectStore = (_store) => {
   store = _store;
