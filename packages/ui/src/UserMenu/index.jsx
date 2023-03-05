@@ -17,7 +17,7 @@ export default function () {
   const showLessNav = useSelector((state) => state.user.showLessNav);
 
   return (
-    <div className="relative inline-flex">
+    <div className="relative flex">
       {Array.isArray(projects) &&
         projects.length > 0 &&
         (showLessNav ? null : pc ? (

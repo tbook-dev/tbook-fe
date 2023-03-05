@@ -5,7 +5,9 @@ import { useSelector } from "react-redux";
 import components from "./conf";
 
 export default function ({ children }) {
-  const userTheme = useSelector((state) => state.user.theme);
+  const userTheme = useSelector((state) => {
+    return state.user.theme
+  });
   // console.log(userTheme);
   return (
     <ConfigProvider

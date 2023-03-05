@@ -1,12 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { ls } from "@tbook/utils";
+import { getUserInfo } from "@/api/incentive";
 const { getCurrentProjectId, saveCurrentProjectId, setCurrentTheme, getCurrentTheme } = ls;
-
-const host = import.meta.env.VITE_API_HOST;
-
-const getUserInfo = async function () {
-  return fetch(`${host}/info`, { credentials: "include" }).then((res) => res.json());
-};
 
 const initialState = {
   value: 0,

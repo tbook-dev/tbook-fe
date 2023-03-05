@@ -10,7 +10,7 @@ import GrantTable from "./GrantTable";
 import { Button, Drawer, Space } from "antd";
 import { Empty } from "@tbook/ui";
 import { useAsyncEffect, useResponsive } from "ahooks";
-import { useCurrentProjectId, useUserInfoLoading, useProjects } from "@tboook/hooks";
+import { useCurrentProjectId, useUserInfoLoading, useProjects } from "@tbook/hooks";
 import _ from "lodash";
 import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
 import { useDispatch, useSelector } from "react-redux";

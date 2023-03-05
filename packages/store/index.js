@@ -1,1 +1,1 @@
-export { default as user } from './lib/user'
+export * as user from './lib/user'

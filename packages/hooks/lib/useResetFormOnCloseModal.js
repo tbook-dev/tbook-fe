@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export const useResetFormOnCloseModal = ({ form, open }) => {
+const useResetFormOnCloseModal = ({ form, open }) => {
   const prevOpenRef = useRef();
   useEffect(() => {
     prevOpenRef.current = open;
@@ -12,3 +12,4 @@ export const useResetFormOnCloseModal = ({ form, open }) => {
     }
   }, [form, prevOpen, open]);
 };
+export default useResetFormOnCloseModal;

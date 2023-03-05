@@ -4,7 +4,7 @@ import { injectStore } from '../api/request'
 
 export const store = configureStore({
   reducer: {
-    user,
+    user: user.default,
   },
 });
 injectStore(store);
