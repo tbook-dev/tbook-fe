@@ -1,5 +1,5 @@
-import Button from "@/components/button";
-import useSignIn from "@/hooks/useSignIn";
+import { Button } from "@tbook/ui";
+import { useSignIn } from "@tbook/hooks";
 
 export default function ({ pc }) {
   const { loading, handleSignIn } = useSignIn();

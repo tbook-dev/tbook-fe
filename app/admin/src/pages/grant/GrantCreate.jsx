@@ -14,7 +14,7 @@ import {
   Drawer,
   message,
 } from "antd";
-import Switch from "@/components/switch";
+import { Switch } from "@tbook/ui";
 import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import {
   getTIPInfo,
@@ -26,7 +26,27 @@ import {
   updateGrantInfo,
 } from "@/api/incentive";
 import { useSelector } from "react-redux";
-import {
+
+import useFindAudience from "@/hooks/useFindAudience";
+import GranteeFrom from "../incentive/GranteeForm";
+import dayjs from "dayjs";
+import { useAsyncEffect, useResponsive } from "ahooks";
+import BorderModalContent from "../component/BorderModalContent";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { useCurrentProjectId } from "@tbook/hooks";
+import grantIcon from "@tbook/share/images/incentive/grant.svg";
+import Plan from "./plan";
+// import Title from "../component/Title";
+import Banner from "../component/banner";
+import Spot from "./spot";
+import clsx from "clsx";
+import minusIconp from "@tbook/share/images/icon/minus-gray.svg";
+import minusIcon from "@tbook/share/images/icon/minus-red.svg";
+import { Span as ThemeSpan } from "@tbook/ui";
+import _ from "lodash";
+import { conf } from "@tbook/share";
+
+const {
   grantType,
   dateFormat,
   periodMap,
@@ -37,24 +57,7 @@ import {
   timeLengthList,
   vestingOccursOptions,
   getDividePercent,
-} from "@/utils/const";
-import useFindAudience from "@/hooks/useFindAudience";
-import GranteeFrom from "../incentive/GranteeForm";
-import dayjs from "dayjs";
-import { useAsyncEffect, useResponsive } from "ahooks";
-import BorderModalContent from "../component/BorderModalContent";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import useCurrentProjectId from "@/hooks/useCurrentProjectId";
-import grantIcon from "@tbook/share/images/incentive/grant.svg";
-import Plan from "./plan";
-// import Title from "../component/Title";
-import Banner from "../component/banner";
-import Spot from "./spot";
-import clsx from "clsx";
-import minusIconp from "@tbook/share/images/icon/minus-gray.svg";
-import minusIcon from "@tbook/share/images/icon/minus-red.svg";
-import ThemeSpan from "@/components/span";
-import _ from "lodash";
+} = conf;
 
 dayjs.extend(customParseFormat);
 const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
@@ -904,7 +907,7 @@ function GrantCreate() {
                                             const plans = form.getFieldValue("periodsPlan");
                                             console.log({ plans });
 
-                                            form.setFieldValue(["periodsPlan", plans.length - 1, 'timeUnit'],3);
+                                            form.setFieldValue(["periodsPlan", plans.length - 1, "timeUnit"], 3);
                                           }}
                                           block
                                           className="!flex items-center justify-center"

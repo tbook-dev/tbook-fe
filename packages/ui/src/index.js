@@ -3,7 +3,7 @@ export { default as Button } from './Button';
 export { default as Connect } from './Connect';
 
 export { default as Empty } from './Empty';
-// export { default as Icon } from './Icon';
+export *  as Icon  from './Icon';
 
 export { default as Span } from './Span';
 

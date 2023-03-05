@@ -26,7 +26,7 @@ import _ from "lodash";
 import { useResponsive } from "ahooks";
 import AvatarWallet from "./avatarWallet";
 // import useProjects from "@/hooks/useProjects";
-import NetWork from "@/components/icon/NetWork";
+import { Icon } from "@tbook/ui";
 import planIcon from "@tbook/share/images/incentive/plan.svg";
 import { useParams } from "react-router-dom";
 import { useNetwork } from "wagmi";
@@ -35,6 +35,7 @@ import useProjectAudience from "@/hooks/useProjectAudience";
 import { conf} from "@tbook/utils";
 
 const { defaultErrorMsg } = conf;
+const { NetWork } = Icon;
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 

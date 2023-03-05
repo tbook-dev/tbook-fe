@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "mian":"./src/index.js",
+  "main":"./src/index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

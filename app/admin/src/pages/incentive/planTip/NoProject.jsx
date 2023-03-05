@@ -1,4 +1,4 @@
-import Button from "@/components/button";
+import { Button } from "@tbook/ui";
 import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 

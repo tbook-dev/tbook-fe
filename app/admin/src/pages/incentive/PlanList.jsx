@@ -1,26 +1,20 @@
-import React, { useState, useReducer,useEffect, useCallback } from "react";
+import React, { useState, useReducer, useEffect, useCallback } from "react";
 import { NavLink, Link, useNavigate, useSearchParams } from "react-router-dom";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
-import {
-  PlusOutlined,
-  AppstoreOutlined,
-  BarsOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, AppstoreOutlined, BarsOutlined } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
 import { Button, Drawer, Space } from "antd";
-import Empty from "@/components/empty";
+import { Empty } from "@tbook/ui";
 import { useAsyncEffect, useResponsive } from "ahooks";
-import useCurrentProjectId from "@/hooks/useCurrentProjectId";
-import useUserInfoLoading from "@/hooks/useUserInfoLoading";
-import useProjects from "@/hooks/useProjects";
+import { useCurrentProjectId, useUserInfoLoading, useProjects } from "@tboook/hooks";
 import _ from "lodash";
 import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
 import { useDispatch, useSelector } from "react-redux";
-import { setAuthUser, fetchUserInfo } from "@/store/user";
+import { user } from "@tbook/store";
 import clsx from "clsx";
 import PlanCard from "./planCard/Active";
 import GrantCard from "./grantCard";
@@ -32,6 +26,8 @@ import dayjs from "dayjs";
 import { useSigner, useAccount } from "wagmi";
 import PlanTipNoConnect from "./planTip/NoConnect";
 import PlanTipNoProject from "./planTip/NoProject";
+
+const { setAuthUser, fetchUserInfo } = user;
 
 function PlanList() {
   const [swiper, setSwiper] = useState(null);
@@ -81,19 +77,13 @@ function PlanList() {
     // format
     updateTipList(list1);
     // grants
-    const list2 = await Promise.all(
-      list1.map((tip) => getTipGrantList(tip.incentivePlanId))
-    );
+    const list2 = await Promise.all(list1.map((tip) => getTipGrantList(tip.incentivePlanId)));
     let activeIdx = list1.findIndex((t) => t.incentivePlanId == selectedTipId);
     if (activeIdx === -1) {
       const list2Formated = _.cloneDeep(list2)
         ?.map((planGrants) => {
           const sortedList = planGrants.sort((a, b) => {
-            return dayjs(a?.grant?.updateTime).isBefore(
-              dayjs(b?.grant?.updateTime)
-            )
-              ? -1
-              : 1;
+            return dayjs(a?.grant?.updateTime).isBefore(dayjs(b?.grant?.updateTime)) ? -1 : 1;
           });
           const lastOne = sortedList.pop();
           return lastOne;
@@ -101,11 +91,7 @@ function PlanList() {
         .map((item, idx) => ({ ...item, idx }))
         .filter((item) => item.grant)
         .sort((a, b) => {
-          return dayjs(a?.grant?.updateTime).isBefore(
-            dayjs(b?.grant?.updateTime)
-          )
-            ? 1
-            : -1;
+          return dayjs(a?.grant?.updateTime).isBefore(dayjs(b?.grant?.updateTime)) ? 1 : -1;
         });
       activeIdx = list2Formated[0]?.idx || 0;
       // console.log(list2Formated[0].incentivePlanId)`
@@ -154,9 +140,7 @@ function PlanList() {
         }}
       >
         <div className="flex items-center justify-between mb-2 lg:mb-6">
-          <h2 className="font-bold text-ch1 lg:text-cwh1 dark:text-white">
-            Incentive Plans
-          </h2>
+          <h2 className="font-bold text-ch1 lg:text-cwh1 dark:text-white">Incentive Plans</h2>
 
           {authUser && tipList.length > 0 && (
             <Link to="/create/plan">
@@ -164,12 +148,8 @@ function PlanList() {
                 type="button"
                 className="flex items-center justify-center w-8 h-8 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md lg:w-40 lg:h-10 lg:dark:bg-white lg:rounded-lg dark:text-black shadow-d3 lg:hover:text-white lg:hover:bg-cw1 lg:hover:shadow-d7"
               >
-                <PlusOutlined
-                  style={pc ? null : { color: "#69D0E5", fontSize: "16px" }}
-                />
-                <span className="ml-2 text-[14px] hidden lg:inline">
-                  New Plan
-                </span>
+                <PlusOutlined style={pc ? null : { color: "#69D0E5", fontSize: "16px" }} />
+                <span className="ml-2 text-[14px] hidden lg:inline">New Plan</span>
               </button>
             </Link>
           )}
@@ -183,10 +163,7 @@ function PlanList() {
           ) : !authUser ? (
             <PlanTipNoConnect pc={pc} />
           ) : projects.length === 0 || tipList.length === 0 ? (
-            <PlanTipNoProject
-              pc={pc}
-              link={projects.length === 0 ? "/create/project" : "/create/plan"}
-            />
+            <PlanTipNoProject pc={pc} link={projects.length === 0 ? "/create/project" : "/create/plan"} />
           ) : (
             <>
               <div className="hidden lg:flex lg:justify-center lg:items-center absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>
@@ -219,10 +196,7 @@ function PlanList() {
                 {Array.isArray(tipList) &&
                   tipList.map((tip) => {
                     return (
-                      <SwiperSlide
-                        key={tip.incentivePlanId}
-                        style={{ width: "auto", cursor: "pointer" }}
-                      >
+                      <SwiperSlide key={tip.incentivePlanId} style={{ width: "auto", cursor: "pointer" }}>
                         <div
                           style={{ padding: "4px 4px" }}
                           onClick={() => {
@@ -232,11 +206,7 @@ function PlanList() {
                             });
                           }}
                         >
-                          <PlanCard
-                            isActive={filters.Plan === tip.incentivePlanId}
-                            tip={tip}
-                            pc={pc}
-                          />
+                          <PlanCard isActive={filters.Plan === tip.incentivePlanId} tip={tip} pc={pc} />
                         </div>
                       </SwiperSlide>
                     );
@@ -260,17 +230,13 @@ function PlanList() {
       {pc ? (
         <div className="hidden lg:block">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-[32px] lg:text-cwh2 dark:text-white font-bold">
-              Grants
-            </h2>
+            <h2 className="text-[32px] lg:text-cwh2 dark:text-white font-bold">Grants</h2>
 
             {userLoading || grantLoading ? null : (
               <button
                 type="button"
                 disabled={filters.Plan === null || filters.Plan === undefined}
-                onClick={() =>
-                  navigate(`/incentive/grant/${filters.Plan}/create`)
-                }
+                onClick={() => navigate(`/incentive/grant/${filters.Plan}/create`)}
                 className="flex items-center justify-center text-xs font-medium leading-normal transition duration-150 ease-in-out lg:w-40 lg:h-10 dark:bg-white lg:rounded-lg dark:text-black shadow-d3 hover:text-white hover:bg-cw1 hover:shadow-d7 dark:disabled:bg-b-1 dark:disabled:text-b-2 hover:disabled:bg-none hover:disabled:shadow-none"
               >
                 <PlusOutlined />
@@ -313,28 +279,19 @@ function PlanList() {
           )} */}
 
           <div className="hidden lg:block">
-            {displayType === 1 && (
-              <GrantTable
-                list={filterGrantList(grantList)}
-                loading={grantLoading}
-              />
-            )}
+            {displayType === 1 && <GrantTable list={filterGrantList(grantList)} loading={grantLoading} />}
 
             {displayType === 0 && (
               <div
                 className={clsx(
                   "grid gap-x-2 gap-y-3",
-                  filterGrantList(grantList).length > 0
-                    ? "grid-cols-4"
-                    : "grid-cols-1"
+                  filterGrantList(grantList).length > 0 ? "grid-cols-4" : "grid-cols-1"
                 )}
               >
                 {userLoading || grantLoading ? (
                   <Spin />
                 ) : filterGrantList(grantList).length > 0 ? (
-                  filterGrantList(grantList).map((grant) => (
-                    <GrantCardV2 grant={grant} key={grant.grant.grantId} />
-                  ))
+                  filterGrantList(grantList).map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
                 ) : (
                   <div className="h-[272px] rounded-xl bg-white dark:bg-b-1 flex items-center justify-center">
                     <Empty />
@@ -367,9 +324,7 @@ function PlanList() {
               <button
                 type="button"
                 disabled={filters.Plan === null || filters.Plan === undefined}
-                onClick={() =>
-                  navigate(`/incentive/grant/${filters.Plan}/create`)
-                }
+                onClick={() => navigate(`/incentive/grant/${filters.Plan}/create`)}
                 className="flex items-center justify-center h-10 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md w-60 dark:disabled:bg-none	dark:bg-cw1 dark:text-black shadow-d3 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
               >
                 <PlusOutlined />
@@ -404,17 +359,13 @@ function PlanList() {
           <div
             className={clsx(
               "grid gap-x-2 gap-y-2",
-              filterGrantList(grantList).length > 0
-                ? "grid-cols-2"
-                : "grid-cols-1"
+              filterGrantList(grantList).length > 0 ? "grid-cols-2" : "grid-cols-1"
             )}
           >
             {userLoading || grantLoading ? (
               <Spin />
             ) : filterGrantList(grantList).length > 0 ? (
-              filterGrantList(grantList).map((grant) => (
-                <GrantCard grant={grant} key={grant.grant.grantId} />
-              ))
+              filterGrantList(grantList).map((grant) => <GrantCard grant={grant} key={grant.grant.grantId} />)
             ) : (
               <div className="h-[222px] rounded-lg bg-white dark:bg-b-1 flex items-center justify-center">
                 <Empty description="No grant" />
