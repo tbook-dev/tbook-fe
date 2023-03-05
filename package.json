@@ -5,6 +5,9 @@
   "main": "index.js",
   "keywords": [],
   "author": "",
+  "scripts": {
+    "dev": "pnpm --filter @tbook/admin  run dev"
+  },
   "dependencies": {
     "@ant-design/cssinjs": "^1.2.0",
     "@ant-design/icons": "^4.8.0",
