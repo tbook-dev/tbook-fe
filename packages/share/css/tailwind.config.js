@@ -7,6 +7,7 @@ module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/@tbook/ui/**/*.{js,jsx,ts,tsx}",
     "./node_modules/tw-elements/dist/js/**/*.js",
   ],
   theme: {
