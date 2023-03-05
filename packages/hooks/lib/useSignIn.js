@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { signLoginMetaMask, logout } from "@/utils/web3";
 import { useDispatch } from "react-redux";
-import { setAuthUser, fetchUserInfo } from "@/store/user";
-import { chains } from "@/utils/const";
+import { user } from "@tbook/store";
 import { useWeb3Modal } from "@web3modal/react";
 import {
   useAccount,
@@ -23,8 +22,9 @@ import {
   ConnectModal,
 } from "@suiet/wallet-kit";
 
-import { useResponsive } from "ahooks";
 
+import { useResponsive } from "ahooks";
+const { setAuthUser, fetchUserInfo } = user;
 export default function () {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();

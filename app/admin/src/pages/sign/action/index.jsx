@@ -1,5 +1,4 @@
-import { shortAddress } from "@/utils/const";
-import { Typography, Button, Spin } from "antd";
+import { Typography, Spin } from "antd";
 import { useSelector } from "react-redux";
 import { useConnect, useAccount, useSignMessage } from "wagmi";
 import doneIcon from "@tbook/share/images/icon/done.svg";
@@ -8,7 +7,9 @@ import { useWeb3Modal } from "@web3modal/react";
 import clsx from "clsx";
 import { useParams } from "react-router-dom";
 import copyIcon from "@tbook/share/images/icon/copy.svg";
+import { conf } from "@tbook/utils";
 
+const { shortAddress } = conf;
 const { Paragraph } = Typography;
 
 export default function ({ signStatus, signList, setSignList }) {

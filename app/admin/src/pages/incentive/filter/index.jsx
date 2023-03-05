@@ -1,6 +1,7 @@
-import { grantStatusList, grantType } from "@/utils/const";
 import React from "react";
 import clsx from "clsx";
+import { conf } from "@tbook/utils";
+const { grantStatusList, grantType } = conf;
 
 const getFilterOpitons = (plans) => {
   return [

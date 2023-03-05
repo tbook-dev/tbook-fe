@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Drawer } from "antd";
 import Button from "../Button";
-import { chains } from "@/utils/const";
 import Network from "../Icon/NetWork";
 import { useNetwork, useSwitchNetwork } from "wagmi";
 import { useResponsive } from "ahooks";
@@ -9,6 +8,9 @@ import { Popover } from "antd";
 import clsx from "clsx";
 import { logout } from "@/utils/web3";
 import { useDispatch } from "react-redux";
+import { conf } from "@tbook/utils";
+
+const { chains } = conf;
 
 // type = [button,logo]
 export default function Switch({ type = "button", networkId, placement = "bottomRight" }) {

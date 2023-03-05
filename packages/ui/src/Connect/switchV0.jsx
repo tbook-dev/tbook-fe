@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { chains } from "@/utils/const";
+import { conf } from "@tbook/utils";
 import Network from "../Icon/NetWork";
 import { useNetwork, useSwitchNetwork } from "wagmi";
 import { useResponsive } from "ahooks";
@@ -8,7 +8,7 @@ import clsx from "clsx";
 import { logout } from "@/utils/web3";
 import { useDispatch } from "react-redux";
 import { DownOutlined } from "@ant-design/icons";
-
+const { chains } = conf;
 // type = [button,logo]
 export default function ({ networkId, placement = "bottomRight" }) {
   const { pc } = useResponsive();

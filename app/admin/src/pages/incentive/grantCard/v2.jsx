@@ -1,13 +1,9 @@
-import {
-  shortAddress,
-  grantStatusList,
-  grantType,
-  dateFormat,
-} from "@/utils/const";
 import { useMemo } from "react";
-import { getLastVested, formatDollar } from "@/utils/const";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { conf } from "@tbook/utils";
+
+const { shortAddress, grantStatusList, grantType, getLastVested, formatDollar } = conf;
 
 // const v = [
 //     {
@@ -47,16 +43,12 @@ export default function ({ grant }) {
       },
       {
         label: "Latest Vesting",
-        render: () =>
-          getLastVested(grant?.grant?.vestingSchedule?.vestingDetail)?.date ||
-          "-",
+        render: () => getLastVested(grant?.grant?.vestingSchedule?.vestingDetail)?.date || "-",
       },
       {
         label: "Vesting Type",
         render: () => {
-          const type = grantType.find(
-            (item) => item.value === grant?.grant?.grantType
-          );
+          const type = grantType.find((item) => item.value === grant?.grant?.grantType);
           return (
             <div className="flex justify-end">
               <img src={type?.icon} className="mr-1" />
@@ -69,9 +61,7 @@ export default function ({ grant }) {
     [grant]
   );
 
-  const status = grantStatusList.find(
-    (item) => grant.grant?.grantStatus === item.value
-  );
+  const status = grantStatusList.find((item) => grant.grant?.grantStatus === item.value);
 
   return (
     <Link
@@ -100,12 +90,8 @@ export default function ({ grant }) {
           </div>
 
           <div className="flex flex-col justify-center flex-none">
-            <h3 className="text-ellipsis text-c6 max-w-[130px] truncate text-b-8">
-              {grant?.grantee?.name}
-            </h3>
-            <p className="truncate text-ellipsis text-c1 text-b-8">
-              {shortAddress(grant?.grantee?.mainWallet)}
-            </p>
+            <h3 className="text-ellipsis text-c6 max-w-[130px] truncate text-b-8">{grant?.grantee?.name}</h3>
+            <p className="truncate text-ellipsis text-c1 text-b-8">{shortAddress(grant?.grantee?.mainWallet)}</p>
           </div>
         </div>
 
@@ -119,10 +105,7 @@ export default function ({ grant }) {
         <div className="px-2 space-y-3">
           {conf.map((v) => {
             return (
-              <div
-                key={v.label}
-                className="grid grid-cols-2 text-[14px] leading-[22px]"
-              >
+              <div key={v.label} className="grid grid-cols-2 text-[14px] leading-[22px]">
                 <div className="truncate">{v.label}</div>
                 <div className="text-right text-white truncate">
                   <v.render />

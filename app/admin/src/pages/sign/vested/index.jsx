@@ -1,6 +1,7 @@
 import { useResponsive } from "ahooks";
-import { formatDollar, getLastVested } from "@/utils/const";
+import { conf } from "@tbook/utils";
 
+const { formatDollar, getLastVested } = conf;
 export default function ({ scheduleInfo }) {
   // const { pc } = useResponsive();
   const list = [

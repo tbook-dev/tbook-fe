@@ -1,11 +1,14 @@
 import React, { useState, useCallback } from "react";
 import clsx from "clsx";
-import { personalPropertyList } from "@/utils/const";
+import { conf } from "@tbook/utils";
 import { getUserAssets } from "@/api/incentive";
 import { useAsyncEffect } from "ahooks";
 import { Statistic, Progress } from "antd";
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
+
+
+const { personalPropertyList } = conf;
 
 export default function PersonalProperty() {
   const [currentNav, setNav] = useState(null);

@@ -1,10 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useAccount, useEnsName } from "wagmi";
-import { shortAddress } from "@/utils/const";
+import { conf } from "@tbook/utils";
 import clsx from "clsx";
 import NetWork from "../Icon/NetWork";
 
+const { shortAddress } = conf;
 function Avator({ setOpen, open, id }) {
   const userStore = useSelector((state) => state.user.user);
   const { address } = useAccount();

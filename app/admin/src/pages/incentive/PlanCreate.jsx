@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom";
 import { Button, Form, Input, Select, Tooltip, InputNumber, Divider, message } from "antd";
 import AppConfigProvider from "@/theme/AppConfigProvider";
 import { CheckOutlined, InfoCircleOutlined, FormOutlined } from "@ant-design/icons";
-import { chains, formatDollar } from "@/utils/const";
 import { useSelector, useDispatch } from "react-redux";
 import { createTIP, createProject } from "@/api/incentive";
 import { fetchUserInfo, setCurrentProjectId } from "@/store/user";
@@ -18,7 +17,8 @@ import { useNetwork } from "wagmi";
 import Banner from "../component/banner";
 import { conf } from "@tbook/utils";
 
-const { defaultErrorMsg } = conf;
+const { defaultErrorMsg, chains, formatDollar } = conf;
+
 const { NetWork } = Icon;
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };

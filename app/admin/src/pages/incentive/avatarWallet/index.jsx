@@ -1,5 +1,5 @@
-import { shortAddress } from '@/utils/const' 
-
+import { conf } from "@tbook/utils";
+const { shortAddress } = conf;
 
 export default function ({ avatar, name, mainWallet }) {
   return (

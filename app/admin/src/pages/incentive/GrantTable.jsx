@@ -1,8 +1,9 @@
 import React from "react";
 import { Table, ConfigProvider, Empty } from "antd";
-import { grantStatusList, grantType, formatDollar } from "@/utils/const";
+import { conf } from "@tbook/utils";
 import { Link } from "react-router-dom";
-import { shortAddress } from "@/utils/const";
+
+const { grantStatusList, grantType, formatDollar, shortAddress } = conf;
 
 export default function ({ list = [], loading = false }) {
   const columns = [
@@ -22,10 +23,7 @@ export default function ({ list = [], loading = false }) {
       render(_, record) {
         return (
           <div className="flex">
-            <img
-              src={record?.grantee?.avatar}
-              className="w-[40px] h-[40px] rounded-full mr-1.5"
-            />
+            <img src={record?.grantee?.avatar} className="w-[40px] h-[40px] rounded-full mr-1.5" />
             <div className="flex flex-col justify-center flex-none">
               <h3 className="text-ellipsis w-max-[130px]	truncate font-bold text-[#202124] text-base">
                 {record?.grantee?.name}
@@ -43,14 +41,10 @@ export default function ({ list = [], loading = false }) {
       // className:"flex justify-center",
       render(_, record) {
         const stauts = record?.grant?.grantStatus;
-        const content = grantStatusList
-          .find((item) => stauts === item.value)
-          ?.render();
+        const content = grantStatusList.find((item) => stauts === item.value)?.render();
         // Draft-编辑操作-跳转对应grant创建编辑页
         // signing的是链接
-        return (
-          <Link to={`/grants/${record.grant?.grantId}/sign`}>{content}</Link>
-        );
+        return <Link to={`/grants/${record.grant?.grantId}/sign`}>{content}</Link>;
       },
     },
     {
@@ -64,9 +58,7 @@ export default function ({ list = [], loading = false }) {
       title: "VESTING BY",
       align: "center",
       render(_, record) {
-        const type = grantType.find(
-          (item) => item.value === record?.grant?.grantType
-        );
+        const type = grantType.find((item) => item.value === record?.grant?.grantType);
         return (
           <div className="flex">
             {type?.label}
@@ -121,12 +113,6 @@ export default function ({ list = [], loading = false }) {
   ];
 
   return (
-    <Table
-      bordered
-      loading={loading}
-      columns={columns}
-      rowKey={(record) => record?.grant?.grantId}
-      dataSource={list}
-    />
+    <Table bordered loading={loading} columns={columns} rowKey={(record) => record?.grant?.grantId} dataSource={list} />
   );
 }

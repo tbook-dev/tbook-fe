@@ -1,10 +1,9 @@
-import { shortAddress, grantStatusList, grantType, dateFormat } from "@/utils/const";
 import { useMemo } from "react";
-import { formatThousands } from "@/utils/Utils";
-import { getLastVested } from "@/utils/const";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { conf } from "@tbook/utils";
 
+const { shortAddress, grantStatusList, grantType, getLastVested, formatDollar }  = conf;
 // const v = [
 //     {
 //         "date": "2023-12-01",
@@ -39,7 +38,7 @@ export default function ({ grant }) {
       },
       {
         label: "Vested",
-        render: () => formatThousands(grant?.vestedAmount),
+        render: () => formatDollar(grant?.vestedAmount),
       },
       {
         label: "Latest Vesting",
@@ -93,7 +92,7 @@ export default function ({ grant }) {
       <div className="grid items-center grid-cols-2 px-1 mb-5">
         <div className="truncate text-c8">Total</div>
         <div className="font-bold text-right truncate text-c9 text-colorful1">
-          {formatThousands(grant?.grant?.grantNum)}
+          {formatDollar(grant?.grant?.grantNum)}
         </div>
       </div>
 
