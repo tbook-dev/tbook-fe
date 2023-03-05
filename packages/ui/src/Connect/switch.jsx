@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {  Drawer } from "antd";
 import Button  from '@/components/button';
 import { chains } from "@/utils/const";
-import Network from "../icon/NetWork";
+import Network from "../Icon/NetWork";
 import { useNetwork, useSwitchNetwork } from "wagmi";
 import { useResponsive } from "ahooks";
 import { Popover } from "antd";

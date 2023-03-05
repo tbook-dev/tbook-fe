@@ -5,7 +5,7 @@ import ProjectDropDown from "./ProjectDropDown";
 import H5Drawer from "./H5Drawer";
 import WebDropDown from "./WebDropDown";
 import clsx from "clsx";
-import switchIcon from "@/images/icon/switch.svg";
+import switchIcon from "@tbook/share/images/icon/switch.svg";
 import useProjects from "@/hooks/useProjects";
 import { useSelector } from "react-redux";
 

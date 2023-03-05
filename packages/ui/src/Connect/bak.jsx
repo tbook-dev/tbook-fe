@@ -5,7 +5,7 @@ import { setAuthUser, fetchUserInfo } from "@/store/user";
 import { Button, Drawer } from "antd";
 import { chains } from "@/utils/const";
 import { useWeb3Modal } from "@web3modal/react";
-import Network from "../icon/NetWork";
+import Network from "../Icon/NetWork";
 import {
   useAccount,
   useConnect,

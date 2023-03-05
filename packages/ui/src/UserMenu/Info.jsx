@@ -1,8 +1,8 @@
 import { useAccount, useEnsName } from "wagmi";
-import NetWork from "../icon/NetWork";
+import NetWork from "../Icon/NetWork";
 import { shortAddress } from "@/utils/const";
 import { logout } from "@/utils/web3";
-import closeIcon from "@/images/icon/close.svg";
+import closeIcon from "@tbook/share/images/icon/close.svg";
 import { useSelector } from "react-redux";
 import useCurrentProject from "@/hooks/useCurrentProject";
 import { chains } from "@/utils/const";

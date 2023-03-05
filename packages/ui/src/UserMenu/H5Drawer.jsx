@@ -4,7 +4,7 @@ import { Drawer } from "antd";
 import clsx from "clsx";
 import { useDispatch } from "react-redux";
 import { setCurrentProjectId } from "@/store/user";
-import switchIcon from "@/images/icon/switch-plan.png";
+import switchIcon from "@tbook/share/images/icon/switch-plan.png";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
 import useProjects from "@/hooks/useProjects";
 import useCurrentProject from "@/hooks/useCurrentProject";

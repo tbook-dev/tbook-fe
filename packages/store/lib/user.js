@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getUserInfo } from "@/api/incentive";
-import { getCurrentProjectId, saveCurrentProjectId, setCurrentTheme, getCurrentTheme  } from "@/api/ls";
+import { ls } from "@tbook/utils";
+
+const { getCurrentProjectId, saveCurrentProjectId, setCurrentTheme, getCurrentTheme } = ls;
 
 const initialState = {
   value: 0,
   authUser: false,
-  showLessNav: false,// 默认导航都展示
+  showLessNav: false, // 默认导航都展示
   authHeader: "",
   loadingUserStatus: false,
   currentProjectId: getCurrentProjectId(),
@@ -35,30 +37,27 @@ const initialState = {
   },
 };
 
-export const fetchUserInfo = createAsyncThunk(
-  `userInfo`,
-  async (showLoading = true, thunkAPI) => {
-    if(showLoading){
-      thunkAPI.dispatch(setLoadingUserStatus(true));
-    }
-    try {
-      return getUserInfo()
-        .then((response) => {
-          // console.log("response", response);
-          thunkAPI.dispatch(setUser(response?.user || {}));
-          thunkAPI.dispatch(setProjects(response?.projects || []));
-        })
-        .catch((err) => {
-          console.log(err, "xxx");
-        })
-        .finally(() => {
-          thunkAPI.dispatch(setLoadingUserStatus(false));
-        });
-    } catch (error) {
-      console.log("error getUserInfo", err);
-    }
+export const fetchUserInfo = createAsyncThunk(`userInfo`, async (showLoading = true, thunkAPI) => {
+  if (showLoading) {
+    thunkAPI.dispatch(setLoadingUserStatus(true));
   }
-);
+  try {
+    return getUserInfo()
+      .then((response) => {
+        // console.log("response", response);
+        thunkAPI.dispatch(setUser(response?.user || {}));
+        thunkAPI.dispatch(setProjects(response?.projects || []));
+      })
+      .catch((err) => {
+        console.log(err, "xxx");
+      })
+      .finally(() => {
+        thunkAPI.dispatch(setLoadingUserStatus(false));
+      });
+  } catch (error) {
+    console.log("error getUserInfo", err);
+  }
+});
 
 export const userSlice = createSlice({
   name: "user",
@@ -84,7 +83,7 @@ export const userSlice = createSlice({
     setLoadingUserStatus: (state, action) => {
       state.loadingUserStatus = action.payload;
     },
-    setTheme: (state, action)=>{
+    setTheme: (state, action) => {
       state.theme = action.payload;
       setCurrentTheme(action.payload);
     },

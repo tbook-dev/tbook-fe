@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useAccount, useEnsName } from "wagmi";
 import { shortAddress } from "@/utils/const";
 import clsx from "clsx";
-import NetWork from "../icon/NetWork";
+import NetWork from "../Icon/NetWork";
 
 function Avator({ setOpen, open, id }) {
   const userStore = useSelector((state) => state.user.user);
