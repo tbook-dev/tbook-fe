@@ -8,7 +8,7 @@ import { useAsyncEffect } from "ahooks";
 import { getIncentiveList } from "@/api/incentive";
 import { useParams, useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import switchIcon from '@/images/icon/switch-plan.png';
+import switchIcon from '@tbook/share/images/icon/switch-plan.png';
 
 const { useToken } = theme;
 

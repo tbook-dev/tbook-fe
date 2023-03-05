@@ -1,6 +1,6 @@
-import eth from "@/images/icon/eth-rainbow.svg";
-import bsc from "@/images/icon/bsc-rainbow.svg";
-// import sui from "@/images/icon/sui-rainbow.svg";
+import eth from "@tbook/share/images/icon/eth-rainbow.svg";
+import bsc from "@tbook/share/images/icon/bsc-rainbow.svg";
+// import sui from "@tbook/share/images/icon/sui-rainbow.svg";
 
 export default function NetWork({ id , ...props }) {
   let url = null

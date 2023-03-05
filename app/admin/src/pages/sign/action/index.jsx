@@ -2,12 +2,12 @@ import { shortAddress } from "@/utils/const";
 import { Typography, Button, Spin } from "antd";
 import { useSelector } from "react-redux";
 import { useConnect, useAccount, useSignMessage } from "wagmi";
-import doneIcon from "@/images/icon/done.svg";
+import doneIcon from "@tbook/share/images/icon/done.svg";
 import { getGrantSignInfo, postGrantSignInfo } from "@/api/incentive";
 import { useWeb3Modal } from "@web3modal/react";
 import clsx from "clsx";
 import { useParams } from "react-router-dom";
-import copyIcon from "@/images/icon/copy.svg";
+import copyIcon from "@tbook/share/images/icon/copy.svg";
 
 const { Paragraph } = Typography;
 

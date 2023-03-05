@@ -1,5 +1,5 @@
 import _ from "lodash";
-// import dateIcon from "@/images/icon/date.svg";
+// import dateIcon from "@tbook/share/images/icon/date.svg";
 import dayjs from "dayjs";
 
 /**

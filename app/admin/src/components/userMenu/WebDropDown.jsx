@@ -5,7 +5,7 @@ import Info from "./Info";
 import useCurrentProject from "@/hooks/useCurrentProject";
 import { chains } from "@/utils/const";
 import NetWork from "../icon/NetWork";
-import back from "@/images/icon/back.svg";
+import back from "@tbook/share/images/icon/back.svg";
 import clsx from "clsx";
 import { logout } from "@/utils/web3";
 import { useSwitchNetwork } from "wagmi";

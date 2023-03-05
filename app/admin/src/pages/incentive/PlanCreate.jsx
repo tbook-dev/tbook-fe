@@ -27,7 +27,7 @@ import { useResponsive } from "ahooks";
 import AvatarWallet from "./avatarWallet";
 // import useProjects from "@/hooks/useProjects";
 import NetWork from "@/components/icon/NetWork";
-import planIcon from "@/images/incentive/plan.svg";
+import planIcon from "@tbook/share/images/incentive/plan.svg";
 import { useParams } from "react-router-dom";
 import { useNetwork } from "wagmi";
 import Banner from "../component/banner";

@@ -1,12 +1,12 @@
 import React, { Suspense, useCallback, useLayoutEffect, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useAsyncEffect } from "ahooks";
-import "./css/style.css";
+import "@tbook/share/css/style.css";
 import { useDispatch } from "react-redux";
 import { fetchUserInfo } from "@/store/user";
 import { match } from "path-to-regexp";
 
-import PageNotFound from "./pages/utility/PageNotFound";
+// import PageNotFound from "./pages/utility/PageNotFound";
 import LayoutV1 from "./layout/Layout.admin";
 import LayoutV2 from "./layout/Layout.grantee";
 import { configResponsive } from 'ahooks';
@@ -77,7 +77,7 @@ function App() {
           );
         })}
 
-        <Route path="*" element={<PageNotFound />} />
+        {/* <Route path="*" element={<PageNotFound />} /> */}
       </Routes>
     </Layout>
     </WagmiConfig>

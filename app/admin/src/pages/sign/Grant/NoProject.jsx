@@ -1,5 +1,5 @@
-import grante403 from "@/images/incentive/grantee403.png";
-import mgrante403 from "@/images/incentive/mgrantee403.png";
+import grante403 from "@tbook/share/images/incentive/grantee403.png";
+import mgrante403 from "@tbook/share/images/incentive/mgrantee403.png";
 import { useResponsive } from "ahooks";
 import { useEffect } from 'react';
 import { setLessNav } from '@/store/user'

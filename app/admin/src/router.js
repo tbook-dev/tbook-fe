@@ -6,11 +6,11 @@ const routes =[
         layout: 'v1',
         component: lazy(() => import('@/pages/incentive/PlanList'))
     },
-    {
-        path: '/dashboard',
-        layout: 'v1',
-        component: lazy(() => import('@/pages/Dashboard'))
-    },
+    // {
+    //     path: '/dashboard',
+    //     layout: 'v1',
+    //     component: lazy(() => import('@/pages/Dashboard'))
+    // },
     {
         path: '/create/:pageType',
         layout: 'v1',

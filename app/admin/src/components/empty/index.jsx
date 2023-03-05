@@ -1,5 +1,5 @@
 import { Empty } from "antd";
-import emptyUrl from "@/images/icon/empty.svg";
+import emptyUrl from "@tbook/share/images/icon/empty.svg";
 
 export default function ({
   description = "No grants",

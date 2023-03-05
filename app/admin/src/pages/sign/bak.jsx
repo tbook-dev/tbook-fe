@@ -21,7 +21,7 @@ import { useSignMessage, useConnect } from "wagmi";
 import { useAccount } from "wagmi";
 import { useWeb3Modal } from "@web3modal/react";
 import Banner from "../component/banner";
-import signIcon from "@/images/incentive/sign.svg";
+import signIcon from "@tbook/share/images/incentive/sign.svg";
 import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 
 const { Paragraph } = Typography;

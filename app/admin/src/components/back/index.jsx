@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import backIcon from "@/images/icon/h5-back.svg";
+import backIcon from "@tbook/share/images/icon/h5-back.svg";
 import { useSelector } from "react-redux";
 
 // 56+12=68px

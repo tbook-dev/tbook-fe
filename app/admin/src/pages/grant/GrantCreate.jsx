@@ -45,14 +45,14 @@ import { useAsyncEffect, useResponsive } from "ahooks";
 import BorderModalContent from "../component/BorderModalContent";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import useCurrentProjectId from "@/hooks/useCurrentProjectId";
-import grantIcon from "@/images/incentive/grant.svg";
+import grantIcon from "@tbook/share/images/incentive/grant.svg";
 import Plan from "./plan";
 // import Title from "../component/Title";
 import Banner from "../component/banner";
 import Spot from "./spot";
 import clsx from "clsx";
-import minusIconp from "@/images/icon/minus-gray.svg";
-import minusIcon from "@/images/icon/minus-red.svg";
+import minusIconp from "@tbook/share/images/icon/minus-gray.svg";
+import minusIcon from "@tbook/share/images/icon/minus-red.svg";
 import ThemeSpan from "@/components/span";
 import _ from "lodash";
 
