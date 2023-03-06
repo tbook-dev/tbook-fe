@@ -170,14 +170,13 @@ function GrantSign() {
               label: "Vesting Frequency",
               value: `${grantInfo.vestingFrequency}  ${periodMap[grantInfo.vestingPeriod]}`,
             },
-
             {
               label: "Cliff Duration",
-              value: `${grantInfo.cliffTime} ${periodMap[grantInfo.cliffPeriod]}`,
+              value: grantInfo.cliffTime ? `${grantInfo.cliffTime} ${periodMap[grantInfo.cliffPeriod]}` : null,
             },
             {
               label: "Cliff Amount",
-              value: `${grantInfo.cliffAmount}%`,
+              value: grantInfo.cliffAmount ? `${grantInfo.cliffAmount}%` : null,
             },
           ]
         : []),
