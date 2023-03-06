@@ -131,7 +131,7 @@ function PlanList() {
 
             <div className="block space-y-1 lg:flex lg:justify-between">
               {infoList.map((info, idx) => (
-                <div className="flex flex-row items-center justify-between lg:block" key={idx}>
+                <div className="flex flex-row-reverse items-center justify-between lg:block" key={idx}>
                   <div>
                     <info.value />
                   </div>
