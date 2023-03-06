@@ -12,7 +12,7 @@ import { conf } from "@tbook/utils";
 import DarkProvider from "@/theme/DarkProvider";
 
 const { chains } = conf;
-const { SwitchNet } = Connect;
+const { SwitchV0 } = Connect;
 
 function Header() {
   const authUser = useSelector((state) => state.user.authUser);
@@ -46,7 +46,7 @@ function Header() {
             <div className="flex items-center px-8 text-c12 h-14 text-[#666]">Settings</div>
             <div className="flex items-center px-8 text-c12 h-14">
               <span className="text-[#666] mr-2">Network ｜</span>
-              <SwitchNet placement="rightBottom" networkId={projectChain?.evmChainId || 1} />
+              <SwitchV0 placement="rightBottom" networkId={projectChain?.evmChainId || 1} />
             </div>
           </div>
         )}
