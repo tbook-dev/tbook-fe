@@ -69,6 +69,10 @@ module.exports = {
           c10: ["18px", { lineHeight: "20px" }],
           c11: ["28px", { lineHeight: "32px" }],
           c12: ["20px", { lineHeight: "24px" }],
+          c13: ["28px", { lineHeight: "28px" }],
+          c14: ["16px", { lineHeight: "22px" }],
+
+
   
   
   
@@ -80,10 +84,13 @@ module.exports = {
           cwh1: ["32px", { lineHeight: "40px" }],
           cwh2: ["24px", { lineHeight: "32px" }],
           cwh3: ["40px", { lineHeight: "40px" }],
-  
           cwh4: ["56px", { lineHeight: "74px" }],
+          cwh5: ["40px", { lineHeight: "48px" }],
+
           // coustom h5 h1
           ch1: ["28px", { lineHeight: "36px" }],
+          ch2: ["28px", { lineHeight: "32px" }],
+
   
   
   

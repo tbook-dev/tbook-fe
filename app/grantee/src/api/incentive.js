@@ -9,7 +9,9 @@ export const getUserInfo = async function () {
 export const getUserAssets = async function () {
   return request(`${host}/users/assets`);
 };
-
+export const getTotalGrantInfo = async function(projectId){
+  return request(`${host}/users/${projectId}/grants`)
+}
 export const createProject = async function (values) {
   return request.Put(`${host}/projects`, values);
 };
