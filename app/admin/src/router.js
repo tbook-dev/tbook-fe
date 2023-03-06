@@ -3,7 +3,6 @@ import { lazy } from "react";
 const routes =[
     {
         path: '/',
-        layout: 'v1',
         component: lazy(() => import('@/pages/incentive/PlanList'))
     },
     // {
@@ -13,7 +12,6 @@ const routes =[
     // },
     {
         path: '/create/:pageType',
-        layout: 'v1',
         component: lazy(() => import('@/pages/incentive/PlanCreate'))
     },
     // {
@@ -23,7 +21,6 @@ const routes =[
     // },
     {
         path: '/incentive/grant/:tipId/create',
-        layout: 'v1',
         component: lazy(() => import('@/pages/grant/GrantCreate'))
     },
     // {
@@ -36,7 +33,6 @@ const routes =[
     // },
     {
         path: '/grants/:grantId/sign',
-        layout: 'v1',
         component: lazy(() => import('@/pages/sign/Grant'))
     },
     // {
