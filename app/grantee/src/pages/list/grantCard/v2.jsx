@@ -5,26 +5,6 @@ import { conf } from "@tbook/utils";
 
 const { shortAddress, grantStatusList, grantType, getLastVested, formatDollar } = conf;
 
-// const v = [
-//     {
-//         "date": "2023-12-01",
-//         "quantity": 8000,
-//         "cumulative": 10000,
-//         "isVested": false
-//     },
-//     {
-//         "date": "2023-01-01",
-//         "quantity": 2000,
-//         "cumulative": 2000,
-//         "isVested": true
-//     },
-//     {
-//         "date": "2023-02-02",
-//         "quantity": 3000,
-//         "cumulative": 3000,
-//         "isVested": true
-//     }
-// ]
 //   pc版本的card, card本身有多种风格，不应当为同一个组件，会很乱。
 export default function ({ grant }) {
   // console.log(grant.grant.vestingSchedule.vestingDetail,'grant')
@@ -34,28 +14,20 @@ export default function ({ grant }) {
   const conf = useMemo(
     () => [
       {
-        label: "Grant Type",
-        render: () => "token option", //现在都是这个功能
+        label: "Granted",
+        render: () => formatDollar(grant?.grant?.grantNum), 
       },
       {
-        label: "Vested",
-        render: () => formatDollar(grant?.vestedAmount),
+        label: "Vested Value",
+        render: () => "$" + formatDollar(grant?.vestedAmount * grant?.grant?.exercisePrice),
+      },
+      {
+        label: "Total Value",
+        render: () => "$" + formatDollar(grant?.grant?.grantNum * grant?.grant?.exercisePrice),
       },
       {
         label: "Latest Vesting",
         render: () => getLastVested(grant?.grant?.vestingSchedule?.vestingDetail)?.date || "-",
-      },
-      {
-        label: "Vesting Type",
-        render: () => {
-          const type = grantType.find((item) => item.value === grant?.grant?.grantType);
-          return (
-            <div className="flex justify-end">
-              <img src={type?.icon} className="mr-1" />
-              {type?.label}
-            </div>
-          );
-        },
       },
     ],
     [grant]
@@ -84,21 +56,10 @@ export default function ({ grant }) {
           )}
         </div>
 
-        <div className="flex mb-4 h-[46px] items-center">
-          <div className="w-10 h-10 rounded-full dark:bg-[#141414] flex justify-center items-center mr-4">
-            <img src={grant?.grantee?.avatar} className="w-6 h-6" />
-          </div>
-
-          <div className="flex flex-col justify-center flex-none">
-            <h3 className="text-ellipsis text-c6 max-w-[130px] truncate text-b-8">{grant?.grantee?.name}</h3>
-            <p className="truncate text-ellipsis text-c1 text-b-8">{shortAddress(grant?.grantee?.mainWallet)}</p>
-          </div>
-        </div>
-
         <div className="grid grid-cols-2 p-2 mb-6">
-          <div className="truncate text-c3">Total</div>
+          <div className="truncate text-c3">Vested</div>
           <span className="font-bold text-right truncate text-cwh2 text-colorful1">
-            {formatDollar(grant?.grant?.grantNum)}
+            {formatDollar(grant?.vestedAmount)}
           </span>
         </div>
 
