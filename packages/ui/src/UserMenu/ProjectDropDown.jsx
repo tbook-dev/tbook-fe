@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { Popover } from "antd";
 import clsx from "clsx";
-import { useProjects , useCurrentProject } from "@tbook/hooks";
+import { useProjects, useCurrentProject } from "@tbook/hooks";
 import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import { user } from "@tbook/store";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import switchIcon from "@tbook/share/images/icon/switch.svg";
 
 const { setCurrentProjectId } = user;
 
-export default function ({ children }) {
+export default function ({ open, setOpen }) {
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
   const projects = useProjects();
   const currentProject = useCurrentProject();
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function ({ children }) {
     if (currentProject.projectId === projectId) return;
     dispatch(setCurrentProjectId(projectId));
     setOpen(false);
-    navigate('/')
+    navigate("/");
   };
 
   const Content = () => (
@@ -34,9 +34,7 @@ export default function ({ children }) {
               <div
                 key={project.projectId}
                 className={clsx(
-                  project.projectId === currentProject.projectId
-                    ? "bg-cw1  text-black"
-                    : "text-c-9",
+                  project.projectId === currentProject.projectId ? "bg-cw1  text-black" : "text-c-9",
                   "px-6 flex items-center h-10 text-c6 font-medium cursor-pointer dark:hover:text-black dark:hover:bg-cw1 dark:hover:opacity-60"
                 )}
                 onClick={() => {
@@ -69,7 +67,16 @@ export default function ({ children }) {
         setOpen(v);
       }}
     >
-      {children(setOpen, open)}
+      <div
+        onClick={() => setOpen(true)}
+        className={clsx(
+          "flex items-center cursor-pointer h-10 px-4 py-2 mr-4 rounded-lg dark:hover:bg-cw1 dark:hover:text-white hover:dark:shadow-d7 text-c1 dark:text-c-9 dark:shadow-d3",
+          open ? "bg-cw1 dark:text-white dark:shadow-d7" : ""
+        )}
+      >
+        {currentProject?.projectName}
+        <img src={switchIcon} className="ml-10" />
+      </div>
     </Popover>
   );
 }

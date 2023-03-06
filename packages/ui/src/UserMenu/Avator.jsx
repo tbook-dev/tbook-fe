@@ -23,7 +23,7 @@ function Avator({ setOpen, open, id }) {
     >
       <div
         className={clsx(
-          "hidden lg:w-6 lg:h-6  lg:flex justify-center items-center mr-1 shadow-d4"
+          "hidden lg:w-6 lg:h-6  lg:flex justify-center items-center mr-1"
         )}
       >
         <NetWork id={id} />

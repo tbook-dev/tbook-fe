@@ -4,47 +4,33 @@ import { useResponsive } from "ahooks";
 import ProjectDropDown from "./ProjectDropDown";
 import H5Drawer from "./H5Drawer";
 import WebDropDown from "./WebDropDown";
-import clsx from "clsx";
-import switchIcon from "@tbook/share/images/icon/switch.svg";
-import { useSelector } from "react-redux";
 
-
-export default function () {
+export default function UserMenu () {
   const currentProject = useCurrentProject();
   const { pc } = useResponsive();
   const [open, setOpen] = useState(false);
+  const [projectOpen, setProjectOpen] = useState(false);
+
   const projects = useProjects();
-  const showLessNav = useSelector((state) => state.user.showLessNav);
 
   return (
     <div className="relative flex">
       {Array.isArray(projects) &&
         projects.length > 0 &&
-        (showLessNav ? null : pc ? (
-          <ProjectDropDown>
-            {(setOpen, open) => (
-              <div
-                onClick={() => setOpen(true)}
-                className={clsx(
-                  "flex items-center cursor-pointer h-10 px-4 py-2 mr-4 rounded-lg dark:hover:bg-cw1 dark:hover:text-white hover:dark:shadow-d7 text-c1 dark:text-c-9 dark:shadow-d3",
-                  open ? "bg-cw1 dark:text-white dark:shadow-d7" : ""
-                )}
-              >
-                {currentProject?.projectName}
-                <img src={switchIcon} className="ml-10" />
-              </div>
-            )}
-          </ProjectDropDown>
+        (pc ? (
+          <ProjectDropDown open={projectOpen} setOpen={setProjectOpen} />
         ) : (
           <div className="flex items-center h-10 px-4 py-2 rounded-lg text-c1 dark:text-c-9 lg:dark:shadow-d3">
             {currentProject?.projectName}
           </div>
         ))}
-      {pc ? (
-        <WebDropDown open={open} setOpen={setOpen} />
-      ) : (
-        <H5Drawer open={open} setOpen={setOpen} />
-      )}
+
+      {pc ? <WebDropDown open={open} setOpen={setOpen} /> : <H5Drawer open={open} setOpen={setOpen} />}
     </div>
   );
 }
+
+UserMenu.SettingPc = WebDropDown;
+UserMenu.SettingH5 = H5Drawer;
+
+UserMenu.SwitchProject = ProjectDropDown;
