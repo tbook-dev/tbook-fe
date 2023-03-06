@@ -6,7 +6,11 @@
   "keywords": [],
   "author": "",
   "scripts": {
-    "dev": "pnpm --filter @tbook/admin  run dev"
+    "admin:dev": "pnpm --filter @tbook/admin  run dev",
+    "admin:build": "pnpm --filter @tbook/admin  run build",
+
+    "grantee:dev": "pnpm --filter @tbook/grantee  run dev",
+    "grantee:build": "pnpm --filter @tbook/grantee  run build"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.2.0",

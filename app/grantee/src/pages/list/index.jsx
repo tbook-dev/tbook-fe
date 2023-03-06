@@ -229,22 +229,6 @@ function PlanList() {
 
       {pc ? (
         <div className="hidden lg:block">
-          <div className="flex items-center justify-between mb-2">
-            <h2 className="text-[32px] lg:text-cwh2 dark:text-white font-bold">Grants</h2>
-
-            {userLoading || grantLoading ? null : (
-              <button
-                type="button"
-                disabled={filters.Plan === null || filters.Plan === undefined}
-                onClick={() => navigate(`/incentive/grant/${filters.Plan}/create`)}
-                className="flex items-center justify-center text-xs font-medium leading-normal transition duration-150 ease-in-out lg:w-40 lg:h-10 dark:bg-white lg:rounded-lg dark:text-black shadow-d3 hover:text-white hover:bg-cw1 hover:shadow-d7 dark:disabled:bg-b-1 dark:disabled:text-b-2 hover:disabled:bg-none hover:disabled:shadow-none"
-              >
-                <PlusOutlined />
-                <span className="ml-2 text-[14px]">New Grant</span>
-              </button>
-            )}
-          </div>
-
           {/* {userLoading || grantLoading ? null : (
             <div className="justify-end hidden my-4 lg:flex">
               <div className="flex items-center overflow-hidden bg-white dark:bg-black !divide-x dark:divide-black rounded-lg shadow-c12">
@@ -318,20 +302,6 @@ function PlanList() {
               </Link>
             </div>
           )}  */}
-
-          {userLoading || grantLoading ? null : (
-            <div className="fixed left-0 right-0 flex justify-center bottom-8">
-              <button
-                type="button"
-                disabled={filters.Plan === null || filters.Plan === undefined}
-                onClick={() => navigate(`/incentive/grant/${filters.Plan}/create`)}
-                className="flex items-center justify-center h-10 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md w-60 dark:disabled:bg-none	dark:bg-cw1 dark:text-black shadow-d3 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
-              >
-                <PlusOutlined />
-                <span className="ml-2 text-[14px]">New Grant</span>
-              </button>
-            </div>
-          )}
 
           {/* <Drawer
             placement="bottom"

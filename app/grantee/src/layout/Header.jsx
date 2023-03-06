@@ -61,37 +61,6 @@ function Header() {
             <Link to="/" className="mr-1 lg:mr-16">
               <img src={logo} className="h-8 lg:h-7" />
             </Link>
-
-            {showLessNav ? null : pc ? (
-              <div className="items-center hidden lg:flex">
-                <Link to="/" className="mr-12 font-bold dark:text-white text-c1">
-                  INCENTIVE
-                </Link>
-                <span className="font-medium text-c1 dark:text-c-9">TOKENTABLE</span>
-              </div>
-            ) : (
-              <>
-                <button onClick={() => setOpenDrawer(true)}>
-                  <img src={menuIcon} className="h-8" />
-                </button>
-                <DarkProvider>
-                  <Drawer
-                    placement="top"
-                    closable={false}
-                    open={openDrawer}
-                    maskStyle={{ backdropFilter: "blur(7px)" }}
-                    contentWrapperStyle={{
-                      height: "50vh",
-                      borderRadius: "0 0 24px 24px",
-                      overflow: "hidden",
-                    }}
-                    onClose={() => setOpenDrawer(false)}
-                  >
-                    <Content />
-                  </Drawer>
-                </DarkProvider>
-              </>
-            )}
           </div>
 
           {/* Header: Right side */}
