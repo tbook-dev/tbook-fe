@@ -1,3 +1,4 @@
+import React from  'react';
 import { Link } from "react-router-dom";
 import backIcon from "@tbook/share/images/icon/h5-back.svg";
 import { useSelector } from "react-redux";

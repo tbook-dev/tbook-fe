@@ -1,6 +1,6 @@
 import tailwind from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
-import tailwindConfig from '@tbook/share/css/tailwind.config'
+import tailwindConfig from './src/css/tailwind.config'
 
 export default {
   plugins: [tailwind(tailwindConfig), autoprefixer],

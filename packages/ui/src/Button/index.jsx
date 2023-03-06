@@ -1,9 +1,10 @@
+import React from  'react';
 import clsx from "clsx";
 import { LoadingOutlined } from "@ant-design/icons";
 
 // 默认 背景主题色，文字黑色，其他颜色由class控制
 // loading的时候，转圈并且disable
-export default function ({
+export default function Button ({
   className,
   disabled,
   loading,

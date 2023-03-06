@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { useAsyncEffect } from "ahooks";
 import { useDispatch } from "react-redux";
 import { user } from "@tbook/store";
-import "@tbook/share/css/style.css";
+import "@/css/style.css";
 
 
 // import PageNotFound from "./pages/utility/PageNotFound";

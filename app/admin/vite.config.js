@@ -14,7 +14,7 @@ export default defineConfig({
   },
   plugins: [react()],
   optimizeDeps: {
-    include: ["@tbook/hooks", "@tbook/share", "@tbook/store", "@tbook/ui", "@tbook/utils"],
+    exclude: ["@tbook/hooks", "@tbook/share", "@tbook/store", "@tbook/ui", "@tbook/utils"],
   },
   resolve: {
     alias: [
