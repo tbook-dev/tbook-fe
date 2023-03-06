@@ -46,6 +46,7 @@ function Connect () {
 
 
 Connect.Switch = Switch;
+Connect.SwitchNet = SwitchNet;
 Connect.SwitchV0 = SwitchV0;
 
 export default Connect;

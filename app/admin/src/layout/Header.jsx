@@ -57,7 +57,6 @@ function Header() {
     <header className="sticky top-0 z-30 dark:bg-black dark:shadow-d2">
       <div className="px-4 lg:px-8">
         <div className="flex items-center justify-between h-14 lg:h-16">
-          {/* Header: Left side */}
           <div className="flex items-center">
             <Link to="/" className="mr-1 lg:mr-16">
               <img src={logo} className="h-8 lg:h-7" />
