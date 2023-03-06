@@ -49,9 +49,7 @@ export default function ({ signStatus, signList, setSignList }) {
       });
   }
   const Sign = () => {
-    const sg = signList.find(
-      (sg) => sg?.signer?.mainWallet === userInfo.mainWallet
-    );
+    const sg = signList.find((sg) => sg?.signer?.mainWallet === userInfo.mainWallet);
     if (!sg) {
       return (
         <div className="relative z-10 flex justify-center lg:w-[600px] mx-auto">
@@ -60,12 +58,15 @@ export default function ({ signStatus, signList, setSignList }) {
       );
     }
 
+    const granteeLink =
+      (location.origin.includes("staging") ? "https://my-staging.tbook.com" : "https://my.tbook.com") +
+      location.pathname;
     return (
       <div
         className={clsx(
           "relative z-10 my-[26px] lg:w-[600px] lg:mx-auto mx-4 p-2 lg:px-6 lg:shadow-d3  rounded-lg bg-black",
           // signStatus === "notyet" && "lg:h-[72px]",
-          signStatus === "done" && "bg-cw1",
+          signStatus === "done" && "bg-cw1"
           // signStatus === "allDone" && "lg:h-[72px]"
         )}
       >
@@ -83,9 +84,7 @@ export default function ({ signStatus, signList, setSignList }) {
                 <div className="flex items-center justify-center w-6 h-6 mr-2 rounded-full bg-cw1 lg:w-8 lg:h-8">
                   <img src={sg.signer.avatar} className="w-3 h-3 lg:w-5 lg:h-5" />
                 </div>
-                <p className="text-c4 lg:text-c1 text-colorful1">
-                  {shortAddress(sg.signer.mainWallet)}
-                </p>
+                <p className="text-c4 lg:text-c1 text-colorful1">{shortAddress(sg.signer.mainWallet)}</p>
               </div>
 
               <button
@@ -102,16 +101,12 @@ export default function ({ signStatus, signList, setSignList }) {
             <>
               <div className="flex items-center mb-2.5">
                 <img src={doneIcon} className="mr-2" />
-                <span className="font-medium text-black text-c4 lg:text-c1">
-                  {shortAddress(sg.signer.mainWallet)}
-                </span>
+                <span className="font-medium text-black text-c4 lg:text-c1">{shortAddress(sg.signer.mainWallet)}</span>
               </div>
-              <p className="text-black text-c4 py-2.5">
-                Please copy and send the following link to the grantee.
-              </p>
+              <p className="text-black text-c4 py-2.5">Please copy and send the following link to the grantee.</p>
               <Paragraph
                 copyable={{
-                  text: location.href,
+                  text: granteeLink,
                   icon: <img src={copyIcon} />,
                 }}
                 className="flex justify-between rounded-md lg:py-0"
@@ -119,13 +114,10 @@ export default function ({ signStatus, signList, setSignList }) {
                   marginBottom: 0,
                   backgroundColor: "#fff",
                   padding: "8px 16px",
-                  boxShadow:
-                    "0px 0px 8px rgba(38, 227, 194, 0.25), 0px 0px 6px rgba(69, 160, 245, 0.6)",
+                  boxShadow: "0px 0px 8px rgba(38, 227, 194, 0.25), 0px 0px 6px rgba(69, 160, 245, 0.6)",
                 }}
               >
-                <span className="text-[rgba(153, 153, 153, 0.4)] text-c4 lg:text-c1">
-                  {location.href}
-                </span>
+                <span className="text-[rgba(153, 153, 153, 0.4)] text-c4 lg:text-c1">{granteeLink}</span>
               </Paragraph>
             </>
           )}
