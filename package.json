@@ -1,11 +1,16 @@
 {
   "name": "tbook-fe",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
   "scripts": {
-    "dev": "vite",
-    "build-staging": "vite build",
-    "build": "vite build --mode prod",
-    "preview": "vite preview"
+    "admin:dev": "pnpm --filter @tbook/admin  run dev",
+    "admin:build": "pnpm --filter @tbook/admin  run build",
+
+    "grantee:dev": "pnpm --filter @tbook/grantee  run dev",
+    "grantee:build": "pnpm --filter @tbook/grantee  run build"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.2.0",
@@ -37,18 +42,17 @@
     "rollup": "2.79.1",
     "swiper": "^8.4.5",
     "tslib": "^2.4.1",
-    "tw-elements": "1.0.0-beta1",
     "tweetnacl": "^1.0.3",
     "wagmi": "^0.11.4",
     "web3": "^1.8.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^2.0.0",
+    "prettier": "^2.5.1",
+    "vite":"^4.0.0",
+    "@vitejs/plugin-react": "^3.0.0",
     "autoprefixer": "^10.4.7",
     "flatpickr": "^4.6.13",
     "postcss": "^8.4.14",
-    "tailwindcss": "^3.1.6",
-    "vite": "^3.0.0",
-    "vite-plugin-mock": "^2.9.6"
+    "tailwindcss": "^3.1.6"
   }
 }
