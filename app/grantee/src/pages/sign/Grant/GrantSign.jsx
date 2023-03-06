@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { getGrantInfoWithPlan, getGrantSignInfo, getGrantVestingScheduleInfo } from "@/api/incentive";
 import { useAsyncEffect } from "ahooks";
 import { conf } from "@tbook/utils";
-import VestingSchedule from "../../incentive/VestingSchedule";
+import VestingSchedule from "../vested/VestingSchedule";
 import { useSelector } from "react-redux";
 // import Header from "../component/Header";
 import Card from "../card";

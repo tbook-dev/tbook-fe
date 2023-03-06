@@ -49,10 +49,12 @@ export const fetchUserInfo = createAsyncThunk(`userInfo`, async (showLoading = t
     return getUserInfo()
       .then((response) => {
         // console.log("response", response);
+        thunkAPI.dispatch(setAuthUser(true));
         thunkAPI.dispatch(setUser(response?.user || {}));
         thunkAPI.dispatch(setProjects(response?.projects || []));
       })
       .catch((err) => {
+        thunkAPI.dispatch(setAuthUser(false));
         console.log(err, "xxx");
       })
       .finally(() => {

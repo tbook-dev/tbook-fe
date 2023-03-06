@@ -1,36 +1,34 @@
 import { Button } from "@tbook/ui";
 import { useSignIn } from "@tbook/hooks";
 
-export default function ({ pc }) {
+
+export default function NoConnect({ list, projectName, pc }) {
   const { loading, handleSignIn } = useSignIn();
-  // console.log({ loading, handleSignIn})
-  return pc ? (
-    <div className="hidden lg:flex items-center justify-between rounded-xl dark:bg-cw1 w-full px-8 py-[38px]">
-      <div>
-        <p className="mb-1 text-cwh2 text-c-3">New Token Incentive Plan</p>
-        <p className="text-base text-c-3">
-          Connect wallet to set up your incentive plan.
-        </p>
+
+  return (
+    <div className="flex flex-col justify-between h-full px-4 pt-6 pb-3 text-black rounded-xl lg:rounded-2xl lg:p-10 dark:bg-cw1 lg:shadow-d6">
+      <div className="flex">
+        <h2 className="font-bold text-cwh5 lg:ch2">{projectName}</h2>
+        <Button
+          className="bg-black dark:text-white bg-none dark:lg:text-black lg:bg-white"
+          loadingColor={pc ? "#69D0E5" : null}
+          loading={loading}
+          onClick={handleSignIn}
+        >
+          Connect Wallet
+        </Button>
       </div>
 
-      <Button
-        className="bg-white bg-none"
-        loadingColor="#69D0E5"
-        loading={loading}
-        onClick={handleSignIn}
-      >
-        Connect Wallet
-      </Button>
-    </div>
-  ) : (
-    <div className="h-[180px] bg-cw1 rounded-xl flex justify-center items-center">
-      <Button
-        className="bg-black dark:text-white bg-none"
-        loading={loading}
-        onClick={handleSignIn}
-      >
-        Connect Wallet
-      </Button>
+      <div className="block space-y-1 lg:flex lg:justify-between">
+        {list.map((info, idx) => (
+          <div className="flex flex-row items-center justify-between lg:block" key={idx}>
+            <div>
+              <info.value />
+            </div>
+            <div className="text-c1">{info.name}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

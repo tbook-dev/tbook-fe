@@ -74,42 +74,46 @@ function PlanList() {
   }, [grantList, filters]);
 
   const infoList = useMemo(() => {
-    console.log({ grantTotal });
     return [
       {
         name: "Vested Token Value",
         value: () => (
-          <span className="font-bold text-c14 lg:text-c13">{`${formatDollar(grantTotal?.vestedTokenValue)} USD`}</span>
+          <span className="font-bold text-c14 lg:text-c13">
+            {grantTotal?.vestedTokenValue ? `${formatDollar(grantTotal?.vestedTokenValue)} USD` : "-"}
+          </span>
         ),
       },
       {
         name: "Total Token Value",
         value: () => (
-          <span className="font-bold text-c14 lg:text-c13">{`${formatDollar(grantTotal?.totalTokenValue)} USD`}</span>
+          <span className="font-bold text-c14 lg:text-c13">
+            {grantTotal?.totalTokenValue ? `${formatDollar(grantTotal?.totalTokenValue)} USD` : "-"}
+          </span>
         ),
       },
       {
         name: "Grants",
         value: () => (
-          <span className="font-medium text-c14 lg:text-c13">{`${formatDollar(grantTotal?.grantsCnt)}`}</span>
+          <span className="font-medium text-c14 lg:text-c13">{`${formatDollar(grantTotal?.grantsCnt || "-")}`}</span>
         ),
       },
       {
         name: "Vested Token",
         value: () => (
-          <span className="font-medium text-c14 lg:text-c13">{`${formatDollar(grantTotal?.vestedToken)}`}</span>
+          <span className="font-medium text-c14 lg:text-c13">{`${formatDollar(grantTotal?.vestedToken || "-")}`}</span>
         ),
       },
       {
         name: "Total Amount",
         value: () => (
-          <span className="font-medium text-c14 lg:text-c13">{`${formatDollar(grantTotal?.totalAmount)}`}</span>
+          <span className="font-medium text-c14 lg:text-c13">{`${formatDollar(grantTotal?.totalAmount || "-")}`}</span>
         ),
       },
     ];
   }, [grantTotal]);
 
   console.log("filters.plan", filters.Plan);
+  console.log({ authUser });
   return (
     <div className="w-full mb-5 px-4 pt-3 lg:pt-16 lg:px-0 lg:w-[936px] mx-auto">
       <div className="w-full mb-10 h-[240px] lg:h-64">
@@ -118,7 +122,7 @@ function PlanList() {
             <Spin />
           </div>
         ) : !authUser ? (
-          <NoConnect pc={pc} />
+          <NoConnect pc={pc} list={infoList} projectName={grantTotal?.project?.projectName} />
         ) : (
           <div className="flex flex-col justify-between h-full px-4 pt-6 pb-3 text-black rounded-xl lg:rounded-2xl lg:p-10 dark:bg-cw1 lg:shadow-d6">
             <div className="flex">

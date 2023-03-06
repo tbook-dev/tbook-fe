@@ -10,7 +10,7 @@ export default function () {
   const userLoading = useUserInfoLoading();
   const authUser = useSelector((state) => state.user.authUser);
   const projects = useProjects();
-
+  // console.log({authUser})
   if (userLoading) {
     return (
       <div className="flex pt-[120px] items-center justify-center">
