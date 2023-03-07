@@ -19,7 +19,7 @@ export default function NoConnect({ list, projectName, pc }) {
         </Button>
       </div>
 
-      <div className="block space-y-1 lg:flex lg:justify-between">
+      <div className="block space-y-1 lg:space-y-0 lg:flex lg:justify-between">
         {list.map((info, idx) => (
           <div className="flex flex-row-reverse items-center justify-between lg:block" key={idx}>
             <div>
