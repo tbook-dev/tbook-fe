@@ -236,7 +236,8 @@ function GrantCreate() {
           message.error(userRes.message);
         }
         getProjectUsers(projectId).then((res) => {
-          setUserlist(res?.users || []);
+          const cuserId = userStore.user.userId;
+          setUserlist(res?.users?.filter((m) => m.userId !== cuserId));
           // console.log(userRes);
         });
       });
