@@ -201,10 +201,16 @@ function GrantCreate() {
     setLoadingCreate(true);
     const values = formatValue(planValues, userlist, userStore?.user?.userId);
     let grantInfo = null;
-    if (grantId) {
-      grantInfo = await updateGrantInfo({ ...values, grantId });
-    } else {
-      grantInfo = await addGrant(values.incentivePlanId, values);
+    try {
+      if (grantId) {
+        grantInfo = await updateGrantInfo({ ...values, grantId });
+      } else {
+        grantInfo = await addGrant(values.incentivePlanId, values);
+      }
+    } catch (error) {
+      setLoadingCreate(false);
+      return;
+      // return message.error(defaultErrorMsg),全局错误已经捕获
     }
     console.log("grantInfo", grantInfo);
     if (!grantInfo.success) {
