@@ -129,7 +129,7 @@ function PlanList() {
               <h2 className="font-bold text-cwh5 lg:ch2">{grantTotal?.project?.projectName}</h2>
             </div>
 
-            <div className="block space-y-1 lg:flex lg:justify-between">
+            <div className="block space-y-1 lg:space-y-0 lg:flex lg:justify-between">
               {infoList.map((info, idx) => (
                 <div className="flex flex-row-reverse items-center justify-between lg:block" key={idx}>
                   <div>
