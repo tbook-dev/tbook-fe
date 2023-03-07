@@ -789,8 +789,9 @@ function GrantCreate() {
                                               src={pc ? minusIconp : minusIcon}
                                               className="w-4 mr-3 cursor-pointer"
                                               onClick={() => {
-                                                setPeriodSum(_.sumBy(formPeriodPlan, "tokenNum"));
                                                 remove(name);
+                                                const formPeriodPlan = form.getFieldValue("periodsPlan");
+                                                setPeriodSum(_.sumBy(formPeriodPlan, "tokenNum"));
                                               }}
                                             />
                                             <ThemeSpan>{`${idx + 1}`.padStart(2, "0")}</ThemeSpan>
