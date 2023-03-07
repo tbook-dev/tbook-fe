@@ -236,7 +236,8 @@ function GrantCreate() {
           message.error(userRes.message);
         }
         getProjectUsers(projectId).then((res) => {
-          setUserlist(res?.users || []);
+          const cuserId = userStore.user.userId;
+          setUserlist(res?.users?.filter((m) => m.userId !== cuserId));
           // console.log(userRes);
         });
       });
@@ -258,7 +259,7 @@ function GrantCreate() {
             <Plan
               planName={detail?.incentivePlanName}
               targetAudince={findAudience(detail.target)}
-              availableAmount={formatDollar(detail?.totalTokenNum)}
+              availableAmount={formatDollar(detail?.totalTokenNum - detail?.grantedTokenNum)}
             />
             <div className="mt-5 lg:mt-10">
               <Form
