@@ -92,13 +92,17 @@ function GrantCreate() {
     effectiveDate: "",
     projectName: "",
   });
+  const [detailLoading, setDetailLoading] = useState(false);
+
   const { tipId = "" } = useParams();
   const hasTipId = /\d+/.test(tipId);
 
   useAsyncEffect(async () => {
     if (tipId && hasTipId) {
+      setDetailLoading(true);
       const res = await getTIPInfo(tipId);
       setDetail(res);
+      setDetailLoading(false);
     }
   }, [tipId]);
 
@@ -263,6 +267,7 @@ function GrantCreate() {
           />
           <div className="mb-6 lg:w-[600px] lg:mx-auto mx-4 lg:mb-0">
             <Plan
+              loading={detailLoading}
               planName={detail?.incentivePlanName}
               targetAudince={findAudience(detail.target)}
               availableAmount={formatDollar(detail?.totalTokenNum - detail?.grantedTokenNum)}
