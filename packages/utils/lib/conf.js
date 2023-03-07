@@ -53,30 +53,30 @@ export const grantType = [
   },
 ];
 
-export const findGrantType = value => {
-  return grantType.find(v => v.value == value)?.name
-}
+export const findGrantType = (value) => {
+  return grantType.find((v) => v.value == value)?.name;
+};
 
 export const vestingOccursOptions = [
   {
-    name: 'On the same day as the Start Date',
+    name: "On the same day as the Start Date",
     value: 0,
   },
   {
-    name: 'On the previous day as the Start date',
+    name: "On the previous day as the Start date",
     value: 1,
   },
   {
-    name: 'On the next day as the Start date',
+    name: "On the next day as the Start date",
     value: 2,
-  }
-]
+  },
+];
 
 export const dateFormat = "YYYY-MM-DD";
 
 // grant状态：0-default/unknown，1-draft草稿，2-signing签约中，3-effective生效，4-completed完成，5-suspended暂停，6-terminated终止
 // 0,1,已经取消 completed也属于effective了
-// 
+//
 export const grantStatusList = [
   // {
   //   value: 1,
@@ -175,16 +175,25 @@ export const periodMap = {
   4: "Year",
 };
 
-export const formatDollar = (v = "") => {
-  return `${v}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+// export const formatDollar = (v = "") => {
+//   return `${v}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+// };
+export const formatDollar = (value) => {
+  const v = Number(value);
+  if (Number.isNaN(v)) {
+    return value;
+  } else {
+    return Intl.NumberFormat("en-US", {
+      // style: 'currency',
+      // currency: 'USD',
+      // maximumSignificantDigits: 3,
+      notation: "standard",
+    }).format(v);
+  }
 };
 
 export const shortAddress = (address) => {
-  return (
-    `${address}`.slice(0, 6) +
-    "..." +
-    `${address}`.slice(`${address}`.length - 4)
-  );
+  return `${address}`.slice(0, 6) + "..." + `${address}`.slice(`${address}`.length - 4);
 };
 
 export const chains = [
@@ -265,7 +274,6 @@ export const timeLengthList = [
   },
 ];
 
-export const findTimeType = (v) =>
-  timeLengthList.find((t) => t.value === v)?.label;
+export const findTimeType = (v) => timeLengthList.find((t) => t.value === v)?.label;
 
-export const defaultErrorMsg = 'An error happens, plase try it later!';
+export const defaultErrorMsg = "An error happens, plase try it later!";
