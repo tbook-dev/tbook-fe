@@ -11,7 +11,7 @@ import {
   useSwitchNetwork,
   useDisconnect,
 } from "wagmi";
-import { bsc } from "wagmi/chains";
+import { bsc, mainnet } from "wagmi/chains";
 import { fetchSigner } from "wagmi/actions";
 import {
   useAccountBalance,
@@ -48,6 +48,11 @@ export default function () {
     setDefaultChain(chain)
   } else if (localStorage.getItem('chainId') == '56') { // bsc
     setDefaultChain(bsc)
+  } 
+
+  function getChain() {
+    if (localStorage.getItem('chainId') == '56') return bsc;
+    return mainnet;
   }
 
   async function handleSignIn() {
@@ -57,7 +62,7 @@ export default function () {
         if (window.ethereum) {
           await connectAsync({
             connector: connectors.find((c) => c.id == "injected"),
-            chainId: localStorage.getItem("chainId")
+            chainId: getChain().id
           });
         } else if (isMobileDevice) {
           const host = new URL(window.location).host;
