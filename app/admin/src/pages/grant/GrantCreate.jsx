@@ -258,7 +258,7 @@ function GrantCreate() {
             <Plan
               planName={detail?.incentivePlanName}
               targetAudince={findAudience(detail.target)}
-              availableAmount={formatDollar(detail?.totalTokenNum)}
+              availableAmount={formatDollar(detail?.totalTokenNum - detail?.grantedTokenNum)}
             />
             <div className="mt-5 lg:mt-10">
               <Form
