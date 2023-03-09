@@ -1,0 +1,17 @@
+{
+  "name": "@tbook/home",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "vite",
+    "build-staging": "vite build",
+    "build": "vite build --mode prod",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tbook/hooks":"workspace:*",
+    "@tbook/share": "workspace:*",
+    "@tbook/store": "workspace:*",
+    "@tbook/ui": "workspace:*",
+    "@tbook/utils": "workspace:*"
+  }
+}

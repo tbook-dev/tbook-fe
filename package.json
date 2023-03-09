@@ -10,7 +10,10 @@
     "admin:build": "pnpm --filter @tbook/admin  run build",
 
     "grantee:dev": "pnpm --filter @tbook/grantee  run dev",
-    "grantee:build": "pnpm --filter @tbook/grantee  run build"
+    "grantee:build": "pnpm --filter @tbook/grantee  run build",
+
+    "home:dev": "pnpm --filter @tbook/home  run dev",
+    "home:build": "pnpm --filter @tbook/home  run build"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.2.0",
