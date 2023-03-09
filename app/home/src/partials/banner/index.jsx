@@ -7,7 +7,7 @@ const { appLink, myLink } = conf;
 
 export default function () {
   return (
-    <section className="relative mt-[44px] lg:mt-[126px]">
+    <section className="relative mt-[44px] lg:mt-[126px] lg:h-[600px] lg:mb-[92px] mb-10">
       <div className="bx">
         <div className="w-[240px] lg:w-[427px] mb-2 lg:mb-6 mx-auto lg:ml-0">
           <div className="lg:pt-[126px] lg:mb-4">
