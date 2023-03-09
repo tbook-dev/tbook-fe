@@ -277,3 +277,7 @@ export const timeLengthList = [
 export const findTimeType = (v) => timeLengthList.find((t) => t.value === v)?.label;
 
 export const defaultErrorMsg = "An error happens, plase try it later!";
+
+export const appLink = 'https://app.tbook.com'
+
+export const myLink= 'https://my.tbook.com'

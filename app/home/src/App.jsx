@@ -23,7 +23,7 @@ import { wagmiClient, ethereumClient, changeAccountSignIn, logout } from '@/util
 const  { fetchUserInfo } = user;
 
 configResponsive({
-  pc: 1120,
+  pc: 1212,
 })
 
 const currentAccount = getAccount()

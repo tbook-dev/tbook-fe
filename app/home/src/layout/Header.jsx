@@ -62,7 +62,7 @@ function Header() {
               <img src={logo} className="h-8 lg:h-7" />
             </Link>
 
-            {showLessNav ? null : pc ? (
+            {pc ? (
               <div className="items-center hidden lg:flex">
                 <Link to="/" className="mr-12 font-bold dark:text-white text-c1">
                   INCENTIVE

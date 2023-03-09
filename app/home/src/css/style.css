@@ -25,10 +25,14 @@
         background-clip: text;
         text-fill-color: transparent;
     }
-}
-
-@media (min-width: 1120px){
-    .ant-btn{
-        font-weight: 500 !important;
+    .bx{
+        width: 1212px;
+        @apply mx-auto;
+       
+    }
+    @media (max-width: 1212px){
+        .bx{
+            @apply w-full;
+        }
     }
 }

@@ -13,7 +13,7 @@ module.exports = {
     theme: {
       extend: {
         screens: {
-          lg: "1120px", // 96*2+928=1120
+          lg: "1212px",
         },
         backgroundImage: {
           cw1: "linear-gradient(57.39deg, #6AB3F7 -4.5%, #67EBD4 96.91%);",

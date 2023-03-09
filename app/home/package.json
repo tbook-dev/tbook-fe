@@ -8,10 +8,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tbook/hooks":"workspace:*",
+    "@tbook/hooks": "workspace:*",
     "@tbook/share": "workspace:*",
     "@tbook/store": "workspace:*",
     "@tbook/ui": "workspace:*",
-    "@tbook/utils": "workspace:*"
+    "@tbook/utils": "workspace:*",
+    "typed.js": "^2.0.12"
   }
 }
