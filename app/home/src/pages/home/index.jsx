@@ -5,6 +5,7 @@ import Banner from "@/partials/banner";
 import Features from "@/partials/features";
 import Partners from "@/partials/partners";
 import Product from "@/partials/product";
+import Testimonial from "@/partials/testimonial";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <Features />
       <Partners />
       <Product />
+      <Testimonial />
     </div>
   );
 }
