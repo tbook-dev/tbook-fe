@@ -1,5 +1,7 @@
 import React from "react";
 import Header from "./Header";
+import Footer from "./Footer";
+
 import { Back } from "@tbook/ui";
 import { useLocation } from "react-router-dom";
 import { useResponsive } from "ahooks";
@@ -17,6 +19,7 @@ export default function LayoutAdmin({ children }) {
 
         {children}
       </div>
+      <Footer />
     </div>
   );
 }
