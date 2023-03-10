@@ -6,6 +6,7 @@ import Features from "@/partials/features";
 import Partners from "@/partials/partners";
 import Product from "@/partials/product";
 import Testimonial from "@/partials/testimonial";
+import Subscribe from "@/partials/subscribe";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <Partners />
       <Product />
       <Testimonial />
+      <Subscribe />
     </div>
   );
 }
