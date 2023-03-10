@@ -1,27 +1,15 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Spin, Drawer } from "antd";
+import { Drawer } from "antd";
 import { useResponsive } from "ahooks";
 import clsx from "clsx";
-import { UserMenu, Connect } from "@tbook/ui";
-import { useSelector } from "react-redux";
 import logo from "@tbook/share/images/icon/logo.svg";
 import menuIcon from "@tbook/share/images/icon/menu.svg";
-import { useCurrentProject } from "@tbook/hooks";
-import { conf } from "@tbook/utils";
 import DarkProvider from "@/theme/DarkProvider";
 
-const { chains } = conf;
-const { SwitchV0 } = Connect;
-
 function Header() {
-  const authUser = useSelector((state) => state.user.authUser);
-  const loadingUserStatus = useSelector((state) => state.user.loadingUserStatus);
   const [openDrawer, setOpenDrawer] = useState(false);
   const { pc } = useResponsive();
-  const project = useCurrentProject();
-  const projectChain = chains.find((v) => project.chain === v.name);
-  const showLessNav = useSelector((state) => state.user.showLessNav);
 
   const Content = () => {
     return (
@@ -39,17 +27,6 @@ function Header() {
             }}
           </NavLink>
         </div>
-
-        {authUser && (
-          <div className="border-t border-b-1">
-            {/* 1、当前项目的网络; 2、默认以太坊*/}
-            <div className="flex items-center px-8 text-c12 h-14 text-[#666]">Settings</div>
-            <div className="flex items-center px-8 text-c12 h-14">
-              <span className="text-[#666] mr-2">Network ｜</span>
-              <SwitchV0 placement="rightBottom" networkId={projectChain?.evmChainId || 1} />
-            </div>
-          </div>
-        )}
       </div>
     );
   };
@@ -92,11 +69,6 @@ function Header() {
                 </DarkProvider>
               </>
             )}
-          </div>
-
-          {/* Header: Right side */}
-          <div className="flex items-center space-x-3">
-            {loadingUserStatus ? <Spin /> : authUser ? <UserMenu /> : <Connect />}
           </div>
         </div>
       </div>
