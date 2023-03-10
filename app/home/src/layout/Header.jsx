@@ -11,21 +11,62 @@ function Header() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const { pc } = useResponsive();
 
+  const links = [
+    {
+      text: "About",
+      href: "",
+    },
+    {
+      text: "Solution",
+      href: "",
+    },
+
+    {
+      text: "Resource",
+      href: "",
+    },
+    {
+      text: "RewardSphere",
+      href: "https://rewardsphere.tbook.com/",
+    },
+  ];
+
   const Content = () => {
     return (
       <div className="flex flex-col justify-between h-full pt-5 -mx-6">
         <div>
-          <NavLink to="/" className={({ isActive }) => clsx("flex h-14 items-center px-8 text-cwh2")}>
-            {({ isActive }) => {
-              return <span className="font-bold text-white">Incentive</span>;
-            }}
-          </NavLink>
-
-          <NavLink to="/" className={({ isActive }) => clsx("flex h-14 items-center px-8 text-cwh2")}>
-            {({ isActive }) => {
-              return <span className="text-[#666]">Tokentable</span>;
-            }}
-          </NavLink>
+          {links.map((link) => {
+            if (link.href) {
+              if (link.href.startsWith("http")) {
+                return (
+                  <a
+                    href={link.href}
+                    key={link.text}
+                    target="_blank"
+                    className="flex items-center px-8 font-medium h-14 text-cwh2"
+                  >
+                    <span className="text-c-6">{link.text}</span>
+                  </a>
+                );
+              } else {
+                <NavLink
+                  to={link.href}
+                  key={link.text}
+                  className="flex items-center px-8 font-medium h-14 text-cwh2 text-c-6"
+                >
+                  {({ isActive }) => {
+                    return <span className={clsx(isActive && "font-bold text-white")}> {link.text}</span>;
+                  }}
+                </NavLink>;
+              }
+            } else {
+              return (
+                <span key={link.text} className="flex items-center px-8 font-medium h-14 text-cwh2 text-c-6">
+                  {link.text}
+                </span>
+              );
+            }
+          })}
         </div>
       </div>
     );
@@ -38,38 +79,55 @@ function Header() {
             <Link to="/" className="mr-1 lg:mr-16">
               <img src={logo} className="h-8 lg:h-7" />
             </Link>
-
-            {pc ? (
-              <div className="items-center hidden lg:flex">
-                <Link to="/" className="mr-12 font-bold dark:text-white text-c1">
-                  INCENTIVE
-                </Link>
-                <span className="font-medium text-c1 dark:text-c-9">TOKENTABLE</span>
-              </div>
-            ) : (
-              <>
-                <button onClick={() => setOpenDrawer(true)}>
-                  <img src={menuIcon} className="h-8" />
-                </button>
-                <DarkProvider>
-                  <Drawer
-                    placement="top"
-                    closable={false}
-                    open={openDrawer}
-                    maskStyle={{ backdropFilter: "blur(7px)" }}
-                    contentWrapperStyle={{
-                      height: "50vh",
-                      borderRadius: "0 0 24px 24px",
-                      overflow: "hidden",
-                    }}
-                    onClose={() => setOpenDrawer(false)}
-                  >
-                    <Content />
-                  </Drawer>
-                </DarkProvider>
-              </>
-            )}
           </div>
+
+          {pc ? (
+            <div className="flex items-center space-x-12">
+              {links.map((link) => {
+                if (link.href) {
+                  if (link.href.startsWith("http")) {
+                    return (
+                      <a href={link.href} key={link.text} target="_blank" className="font-bold dark:text-white text-c1">
+                        {link.text}
+                      </a>
+                    );
+                  } else {
+                    <NavLink to={link.href} key={link.text} className="font-bold text-c1">
+                      {link.text}
+                    </NavLink>;
+                  }
+                } else {
+                  return (
+                    <span key={link.text} className="font-medium text-c1 dark:text-c-9">
+                      {link.text}
+                    </span>
+                  );
+                }
+              })}
+            </div>
+          ) : (
+            <>
+              <button onClick={() => setOpenDrawer(true)}>
+                <img src={menuIcon} className="h-8" />
+              </button>
+              <DarkProvider>
+                <Drawer
+                  placement="top"
+                  closable={false}
+                  open={openDrawer}
+                  maskStyle={{ backdropFilter: "blur(7px)" }}
+                  contentWrapperStyle={{
+                    height: "50vh",
+                    borderRadius: "0 0 24px 24px",
+                    overflow: "hidden",
+                  }}
+                  onClose={() => setOpenDrawer(false)}
+                >
+                  <Content />
+                </Drawer>
+              </DarkProvider>
+            </>
+          )}
         </div>
       </div>
     </header>
