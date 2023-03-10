@@ -81,8 +81,11 @@ module.exports = {
           cwh1: ["32px", { lineHeight: "40px" }],
           cwh2: ["24px", { lineHeight: "32px" }],
           cwh3: ["40px", { lineHeight: "40px" }],
+
   
           cwh4: ["56px", { lineHeight: "74px" }],
+          cwh5: ["40px", { lineHeight: "52px" }],
+
           // coustom h5 h1
           ch1: ["28px", { lineHeight: "36px" }],
   

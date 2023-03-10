@@ -28,7 +28,7 @@ export default function () {
   );
 
   return (
-    <section className="grid bx  grid-cols-1 gap-y-4 rounded-lg  lg:grid-cols-3 lg:gap-x-12 lg:mb-[192px]">
+    <section className="grid bx  grid-cols-1 gap-y-4 rounded-lg  lg:grid-cols-3 lg:gap-x-12 mb-10 lg:mb-[192px]">
       {list.map((feat, idx) => {
         return (
           <div
