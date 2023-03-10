@@ -1,35 +1,64 @@
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper";
 import list from "./conf";
 import { useResponsive } from "ahooks";
+import clsx from "clsx";
 
 export default function Partners() {
   const { pc } = useResponsive();
+  const [swiper, setSwiper] = useState(null);
+  const [swiperIdx, setSwiperIdx] = useState(0);
 
-  return (
-    <div className="mb-10 lg:mb-[144px]">
-      <div className="mb-8 text-center lg:mb-[50px]">
-        <h1 className="font-bold text-white text-c11 lg:text-cwh5">Be with builders </h1>
+  return pc ? (
+    <div className="mb-10 lg:mb-[144px] h-[590px]">
+      <div className="flex items-center bx">
+        <div className="lg:w-[755px]">
+          <Swiper
+            onSwiper={setSwiper}
+            onSlideChange={(swiper) => {
+              setSwiperIdx(swiper?.realIndex);
+            }}
+          >
+            {list.map((v) => (
+              <SwiperSlide key={v.src}>
+                <img src={v.src} className="w-full" />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+
+        <div className="lg:w-[calc(100% - 755px)] pl-4">
+          {list.map((product, idx) => {
+            const isCurrent = swiperIdx === idx;
+            return (
+              <div
+                className="mb-4 cursor-pointer"
+                key={idx}
+                onClick={() => {
+                  swiper?.slideTo(idx);
+                }}
+              >
+                <h2 className={clsx("font-extrabold text-cwh1 mb-2", isCurrent ? "text-colorful1" : "text-white")}>
+                  {product.title}
+                </h2>
+                <p className="text-c6 text-c-9">{product.desc}</p>
+              </div>
+            );
+          })}
+        </div>
       </div>
-
-      <Swiper
-        modules={[Autoplay]}
-        loop
-        speed={3000}
-        slidesPerView="auto"
-        spaceBetween={pc ? 72 : 36}
-        autoplay={{
-          delay: 1000,
-          pauseOnMouseEnter: true,
-          disableOnInteraction: false,
-        }}
-      >
-        {list.map((v) => (
-          <SwiperSlide key={v.src} style={{ width: "auto" }}>
-            <img src={v.src} className="w-[123px] h-[48px] lg:w-[246px] lg:h-[96px]" />
-          </SwiperSlide>
-        ))}
-      </Swiper>
     </div>
+  ) : (
+    <>
+      {list.map((product, idx) => (
+        <div key={product.title} className="mb-8 text-center">
+          <h2 className="mb-2 font-extrabold text-white text-cwh1"> {product.title}</h2>
+          <p className="mb-4 text-sm text-c-9">{product.desc}</p>
+          <div className={idx % 2 === 0 ? "-ml-4" : "-mr-4"}>
+            <img src={product.src}/>
+          </div>
+        </div>
+      ))}
+    </>
   );
 }

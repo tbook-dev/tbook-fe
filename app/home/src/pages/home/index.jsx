@@ -1,8 +1,10 @@
+import "swiper/css";
+import "swiper/css/navigation";
+
 import Banner from "@/partials/banner";
 import Features from "@/partials/features";
 import Partners from "@/partials/partners";
-import "swiper/css";
-import "swiper/css/navigation";
+import Product from "@/partials/product";
 
 export default function Home() {
   return (
@@ -10,6 +12,7 @@ export default function Home() {
       <Banner />
       <Features />
       <Partners />
+      <Product />
     </div>
   );
 }
