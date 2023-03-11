@@ -1,6 +1,4 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper";
-import list from "./conf";
+import { list1, list2 } from "./conf";
 import { useResponsive } from "ahooks";
 
 export default function Partners() {
@@ -15,24 +13,18 @@ export default function Partners() {
         <h1 className="font-bold text-white text-c11 lg:text-cwh5">Be with builders </h1>
       </div>
 
-      <Swiper
-        modules={[Autoplay]}
-        loop
-        speed={3000}
-        slidesPerView="auto"
-        spaceBetween={pc ? 72 : 36}
-        autoplay={{
-          delay: 1000,
-          pauseOnMouseEnter: true,
-          disableOnInteraction: false,
-        }}
-      >
-        {list.map((v) => (
-          <SwiperSlide key={v.src} style={{ width: "auto" }}>
-            <img src={v.src} className="w-[123px] h-[48px] lg:w-[246px] lg:h-[96px]" />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <div className="overflow-hidden">
+        <div className="flex mb-8 lg:mb-16 loop-left hover:animation-paused">
+          {list1.map((v) => (
+            <img key={v.src} src={v.src} className="w-[123px] h-[48px] lg:w-[246px] lg:h-[96px] mr-10 lg:mr-20" />
+          ))}
+        </div>
+        <div className="flex mb-8 lg:mb-16 loop-right hover:animation-paused">
+          {list2.map((v) => (
+            <img key={v.src} src={v.src} className="w-[123px] h-[48px] lg:w-[246px] lg:h-[96px]  mr-10 lg:mr-20" />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

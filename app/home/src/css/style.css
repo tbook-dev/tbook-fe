@@ -25,10 +25,21 @@
         background-clip: text;
         text-fill-color: transparent;
     }
+    .animation-paused{
+        animation-play-state: paused;
+    }
     .bx{
         width: 1212px;
         @apply mx-auto;
        
+    }
+    .loop-left{
+        will-change: transform;
+        animation: loop-left 30s linear infinite forwards;
+    }
+    .loop-right{
+        will-change: transform;
+        animation: loop-right 30s linear infinite forwards;
     }
     @media (max-width: 1212px){
         .bx{
@@ -36,3 +47,21 @@
         }
     }
 }
+
+
+@keyframes loop-left {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+@keyframes loop-right {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
