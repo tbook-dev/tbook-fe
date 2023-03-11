@@ -3,6 +3,8 @@ import { Input, Form } from "antd";
 import DarkProvider from "@/theme/DarkProvider";
 import { Button } from "@tbook/ui";
 import { useResponsive } from "ahooks";
+import { postSubscrible } from '@/api/incentive';
+
 
 export default function Subscribe() {
   const [form] = Form.useForm();
@@ -11,6 +13,10 @@ export default function Subscribe() {
   const handleSumbit = () => {
     form.validateFields().then((values) => {
       console.log(values);
+      postSubscrible(values).then(res => {
+
+        console.log(res);
+      })
     });
   };
   return (
