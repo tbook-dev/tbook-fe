@@ -1,25 +1,26 @@
 import { useMemo } from "react";
 import clsx from "clsx";
 import { useResponsive } from "ahooks";
+import intelligent from "@/images/intelligent.svg";
+import security from "@/images/security.svg";
+import analytic from "@/images/analytic.svg";
 
 export default function () {
   const { pc } = useResponsive();
   const list = useMemo(
     () => [
       {
-        icon: "",
+        icon: intelligent,
         title: "Intelligent",
         desc: "By leveraging the numerous exemplary projects on our platform, we make astute recommendations for the solution that fits you best ",
       },
       {
-        icon: "",
-
+        icon: security,
         title: "Security",
         desc: "By encrypting grant details, we ensures all sensitive information such as grant amounts and recipient details  are safeguarded against unauthorized access or tampering",
       },
       {
-        icon: "",
-
+        icon: analytic,
         title: "Analytics",
         desc: "Experience the convenience of an all-in-one platform that provides efficient access to all grands details and reports on tokens",
       },
@@ -38,8 +39,8 @@ export default function () {
             )}
             key={feat.title}
           >
-            <div className="w-24 h-24 lg:rounded-2xl shadow-d10 lg:mb-8">
-              <img />
+            <div className="w-24 h-24 mb-4 lg:rounded-2xl shadow-d10 lg:mb-8">
+              <img src={feat.icon}/>
             </div>
 
             <h2 className="font-extrabold text-white lg:mb-2 lg:text-cwh2">{feat.title}</h2>
