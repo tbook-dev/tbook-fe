@@ -55,7 +55,7 @@ export default function Partners() {
           <h2 className="mb-2 font-extrabold text-white text-cwh1"> {product.title}</h2>
           <p className="mb-4 text-sm text-c-9">{product.desc}</p>
           <div className={idx % 2 === 0 ? "-ml-4" : "-mr-4"}>
-            <img src={product.src}/>
+            <img src={product.src1}/>
           </div>
         </div>
       ))}
