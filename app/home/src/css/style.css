@@ -35,11 +35,11 @@
     }
     .loop-left{
         will-change: transform;
-        animation: loop-left 30s linear infinite forwards;
+        animation: loop-left 20s linear infinite forwards;
     }
     .loop-right{
         will-change: transform;
-        animation: loop-right 30s linear infinite forwards;
+        animation: loop-right 20s linear infinite forwards;
     }
     @media (max-width: 1212px){
         .bx{

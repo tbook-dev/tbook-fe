@@ -3,7 +3,7 @@ import request from "./request";
 export const host = import.meta.env.VITE_API_HOST;
 
 export const postSubscrible = async function(values){
-  return request.Post(`${host}/subscribe/email`, values)
+  return request.PostFormV1(`${host}/subscribe/email`, values)
 }
 
 export const getUserInfo = async function () {

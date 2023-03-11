@@ -15,7 +15,7 @@ export default function Partners() {
             <img
               className={clsx(
                 "absolute inset-0 object-cover transition-all duration-500 transform hover:-translate-y-1",
-                swiperIdx !== idx && "-translate-y-full"
+                swiperIdx !== idx && "opacity-0"
               )}
               src={v.src}
               key={v.src}

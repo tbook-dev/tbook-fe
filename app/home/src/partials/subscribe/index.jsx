@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Input, Form } from "antd";
+import { Input, Form, message } from "antd";
 import DarkProvider from "@/theme/DarkProvider";
 import { Button } from "@tbook/ui";
 import { useResponsive } from "ahooks";
-import { postSubscrible } from '@/api/incentive';
-
+import { postSubscrible } from "@/api/incentive";
 
 export default function Subscribe() {
   const [form] = Form.useForm();
@@ -12,11 +11,19 @@ export default function Subscribe() {
   const { pc } = useResponsive();
   const handleSumbit = () => {
     form.validateFields().then((values) => {
-      console.log(values);
-      postSubscrible(values).then(res => {
-
-        console.log(res);
-      })
+      setLoading(true);
+      postSubscrible(values)
+        .then((res) => {
+          if (res.success) {
+            message.success(res.message);
+          } else {
+            message.error(res.message);
+          }
+          setLoading(false);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     });
   };
   return (
