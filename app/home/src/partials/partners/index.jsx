@@ -13,7 +13,7 @@ export default function Partners() {
         <h1 className="font-bold text-white text-c11 lg:text-cwh5">Be with builders </h1>
       </div>
 
-      <div className="overflow-hidden">
+      <div className="overflow-hidden bx">
         <div className="flex mb-8 lg:mb-16 loop-left hover:animation-paused">
           {list1.map((v) => (
             <img key={v.src} src={v.src} className="w-[123px] h-[48px] lg:w-[246px] lg:h-[96px] mr-10 lg:mr-20" />
