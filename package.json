@@ -8,9 +8,10 @@
   "scripts": {
     "admin:dev": "pnpm --filter @tbook/admin  run dev",
     "admin:build": "pnpm --filter @tbook/admin  run build",
-
     "grantee:dev": "pnpm --filter @tbook/grantee  run dev",
-    "grantee:build": "pnpm --filter @tbook/grantee  run build"
+    "grantee:build": "pnpm --filter @tbook/grantee  run build",
+    "home:dev": "pnpm --filter @tbook/home  run dev",
+    "home:build": "pnpm --filter @tbook/home  run build"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.2.0",
@@ -47,12 +48,12 @@
     "web3": "^1.8.1"
   },
   "devDependencies": {
-    "prettier": "^2.5.1",
-    "vite":"^4.0.0",
     "@vitejs/plugin-react": "^3.0.0",
     "autoprefixer": "^10.4.7",
     "flatpickr": "^4.6.13",
     "postcss": "^8.4.14",
-    "tailwindcss": "^3.1.6"
+    "prettier": "^2.5.1",
+    "tailwindcss": "^3.1.6",
+    "vite": "^4.0.0"
   }
 }

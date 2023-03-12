@@ -1,0 +1,67 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+
+/* Additional styles */
+/* @import 'additional-styles/utility-patterns.css';
+@import 'additional-styles/range-slider.css';
+@import 'additional-styles/toggle-switch.css';
+@import 'additional-styles/flatpickr.css';
+@import 'additional-styles/theme.css'; */
+
+@import 'tailwindcss/utilities';
+
+:root {
+    font-family: 'Red Hat Display', sans-serif;;
+}
+.swiper-wrapper{
+    align-items: center;
+}
+
+@layer components { 
+    .text-colorful1{
+        background: linear-gradient(57.39deg, #6AB3F7 -4.5%, #67EBD4 96.91%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+    }
+    .animation-paused{
+        animation-play-state: paused;
+    }
+    .bx{
+        width: 1212px;
+        @apply mx-auto;
+       
+    }
+    .loop-left{
+        will-change: transform;
+        animation: loop-left 20s linear infinite forwards;
+    }
+    .loop-right{
+        will-change: transform;
+        animation: loop-right 20s linear infinite forwards;
+    }
+    @media (max-width: 1212px){
+        .bx{
+            @apply w-full;
+        }
+    }
+}
+
+
+@keyframes loop-left {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+@keyframes loop-right {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }

@@ -1,0 +1,22 @@
+import "swiper/css";
+import "swiper/css/navigation";
+
+import Banner from "@/partials/banner";
+import Features from "@/partials/features";
+import Partners from "@/partials/partners";
+import Product from "@/partials/product";
+import Testimonial from "@/partials/testimonial";
+import Subscribe from "@/partials/subscribe";
+
+export default function Home() {
+  return (
+    <div className="w-full text-[#202124] mb-4 px-4 lg:px-0">
+      <Banner />
+      <Features />
+      <Partners />
+      <Product />
+      <Testimonial />
+      <Subscribe />
+    </div>
+  );
+}
