@@ -1,5 +1,5 @@
 import bonfire from "@/images/partner/bonfire.svg";
-import goplus from "@/images/partner/go.svg";
+import goplus from "@/images/partner/goplus.svg";
 import zavenue from "@/images/partner/zavenue.svg";
 import rn from "@/images/partner/rn.svg";
 import chainbase from "@/images/partner/chainbase.svg";

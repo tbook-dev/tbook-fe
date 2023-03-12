@@ -1,8 +1,19 @@
+import { useMemo  } from 'react';
 import { list1, list2 } from "./conf";
 import { useResponsive } from "ahooks";
 
 export default function Partners() {
   const { pc } = useResponsive();
+  const w = useMemo(
+    () => {
+      return {
+        pc: (246 + 80) * list1.length - 80,
+        m: (123 + 40) * list1.length - 40,
+      };
+    },
+    []
+  );
+  console.log(w)
 
   return (
     <div className="mb-10 lg:mb-[144px]">
@@ -14,12 +25,19 @@ export default function Partners() {
       </div>
 
       <div className="overflow-hidden bx">
-        <div className="flex mb-8 lg:mb-16 loop-left hover:animation-paused">
+        {/* (123 + 80)* list1.length - 80  */}
+        <div
+          className="flex mb-8 flex-nowrap lg:mb-16 loop-left hover:animation-paused"
+          style={{ width: pc ? w.pc : w.m }}
+        >
           {list1.map((v) => (
-            <img key={v.src} src={v.src} className="w-[123px] h-[48px] lg:w-[246px] lg:h-[96px] mr-10 lg:mr-20" />
+            <img key={v.src} src={v.src} className="flex-none w-[123px] h-[48px] lg:w-[246px] lg:h-[96px] mr-10 lg:mr-20" />
           ))}
+          {/* {list1.map((v) => (
+            <img key={v.src} src={v.src} className="w-[123px] h-[48px] lg:w-[246px] lg:h-[96px] mr-10 lg:mr-20" />
+          ))} */}
         </div>
-        <div className="flex mb-8 lg:mb-16 loop-right hover:animation-paused">
+        <div className="flex mb-8 flex-nowrap lg:mb-16 loop-right hover:animation-paused">
           {list2.map((v) => (
             <img key={v.src} src={v.src} className="w-[123px] h-[48px] lg:w-[246px] lg:h-[96px]  mr-10 lg:mr-20" />
           ))}
