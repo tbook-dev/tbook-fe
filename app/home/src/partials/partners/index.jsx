@@ -16,7 +16,7 @@ export default function Partners() {
       m: (123 + 40) * list2.length,
     };
   }, []);
-  console.log({ list1, list2 });
+  // console.log({ list1, list2 });
 
   return (
     <div className="mb-10 lg:mb-[144px]">
