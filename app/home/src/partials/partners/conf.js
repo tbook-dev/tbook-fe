@@ -1,20 +1,20 @@
-import bonfire from "@/images/partner/bonfire.svg";
-import goplus from "@/images/partner/goplus.svg";
-import zavenue from "@/images/partner/zavenue.svg";
-import rn from "@/images/partner/rn.svg";
-import chainbase from "@/images/partner/chainbase.svg";
-import art from "@/images/partner/art.svg";
-import n01 from "@/images/partner/01.svg";
-import bmrlab from "@/images/partner/bmrlab.svg";
+import bonfire from "@/images/partner/bonfire.png";
+import goplus from "@/images/partner/goplus.png";
+import zavenue from "@/images/partner/zavenue.png";
+import rn from "@/images/partner/rn.png";
+import chainbase from "@/images/partner/chainbase.png";
+import art from "@/images/partner/art.png";
+import n01 from "@/images/partner/01.png";
+import bmrlab from "@/images/partner/bmrlab.png";
 
-import movebit from "@/images/partner/movebit.svg";
-import e from "@/images/partner/e.svg";
-import mask from "@/images/partner/mask.svg";
-import kapbook from "@/images/partner/kapbook.svg";
-import nftplay from "@/images/partner/nftplay.svg";
-import bestsign from "@/images/partner/bestsign.svg";
-import hippyghosts from "@/images/partner/hippyghosts.svg";
-import triangle from "@/images/partner/triangle.svg";
+import movebit from "@/images/partner/movebit.png";
+import e from "@/images/partner/e.png";
+import mask from "@/images/partner/mask.png";
+import kapbook from "@/images/partner/kapbook.png";
+import nftplay from "@/images/partner/nftplay.png";
+import bestsign from "@/images/partner/bestsign.png";
+import hippyghosts from "@/images/partner/hippyghosts.png";
+import triangle from "@/images/partner/triangle.png";
 
 export const list1 = [
   {
