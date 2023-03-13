@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import clsx from "clsx";
 import { useResponsive } from "ahooks";
-import intelligent from "@/images/intelligent.svg";
-import security from "@/images/security.svg";
-import analytic from "@/images/analytic.svg";
+import intelligent from "@/images/intelligent.png";
+import security from "@/images/security.png";
+import analytic from "@/images/analytic.png";
 
 export default function () {
   const { pc } = useResponsive();

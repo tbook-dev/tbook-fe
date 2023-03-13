@@ -5,20 +5,20 @@ import { NavLink, Link } from "react-router-dom";
 const list = [
   {
     text: "Contact Us",
-    href: "",
+    href: "https://t.me/Peter_TBook",
   },
-  {
-    text: "Terms of Use",
-    href: "",
-  },
-  {
-    text: "Privacy Policy",
-    href: "",
-  },
-  {
-    text: "Career",
-    href: "",
-  },
+  // {
+  //   text: "Terms of Use",
+  //   href: "",
+  // },
+  // {
+  //   text: "Privacy Policy",
+  //   href: "",
+  // },
+  // {
+  //   text: "Career",
+  //   href: "",
+  // },
 ];
 
 export default function Footer() {
@@ -29,7 +29,7 @@ export default function Footer() {
           <div className="flex flex-col items-center lg:items-start w-[70vw] mx-auto lg:w-[373px] lg:mb-14">
             <img src={logo} className="w-8 mb-4" />
             <p className="text-white text-c9">
-              TBOOK is on the mission to build an open, collaborative credential data network.
+              Explore more effective and equitable incentive protocols to accelerate the web3 world.
             </p>
           </div>
 
@@ -55,7 +55,7 @@ export default function Footer() {
                     target="_blank"
                     className="flex items-center px-8 font-bold text-c1"
                   >
-                    <span className="text-c-6">{link.text}</span>
+                    <span className="text-c-6 hover:text-white">{link.text}</span>
                   </a>
                 );
               } else {

@@ -39,7 +39,7 @@ export default function () {
           </a>
         </div>
 
-        <img src={banner} className="-mr-4 hidden lg:block lg:absolute lg:top-0 lg:right-0 lg:h-[600px]" />
+        <img src={banner} className="-mr-4 hidden lg:block lg:absolute lg:top-0 lg:right-0 lg:h-[500px]" />
       </div>
       <div className="-mr-4 lg:hidden">
         <img src={banner} className="relative -mr-4 lg:absolute lg:top-0 lg:right-0 lg:h-[600px]" />
