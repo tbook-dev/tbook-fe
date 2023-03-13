@@ -10,9 +10,6 @@ export default function () {
   return (
     <div className="mb-10 bx lg:mb-[144px]">
       <div className="mb-8 text-center lg:mb-[50px]">
-        <h2 className="text-c12 mb-0.5 lg:mb-3">
-          <span className="font-medium text-colorful1">Testimonials</span>
-        </h2>
         <h1 className="font-bold text-white text-c11 lg:text-cwh5">Our Client Reviews</h1>
       </div>
 

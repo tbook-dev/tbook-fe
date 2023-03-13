@@ -33,6 +33,11 @@
         @apply mx-auto;
        
     }
+    .up{
+        will-change: transform;
+        animation: up 1s linear;
+        z-index: 10;
+    }
     .loop-left{
         will-change: transform;
         animation: loop-left 20s linear infinite forwards;
@@ -63,5 +68,15 @@
     }
     100% {
       transform: translateX(0%);
+    }
+  }
+
+
+  @keyframes up {
+    0% {
+      transform: translate(-20px, 20px);
+    }
+    100% {
+      transform: translate(0,0);
     }
   }

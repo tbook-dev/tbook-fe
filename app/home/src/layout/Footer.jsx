@@ -5,20 +5,20 @@ import { NavLink, Link } from "react-router-dom";
 const list = [
   {
     text: "Contact Us",
-    href: "",
+    href: "https://t.me/Peter_TBook",
   },
-  {
-    text: "Terms of Use",
-    href: "",
-  },
-  {
-    text: "Privacy Policy",
-    href: "",
-  },
-  {
-    text: "Career",
-    href: "",
-  },
+  // {
+  //   text: "Terms of Use",
+  //   href: "",
+  // },
+  // {
+  //   text: "Privacy Policy",
+  //   href: "",
+  // },
+  // {
+  //   text: "Career",
+  //   href: "",
+  // },
 ];
 
 export default function Footer() {
@@ -55,7 +55,7 @@ export default function Footer() {
                     target="_blank"
                     className="flex items-center px-8 font-bold text-c1"
                   >
-                    <span className="text-c-6">{link.text}</span>
+                    <span className="text-c-6 hover:text-white">{link.text}</span>
                   </a>
                 );
               } else {

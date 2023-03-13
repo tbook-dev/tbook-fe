@@ -10,26 +10,26 @@ import DarkProvider from "@/theme/DarkProvider";
 function Header() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const { pc } = useResponsive();
+  const links = [];
+  // const links = [
+  //   {
+  //     text: "About",
+  //     href: "",
+  //   },
+  //   {
+  //     text: "Solution",
+  //     href: "",
+  //   },
 
-  const links = [
-    {
-      text: "About",
-      href: "",
-    },
-    {
-      text: "Solution",
-      href: "",
-    },
-
-    {
-      text: "Resource",
-      href: "",
-    },
-    {
-      text: "RewardSphere",
-      href: "https://rewardsphere.tbook.com/",
-    },
-  ];
+  //   {
+  //     text: "Resource",
+  //     href: "",
+  //   },
+  //   {
+  //     text: "RewardSphere",
+  //     href: "https://rewardsphere.tbook.com/",
+  //   },
+  // ];
 
   const Content = () => {
     return (
@@ -87,12 +87,12 @@ function Header() {
                 if (link.href) {
                   if (link.href.startsWith("http")) {
                     return (
-                      <a href={link.href} key={link.text} target="_blank" className="font-bold dark:text-white text-c1">
+                      <a href={link.href} key={link.text} target="_blank" className="font-bold dark:text-c-9 text-c1">
                         {link.text}
                       </a>
                     );
                   } else {
-                    <NavLink to={link.href} key={link.text} className="font-bold text-c1">
+                    <NavLink to={link.href} key={link.text} className="font-bold dark:text-c-9 text-c1">
                       {link.text}
                     </NavLink>;
                   }
@@ -107,9 +107,9 @@ function Header() {
             </div>
           ) : (
             <>
-              <button onClick={() => setOpenDrawer(true)}>
+              {/* <button onClick={() => setOpenDrawer(true)}>
                 <img src={menuIcon} className="h-8" />
-              </button>
+              </button> */}
               <DarkProvider>
                 <Drawer
                   placement="top"

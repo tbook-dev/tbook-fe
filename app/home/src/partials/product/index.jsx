@@ -2,25 +2,30 @@ import { useState } from "react";
 import list from "./conf";
 import { useResponsive } from "ahooks";
 import clsx from "clsx";
+import bg from "@/images/product/bg.png";
 
 export default function Partners() {
   const { pc } = useResponsive();
   const [swiperIdx, setSwiperIdx] = useState(0);
+  const [clickedIdx, setClickedIdx] = useState(0);
 
   return pc ? (
     <div className="mb-10 lg:mb-[144px] h-[590px]">
       <div className="flex items-center bx">
-        <div className="w-[755px] flex-none h-[590px] relative overflow-hidden">
-          {list.map((v, idx) => (
-            <img
-              className={clsx(
-                "absolute inset-0 object-cover transition-all duration-500 transform hover:-translate-y-1",
-                swiperIdx !== idx && "opacity-0"
-              )}
-              src={v.src}
-              key={v.src}
-            />
-          ))}
+        <div
+          className="bg-cover w-[754px] flex-none h-[586px]"
+          style={{ backgroundImage: `url(${bg})`, padding: "0px 0px 19px 12px" }}
+        >
+          <div className="relative w-full h-full">
+            <img className={clsx("absolute insert-0 object-cover duration-500 transform")} src={list[clickedIdx]?.src} />
+            {list.map((v, idx) => (
+              <img
+                className={clsx("absolute insert-0  object-cover duration-500 transform", swiperIdx !== idx ? "opacity-0" : "up")}
+                src={v.src}
+                key={v.src}
+              />
+            ))}
+          </div>
         </div>
 
         <div className="w-[calc(100% - 755px)] pl-4">
@@ -30,7 +35,8 @@ export default function Partners() {
               <div
                 className="mb-4 cursor-pointer"
                 key={idx}
-                onClick={() => {
+                onMouseEnter={() => {
+                  setClickedIdx(swiperIdx);
                   setSwiperIdx(idx);
                 }}
               >
