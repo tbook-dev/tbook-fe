@@ -39,7 +39,7 @@ export default function () {
                 <div
                   className={clsx(
                     "bg-white  shadow-d5 rounded-lg lg:rounded-[18px] lg:w-[372px] lg:h-[212px] lg:pt-6 lg:pb-4 lg:px-10",
-                    "h-[190px] pt-4 pb-3 px-8"
+                    "h-auto pt-4 pb-3 px-8"
                   )}
                   style={pc ? null : { width: "calc(100vw - 32px)" }}
                 >
