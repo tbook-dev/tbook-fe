@@ -4,7 +4,7 @@ import DarkProvider from "@/theme/DarkProvider";
 import { Button } from "@tbook/ui";
 import { useResponsive } from "ahooks";
 import { postSubscrible } from "@/api/incentive";
-import done from '@tbook/share/images/icon/done.svg'
+import done from '@/images/done.png'
 
 export default function Subscribe() {
   const [form] = Form.useForm();
@@ -26,6 +26,7 @@ export default function Subscribe() {
           setLoading(false);
         })
         .finally(() => {
+          setSubscribe(true);
           setLoading(false);
         });
     });
@@ -37,7 +38,7 @@ export default function Subscribe() {
     >
       {isSubscribe ? (
         <div className="text-center py-8 lg:py-[50px]">
-          <img src={done} className="inline-block lg:w-[72px] lg:mb-6"/>
+          <img src={done} className="inline-block w-9 lg:w-[72px] lg:mb-6"/>
           <p className="font-bold text-colorful1 text-c11 lg:text-cwh5">Thank you for you submission!</p>
         </div>
       ) : (
