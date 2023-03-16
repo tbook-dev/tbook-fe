@@ -20,11 +20,11 @@ const list = [
 ];
 export default function () {
   return (
-    <div className="px-4 bx lg:px-0">
+    <div className="px-4 bx mb-10 lg:mb-[144px] lg:px-0">
       <div className="lg:flex lg:items-center lg:h-[720px] relative rounded-lg shadow-d6 lg:rounded-none lg:shadow-none pt-5 pb-[45px] lg:py-0">
         <div className="relative z-10 text-center text-white lg:text-left">
-          <h3 className="mb-3 font-medium text-colorful1 lg:text-black text-c14 lg:text-c13">SUPPORT FACTS</h3>
-          <h2 className="font-bold text-ch1 lg:text-cwh6 w-[344px] mb-3 lg:mb-12">Growing Numbers Of Us</h2>
+          <h3 className="font-medium lg:mb-3 text-colorful1 lg:text-black text-c14 lg:text-c13">SUPPORT FACTS</h3>
+          <h2 className="font-bold text-ch1 lg:text-cwh6 lg:w-[344px] mb-3 lg:mb-12">Growing Numbers Of Us</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-20  gap-y-3 lg:gap-y-6  lg:w-[444px]">
             {list.map((conf) => (
               <div key={conf.title}>
