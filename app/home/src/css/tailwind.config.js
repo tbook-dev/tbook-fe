@@ -71,6 +71,7 @@ module.exports = {
         c12: ["20px", { lineHeight: "24px" }],
         c13: ["20px", { lineHeight: "26px" }],
         c14: ["14px", { lineHeight: "18px" }],
+        c15: ["24px", { lineHeight: "32px" }],
 
         // coustom web h1
         cwh1: ["32px", { lineHeight: "40px" }],

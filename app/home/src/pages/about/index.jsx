@@ -1,6 +1,7 @@
 import Banner from "@/partials/about/banner";
 import Mission from "@/partials/about/mission";
 import Strength from "@/partials/about/strength";
+import Support from "@/partials/about/support";
 
 export default function About() {
   return (
@@ -8,6 +9,7 @@ export default function About() {
       <Banner />
       <Mission />
       <Strength />
+      <Support />
     </div>
   );
 }
