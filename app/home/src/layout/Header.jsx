@@ -96,7 +96,11 @@ function Header() {
                     return (
                       <NavLink to={link.href} key={link.text} className="font-bold dark:text-c-9 text-c1">
                         {({ isActive }) => {
-                          return <span className={clsx(isActive && "font-bold text-white")}> {link.text}</span>;
+                          return (
+                            <span className={clsx(isActive ? "font-bold text-white" : "hover:text-white")}>
+                              {link.text}
+                            </span>
+                          );
                         }}
                       </NavLink>
                     );
