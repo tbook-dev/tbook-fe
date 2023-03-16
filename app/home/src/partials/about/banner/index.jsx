@@ -7,7 +7,7 @@ const { appLink } = conf;
 export default function () {
   return (
     <div className="lg:h-[836px] overflow-hidden relative mb-10 lg:mb-0">
-      <video className="relative inset-0 object-cover h-[210px] w-full lg:h-auto lg:absolute" loop autoPlay>
+      <video className="relative inset-0 object-cover h-[210px] w-full lg:h-auto lg:absolute" loop autoPlay muted>
         <source src={bgVideo} type="video/mp4"></source>
       </video>
       <div className="flex justify-center ">
