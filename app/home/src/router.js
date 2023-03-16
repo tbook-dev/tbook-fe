@@ -5,11 +5,10 @@ const routes =[
         path: '/',
         component: lazy(() => import('@/pages/home'))
     },
-    // {
-    //     path: '/dashboard',
-    //     layout: 'v1',
-    //     component: lazy(() => import('@/pages/Dashboard'))
-    // },
+    {
+        path: '/about',
+        component: lazy(() => import('@/pages/about'))
+    },
     // {
     //     path: '/create/:pageType',
     //     component: lazy(() => import('@/pages/incentive/PlanCreate'))

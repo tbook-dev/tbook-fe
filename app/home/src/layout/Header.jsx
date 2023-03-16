@@ -10,26 +10,25 @@ import DarkProvider from "@/theme/DarkProvider";
 function Header() {
   const [openDrawer, setOpenDrawer] = useState(false);
   const { pc } = useResponsive();
-  const links = [];
-  // const links = [
-  //   {
-  //     text: "About",
-  //     href: "",
-  //   },
-  //   {
-  //     text: "Solution",
-  //     href: "",
-  //   },
+  const links = [
+    {
+      text: "About",
+      href: "/about",
+    },
+    // {
+    //   text: "Solution",
+    //   href: "",
+    // },
 
-  //   {
-  //     text: "Resource",
-  //     href: "",
-  //   },
-  //   {
-  //     text: "RewardSphere",
-  //     href: "https://rewardsphere.tbook.com/",
-  //   },
-  // ];
+    // {
+    //   text: "Resource",
+    //   href: "",
+    // },
+    // {
+    //   text: "RewardSphere",
+    //   href: "https://rewardsphere.tbook.com/",
+    // },
+  ];
 
   const Content = () => {
     return (
@@ -49,15 +48,17 @@ function Header() {
                   </a>
                 );
               } else {
-                <NavLink
-                  to={link.href}
-                  key={link.text}
-                  className="flex items-center px-8 font-medium h-14 text-cwh2 text-c-6"
-                >
-                  {({ isActive }) => {
-                    return <span className={clsx(isActive && "font-bold text-white")}> {link.text}</span>;
-                  }}
-                </NavLink>;
+                return (
+                  <NavLink
+                    to={link.href}
+                    key={link.text}
+                    className="flex items-center px-8 font-medium h-14 text-cwh2 text-c-6"
+                  >
+                    {({ isActive }) => {
+                      return <span className={clsx(isActive && "font-bold text-white")}> {link.text}</span>;
+                    }}
+                  </NavLink>
+                );
               }
             } else {
               return (
@@ -92,9 +93,13 @@ function Header() {
                       </a>
                     );
                   } else {
-                    <NavLink to={link.href} key={link.text} className="font-bold dark:text-c-9 text-c1">
-                      {link.text}
-                    </NavLink>;
+                    return (
+                      <NavLink to={link.href} key={link.text} className="font-bold dark:text-c-9 text-c1">
+                        {({ isActive }) => {
+                          return <span className={clsx(isActive && "font-bold text-white")}> {link.text}</span>;
+                        }}
+                      </NavLink>
+                    );
                   }
                 } else {
                   return (
@@ -107,9 +112,9 @@ function Header() {
             </div>
           ) : (
             <>
-              {/* <button onClick={() => setOpenDrawer(true)}>
+              <button onClick={() => setOpenDrawer(true)}>
                 <img src={menuIcon} className="h-8" />
-              </button> */}
+              </button>
               <DarkProvider>
                 <Drawer
                   placement="top"
