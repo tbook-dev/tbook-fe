@@ -23,7 +23,7 @@ export default function Banner() {
   const { pc } = useResponsive();
 
   return (
-    <div className="relative">
+    <div className="relative mb-10 lg:mb-0">
       {pc && (
         <div
           className="absolute top-0 bottom-0 left-0 right-0 bg-cover"
@@ -48,7 +48,7 @@ export default function Banner() {
           </div>
         </div>
       </div>
-      <div className="relative flex flex-col items-center justify-between px-0 py-4 space-y-5 text-center lg:flex-row lg:px-16 lg:py-8 lg:space-x-0 lg:text-left bx">
+      <div className="relative flex flex-col items-center justify-between px-0 py-4 space-y-5 text-center lg:flex-row lg:px-16 lg:py-8 lg:space-y-0 lg:text-left bx">
         {list.map((v) => (
           <div key={v.title}>
             <p className="mb-1 font-bold text-white lg:mb-px text-cwh8 lg:text-cwh7">{v.val}</p>
