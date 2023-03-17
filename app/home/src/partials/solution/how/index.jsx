@@ -9,7 +9,7 @@ export default function How() {
   const { pc } = useResponsive();
 
   return (
-    <div className="relative px-4 lg:pt-40 lg:pb-[180px] lg:px-0 lg:bg-cw1">
+    <div className="relative px-4 lg:pt-40 lg:pb-[180px] lg:px-0 lg:bg-cw1 mb-10 lg:mb-0">
       {pc && <div style={{ backgroundImage: "" }} />}
       <div className="py-5 px-[30px] rounded-lg lg:py-0 bx bg-cw1 lg:bg-none">
         <h2 className="mb-3 font-bold text-white lg:mb-10 lg:text-cwh9 text-ch1">{conf.title}</h2>

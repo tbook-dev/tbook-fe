@@ -20,6 +20,9 @@ module.exports = {
         cw2: "linear-gradient(57.39deg, rgba(106, 179, 247, 0.15) -4.5%, rgba(103, 235, 212, 0.15)  96.91%);",
         cw3: "linear-gradient(57.39deg, rgba(106, 179, 247, 0.1) -4.5%, rgba(103, 235, 212, 0.1) 96.91%);",
       },
+      dropShadow: {
+        d1: "-2px 2px 8px rgba(0, 0, 0, 0.25)",
+      },
       boxShadow: {
         d1: "0px 0px 8px rgba(0, 0, 0, 0.08)",
         d2: "0px 8px 24px rgba(69, 160, 245, 0.2)",

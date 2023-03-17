@@ -46,6 +46,11 @@
         will-change: transform;
         animation: loop-right 20s linear infinite forwards;
     }
+
+    .swiper-icon-nav1{
+        box-shadow: inset 0px -1px 1px rgba(255, 255, 255, 0.15), inset 0px 4px 4px rgba(255, 255, 255, 0.1), inset 0px -3px 3px rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(7px);
+    }
     @media (max-width: 1212px){
         .bx{
             @apply w-full;
