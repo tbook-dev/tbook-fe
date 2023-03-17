@@ -40,7 +40,7 @@ export default function () {
             key={feat.title}
           >
             <div className="w-24 h-24 mb-4 lg:rounded-2xl shadow-d10 lg:mb-8">
-              <img src={feat.icon}/>
+              <img src={feat.icon} />
             </div>
 
             <h2 className="font-extrabold text-white lg:mb-2 lg:text-cwh2">{feat.title}</h2>
