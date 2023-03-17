@@ -1,4 +1,7 @@
 import bgVideo from "./support.mp4";
+import wVideo from "./wsupport.mp4";
+
+import { useResponsive } from "ahooks";
 
 const list = [
   {
@@ -19,6 +22,8 @@ const list = [
   },
 ];
 export default function () {
+  const { pc } = useResponsive();
+
   return (
     <div className="px-4 bx mb-10 lg:mb-[144px] lg:px-0">
       <div className="lg:flex lg:items-center lg:h-[720px] relative overflow-hidden rounded-lg shadow-d6 lg:rounded-none lg:shadow-none pt-5 pb-[45px] lg:py-0">
@@ -36,7 +41,7 @@ export default function () {
         </div>
         <div className="absolute w-full lg:w-[628px] right-0 bottom-0 top-0">
           <video className="h-full rounded-2xl" loop autoPlay preload="auto" playsInline muted>
-            <source src={bgVideo} type="video/mp4"></source>
+            <source src={pc ? wVideo : bgVideo} type="video/mp4"></source>
           </video>
           <div className="absolute inset-0 bg-[rgba(0,0,0,.6)] lg:hidden" />
         </div>
