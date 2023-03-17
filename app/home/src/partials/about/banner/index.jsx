@@ -13,7 +13,7 @@ export default function () {
         loop
         autoPlay
         muted
-        playsinline
+        playsInline
       >
         <source src={bgVideo} type="video/mp4"></source>
       </video>

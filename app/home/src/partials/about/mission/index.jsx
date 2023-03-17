@@ -25,7 +25,7 @@ export default function Mission() {
           </p>
         </div>
         <div className="hidden lg:block absolute w-[628px] h-[360px] left-0 -bottom-[120px]">
-          <video className="object-cover w-full h-full rounded-2xl" preload="auto" playsinline muted loop autoPlay>
+          <video className="object-cover w-full h-full rounded-2xl" preload="auto" playsInline muted loop autoPlay>
             <source src={bgVideo} type="video/mp4"></source>
           </video>
         </div>
@@ -34,7 +34,7 @@ export default function Mission() {
       <video
         className="block object-cover w-full h-[197px] rounded-lg lg:hidden"
         preload="auto"
-        playsinline
+        playsInline
         muted
         loop
         autoPlay
