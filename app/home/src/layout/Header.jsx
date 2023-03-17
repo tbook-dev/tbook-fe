@@ -15,10 +15,10 @@ function Header() {
       text: "About",
       href: "/about",
     },
-    // {
-    //   text: "Solution",
-    //   href: "",
-    // },
+    {
+      text: "Solution",
+      href: "/solution",
+    },
 
     // {
     //   text: "Resource",
@@ -100,7 +100,9 @@ function Header() {
                         {({ isActive }) => {
                           return (
                             <span
-                              className={clsx(isActive ? "font-bold text-white" : "hover:text-white dark:text-c-9")}
+                              className={clsx(
+                                isActive ? "font-bold text-white" : "hover:dark:text-white dark:text-c-9"
+                              )}
                             >
                               {link.text}
                             </span>
