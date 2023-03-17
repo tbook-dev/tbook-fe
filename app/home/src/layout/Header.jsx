@@ -49,13 +49,9 @@ function Header() {
                 );
               } else {
                 return (
-                  <NavLink
-                    to={link.href}
-                    key={link.text}
-                    className="flex items-center px-8 font-medium h-14 text-cwh2 text-c-6"
-                  >
+                  <NavLink to={link.href} key={link.text} className="flex items-center px-8 font-medium h-14 text-cwh2">
                     {({ isActive }) => {
-                      return <span className={clsx(isActive && "font-bold text-white")}> {link.text}</span>;
+                      return <span className={clsx(isActive ? "font-bold text-white" : "text-c-6")}> {link.text}</span>;
                     }}
                   </NavLink>
                 );
@@ -94,10 +90,12 @@ function Header() {
                     );
                   } else {
                     return (
-                      <NavLink to={link.href} key={link.text} className="font-bold dark:text-c-9 text-c1">
+                      <NavLink to={link.href} key={link.text} className="font-bold text-c1">
                         {({ isActive }) => {
                           return (
-                            <span className={clsx(isActive ? "font-bold text-white" : "hover:text-white")}>
+                            <span
+                              className={clsx(isActive ? "font-bold text-white" : "hover:text-white dark:text-c-9")}
+                            >
                               {link.text}
                             </span>
                           );

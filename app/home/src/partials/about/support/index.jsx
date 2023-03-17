@@ -35,7 +35,7 @@ export default function () {
           </div>
         </div>
         <div className="absolute w-full lg:w-[628px] right-0 bottom-0 top-0">
-          <video className="h-full rounded-2xl" loop autoPlay muted>
+          <video className="h-full rounded-2xl" loop autoPlay preload="auto" playsinline muted>
             <source src={bgVideo} type="video/mp4"></source>
           </video>
         </div>
