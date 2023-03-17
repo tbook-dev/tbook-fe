@@ -41,6 +41,7 @@ function Header() {
                   <a
                     href={link.href}
                     key={link.text}
+                    onClick={() => setOpenDrawer(false)}
                     target="_blank"
                     className="flex items-center px-8 font-medium h-14 text-cwh2"
                   >
@@ -49,7 +50,12 @@ function Header() {
                 );
               } else {
                 return (
-                  <NavLink to={link.href} key={link.text} className="flex items-center px-8 font-medium h-14 text-cwh2">
+                  <NavLink
+                    onClick={() => setOpenDrawer(false)}
+                    to={link.href}
+                    key={link.text}
+                    className="flex items-center px-8 font-medium h-14 text-cwh2"
+                  >
                     {({ isActive }) => {
                       return <span className={clsx(isActive ? "font-bold text-white" : "text-c-6")}> {link.text}</span>;
                     }}
