@@ -59,9 +59,9 @@ export default function () {
               }}
               autoHeight
             >
-              {conf.list.map((v) => {
+              {conf.list.map((v, idx) => {
                 return (
-                  <SwiperSlide key={v.title}>
+                  <SwiperSlide key={idx}>
                     <div className="px-1 py-1">
                       <div className="px-10 text-white shadow-d5 py-7 rounded-2xl">
                         <h2 className="mb-4 font-extrabold text-c7">{v.title}</h2>
@@ -77,7 +77,7 @@ export default function () {
           <div className="space-y-5">
             {conf.list.map((v) => {
               return (
-                <div className="p-5 text-center text-white rounded-lg shadow-d6">
+                <div key={v.title} className="p-5 text-center text-white rounded-lg shadow-d6">
                   <h2 className="mb-3 font-bold text-c12">{v.title}</h2>
                   <p className="text-c4">{v.desc}</p>
                 </div>
