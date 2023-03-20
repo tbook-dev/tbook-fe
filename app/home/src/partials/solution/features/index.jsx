@@ -2,7 +2,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
-
+import p from "./p.png";
 import { useResponsive } from "ahooks";
 
 const conf = {
@@ -31,8 +31,10 @@ const conf = {
 export default function () {
   const { pc } = useResponsive();
   return (
-    <div className="flex justify-end px-4 mb-10 bx lg:px-0 lg:mb-0">
-      <div className="lg:pt-[273px] lg:pb-[173px] flex flex-col items-center lg:items-end justify-end">
+    <div className="relative flex justify-end px-4 mb-10 lg:px-0 lg:mb-0">
+      {pc && <img src={p} className="absolute top-0 left-0 h-full" />}
+
+      <div className=" relative z-0 bx lg:pt-[273px] lg:pb-[173px] flex flex-col items-center lg:items-end justify-end">
         <h2 className="font-bold text-white text-cwh1 lg:text-cwh9 w-[230px] lg:w-auto text-center mb-2 lg:mb-4">
           {conf.title}
         </h2>
@@ -42,7 +44,7 @@ export default function () {
 
         {pc ? (
           <div
-            className="relative text-left w-[490px]"
+            className="relative text-left w-[490px] h-[230px]"
             style={{
               "--swiper-navigation-size": "10px",
               "--swiper-theme-color": "#fff",
