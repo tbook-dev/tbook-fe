@@ -27,12 +27,7 @@ export default function Banner() {
 
   return (
     <div className="relative mb-10 lg:mb-0">
-      {pc && (
-        <div
-          className="absolute top-0 bottom-0 left-0 right-0 bg-cover"
-          style={{ backgroundImage: `url(${banner})` }}
-        />
-      )}
+      {pc && <img className="absolute top-0 right-0 h-full" src={banner} />}
 
       <div className="lg:h-[836px] flex items-center bx relative pt-[45px] lg:pt-0">
         <div className="px-4 text-center lg:px-0 lg:text-left">
