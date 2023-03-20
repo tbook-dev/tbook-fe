@@ -20,14 +20,7 @@ const list = [
     val: "50+",
   },
 ];
-const colorfulTexts = [
-  "developers",
-  "employee",
-  "adviser",
-  "business development team",
-  "investor",
-  "community growth",
-];
+const colorfulTexts = ["developers", "employee", "adviser", "business development", "investor", "community growth"];
 
 export default function Banner() {
   const { pc } = useResponsive();
@@ -46,7 +39,7 @@ export default function Banner() {
           <h2 className="px-5 font-extrabold text-white lg:px-0 text-c11 lg:text-cwh7 ">Superincentive Your Web3</h2>
           <div
             style={{ height: pc ? 90 : 40 }}
-            className="flex px-5 mb-3 font-extrabold text-white lg:px-0 text-c7 lg:text-cwh7 lg:mb-4"
+            className="inline-flex px-5 mb-5 font-extrabold text-white lg:mb-10 lg:px-0 text-c11 lg:text-cwh7 "
           >
             <Swiper
               effect="cube"
@@ -67,10 +60,7 @@ export default function Banner() {
             </Swiper>
           </div>
 
-          <p className="mb-12 lg:mb-4 text-c4 lg:text-c9 text-c-9">
-            The Smart and Secure Way to Create and <br /> Manage Token Incentive Plans
-          </p>
-          <div className="flex justify-center mt-10 lg:block lg:mt-0">
+          <div className="flex justify-center lg:block">
             <a target="_blank" href={appLink} className="relative">
               <Button className="mx-auto px-8 cursor-pointer lg:bg-white lg:bg-none w-[80vw] lg:w-auto">
                 Get Started
