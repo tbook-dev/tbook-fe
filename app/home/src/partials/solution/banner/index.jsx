@@ -27,10 +27,10 @@ export default function Banner() {
 
   return (
     <div className="relative mb-10 lg:mb-0">
-      {pc && <img className="absolute top-0 right-0 h-full" src={banner} />}
+      {pc && <img className="absolute top-0 right-0 object-cover h-full" src={banner} />}
 
       <div className="lg:h-[836px] flex items-center bx relative pt-[45px] lg:pt-0">
-        <div className="px-4 text-center lg:px-0 lg:text-left">
+        <div className="px-4 mx-auto text-center lg:px-0 lg:text-left">
           <h2 className="px-5 font-extrabold text-white lg:px-0 text-c11 lg:text-cwh7 ">Superincentive Your Web3</h2>
           <div
             style={{ height: pc ? 90 : 40 }}
