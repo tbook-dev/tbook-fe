@@ -18,6 +18,7 @@ import bestsign from "@/images/partner/bestsign.png";
 import hippyghosts from "@/images/partner/hippyghosts.png";
 import triangle from "@/images/partner/triangle.png";
 import metopia from "@/images/partner/metopia.png";
+import meme from "@/images/partner/meme.png";
 
 export const list1 = [
   {
@@ -97,6 +98,10 @@ export const list2 = [
   },
   {
     src: metopia,
+    link: "",
+  },
+  {
+    src: meme,
     link: "",
   },
 ];
