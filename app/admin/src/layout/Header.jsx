@@ -21,28 +21,35 @@ function Header() {
   const { pc } = useResponsive();
   const project = useCurrentProject();
   const projectChain = chains.find((v) => project.chain === v.name);
-  const showLessNav = useSelector((state) => state.user.showLessNav);
-
+  const menu = [
+    {
+      link: "/",
+      text: "INCENTIVE",
+    },
+    {
+      link: "/tokenTable",
+      text: "TOKENTABLE",
+    },
+  ];
   const Content = () => {
     return (
       <div className="flex flex-col justify-between h-full pt-5 -mx-6">
-        <div>
-          <NavLink to="/" className={({ isActive }) => clsx("flex h-14 items-center px-8 text-cwh2")}>
-            {({ isActive }) => {
-              return <span className="font-bold text-white">Incentive</span>;
-            }}
-          </NavLink>
-
-          <NavLink to="/" className={({ isActive }) => clsx("flex h-14 items-center px-8 text-cwh2")}>
-            {({ isActive }) => {
-              return <span className="text-[#666]">Tokentable</span>;
-            }}
-          </NavLink>
+        <div
+          onClick={() => {
+            setOpenDrawer(false);
+          }}
+        >
+          {menu.map((v) => (
+            <NavLink to={v.link} key={v.link} className="flex items-center px-8 h-14 text-cwh2">
+              {({ isActive }) => {
+                return <span className={clsx("font-bold", isActive ? "text-white" : "text-[#666]")}>{v.text}</span>;
+              }}
+            </NavLink>
+          ))}
         </div>
 
         {authUser && (
           <div className="border-t border-b-1">
-            {/* 1、当前项目的网络; 2、默认以太坊*/}
             <div className="flex items-center px-8 text-c12 h-14 text-[#666]">Settings</div>
             <div className="flex items-center px-8 text-c12 h-14">
               <span className="text-[#666] mr-2">Network ｜</span>
@@ -62,12 +69,24 @@ function Header() {
               <img src={logo} className="h-8 lg:h-7" />
             </Link>
 
-            {showLessNav ? null : pc ? (
-              <div className="items-center hidden lg:flex">
-                <Link to="/" className="mr-12 font-bold dark:text-white text-c1">
-                  INCENTIVE
-                </Link>
-                <span className="font-medium text-c1 dark:text-c-9">TOKENTABLE</span>
+            {pc ? (
+              <div className="items-center hidden space-x-12 text-c1 lg:flex">
+                {menu.map((v) => (
+                  <NavLink to={v.link} key={v.link}>
+                    {({ isActive }) => {
+                      return (
+                        <span
+                          className={clsx(
+                            "font-bold",
+                            isActive ? "font-bold dark:text-white" : "font-medium dark:text-c-9"
+                          )}
+                        >
+                          {v.text}
+                        </span>
+                      );
+                    }}
+                  </NavLink>
+                ))}
               </div>
             ) : (
               <>
@@ -94,7 +113,6 @@ function Header() {
             )}
           </div>
 
-          {/* Header: Right side */}
           <div className="flex items-center space-x-3">
             {loadingUserStatus ? <Spin /> : authUser ? <UserMenu /> : <Connect />}
           </div>
