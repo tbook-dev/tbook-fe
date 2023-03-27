@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { conf } from "@tbook/utils";
 import { useFindAudience } from "@tbook/hooks";
 
-const  { getDividePercent, formatDollar } = conf;
+const { getDividePercent, formatDollar } = conf;
 
 export default function ({ tip, pc, isActive }) {
   const conf = useMemo(() => {
@@ -17,7 +17,8 @@ export default function ({ tip, pc, isActive }) {
             title: "Granted Token",
             value: `${formatDollar(tip.grantedTokenNum)}(${getDividePercent(
               tip.grantedTokenNum,
-              tip.totalTokenNum
+              tip.totalTokenNum,
+              2
             )}%)`,
           },
           {
@@ -42,7 +43,8 @@ export default function ({ tip, pc, isActive }) {
             title: "Granted Token",
             value: `${formatDollar(tip.grantedTokenNum)}(${getDividePercent(
               tip.grantedTokenNum,
-              tip.totalTokenNum
+              tip.totalTokenNum,
+              2
             )}%)`,
           },
         ];
@@ -88,23 +90,10 @@ export default function ({ tip, pc, isActive }) {
       >
         {conf.map((v) => {
           return (
-            <div
-              className="flex justify-between text-c4"
-              key={v.title}
-            >
+            <div className="flex justify-between text-c4" key={v.title}>
+              <p className={clsx("font-normal", isActive ? "dark:text-l-8" : "dark:text-b-8 font-medium")}>{v.title}</p>
               <p
-                className={clsx(
-                  "font-normal",
-                  isActive ? "dark:text-l-8" : "dark:text-b-8 font-medium"
-                )}
-              >
-                {v.title}
-              </p>
-              <p
-                className={clsx(
-                  "font-medium max-w-[90px] truncate",
-                  isActive ? "dark:text-black" : "dark:text-white"
-                )}
+                className={clsx("font-medium max-w-[90px] truncate", isActive ? "dark:text-black" : "dark:text-white")}
               >
                 {v.value}
               </p>
