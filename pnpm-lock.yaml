@@ -17,8 +17,6 @@ importers:
       ahooks: ^3.7.3
       antd: ^5.0.7
       autoprefixer: ^10.4.7
-      chart.js: ^3.8.0
-      chartjs-adapter-moment: ^1.0.0
       clsx: ^1.2.1
       dayjs: ^1.11.7
       flatpickr: ^4.6.13
@@ -55,8 +53,6 @@ importers:
       '@web3modal/react': 2.1.1_biqbaboplfbrettd7655fr4n2y
       ahooks: 3.7.4_react@18.2.0
       antd: 5.2.2_jb42yyeu5qxbfieyxjks6malva
-      chart.js: 3.9.1
-      chartjs-adapter-moment: 1.0.1_opaabi5ukfxevbnz4qlju6tphq
       clsx: 1.2.1
       dayjs: 1.11.7
       lodash: 4.17.21
@@ -87,12 +83,14 @@ importers:
 
   app/admin:
     specifiers:
+      '@antv/g2plot': ^2.4.28
       '@tbook/hooks': workspace:*
       '@tbook/share': workspace:*
       '@tbook/store': workspace:*
       '@tbook/ui': workspace:*
       '@tbook/utils': workspace:*
     dependencies:
+      '@antv/g2plot': 2.4.28
       '@tbook/hooks': link:../../packages/hooks
       '@tbook/share': link:../../packages/share
       '@tbook/store': link:../../packages/store
@@ -412,6 +410,25 @@ packages:
 
   /@antv/g2plot/2.4.25:
     resolution: {integrity: sha512-DCDz/b/HvvlJc+tBbkxQcpy6E7/2t4kpWoIPRcm57a1iyofb7ZSCpypDvarQiRi3J8WBvU9LFEa4swdtxHncWA==}
+    dependencies:
+      '@antv/color-util': 2.0.6
+      '@antv/event-emitter': 0.1.3
+      '@antv/g-base': 0.5.14
+      '@antv/g2': 4.2.9
+      '@antv/matrix-util': 3.1.0-beta.3
+      '@antv/path-util': 3.0.1
+      '@antv/scale': 0.3.18
+      '@antv/util': 2.0.17
+      d3-hierarchy: 2.0.0
+      d3-regression: 1.3.10
+      fmin: 0.0.2
+      pdfast: 0.2.0
+      size-sensor: 1.0.1
+      tslib: 2.5.0
+    dev: false
+
+  /@antv/g2plot/2.4.28:
+    resolution: {integrity: sha512-eMG7afQ0Kj8AGsJ7r2/6sqqJ/xuIMeXeZPcDvDOvrlgR3tqksUvL00Q3Ahm5ry4mbEj9smPbZZcqZrmyO+uphA==}
     dependencies:
       '@antv/color-util': 2.0.6
       '@antv/event-emitter': 0.1.3
@@ -5079,20 +5096,6 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
-    dev: false
-
-  /chart.js/3.9.1:
-    resolution: {integrity: sha512-Ro2JbLmvg83gXF5F4sniaQ+lTbSv18E+TIf2cOeiH1Iqd2PGFOtem+DUufMZsCJwFE7ywPOpfXFBwRTGq7dh6w==}
-    dev: false
-
-  /chartjs-adapter-moment/1.0.1_opaabi5ukfxevbnz4qlju6tphq:
-    resolution: {integrity: sha512-Uz+nTX/GxocuqXpGylxK19YG4R3OSVf8326D+HwSTsNw1LgzyIGRo+Qujwro1wy6X+soNSnfj5t2vZ+r6EaDmA==}
-    peerDependencies:
-      chart.js: '>=3.0.0'
-      moment: ^2.10.2
-    dependencies:
-      chart.js: 3.9.1
-      moment: 2.29.4
     dev: false
 
   /check-error/1.0.2:
