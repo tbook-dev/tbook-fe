@@ -4,43 +4,11 @@ import { conf } from "@tbook/utils";
 
 const { formatDollar } = conf;
 
-const data = [
-  {
-    id: "c",
-    label: "c",
-    value: 2182,
-    color: "hsl(78, 70%, 50%)",
-  },
-  {
-    id: "make",
-    label: "make",
-    value: 108,
-    color: "hsl(31, 70%, 50%)",
-  },
-  {
-    id: "php",
-    label: "php",
-    value: 428,
-    color: "hsl(154, 70%, 50%)",
-  },
-  {
-    id: "python",
-    label: "python",
-    value: 58,
-    color: "hsl(82, 70%, 50%)",
-  },
-  {
-    id: "css",
-    label: "css",
-    value: 300,
-    color: "hsl(322, 70%, 50%)",
-  },
-];
-
 const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
   const total = data.reduce((sum, item) => sum + item.value, 0);
 
   const handleMouseEnter = (datum, event) => {
+    console.log(event.target);
     setCurrentSelection(datum.id);
   };
 
@@ -51,7 +19,7 @@ const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
   return (
     <ResponsivePie
       data={data}
-      margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+      margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
       sortByValue={true}
       innerRadius={0.8}
       activeOuterRadiusOffset={4}
@@ -64,8 +32,13 @@ const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
       arcLinkLabel={function (e) {
         return e.value + "%";
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      hoverSlice
       arcLinkLabelsTextColor={{ from: "color", modifiers: [] }}
       arcLinkLabelsThickness={2}
+      arcLinkLabelsDiagonalLength={0}
+      arcLinkLabelsStraightLength={0}
       arcLinkLabelsColor={{ from: "color" }}
       tooltip={() => null}
       valueFormat={(v) => formatDollar(v)}
@@ -73,12 +46,11 @@ const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
         from: "color",
         modifiers: [["darker", 2]],
       }}
-      // layers={[CenteredMetric, "slices", "sliceLabels", "radialLabels", "legends"]}
+      layers={["arcs", "arcLabels", "arcLinkLabels", "legends", CenteredMetric]}
     />
   );
 
   function CenteredMetric({ centerX, centerY }) {
-    console.log({ centerX, centerY });
     return (
       <text
         x={centerX}
@@ -90,7 +62,7 @@ const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
         style={{
           fontSize: "20px",
           fontWeight: "bold",
-          fill: "#333",
+          fill: "#fff",
         }}
       >
         {currentSelection ? currentSelection : total}
@@ -105,7 +77,7 @@ const SelectionButton = ({ label, onClick }) => (
   </button>
 );
 
-const App = () => {
+const Chart = ({ data }) => {
   const [currentSelection, setCurrentSelection] = useState("");
 
   const handleButtonClick = (id) => {
@@ -114,7 +86,7 @@ const App = () => {
 
   return (
     <div>
-      <div style={{ height: "300px" }}>
+      <div style={{ height: "240px", width: "240px" }}>
         <PieChart data={data} setCurrentSelection={setCurrentSelection} currentSelection={currentSelection} />
       </div>
       <div>
@@ -126,4 +98,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Chart;
