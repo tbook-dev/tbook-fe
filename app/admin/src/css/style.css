@@ -25,6 +25,9 @@
         background-clip: text;
         text-fill-color: transparent;
     }
+    .bx{
+        @apply px-4 lg:px-0 lg:w-[936px] mx-auto;
+    }
 }
 
 @media (min-width: 1120px){
