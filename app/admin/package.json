@@ -8,7 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@antv/g2plot": "^2.4.28",
+    "@nivo/core": "^0.80.0",
+    "@nivo/pie": "^0.80.0",
     "@tbook/hooks": "workspace:*",
     "@tbook/share": "workspace:*",
     "@tbook/store": "workspace:*",
