@@ -34,7 +34,7 @@ const data = [
 ];
 export default function Pie() {
   return (
-    <div className="p-3 bx lg:p-6 rect-border">
+    <div className="p-3 mb-4 bx lg:p-6 lg:mb-10 rect-border">
       <h2 className="font-medium text-c13">Fully Diluted Token </h2>
       <div className="grid grid-cols-1 lg:grid-cols-2 ">
         <Chart data={data} />
