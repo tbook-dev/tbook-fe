@@ -57,6 +57,7 @@ const {
   timeLengthList,
   vestingOccursOptions,
   getDividePercent,
+  moreZeroValidator,
 } = conf;
 
 dayjs.extend(customParseFormat);
@@ -427,7 +428,7 @@ function GrantCreate() {
                       name="exercisePrice"
                       rules={[
                         {
-                          validator: minZeroValidator("Exercise Price"),
+                          validator: moreZeroValidator("Exercise Price"),
                         },
                       ]}
                     >

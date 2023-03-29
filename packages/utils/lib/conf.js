@@ -223,6 +223,18 @@ export function minZeroValidator(label) {
     return Promise.reject(new Error(`${label} must be greater than zero!`));
   };
 }
+export function moreZeroValidator(label) {
+  return function (_, value) {
+    // console.log('value', value)
+    if (value === "" || value === undefined) {
+      return Promise.reject(new Error(`Please input the ${label}!`));
+    }
+    if (value >= 0) {
+      return Promise.resolve();
+    }
+    return Promise.reject(new Error(`${label} must not be less than zero!`));
+  };
+}
 
 export function maxValidator(max, label) {
   return function (_, value) {
@@ -278,6 +290,6 @@ export const findTimeType = (v) => timeLengthList.find((t) => t.value === v)?.la
 
 export const defaultErrorMsg = "An error happens, plase try it later!";
 
-export const appLink = 'https://app.tbook.com'
+export const appLink = "https://app.tbook.com";
 
-export const myLink= 'https://my.tbook.com'
+export const myLink = "https://my.tbook.com";
