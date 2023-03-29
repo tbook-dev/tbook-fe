@@ -28,6 +28,9 @@
     .bx{
         @apply px-4 lg:px-0 lg:w-[936px] mx-auto;
     }
+    .rect-border{
+        @apply shadow-d10 rounded lg:rounded-lg; 
+    }
 }
 
 @media (min-width: 1120px){

@@ -8,7 +8,6 @@ const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
   const total = data.reduce((sum, item) => sum + item.value, 0);
 
   const handleMouseEnter = (datum, event) => {
-    console.log(event.target);
     setCurrentSelection(datum.id);
   };
 
@@ -85,15 +84,8 @@ const Chart = ({ data }) => {
   };
 
   return (
-    <div>
-      <div style={{ height: "240px", width: "240px" }}>
-        <PieChart data={data} setCurrentSelection={setCurrentSelection} currentSelection={currentSelection} />
-      </div>
-      <div>
-        {data.map((item) => (
-          <SelectionButton key={item.id} label={`Select ${item.label}`} onClick={() => handleButtonClick(item.id)} />
-        ))}
-      </div>
+    <div style={{ height: "240px", width: "240px" }}>
+      <PieChart data={data} setCurrentSelection={setCurrentSelection} currentSelection={currentSelection} />
     </div>
   );
 };
