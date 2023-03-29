@@ -8,8 +8,8 @@ const { formatDollar, shortAddress } = conf;
 
 export default function RecordTable() {
   const { pc } = useResponsive();
+  const tableHeaders = useMemo(() => ["HOLDER", "Target Audience", "TOTAL TOKEN", "Percentage"], []);
 
-  const tableHeaders = useMemo(() => ["HOLDER", "Target Audience", "TOTAL TOKEN", "GRANT DATE", "Percentage"], []);
   const list = useMemo(() => {
     return [
       {
@@ -44,7 +44,7 @@ export default function RecordTable() {
   return (
     <div className="p-3 mb-10 text-white rect-border lg:py-6 lg:px-0">
       <div className="flex items-center justify-between mb-3 lg:px-6">
-        <h2 className="font-medium text-c12 lg:text-c13">Latest Grants</h2>
+        <h2 className="font-medium text-c12 lg:text-c13">Stakeholders</h2>
         <Link to="/create/plan">
           <button
             type="button"
@@ -57,14 +57,14 @@ export default function RecordTable() {
       </div>
 
       <div className="lg:border-t lg:border-b-1">
-        <div className="hidden py-3 mx-3 font-bold text-center border-b lg:mx-4 border-b-1 lg:grid-cols-5 lg:grid text-c5 text-c-9">
+        <div className="hidden py-3 mx-3 font-bold text-center border-b lg:mx-0 lg:px-4 border-b-1 lg:grid-cols-4 lg:grid text-c5 text-c-9">
           {tableHeaders.map((v) => {
             return <div key={v}>{v}</div>;
           })}
         </div>
         {list.map((v, idx) => {
           return pc ? (
-            <div className="grid grid-cols-5 mx-4 border-b border-b-1" key={idx}>
+            <div className="grid grid-cols-4 mx-4 border-b border-b-1" key={idx}>
               <div className="flex justify-center py-1">
                 <div className="w-10 h-10 rounded-full bg-[#141414] flex justify-center items-center mr-2">
                   <img src={v.avator} className="object-cover w-6 h-6" />
@@ -83,7 +83,6 @@ export default function RecordTable() {
               </div>
               <div className="flex items-center justify-center font-medium text-c1">{v.tokens}</div>
               <div className="flex items-center justify-center font-medium text-c1">{v.date}</div>
-              <div className="flex items-center justify-center font-medium text-c1">{v.perecent}%</div>
             </div>
           ) : (
             <div className="grid items-center grid-cols-2 mx-4 mb-3" key={idx}>
@@ -107,7 +106,6 @@ export default function RecordTable() {
                 <p className="mb-px font-bold text-c8">
                   {v.tokens}({v.perecent}%)
                 </p>
-                <p className="text-c4 text-b-8">{v.date}</p>
               </div>
             </div>
           );
