@@ -28,7 +28,10 @@ export default function ({ tpl }) {
       </div>
 
       {pc ? (
-        <Link className={clsx(isHovering ? "block absolute left-0 right-0 bottom-0" : "hidden")}>
+        <Link
+          to={`/allocation?id=${tpl.id}`}
+          className={clsx(isHovering ? "block absolute left-0 right-0 bottom-0" : "hidden")}
+        >
           <button
             type="button"
             className="w-full text-c9 flex items-center justify-center h-10  font-medium leading-normal  rounded-md  dark:disabled:bg-none	dark:bg-cw1 dark:text-black shadow-d3 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
@@ -37,7 +40,7 @@ export default function ({ tpl }) {
           </button>
         </Link>
       ) : (
-        <Link>
+        <Link to={`/allocation?id=${tpl.id}`}>
           <button
             type="button"
             className="w-full text-c9 flex items-center justify-center h-10  font-medium leading-normal  rounded-md  dark:disabled:bg-none	dark:bg-cw1 dark:text-black shadow-d3 dark:disabled:bg-[#141414] dark:disabled:text-b-2"

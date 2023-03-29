@@ -9,6 +9,7 @@ export default function Template() {
   useAsyncEffect(async () => {
     setTpl([
       {
+        id: 1,
         tplName: "Uniswap TemplateTemplateTemplateTemplate",
         latestValuation: 1000000,
         maxTokenSupply: 1000,
@@ -24,6 +25,7 @@ export default function Template() {
         ],
       },
       {
+        id: 2,
         tplName: "Binance Template1",
         latestValuation: 1000000,
         maxTokenSupply: 1000,
@@ -39,6 +41,7 @@ export default function Template() {
         ],
       },
       {
+        id: 3,
         tplName: "Binance Template2",
         latestValuation: 1000000,
         maxTokenSupply: 1000,

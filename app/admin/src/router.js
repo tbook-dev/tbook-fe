@@ -21,6 +21,14 @@ const routes = [
     path: "/tokenTable",
     component: lazy(() => import("@/pages/tokenTable")),
   },
+  {
+    path: "/record",
+    component: lazy(() => import("@/pages/record")),
+  },
+  {
+    path: "/allocation",
+    component: lazy(() => import("@/pages/allocation")),
+  },
 ];
 
 export default routes;
