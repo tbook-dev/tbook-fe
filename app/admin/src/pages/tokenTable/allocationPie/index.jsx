@@ -1,5 +1,6 @@
 import Chart from "./chart";
 import { Link } from "react-router-dom";
+import editIcon from "@tbook/share/images/icon/edit.svg";
 
 // 使用默认数据来显示
 const data = [
@@ -72,7 +73,13 @@ export default function Pie() {
   ];
   return (
     <div className="p-3 mb-4 bx lg:p-6 lg:mb-10 rect-border">
-      <h2 className="font-medium text-c13">Token Allocation</h2>
+      <div className="flex justify-between lg:justify-start">
+        <h2 className="font-medium lg:mr-4 text-c13">Token Allocation</h2>
+        <Link to="/allocation">
+          <img src={editIcon} className="w-8 h-8 rounded" />
+        </Link>
+      </div>
+
       <div className="grid items-center grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
         <Chart data={data} />
         <div className="space-y-4 w-[342px] justify-self-start hidden lg:block">
