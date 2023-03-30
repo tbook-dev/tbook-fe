@@ -35,6 +35,8 @@ const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
       onMouseLeave={handleMouseLeave}
       arcLinkLabelsTextColor={{ from: "color", modifiers: [] }}
       arcLinkLabelsThickness={0}
+      arcLinkLabelsTextOffset={0}
+      arcLinkLabelsOffset={8}
       arcLinkLabelsDiagonalLength={0}
       arcLinkLabelsStraightLength={0}
       arcLinkLabelsColor={{ from: "color" }}
