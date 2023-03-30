@@ -1,4 +1,5 @@
-import Pie from "./pie";
+import AllocationPie from "./allocationPie";
+import TokenDistribution from "./distributionPie";
 import RecordTable from "./recordTable";
 import { useCurrentProjectId, useUserInfoLoading, useProjects } from "@tbook/hooks";
 import { useAsyncEffect, useResponsive } from "ahooks";
@@ -44,7 +45,10 @@ export default function TokenTable() {
             link={projects.length === 0 ? "/create/project" : "/create/plan"}
           />
         ) : (
-          <Pie />
+          <>
+            <AllocationPie />
+            <TokenDistribution />
+          </>
         )}
       </div>
 

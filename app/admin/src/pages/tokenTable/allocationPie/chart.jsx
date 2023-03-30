@@ -51,21 +51,22 @@ const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
 
   function CenteredMetric({ centerX, centerY }) {
     return (
-      <text
-        x={centerX}
-        y={centerY}
-        width={100}
-        heigth={100}
-        textAnchor="middle"
-        dominantBaseline="central"
-        style={{
-          fontSize: "20px",
-          fontWeight: "bold",
-          fill: "#fff",
-        }}
-      >
-        {currentSelection ? currentSelection : total}
-      </text>
+      // <text
+      //   x={centerX}
+      //   y={centerY}
+      //   width={100}
+      //   heigth={100}
+      //   textAnchor="middle"
+      //   dominantBaseline="central"
+      //   style={{
+      //     fontSize: "20px",
+      //     fontWeight: "bold",
+      //     fill: "#fff",
+      //   }}
+      // >
+      //   {currentSelection ? currentSelection : total}
+      // </text>
+      <div>xxx</div>
     );
   }
 };
