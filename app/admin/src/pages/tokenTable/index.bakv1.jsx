@@ -4,11 +4,12 @@ import RecordTable from "./recordTable";
 import { useCurrentProjectId, useUserInfoLoading, useProjects } from "@tbook/hooks";
 import { useAsyncEffect, useResponsive } from "ahooks";
 import { Spin } from "antd";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import PlanTipNoConnect from "../incentive/planTip/NoConnect";
+import PlanTipNoProject from "../incentive/planTip/NoProject";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
 import Template from "./template";
-import { useNavigate } from "react-router-dom";
 
 export default function TokenTable() {
   const userLoading = useUserInfoLoading();
@@ -17,16 +18,8 @@ export default function TokenTable() {
   const projectId = useCurrentProjectId();
   const [tipList, setTipList] = useState([]);
   const [tipListLoading, setTiplistLoading] = useState(false);
-  const navigate = useNavigate();
 
   const { pc } = useResponsive();
-
-  useEffect(() => {
-    if (!userLoading && !authUser) {
-      navigate("/");
-    }
-    return () => {};
-  }, [userLoading]);
   useAsyncEffect(async () => {
     if (!projectId) return;
     setTiplistLoading(true);
@@ -43,6 +36,14 @@ export default function TokenTable() {
           <div className="flex items-center justify-center w-full h-full">
             <Spin />
           </div>
+        ) : !authUser ? (
+          <PlanTipNoConnect pc={pc} />
+        ) : tipList.length === 0 ? (
+          <PlanTipNoProject
+            pc={pc}
+            desc="Click to set up your incentive plan or select a template."
+            link={projects.length === 0 ? "/create/project" : "/create/plan"}
+          />
         ) : (
           <>
             <AllocationPie />
