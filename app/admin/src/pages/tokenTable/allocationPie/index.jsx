@@ -81,7 +81,9 @@ export default function Pie() {
       </div>
 
       <div className="grid items-center grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
-        <Chart data={data} />
+        <div className="lg:justify-self-end justify-self-center">
+          <Chart data={data} height={260} width={260} />
+        </div>
         <div className="space-y-4 w-[342px] justify-self-start hidden lg:block">
           {list.length > 0 ? (
             list.map((v) => (

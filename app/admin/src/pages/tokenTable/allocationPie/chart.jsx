@@ -89,7 +89,7 @@ const SelectionButton = ({ label, onClick }) => (
   </button>
 );
 
-const Chart = ({ data }) => {
+const Chart = ({ data, width, height }) => {
   const [currentSelection, setCurrentSelection] = useState("");
 
   const handleButtonClick = (id) => {
@@ -97,8 +97,8 @@ const Chart = ({ data }) => {
   };
 
   return (
-    <div className="lg:justify-self-end justify-self-center w-[260px]">
-      <div style={{ height: "260px" }}>
+    <div style={{ width }}>
+      <div style={{ height }}>
         <PieChart data={data} setCurrentSelection={setCurrentSelection} currentSelection={currentSelection} />
       </div>
       <div className="flex flex-wrap">

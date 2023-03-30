@@ -15,13 +15,82 @@ import { useParams } from "react-router-dom";
 import { useNetwork } from "wagmi";
 import Banner from "../component/banner";
 import { conf } from "@tbook/utils";
-
+import Chart from "../tokenTable/allocationPie/chart";
 const { defaultErrorMsg, chains, formatDollar } = conf;
 const { fetchUserInfo, setCurrentProjectId } = user;
 const { NetWork } = Icon;
+import clsx from "clsx";
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
+const data = [
+  {
+    id: "c",
+    label: "c",
+    value: 2182,
+    color: "hsl(78, 70%, 50%)",
+  },
+  {
+    id: "make",
+    label: "make",
+    value: 108,
+    color: "hsl(31, 70%, 50%)",
+  },
+  {
+    id: "php",
+    label: "php",
+    value: 428,
+    color: "hsl(154, 70%, 50%)",
+  },
+  {
+    id: "python",
+    label: "python",
+    value: 58,
+    color: "hsl(82, 70%, 50%)",
+  },
+  {
+    id: "css",
+    label: "css",
+    value: 300,
+    color: "hsl(322, 70%, 50%)",
+  },
+  {
+    id: "css1",
+    label: "css",
+    value: 300,
+    color: "hsl(322, 70%, 50%)",
+  },
+  {
+    id: "css2",
+    label: "css",
+    value: 300,
+    color: "hsl(322, 70%, 50%)",
+  },
+  {
+    id: "css3",
+    label: "css",
+    value: 300,
+    color: "hsl(322, 70%, 50%)",
+  },
+];
+
+const list = [
+  {
+    versionName: "Version02",
+    createDate: "01/03/2022",
+    versionId: "1",
+  },
+  {
+    versionName: "Version02",
+    createDate: "01/03/2022",
+    versionId: "2",
+  },
+  {
+    versionName: "Version02",
+    createDate: "01/03/2022",
+    versionId: "3",
+  },
+];
 function Allocation() {
   const [form] = Form.useForm();
   const [formProject] = Form.useForm();
@@ -45,7 +114,7 @@ function Allocation() {
   const { pc } = useResponsive();
   const mainNetwork = project?.chain || chain?.name || "Ethereum";
   // console.log("mainNetwork", mainNetwork, chain);
-
+  const [currentPlan, setCurrentPlan] = useState("1");
   const { pageType } = useParams();
 
   const options = [...projectAudience, ...addedAudience];
@@ -106,224 +175,155 @@ function Allocation() {
           </div>
         </div>
 
-        <div className="mb-6  lg:w-[600px] mx-4 lg:mx-auto lg:mb-0">
-          {pageType === "project" && !firstCreated ? (
-            <div className="px-3 pt-4 pb-8 lg:bg-white lg:shadow-c5 dark:bg-cw1 dark:lg:shadow-d3 rounded-xl lg:px-4 lg:py-6">
+        <div className="mb-6 relative lg:w-[600px] mx-4 lg:mx-auto lg:mb-0">
+          {pc && (
+            <div className="absolute py-6 w-[324px] rounded-lg top-0 left-[-350px]  text-white shadow-d11">
+              <h3 className="px-6 mb-4 font-medium text-c13">Token Distribution</h3>
+              <div className="flex justify-center">
+                <Chart data={data} width={275} height={275} />
+              </div>
+            </div>
+          )}
+
+          {pc && (
+            <div className="absolute top-0 right-[-348px] w-[348px] space-y-4 text-white">
+              {list.map((v) => (
+                <div
+                  className={clsx(
+                    currentPlan === v.versionId ? "text-black bg-[#26E3C2] rounded-r" : "ml-6 bg-b-1 rounded",
+                    "flex items-center justify-between px-4 py-3 font-medium"
+                  )}
+                  key={v.versionId}
+                >
+                  <p className="text-c14">{v.versionName}</p>
+                  <p className="text-c4">{v.createDate}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="overflow-hidden dark:bg-cw1 dark:lg:shadow-d3 rounded-xl lg:rounded-tr-none">
+            <div className="relative px-3 py-4 lg:pb-0 lg:pt-6 lg:px-4">
               <Form
                 {...(pc ? formItemCol : null)}
-                form={formProject}
+                form={form}
                 labelAlign="left"
                 colon={false}
                 layout={pc ? "horizontal" : "vertical"}
                 requiredMark={false}
-                onFinish={hanleCreateProject}
               >
-                <Form.Item label="Network">
-                  {chains.map((v) => {
-                    // 目前应该监听网络环境
-                    if (mainNetwork !== v.name) return null;
-                    return (
-                      <div
-                        className="flex items-center justify-center h-10 rounded-md bg-b-1 lg:bg-transparent lg:justify-start"
-                        key={v.evmChainId}
-                      >
-                        <NetWork id={v.evmChainId} className="mr-1" />
-                        <span className="text-black text-c9">{v.name}</span>
-                      </div>
-                    );
-                  })}
-                </Form.Item>
-
                 <Form.Item
-                  label="Project Name"
-                  name="projectName"
+                  label="Plan Name"
+                  name="incentivePlanName"
                   rules={[
                     {
                       required: true,
-                      message: "Please input the project name!",
+                      message: "Please input the Plan Name!",
                     },
                   ]}
                 >
-                  <Input placeholder="Editable" />
+                  <Input placeholder="the name for your incentive plan, like GoPlus..." />
                 </Form.Item>
 
-                <div className="flex justify-center pt-2">
-                  <AppConfigProvider>
-                    <Button className="!hidden lg:!block w-[120px] mx-auto" onClick={() => navigate(-1)}>
-                      cancel
-                    </Button>
-                    <Button
-                      loading={projectLoading}
-                      type="primary"
-                      htmlType="submit"
-                      className="w-[64vw] lg:w-[120px] mx-auto"
-                    >
-                      Next
-                    </Button>
-                  </AppConfigProvider>
-                </div>
+                <Form.Item
+                  label="Label Your Target Audience"
+                  name="target"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please select the Target Audiende!",
+                    },
+                  ]}
+                >
+                  <Select
+                    allowClear
+                    optionLabelProp="label"
+                    placeholder="Employee"
+                    // options={preOptions}
+                    open={selectOpen}
+                    onDropdownVisibleChange={(visible) => setSelectOpen(visible)}
+                    dropdownRender={(menu) => {
+                      return (
+                        <>
+                          {menu}
+                          <Divider style={{ margin: "8px 0" }} />
+                          <div className="flex items-center px-2 pb-1">
+                            <Input
+                              placeholder="Editable..."
+                              maxLength={30}
+                              value={inputVal}
+                              onChange={(evt) => setInputVal(evt.target.value)}
+                              style={{ marginRight: 8 }}
+                            />
+                            <Button
+                              type="text"
+                              onClick={async () => {
+                                setInputVal("");
+                                const val = options.length + 1;
+                                setAddedAudience([...addedAudience, { label: inputVal, value: val }]);
+                                form.setFieldValue("target", val);
+                                setSelectOpen(false);
+                              }}
+                              icon={<CheckOutlined />}
+                            />
+                          </div>
+                        </>
+                      );
+                    }}
+                  >
+                    {options.map((option) => (
+                      <Select.Option label={option.label} value={option.value} key={option.value}>
+                        <div className="flex justify-between">
+                          <span>{option.label}</span>
+                        </div>
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+
+                <Form.Item
+                  label="Token Options Pool Size"
+                  name="totalTokenNum"
+                  tooltip={{
+                    title: ` There are ${formatDollar(project?.tokenInfo?.surplusTokenNum)} virtual tokens available`,
+                    icon: <InfoCircleOutlined />,
+                  }}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input the Token Options Pool Size!",
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    placeholder="Editable"
+                    min={0}
+                    max={project?.tokenInfo?.surplusTokenNum}
+                    style={{ width: "100%" }}
+                  />
+                </Form.Item>
+
+                <AppConfigProvider>
+                  <div className="pt-3 lg:pb-6 lg:pt-2">
+                    <div className="flex justify-center">
+                      <Link to="/" className="hidden mr-10 lg:block">
+                        <Button className="w-[120px]">Cancel</Button>
+                      </Link>
+
+                      <Button
+                        onClick={handleCreatePlan}
+                        type="primary"
+                        className="w-[64vw] lg:w-[120px]"
+                        loading={confirmLoading}
+                      >
+                        Create
+                      </Button>
+                    </div>
+                  </div>
+                </AppConfigProvider>
               </Form>
             </div>
-          ) : (
-            <>
-              {firstCreated && (
-                <div className="mb-6 rounded-md lg:py-4 lg:mb-12 lg:rounded-lg dark:bg-black shadow-d3">
-                  <div className="flex items-center h-10 px-6 border-b border-b-1 text-c1">
-                    <span className="flex-[10] text-b-8">Project Name</span>
-                    <span className="flex-[14] text-white flex justify-end lg:justify-between">
-                      <span className="mr-2">
-                        {chains.map((v) => {
-                          // 目前应该监听网络环境
-                          if (project?.chain !== v.name) return null;
-                          return (
-                            <div className="flex items-center" key={v.evmChainId}>
-                              <NetWork id={v.evmChainId} className="mr-1" />
-                              {project?.projectName}
-                            </div>
-                          );
-                        })}
-                      </span>
-                      <FormOutlined className="cursor-pointer" />
-                    </span>
-                  </div>
-                  <div className="flex items-center h-10 px-6 text-c1">
-                    <span className="flex-[10] text-b-8">Total Token</span>
-                    <span className="flex-[14] text-white flex justify-end lg:justify-between">
-                      <span className="mr-2">{formatDollar(project?.tokenTotalAmount)} Token</span>
-                      <Tooltip title="This is the total of virtual tokens only used to anchor ratio before TGE to facilitate calculation and granting. It will be converted into the actual number of tokens after TGE.">
-                        <InfoCircleOutlined className="cursor-pointer" />
-                      </Tooltip>
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              <div className="overflow-hidden dark:bg-cw1 dark:lg:shadow-d3 rounded-xl ">
-                <div className="relative px-3 py-4 lg:pb-0 lg:pt-6 lg:px-4">
-                  <Form
-                    {...(pc ? formItemCol : null)}
-                    form={form}
-                    labelAlign="left"
-                    colon={false}
-                    layout={pc ? "horizontal" : "vertical"}
-                    requiredMark={false}
-                  >
-                    <Form.Item
-                      label="Plan Name"
-                      name="incentivePlanName"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input the Plan Name!",
-                        },
-                      ]}
-                    >
-                      <Input placeholder="the name for your incentive plan, like GoPlus..." />
-                    </Form.Item>
-
-                    <Form.Item
-                      label="Label Your Target Audience"
-                      name="target"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please select the Target Audiende!",
-                        },
-                      ]}
-                    >
-                      <Select
-                        allowClear
-                        optionLabelProp="label"
-                        placeholder="Employee"
-                        // options={preOptions}
-                        open={selectOpen}
-                        onDropdownVisibleChange={(visible) => setSelectOpen(visible)}
-                        dropdownRender={(menu) => {
-                          return (
-                            <>
-                              {menu}
-                              <Divider style={{ margin: "8px 0" }} />
-                              <div className="flex items-center px-2 pb-1">
-                                <Input
-                                  placeholder="Editable..."
-                                  maxLength={30}
-                                  value={inputVal}
-                                  onChange={(evt) => setInputVal(evt.target.value)}
-                                  style={{ marginRight: 8 }}
-                                />
-                                <Button
-                                  type="text"
-                                  onClick={async () => {
-                                    setInputVal("");
-                                    const val = options.length + 1;
-                                    setAddedAudience([...addedAudience, { label: inputVal, value: val }]);
-                                    form.setFieldValue("target", val);
-                                    setSelectOpen(false);
-                                  }}
-                                  icon={<CheckOutlined />}
-                                />
-                              </div>
-                            </>
-                          );
-                        }}
-                      >
-                        {options.map((option) => (
-                          <Select.Option label={option.label} value={option.value} key={option.value}>
-                            <div className="flex justify-between">
-                              <span>{option.label}</span>
-                            </div>
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
-
-                    <Form.Item
-                      label="Token Options Pool Size"
-                      name="totalTokenNum"
-                      tooltip={{
-                        title: ` There are ${formatDollar(
-                          project?.tokenInfo?.surplusTokenNum
-                        )} virtual tokens available`,
-                        icon: <InfoCircleOutlined />,
-                      }}
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input the Token Options Pool Size!",
-                        },
-                      ]}
-                    >
-                      <InputNumber
-                        placeholder="Editable"
-                        min={0}
-                        max={project?.tokenInfo?.surplusTokenNum}
-                        style={{ width: "100%" }}
-                      />
-                    </Form.Item>
-
-                    <AppConfigProvider>
-                      <div className="pt-3 lg:pb-6 lg:pt-2">
-                        <div className="flex justify-center">
-                          <Link to="/" className="hidden mr-10 lg:block">
-                            <Button className="w-[120px]">Cancel</Button>
-                          </Link>
-
-                          <Button
-                            onClick={handleCreatePlan}
-                            type="primary"
-                            className="w-[64vw] lg:w-[120px]"
-                            loading={confirmLoading}
-                          >
-                            Create
-                          </Button>
-                        </div>
-                      </div>
-                    </AppConfigProvider>
-                  </Form>
-                </div>
-              </div>
-            </>
-          )}
+          </div>
         </div>
       </div>
     </div>
