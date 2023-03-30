@@ -20,7 +20,7 @@ const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
       data={data}
       margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
       sortByValue={true}
-      innerRadius={0.8}
+      innerRadius={0.85}
       activeOuterRadiusOffset={4}
       colors={{ scheme: "nivo" }}
       borderColor={{
@@ -33,9 +33,8 @@ const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      hoverSlice
       arcLinkLabelsTextColor={{ from: "color", modifiers: [] }}
-      arcLinkLabelsThickness={2}
+      arcLinkLabelsThickness={0}
       arcLinkLabelsDiagonalLength={0}
       arcLinkLabelsStraightLength={0}
       arcLinkLabelsColor={{ from: "color" }}
@@ -96,8 +95,20 @@ const Chart = ({ data }) => {
   };
 
   return (
-    <div style={{ height: "260px", width: "260px" }}>
-      <PieChart data={data} setCurrentSelection={setCurrentSelection} currentSelection={currentSelection} />
+    <div className="lg:justify-self-end justify-self-center w-[260px]">
+      <div style={{ height: "260px" }}>
+        <PieChart data={data} setCurrentSelection={setCurrentSelection} currentSelection={currentSelection} />
+      </div>
+      <div className="flex flex-wrap">
+        {data.map((v) => {
+          return (
+            <div className="flex items-center mb-1 mr-4">
+              <i className="w-2 h-2 mr-1 rounded-full" style={{ backgroundColor: v.color }} />
+              <span className="font-medium text-c4">{v.label}</span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
