@@ -51,22 +51,33 @@ const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
 
   function CenteredMetric({ centerX, centerY }) {
     return (
-      // <text
-      //   x={centerX}
-      //   y={centerY}
-      //   width={100}
-      //   heigth={100}
-      //   textAnchor="middle"
-      //   dominantBaseline="central"
-      //   style={{
-      //     fontSize: "20px",
-      //     fontWeight: "bold",
-      //     fill: "#fff",
-      //   }}
-      // >
-      //   {currentSelection ? currentSelection : total}
-      // </text>
-      <div>xxx</div>
+      <g>
+        <text
+          x={centerX}
+          y={centerY - 10}
+          textAnchor="middle"
+          dominantBaseline="central"
+          style={{
+            fontSize: "20px",
+            fontWeight: "bold",
+            fill: "#fff",
+          }}
+        >
+          {formatDollar(total)}
+        </text>
+        <text
+          x={centerX}
+          y={centerY + 14}
+          textAnchor="middle"
+          dominantBaseline="central"
+          style={{
+            fontSize: "14px",
+            fill: "#fff",
+          }}
+        >
+          MAX TOTAL SUPPLY
+        </text>
+      </g>
     );
   }
 };
@@ -85,7 +96,7 @@ const Chart = ({ data }) => {
   };
 
   return (
-    <div style={{ height: "240px", width: "240px" }}>
+    <div style={{ height: "260px", width: "260px" }}>
       <PieChart data={data} setCurrentSelection={setCurrentSelection} currentSelection={currentSelection} />
     </div>
   );
