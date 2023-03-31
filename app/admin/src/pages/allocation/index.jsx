@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Button, Form, Input, Select, Tooltip, InputNumber, Divider, message } from "antd";
+import { Button, Form, Input, Tooltip, InputNumber, Divider, message } from "antd";
 import AppConfigProvider from "@/theme/AppConfigProvider";
-import { CheckOutlined, InfoCircleOutlined, FormOutlined } from "@ant-design/icons";
+import { CheckOutlined, InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
-import { createTIP, createProject } from "@/api/incentive";
+import { createTIP, getAllocatPlan } from "@/api/incentive";
 import { user } from "@tbook/store";
 import { useCurrentProjectId, useCurrentProject, useProjectAudience } from "@tbook/hooks";
 import _ from "lodash";
@@ -16,13 +16,15 @@ import { useNetwork } from "wagmi";
 import Banner from "../component/banner";
 import { conf } from "@tbook/utils";
 import Chart from "../tokenTable/allocationPie/chart";
-const { defaultErrorMsg, chains, formatDollar } = conf;
+const { defaultErrorMsg, minZeroValidator, formatDollar } = conf;
 const { fetchUserInfo, setCurrentProjectId } = user;
 const { NetWork } = Icon;
 import clsx from "clsx";
-
-const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
-
+import { useAsyncEffect } from "ahooks";
+import minusIconp from "@tbook/share/images/icon/minus-gray.svg";
+import minusIcon from "@tbook/share/images/icon/minus-red.svg";
+const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
+import Select from "@/components/select";
 const data = [
   {
     id: "c",
@@ -99,8 +101,6 @@ function Allocation() {
 
   const userStore = useSelector((state) => state.user);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [projectLoading, setProjectLoading] = useState(false);
-  const [firstCreated, setFirstCreated] = useState(false);
   const [selectOpen, setSelectOpen] = useState(false);
   const [addedAudience, setAddedAudience] = useState([]);
 
@@ -117,9 +117,17 @@ function Allocation() {
   const [currentPlan, setCurrentPlan] = useState("1");
   const { pageType } = useParams();
 
+  const [allcatInfo, setAllcatInfo] = useState({});
+
   const options = [...projectAudience, ...addedAudience];
 
   // console.log("project->", project);
+  useAsyncEffect(async () => {
+    if (projectId) {
+      const info = await getAllocatPlan(projectId);
+      form.setFieldValue(info);
+    }
+  }, [projectId]);
 
   function handleCreatePlan() {
     form
@@ -129,40 +137,11 @@ function Allocation() {
 
         values.incentivePlanAdminId = userStore?.user?.userId;
         values.projectId = projectId;
-
-        if (addedAudience.length === 0) {
-          values.labelList = "";
-        } else {
-          values.labelList = JSON.stringify(addedAudience.map((v) => v.label));
-        }
-        // console.log(values)
-        // console.log(JSON.stringify(values))
-        // return;
-        createTIP(values).then((tip) => {
-          setConfirmLoading(false);
-          dispatch(fetchUserInfo(false));
-          navigate(`/?tipId=${tip.incentivePlanId}`);
-        });
+        console.log(values);
       })
       .catch((err) => {
         console.log(err, "error");
       });
-  }
-
-  async function hanleCreateProject(values) {
-    setProjectLoading(true);
-    // 应该获取当前链，暂时不处理
-    values.chain = mainNetwork;
-    const projectInfo = await createProject(values);
-    if (projectInfo.success) {
-      dispatch(setCurrentProjectId(projectInfo?.entity?.projectId));
-      dispatch(fetchUserInfo(false));
-      setProjectLoading(false);
-      setFirstCreated(true);
-    } else {
-      setProjectLoading(false);
-      message.error(projectInfo.message || defaultErrorMsg);
-    }
   }
 
   return (
@@ -213,95 +192,248 @@ function Allocation() {
                 requiredMark={false}
               >
                 <Form.Item
-                  label="Plan Name"
-                  name="incentivePlanName"
+                  label="Project Name"
+                  name="projectName"
                   rules={[
                     {
                       required: true,
-                      message: "Please input the Plan Name!",
+                      message: "Please input the Project Name!",
                     },
                   ]}
                 >
-                  <Input placeholder="the name for your incentive plan, like GoPlus..." />
+                  <Input placeholder="Edit your project name." />
                 </Form.Item>
 
                 <Form.Item
-                  label="Label Your Target Audience"
-                  name="target"
+                  label="Latest Valuation"
+                  name="latestValuation"
                   rules={[
                     {
-                      required: true,
-                      message: "Please select the Target Audiende!",
+                      validator: minZeroValidator("Exercise Price"),
                     },
                   ]}
                 >
-                  <Select
-                    allowClear
-                    optionLabelProp="label"
-                    placeholder="Employee"
-                    // options={preOptions}
-                    open={selectOpen}
-                    onDropdownVisibleChange={(visible) => setSelectOpen(visible)}
-                    dropdownRender={(menu) => {
-                      return (
-                        <>
-                          {menu}
-                          <Divider style={{ margin: "8px 0" }} />
-                          <div className="flex items-center px-2 pb-1">
-                            <Input
-                              placeholder="Editable..."
-                              maxLength={30}
-                              value={inputVal}
-                              onChange={(evt) => setInputVal(evt.target.value)}
-                              style={{ marginRight: 8 }}
-                            />
-                            <Button
-                              type="text"
-                              onClick={async () => {
-                                setInputVal("");
-                                const val = options.length + 1;
-                                setAddedAudience([...addedAudience, { label: inputVal, value: val }]);
-                                form.setFieldValue("target", val);
-                                setSelectOpen(false);
-                              }}
-                              icon={<CheckOutlined />}
-                            />
-                          </div>
-                        </>
-                      );
-                    }}
-                  >
-                    {options.map((option) => (
-                      <Select.Option label={option.label} value={option.value} key={option.value}>
-                        <div className="flex justify-between">
-                          <span>{option.label}</span>
-                        </div>
-                      </Select.Option>
-                    ))}
-                  </Select>
+                  <Input placeholder="Not set yet" type="number" suffix="USD" min={0} />
                 </Form.Item>
 
                 <Form.Item
-                  label="Token Options Pool Size"
-                  name="totalTokenNum"
+                  label="Max Token Supply"
                   tooltip={{
                     title: ` There are ${formatDollar(project?.tokenInfo?.surplusTokenNum)} virtual tokens available`,
                     icon: <InfoCircleOutlined />,
                   }}
+                >
+                  <div className="grid grid-cols-2 gap-x-2">
+                    <Form.Item
+                      name="maxTokenSupplyPercent"
+                      style={{ width: pc ? 185 : "100%" }}
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input the Max Token Supply!",
+                        },
+                      ]}
+                    >
+                      <Input
+                        style={{ width: "100%" }}
+                        step={1}
+                        precision={0}
+                        min={1}
+                        max={100}
+                        placeholder="0"
+                        type="number"
+                        suffix="%"
+                      />
+                    </Form.Item>
+                    <Form.Item name="maxTokenSupply" style={{ width: pc ? 185 : "100%" }}>
+                      <InputNumber
+                        placeholder="Editable"
+                        min={0}
+                        max={project?.tokenInfo?.surplusTokenNum}
+                        style={{ width: "100%" }}
+                      />
+                    </Form.Item>
+                  </div>
+                </Form.Item>
+
+                <Form.List
+                  name="planList"
                   rules={[
                     {
-                      required: true,
-                      message: "Please input the Token Options Pool Size!",
+                      validator: async (x, plans) => {
+                        if (!plans || plans.length < 1) {
+                          return Promise.reject(new Error("At least 1 Plan"));
+                        }
+                        //
+                        // const divideToken = _.sumBy(plans, "tokenNum");
+
+                        // if (totalGrantToken && divideToken > Number(totalGrantToken)) {
+                        //   return Promise.reject(new Error("Customized Vesting Amount exceed the Total Amount"));
+                        // }
+                      },
                     },
                   ]}
                 >
-                  <InputNumber
-                    placeholder="Editable"
-                    min={0}
-                    max={project?.tokenInfo?.surplusTokenNum}
-                    style={{ width: "100%" }}
-                  />
-                </Form.Item>
+                  {(fields, { add, remove }, { errors }) => {
+                    const formPeriodPlan = form.getFieldValue("planList");
+                    // console.log({ formPeriodPlan });
+                    // 这里只会列表增加减少才会触发
+                    // setPeriodSum(_.sumBy(formPeriodPlan, "tokenNum"));
+
+                    return (
+                      <>
+                        <div className="flex justify-between font-medium text-c1">
+                          <p>Plans</p>
+                          <p>1 Plans</p>
+                        </div>
+
+                        {fields.map(({ key, name, ...restField }, idx) => (
+                          <div key={key} className="lg:flex">
+                            {/* const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } }; */}
+                            <div className="flex items-center flex-none h-10" style={pc ? { width: "33.33%" } : null}>
+                              <img
+                                src={pc ? minusIconp : minusIcon}
+                                className="w-4 mr-3 cursor-pointer"
+                                onClick={() => {
+                                  remove(name);
+                                }}
+                              />
+                              <p>{`${idx + 1}`.padStart(2, "0")}</p>
+                            </div>
+
+                            <div
+                              className={clsx("flex-none grid grid-cols-2 gap-x-2")}
+                              style={pc ? { width: "66.67%" } : null}
+                            >
+                              <Form.Item
+                                {...restField}
+                                name={[name, "planName"]}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Missing!",
+                                  },
+                                ]}
+                              >
+                                <Input style={{ width: pc ? 185 : "100%" }} placeholder="Plan name" />
+                              </Form.Item>
+
+                              <Form.Item
+                                {...restField}
+                                name={[name, "target"]}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Missing!",
+                                  },
+                                ]}
+                              >
+                                <Select
+                                  style={{ width: pc ? 185 : "100%" }}
+                                  allowClear
+                                  optionLabelProp="label"
+                                  placeholder="Employee"
+                                  dropdownRender={(setSelectOpen) => (menu) => {
+                                    return (
+                                      <>
+                                        {menu}
+                                        <Divider style={{ margin: "8px 0" }} />
+                                        <div className="flex items-center px-2 pb-1">
+                                          <Input
+                                            placeholder="Editable..."
+                                            maxLength={30}
+                                            value={inputVal}
+                                            onChange={(evt) => setInputVal(evt.target.value)}
+                                            style={{ marginRight: 8 }}
+                                          />
+                                          <Button
+                                            type="text"
+                                            onClick={async () => {
+                                              setInputVal("");
+                                              const val = options.length + 1;
+                                              setAddedAudience([...addedAudience, { label: inputVal, value: val }]);
+                                              form.setFieldValue(["planList", name, "target"], val);
+                                              setSelectOpen(false);
+                                            }}
+                                            icon={<CheckOutlined />}
+                                          />
+                                        </div>
+                                      </>
+                                    );
+                                  }}
+                                  options={options}
+                                ></Select>
+                              </Form.Item>
+
+                              <Form.Item
+                                {...restField}
+                                name={[name, "tokenNumPercent"]}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Missing!",
+                                  },
+                                ]}
+                              >
+                                <Input
+                                  style={{ width: pc ? 185 : "100%" }}
+                                  step={1}
+                                  precision={0}
+                                  min={1}
+                                  max={100}
+                                  placeholder="0"
+                                  type="number"
+                                  suffix="%"
+                                />
+                              </Form.Item>
+                              <Form.Item
+                                {...restField}
+                                name={[name, "tokenNum"]}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Missing!",
+                                  },
+                                ]}
+                              >
+                                <InputNumber
+                                  onChange={(val) => {
+                                    if (totalGrantToken) {
+                                      const formPeriodPlan = form.getFieldValue("periodsPlan");
+                                      setPeriodSum(_.sumBy(formPeriodPlan, "tokenNum"));
+                                      form.setFieldValue(
+                                        ["periodsPlan", name, "tokenNumPercent"],
+                                        getDividePercent(val, Number(totalGrantToken), 2)
+                                      );
+                                    }
+                                  }}
+                                  style={{ width: pc ? 185 : "100%" }}
+                                  step={1}
+                                  precision={0}
+                                  min={1}
+                                  placeholder="Token Amount"
+                                />
+                              </Form.Item>
+                            </div>
+                          </div>
+                        ))}
+                        <p style={{ color: "#dc4446", marginBottom: 12 }}>{errors}</p>
+
+                        <div className="mb-4">
+                          <Button
+                            onClick={() => {
+                              add();
+                            }}
+                            block
+                            className="!flex items-center justify-center"
+                          >
+                            <PlusOutlined /> New Plan
+                          </Button>
+                        </div>
+                      </>
+                    );
+                  }}
+                </Form.List>
 
                 <AppConfigProvider>
                   <div className="pt-3 lg:pb-6 lg:pt-2">

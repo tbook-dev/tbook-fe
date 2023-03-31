@@ -114,3 +114,7 @@ export const getDashboardGrants = async function (projectId, userId) {
 export const getTokenDist = async function (projectId) {
   return request(`${host}/projects/${projectId}/tokenDist`);
 };
+
+export const getAllocatPlan = async function (projectId) {
+  return request(`${host}/projects/${projectId}/allocPlan`);
+};
