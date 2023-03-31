@@ -8,6 +8,7 @@ import n01 from "@/images/partner/01.png";
 import bmrlab from "@/images/partner/bmrlab.png";
 import ambition from "@/images/partner/ambition.png";
 import rockey from "@/images/partner/rockey.png";
+import tokenInsight from "@/images/partner/tokenInsight.png";
 
 import movebit from "@/images/partner/movebit.png";
 import e from "@/images/partner/e.png";
@@ -19,6 +20,7 @@ import hippyghosts from "@/images/partner/hippyghosts.png";
 import triangle from "@/images/partner/triangle.png";
 import metopia from "@/images/partner/metopia.png";
 import meme from "@/images/partner/meme.png";
+import tokenPocket from "@/images/partner/tokenPocket.png";
 
 export const list1 = [
   {
@@ -102,6 +104,14 @@ export const list2 = [
   },
   {
     src: meme,
+    link: "",
+  },
+  {
+    src: tokenInsight,
+    link: "",
+  },
+  {
+    src: tokenPocket,
     link: "",
   },
 ];
