@@ -2,58 +2,7 @@ import Chart from "./chart";
 import { Link } from "react-router-dom";
 import editIcon from "@tbook/share/images/icon/edit.svg";
 
-// 使用默认数据来显示
-const data = [
-  {
-    id: "c",
-    label: "c",
-    value: 2182,
-    color: "hsl(78, 70%, 50%)",
-  },
-  {
-    id: "make",
-    label: "make",
-    value: 108,
-    color: "hsl(31, 70%, 50%)",
-  },
-  {
-    id: "php",
-    label: "php",
-    value: 428,
-    color: "hsl(154, 70%, 50%)",
-  },
-  {
-    id: "python",
-    label: "python",
-    value: 58,
-    color: "hsl(82, 70%, 50%)",
-  },
-  {
-    id: "css",
-    label: "css",
-    value: 300,
-    color: "hsl(322, 70%, 50%)",
-  },
-  {
-    id: "css1",
-    label: "css",
-    value: 300,
-    color: "hsl(322, 70%, 50%)",
-  },
-  {
-    id: "css2",
-    label: "css",
-    value: 300,
-    color: "hsl(322, 70%, 50%)",
-  },
-  {
-    id: "css3",
-    label: "css",
-    value: 300,
-    color: "hsl(322, 70%, 50%)",
-  },
-];
-export default function Pie() {
+export default function Pie({ pieList }) {
   const list = [
     {
       versionName: "Version02",
@@ -82,7 +31,7 @@ export default function Pie() {
 
       <div className="grid items-center grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
         <div className="lg:justify-self-end justify-self-center">
-          <Chart data={data} height={260} width={260} />
+          <Chart data={pieList} height={260} width={260} />
         </div>
         <div className="space-y-4 w-[342px] justify-self-start hidden lg:block">
           {list.length > 0 ? (

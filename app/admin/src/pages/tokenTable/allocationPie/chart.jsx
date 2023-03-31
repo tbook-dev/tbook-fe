@@ -1,19 +1,12 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ResponsivePie } from "@nivo/pie";
 import { conf } from "@tbook/utils";
-
+import { useFindAudience } from "@tbook/hooks";
+import { round } from "lodash";
 const { formatDollar } = conf;
 
-const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
+const PieChart = ({ data }) => {
   const total = data.reduce((sum, item) => sum + item.value, 0);
-
-  const handleMouseEnter = (datum, event) => {
-    setCurrentSelection(datum.id);
-  };
-
-  const handleMouseLeave = (datum, event) => {
-    setCurrentSelection("");
-  };
 
   return (
     <ResponsivePie
@@ -29,10 +22,8 @@ const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
       }}
       enableArcLabels={false}
       arcLinkLabel={function (e) {
-        return e.value + "%";
+        return round(e.data.percentage, 2) + "%";
       }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       arcLinkLabelsTextColor={{ from: "color", modifiers: [] }}
       arcLinkLabelsThickness={0}
       arcLinkLabelsTextOffset={0}
@@ -83,28 +74,46 @@ const PieChart = ({ data, setCurrentSelection, currentSelection }) => {
   }
 };
 
-const SelectionButton = ({ label, onClick }) => (
-  <button style={{ margin: "5px" }} onClick={onClick}>
-    {label}
-  </button>
-);
-
+const giveColorToList = (list) => {
+  const colorPannel = [
+    "#1f77b4", // 深蓝色
+    "#ff7f0e", // 橙色
+    "#2ca02c", // 绿色
+    "#d62728", // 红色
+    "#9467bd", // 紫色
+    "#8c564b", // 棕色
+    "#e377c2", // 粉色
+    "#7f7f7f", // 灰色
+    "#bcbd22", // 黄绿色
+    "#17becf", // 天蓝色
+  ];
+  return list.map((v, idx) => ({ ...v, color: colorPannel[idx % 10] }));
+};
 const Chart = ({ data, width, height }) => {
   const [currentSelection, setCurrentSelection] = useState("");
+  const findAudience = useFindAudience();
 
-  const handleButtonClick = (id) => {
-    setCurrentSelection(id);
-  };
+  const formatData = useMemo(() => {
+    const l1 = giveColorToList(data);
+    const l2 = l1.map((v, idx) => ({
+      label: findAudience(v.target),
+      percentage: v.percentage,
+      value: v.tokenNum,
+      color: v.color,
+      id: idx,
+    }));
+    return l2;
+  }, [data]);
 
   return (
     <div style={{ width }}>
       <div style={{ height }}>
-        <PieChart data={data} setCurrentSelection={setCurrentSelection} currentSelection={currentSelection} />
+        <PieChart data={formatData} setCurrentSelection={setCurrentSelection} currentSelection={currentSelection} />
       </div>
       <div className="flex flex-wrap">
-        {data.map((v) => {
+        {formatData.map((v, idx) => {
           return (
-            <div className="flex items-center mb-1 mr-4">
+            <div className="flex items-center mb-1 mr-4" key={idx}>
               <i className="w-2 h-2 mr-1 rounded-full" style={{ backgroundColor: v.color }} />
               <span className="font-medium text-c4">{v.label}</span>
             </div>
