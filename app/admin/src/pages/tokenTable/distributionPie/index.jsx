@@ -1,21 +1,28 @@
 import Liquidfill from "@/components/liquidfill";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useAsyncEffect } from "ahooks";
 import { getDilutedToken } from "@/api/incentive";
-import { useCurrentProjectId } from "@tbook/hooks";
+import { useCurrentProjectId, useCurrentProject } from "@tbook/hooks";
 import { Spin } from "antd";
 import { round } from "lodash";
 import { conf } from "@tbook/utils";
 import Pagination from "@/components/pagination";
-const { formatDollar } = conf;
+const { formatDollar, getDividePercent } = conf;
 
 export default function Pie() {
   const [dilutedToken, setDilutedToken] = useState([]);
   const [dilutedTokenloading, setDilutedTokenloading] = useState(false);
   const projectId = useCurrentProjectId();
   const [current, setCurrent] = useState(1);
-  const pageSize = 6;
+  const project = useCurrentProject();
 
+  const pageSize = 6;
+  const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || 100000000;
+
+  const totalPercent = useMemo(() => {
+    const distributedTotal = dilutedToken.reduce((sum, item) => sum + item.tokenSum, 0);
+    return getDividePercent(distributedTotal, tokenTotalAmount, 2);
+  }, [tokenTotalAmount, dilutedToken]);
   useAsyncEffect(async () => {
     if (!projectId) return;
     setDilutedTokenloading(true);
@@ -34,7 +41,7 @@ export default function Pie() {
         <>
           <h2 className="font-medium text-c13 lg:mb-4">Diluted Token Distribution</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
-            <Liquidfill data={[]} className="self-center lg:justify-self-end justify-self-center" />
+            <Liquidfill percent={totalPercent} className="self-center lg:justify-self-end justify-self-center" />
             <div className="space-y-4 w-[342px] justify-self-start hidden lg:block">
               {dilutedToken.length > 0 ? (
                 dilutedToken.slice((current - 1) * pageSize, current * pageSize).map((v, idx) => (

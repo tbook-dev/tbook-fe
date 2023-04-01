@@ -39,7 +39,7 @@ export default function Liquidfill({ percent = 30, size = 200, className = "" })
         </svg>
       </div>
 
-      <div className="absolute inset-0 flex items-center justify-center text-4xl font-medium">{percent}%</div>
+      <div className="absolute inset-0 z-10 flex items-center justify-center text-4xl font-medium">{percent}%</div>
     </div>
   );
 }
