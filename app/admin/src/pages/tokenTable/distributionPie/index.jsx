@@ -58,7 +58,15 @@ export default function Pie() {
           <div className="flex justify-between lg:mb-4">
             <h2 className="font-medium text-c13">Diluted Token Distribution</h2>
             <Theme>
-              <Select options={planTypeList} className="w-[200px]" value={planFilter} onChange={setPlanFilter} />
+              <Select
+                options={planTypeList}
+                className="w-[200px]"
+                value={planFilter}
+                onChange={(v) => {
+                  setPlanFilter(v);
+                  setCurrent(1);
+                }}
+              />
             </Theme>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
