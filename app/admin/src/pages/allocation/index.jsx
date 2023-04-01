@@ -1,87 +1,31 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Form, Input, Tooltip, InputNumber, Divider, message } from "antd";
 import AppConfigProvider from "@/theme/AppConfigProvider";
 import { CheckOutlined, InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { useSelector, useDispatch } from "react-redux";
-import { createTIP, getAllocatPlan } from "@/api/incentive";
-import { user } from "@tbook/store";
+import { useSelector } from "react-redux";
+import { getAllocatPlan } from "@/api/incentive";
 import { useCurrentProjectId, useCurrentProject, useProjectAudience } from "@tbook/hooks";
-import _ from "lodash";
 import { useResponsive } from "ahooks";
-import { Icon } from "@tbook/ui";
 import starIcon from "@tbook/share/images/icon/star.svg";
-import { useParams } from "react-router-dom";
-import { useNetwork } from "wagmi";
-import Banner from "../component/banner";
 import { conf } from "@tbook/utils";
 import Chart from "../tokenTable/allocationPie/chart";
-const { defaultErrorMsg, getDividePercent, minZeroValidator, formatDollar } = conf;
-const { fetchUserInfo, setCurrentProjectId } = user;
-const { NetWork } = Icon;
 import clsx from "clsx";
 import { useAsyncEffect } from "ahooks";
 import minusIconp from "@tbook/share/images/icon/minus-gray.svg";
 import minusIcon from "@tbook/share/images/icon/minus-red.svg";
-const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
 import Select from "@/components/select";
 import { Spin } from "antd";
-const data = [
-  {
-    id: "c",
-    label: "c",
-    value: 2182,
-    color: "hsl(78, 70%, 50%)",
-  },
-  {
-    id: "make",
-    label: "make",
-    value: 108,
-    color: "hsl(31, 70%, 50%)",
-  },
-  {
-    id: "php",
-    label: "php",
-    value: 428,
-    color: "hsl(154, 70%, 50%)",
-  },
-  {
-    id: "python",
-    label: "python",
-    value: 58,
-    color: "hsl(82, 70%, 50%)",
-  },
-  {
-    id: "css",
-    label: "css",
-    value: 300,
-    color: "hsl(322, 70%, 50%)",
-  },
-  {
-    id: "css1",
-    label: "css",
-    value: 300,
-    color: "hsl(322, 70%, 50%)",
-  },
-  {
-    id: "css2",
-    label: "css",
-    value: 300,
-    color: "hsl(322, 70%, 50%)",
-  },
-  {
-    id: "css3",
-    label: "css",
-    value: 300,
-    color: "hsl(322, 70%, 50%)",
-  },
-];
+import { round } from "lodash";
+import dayjs from "dayjs";
 
-const list = [
+const { getDividePercent, minZeroValidator, formatDollar, dateFormat } = conf;
+
+const mockList = [
   {
-    versionName: "Version02",
+    versionName: "Version03",
     createDate: "01/03/2022",
-    versionId: "1",
+    versionId: "3",
   },
   {
     versionName: "Version02",
@@ -89,14 +33,15 @@ const list = [
     versionId: "2",
   },
   {
-    versionName: "Version02",
+    versionName: "Version01",
     createDate: "01/03/2022",
-    versionId: "3",
+    versionId: "1",
   },
 ];
+const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
+
 function Allocation() {
   const [form] = Form.useForm();
-
   const userStore = useSelector((state) => state.user);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [addedAudience, setAddedAudience] = useState([]);
@@ -106,21 +51,54 @@ function Allocation() {
   const project = useCurrentProject();
   const projectAudience = useProjectAudience();
   const { pc } = useResponsive();
-  const [currentPlan, setCurrentPlan] = useState("1");
+  const [currentPlan, setCurrentPlan] = useState(null);
   const [planLoading, setPlanLoading] = useState(null);
   const planList = Form.useWatch("planList", form);
+  const [versions, setVersions] = useState([]);
+  const [versionLoading, setVersionLoading] = useState(false);
 
   const options = [...projectAudience, ...addedAudience];
   const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || 100000000;
   // console.log("project->", project);
-  useAsyncEffect(async () => {
+  const versionId = useMemo(() => {
+    const us = new URLSearchParams(location.search);
+    return us.get("tpl");
+  }, [location.href]);
+
+  const fetchAndSet = async () => {
     if (projectId) {
       setPlanLoading(true);
       const info = await getAllocatPlan(projectId);
       setPlanLoading(false);
+      info.planList = info.planList?.map((v) => ({ ...v, percentage: round(v.percentage, 2) }));
       form.setFieldsValue(info);
     }
-  }, [projectId]);
+  };
+
+  useAsyncEffect(fetchAndSet, [projectId]);
+
+  useAsyncEffect(async () => {
+    if (projectId & pc) {
+      setVersionLoading(true);
+      // 当有url的时候是查看历史记录否则是最新的
+      // let list = [];
+      let list = mockList;
+      let currentVersion = null;
+      if (Array.isArray(list) && list.length > 0) {
+        if (versionId) {
+          currentVersion = list?.find((v) => v.versionId === versionId) || list[list.length - 1];
+        } else {
+          currentVersion = list[0];
+        }
+      } else {
+        currentVersion = { versionName: "Version01", createDate: dayjs().format(dateFormat), versionId: "1" };
+        list = [currentVersion];
+      }
+      setVersions(list);
+      setCurrentPlan(currentVersion.versionId);
+      setVersionLoading(false);
+    }
+  }, [projectId, versionId, pc]);
 
   const pieData = useMemo(() => {
     if (Array.isArray(planList)) {
@@ -172,16 +150,26 @@ function Allocation() {
 
           {pc && (
             <div className="absolute top-0 right-[-348px] w-[348px] space-y-4 text-white">
-              {list.map((v) => (
+              {versions.map((v, idx) => (
                 <div
                   className={clsx(
                     currentPlan === v.versionId ? "text-black bg-[#26E3C2] rounded-r" : "ml-6 bg-b-1 rounded",
-                    "flex items-center justify-between px-4 py-3 font-medium"
+                    "flex items-center justify-between px-4 py-3 font-medium",
+                    currentPlan !== v.versionId && "cursor-pointer"
                   )}
                   key={v.versionId}
+                  onClick={() => {
+                    if (currentPlan !== v.versionId) {
+                      setCurrentPlan(v.versionId);
+                    }
+                  }}
                 >
-                  <p className="text-c14">{v.versionName}</p>
-                  <p className="text-c4">{v.createDate}</p>
+                  <p className={clsx("text-c14", idx === 0 && currentPlan !== v.versionId && "text-colorful1")}>
+                    {v.versionName}
+                  </p>
+                  <p className={clsx("text-c4", idx === 0 && currentPlan !== v.versionId && "text-colorful1")}>
+                    {v.createDate}
+                  </p>
                 </div>
               ))}
             </div>
@@ -263,7 +251,6 @@ function Allocation() {
                     ]}
                   >
                     {(fields, { add, remove }, { errors }) => {
-                      console.log({ fields });
                       return (
                         <>
                           <div className="flex justify-between font-medium text-c1">
@@ -273,7 +260,6 @@ function Allocation() {
 
                           {fields.map(({ key, name, ...restField }, idx) => {
                             const planType = form.getFieldValue(["planList", name, "planType"]);
-                            console.log({ planType });
                             return (
                               <div key={key} className="lg:flex">
                                 {/* const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } }; */}
