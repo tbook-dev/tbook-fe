@@ -1,4 +1,5 @@
 import Chart from "./chart";
+import Liquidfill from "@/components/liquidfill";
 
 const data = [
   {
@@ -37,7 +38,7 @@ export default function Pie() {
     <div className="p-3 mb-4 bx lg:p-6 lg:mb-10 rect-border">
       <h2 className="font-medium text-c13">Diluted Token Distribution</h2>
       <div className="grid grid-cols-1 lg:grid-cols-2 ">
-        <Chart data={data} />
+        <Liquidfill data={data} />
       </div>
     </div>
   );
