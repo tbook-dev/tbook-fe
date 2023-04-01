@@ -10,7 +10,7 @@ import { useCurrentProjectId, useCurrentProject, useProjectAudience } from "@tbo
 import _ from "lodash";
 import { useResponsive } from "ahooks";
 import { Icon } from "@tbook/ui";
-import planIcon from "@tbook/share/images/incentive/plan.svg";
+import starIcon from "@tbook/share/images/icon/star.svg";
 import { useParams } from "react-router-dom";
 import { useNetwork } from "wagmi";
 import Banner from "../component/banner";
@@ -190,6 +190,9 @@ function Allocation() {
                 colon={false}
                 layout={pc ? "horizontal" : "vertical"}
                 requiredMark={false}
+                initialValues={{
+                  planList: [{ planType: 2 }],
+                }}
               >
                 <Form.Item
                   label="Project Name"
@@ -250,6 +253,7 @@ function Allocation() {
                   ]}
                 >
                   {(fields, { add, remove }, { errors }) => {
+                    console.log({ fields });
                     return (
                       <>
                         <div className="flex justify-between font-medium text-c1">
@@ -257,142 +261,152 @@ function Allocation() {
                           <p>{fields.length} Plans</p>
                         </div>
 
-                        {fields.map(({ key, name, ...restField }, idx) => (
-                          <div key={key} className="lg:flex">
-                            {/* const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } }; */}
-                            <div className="flex items-center flex-none h-10" style={pc ? { width: "33.33%" } : null}>
-                              <img
-                                src={pc ? minusIconp : minusIcon}
-                                className="w-4 mr-3 cursor-pointer"
-                                onClick={() => {
-                                  remove(name);
-                                }}
-                              />
-                              <p>{`${idx + 1}`.padStart(2, "0")}</p>
-                            </div>
-
-                            <div
-                              className={clsx("flex-none grid grid-cols-2 gap-x-2")}
-                              style={pc ? { width: "66.67%" } : null}
-                            >
-                              <Form.Item
-                                {...restField}
-                                name={[name, "planName"]}
-                                rules={[
-                                  {
-                                    required: true,
-                                    message: "Missing!",
-                                  },
-                                ]}
-                              >
-                                <Input style={{ width: pc ? 185 : "100%" }} placeholder="Plan name" />
-                              </Form.Item>
-
-                              <Form.Item
-                                {...restField}
-                                name={[name, "target"]}
-                                rules={[
-                                  {
-                                    required: true,
-                                    message: "Missing!",
-                                  },
-                                ]}
-                              >
-                                <Select
-                                  style={{ width: pc ? 185 : "100%" }}
-                                  allowClear
-                                  optionLabelProp="label"
-                                  placeholder="Employee"
-                                  dropdownRender={(setSelectOpen) => (menu) => {
-                                    return (
-                                      <>
-                                        {menu}
-                                        <Divider style={{ margin: "8px 0" }} />
-                                        <div className="flex items-center px-2 pb-1">
-                                          <Input
-                                            placeholder="Editable..."
-                                            maxLength={30}
-                                            value={inputVal}
-                                            onChange={(evt) => setInputVal(evt.target.value)}
-                                            style={{ marginRight: 8 }}
-                                          />
-                                          <Button
-                                            type="text"
-                                            onClick={async () => {
-                                              setInputVal("");
-                                              const val = options.length + 1;
-                                              setAddedAudience([...addedAudience, { label: inputVal, value: val }]);
-                                              form.setFieldValue(["planList", name, "target"], val);
-                                              setSelectOpen(false);
-                                            }}
-                                            icon={<CheckOutlined />}
-                                          />
-                                        </div>
-                                      </>
-                                    );
-                                  }}
-                                  options={options}
-                                ></Select>
-                              </Form.Item>
-
-                              <Form.Item
-                                {...restField}
-                                name={[name, "tokenNumPercent"]}
-                                rules={[
-                                  {
-                                    required: true,
-                                    message: "Missing!",
-                                  },
-                                ]}
-                              >
-                                <Input
-                                  style={{ width: pc ? 185 : "100%" }}
-                                  step={1}
-                                  precision={0}
-                                  min={1}
-                                  max={100}
-                                  placeholder="Proportion"
-                                  type="number"
-                                  suffix="%"
-                                  onChange={(evt) => {
-                                    const val = Number(evt.target.value);
-                                    form.setFieldValue(["planList", name, "tokenNum"], (tokenTotalAmount * val) / 100);
+                        {fields.map(({ key, name, ...restField }, idx) => {
+                          const planType = form.getFieldValue(["planList", name, "planType"]);
+                          console.log({ planType });
+                          return (
+                            <div key={key} className="lg:flex">
+                              {/* const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } }; */}
+                              <div className="flex items-center flex-none h-10" style={pc ? { width: "33.33%" } : null}>
+                                <img
+                                  src={pc ? minusIconp : minusIcon}
+                                  className="w-4 mr-3 cursor-pointer"
+                                  onClick={() => {
+                                    remove(name);
                                   }}
                                 />
-                              </Form.Item>
-                              <Form.Item
-                                {...restField}
-                                name={[name, "tokenNum"]}
-                                rules={[
-                                  {
-                                    required: true,
-                                    message: "Missing!",
-                                  },
-                                ]}
+                                <p>{`${idx + 1}`.padStart(2, "0")}</p>
+                                {planType === 2 && <img className="w-4 ml-1.5" src={starIcon} />}
+                              </div>
+
+                              <div
+                                className={clsx("flex-none grid grid-cols-2 gap-x-2")}
+                                style={pc ? { width: "66.67%" } : null}
                               >
-                                <InputNumber
-                                  onChange={(val) => {
-                                    form.setFieldValue(
-                                      ["planList", name, "tokenNumPercent"],
-                                      getDividePercent(val, Number(tokenTotalAmount), 2)
-                                    );
-                                  }}
-                                  style={{ width: pc ? 185 : "100%" }}
-                                  step={1}
-                                  precision={0}
-                                  min={1}
-                                  placeholder="Token Amount"
-                                />
-                              </Form.Item>
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, "planName"]}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: "Missing!",
+                                    },
+                                  ]}
+                                >
+                                  <Input style={{ width: pc ? 185 : "100%" }} placeholder="Plan name" />
+                                </Form.Item>
+
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, "target"]}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: "Missing!",
+                                    },
+                                  ]}
+                                >
+                                  <Select
+                                    style={{ width: pc ? 185 : "100%" }}
+                                    allowClear
+                                    optionLabelProp="label"
+                                    placeholder="Employee"
+                                    dropdownRender={(setSelectOpen) => (menu) => {
+                                      return (
+                                        <>
+                                          {menu}
+                                          <Divider style={{ margin: "8px 0" }} />
+                                          <div className="flex items-center px-2 pb-1">
+                                            <Input
+                                              placeholder="Editable..."
+                                              maxLength={30}
+                                              value={inputVal}
+                                              onChange={(evt) => setInputVal(evt.target.value)}
+                                              style={{ marginRight: 8 }}
+                                            />
+                                            <Button
+                                              type="text"
+                                              onClick={async () => {
+                                                setInputVal("");
+                                                const val = options.length + 1;
+                                                setAddedAudience([...addedAudience, { label: inputVal, value: val }]);
+                                                form.setFieldValue(["planList", name, "target"], val);
+                                                setSelectOpen(false);
+                                              }}
+                                              icon={<CheckOutlined />}
+                                            />
+                                          </div>
+                                        </>
+                                      );
+                                    }}
+                                    options={options}
+                                  ></Select>
+                                </Form.Item>
+
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, "tokenNumPercent"]}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: "Missing!",
+                                    },
+                                  ]}
+                                >
+                                  <Input
+                                    style={{ width: pc ? 185 : "100%" }}
+                                    step={1}
+                                    precision={0}
+                                    min={1}
+                                    max={100}
+                                    placeholder="Proportion"
+                                    type="number"
+                                    suffix="%"
+                                    onChange={(evt) => {
+                                      const val = Number(evt.target.value);
+                                      form.setFieldValue(
+                                        ["planList", name, "tokenNum"],
+                                        (tokenTotalAmount * val) / 100
+                                      );
+                                    }}
+                                  />
+                                </Form.Item>
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, "tokenNum"]}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: "Missing!",
+                                    },
+                                  ]}
+                                >
+                                  <InputNumber
+                                    onChange={(val) => {
+                                      form.setFieldValue(
+                                        ["planList", name, "tokenNumPercent"],
+                                        getDividePercent(val, Number(tokenTotalAmount), 2)
+                                      );
+                                    }}
+                                    style={{ width: pc ? 185 : "100%" }}
+                                    step={1}
+                                    precision={0}
+                                    min={1}
+                                    placeholder="Token Amount"
+                                  />
+                                </Form.Item>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                         <p style={{ color: "#dc4446", marginBottom: 12 }}>{errors}</p>
 
                         <div className="mb-4">
                           <Button
                             onClick={() => {
                               add();
+                              const plans = form.getFieldValue("planList");
+                              form.setFieldValue(["planList", plans.length - 1, "planType"], 2);
                             }}
                             block
                             className="!flex items-center justify-center"
