@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Form, Input, Tooltip, InputNumber, Divider, message } from "antd";
 import AppConfigProvider from "@/theme/AppConfigProvider";
@@ -108,6 +108,7 @@ function Allocation() {
   const { pc } = useResponsive();
   const [currentPlan, setCurrentPlan] = useState("1");
   const [planLoading, setPlanLoading] = useState(null);
+  const planList = Form.useWatch("planList", form);
 
   const options = [...projectAudience, ...addedAudience];
   const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || 100000000;
@@ -121,12 +122,25 @@ function Allocation() {
     }
   }, [projectId]);
 
+  const pieData = useMemo(() => {
+    if (Array.isArray(planList)) {
+      return planList.map((v, idx) => {
+        return {
+          label: v.planName,
+          percentage: v.percentage,
+          tokenNum: v.tokenNum,
+        };
+      });
+    } else {
+      return [];
+    }
+  }, [planList]);
+
   function handleCreatePlan() {
     form
       .validateFields()
       .then((values) => {
         setConfirmLoading(true);
-
         values.incentivePlanAdminId = userStore?.user?.userId;
         values.projectId = projectId;
         console.log(values);
@@ -151,7 +165,7 @@ function Allocation() {
             <div className="absolute py-6 w-[324px] rounded-lg top-0 left-[-350px]  text-white shadow-d11">
               <h3 className="px-6 mb-4 font-medium text-c13">Token Distribution</h3>
               <div className="flex justify-center">
-                <Chart data={data} width={275} height={275} />
+                <Chart data={pieData} width={275} height={275} />
               </div>
             </div>
           )}
