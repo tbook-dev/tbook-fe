@@ -16,7 +16,7 @@ import { useNetwork } from "wagmi";
 import Banner from "../component/banner";
 import { conf } from "@tbook/utils";
 import Chart from "../tokenTable/allocationPie/chart";
-const { defaultErrorMsg, minZeroValidator, formatDollar } = conf;
+const { defaultErrorMsg, getDividePercent, minZeroValidator, formatDollar } = conf;
 const { fetchUserInfo, setCurrentProjectId } = user;
 const { NetWork } = Icon;
 import clsx from "clsx";
@@ -120,7 +120,7 @@ function Allocation() {
   const [allcatInfo, setAllcatInfo] = useState({});
 
   const options = [...projectAudience, ...addedAudience];
-
+  const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || 100000000;
   // console.log("project->", project);
   useAsyncEffect(async () => {
     if (projectId) {
@@ -209,7 +209,7 @@ function Allocation() {
                   name="latestValuation"
                   rules={[
                     {
-                      validator: minZeroValidator("Exercise Price"),
+                      validator: minZeroValidator("Latest Valuation"),
                     },
                   ]}
                 >
@@ -220,18 +220,18 @@ function Allocation() {
                   label="Max Token Supply"
                   name="maxTokenSupply"
                   tooltip={{
-                    title: ` There are ${formatDollar(project?.tokenInfo?.surplusTokenNum)} virtual tokens available`,
+                    title: ` There are ${formatDollar(tokenTotalAmount)} virtual tokens available`,
                     icon: <InfoCircleOutlined />,
                   }}
                   rules={[
                     {
-                      validator: minZeroValidator("Exercise Price"),
+                      validator: minZeroValidator("Max Token Supply"),
                     },
                   ]}
                 >
                   <InputNumber
                     min={0}
-                    max={project?.tokenInfo?.surplusTokenNum}
+                    max={tokenTotalAmount}
                     style={{ width: "100%" }}
                     placeholder="Edit the token amount you would like to supply."
                   />
@@ -245,12 +245,6 @@ function Allocation() {
                         if (!plans || plans.length < 1) {
                           return Promise.reject(new Error("At least 1 Plan"));
                         }
-                        //
-                        // const divideToken = _.sumBy(plans, "tokenNum");
-
-                        // if (totalGrantToken && divideToken > Number(totalGrantToken)) {
-                        //   return Promise.reject(new Error("Customized Vesting Amount exceed the Total Amount"));
-                        // }
                       },
                     },
                   ]}
@@ -357,9 +351,13 @@ function Allocation() {
                                   precision={0}
                                   min={1}
                                   max={100}
-                                  placeholder="0"
+                                  placeholder="Proportion"
                                   type="number"
                                   suffix="%"
+                                  onChange={(evt) => {
+                                    const val = Number(evt.target.value);
+                                    form.setFieldValue(["planList", name, "tokenNum"], (tokenTotalAmount * val) / 100);
+                                  }}
                                 />
                               </Form.Item>
                               <Form.Item
@@ -374,14 +372,10 @@ function Allocation() {
                               >
                                 <InputNumber
                                   onChange={(val) => {
-                                    if (totalGrantToken) {
-                                      const formPeriodPlan = form.getFieldValue("periodsPlan");
-                                      setPeriodSum(_.sumBy(formPeriodPlan, "tokenNum"));
-                                      form.setFieldValue(
-                                        ["periodsPlan", name, "tokenNumPercent"],
-                                        getDividePercent(val, Number(totalGrantToken), 2)
-                                      );
-                                    }
+                                    form.setFieldValue(
+                                      ["planList", name, "tokenNumPercent"],
+                                      getDividePercent(val, Number(tokenTotalAmount), 2)
+                                    );
                                   }}
                                   style={{ width: pc ? 185 : "100%" }}
                                   step={1}
