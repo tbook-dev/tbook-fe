@@ -14,7 +14,9 @@ const PieChart = ({ data }) => {
       sortByValue={true}
       innerRadius={0.85}
       activeOuterRadiusOffset={4}
-      colors={{ scheme: "nivo" }}
+      colors={(v) => {
+        return data.find((e) => e.id === v.id)?.color;
+      }}
       borderColor={{
         from: "color",
         modifiers: [["darker", "0.2"]],
