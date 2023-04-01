@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTokenDist, getTipGrantList } from "@/api/incentive";
 import Template from "./template";
 import { useNavigate } from "react-router-dom";
+import { useFindAudience } from "@tbook/hooks";
 
 export default function TokenTable() {
   const userLoading = useUserInfoLoading();
@@ -18,6 +19,7 @@ export default function TokenTable() {
   const [tokenDist, setTokenDist] = useState([]);
   const [tokenDistLoading, setTokenDistLoading] = useState(false);
   const navigate = useNavigate();
+  const findAudience = useFindAudience();
 
   const { pc } = useResponsive();
 
@@ -31,7 +33,7 @@ export default function TokenTable() {
     if (!projectId) return;
     setTokenDistLoading(true);
     const list = await getTokenDist(projectId);
-    setTokenDist(list);
+    setTokenDist(list.map((v) => ({ ...v, label: findAudience(v.target) })));
     setTokenDistLoading(false);
   }, [projectId]);
 

@@ -1,7 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { ResponsivePie } from "@nivo/pie";
 import { conf } from "@tbook/utils";
-import { useFindAudience } from "@tbook/hooks";
 import { round } from "lodash";
 const { formatDollar } = conf;
 
@@ -90,13 +89,10 @@ const giveColorToList = (list) => {
   return list.map((v, idx) => ({ ...v, color: colorPannel[idx % 10] }));
 };
 const Chart = ({ data, width, height }) => {
-  const [currentSelection, setCurrentSelection] = useState("");
-  const findAudience = useFindAudience();
-
   const formatData = useMemo(() => {
     const l1 = giveColorToList(data);
     const l2 = l1.map((v, idx) => ({
-      label: findAudience(v.target),
+      label: v.label,
       percentage: v.percentage,
       value: v.tokenNum,
       color: v.color,
@@ -108,7 +104,7 @@ const Chart = ({ data, width, height }) => {
   return (
     <div style={{ width }}>
       <div style={{ height }}>
-        <PieChart data={formatData} setCurrentSelection={setCurrentSelection} currentSelection={currentSelection} />
+        <PieChart data={formatData} />
       </div>
       <div className="flex flex-wrap">
         {formatData.map((v, idx) => {
