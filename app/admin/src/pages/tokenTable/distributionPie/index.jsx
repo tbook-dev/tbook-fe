@@ -1,8 +1,6 @@
 import Liquidfill from "@/components/liquidfill";
 import { useMemo, useState } from "react";
-import { useAsyncEffect } from "ahooks";
-import { getDilutedToken } from "@/api/incentive";
-import { useCurrentProjectId, useCurrentProject } from "@tbook/hooks";
+import { useCurrentProject } from "@tbook/hooks";
 import { Spin, Select } from "antd";
 import { round } from "lodash";
 import { conf } from "@tbook/utils";
@@ -11,10 +9,10 @@ import Theme from "@/components/theme";
 
 const { formatDollar, getDividePercent } = conf;
 
-export default function Pie() {
-  const [dilutedToken, setDilutedToken] = useState([]);
-  const [dilutedTokenloading, setDilutedTokenloading] = useState(false);
-  const projectId = useCurrentProjectId();
+export default function Pie({ dilutedToken, dilutedTokenloading }) {
+  // const [dilutedToken, setDilutedToken] = useState([]);
+  // const [dilutedTokenloading, setDilutedTokenloading] = useState(false);
+  // const projectId = useCurrentProjectId();
   const [current, setCurrent] = useState(1);
   const project = useCurrentProject();
   const [planFilter, setPlanFilter] = useState(-1);
@@ -38,14 +36,6 @@ export default function Pie() {
       }
     }, []);
   }, [dilutedToken]);
-
-  useAsyncEffect(async () => {
-    if (!projectId) return;
-    setDilutedTokenloading(true);
-    const list = await getDilutedToken(projectId);
-    setDilutedToken(list);
-    setDilutedTokenloading(false);
-  }, [projectId]);
 
   return (
     <div className="p-3 mb-4 bx lg:p-6 lg:mb-10 rect-border">
