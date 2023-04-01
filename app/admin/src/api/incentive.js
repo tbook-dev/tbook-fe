@@ -118,3 +118,7 @@ export const getTokenDist = async function (projectId) {
 export const getAllocatPlan = async function (projectId) {
   return request(`${host}/projects/${projectId}/allocPlan`);
 };
+
+export const getDilutedToken = async function (projectId) {
+  return request(`${host}/projects/${projectId}/dilutedToken`);
+};

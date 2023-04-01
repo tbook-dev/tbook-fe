@@ -6,7 +6,7 @@ import { useAsyncEffect, useResponsive } from "ahooks";
 import { Spin } from "antd";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTokenDist, getTipGrantList } from "@/api/incentive";
+import { getTokenDist, getDilutedToken } from "@/api/incentive";
 import Template from "./template";
 import { useNavigate } from "react-router-dom";
 import { useFindAudience } from "@tbook/hooks";
@@ -18,6 +18,7 @@ export default function TokenTable() {
   const projectId = useCurrentProjectId();
   const [tokenDist, setTokenDist] = useState([]);
   const [tokenDistLoading, setTokenDistLoading] = useState(false);
+
   const navigate = useNavigate();
   const findAudience = useFindAudience();
 

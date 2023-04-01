@@ -1,8 +1,13 @@
-export default function Liquidfill({ percent = 30, size = 200 }) {
+import clsx from "clsx";
+
+export default function Liquidfill({ percent = 30, size = 200, className = "" }) {
   return (
     <div
-      class="relative rounded-full p-1 overflow-hidden border-transparent bg-[#191919]  border-[5px] shadow-[0_0_0_5px_black,0_0_0_10px_#191919]"
-      style={{ width: size - 10, height: size - 10, marginTop: 10 }}
+      className={clsx(
+        "relative rounded-full p-1 overflow-hidden border-transparent bg-[#191919]  border-[5px] shadow-[0_0_0_5px_black,0_0_0_10px_#191919]",
+        className
+      )}
+      style={{ width: size - 10, height: size - 10, margin: 10 }}
     >
       <div className="absolute w-full h-full bg-[#a0edff]" style={{ bottom: `calc(-128% + ${percent}%)` }}>
         <svg
