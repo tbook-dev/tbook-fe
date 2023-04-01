@@ -218,42 +218,23 @@ function Allocation() {
 
                 <Form.Item
                   label="Max Token Supply"
+                  name="maxTokenSupply"
                   tooltip={{
                     title: ` There are ${formatDollar(project?.tokenInfo?.surplusTokenNum)} virtual tokens available`,
                     icon: <InfoCircleOutlined />,
                   }}
+                  rules={[
+                    {
+                      validator: minZeroValidator("Exercise Price"),
+                    },
+                  ]}
                 >
-                  <div className="grid grid-cols-2 gap-x-2">
-                    <Form.Item
-                      name="maxTokenSupplyPercent"
-                      style={{ width: pc ? 185 : "100%" }}
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input the Max Token Supply!",
-                        },
-                      ]}
-                    >
-                      <Input
-                        style={{ width: "100%" }}
-                        step={1}
-                        precision={0}
-                        min={1}
-                        max={100}
-                        placeholder="0"
-                        type="number"
-                        suffix="%"
-                      />
-                    </Form.Item>
-                    <Form.Item name="maxTokenSupply" style={{ width: pc ? 185 : "100%" }}>
-                      <InputNumber
-                        placeholder="Editable"
-                        min={0}
-                        max={project?.tokenInfo?.surplusTokenNum}
-                        style={{ width: "100%" }}
-                      />
-                    </Form.Item>
-                  </div>
+                  <InputNumber
+                    min={0}
+                    max={project?.tokenInfo?.surplusTokenNum}
+                    style={{ width: "100%" }}
+                    placeholder="Edit the token amount you would like to supply."
+                  />
                 </Form.Item>
 
                 <Form.List
@@ -275,16 +256,11 @@ function Allocation() {
                   ]}
                 >
                   {(fields, { add, remove }, { errors }) => {
-                    const formPeriodPlan = form.getFieldValue("planList");
-                    // console.log({ formPeriodPlan });
-                    // 这里只会列表增加减少才会触发
-                    // setPeriodSum(_.sumBy(formPeriodPlan, "tokenNum"));
-
                     return (
                       <>
                         <div className="flex justify-between font-medium text-c1">
                           <p>Plans</p>
-                          <p>1 Plans</p>
+                          <p>{fields.length} Plans</p>
                         </div>
 
                         {fields.map(({ key, name, ...restField }, idx) => (
