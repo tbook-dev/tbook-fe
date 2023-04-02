@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Form, Input, Select, DatePicker, InputNumber } from "antd";
 import AppConfigProvider from "@/theme/AppConfigProvider";
-import { useDispatch } from "react-redux";
 import { getAllocatPlan, addGrantRecord } from "@/api/incentive";
 import { useCurrentProjectId, useCurrentProject } from "@tbook/hooks";
 import _ from "lodash";
@@ -17,7 +16,6 @@ const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
 function Record() {
   const [form] = Form.useForm();
-  const dispatch = useDispatch();
 
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [plans, setPlans] = useState([]);
@@ -37,10 +35,11 @@ function Record() {
         setConfirmLoading(true);
         values.projectId = projectId;
         values.grantDate = values.grantDate.format(dateFormat);
-        console.log({ values });
+        values.allocPlanName = plans.find((v) => v.value === values.allocPlanId)?.label;
         const res = await addGrantRecord(projectId, values);
-        console.log({ res });
+        console.log(res);
         setConfirmLoading(false);
+        navigate("/tokenTable");
       })
       .catch((err) => {
         console.log(err, "error");
@@ -62,7 +61,7 @@ function Record() {
   return (
     <div className="w-full text-[#1E293B]">
       {!pc && <Back link="/tokenTable" />}
-      <div className="pt-3 lg:pt-12">
+      <div className="pt-3 lg:py-12">
         <div className="mb-6  lg:w-[600px] mx-4 lg:mx-auto lg:mb-10">
           <div className="flex flex-col justify-center flex-auto ml-[52px] lg:ml-0 lg:text-c">
             <h1 className="mb-1 font-bold text-c11 lg:text-cwh3 dark:text-white">New Grant Record</h1>
