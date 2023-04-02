@@ -18,6 +18,7 @@ import Select from "@/components/select";
 import { Spin } from "antd";
 import { round } from "lodash";
 import dayjs from "dayjs";
+import { Back } from "@tbook/ui";
 
 const { getDividePercent, minZeroValidator, maxValidator, formatDollar, dateFormat } = conf;
 
@@ -120,6 +121,7 @@ function Allocation() {
 
   return (
     <div className="w-full text-[#1E293B]">
+      {!pc && <Back link="/tokenTable" />}
       <div className="pt-3 lg:pt-12 ">
         <div className="mb-6  lg:w-[600px] mx-4 lg:mx-auto lg:mb-10">
           <div className="flex flex-col justify-center flex-auto ml-[52px] lg:ml-0 lg:text-c">
