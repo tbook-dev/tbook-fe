@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useCallback, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Form, Input, InputNumber, Divider } from "antd";
 import AppConfigProvider from "@/theme/AppConfigProvider";
@@ -39,6 +39,7 @@ function Allocation() {
   const planList = Form.useWatch("planList", form);
   const [versions, setVersions] = useState([]);
   const [versionLoading, setVersionLoading] = useState(false);
+  const remotePlanList = useRef(null);
 
   const options = [...projectAudience, ...addedAudience];
   const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || 100000000;
@@ -63,6 +64,7 @@ function Allocation() {
         info.planList.length > 0
           ? info.planList?.map((v) => ({ ...v, percentage: round(v.percentage, 10) }))
           : [{ planType: 2 }];
+      remotePlanList.current = info.planList;
       form.setFieldsValue(info);
       setVersions([{ createDate: info.date, versionId: 1, versionName: "Version01" }]);
     }
@@ -108,6 +110,11 @@ function Allocation() {
     }
   }, [planList]);
 
+  const getDeletePlanList = useCallback((remote, local) => {
+    const localRemoteList = local.filter((v) => v.planId !== undefined);
+    return remote.filter((remote) => !localRemoteList.find((local) => local.planId === remote.planId));
+  }, []);
+
   function handleUpdateAllocationPlan() {
     form
       .validateFields()
@@ -115,9 +122,13 @@ function Allocation() {
         setConfirmLoading(true);
         values.incentivePlanAdminId = userStore?.user?.userId;
         values.projectId = projectId;
-        console.log(values);
-        values.planList = JSON.stringify(values.planList);
         values.date = "";
+        const deleteList = getDeletePlanList(remotePlanList.current, values.planList);
+        values.planList = JSON.stringify(values.planList);
+        values.deletedPlanIdList = JSON.stringify(
+          deleteList.filter((v) => v.planId !== undefined).map((v) => v.planId)
+        );
+        console.log({ deleteList });
         const res = await updateAllocationPlan(projectId, values);
         navigate("/tokenTable");
         console.log(res);
