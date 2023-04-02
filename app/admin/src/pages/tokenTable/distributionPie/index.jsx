@@ -45,23 +45,25 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
         </div>
       ) : (
         <>
-          <div className="flex justify-between lg:mb-4">
-            <h2 className="font-medium text-c13">Diluted Token Distribution</h2>
-            <Theme>
-              <Select
-                options={planTypeList}
-                className="w-[200px]"
-                value={planFilter}
-                onChange={(v) => {
-                  setPlanFilter(v);
-                  setCurrent(1);
-                }}
-              />
-            </Theme>
+          <div className="mb-3 lg:flex lg:justify-between lg:mb-4">
+            <h2 className="mb-3 font-medium text-c13 lg:mb-0">Diluted Token Distribution</h2>
+            <div className="flex justify-center">
+              <Theme>
+                <Select
+                  options={planTypeList}
+                  className="w-[200px]"
+                  value={planFilter}
+                  onChange={(v) => {
+                    setPlanFilter(v);
+                    setCurrent(1);
+                  }}
+                />
+              </Theme>
+            </div>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-2.5 lg:gap-y-0 lg:gap-x-12">
             <Liquidfill percent={totalPercent} className="self-center lg:justify-self-end justify-self-center" />
-            <div className="space-y-4 w-[342px] justify-self-start hidden lg:block lg:h-[380px]">
+            <div className="space-y-4 w-full lg:w-[342px] justify-self-start lg:h-[380px]">
               {dilutedToken.length > 0 ? (
                 dilutedToken
                   .filter((v) => v.tipId === planFilter)
@@ -69,7 +71,7 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
                   .map((v, idx) => (
                     <div className="flex items-center justify-between px-4 py-3 font-medium rounded bg-b-1" key={idx}>
                       <p className="text-c14">
-                        <span>{round(v.percentage, 2)}%</span>
+                        <span>{round(v.percentage, 10)}%</span>
                         <span className="ml-1">{v.granteeName}</span>
                       </p>
                       <p className="text-c4">{formatDollar(v.tokenSum)} Tokens</p>

@@ -27,16 +27,6 @@ const mockList = [
     createDate: "01/03/2022",
     versionId: "3",
   },
-  {
-    versionName: "Version02",
-    createDate: "01/03/2022",
-    versionId: "2",
-  },
-  {
-    versionName: "Version01",
-    createDate: "01/03/2022",
-    versionId: "1",
-  },
 ];
 const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
 
@@ -70,7 +60,7 @@ function Allocation() {
       setPlanLoading(true);
       const info = await getAllocatPlan(projectId);
       setPlanLoading(false);
-      info.planList = info.planList?.map((v) => ({ ...v, percentage: round(v.percentage, 2) }));
+      info.planList = info.planList?.map((v) => ({ ...v, percentage: round(v.percentage, 10) }));
       form.setFieldsValue(info);
     }
   };
@@ -148,7 +138,7 @@ function Allocation() {
             </div>
           )}
 
-          {/* {pc && (
+          {pc && (
             <div className="absolute top-0 right-[-348px] w-[348px] space-y-4 text-white">
               {versions.map((v, idx) => (
                 <div
@@ -173,13 +163,13 @@ function Allocation() {
                 </div>
               ))}
             </div>
-          )} */}
+          )}
           {planLoading === null ? null : planLoading ? (
             <div className="flex justify-center">
               <Spin />
             </div>
           ) : (
-            <div className="overflow-hidden dark:bg-cw1 dark:lg:shadow-d3 rounded-xl">
+            <div className="overflow-hidden rounded-tr-none dark:bg-cw1 dark:lg:shadow-d3 rounded-xl">
               <div className="relative px-3 py-4 lg:pb-0 lg:pt-6 lg:px-4">
                 <Form
                   {...(pc ? formItemCol : null)}
@@ -231,6 +221,7 @@ function Allocation() {
                     ]}
                   >
                     <InputNumber
+                      disabled
                       min={0}
                       max={tokenTotalAmount}
                       style={{ width: "100%" }}
@@ -386,7 +377,7 @@ function Allocation() {
                                       onChange={(val) => {
                                         form.setFieldValue(
                                           ["planList", name, "percentage"],
-                                          getDividePercent(val, Number(tokenTotalAmount), 2)
+                                          getDividePercent(val, Number(tokenTotalAmount), 10)
                                         );
                                       }}
                                       style={{ width: pc ? 185 : "100%" }}
