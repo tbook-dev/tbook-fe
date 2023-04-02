@@ -127,3 +127,6 @@ export const getDilutedToken = async function (projectId) {
 export const addGrantRecord = async function (projectId, values) {
   return request.Post(`${host}/projects/${projectId}/addGrantRecord`, values);
 };
+export const getGrantRecordList = async function (projectId) {
+  return request(`${host}/projects/${projectId}/grantRecordList`);
+};

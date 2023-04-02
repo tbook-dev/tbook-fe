@@ -5,7 +5,7 @@ import { useCurrentProjectId, useUserInfoLoading, useCurrentProject } from "@tbo
 import { useAsyncEffect, useResponsive } from "ahooks";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTokenDist, getDilutedToken, getAllocatPlan } from "@/api/incentive";
+import { getTokenDist, getDilutedToken, getAllocatPlan, getGrantRecordList } from "@/api/incentive";
 import Template from "./template";
 import { useNavigate } from "react-router-dom";
 import { useFindAudience } from "@tbook/hooks";
@@ -19,6 +19,8 @@ export default function TokenTable() {
   const [tokenDistLoading, setTokenDistLoading] = useState(false);
   const [dilutedToken, setDilutedToken] = useState([]);
   const [dilutedTokenloading, setDilutedTokenloading] = useState(false);
+  const [recordList, setRecordList] = useState([]);
+  const [recordListLoading, setRecordListLoading] = useState(false);
   const project = useCurrentProject();
   const navigate = useNavigate();
   const findAudience = useFindAudience();
@@ -56,6 +58,13 @@ export default function TokenTable() {
     setDilutedToken(list);
     setDilutedTokenloading(false);
   }, [projectId]);
+  useAsyncEffect(async () => {
+    if (!projectId) return;
+    setRecordListLoading(true);
+    const list = await getGrantRecordList(projectId);
+    setRecordList(list);
+    setRecordListLoading(false);
+  }, [projectId]);
 
   return (
     <div className="text-white bx py-[25px] lg:py-[58px]">
@@ -72,11 +81,7 @@ export default function TokenTable() {
       </div>
 
       {/* {tipList.length === 0 ? <Template /> : <RecordTable />} */}
-      {userLoading || dilutedTokenloading ? (
-        <Loading />
-      ) : (
-        <RecordTable list={dilutedToken.filter((v) => v.tipId === -1)} />
-      )}
+      {userLoading || recordListLoading ? <Loading /> : <RecordTable list={recordList} />}
     </div>
   );
 }
