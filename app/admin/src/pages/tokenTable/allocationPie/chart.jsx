@@ -2,11 +2,9 @@ import React, { useMemo } from "react";
 import { ResponsivePie } from "@nivo/pie";
 import { conf } from "@tbook/utils";
 import { round } from "lodash";
-const { formatDollar } = conf;
+const { formatDollar, getDividePercent } = conf;
 
-const PieChart = ({ data }) => {
-  const total = data.reduce((sum, item) => sum + item.value, 0);
-
+const PieChart = ({ data, total }) => {
   return (
     <ResponsivePie
       data={data}
@@ -92,6 +90,8 @@ const giveColorToList = (list) => {
 };
 const Chart = ({ data, width, height, totalToken }) => {
   const formatData = useMemo(() => {
+    const sum = data.reduce((sum, item) => sum + item.tokenNum, 0);
+
     const l1 = giveColorToList(data);
     const l2 = l1.map((v, idx) => ({
       label: v.label,
@@ -100,13 +100,22 @@ const Chart = ({ data, width, height, totalToken }) => {
       color: v.color,
       id: idx,
     }));
-    return l2;
-  }, [data]);
+    return [
+      ...l2,
+      {
+        label: "Free",
+        percentage: getDividePercent(totalToken - sum, totalToken, 2),
+        value: totalToken - sum,
+        color: "#666",
+        id: -1,
+      },
+    ];
+  }, [data, totalToken]);
 
   return (
     <div style={{ width }}>
       <div style={{ height }}>
-        <PieChart data={formatData} />
+        <PieChart data={formatData} total={totalToken} />
       </div>
       <div className="flex flex-wrap">
         {formatData.map((v, idx) => {

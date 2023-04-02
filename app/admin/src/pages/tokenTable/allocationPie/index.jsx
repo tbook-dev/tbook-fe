@@ -2,24 +2,7 @@ import Chart from "./chart";
 import { Link } from "react-router-dom";
 import editIcon from "@tbook/share/images/icon/edit.svg";
 
-export default function Pie({ pieList }) {
-  const list = [
-    {
-      versionName: "Version02",
-      createDate: "01/03/2022",
-      versionId: "1",
-    },
-    {
-      versionName: "Version02",
-      createDate: "01/03/2022",
-      versionId: "2",
-    },
-    {
-      versionName: "Version02",
-      createDate: "01/03/2022",
-      versionId: "3",
-    },
-  ];
+export default function Pie({ versions: list = [], pieList, totalToken }) {
   return (
     <div className="p-3 mb-4 bx lg:p-6 lg:mb-10 rect-border">
       <div className="flex justify-between lg:justify-start">
@@ -31,7 +14,7 @@ export default function Pie({ pieList }) {
 
       <div className="grid items-center grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
         <div className="lg:justify-self-end justify-self-center">
-          <Chart data={pieList} height={260} width={260} />
+          <Chart data={pieList} height={260} width={260} totalToken={totalToken} />
         </div>
         <div className="space-y-4 w-[342px] justify-self-start hidden lg:block">
           {list.length > 0 ? (

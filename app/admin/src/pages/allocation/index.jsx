@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Button, Form, Input, Tooltip, InputNumber, Divider, message } from "antd";
+import { Button, Form, Input, InputNumber, Divider } from "antd";
 import AppConfigProvider from "@/theme/AppConfigProvider";
 import { CheckOutlined, InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
@@ -22,13 +22,6 @@ import { Back } from "@tbook/ui";
 
 const { getDividePercent, minZeroValidator, maxValidator, formatDollar, dateFormat } = conf;
 
-const mockList = [
-  {
-    versionName: "Version01",
-    createDate: "01/03/2022",
-    versionId: "1",
-  },
-];
 const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
 
 function Allocation() {
@@ -444,7 +437,7 @@ function Allocation() {
                           className="w-[64vw] lg:w-[120px]"
                           loading={confirmLoading}
                         >
-                          Create
+                          Save
                         </Button>
                       </div>
                     </div>

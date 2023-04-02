@@ -47,29 +47,34 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
         <>
           <div className="mb-3 lg:flex lg:justify-between lg:mb-4">
             <h2 className="mb-3 font-medium text-c13 lg:mb-0">Diluted Token Distribution</h2>
-            <div className="flex justify-center">
-              <Theme>
-                <Select
-                  options={planTypeList}
-                  className="w-[200px]"
-                  value={planFilter}
-                  onChange={(v) => {
-                    setPlanFilter(v);
-                    setCurrent(1);
-                  }}
-                />
-              </Theme>
-            </div>
+            {planTypeList.length > 0 && (
+              <div className="flex justify-center">
+                <Theme>
+                  <Select
+                    options={planTypeList}
+                    className="w-[200px]"
+                    value={planFilter}
+                    onChange={(v) => {
+                      setPlanFilter(v);
+                      setCurrent(1);
+                    }}
+                  />
+                </Theme>
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-2.5 lg:gap-y-0 lg:gap-x-12">
             <Liquidfill percent={totalPercent} className="self-center lg:justify-self-end justify-self-center" />
-            <div className="space-y-4 w-full lg:w-[342px] justify-self-start lg:h-[380px]">
+            <div className="space-y-4  w-full lg:w-[342px] justify-self-start lg:h-[380px]">
               {dilutedToken.length > 0 ? (
                 dilutedToken
                   .filter((v) => v.tipId === planFilter)
                   .slice((current - 1) * pageSize, current * pageSize)
                   .map((v, idx) => (
-                    <div className="flex items-center justify-between px-4 py-3 font-medium rounded bg-b-1" key={idx}>
+                    <div
+                      className="flex items-center justify-between w-full px-4 py-3 font-medium rounded bg-b-1"
+                      key={idx}
+                    >
                       <p className="text-c14">
                         <span>{round(v.percentage, 10)}%</span>
                         <span className="ml-1">{v.granteeName}</span>
@@ -78,7 +83,7 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
                     </div>
                   ))
               ) : (
-                <div className="px-4 py-3 font-medium text-center rounded bg-b-1">
+                <div className="w-full px-4 py-3 font-medium text-center rounded bg-b-1">
                   <p className="text-c14">No diluted token distribution</p>
                 </div>
               )}

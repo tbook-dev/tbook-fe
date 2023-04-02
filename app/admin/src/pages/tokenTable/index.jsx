@@ -1,11 +1,11 @@
 import AllocationPie from "./allocationPie";
 import TokenDistribution from "./distributionPie";
 import RecordTable from "./recordTable";
-import { useCurrentProjectId, useUserInfoLoading, useProjects } from "@tbook/hooks";
+import { useCurrentProjectId, useUserInfoLoading, useCurrentProject } from "@tbook/hooks";
 import { useAsyncEffect, useResponsive } from "ahooks";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTokenDist, getDilutedToken } from "@/api/incentive";
+import { getTokenDist, getDilutedToken, getAllocatPlan } from "@/api/incentive";
 import Template from "./template";
 import { useNavigate } from "react-router-dom";
 import { useFindAudience } from "@tbook/hooks";
@@ -19,8 +19,11 @@ export default function TokenTable() {
   const [tokenDistLoading, setTokenDistLoading] = useState(false);
   const [dilutedToken, setDilutedToken] = useState([]);
   const [dilutedTokenloading, setDilutedTokenloading] = useState(false);
+  const project = useCurrentProject();
   const navigate = useNavigate();
   const findAudience = useFindAudience();
+  const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || 100000000;
+  const [versions, setVersions] = useState([]);
 
   const { pc } = useResponsive();
 
@@ -35,8 +38,17 @@ export default function TokenTable() {
     setTokenDistLoading(true);
     const list = await getTokenDist(projectId);
     setTokenDist(list.map((v) => ({ ...v, label: findAudience(v.target) })));
+    const info = await getAllocatPlan(projectId);
+    setVersions([
+      {
+        versionName: "Version01",
+        createDate: info.date,
+        versionId: 1,
+      },
+    ]);
     setTokenDistLoading(false);
   }, [projectId]);
+
   useAsyncEffect(async () => {
     if (!projectId) return;
     setDilutedTokenloading(true);
@@ -53,7 +65,7 @@ export default function TokenTable() {
           <Loading />
         ) : (
           <>
-            <AllocationPie pieList={tokenDist} />
+            <AllocationPie pieList={tokenDist} totalToken={tokenTotalAmount} versions={versions} />
             <TokenDistribution dilutedToken={dilutedToken} dilutedTokenloading={dilutedTokenloading} />
           </>
         )}
