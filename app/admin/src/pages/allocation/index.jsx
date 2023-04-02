@@ -17,9 +17,8 @@ import minusIcon from "@tbook/share/images/icon/minus-red.svg";
 import Select from "@/components/select";
 import { Spin } from "antd";
 import { round } from "lodash";
-import dayjs from "dayjs";
 import { Back } from "@tbook/ui";
-
+import { sumBy } from "lodash";
 const { getDividePercent, minZeroValidator, maxValidator, formatDollar, dateFormat } = conf;
 
 const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
@@ -120,6 +119,7 @@ function Allocation() {
         values.planList = JSON.stringify(values.planList);
         values.date = "";
         const res = await updateAllocationPlan(projectId, values);
+        navigate("/tokenTable");
         console.log(res);
       })
       .catch((err) => {
@@ -133,7 +133,7 @@ function Allocation() {
   return (
     <div className="w-full text-[#1E293B]">
       {!pc && <Back link="/tokenTable" />}
-      <div className="pt-3 lg:pt-12 ">
+      <div className="pt-3 lg:py-12 ">
         <div className="mb-6  lg:w-[600px] mx-4 lg:mx-auto lg:mb-10">
           <div className="flex flex-col justify-center flex-auto ml-[52px] lg:ml-0 lg:text-c">
             <h1 className="mb-1 font-bold text-c11 lg:text-cwh3 dark:text-white">Token Allocation Plan</h1>
@@ -249,6 +249,10 @@ function Allocation() {
                         validator: async (x, plans) => {
                           if (!plans || plans.length < 1) {
                             return Promise.reject(new Error("At least 1 Plan"));
+                          }
+                          const tokenSum = sumBy(plans, "tokenNum");
+                          if (tokenSum > tokenTotalAmount) {
+                            return Promise.reject(new Error("Total Token exceed the Total Amount"));
                           }
                         },
                       },
