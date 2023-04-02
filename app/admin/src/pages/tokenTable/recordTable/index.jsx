@@ -17,7 +17,7 @@ export default function RecordTable({ list }) {
     <div className="p-3 mb-10 text-white rect-border lg:py-6 lg:px-0">
       <div className="flex items-center justify-between mb-3 lg:px-6">
         <h2 className="font-medium text-c12 lg:text-c13">Stakeholders</h2>
-        <Link to="/create/plan">
+        <Link to="/record">
           <button
             type="button"
             className="flex items-center justify-center w-8 h-8 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md lg:w-40 lg:h-10 lg:dark:bg-white lg:rounded-lg dark:text-black shadow-d3 lg:hover:text-white lg:hover:bg-cw1 lg:hover:shadow-d7"

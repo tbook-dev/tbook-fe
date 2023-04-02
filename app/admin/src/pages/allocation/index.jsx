@@ -19,7 +19,7 @@ import { Spin } from "antd";
 import { round } from "lodash";
 import dayjs from "dayjs";
 
-const { getDividePercent, minZeroValidator, formatDollar, dateFormat } = conf;
+const { getDividePercent, minZeroValidator, maxValidator, formatDollar, dateFormat } = conf;
 
 const mockList = [
   {
@@ -148,7 +148,7 @@ function Allocation() {
             </div>
           )}
 
-          {pc && (
+          {/* {pc && (
             <div className="absolute top-0 right-[-348px] w-[348px] space-y-4 text-white">
               {versions.map((v, idx) => (
                 <div
@@ -173,13 +173,13 @@ function Allocation() {
                 </div>
               ))}
             </div>
-          )}
+          )} */}
           {planLoading === null ? null : planLoading ? (
             <div className="flex justify-center">
               <Spin />
             </div>
           ) : (
-            <div className="overflow-hidden dark:bg-cw1 dark:lg:shadow-d3 rounded-xl lg:rounded-tr-none">
+            <div className="overflow-hidden dark:bg-cw1 dark:lg:shadow-d3 rounded-xl">
               <div className="relative px-3 py-4 lg:pb-0 lg:pt-6 lg:px-4">
                 <Form
                   {...(pc ? formItemCol : null)}
@@ -275,7 +275,7 @@ function Allocation() {
                                     }}
                                   />
                                   <p>{`${idx + 1}`.padStart(2, "0")}</p>
-                                  {planType === 2 && <img className="w-4 ml-1.5" src={starIcon} />}
+                                  {planType === 1 && <img className="w-4 ml-1.5" src={starIcon} />}
                                 </div>
 
                                 <div
@@ -347,8 +347,10 @@ function Allocation() {
                                     name={[name, "percentage"]}
                                     rules={[
                                       {
-                                        required: true,
-                                        message: "Missing!",
+                                        validator: minZeroValidator("percentage"),
+                                      },
+                                      {
+                                        validator: maxValidator(100, "percentage"),
                                       },
                                     ]}
                                   >
