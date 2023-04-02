@@ -4,7 +4,7 @@ import { Button, Form, Input, Tooltip, InputNumber, Divider, message } from "ant
 import AppConfigProvider from "@/theme/AppConfigProvider";
 import { CheckOutlined, InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
-import { getAllocatPlan } from "@/api/incentive";
+import { getAllocatPlan, updateAllocationPlan } from "@/api/incentive";
 import { useCurrentProjectId, useCurrentProject, useProjectAudience } from "@tbook/hooks";
 import { useResponsive } from "ahooks";
 import starIcon from "@tbook/share/images/icon/star.svg";
@@ -95,9 +95,10 @@ function Allocation() {
     if (Array.isArray(planList)) {
       return planList.map((v, idx) => {
         return {
+          id: idx,
           label: v.planName,
-          percentage: v.percentage,
-          tokenNum: v.tokenNum,
+          percentage: v.percentage || 0,
+          tokenNum: v.tokenNum || 0,
         };
       });
     } else {
@@ -105,17 +106,23 @@ function Allocation() {
     }
   }, [planList]);
 
-  function handleCreatePlan() {
+  function handleUpdateAllocationPlan() {
     form
       .validateFields()
-      .then((values) => {
+      .then(async (values) => {
         setConfirmLoading(true);
         values.incentivePlanAdminId = userStore?.user?.userId;
         values.projectId = projectId;
         console.log(values);
+        values.planList = values.planList.map((v) => ({ ...v, percentage: Number(v.percentage) }));
+        const res = await updateAllocationPlan(projectId, values);
+        console.log(res);
       })
       .catch((err) => {
         console.log(err, "error");
+      })
+      .finally(() => {
+        setConfirmLoading(false);
       });
   }
 
@@ -421,7 +428,7 @@ function Allocation() {
                         </Link>
 
                         <Button
-                          onClick={handleCreatePlan}
+                          onClick={handleUpdateAllocationPlan}
                           type="primary"
                           className="w-[64vw] lg:w-[120px]"
                           loading={confirmLoading}
