@@ -182,7 +182,7 @@ function Record() {
                 <AppConfigProvider>
                   <div className="pt-3 lg:pb-6 lg:pt-2">
                     <div className="flex justify-center">
-                      <Link to="/" className="hidden mr-10 lg:block">
+                      <Link to="/tokenTable" className="hidden mr-10 lg:block">
                         <Button className="w-[120px]">Cancel</Button>
                       </Link>
 
