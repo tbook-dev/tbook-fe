@@ -1,85 +1,63 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Button, Form, Input, Select, DatePicker, InputNumber, Divider, message } from "antd";
+import { Button, Form, Input, Select, DatePicker, InputNumber } from "antd";
 import AppConfigProvider from "@/theme/AppConfigProvider";
-import { useSelector, useDispatch } from "react-redux";
-import { createTIP, createProject } from "@/api/incentive";
-import { user } from "@tbook/store";
-import { useCurrentProjectId, useCurrentProject, useProjectAudience } from "@tbook/hooks";
+import { useDispatch } from "react-redux";
+import { getAllocatPlan, addGrantRecord } from "@/api/incentive";
+import { useCurrentProjectId, useCurrentProject } from "@tbook/hooks";
 import _ from "lodash";
 import { useResponsive } from "ahooks";
-import { useNetwork } from "wagmi";
 import { conf } from "@tbook/utils";
 import { Back } from "@tbook/ui";
+import { useAsyncEffect } from "ahooks";
 
-const { defaultErrorMsg, dateFormat, minZeroValidator, maxValidator, getDividePercent } = conf;
-const { fetchUserInfo, setCurrentProjectId } = user;
+const { dateFormat, minZeroValidator, maxValidator, getDividePercent } = conf;
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
 function Record() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const { chain } = useNetwork();
 
-  const userStore = useSelector((state) => state.user);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [projectLoading, setProjectLoading] = useState(false);
-  const [addedAudience, setAddedAudience] = useState([]);
+  const [plans, setPlans] = useState([]);
 
   const navigate = useNavigate();
   const projectId = useCurrentProjectId();
   const project = useCurrentProject();
-  // const projects = useProjects();
-  // const [customizeOptions, setCustomizeOptions] = useState(null);
-  const projectAudience = useProjectAudience();
+
   const { pc } = useResponsive();
-  const mainNetwork = project?.chain || chain?.name || "Ethereum";
-  // console.log("mainNetwork", mainNetwork, chain);
 
   const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || 100000000;
-
-  const options = [...projectAudience, ...addedAudience];
 
   function handleCreate() {
     form
       .validateFields()
-      .then((values) => {
+      .then(async (values) => {
         setConfirmLoading(true);
-
-        values.incentivePlanAdminId = userStore?.user?.userId;
         values.projectId = projectId;
         values.grantDate = values.grantDate.format(dateFormat);
         console.log({ values });
-        // console.log(values)
-        // console.log(JSON.stringify(values))
-        // return;
-        // createTIP(values).then((tip) => {
+        const res = await addGrantRecord(projectId, values);
+        console.log({ res });
         setConfirmLoading(false);
-        //   dispatch(fetchUserInfo(false));
-        //   navigate(`/?tipId=${tip.incentivePlanId}`);
-        // });
       })
       .catch((err) => {
         console.log(err, "error");
+      })
+      .finally(() => {
+        setConfirmLoading(false);
       });
   }
 
-  async function hanleCreateProject(values) {
-    setProjectLoading(true);
-    // 应该获取当前链，暂时不处理
-    values.chain = mainNetwork;
-    const projectInfo = await createProject(values);
-    if (projectInfo.success) {
-      dispatch(setCurrentProjectId(projectInfo?.entity?.projectId));
-      dispatch(fetchUserInfo(false));
-      setProjectLoading(false);
-      setFirstCreated(true);
-    } else {
-      setProjectLoading(false);
-      message.error(projectInfo.message || defaultErrorMsg);
+  useAsyncEffect(async () => {
+    if (projectId) {
+      const info = await getAllocatPlan(projectId);
+      const plans = JSON.parse(info.planList);
+      const options = plans.filter((v) => v.planType === 2).map((v) => ({ value: v.planId, label: v.planName }));
+      setPlans([...options, { label: "Others", value: -1 }]);
     }
-  }
+  }, [projectId]);
 
   return (
     <div className="w-full text-[#1E293B]">
@@ -118,7 +96,7 @@ function Record() {
 
                 <Form.Item
                   label="Token Allocation"
-                  name="target"
+                  name="allocPlanId"
                   rules={[
                     {
                       required: true,
@@ -126,7 +104,7 @@ function Record() {
                     },
                   ]}
                 >
-                  <Select allowClear optionLabelProp="label" placeholder="Employee" options={options} />
+                  <Select allowClear optionLabelProp="label" placeholder="Others" options={plans} />
                 </Form.Item>
 
                 <Form.Item label="Grant Proportion">

@@ -124,3 +124,6 @@ export const updateAllocationPlan = async function (projectId, values) {
 export const getDilutedToken = async function (projectId) {
   return request(`${host}/projects/${projectId}/dilutedToken`);
 };
+export const addGrantRecord = async function (projectId, values) {
+  return request.Post(`${host}/projects/${projectId}/addGrantRecord`, values);
+};
