@@ -12,14 +12,13 @@ import { useNetwork } from "wagmi";
 import { conf } from "@tbook/utils";
 import { Back } from "@tbook/ui";
 
-const { defaultErrorMsg, minZeroValidator, maxValidator, getDividePercent } = conf;
+const { defaultErrorMsg, dateFormat, minZeroValidator, maxValidator, getDividePercent } = conf;
 const { fetchUserInfo, setCurrentProjectId } = user;
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
 function Record() {
   const [form] = Form.useForm();
-  const [formProject] = Form.useForm();
   const dispatch = useDispatch();
   const { chain } = useNetwork();
 
@@ -42,7 +41,7 @@ function Record() {
 
   const options = [...projectAudience, ...addedAudience];
 
-  function handleCreatePlan() {
+  function handleCreate() {
     form
       .validateFields()
       .then((values) => {
@@ -50,20 +49,16 @@ function Record() {
 
         values.incentivePlanAdminId = userStore?.user?.userId;
         values.projectId = projectId;
-
-        if (addedAudience.length === 0) {
-          values.labelList = "";
-        } else {
-          values.labelList = JSON.stringify(addedAudience.map((v) => v.label));
-        }
+        values.grantDate = values.grantDate.format(dateFormat);
+        console.log({ values });
         // console.log(values)
         // console.log(JSON.stringify(values))
         // return;
-        createTIP(values).then((tip) => {
-          setConfirmLoading(false);
-          dispatch(fetchUserInfo(false));
-          navigate(`/?tipId=${tip.incentivePlanId}`);
-        });
+        // createTIP(values).then((tip) => {
+        setConfirmLoading(false);
+        //   dispatch(fetchUserInfo(false));
+        //   navigate(`/?tipId=${tip.incentivePlanId}`);
+        // });
       })
       .catch((err) => {
         console.log(err, "error");
@@ -215,7 +210,7 @@ function Record() {
                       </Link>
 
                       <Button
-                        onClick={handleCreatePlan}
+                        onClick={handleCreate}
                         type="primary"
                         className="w-[64vw] lg:w-[120px]"
                         loading={confirmLoading}
