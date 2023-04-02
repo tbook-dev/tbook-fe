@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { getGrantInfoWithPlan, getGrantSignInfo, getGrantVestingScheduleInfo } from "@/api/incentive";
-import { useAsyncEffect } from "ahooks";
+import { useAsyncEffect, useResponsive } from "ahooks";
 import { conf } from "@tbook/utils";
 import VestingSchedule from "../../incentive/VestingSchedule";
 import { useSelector } from "react-redux";
@@ -32,6 +32,7 @@ function GrantSign() {
   const userInfo = useSelector((state) => state.user.user);
   const [granteeAuth, setGranteeAuth] = useState(null);
   const userLoading = useUserInfoLoading();
+  const { pc } = useResponsive();
 
   // const projects = useSelector((state) => state.user.projects);
   // console.log("scheduleInfo", scheduleInfo);
