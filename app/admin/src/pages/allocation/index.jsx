@@ -24,9 +24,9 @@ const { getDividePercent, minZeroValidator, maxValidator, formatDollar, dateForm
 
 const mockList = [
   {
-    versionName: "Version03",
+    versionName: "Version01",
     createDate: "01/03/2022",
-    versionId: "3",
+    versionId: "1",
   },
 ];
 const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
@@ -42,7 +42,7 @@ function Allocation() {
   const project = useCurrentProject();
   const projectAudience = useProjectAudience();
   const { pc } = useResponsive();
-  const [currentPlan, setCurrentPlan] = useState(null);
+  const [currentPlan, setCurrentPlan] = useState(1);
   const [planLoading, setPlanLoading] = useState(null);
   const planList = Form.useWatch("planList", form);
   const [versions, setVersions] = useState([]);
@@ -61,35 +61,45 @@ function Allocation() {
       setPlanLoading(true);
       const info = await getAllocatPlan(projectId);
       setPlanLoading(false);
-      info.planList = info.planList?.map((v) => ({ ...v, percentage: round(v.percentage, 10) }));
+      try {
+        info.planList = JSON.parse(info.planList);
+      } catch {
+        info.planList = [{ planType: 2 }];
+      }
+
+      info.planList =
+        info.planList.length > 0
+          ? info.planList?.map((v) => ({ ...v, percentage: round(v.percentage, 10) }))
+          : [{ planType: 2 }];
       form.setFieldsValue(info);
+      setVersions([{ createDate: info.date, versionId: 1, versionName: "Version01" }]);
     }
   };
 
   useAsyncEffect(fetchAndSet, [projectId]);
 
-  useAsyncEffect(async () => {
-    if (projectId & pc) {
-      setVersionLoading(true);
-      // 当有url的时候是查看历史记录否则是最新的
-      // let list = [];
-      let list = mockList;
-      let currentVersion = null;
-      if (Array.isArray(list) && list.length > 0) {
-        if (versionId) {
-          currentVersion = list?.find((v) => v.versionId === versionId) || list[list.length - 1];
-        } else {
-          currentVersion = list[0];
-        }
-      } else {
-        currentVersion = { versionName: "Version01", createDate: dayjs().format(dateFormat), versionId: "1" };
-        list = [currentVersion];
-      }
-      setVersions(list);
-      setCurrentPlan(currentVersion.versionId);
-      setVersionLoading(false);
-    }
-  }, [projectId, versionId, pc]);
+  // useAsyncEffect(async () => {
+  //   if (projectId & pc) {
+  //     setVersionLoading(true);
+  //     // 当有url的时候是查看历史记录否则是最新的
+  //     // let list = [];
+  //     let list = mockList;
+  //     let currentVersion = null;
+  //     if (Array.isArray(list) && list.length > 0) {
+  //       if (versionId) {
+  //         currentVersion = list?.find((v) => v.versionId === versionId) || list[list.length - 1];
+  //       } else {
+  //         currentVersion = list[0];
+  //       }
+  //     } else {
+  //       currentVersion = { versionName: "Version01", createDate: dayjs().format(dateFormat), versionId: "1" };
+  //       list = [currentVersion];
+  //     }
+  //     setVersions(list);
+  //     setCurrentPlan(currentVersion.versionId);
+  //     setVersionLoading(false);
+  //   }
+  // }, [projectId, versionId,versions,  pc]);
 
   const pieData = useMemo(() => {
     if (Array.isArray(planList)) {
@@ -114,7 +124,8 @@ function Allocation() {
         values.incentivePlanAdminId = userStore?.user?.userId;
         values.projectId = projectId;
         console.log(values);
-        values.planList = values.planList.map((v) => ({ ...v, percentage: Number(v.percentage) }));
+        values.planList = JSON.stringify(values.planList);
+        values.date = "";
         const res = await updateAllocationPlan(projectId, values);
         console.log(res);
       })
@@ -142,7 +153,7 @@ function Allocation() {
             <div className="absolute py-6 w-[324px] rounded-lg top-0 left-[-350px]  text-white shadow-d11">
               <h3 className="px-6 mb-4 font-medium text-c13">Token Distribution</h3>
               <div className="flex justify-center">
-                <Chart data={pieData} width={275} height={275} />
+                <Chart data={pieData} width={275} height={275} totalToken={tokenTotalAmount} />
               </div>
             </div>
           )}

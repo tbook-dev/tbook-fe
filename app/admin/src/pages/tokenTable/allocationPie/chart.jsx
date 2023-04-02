@@ -90,7 +90,7 @@ const giveColorToList = (list) => {
   ];
   return list.map((v, idx) => ({ ...v, color: colorPannel[idx % 10] }));
 };
-const Chart = ({ data, width, height }) => {
+const Chart = ({ data, width, height, totalToken }) => {
   const formatData = useMemo(() => {
     const l1 = giveColorToList(data);
     const l2 = l1.map((v, idx) => ({
