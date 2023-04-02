@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import { useNetwork } from "wagmi";
 import Banner from "../component/banner";
 import { conf } from "@tbook/utils";
+import { Back } from "@tbook/ui";
 
 const { defaultErrorMsg, chains, formatDollar } = conf;
 const { fetchUserInfo, setCurrentProjectId } = user;
@@ -99,6 +100,7 @@ function PlanCreate() {
 
   return (
     <div className="w-full text-[#1E293B]">
+      {!pc && <Back />}
       <div className="pt-3 lg:pt-12">
         <Banner
           img={planIcon}

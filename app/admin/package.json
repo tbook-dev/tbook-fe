@@ -8,7 +8,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tbook/hooks":"workspace:*",
+    "@nivo/core": "^0.80.0",
+    "@nivo/pie": "^0.80.0",
+    "@nivo/tooltip": "^0.80.0",
+    "@tbook/hooks": "workspace:*",
     "@tbook/share": "workspace:*",
     "@tbook/store": "workspace:*",
     "@tbook/ui": "workspace:*",

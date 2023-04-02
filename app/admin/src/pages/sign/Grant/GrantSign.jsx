@@ -16,6 +16,7 @@ import { Spin } from "antd";
 import Action from "../action";
 import NoProject from "./NoProject";
 import { useUserInfoLoading } from "@tbook/hooks";
+import { Back } from "@tbook/ui";
 
 const { formatDollar, periodMap, shortAddress, findGrantType } = conf;
 
@@ -203,6 +204,8 @@ function GrantSign() {
   }
   return (
     <main className="relative w-full pt-3 pb-10 lg:pb-0 lg:pt-12">
+      {!pc && <Back />}
+
       {signStatus === null && (
         <div className="flex justify-center">
           <Spin />

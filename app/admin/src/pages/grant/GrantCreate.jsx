@@ -45,6 +45,7 @@ import minusIcon from "@tbook/share/images/icon/minus-red.svg";
 import { Span as ThemeSpan } from "@tbook/ui";
 import _ from "lodash";
 import { conf } from "@tbook/utils";
+import { Back } from "@tbook/ui";
 
 const {
   grantType,
@@ -259,6 +260,8 @@ function GrantCreate() {
   return (
     <>
       <div className="w-full mx-auto">
+        {!pc && <Back />}
+
         <div className="pt-3 lg:pt-12">
           <Banner
             img={grantIcon}
