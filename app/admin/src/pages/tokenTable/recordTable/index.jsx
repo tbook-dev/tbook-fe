@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import { useResponsive } from "ahooks";
@@ -6,6 +6,7 @@ import { conf } from "@tbook/utils";
 import { useFindAudience } from "@tbook/hooks";
 import { round } from "lodash";
 import { Empty } from "@tbook/ui";
+import Pagination from "@/components/pagination";
 
 const { formatDollar, shortAddress } = conf;
 
@@ -13,6 +14,8 @@ export default function RecordTable({ list }) {
   const { pc } = useResponsive();
   const tableHeaders = useMemo(() => ["HOLDER", "PLAN", "Target Audience", "TOTAL TOKEN", "Percentage"], []);
   const findAudience = useFindAudience();
+  const [current, setCurrent] = useState(1);
+  const pageSize = 10;
 
   return (
     <div className="p-3 mb-10 text-white rect-border lg:py-6 lg:px-0">
@@ -36,7 +39,7 @@ export default function RecordTable({ list }) {
           })}
         </div>
         {list.length > 0 ? (
-          list.map((v, idx) => {
+          list.slice((current - 1) * pageSize, current * pageSize).map((v, idx) => {
             return pc ? (
               <div className="grid grid-cols-5 mx-4 border-b border-b-1" key={idx}>
                 <div className="flex justify-center py-1">
@@ -94,6 +97,17 @@ export default function RecordTable({ list }) {
         ) : (
           <Empty description="No Record" />
         )}
+        <div className="flex justify-end pt-2">
+          <Pagination
+            hideOnSinglePage
+            responsive
+            showSizeChanger={false}
+            current={current}
+            pageSize={pageSize}
+            total={list.length}
+            onChange={setCurrent}
+          />
+        </div>
       </div>
     </div>
   );
