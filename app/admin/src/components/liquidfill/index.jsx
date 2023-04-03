@@ -4,12 +4,12 @@ export default function Liquidfill({ percent = 30, size = 200, className = "" })
   return (
     <div
       className={clsx(
-        "relative rounded-full p-1 overflow-hidden border-transparent bg-[#191919]  border-[5px] shadow-[0_0_0_5px_black,0_0_0_10px_#191919]",
+        "relative  p-1 overflow-hidden border-transparent bg-[#191919]  border-[5px] shadow-[0_0_0_5px_black,0_0_0_10px_#191919]",
         className
       )}
-      style={{ width: size - 10, height: size - 10, margin: 10 }}
+      style={{ width: size - 10, height: size - 10, margin: 10, borderRadius: "50%" }}
     >
-      <div className="absolute w-full h-full bg-[#a0edff]" style={{ bottom: `calc(-128% + ${percent}%)` }}>
+      <div className="absolute z-0 w-full h-full bg-[#a0edff]" style={{ bottom: `calc(-128% + ${percent}%)` }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           version="1.0"
