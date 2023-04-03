@@ -69,6 +69,7 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
               {dilutedToken.length > 0 ? (
                 dilutedToken
                   .filter((v) => v.tipId === planFilter)
+                  .sort((a, b) => (a.tokenSum - b.tokenSum > 0 ? -1 : 1))
                   .slice((current - 1) * pageSize, current * pageSize)
                   .map((v, idx) => (
                     <div
