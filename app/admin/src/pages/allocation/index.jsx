@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useCallback, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Button, Form, Input, InputNumber, Divider } from "antd";
+import { Button, Form, Input, InputNumber, Divider, Tooltip } from "antd";
 import AppConfigProvider from "@/theme/AppConfigProvider";
 import { CheckOutlined, InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
@@ -294,7 +294,11 @@ function Allocation() {
                                     }}
                                   />
                                   <p>{`${idx + 1}`.padStart(2, "0")}</p>
-                                  {planType === 1 && <img className="w-4 ml-1.5" src={starIcon} />}
+                                  {planType === 1 && (
+                                    <Tooltip title="for incentive" placement="right">
+                                      <img className="w-4 ml-1.5" src={starIcon} />
+                                    </Tooltip>
+                                  )}
                                 </div>
 
                                 <div
