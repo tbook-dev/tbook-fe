@@ -5,6 +5,10 @@ const routes = [
     path: "/",
     component: lazy(() => import("@/pages/incentive/PlanList")),
   },
+  // {
+  //   path: "/t",
+  //   component: lazy(() => import("@/components/liquidfill")),
+  // },
   {
     path: "/create/:pageType",
     component: lazy(() => import("@/pages/incentive/PlanCreate")),
