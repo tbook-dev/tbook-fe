@@ -19,7 +19,8 @@ import { Spin } from "antd";
 import { round } from "lodash";
 import { Back } from "@tbook/ui";
 import { sumBy } from "lodash";
-const { getDividePercent, minZeroValidator, maxValidator, formatDollar, dateFormat } = conf;
+import { message } from "antd";
+const { getDividePercent, minZeroValidator, maxValidator, formatDollar, defaultErrorMsg } = conf;
 
 const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
 
@@ -130,7 +131,12 @@ function Allocation() {
         );
         console.log({ deleteList });
         const res = await updateAllocationPlan(projectId, values);
-        navigate("/tokenTable");
+        if (res.success) {
+          navigate("/tokenTable");
+        } else {
+          message.error(res.message || defaultErrorMsg);
+          setConfirmLoading(false);
+        }
         console.log(res);
       })
       .catch((err) => {
