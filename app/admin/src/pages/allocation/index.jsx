@@ -263,7 +263,7 @@ function Allocation() {
                           }
                           const tokenSum = sumBy(plans, "tokenNum");
                           if (tokenSum > tokenTotalAmount) {
-                            return Promise.reject(new Error("Total Token exceed the Total Amount"));
+                            return Promise.reject(new Error("Total Token exceed the max token supply"));
                           }
                         },
                       },
