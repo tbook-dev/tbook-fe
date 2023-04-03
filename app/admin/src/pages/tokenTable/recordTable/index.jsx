@@ -78,6 +78,13 @@ export default function RecordTable({ list }) {
                   <div className="flex flex-col justify-center flex-none text-b-8">
                     <h3 className="text-ellipsis w-[115px] truncate  text-b-8 text-c8">{v.granteeName}</h3>
                     {v.address && <p className="truncate w-[115px] text-ellipsis text-c4">{shortAddress(v.address)}</p>}
+                    {v.target && (
+                      <div className="mt-px">
+                        <span className="max-w-[115px] text-ellipsis  text-c15  border border-white px-2 py-px rounded">
+                          {findAudience(v.target)}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -85,11 +92,7 @@ export default function RecordTable({ list }) {
                   <p className="mb-px font-bold text-c8">
                     {formatDollar(v.tokenSum)}({round(v.percentage, 10)}%)
                   </p>
-                  <div className="mb-1">
-                    <span className="max-w-[115px] text-ellipsis  text-c15  border border-white px-2 py-px rounded">
-                      {findAudience(v.target)}
-                    </span>
-                  </div>
+                  <p className="font-bold text-c8">{v.tipName}</p>
                 </div>
               </div>
             );
