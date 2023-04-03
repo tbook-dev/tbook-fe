@@ -133,12 +133,12 @@ function Record() {
                         suffix="%"
                         onChange={(evt) => {
                           const val = Number(evt.target.value);
-                          form.setFieldValue("tokenNum", (tokenTotalAmount * val) / 100);
+                          form.setFieldValue("tokenAmount", (tokenTotalAmount * val) / 100);
                         }}
                       />
                     </Form.Item>
                     <Form.Item
-                      name="tokenNum"
+                      name="tokenAmount"
                       rules={[
                         {
                           required: true,
