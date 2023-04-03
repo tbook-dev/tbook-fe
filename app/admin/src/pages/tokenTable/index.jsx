@@ -39,7 +39,7 @@ export default function TokenTable() {
     if (!projectId) return;
     setTokenDistLoading(true);
     const list = await getTokenDist(projectId);
-    setTokenDist(list.map((v) => ({ ...v, label: findAudience(v.target) })));
+    setTokenDist(list.map((v) => ({ ...v, label: v.planName })));
     const info = await getAllocatPlan(projectId);
     setVersions([
       {
