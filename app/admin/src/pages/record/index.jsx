@@ -10,7 +10,7 @@ import { conf } from "@tbook/utils";
 import { Back } from "@tbook/ui";
 import { useAsyncEffect } from "ahooks";
 
-const { dateFormat, minZeroValidator, maxValidator, getDividePercent } = conf;
+const { dateFormat, minZeroValidator, moreZeroValidator, maxValidator, getDividePercent } = conf;
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
@@ -160,7 +160,7 @@ function Record() {
                   name="tokenValue"
                   rules={[
                     {
-                      validator: minZeroValidator("nvestment"),
+                      validator: moreZeroValidator("nvestment"),
                     },
                   ]}
                 >
