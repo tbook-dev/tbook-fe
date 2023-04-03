@@ -11,7 +11,7 @@ const { formatDollar, shortAddress } = conf;
 
 export default function RecordTable({ list }) {
   const { pc } = useResponsive();
-  const tableHeaders = useMemo(() => ["HOLDER", "Target Audience", "TOTAL TOKEN", "Percentage"], []);
+  const tableHeaders = useMemo(() => ["HOLDER", "PLAN", "Target Audience", "TOTAL TOKEN", "Percentage"], []);
   const findAudience = useFindAudience();
 
   return (
@@ -30,7 +30,7 @@ export default function RecordTable({ list }) {
       </div>
 
       <div className="lg:border-t lg:border-b-1">
-        <div className="hidden py-3 mx-3 font-bold text-center border-b lg:mx-0 lg:px-4 border-b-1 lg:grid-cols-4 lg:grid text-c5 text-c-9">
+        <div className="hidden py-3 mx-3 font-bold text-center border-b lg:mx-0 lg:px-4 border-b-1 lg:grid-cols-5 lg:grid text-c5 text-c-9">
           {tableHeaders.map((v) => {
             return <div key={v}>{v}</div>;
           })}
@@ -38,7 +38,7 @@ export default function RecordTable({ list }) {
         {list.length > 0 ? (
           list.map((v, idx) => {
             return pc ? (
-              <div className="grid grid-cols-4 mx-4 border-b border-b-1" key={idx}>
+              <div className="grid grid-cols-5 mx-4 border-b border-b-1" key={idx}>
                 <div className="flex justify-center py-1">
                   {v.avatar && (
                     <div className="w-10 h-10 rounded-full bg-[#141414] flex justify-center items-center mr-2">
@@ -53,6 +53,7 @@ export default function RecordTable({ list }) {
                     )}
                   </div>
                 </div>
+                <div className="flex items-center justify-center font-medium text-c1">{v.tipName}</div>
 
                 <div className="flex items-center justify-center">
                   <span className="max-w-[115px] text-c5 text-ellipsis border border-white px-4 rounded">
