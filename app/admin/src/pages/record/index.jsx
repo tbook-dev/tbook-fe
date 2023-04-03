@@ -10,7 +10,7 @@ import { conf } from "@tbook/utils";
 import { Back } from "@tbook/ui";
 import { useAsyncEffect } from "ahooks";
 
-const { dateFormat, minZeroValidator, moreZeroValidator, maxValidator, getDividePercent } = conf;
+const { dateFormat, defaultErrorMsg, minZeroValidator, moreZeroValidator, maxValidator, getDividePercent } = conf;
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
@@ -38,8 +38,12 @@ function Record() {
         values.allocPlanName = plans.find((v) => v.value === values.allocPlanId)?.label;
         const res = await addGrantRecord(projectId, values);
         console.log(res);
-        setConfirmLoading(false);
-        navigate("/tokenTable");
+        if (res.success) {
+          navigate("/tokenTable");
+        } else {
+          setConfirmLoading(false);
+          message.error(res.message || defaultErrorMsg);
+        }
       })
       .catch((err) => {
         console.log(err, "error");
