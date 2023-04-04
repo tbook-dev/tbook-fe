@@ -293,3 +293,20 @@ export const defaultErrorMsg = "An error happens, plase try it later!";
 export const appLink = "https://app.tbook.com";
 
 export const myLink = "https://my.tbook.com";
+
+export const colors = [
+  "#394496",
+  "#4D79B6",
+  "#6AB3F7",
+  "#7EDDFF",
+  "#67EBD4",
+  "#A4F8B3",
+  "#DFFFAD",
+  "#FFFB94",
+  "#FFE68A",
+  "#FFC076",
+  "#E78E63",
+  "#DB4A49",
+  "#B93A84",
+  "#623A92",
+];
