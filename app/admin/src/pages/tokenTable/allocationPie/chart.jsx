@@ -24,11 +24,11 @@ const PieChart = ({ data, total }) => {
         return round(e.data.percentage, 2) + "%";
       }}
       arcLinkLabelsTextColor={{ from: "color", modifiers: [] }}
-      arcLinkLabelsThickness={0}
-      arcLinkLabelsTextOffset={0}
-      arcLinkLabelsOffset={8}
-      arcLinkLabelsDiagonalLength={0}
-      arcLinkLabelsStraightLength={0}
+      arcLinkLabelsThickness={1}
+      arcLinkLabelsTextOffset={2}
+      arcLinkLabelsOffset={0}
+      arcLinkLabelsDiagonalLength={10}
+      arcLinkLabelsStraightLength={6}
       arcLinkLabelsColor={{ from: "color" }}
       tooltip={() => null}
       valueFormat={(v) => formatDollar(v)}
@@ -75,18 +75,22 @@ const PieChart = ({ data, total }) => {
 
 const giveColorToList = (list) => {
   const colorPannel = [
-    "#1f77b4", // 深蓝色
-    "#ff7f0e", // 橙色
-    "#2ca02c", // 绿色
-    "#d62728", // 红色
-    "#9467bd", // 紫色
-    "#8c564b", // 棕色
-    "#e377c2", // 粉色
-    "#7f7f7f", // 灰色
-    "#bcbd22", // 黄绿色
-    "#17becf", // 天蓝色
+    "#394496",
+    "#4D79B6",
+    "#6AB3F7",
+    "#7EDDFF",
+    "#67EBD4",
+    "#A4F8B3",
+    "#DFFFAD",
+    "#FFFB94",
+    "#FFE68A",
+    "#FFC076",
+    "#E78E63",
+    "#DB4A49",
+    "#B93A84",
+    "#623A92",
   ];
-  return list.map((v, idx) => ({ ...v, color: colorPannel[idx % 10] }));
+  return list.map((v, idx) => ({ ...v, color: colorPannel[idx % 14] }));
 };
 const Chart = ({ data, width, height, totalToken }) => {
   const formatData = useMemo(() => {
