@@ -28,13 +28,15 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
   }, [tokenTotalAmount, dilutedToken, planFilter]);
 
   const planTypeList = useMemo(() => {
-    return dilutedToken.reduce((pre, cur) => {
-      if (pre.find((v) => v.value === cur.tipId)) {
-        return pre;
-      } else {
-        return [...pre, { value: cur.tipId, label: cur.tipName }];
-      }
-    }, []);
+    return dilutedToken
+      .reduce((pre, cur) => {
+        if (pre.find((v) => v.value === cur.tipId)) {
+          return pre;
+        } else {
+          return [...pre, { value: cur.tipId, label: cur.tipName }];
+        }
+      }, [])
+      .sort((a, b) => a.value - b.value);
   }, [dilutedToken]);
 
   return (
