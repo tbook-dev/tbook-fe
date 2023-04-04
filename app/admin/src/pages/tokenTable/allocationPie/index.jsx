@@ -1,8 +1,27 @@
 import Chart from "./chart";
 import { Link } from "react-router-dom";
 import editIcon from "@tbook/share/images/icon/edit.svg";
+import { conf } from "@tbook/utils";
+import { useMemo } from "react";
+const { getDividePercent } = conf;
 
 export default function Pie({ versions: list = [], pieList, totalToken }) {
+  const reData = useMemo(() => {
+    const l = pieList.map((v) => ({ id: v.planId, name: v.planName, value: v.tokenNum, percentage: v.percentage }));
+    const sum = l.reduce((sum, item) => sum + item.value, 0);
+    const free = totalToken - sum;
+
+    return [
+      ...l,
+      {
+        name: "Free",
+        percentage: getDividePercent(free, totalToken, 2),
+        value: free,
+        id: -1,
+      },
+    ];
+  }, [pieList, totalToken]);
+
   return (
     <div className="p-3 mb-4 bx lg:p-6 lg:mb-10 rect-border">
       <div className="flex justify-between lg:justify-start">
@@ -14,10 +33,7 @@ export default function Pie({ versions: list = [], pieList, totalToken }) {
 
       <div className="grid items-center grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
         <div className="justify-self-center">
-          <Chart
-            data={pieList.map((v) => ({ id: v.planId, name: v.planName, value: v.tokenNum, percentage: v.percentage }))}
-            totalToken={totalToken}
-          />
+          <Chart data={reData} totalToken={totalToken} />
         </div>
         <div className="space-y-4 w-[342px] justify-self-end hidden lg:block">
           {list.length > 0 ? (
