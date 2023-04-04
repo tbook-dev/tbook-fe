@@ -2,12 +2,23 @@ import Chart from "./chart";
 import { Link } from "react-router-dom";
 import editIcon from "@tbook/share/images/icon/edit.svg";
 import { conf } from "@tbook/utils";
-import { useMemo } from "react";
-const { getDividePercent } = conf;
+import { useMemo, useState } from "react";
+const { getDividePercent, colors } = conf;
+import Pagination from "@/components/pagination";
 
-export default function Pie({ versions: list = [], pieList, totalToken }) {
+export default function Pie({ pieList, totalToken }) {
+  const [current, setCurrent] = useState(1);
+  const pageSize = 6;
+
   const reData = useMemo(() => {
-    const l = pieList.map((v) => ({ id: v.planId, name: v.planName, value: v.tokenNum, percentage: v.percentage }));
+    const l = pieList
+      .map((v) => ({
+        id: v.planId,
+        name: v.planName,
+        value: v.tokenNum,
+        percentage: getDividePercent(v.tokenNum, totalToken, 10),
+      }))
+      .sort((a, b) => b.value - a.value);
     const sum = l.reduce((sum, item) => sum + item.value, 0);
     const free = totalToken - sum;
 
@@ -31,27 +42,48 @@ export default function Pie({ versions: list = [], pieList, totalToken }) {
         </Link>
       </div>
 
-      <div className="grid items-center grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
+      <div className="grid items-center grid-cols-1 gap-y-2.5 lg:grid-cols-2 lg:gap-x-12">
         <div className="justify-self-center">
           <Chart data={reData} totalToken={totalToken} />
         </div>
-        <div className="space-y-4 w-[342px] justify-self-end hidden lg:block">
-          {list.length > 0 ? (
-            list.map((v) => (
-              <Link
-                to={`/allocation?tpl=${v.versionId}`}
-                className="flex items-center justify-between px-4 py-3 font-medium rounded bg-b-1"
+        <div className="space-y-4 w-full lg:w-[342px] lg:h-[380px] justify-self-end">
+          {reData.slice((current - 1) * pageSize, current * pageSize).map((v, idx) => {
+            const c = v.name === "Free" ? "#666" : colors[idx % colors.length];
+            return (
+              <div
+                className="flex items-center justify-between h-10 px-4 py-1 font-medium border-l-4 rounded bg-b-1"
                 key={v.versionId}
+                style={{ borderColor: c }}
               >
-                <p className="text-c14">{v.versionName}</p>
-                <p className="text-c4">{v.createDate}</p>
-              </Link>
-            ))
-          ) : (
-            <div className="px-4 py-3 font-medium text-center rounded bg-b-1">
-              <p className="text-c14">No version history</p>
-            </div>
-          )}
+                <div>
+                  <p className="font-semibold text-c14">
+                    <span className="mr-1 " style={{ color: c }}>
+                      {v.percentage}%
+                    </span>
+                    {v.name}
+                  </p>
+                  <p className="text-xs text-c-9">
+                    <span className="mr-1">{v.value}</span>Tokens
+                  </p>
+                </div>
+                <div>
+                  <p className="font-semibold text-c14">{v.holders}</p>
+                  <p className="text-xs text-c-9">Holders</p>
+                </div>
+              </div>
+            );
+          })}
+          <div className="flex justify-end">
+            <Pagination
+              hideOnSinglePage
+              responsive
+              showSizeChanger={false}
+              current={current}
+              pageSize={pageSize}
+              total={reData.length}
+              onChange={setCurrent}
+            />
+          </div>
         </div>
       </div>
     </div>
