@@ -50,7 +50,7 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
           <div className="mb-3 grid grid-cols-1 lg:grid-cols-2 gap-y-2.5 lg:gap-y-0 lg:gap-x-12">
             <h2 className="mb-3 font-medium text-c13 lg:mb-0">Diluted Token Distribution</h2>
             {planTypeList.length > 0 && (
-              <div className="lg:w-[342px] flex justify-center lg:justify-end">
+              <div className="flex justify-center lg:justify-end">
                 <Theme>
                   <Select
                     options={planTypeList}
@@ -66,8 +66,8 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
             )}
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-2.5 lg:gap-y-0 lg:gap-x-12">
-            <Liquidfill percent={totalPercent} className="self-center lg:justify-self-end justify-self-center" />
-            <div className="space-y-4  w-full lg:w-[342px] justify-self-start lg:h-[380px]">
+            <Liquidfill percent={totalPercent} className="self-center justify-self-center" />
+            <div className="space-y-4  w-full lg:w-[342px] justify-self-end	 lg:h-[380px]">
               {dilutedToken.length > 0 ? (
                 dilutedToken
                   .filter((v) => v.tipId === planFilter)

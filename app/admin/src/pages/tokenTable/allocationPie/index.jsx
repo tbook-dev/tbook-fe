@@ -13,10 +13,10 @@ export default function Pie({ versions: list = [], pieList, totalToken }) {
       </div>
 
       <div className="grid items-center grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
-        <div className="lg:justify-self-end justify-self-center">
+        <div className="justify-self-center">
           <Chart data={pieList} height={260} width={260} totalToken={totalToken} />
         </div>
-        <div className="space-y-4 w-[342px] justify-self-start hidden lg:block">
+        <div className="space-y-4 w-[342px] justify-self-end hidden lg:block">
           {list.length > 0 ? (
             list.map((v) => (
               <Link
