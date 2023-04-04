@@ -1,6 +1,7 @@
 export function filterReducer(filters, action) {
   const preVal = filters[action.type];
-  const curlVal = action.payload;
+  const curlVal = action.payload.value;
+  const isNegate = action.payload.isNegate || false;
   // console.log({preVal, curlVal})
   // if (action.type === "Plan") {
   //   if (preVal === curlVal) {
@@ -18,7 +19,7 @@ export function filterReducer(filters, action) {
   // console.log({preVal, curlVal})
   return {
     ...filters,
-    [action.type]: preVal === curlVal ? null : curlVal,
+    [action.type]: isNegate ? (preVal === curlVal ? null : curlVal) : curlVal,
   };
 }
 

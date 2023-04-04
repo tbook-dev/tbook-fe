@@ -7,7 +7,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { PlusOutlined, AppstoreOutlined, BarsOutlined } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
-import { Button, Drawer, Space } from "antd";
 import { Empty } from "@tbook/ui";
 import { useAsyncEffect, useResponsive } from "ahooks";
 import { useCurrentProjectId, useUserInfoLoading, useProjects } from "@tbook/hooks";
@@ -98,13 +97,16 @@ function PlanList() {
     }
     // const activeIdx = list2Formated[0]?.idx || 0;
     setActiveIndex(activeIdx);
-    // console.log("activeIdx+1", list1, activeIdx);
-    if (pc) {
-      dispatchFilter({
-        type: "Plan",
-        payload: list1[activeIdx]?.incentivePlanId,
-      });
-    }
+    console.log("activeIdx", activeIdx);
+    // if (pc) {
+    dispatchFilter({
+      type: "Plan",
+      payload: {
+        value: list1[activeIdx]?.incentivePlanId,
+        isNegate: false,
+      },
+    });
+    // }
 
     // console.log(list1[activeIdx+1]?.incentivePlanId)
     // !pc &&
@@ -185,10 +187,13 @@ function PlanList() {
                 onSlideChange={(w) => {
                   if (!pc && !drawerOpen) {
                     let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
-                    // console.log({ incentivePlanId });
+                    // console.log({ incentivePlanId }, "xxx");
                     dispatchFilter({
                       type: "Plan",
-                      payload: incentivePlanId,
+                      payload: {
+                        value: incentivePlanId,
+                        isNegate: false,
+                      },
                     });
                   }
                 }}
@@ -202,7 +207,10 @@ function PlanList() {
                           onClick={() => {
                             dispatchFilter({
                               type: "Plan",
-                              payload: tip.incentivePlanId,
+                              payload: {
+                                value: tip.incentivePlanId,
+                                isNegate: true,
+                              },
                             });
                           }}
                         >
