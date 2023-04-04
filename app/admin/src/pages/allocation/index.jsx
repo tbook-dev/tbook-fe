@@ -103,7 +103,7 @@ function Allocation() {
 
   const pieData = useMemo(() => {
     if (Array.isArray(planList)) {
-      return planList.map((v, idx) => {
+      const l = planList.map((v, idx) => {
         return {
           id: idx,
           name: v.planName,
@@ -111,10 +111,21 @@ function Allocation() {
           value: v.tokenNum || 0,
         };
       });
+      const sum = l.reduce((sum, item) => sum + item.value, 0);
+      const free = tokenTotalAmount - sum;
+      return [
+        ...l,
+        {
+          name: "Free",
+          percentage: getDividePercent(free, tokenTotalAmount, 2),
+          value: free,
+          id: -1,
+        },
+      ];
     } else {
       return [];
     }
-  }, [planList]);
+  }, [planList, tokenTotalAmount]);
 
   const getDeletePlanList = useCallback((remote, local) => {
     const localRemoteList = local.filter((v) => v.planId !== undefined);
