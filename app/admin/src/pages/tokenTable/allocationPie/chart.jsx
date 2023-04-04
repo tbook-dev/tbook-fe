@@ -5,7 +5,7 @@ import { LabelLayout } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 
 echarts.use([GraphicComponent, TooltipComponent, LegendComponent, PieChart, CanvasRenderer, LabelLayout]);
-import React, { useMemo, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { conf } from "@tbook/utils";
 const { formatDollar, getDividePercent } = conf;
 

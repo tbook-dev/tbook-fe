@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Button, Form, Input, InputNumber, Divider, Tooltip } from "antd";
 import AppConfigProvider from "@/theme/AppConfigProvider";
 import { CheckOutlined, InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getAllocatPlan, updateAllocationPlan } from "@/api/incentive";
 import { useCurrentProjectId, useCurrentProject, useProjectAudience } from "@tbook/hooks";
 import { useResponsive } from "ahooks";
@@ -20,6 +20,10 @@ import { round } from "lodash";
 import { Back } from "@tbook/ui";
 import { sumBy } from "lodash";
 import { message } from "antd";
+import { user } from "@tbook/store";
+
+const { fetchUserInfo } = user;
+
 const { getDividePercent, minZeroValidator, maxValidator, formatDollar, defaultErrorMsg } = conf;
 
 const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
@@ -31,6 +35,7 @@ function Allocation() {
   const [addedAudience, setAddedAudience] = useState([]);
   const [inputVal, setInputVal] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const projectId = useCurrentProjectId();
   const project = useCurrentProject();
   const projectAudience = useProjectAudience();
@@ -129,9 +134,10 @@ function Allocation() {
         values.deletedPlanIdList = JSON.stringify(
           deleteList.filter((v) => v.planId !== undefined).map((v) => v.planId)
         );
-        console.log({ deleteList });
+        values.labelList = addedAudience.length === 0 ? "" : JSON.stringify(addedAudience.map((v) => v.label));
         const res = await updateAllocationPlan(projectId, values);
         if (res.success) {
+          dispatch(fetchUserInfo(false));
           navigate("/tokenTable");
         } else {
           message.error(res.message || defaultErrorMsg);
