@@ -14,7 +14,10 @@ export default function Pie({ versions: list = [], pieList, totalToken }) {
 
       <div className="grid items-center grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
         <div className="justify-self-center">
-          <Chart data={pieList} height={260} width={260} totalToken={totalToken} />
+          <Chart
+            data={pieList.map((v) => ({ id: v.planId, name: v.planName, value: v.tokenNum, percentage: v.percentage }))}
+            totalToken={totalToken}
+          />
         </div>
         <div className="space-y-4 w-[342px] justify-self-end hidden lg:block">
           {list.length > 0 ? (

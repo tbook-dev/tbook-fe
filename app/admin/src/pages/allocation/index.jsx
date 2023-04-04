@@ -101,9 +101,9 @@ function Allocation() {
       return planList.map((v, idx) => {
         return {
           id: idx,
-          label: v.planName,
+          name: v.planName,
           percentage: v.percentage || 0,
-          tokenNum: v.tokenNum || 0,
+          value: v.tokenNum || 0,
         };
       });
     } else {
@@ -159,14 +159,16 @@ function Allocation() {
         </div>
 
         <div className="mb-6 relative lg:w-[600px] mx-4 lg:mx-auto lg:mb-0">
-          {pc && (
-            <div className="absolute py-6 w-[324px] rounded-lg top-0 left-[-350px]  text-white shadow-d11">
-              <h3 className="px-6 mb-4 font-medium text-c13">Token Distribution</h3>
-              <div className="flex justify-center">
-                <Chart data={pieData} width={275} height={275} totalToken={tokenTotalAmount} />
-              </div>
-            </div>
-          )}
+          {pc && planLoading === null
+            ? null
+            : !planLoading && (
+                <div className="absolute py-6 w-[324px] rounded-lg top-0 left-[-350px]  text-white shadow-d11">
+                  <h3 className="px-6 mb-4 font-medium text-c13">Token Distribution</h3>
+                  <div className="flex justify-center">
+                    <Chart data={pieData} width={275} height={275} totalToken={tokenTotalAmount} />
+                  </div>
+                </div>
+              )}
 
           {pc && (
             <div className="absolute top-0 right-[-348px] w-[348px] space-y-4 text-white">
