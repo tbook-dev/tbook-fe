@@ -8,13 +8,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nivo/core": "^0.80.0",
-    "@nivo/pie": "^0.80.0",
-    "@nivo/tooltip": "^0.80.0",
     "@tbook/hooks": "workspace:*",
     "@tbook/share": "workspace:*",
     "@tbook/store": "workspace:*",
     "@tbook/ui": "workspace:*",
-    "@tbook/utils": "workspace:*"
+    "@tbook/utils": "workspace:*",
+    "echarts": "^5.4.2"
   }
 }

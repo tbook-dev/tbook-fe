@@ -7,16 +7,19 @@ export default function Pie({ versions: list = [], pieList, totalToken }) {
     <div className="p-3 mb-4 bx lg:p-6 lg:mb-10 rect-border">
       <div className="flex justify-between lg:justify-start">
         <h2 className="font-medium lg:mr-4 text-c13">Token Allocation</h2>
-        <Link to="/allocation">
+        <Link to="/allocation" target="_blank">
           <img src={editIcon} className="w-8 h-8 rounded" />
         </Link>
       </div>
 
       <div className="grid items-center grid-cols-1 lg:grid-cols-2 lg:gap-x-12">
-        <div className="lg:justify-self-end justify-self-center">
-          <Chart data={pieList} height={260} width={260} totalToken={totalToken} />
+        <div className="justify-self-center">
+          <Chart
+            data={pieList.map((v) => ({ id: v.planId, name: v.planName, value: v.tokenNum, percentage: v.percentage }))}
+            totalToken={totalToken}
+          />
         </div>
-        <div className="space-y-4 w-[342px] justify-self-start hidden lg:block">
+        <div className="space-y-4 w-[342px] justify-self-end hidden lg:block">
           {list.length > 0 ? (
             list.map((v) => (
               <Link
