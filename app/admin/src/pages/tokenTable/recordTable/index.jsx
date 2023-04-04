@@ -59,7 +59,7 @@ export default function RecordTable({ list }) {
                 <div className="flex items-center justify-center font-medium text-c1">{v.tipName}</div>
 
                 <div className="flex items-center justify-center">
-                  <span className="max-w-[115px] text-c5 text-ellipsis border border-white px-4 rounded">
+                  <span className="max-w-[115px] text-c5 text-ellipsis truncate border border-white px-4 rounded">
                     {findAudience(v.target)}
                   </span>
                 </div>
@@ -80,7 +80,7 @@ export default function RecordTable({ list }) {
                     {v.address && <p className="truncate w-[115px] text-ellipsis text-c4">{shortAddress(v.address)}</p>}
                     {v.target && (
                       <div className="mt-px">
-                        <span className="max-w-[115px] text-ellipsis  text-c15  border border-white px-2 py-px rounded">
+                        <span className="max-w-[115px] text-ellipsis truncate text-c15  border border-white px-2 py-px rounded">
                           {findAudience(v.target)}
                         </span>
                       </div>
