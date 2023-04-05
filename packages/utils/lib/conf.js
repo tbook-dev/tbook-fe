@@ -294,19 +294,36 @@ export const appLink = "https://app.tbook.com";
 
 export const myLink = "https://my.tbook.com";
 
+// export const colors = [
+//   "#7EDDFF",
+//   "#67EBD4",
+//   "#A4F8B3",
+//   "#DFFFAD",
+//   "#FFFB94",
+//   "#FFE68A",
+//   "#FFC076",
+//   "#E78E63",
+//   "#DB4A49",
+//   "#B93A84",
+//   "#623A92",
+//   "#394496",
+//   "#4D79B6",
+//   "#6AB3F7",
+// ];
+
 export const colors = [
-  "#7EDDFF",
-  "#67EBD4",
-  "#A4F8B3",
-  "#DFFFAD",
-  "#FFFB94",
-  "#FFE68A",
-  "#FFC076",
-  "#E78E63",
   "#DB4A49",
-  "#B93A84",
-  "#623A92",
-  "#394496",
-  "#4D79B6",
   "#6AB3F7",
+  "#FFC076",
+  "#67EBD4",
+  "#FFFB94",
+  "#A4F8B3",
+  "#394496",
+  "#623A92",
+  "#4D79B6",
+  "#B93A84",
+  "#7EDDFF",
+  "#FFE68A",
+  "#DFFFAD",
+  "#E78E63",
 ];

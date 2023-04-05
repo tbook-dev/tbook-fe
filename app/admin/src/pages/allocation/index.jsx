@@ -102,14 +102,16 @@ function Allocation() {
 
   const pieData = useMemo(() => {
     if (Array.isArray(planList)) {
-      const l = planList.map((v, idx) => {
-        return {
-          id: idx,
-          name: v.planName,
-          percentage: v.percentage || 0,
-          value: v.tokenNum || 0,
-        };
-      });
+      const l = planList
+        .map((v, idx) => {
+          return {
+            id: idx,
+            name: v.planName,
+            percentage: v.percentage || 0,
+            value: v.tokenNum || 0,
+          };
+        })
+        .sort((a, b) => b.value - a.value);
       const sum = l.reduce((sum, item) => sum + item.value, 0);
       const free = tokenTotalAmount - sum;
       return [
