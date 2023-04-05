@@ -8,7 +8,7 @@ import { Empty } from "@tbook/ui";
 import { useAsyncEffect, useResponsive } from "ahooks";
 import { useCurrentProjectId, useUserInfoLoading, useProjects } from "@tbook/hooks";
 import _ from "lodash";
-import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
+
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import PlanCard from "./planCard/Active";
