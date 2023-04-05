@@ -14,8 +14,7 @@ import { Spin } from "antd";
 
 import { WagmiConfig } from "wagmi";
 import { watchAccount, getAccount, fetchSigner } from "wagmi/actions"; 
-import { wagmiClient, ethereumClient, changeAccountSignIn, logout } from '@/utils/web3';
-
+import { wagmiClient, changeAccountSignIn, logout } from '@/utils/web3';
 
 const  { fetchUserInfo } = user;
 
