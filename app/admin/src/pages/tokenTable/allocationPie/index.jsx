@@ -30,7 +30,7 @@ export default function Pie({ pieList, totalToken }) {
         percentage: getDividePercent(free, totalToken, 10),
         value: free,
         id: -1,
-        holders: 0,
+        holders: "-",
       },
     ];
   }, [pieList, totalToken]);
