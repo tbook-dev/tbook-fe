@@ -69,8 +69,12 @@ export default function Pie({ pieList, totalToken }) {
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="font-semibold text-c14">{v.holders}</p>
-                  <p className="text-xs text-c-9">Holders</p>
+                  {v.id !== -1 && (
+                    <>
+                      <p className="font-semibold text-c14">{v.holders}</p>
+                      <p className="text-xs text-c-9">Holders</p>
+                    </>
+                  )}
                 </div>
               </div>
             );
