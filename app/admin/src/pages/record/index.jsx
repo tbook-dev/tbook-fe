@@ -58,7 +58,7 @@ function Record() {
       const info = await getAllocatPlan(projectId);
       const plans = JSON.parse(info.planList);
       const options = plans.filter((v) => v.planType === 2).map((v) => ({ value: v.planId, label: v.planName }));
-      setPlans([...options, { label: "Others", value: -1 }]);
+      setPlans([...options, { label: "Others", value: -2 }]);
     }
   }, [projectId]);
 
