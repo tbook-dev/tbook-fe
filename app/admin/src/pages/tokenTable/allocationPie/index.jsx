@@ -27,7 +27,7 @@ export default function Pie({ pieList, totalToken }) {
       ...l,
       {
         name: "Free",
-        percentage: getDividePercent(free, totalToken, 2),
+        percentage: getDividePercent(free, totalToken, 10),
         value: free,
         id: -1,
         holders: 0,
