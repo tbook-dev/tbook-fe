@@ -17,6 +17,7 @@ export default function Pie({ pieList, totalToken }) {
         name: v.planName,
         value: v.tokenNum,
         percentage: getDividePercent(v.tokenNum, totalToken, 10),
+        holders: v.holders,
       }))
       .sort((a, b) => b.value - a.value);
     const sum = l.reduce((sum, item) => sum + item.value, 0);
@@ -29,6 +30,7 @@ export default function Pie({ pieList, totalToken }) {
         percentage: getDividePercent(free, totalToken, 2),
         value: free,
         id: -1,
+        holders: 0,
       },
     ];
   }, [pieList, totalToken]);
