@@ -12,8 +12,7 @@ import { conf } from "@tbook/utils";
 import Chart from "../tokenTable/allocationPie/chart";
 import clsx from "clsx";
 import { useAsyncEffect } from "ahooks";
-import minusIconp from "@tbook/share/images/icon/minus-gray.svg";
-import minusIcon from "@tbook/share/images/icon/minus-red.svg";
+import minusIconp from "@tbook/share/images/icon/minus.svg";
 import Select from "@/components/select";
 import { Spin } from "antd";
 import { round } from "lodash";
@@ -312,7 +311,7 @@ function Allocation() {
                                   style={pc ? { width: "33.33%" } : null}
                                 >
                                   <img
-                                    src={pc ? minusIconp : minusIcon}
+                                    src={minusIconp}
                                     className="w-4 mr-3 cursor-pointer"
                                     onClick={() => {
                                       remove(name);

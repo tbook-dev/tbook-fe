@@ -31,10 +31,7 @@ export default function () {
         </span>
       </div>
 
-      <div
-        onClick={handleLogout}
-        className="cursor-pointer w-6 h-6 bg-[#ECF1FF] rounded-lg flex items-center justify-center"
-      >
+      <div onClick={handleLogout} className="flex items-center justify-center w-6 h-6 rounded-lg cursor-pointer">
         <img src={pc ? closeIcon : h5closeIcon} />
       </div>
     </div>
