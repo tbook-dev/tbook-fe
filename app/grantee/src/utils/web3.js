@@ -25,7 +25,7 @@ export const wagmiClient = createClient({
   autoConnect: true,
   provider,
 });
-export const ethereumClient = new EthereumClient(wagmiClient, chains)
+//export const ethereumClient = new EthereumClient(wagmiClient, chains)
 
 export async function fetchLoginNonce(address) {
   return fetch(
