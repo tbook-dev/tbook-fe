@@ -295,9 +295,6 @@ export const appLink = "https://app.tbook.com";
 export const myLink = "https://my.tbook.com";
 
 export const colors = [
-  "#394496",
-  "#4D79B6",
-  "#6AB3F7",
   "#7EDDFF",
   "#67EBD4",
   "#A4F8B3",
@@ -309,4 +306,7 @@ export const colors = [
   "#DB4A49",
   "#B93A84",
   "#623A92",
+  "#394496",
+  "#4D79B6",
+  "#6AB3F7",
 ];
