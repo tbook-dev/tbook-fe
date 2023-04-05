@@ -68,7 +68,7 @@ export default function Pie({ pieList, totalToken }) {
                     <span className="mr-1">{v.value}</span>Tokens
                   </p>
                 </div>
-                <div>
+                <div className="text-right">
                   <p className="font-semibold text-c14">{v.holders}</p>
                   <p className="text-xs text-c-9">Holders</p>
                 </div>
