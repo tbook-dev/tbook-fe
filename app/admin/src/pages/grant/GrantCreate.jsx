@@ -40,8 +40,7 @@ import Plan from "./plan";
 import Banner from "../component/banner";
 import Spot from "./spot";
 import clsx from "clsx";
-import minusIconp from "@tbook/share/images/icon/minus-gray.svg";
-import minusIcon from "@tbook/share/images/icon/minus-red.svg";
+import minusIconp from "@tbook/share/images/icon/minus.svg";
 import { Span as ThemeSpan } from "@tbook/ui";
 import _ from "lodash";
 import { conf } from "@tbook/utils";
@@ -795,7 +794,7 @@ function GrantCreate() {
                                             style={pc ? { width: "33.33%" } : null}
                                           >
                                             <img
-                                              src={pc ? minusIconp : minusIcon}
+                                              src={minusIconp}
                                               className="w-4 mr-3 cursor-pointer"
                                               onClick={() => {
                                                 remove(name);
