@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useConnect, useAccount, useSignMessage } from "wagmi";
 import doneIcon from "@tbook/share/images/icon/done.svg";
 import { getGrantSignInfo, postGrantSignInfo } from "@/api/incentive";
-import { useWeb3Modal } from "@web3modal/react";
 import clsx from "clsx";
 import { useParams } from "react-router-dom";
 import copyIcon from "@tbook/share/images/icon/copy.svg";
@@ -18,7 +17,6 @@ export default function ({ signStatus, signList, setSignList }) {
   const { isDisconnected } = useAccount();
   const { signMessageAsync } = useSignMessage();
   const { grantId } = useParams();
-  const { open } = useWeb3Modal();
 
   async function handleSign(sign) {
     if (isDisconnected) {
@@ -27,7 +25,7 @@ export default function ({ signStatus, signList, setSignList }) {
           connector: connectors.find((c) => c.id == "injected"),
         });
       } else {
-        await open("ConnectWallet");
+        //await open("ConnectWallet");
       }
     }
     signMessageAsync({ message: sign.signInfo })

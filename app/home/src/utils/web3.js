@@ -126,24 +126,3 @@ export async function loginSui(wallet) {
   return signLogin(wallet.account.address, signer, "Sui", wallet.account.publicKey.toString('hex'))
 }
 
-export async function signGrantMetaMask(web3, projectId, grantId, userId) {
-  try {
-    const signList = await getGrantSignInfo(projectId, grantId);
-    const signInfo = signList.find((v) => userId === v?.signer?.userId);
-    const s1 = await web3.eth.personal.sign(
-      web3.utils.fromUtf8(signInfo.grantSign.signInfo),
-      web3.currentProvider.selectedAddress
-    );
-
-    const res = await postGrantSignInfo(
-      projectId,
-      grantId,
-      signInfo.grantSign.grantSignId,
-      s1
-    );
-    return res;
-  } catch (error) {
-    console.log(error)
-    return error;
-  }
-}
