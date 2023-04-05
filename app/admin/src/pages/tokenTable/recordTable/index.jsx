@@ -7,6 +7,7 @@ import { useFindAudience } from "@tbook/hooks";
 import { round } from "lodash";
 import { Empty } from "@tbook/ui";
 import Pagination from "@/components/pagination";
+import defaultAvator from "@tbook/share/images/icon/defaultAvator.svg";
 
 const { formatDollar, shortAddress } = conf;
 
@@ -43,11 +44,9 @@ export default function RecordTable({ list }) {
             return pc ? (
               <div className="grid grid-cols-5 mx-4 border-b border-b-1" key={idx}>
                 <div className="flex justify-center py-1">
-                  {v.avatar && (
-                    <div className="w-10 h-10 rounded-full bg-[#141414] flex justify-center items-center mr-2">
-                      <img src={v.avatar} className="object-cover w-6 h-6" />
-                    </div>
-                  )}
+                  <div className="w-10 h-10 rounded-full bg-[#141414] flex justify-center items-center mr-2">
+                    <img src={v.avatar || defaultAvator} className="object-cover w-6 h-6" />
+                  </div>
 
                   <div className="flex flex-col justify-center flex-none text-b-8">
                     <h3 className="text-ellipsis w-[115px] truncate  text-b-8 text-c9">{v.granteeName}</h3>
@@ -69,11 +68,9 @@ export default function RecordTable({ list }) {
             ) : (
               <div className="grid items-center grid-cols-2 mx-4 mb-3" key={idx}>
                 <div className="flex items-center justify-center ml-3">
-                  {v.avatar && (
-                    <div className="w-7 h-7 rounded-full bg-[#141414] flex flex-none justify-center items-center mr-2">
-                      <img src={v.avatar} className="object-cover w-4 h-4" />
-                    </div>
-                  )}
+                  <div className="w-7 h-7 rounded-full bg-[#141414] flex flex-none justify-center items-center mr-2">
+                    <img src={v.avatar || defaultAvator} className="object-cover w-4 h-4" />
+                  </div>
 
                   <div className="flex flex-col justify-center flex-none text-b-8">
                     <h3 className="text-ellipsis w-[115px] truncate  text-b-8 text-c8">{v.granteeName}</h3>
