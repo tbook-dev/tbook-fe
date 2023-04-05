@@ -38,7 +38,7 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
       }, [])
       .sort((a, b) => a.value - b.value);
     const [others, all, ...normal] = sortedList;
-    return [all, ...normal, others];
+    return [all, ...normal, others].filter(Boolean);
   }, [dilutedToken]);
 
   return (
