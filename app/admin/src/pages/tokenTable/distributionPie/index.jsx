@@ -28,7 +28,7 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
   }, [tokenTotalAmount, dilutedToken, planFilter]);
 
   const planTypeList = useMemo(() => {
-    return dilutedToken
+    const sortedList = dilutedToken
       .reduce((pre, cur) => {
         if (pre.find((v) => v.value === cur.tipId)) {
           return pre;
@@ -37,6 +37,8 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
         }
       }, [])
       .sort((a, b) => a.value - b.value);
+    const [others, all, ...normal] = sortedList;
+    return [all, ...normal, others];
   }, [dilutedToken]);
 
   return (
