@@ -57,7 +57,7 @@ export default function ({ grant }) {
 
   return (
     <Link
-      className="px-3 pt-3 pb-2.5 text-xs rounded-lg shadow-l3 dark:shadow-d3 text-c-3 dark:text-b-8 bg-[#f6fafe]"
+      className="px-3 pt-3 pb-2.5 text-xs rounded-lg shadow-l3 dark:shadow-d3 text-c-3 dark:text-b-8 bg-[#f6fafe] dark:bg-transparent"
       to={`/grants/${grant?.grant?.grantId}/sign`}
     >
       <div className="flex items-center justify-between mb-2.5 text-c4">

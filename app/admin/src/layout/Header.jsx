@@ -7,9 +7,11 @@ import { UserMenu, Connect } from "@tbook/ui";
 import { useSelector } from "react-redux";
 import logo from "@tbook/share/images/icon/logo.svg";
 import menuIcon from "@tbook/share/images/icon/menu.svg";
+import darkmenu from "@tbook/share/images/icon/darkmenu.svg";
 import { useCurrentProject } from "@tbook/hooks";
 import { conf } from "@tbook/utils";
 import DarkProvider from "@/theme/DarkProvider";
+import { useTheme } from "@tbook/hooks";
 
 const { chains } = conf;
 const { SwitchV0 } = Connect;
@@ -21,6 +23,7 @@ function Header() {
   const { pc } = useResponsive();
   const project = useCurrentProject();
   const projectChain = chains.find((v) => project.chain === v.name);
+  const theme = useTheme();
   const menu = [
     {
       link: "/",
@@ -86,7 +89,7 @@ function Header() {
             ) : (
               <>
                 <button onClick={() => setOpenDrawer(true)}>
-                  <img src={menuIcon} className="h-8" />
+                  <img src={theme === "dark" ? darkmenu : menuIcon} className="h-8" />
                 </button>
                 <DarkProvider>
                   <Drawer

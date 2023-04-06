@@ -17,7 +17,7 @@ function Avator({ setOpen, open, id }) {
         "flex items-center lg:px-6 rounded-lg cursor-pointer lg:dark:hover:bg-cw1 lg:dark:hover:text-white lg:dark:hover:shadow-d7 lg:h-10 lg:dark:shadow-d3",
         open
           ? "lg:bg-cw1 lg:dark:shadow-d7 lg:dark:text-white"
-          : "bg-[#f6fafe] lg:shadow-l3 lg:dark:bg-[#141414] dark:text-c-9"
+          : "bg-[#f6fafe] dark:bg-transparent lg:shadow-l3 lg:dark:bg-[#141414] dark:text-c-9"
       )}
       onClick={setOpen}
     >
