@@ -46,7 +46,7 @@ function App() {
   const dispatch = useDispatch();
   const theme = useTheme();
   useLayoutEffect(() => {
-    if (theme === "dark") {
+    if (theme === "dark" || (theme === "theme" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");

@@ -9,8 +9,7 @@ import SwitchNet from "./switch";
 import { useSelector } from "react-redux";
 import { useResponsive } from "ahooks";
 
-
-function Connect () {
+function Connect() {
   const { loading, handleSignIn } = useSignIn();
   const { pc } = useResponsive();
   const showLessNav = useSelector((state) => state.user.showLessNav);
@@ -35,15 +34,10 @@ function Connect () {
       >
         Connect
       </Button>
-      <ConnectModal
-        open={showSuiModal}
-        onOpenChange={(open) => setShowSuiModal(open)}
-      ></ConnectModal>
+      <ConnectModal open={showSuiModal} onOpenChange={(open) => setShowSuiModal(open)}></ConnectModal>
     </>
   );
 }
-
-
 
 Connect.Switch = Switch;
 Connect.SwitchNet = SwitchNet;
