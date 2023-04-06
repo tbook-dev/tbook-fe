@@ -1,17 +1,16 @@
 // dark 模式下表单情况，紧紧包裹表单
 import { ConfigProvider, theme } from "antd";
-import { useSelector } from "react-redux";
 import componentsDefault from "./conf";
-import _ from 'lodash';
+import _ from "lodash";
+import { useTheme } from "@tbook/hooks";
 
 export default function ({ children, conf }) {
-  const userTheme = useSelector((state) => state.user.theme);
-  
+  const userTheme = useTheme();
+
   return (
     <ConfigProvider
       theme={{
-        algorithm:
-          userTheme === "dark" ? theme.darkAlgorithm : theme.defaultAlgorithm,
+        algorithm: userTheme === "dark" ? theme.darkAlgorithm : theme.defaultAlgorithm,
         // theme.defaultAlgorithm,
         components: _.merge(componentsDefault, conf.components),
         token:
@@ -20,7 +19,7 @@ export default function ({ children, conf }) {
                 ...conf.token,
                 colorPrimary: "#000",
               }
-            : token,
+            : conf.token,
       }}
     >
       {children}
