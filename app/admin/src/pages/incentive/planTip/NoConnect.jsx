@@ -22,7 +22,7 @@ export default function ({ pc }) {
     </div>
   ) : (
     <div className="h-[180px] bg-cw1 rounded-xl flex justify-center items-center">
-      <Button className="bg-black dark:text-white bg-none" loading={loading} onClick={handleSignIn}>
+      <Button className="text-white bg-black dark:text-white bg-none" loading={loading} onClick={handleSignIn}>
         Connect Wallet
       </Button>
     </div>

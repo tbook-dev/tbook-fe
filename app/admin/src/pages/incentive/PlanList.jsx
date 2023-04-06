@@ -333,7 +333,7 @@ function PlanList() {
                 type="button"
                 disabled={filters.Plan === null || filters.Plan === undefined}
                 onClick={() => navigate(`/incentive/grant/${filters.Plan}/create`)}
-                className="flex items-center justify-center h-10 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md w-60 dark:disabled:bg-none	dark:bg-cw1 dark:text-black shadow-d3 disabled:text-l-1 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
+                className="flex items-center justify-center h-10 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md w-60 dark:disabled:bg-none	dark:bg-cw1 dark:text-black disabled:bg-l-2 shadow-d3 disabled:text-l-1 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
               >
                 <PlusOutlined />
                 <span className="ml-2 text-[14px]">New Grant</span>
