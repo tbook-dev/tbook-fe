@@ -27,7 +27,7 @@ function Connect() {
       {!showLessNav && <SwitchNet />}
 
       <Button
-        className="px-8 lg:bg-white lg:bg-none"
+        className="px-8 text-white bg-black dark:lg:bg-white lg:bg-none"
         loading={loading}
         loadingColor={pc ? "#69D0E5" : "white"}
         onClick={handleSignIn}

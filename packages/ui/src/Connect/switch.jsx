@@ -78,7 +78,7 @@ export default function Switch({ type = "button", networkId, placement = "bottom
     if (type === "button") {
       return (
         <Button
-          className="flex items-center px-4 bg-black shadow-d3 lg:shadow-none lg:px-8 bg-none lg:bg-cw1"
+          className="flex items-center px-4 bg-black bg-white lg:shadow-l4 shadow-d3 dark:lg:shadow-none lg:px-8 bg-none dark:lg:bg-cw1"
           onClick={() => {
             setOpenLay(true);
           }}
