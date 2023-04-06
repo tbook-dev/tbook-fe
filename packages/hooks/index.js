@@ -6,3 +6,4 @@ export { default as useProjects } from "./lib/useProjects";
 export { default as useResetFormOnCloseModal } from "./lib/useResetFormOnCloseModal";
 export { default as useSignIn } from "./lib/useSignIn";
 export { default as useUserInfoLoading } from "./lib/useUserInfoLoading";
+export { default as useTheme } from "./lib/useTheme";
