@@ -11,7 +11,12 @@ export default function ({ pc }) {
         <p className="text-base text-c-3">Connect wallet to set up your incentive plan.</p>
       </div>
 
-      <Button className="bg-white bg-none" loadingColor="#69D0E5" loading={loading} onClick={handleSignIn}>
+      <Button
+        className="text-white bg-black dark:bg-white bg-none"
+        loadingColor="#69D0E5"
+        loading={loading}
+        onClick={handleSignIn}
+      >
         Connect Wallet
       </Button>
     </div>
