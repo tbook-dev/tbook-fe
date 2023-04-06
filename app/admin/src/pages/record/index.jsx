@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Form, Input, Select, DatePicker, InputNumber } from "antd";
-import AppConfigProvider from "@/theme/AppConfigProvider";
+import AppConfigProvider from "@/theme/LightProvider";
 import { getAllocatPlan, addGrantRecord } from "@/api/incentive";
 import { useCurrentProjectId, useCurrentProject } from "@tbook/hooks";
 import _ from "lodash";

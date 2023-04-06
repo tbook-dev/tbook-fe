@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useCallback, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Form, Input, InputNumber, Divider, Tooltip } from "antd";
-import AppConfigProvider from "@/theme/AppConfigProvider";
+import AppConfigProvider from "@/theme/LightProvider";
 import { CheckOutlined, InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllocatPlan, updateAllocationPlan } from "@/api/incentive";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Form, Input, Select, Tooltip, InputNumber, Divider, message } from "antd";
-import AppConfigProvider from "@/theme/AppConfigProvider";
+import AppConfigProvider from "@/theme/LightProvider";
 import { CheckOutlined, InfoCircleOutlined, FormOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { createTIP, createProject } from "@/api/incentive";
@@ -115,7 +115,7 @@ function PlanCreate() {
 
         <div className="mb-6  lg:w-[600px] mx-4 lg:mx-auto lg:mb-0">
           {pageType === "project" && !firstCreated ? (
-            <div className="px-3 pt-4 pb-8 lg:bg-white lg:shadow-c5 dark:bg-cw1 dark:lg:shadow-d3 rounded-xl lg:px-4 lg:py-6">
+            <div className="px-3 pt-4 pb-8 lg:bg-white lg:shadow-c5 bg-cw1 dark:lg:shadow-d3 rounded-xl lg:px-4 lg:py-6">
               <Form
                 {...(pc ? formItemCol : null)}
                 form={formProject}
@@ -205,7 +205,7 @@ function PlanCreate() {
                 </div>
               )}
 
-              <div className="overflow-hidden dark:bg-cw1 dark:lg:shadow-d3 rounded-xl ">
+              <div className="overflow-hidden bg-cw1 dark:lg:shadow-d3 rounded-xl ">
                 <div className="relative px-3 py-4 lg:pb-0 lg:pt-6 lg:px-4">
                   <Form
                     {...(pc ? formItemCol : null)}
