@@ -45,7 +45,6 @@ watchAccount(async (acc) => {
 function App() {
   const dispatch = useDispatch();
   const theme = useTheme();
-  console.log(theme);
 
   useLayoutEffect(() => {
     if (theme === "dark") {

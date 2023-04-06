@@ -70,7 +70,7 @@ export default function ({ open, setOpen }) {
       <div
         onClick={() => setOpen(true)}
         className={clsx(
-          "flex items-center cursor-pointer h-10 px-4 py-2 mr-4 rounded-lg bg-[#f6fafe] dark:bg-none dark:hover:bg-cw1 dark:hover:text-white hover:dark:shadow-d7 text-c1 dark:text-c-9 dark:shadow-d3",
+          "flex items-center cursor-pointer h-10 px-4 py-2 mr-4 rounded-lg bg-[#f6fafe] dark:bg-transparent dark:hover:bg-cw1 dark:hover:text-white hover:dark:shadow-d7 text-c1 dark:text-c-9 dark:shadow-d3",
           open ? "bg-cw1 dark:text-white dark:shadow-d7" : "shadow-l3"
         )}
       >
