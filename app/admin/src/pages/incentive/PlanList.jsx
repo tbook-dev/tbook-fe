@@ -25,6 +25,7 @@ import dayjs from "dayjs";
 import { useSigner, useAccount } from "wagmi";
 import PlanTipNoConnect from "./planTip/NoConnect";
 import PlanTipNoProject from "./planTip/NoProject";
+import { useTheme } from "@tbook/hooks";
 
 const { setAuthUser, fetchUserInfo } = user;
 
@@ -44,6 +45,7 @@ function PlanList() {
   const [filters, dispatchFilter] = useReducer(filterReducer, initialFilters);
   const [searchParams] = useSearchParams();
   const projects = useProjects();
+  const theme = useTheme();
   // type, 0是卡片，1是表格
   const [displayType, setDisplayType] = useState(0);
 
@@ -138,7 +140,7 @@ function PlanList() {
         className="w-full mt-3 mb-5 lg:my-12"
         style={{
           "--swiper-navigation-size": "16px",
-          "--swiper-theme-color": "#fff",
+          "--swiper-theme-color": theme === "dark" ? "#fff" : "#666",
         }}
       >
         <div className="flex items-center justify-between mb-2 lg:mb-6">
