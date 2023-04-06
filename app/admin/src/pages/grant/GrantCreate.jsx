@@ -15,7 +15,7 @@ import {
   message,
 } from "antd";
 import { Switch } from "@tbook/ui";
-import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import {
   getTIPInfo,
   getProjectUsers,
