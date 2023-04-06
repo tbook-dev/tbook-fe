@@ -301,7 +301,7 @@ function PlanList() {
                 ) : filterGrantList(grantList).length > 0 ? (
                   filterGrantList(grantList).map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
                 ) : (
-                  <div className="h-[272px] rounded-xl bg-white dark:bg-b-1 flex items-center justify-center">
+                  <div className="h-[272px] rounded-xl bg-[#f6f8fa] dark:bg-b-1 flex items-center justify-center">
                     <Empty />
                   </div>
                 )}
@@ -333,7 +333,7 @@ function PlanList() {
                 type="button"
                 disabled={filters.Plan === null || filters.Plan === undefined}
                 onClick={() => navigate(`/incentive/grant/${filters.Plan}/create`)}
-                className="flex items-center justify-center h-10 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md w-60 dark:disabled:bg-none	dark:bg-cw1 dark:text-black shadow-d3 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
+                className="flex items-center justify-center h-10 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md w-60 dark:disabled:bg-none	dark:bg-cw1 dark:text-black shadow-d3 disabled:text-l-1 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
               >
                 <PlusOutlined />
                 <span className="ml-2 text-[14px]">New Grant</span>
@@ -375,7 +375,7 @@ function PlanList() {
             ) : filterGrantList(grantList).length > 0 ? (
               filterGrantList(grantList).map((grant) => <GrantCard grant={grant} key={grant.grant.grantId} />)
             ) : (
-              <div className="h-[222px] rounded-lg bg-white dark:bg-b-1 flex items-center justify-center">
+              <div className="h-[222px] rounded-lg bg-[#f6f8fa]  dark:bg-b-1 shadow-l3 flex items-center justify-center">
                 <Empty description="No grant" />
               </div>
             )}
