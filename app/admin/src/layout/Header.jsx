@@ -61,7 +61,7 @@ function Header() {
     );
   };
   return (
-    <header className="sticky top-0 z-30 bg-white dark:bg-black shadow-l1 dark:shadow-d2">
+    <header className="sticky top-0 z-30 bg-white dark:bg-black shadow-d2">
       <div className="px-4 lg:px-8">
         <div className="flex items-center justify-between h-14 lg:h-16">
           <div className="flex items-center">

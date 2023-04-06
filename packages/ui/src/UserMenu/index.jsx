@@ -5,7 +5,7 @@ import ProjectDropDown from "./ProjectDropDown";
 import H5Drawer from "./H5Drawer";
 import WebDropDown from "./WebDropDown";
 
-export default function UserMenu () {
+export default function UserMenu() {
   const currentProject = useCurrentProject();
   const { pc } = useResponsive();
   const [open, setOpen] = useState(false);

@@ -148,9 +148,9 @@ function PlanList() {
             <Link to="/create/plan">
               <button
                 type="button"
-                className="flex items-center justify-center w-8 h-8 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md lg:w-40 lg:h-10 lg:dark:bg-white lg:rounded-lg dark:text-black shadow-d3 lg:hover:text-white lg:hover:bg-cw1 lg:hover:shadow-d7"
+                className="flex items-center justify-center w-8 h-8 text-xs font-medium leading-normal text-white transition duration-150 ease-in-out bg-black rounded-md lg:hover:opacity-70 lg:w-40 lg:h-10 lg:dark:bg-white lg:rounded-lg dark:text-black shadow-d3 lg:dark:hover:text-white lg:dark:hover:bg-cw1 lg:hover:shadow-d7"
               >
-                <PlusOutlined style={pc ? null : { color: "#69D0E5", fontSize: "16px" }} />
+                <PlusOutlined style={pc ? null : { fontSize: "16px" }} />
                 <span className="ml-2 text-[14px] hidden lg:inline">New Plan</span>
               </button>
             </Link>
@@ -245,10 +245,10 @@ function PlanList() {
                 type="button"
                 disabled={filters.Plan === null || filters.Plan === undefined}
                 onClick={() => navigate(`/incentive/grant/${filters.Plan}/create`)}
-                className="flex items-center justify-center text-xs font-medium leading-normal transition duration-150 ease-in-out lg:w-40 lg:h-10 disabled:bg-l-2 disabled:text-l-1 dark:bg-white lg:rounded-lg dark:text-black shadow-d3 hover:text-white hover:bg-cw1 hover:shadow-d7 dark:disabled:bg-b-1 dark:disabled:text-b-2 hover:disabled:bg-none hover:disabled:shadow-none"
+                className="flex items-center justify-center text-xs font-medium leading-normal text-white transition duration-150 ease-in-out bg-black lg:hover:opacity-70 lg:w-40 lg:h-10 disabled:bg-l-2 disabled:text-l-1 dark:bg-white lg:rounded-lg dark:text-black shadow-d3 hover:text-white lg:dark:hover:bg-cw1 hover:shadow-d7 lg:dark:hover:text-white dark:disabled:bg-b-1 dark:disabled:text-b-2 hover:disabled:bg-none hover:disabled:shadow-none"
               >
                 <PlusOutlined />
-                <span className="ml-2 text-[14px]">New Grant</span>
+                <span className="ml-2 text-[14px]">New Grant111</span>
               </button>
             )}
           </div>
@@ -333,7 +333,7 @@ function PlanList() {
                 type="button"
                 disabled={filters.Plan === null || filters.Plan === undefined}
                 onClick={() => navigate(`/incentive/grant/${filters.Plan}/create`)}
-                className="flex items-center justify-center h-10 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md w-60 dark:disabled:bg-none	dark:bg-cw1 dark:text-black disabled:bg-l-2 shadow-d3 disabled:text-l-1 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
+                className="flex items-center justify-center h-10 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md w-60 dark:disabled:bg-none	bg-cw1 text-black disabled:bg-l-2 shadow-d3 disabled:text-l-1 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
               >
                 <PlusOutlined />
                 <span className="ml-2 text-[14px]">New Grant</span>
