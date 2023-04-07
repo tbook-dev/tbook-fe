@@ -64,7 +64,7 @@ export default function ({ signStatus, signList, setSignList }) {
     return (
       <div
         className={clsx(
-          "relative z-10 my-[26px] lg:w-[600px] lg:mx-auto mx-4 p-2 lg:px-6 lg:shadow-d3  rounded-lg bg-black",
+          "relative z-10 my-[26px] lg:w-[600px] lg:mx-auto mx-4 p-2 lg:px-6 lg:shadow-d3  rounded-lg bg-white dark:bg-black",
           // signStatus === "notyet" && "lg:h-[72px]",
           signStatus === "done" && "bg-cw1"
           // signStatus === "allDone" && "lg:h-[72px]"

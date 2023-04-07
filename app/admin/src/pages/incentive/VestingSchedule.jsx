@@ -62,7 +62,6 @@ export default function VestingSchedule({ dataList = [], ...props }) {
                 )}
               >
                 {col.map((v, idx) => {
-                  console.log(data, v, idx);
                   return (
                     <div key={idx} className={v.className}>
                       {v.render ? v.render(data[v.dataIndex], data) : data[v.dataIndex]}
