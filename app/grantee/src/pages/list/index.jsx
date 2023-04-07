@@ -1,54 +1,34 @@
-import React, { useState, useReducer, useEffect, useMemo, useCallback } from "react";
-import { NavLink, Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getIncentiveList, getTipGrantList, getTotalGrantInfo } from "@/api/incentive";
-import { PlusOutlined, AppstoreOutlined, BarsOutlined } from "@ant-design/icons";
+import React, { useState, useReducer, useMemo, useCallback } from "react";
+import { getTotalGrantInfo } from "@/api/incentive";
 import GrantTable from "./GrantTable";
-import { Button, Drawer, Space } from "antd";
 import { Empty } from "@tbook/ui";
 import { useAsyncEffect, useResponsive } from "ahooks";
-import { useCurrentProjectId, useUserInfoLoading, useProjects } from "@tbook/hooks";
+import { useCurrentProjectId, useUserInfoLoading } from "@tbook/hooks";
 import _ from "lodash";
-import { loadWeb3, signLoginMetaMask } from "@/utils/web3";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import clsx from "clsx";
-import PlanCard from "./planCard/Active";
 import GrantCard from "./grantCard";
 import GrantCardV2 from "./grantCard/v2";
 import FilterPanel from "./filter";
 import { Spin } from "antd";
 import { filterReducer, initialFilters } from "@/store/parts";
-import dayjs from "dayjs";
-import { useSigner, useAccount } from "wagmi";
 import NoConnect from "./planTip/NoConnect";
-import PlanTipNoProject from "./planTip/NoProject";
 import { conf } from "@tbook/utils";
 
 const { formatDollar } = conf;
 
 function PlanList() {
-  const [swiper, setSwiper] = useState(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [tipList, updateTipList] = useState([]);
   const [grantList, updateGrantList] = useState([]);
   const [grantInfoLoading, setGrantInfoLoading] = useState(false);
   const [grantTotal, updateGrantTotal] = useState({});
   const userLoading = useUserInfoLoading();
   const projectId = useCurrentProjectId();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const authUser = useSelector((state) => state.user.authUser);
   const [drawerOpen, setDrawer] = useState(false);
   const { pc } = useResponsive();
   const [filters, dispatchFilter] = useReducer(filterReducer, initialFilters);
-  const [searchParams] = useSearchParams();
-  const projects = useProjects();
   // type, 0是卡片，1是表格
   const [displayType, setDisplayType] = useState(0);
-
-  const { data: signer } = useSigner();
-  const { address } = useAccount();
-
-  const selectedTipId = searchParams.get("tipId");
 
   // console.log("authUser", authUser);
   useAsyncEffect(async () => {
