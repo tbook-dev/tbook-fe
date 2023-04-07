@@ -39,7 +39,7 @@ const Chart = ({ data, totalToken, width, height }) => {
           style: {
             text: `${formatDollar(totalToken)}\nMAX TOTAL SUPPLY`, // 设置文本
             textAlign: "center",
-            fill: "#fff", // 设置文本颜色
+            fill: theme === "dark" ? "#fff" : "#000", // 设置文本颜色
             fontSize: pc ? 16 : 14, // 设置字号
           },
         },
