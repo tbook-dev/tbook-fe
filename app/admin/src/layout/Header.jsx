@@ -91,15 +91,15 @@ function Header() {
           ))}
         </div>
 
-        {authUser && (
-          <div className="border-t border-b-1">
-            <div className="flex items-center justify-between px-8 text-c12 h-14">
-              <span className="text-[#666] mr-2">Theme</span>
-              <span className="flex items-center dark:text-white" onClick={() => setSetStatus("theme")}>
-                {themeList.find((v) => v.value === themeSetting)?.label}
-                <img src={arrowRight} className="h-5 ml-4" />
-              </span>
-            </div>
+        <div className="border-t border-b-1">
+          <div className="flex items-center justify-between px-8 text-c12 h-14">
+            <span className="text-[#666] mr-2">Theme</span>
+            <span className="flex items-center dark:text-white" onClick={() => setSetStatus("theme")}>
+              {themeList.find((v) => v.value === themeSetting)?.label}
+              <img src={arrowRight} className="h-5 ml-4" />
+            </span>
+          </div>
+          {authUser && (
             <div className="flex items-center justify-between px-8 text-c12 h-14">
               <span className="text-[#666] mr-2">Network</span>
               <div className="flex items-center dark:text-white" onClick={() => setSetStatus("network")}>
@@ -107,8 +107,8 @@ function Header() {
                 <img src={arrowRight} className="h-5 ml-1" />
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     );
   };
