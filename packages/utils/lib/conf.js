@@ -316,7 +316,6 @@ export const colors = [
   "#6AB3F7",
   "#FFC076",
   "#67EBD4",
-  "#FFFB94",
   "#A4F8B3",
   "#394496",
   "#623A92",
@@ -324,7 +323,6 @@ export const colors = [
   "#B93A84",
   "#7EDDFF",
   "#FFE68A",
-  "#DFFFAD",
   "#E78E63",
 ];
 export const colorsBg = [
@@ -332,7 +330,6 @@ export const colorsBg = [
   "#6AB3F7",
   "#FFD021",
   "#67EBD4",
-  "#FFF600",
   "#A4F8B3",
   "#394496",
   "#623A92",
@@ -340,7 +337,6 @@ export const colorsBg = [
   "#B93A84",
   "#7EDDFF",
   "#FFAC4B",
-  "#C4FD6E",
   "#E78E63",
 ];
 export const hexToRgba = (c, r) => {
