@@ -5,7 +5,7 @@ export default function ({ backHandle, title, children }) {
     <div>
       <div className="flex items-center mb-8 dark:text-white">
         <img src={backIcon} className="w-7 h-7" onClick={backHandle} />
-        <span className="ml-2 font-bold">{title}</span>
+        <span className="ml-2 font-bold text-c3">{title}</span>
       </div>
       <div>{children}</div>
     </div>

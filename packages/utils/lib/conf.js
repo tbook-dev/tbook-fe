@@ -349,3 +349,9 @@ export const hexToRgba = (c, r) => {
   ];
   return "rgba(" + rgba.toString() + ")";
 };
+
+export const themeList = [
+  { label: "System", value: "system" },
+  { label: "Dark", value: "dark" },
+  { label: "Light", value: "light" },
+];

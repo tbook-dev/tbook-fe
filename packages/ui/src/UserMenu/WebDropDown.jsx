@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const { setTheme } = user;
 
-const { chains } = conf;
+const { chains, themeList } = conf;
 export default function ({ open, setOpen }) {
   const project = useCurrentProject();
   const projectChain = chains.find((v) => project.chain === v.name);
@@ -42,11 +42,7 @@ export default function ({ open, setOpen }) {
             onChange={(v) => {
               dispatch(setTheme(v));
             }}
-            options={[
-              { label: "System", value: "system" },
-              { label: "Dark", value: "dark" },
-              { label: "Light", value: "light" },
-            ]}
+            options={themeList}
           />
         </div>
       </>

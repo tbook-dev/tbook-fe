@@ -4,7 +4,7 @@ import { Spin, Drawer } from "antd";
 import { useResponsive } from "ahooks";
 import clsx from "clsx";
 import { UserMenu, Connect } from "@tbook/ui";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import logo from "@tbook/share/images/icon/logo.svg";
 import menuIcon from "@tbook/share/images/icon/menu.svg";
 import darkmenu from "@tbook/share/images/icon/darkmenu.svg";
@@ -15,9 +15,11 @@ import { conf } from "@tbook/utils";
 import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 import { useTheme } from "@tbook/hooks";
 import Setting from "@/components/setting";
+import { user } from "@tbook/store";
 
-const { chains } = conf;
+const { chains, themeList } = conf;
 const { SwitchV0 } = Connect;
+const { setTheme } = user;
 
 function Header() {
   const authUser = useSelector((state) => state.user.authUser);
@@ -29,6 +31,7 @@ function Header() {
   const theme = useTheme();
   const themeSetting = useSelector((state) => state.user.theme);
   console.log({ themeSetting });
+  const dispatch = useDispatch();
   const [setStatus, setSetStatus] = useState(null);
   const menu = [
     {
@@ -74,15 +77,15 @@ function Header() {
             <div className="flex items-center justify-between px-8 text-c12 h-14">
               <span className="text-[#666] mr-2">Theme</span>
               <span className="flex items-center dark:text-white" onClick={() => setSetStatus("theme")}>
-                {themeSetting}
+                {themeList.find((v) => v.value === themeSetting)?.label}
                 <img src={arrowRight} className="h-5 ml-4" />
               </span>
             </div>
             <div className="flex items-center justify-between px-8 text-c12 h-14">
               <span className="text-[#666] mr-2">Network</span>
-              <div className="flex items-center dark:text-white">
+              <div className="flex items-center dark:text-white" onClick={() => setSetStatus("network")}>
                 <SwitchV0 placement="rightBottom" networkId={projectChain?.evmChainId || 1} />
-                <img src={arrowRight} className="h-5 ml-4" />
+                <img src={arrowRight} className="h-5 ml-1" />
               </div>
             </div>
           </div>
@@ -90,10 +93,34 @@ function Header() {
       </div>
     );
   };
+  const SetNetwork = () => {
+    return (
+      <Setting title="Network" backHandle={() => setSetStatus(null)}>
+        xx
+      </Setting>
+    );
+  };
   const SetTheme = () => {
     return (
       <Setting title="Theme" backHandle={() => setSetStatus(null)}>
-        xx
+        {themeList.map((v) => {
+          return (
+            <div
+              onClick={() => {
+                if (v.value !== themeSetting) {
+                  dispatch(setTheme(v.value));
+                }
+              }}
+              key={v.value}
+              className={clsx(
+                "h-14 flex items-center text-c13",
+                themeSetting === v.value ? "dark:text-white font-bold" : "dark:text-c-6"
+              )}
+            >
+              {v.label}
+            </div>
+          );
+        })}
       </Setting>
     );
   };
@@ -140,6 +167,7 @@ function Header() {
                   >
                     {setStatus === null && <Content />}
                     {setStatus === "theme" && <SetTheme />}
+                    {setStatus === "network" && <SetNetwork />}
                   </Drawer>
                 </ConfigProviderV2>
               </>
