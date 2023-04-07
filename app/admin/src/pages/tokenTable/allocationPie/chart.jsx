@@ -5,8 +5,10 @@ import { LabelLayout } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 import React, { useEffect, useRef } from "react";
 import { conf } from "@tbook/utils";
-const { formatDollar, colors } = conf;
 import { useResponsive } from "ahooks";
+import { useTheme } from "@tbook/hooks";
+
+const { formatDollar, colors } = conf;
 
 echarts.use([GraphicComponent, TooltipComponent, LegendComponent, PieChart, CanvasRenderer, LabelLayout]);
 
@@ -16,9 +18,10 @@ const Chart = ({ data, totalToken, width, height }) => {
   const ref = useRef(null);
   const { pc } = useResponsive();
   const chart = useRef(null);
+  const theme = useTheme();
 
   useEffect(() => {
-    chart.current = echarts.init(ref.current, "dark");
+    chart.current = echarts.init(ref.current, theme);
 
     const option = {
       backgroundColor: "transparent",

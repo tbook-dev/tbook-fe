@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import editIcon from "@tbook/share/images/icon/edit.svg";
 import { conf } from "@tbook/utils";
 import { useMemo, useState } from "react";
-const { getDividePercent, colors } = conf;
 import Pagination from "@/components/pagination";
+
+const { getDividePercent, colors, hexToRgba } = conf;
 
 export default function Pie({ pieList, totalToken }) {
   const [current, setCurrent] = useState(1);
@@ -36,7 +37,7 @@ export default function Pie({ pieList, totalToken }) {
   }, [pieList, totalToken]);
 
   return (
-    <div className="p-3 mb-4 bx lg:p-6 lg:mb-10 rect-border">
+    <div className="p-3 mb-4 bx lg:p-6 lg:mb-10 rect-border bg-[#f6fafe] dark:bg-transparent">
       <div className="flex justify-between lg:justify-start">
         <h2 className="font-medium lg:mr-4 text-c13">Token Allocation</h2>
         <Link to="/allocation" target="_blank">
@@ -55,7 +56,7 @@ export default function Pie({ pieList, totalToken }) {
               <div
                 className="flex items-center justify-between h-10 px-4 py-1 font-medium border-l-4 rounded bg-b-1"
                 key={v.versionId}
-                style={{ borderColor: c }}
+                style={{ borderColor: c, backgroundColor: `${hexToRgba(c, 0.1)}` }}
               >
                 <div>
                   <p className="font-semibold text-c14">

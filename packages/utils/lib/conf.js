@@ -327,3 +327,14 @@ export const colors = [
   "#DFFFAD",
   "#E78E63",
 ];
+
+export const hexToRgba = (c, r) => {
+  let color = c.slice(1); // 去掉'#'号
+  let rgba = [
+    parseInt("0x" + color.slice(0, 2)),
+    parseInt("0x" + color.slice(2, 4)),
+    parseInt("0x" + color.slice(4, 6)),
+    r,
+  ];
+  return "rgba(" + rgba.toString() + ")";
+};

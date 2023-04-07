@@ -1,7 +1,8 @@
 import Liquidfill from "@/components/liquidfill";
 import { useMemo, useState } from "react";
 import { useCurrentProject } from "@tbook/hooks";
-import { Spin, Select } from "antd";
+import { Spin } from "antd";
+import Select from "@/components/select/themeSelect";
 import { round } from "lodash";
 import { conf } from "@tbook/utils";
 import Pagination from "@/components/pagination";
