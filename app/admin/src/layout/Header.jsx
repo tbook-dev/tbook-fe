@@ -8,9 +8,11 @@ import { useSelector } from "react-redux";
 import logo from "@tbook/share/images/icon/logo.svg";
 import menuIcon from "@tbook/share/images/icon/menu.svg";
 import darkmenu from "@tbook/share/images/icon/darkmenu.svg";
+import close2 from "@tbook/share/images/icon/close2.svg";
+import arrowRight from "@tbook/share/images/icon/arrow-right.svg";
 import { useCurrentProject } from "@tbook/hooks";
 import { conf } from "@tbook/utils";
-import DarkProvider from "@/theme/DarkProvider";
+import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 import { useTheme } from "@tbook/hooks";
 
 const { chains } = conf;
@@ -24,6 +26,8 @@ function Header() {
   const project = useCurrentProject();
   const projectChain = chains.find((v) => project.chain === v.name);
   const theme = useTheme();
+  const themeSetting = useSelector((state) => state.user.theme);
+  console.log({ themeSetting });
   const menu = [
     {
       link: "/",
@@ -36,16 +40,28 @@ function Header() {
   ];
   const Content = () => {
     return (
-      <div className="flex flex-col justify-between h-full pt-5 -mx-6">
+      <div className="flex flex-col h-full pt-5 -mx-6">
+        <img
+          src={close2}
+          className="absolute top-6 right-8"
+          onClick={() => {
+            setOpenDrawer(false);
+          }}
+        />
         <div
           onClick={() => {
             setOpenDrawer(false);
           }}
+          className="mb-24"
         >
           {menu.map((v) => (
             <NavLink to={v.link} key={v.link} className="flex items-center px-8 h-14 text-cwh2">
               {({ isActive }) => {
-                return <span className={clsx("font-bold", isActive ? "text-white" : "text-[#666]")}>{v.text}</span>;
+                return (
+                  <span className={clsx(isActive ? "text-black font-bold dark:text-white" : "text-[#666]")}>
+                    {v.text}
+                  </span>
+                );
               }}
             </NavLink>
           ))}
@@ -53,10 +69,19 @@ function Header() {
 
         {authUser && (
           <div className="border-t border-b-1">
-            <div className="flex items-center px-8 text-c12 h-14 text-[#666]">Settings</div>
-            <div className="flex items-center px-8 text-c12 h-14">
-              <span className="text-[#666] mr-2">Network ｜</span>
-              <SwitchV0 placement="rightBottom" networkId={projectChain?.evmChainId || 1} />
+            <div className="flex items-center justify-between px-8 text-c12 h-14">
+              <span className="text-[#666] mr-2">Theme</span>
+              <span className="flex items-center dark:text-white">
+                {themeSetting}
+                <img src={arrowRight} className="h-5 ml-4" />
+              </span>
+            </div>
+            <div className="flex items-center justify-between px-8 text-c12 h-14">
+              <span className="text-[#666] mr-2">Network</span>
+              <div className="flex items-center dark:text-white">
+                <SwitchV0 placement="rightBottom" networkId={projectChain?.evmChainId || 1} />
+                <img src={arrowRight} className="h-5 ml-4" />
+              </div>
             </div>
           </div>
         )}
@@ -91,22 +116,22 @@ function Header() {
                 <button onClick={() => setOpenDrawer(true)}>
                   <img src={theme === "dark" ? darkmenu : menuIcon} className="h-8" />
                 </button>
-                <DarkProvider>
+                <ConfigProviderV2>
                   <Drawer
                     placement="top"
                     closable={false}
                     open={openDrawer}
                     maskStyle={{ backdropFilter: "blur(7px)" }}
                     contentWrapperStyle={{
-                      height: "50vh",
-                      borderRadius: "0 0 24px 24px",
+                      height: "100vh",
+                      borderRadius: "0",
                       overflow: "hidden",
+                      position: "relative",
                     }}
-                    onClose={() => setOpenDrawer(false)}
                   >
                     <Content />
                   </Drawer>
-                </DarkProvider>
+                </ConfigProviderV2>
               </>
             )}
           </div>

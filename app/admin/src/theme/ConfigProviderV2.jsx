@@ -4,7 +4,7 @@ import componentsDefault from "./conf";
 import _ from "lodash";
 import { useTheme } from "@tbook/hooks";
 
-export default function ({ children, conf }) {
+export default function ({ children, conf = { token: {} } }) {
   const userTheme = useTheme();
 
   return (
