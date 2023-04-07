@@ -15,7 +15,7 @@ export default function ({ grant }) {
     () => [
       {
         label: "Granted",
-        render: () => formatDollar(grant?.grant?.grantNum), 
+        render: () => formatDollar(grant?.grant?.grantNum),
       },
       {
         label: "Vested Value",
@@ -37,7 +37,7 @@ export default function ({ grant }) {
 
   return (
     <Link
-      className="p-1 overflow-hidden bg-white rounded-lg dark:bg-black dark:hover:bg-cw3 dark:text-b-8"
+      className="p-1 overflow-hidden rounded-lg dark:bg-black hover:bg-cw3 dark:text-b-8 bg-[#f6fafe]"
       to={`/grants/${grant?.grant?.grantId}/sign`}
     >
       <div className="px-2 py-3 rounded-lg text-c5 shadow-d6 hover:shadow-d7">

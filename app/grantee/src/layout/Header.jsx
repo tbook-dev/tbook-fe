@@ -72,24 +72,6 @@ function Header() {
             setOpenDrawer(false);
           }}
         />
-        <div
-          onClick={() => {
-            setOpenDrawer(false);
-          }}
-          className="mb-24"
-        >
-          {menu.map((v) => (
-            <NavLink to={v.link} key={v.link} className="flex items-center px-8 h-14 text-cwh2">
-              {({ isActive }) => {
-                return (
-                  <span className={clsx(isActive ? "text-black font-bold dark:text-white" : "text-[#666]")}>
-                    {v.text}
-                  </span>
-                );
-              }}
-            </NavLink>
-          ))}
-        </div>
 
         <div>
           <div className="flex items-center justify-between px-8 text-c12 h-14">

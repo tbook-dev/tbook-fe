@@ -37,7 +37,7 @@ export default function ({ grant }) {
 
   return (
     <Link
-      className="px-3 pt-3 pb-2.5 text-xs rounded-lg shadow-d3 text-b-8"
+      className="px-3 pt-3 pb-2.5 text-xs rounded-lg shadow-d3 dark:text-b-8 bg-[#f6fafe] dark:bg-transparent"
       to={`/grants/${grant?.grant?.grantId}/sign`}
     >
       <div className="flex items-center justify-between mb-2.5 text-c4">
@@ -64,8 +64,8 @@ export default function ({ grant }) {
         {conf.map((v) => {
           return (
             <div key={v.label} className="grid grid-cols-2 text-c4">
-              <div className="truncate text-b-8">{v.label}</div>
-              <div className="font-medium text-right text-white truncate">
+              <div className="truncate dark:text-b-8">{v.label}</div>
+              <div className="font-medium text-right truncate dark:text-white">
                 <v.render />
               </div>
             </div>
