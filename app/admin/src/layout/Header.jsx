@@ -125,6 +125,7 @@ function Header() {
             onClick={() => {
               if (chain.evmChainId !== id) {
                 handleSwitch(chain.evmChainId);
+                setSetStatus(null);
               }
             }}
           >
@@ -146,6 +147,8 @@ function Header() {
               onClick={() => {
                 if (v.value !== themeSetting) {
                   dispatch(setTheme(v.value));
+                  setSetStatus(null);
+                  setOpenDrawer(false);
                 }
               }}
               key={v.value}

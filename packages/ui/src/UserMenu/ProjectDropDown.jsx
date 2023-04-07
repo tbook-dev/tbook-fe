@@ -8,6 +8,8 @@ import { user } from "@tbook/store";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import switchIcon from "@tbook/share/images/icon/switch.svg";
+import switchIcon2 from "@tbook/share/images/icon/switch2.svg";
+import { useTheme } from "@tbook/hooks";
 
 const { setCurrentProjectId } = user;
 
@@ -16,6 +18,7 @@ export default function ({ open, setOpen }) {
   const projects = useProjects();
   const currentProject = useCurrentProject();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const hanldeChangeProject = function (projectId) {
     if (currentProject.projectId === projectId) return;
@@ -75,7 +78,7 @@ export default function ({ open, setOpen }) {
         )}
       >
         {currentProject?.projectName}
-        <img src={switchIcon} className="ml-10" />
+        <img src={theme === "dark" ? switchIcon : switchIcon2} className="ml-10" />
       </div>
     </Popover>
   );

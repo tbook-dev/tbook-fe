@@ -1,58 +1,14 @@
-import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Spin, Drawer } from "antd";
-import { useResponsive } from "ahooks";
-import clsx from "clsx";
+import React from "react";
+import { Link } from "react-router-dom";
+import { Spin } from "antd";
 import { UserMenu, Connect } from "@tbook/ui";
 import { useSelector } from "react-redux";
 import logo from "@tbook/share/images/icon/logo.svg";
-import menuIcon from "@tbook/share/images/icon/menu.svg";
-import { useCurrentProject } from "@tbook/hooks";
-import { conf } from "@tbook/utils";
-import DarkProvider from "@/theme/DarkProvider";
-
-const { chains } = conf;
-const { SwitchNet } = Connect;
 
 function Header() {
   const authUser = useSelector((state) => state.user.authUser);
   const loadingUserStatus = useSelector((state) => state.user.loadingUserStatus);
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const { pc } = useResponsive();
-  const project = useCurrentProject();
-  const projectChain = chains.find((v) => project.chain === v.name);
-  const showLessNav = useSelector((state) => state.user.showLessNav);
 
-  const Content = () => {
-    return (
-      <div className="flex flex-col justify-between h-full pt-5 -mx-6">
-        <div>
-          <NavLink to="/" className={({ isActive }) => clsx("flex h-14 items-center px-8 text-cwh2")}>
-            {({ isActive }) => {
-              return <span className="font-bold text-white">Incentive</span>;
-            }}
-          </NavLink>
-
-          <NavLink to="/" className={({ isActive }) => clsx("flex h-14 items-center px-8 text-cwh2")}>
-            {({ isActive }) => {
-              return <span className="text-[#666]">Tokentable</span>;
-            }}
-          </NavLink>
-        </div>
-
-        {authUser && (
-          <div className="border-t border-b-1">
-            {/* 1、当前项目的网络; 2、默认以太坊*/}
-            <div className="flex items-center px-8 text-c12 h-14 text-[#666]">Settings</div>
-            <div className="flex items-center px-8 text-c12 h-14">
-              <span className="text-[#666] mr-2">Network ｜</span>
-              <SwitchNet placement="rightBottom" networkId={projectChain?.evmChainId || 1} />
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
   return (
     <header className="sticky top-0 z-30 dark:bg-black dark:shadow-d2">
       <div className="px-4 lg:px-8">
@@ -63,7 +19,6 @@ function Header() {
             </Link>
           </div>
 
-          {/* Header: Right side */}
           <div className="flex items-center space-x-3">
             {loadingUserStatus ? <Spin /> : authUser ? <UserMenu /> : <Connect />}
           </div>

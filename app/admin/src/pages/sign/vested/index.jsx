@@ -11,28 +11,21 @@ export default function ({ scheduleInfo }) {
     },
     {
       label: "Latest Vesting",
-      value:
-        getLastVested(scheduleInfo?.vestingSchedule?.vestingDetail)?.date ||
-        "-",
+      value: getLastVested(scheduleInfo?.vestingSchedule?.vestingDetail)?.date || "-",
     },
   ];
   // console.log("scheduleInfo", scheduleInfo);
 
   return (
-    <div className="overflow-hidden bg-white divide-y rounded-md dark:bg-black divide-b-1 lg:pt-4 lg:pb-1.5 shadow-d3 lg:rounded-lg">
+    <div className="overflow-hidden bg-[#f6fafe]  divide-y rounded-md dark:bg-black divide-b-1 lg:pt-4 lg:pb-1.5 shadow-d3 lg:rounded-lg">
       <h2 className="text-[#333] dark:text-white font-medium px-4 py-1.5 text-[20px] leading-[24px] lg:px-6 lg:py-1 lg:text-cwh2">
         Vested
       </h2>
 
       {list.map((v) => {
         return v.value ? (
-          <div
-            key={v.label}
-            className="flex px-4 lg:py-2 lg:px-6 py-3 text-[14px]"
-          >
-            <span className="flex-[10] leading-[16px] text-[#666] dark:text-b-8 lg:text-c1">
-              {v.label}
-            </span>
+          <div key={v.label} className="flex px-4 lg:py-2 lg:px-6 py-3 text-[14px]">
+            <span className="flex-[10] leading-[16px] text-[#666] dark:text-b-8 lg:text-c1">{v.label}</span>
             <span className="flex-[14] text-right dark:text-white lg:text-left leading-[18px] lg:lg:text-c1">
               {typeof v.value === "function" ? <v.value /> : v.value}
             </span>
