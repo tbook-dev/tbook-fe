@@ -174,10 +174,10 @@ function PlanCreate() {
           ) : (
             <>
               {firstCreated && (
-                <div className="mb-6 rounded-md lg:py-4 lg:mb-12 lg:rounded-lg dark:bg-black shadow-d3">
+                <div className="mb-6 rounded-md lg:py-4 lg:mb-12 lg:rounded-lg bg-[#f6fafe]  dark:bg-black shadow-d3">
                   <div className="flex items-center h-10 px-6 border-b border-b-1 text-c1">
-                    <span className="flex-[10] text-b-8">Project Name</span>
-                    <span className="flex-[14] text-white flex justify-end lg:justify-between">
+                    <span className="flex-[10] dark:text-b-8">Project Name</span>
+                    <span className="flex-[14] dark:text-white flex justify-end lg:justify-between">
                       <span className="mr-2">
                         {chains.map((v) => {
                           // 目前应该监听网络环境
@@ -194,8 +194,8 @@ function PlanCreate() {
                     </span>
                   </div>
                   <div className="flex items-center h-10 px-6 text-c1">
-                    <span className="flex-[10] text-b-8">Total Token</span>
-                    <span className="flex-[14] text-white flex justify-end lg:justify-between">
+                    <span className="flex-[10] dark:text-b-8">Total Token</span>
+                    <span className="flex-[14] dark:text-white flex justify-end lg:justify-between">
                       <span className="mr-2">{formatDollar(project?.tokenTotalAmount)} Token</span>
                       <Tooltip title="This is the total of virtual tokens only used to anchor ratio before TGE to facilitate calculation and granting. It will be converted into the actual number of tokens after TGE.">
                         <InfoCircleOutlined className="cursor-pointer" />
