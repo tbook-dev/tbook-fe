@@ -91,7 +91,7 @@ function Header() {
           ))}
         </div>
 
-        <div className="border-t border-b-1">
+        <div>
           <div className="flex items-center justify-between px-8 text-c12 h-14">
             <span className="text-[#666] mr-2">Theme</span>
             <span className="flex items-center dark:text-white" onClick={() => setSetStatus("theme")}>
