@@ -52,7 +52,7 @@ export default function Pie({ pieList, totalToken }) {
         <div className="space-y-4 w-full lg:w-[342px] lg:h-[380px] justify-self-end">
           {reData.slice((current - 1) * pageSize, current * pageSize).map((v, idx) => {
             const c = v.name === "Free" ? "#666" : colors[(idx + (current - 1) * pageSize) % colors.length];
-            const bg = v.name === "Free" ? "#666" : colorsBg[(idx + (current - 1) * pageSize) % colors.length];
+            const bg = v.name === "Free" ? "#666" : colorsBg[(idx + (current - 1) * pageSize) % colorsBg.length];
             return (
               <div
                 className="flex items-center justify-between h-10 px-4 py-1 font-medium border-l-4 rounded bg-b-1"
