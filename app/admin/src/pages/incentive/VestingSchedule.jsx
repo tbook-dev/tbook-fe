@@ -49,7 +49,7 @@ export default function VestingSchedule({ dataList = [], ...props }) {
           );
         })}
       </div>
-      <div className="divide-y dark:text-white divide-b-1">
+      <div className="divide-y dark:text-white divide-b-1 max-h-[200px] overflow-auto">
         {dataList
           .map((item, idx) => ({ ...item, idx: idx + 1 }))
           .map((data, idx) => {
