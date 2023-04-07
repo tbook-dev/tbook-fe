@@ -14,6 +14,7 @@ import { useCurrentProject } from "@tbook/hooks";
 import { conf } from "@tbook/utils";
 import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 import { useTheme } from "@tbook/hooks";
+import Setting from "@/components/setting";
 
 const { chains } = conf;
 const { SwitchV0 } = Connect;
@@ -28,6 +29,7 @@ function Header() {
   const theme = useTheme();
   const themeSetting = useSelector((state) => state.user.theme);
   console.log({ themeSetting });
+  const [setStatus, setSetStatus] = useState(null);
   const menu = [
     {
       link: "/",
@@ -43,7 +45,7 @@ function Header() {
       <div className="flex flex-col h-full pt-5 -mx-6">
         <img
           src={close2}
-          className="absolute top-6 right-8"
+          className="absolute w-4 h-4 top-3 right-4"
           onClick={() => {
             setOpenDrawer(false);
           }}
@@ -71,7 +73,7 @@ function Header() {
           <div className="border-t border-b-1">
             <div className="flex items-center justify-between px-8 text-c12 h-14">
               <span className="text-[#666] mr-2">Theme</span>
-              <span className="flex items-center dark:text-white">
+              <span className="flex items-center dark:text-white" onClick={() => setSetStatus("theme")}>
                 {themeSetting}
                 <img src={arrowRight} className="h-5 ml-4" />
               </span>
@@ -86,6 +88,13 @@ function Header() {
           </div>
         )}
       </div>
+    );
+  };
+  const SetTheme = () => {
+    return (
+      <Setting title="Theme" backHandle={() => setSetStatus(null)}>
+        xx
+      </Setting>
     );
   };
   return (
@@ -129,7 +138,8 @@ function Header() {
                       position: "relative",
                     }}
                   >
-                    <Content />
+                    {setStatus === null && <Content />}
+                    {setStatus === "theme" && <SetTheme />}
                   </Drawer>
                 </ConfigProviderV2>
               </>
