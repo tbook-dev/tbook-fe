@@ -13,7 +13,7 @@ export default function ({ networkId }) {
   return (
     <span className="flex items-center h-8 px-3 rounded-lg">
       <Network id={userChain?.evmChainId} />
-      <span className="ml-2 text-white">{userChain.name}</span>
+      <span className="ml-2 dark:text-white">{userChain.name}</span>
     </span>
   );
 }

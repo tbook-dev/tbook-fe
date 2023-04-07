@@ -9,6 +9,7 @@ import logo from "@tbook/share/images/icon/logo.svg";
 import menuIcon from "@tbook/share/images/icon/menu.svg";
 import darkmenu from "@tbook/share/images/icon/darkmenu.svg";
 import close2 from "@tbook/share/images/icon/close2.svg";
+import close3 from "@tbook/share/images/icon/close3.svg";
 import arrowRight from "@tbook/share/images/icon/arrow-right.svg";
 import { useCurrentProject } from "@tbook/hooks";
 import { conf } from "@tbook/utils";
@@ -16,10 +17,14 @@ import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 import { useTheme } from "@tbook/hooks";
 import Setting from "@/components/setting";
 import { user } from "@tbook/store";
+import { useSwitchNetwork } from "wagmi";
+import { logout } from "@/utils/web3";
+import { Icon } from "@tbook/ui";
 
 const { chains, themeList } = conf;
 const { SwitchV0 } = Connect;
 const { setTheme } = user;
+const { NetWork } = Icon;
 
 function Header() {
   const authUser = useSelector((state) => state.user.authUser);
@@ -28,9 +33,12 @@ function Header() {
   const { pc } = useResponsive();
   const project = useCurrentProject();
   const projectChain = chains.find((v) => project.chain === v.name);
+  const id = projectChain?.evmChainId || 1;
   const theme = useTheme();
   const themeSetting = useSelector((state) => state.user.theme);
   console.log({ themeSetting });
+  const { switchNetwork } = useSwitchNetwork();
+
   const dispatch = useDispatch();
   const [setStatus, setSetStatus] = useState(null);
   const menu = [
@@ -43,11 +51,22 @@ function Header() {
       text: "TOKENTABLE",
     },
   ];
+  async function handleSwitch(id) {
+    // 1 Ethereum
+    // 56 BNB
+    if (switchNetwork) {
+      switchNetwork(id);
+    }
+    localStorage.setItem("chainId", id);
+    await logout();
+    window.location.href = `${location.origin}`;
+  }
+
   const Content = () => {
     return (
       <div className="flex flex-col h-full pt-5 -mx-6">
         <img
-          src={close2}
+          src={theme === "dark" ? close2 : close3}
           className="absolute w-4 h-4 top-3 right-4"
           onClick={() => {
             setOpenDrawer(false);
@@ -96,7 +115,25 @@ function Header() {
   const SetNetwork = () => {
     return (
       <Setting title="Network" backHandle={() => setSetStatus(null)}>
-        xx
+        {chains.map((chain) => (
+          <div
+            key={chain.evmChainId}
+            className={clsx(
+              "h-14 flex items-center text-c13 font-medium",
+              chain.evmChainId === id ? "dark:text-white" : "dark:text-c-6"
+            )}
+            onClick={() => {
+              if (chain.evmChainId !== id) {
+                handleSwitch(chain.evmChainId);
+              }
+            }}
+          >
+            <div className="flex items-center justify-center w-6 h-6">
+              <NetWork id={chain.evmChainId} />
+            </div>
+            <span className={clsx("ml-2 ")}>{chain.name}</span>
+          </div>
+        ))}
       </Setting>
     );
   };
