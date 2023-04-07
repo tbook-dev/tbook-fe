@@ -67,7 +67,7 @@ export default function TokenTable() {
   }, [projectId]);
 
   return (
-    <div className="text-white bx py-[25px] lg:py-[58px]">
+    <div className="dark:text-white bx py-[25px] lg:py-[58px]">
       {/* section  */}
       <div className="mb-5 lg:mb-12">
         {userLoading || tokenDistLoading ? (

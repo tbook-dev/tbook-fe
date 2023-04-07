@@ -1,11 +1,11 @@
 import Liquidfill from "@/components/liquidfill";
 import { useMemo, useState } from "react";
 import { useCurrentProject } from "@tbook/hooks";
-import { Spin, Select } from "antd";
+import { Spin } from "antd";
+import Select from "@/components/select/themeSelect";
 import { round } from "lodash";
 import { conf } from "@tbook/utils";
 import Pagination from "@/components/pagination";
-import Theme from "@/components/theme";
 
 const { formatDollar, getDividePercent } = conf;
 
@@ -42,7 +42,7 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
   }, [dilutedToken]);
 
   return (
-    <div className="p-3 mb-4 bx lg:p-6 lg:mb-10 rect-border">
+    <div className="p-3 mb-4 bx lg:p-6 lg:mb-10 rect-border bg-[#f6fafe] dark:bg-transparent">
       {dilutedTokenloading ? (
         <div className="flex justify-center">
           <Spin />
@@ -53,17 +53,15 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
             <h2 className="mb-3 font-medium text-c13 lg:mb-0">Diluted Token Distribution</h2>
             {planTypeList.length > 0 && (
               <div className="flex justify-center lg:justify-end">
-                <Theme>
-                  <Select
-                    options={planTypeList}
-                    className="w-[200px]"
-                    value={planFilter}
-                    onChange={(v) => {
-                      setPlanFilter(v);
-                      setCurrent(1);
-                    }}
-                  />
-                </Theme>
+                <Select
+                  options={planTypeList}
+                  className="w-[200px]"
+                  value={planFilter}
+                  onChange={(v) => {
+                    setPlanFilter(v);
+                    setCurrent(1);
+                  }}
+                />
               </div>
             )}
           </div>
@@ -77,7 +75,7 @@ export default function Pie({ dilutedToken, dilutedTokenloading }) {
                   .slice((current - 1) * pageSize, current * pageSize)
                   .map((v, idx) => (
                     <div
-                      className="flex items-center justify-between w-full px-4 py-3 font-medium rounded bg-b-1"
+                      className="flex items-center justify-between w-full px-4 py-3 font-medium bg-white rounded dark:bg-b-1"
                       key={idx}
                     >
                       <p className="text-c14">

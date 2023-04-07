@@ -1,17 +1,17 @@
 // dark 模式下表单情况，紧紧包裹表单
-import { ConfigProvider, theme, Pagination } from "antd";
-import components from "@/theme/conf";
+import { ConfigProvider, theme } from "antd";
+import components from "./conf";
 
-// 可能revise
+// 普调情况
 export default function ({ children }) {
   return (
     <ConfigProvider
       theme={{
-        algorithm: theme.darkAlgorithm,
+        algorithm: theme.defaultAlgorithm,
         // theme.defaultAlgorithm,
         components,
         token: {
-          colorPrimary: "#fff",
+          colorPrimary: "#000",
         },
       }}
     >

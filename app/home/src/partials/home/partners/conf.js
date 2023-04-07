@@ -21,6 +21,7 @@ import triangle from "@/images/partner/triangle.png";
 import metopia from "@/images/partner/metopia.png";
 import meme from "@/images/partner/meme.png";
 import tokenPocket from "@/images/partner/tokenPocket.png";
+import daige from "@/images/partner/daige.png";
 
 export const list1 = [
   {
@@ -113,6 +114,10 @@ export const list2 = [
   },
   {
     src: tokenPocket,
+    link: "",
+  },
+  {
+    src: daige,
     link: "",
   },
 ];

@@ -25,6 +25,7 @@ import dayjs from "dayjs";
 import { useSigner, useAccount } from "wagmi";
 import PlanTipNoConnect from "./planTip/NoConnect";
 import PlanTipNoProject from "./planTip/NoProject";
+import { useTheme } from "@tbook/hooks";
 
 const { setAuthUser, fetchUserInfo } = user;
 
@@ -44,6 +45,7 @@ function PlanList() {
   const [filters, dispatchFilter] = useReducer(filterReducer, initialFilters);
   const [searchParams] = useSearchParams();
   const projects = useProjects();
+  const theme = useTheme();
   // type, 0是卡片，1是表格
   const [displayType, setDisplayType] = useState(0);
 
@@ -138,7 +140,7 @@ function PlanList() {
         className="w-full mt-3 mb-5 lg:my-12"
         style={{
           "--swiper-navigation-size": "16px",
-          "--swiper-theme-color": "#fff",
+          "--swiper-theme-color": theme === "dark" ? "#fff" : "#666",
         }}
       >
         <div className="flex items-center justify-between mb-2 lg:mb-6">
@@ -148,9 +150,9 @@ function PlanList() {
             <Link to="/create/plan">
               <button
                 type="button"
-                className="flex items-center justify-center w-8 h-8 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md lg:w-40 lg:h-10 lg:dark:bg-white lg:rounded-lg dark:text-black shadow-d3 lg:hover:text-white lg:hover:bg-cw1 lg:hover:shadow-d7"
+                className="flex items-center justify-center w-8 h-8 text-xs font-medium leading-normal text-black transition duration-150 ease-in-out bg-black rounded-md lg:text-white bg-cw1 dark:text-black lg:bg-none lg:hover:opacity-70 lg:hover:dark:opacity-100 lg:w-40 lg:h-10 lg:dark:bg-white lg:dark:bg-none lg:rounded-lg lg:dark:text-black shadow-d3 lg:dark:hover:text-white lg:dark:hover:bg-cw1 lg:hover:shadow-d7"
               >
-                <PlusOutlined style={pc ? null : { color: "#69D0E5", fontSize: "16px" }} />
+                <PlusOutlined style={pc ? null : { fontSize: "16px" }} />
                 <span className="ml-2 text-[14px] hidden lg:inline">New Plan</span>
               </button>
             </Link>
@@ -245,7 +247,7 @@ function PlanList() {
                 type="button"
                 disabled={filters.Plan === null || filters.Plan === undefined}
                 onClick={() => navigate(`/incentive/grant/${filters.Plan}/create`)}
-                className="flex items-center justify-center text-xs font-medium leading-normal transition duration-150 ease-in-out lg:w-40 lg:h-10 dark:bg-white lg:rounded-lg dark:text-black shadow-d3 hover:text-white hover:bg-cw1 hover:shadow-d7 dark:disabled:bg-b-1 dark:disabled:text-b-2 hover:disabled:bg-none hover:disabled:shadow-none"
+                className="flex items-center justify-center text-xs font-medium leading-normal text-white transition duration-150 ease-in-out bg-black lg:hover:dark:opacity-100 lg:hover:opacity-70 lg:w-40 lg:h-10 disabled:bg-l-2 disabled:text-l-1 dark:bg-white lg:rounded-lg dark:text-black shadow-d3 hover:text-white lg:dark:hover:bg-cw1 hover:shadow-d7 lg:dark:hover:text-white dark:disabled:bg-b-1 dark:disabled:text-b-2 hover:disabled:bg-none hover:disabled:shadow-none"
               >
                 <PlusOutlined />
                 <span className="ml-2 text-[14px]">New Grant</span>
@@ -301,7 +303,7 @@ function PlanList() {
                 ) : filterGrantList(grantList).length > 0 ? (
                   filterGrantList(grantList).map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
                 ) : (
-                  <div className="h-[272px] rounded-xl bg-white dark:bg-b-1 flex items-center justify-center">
+                  <div className="h-[272px] rounded-xl bg-[#f6f8fa] dark:bg-b-1 flex items-center justify-center">
                     <Empty />
                   </div>
                 )}
@@ -333,7 +335,7 @@ function PlanList() {
                 type="button"
                 disabled={filters.Plan === null || filters.Plan === undefined}
                 onClick={() => navigate(`/incentive/grant/${filters.Plan}/create`)}
-                className="flex items-center justify-center h-10 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md w-60 dark:disabled:bg-none	dark:bg-cw1 dark:text-black shadow-d3 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
+                className="flex items-center justify-center h-10 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md w-60 dark:disabled:bg-none	bg-cw1 text-black disabled:bg-l-2 disabled:bg-none shadow-d3 disabled:text-l-1 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
               >
                 <PlusOutlined />
                 <span className="ml-2 text-[14px]">New Grant</span>
@@ -375,7 +377,7 @@ function PlanList() {
             ) : filterGrantList(grantList).length > 0 ? (
               filterGrantList(grantList).map((grant) => <GrantCard grant={grant} key={grant.grant.grantId} />)
             ) : (
-              <div className="h-[222px] rounded-lg bg-white dark:bg-b-1 flex items-center justify-center">
+              <div className="h-[222px] rounded-lg bg-[#f6f8fa]  dark:bg-b-1 shadow-l3 flex items-center justify-center">
                 <Empty description="No grant" />
               </div>
             )}

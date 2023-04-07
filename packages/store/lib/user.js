@@ -113,6 +113,7 @@ export const {
   reset,
   setLoadingUserStatus,
   setLessNav,
+  setTheme,
 } = userSlice.actions;
 
 export default userSlice.reducer;

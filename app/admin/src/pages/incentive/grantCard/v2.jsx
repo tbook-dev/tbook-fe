@@ -65,7 +65,7 @@ export default function ({ grant }) {
 
   return (
     <Link
-      className="p-1 overflow-hidden bg-white rounded-lg dark:bg-black dark:hover:bg-cw3 dark:text-b-8"
+      className="p-1 overflow-hidden bg-white rounded-lg dark:bg-black hover:bg-cw3 text-l-8 dark:text-b-8"
       to={`/grants/${grant?.grant?.grantId}/sign`}
     >
       <div className="px-2 py-3 rounded-lg text-c5 shadow-d6 hover:shadow-d7">
@@ -75,8 +75,8 @@ export default function ({ grant }) {
             <span
               className="text-center max-w-[100px] w-20 truncate border rounded"
               style={{
-                color: isDark ? status?.darkColor : "",
-                borderColor: isDark ? status?.darkColor : "",
+                color: status?.darkColor,
+                borderColor: status?.darkColor,
               }}
             >
               {status?.text}
@@ -90,8 +90,8 @@ export default function ({ grant }) {
           </div>
 
           <div className="flex flex-col justify-center flex-none">
-            <h3 className="text-ellipsis text-c6 max-w-[130px] truncate text-b-8">{grant?.grantee?.name}</h3>
-            <p className="truncate text-ellipsis text-c1 text-b-8">{shortAddress(grant?.grantee?.mainWallet)}</p>
+            <h3 className="text-ellipsis text-c6 max-w-[130px] truncate">{grant?.grantee?.name}</h3>
+            <p className="truncate text-ellipsis text-c1">{shortAddress(grant?.grantee?.mainWallet)}</p>
           </div>
         </div>
 
@@ -107,7 +107,7 @@ export default function ({ grant }) {
             return (
               <div key={v.label} className="grid grid-cols-2 text-[14px] leading-[22px]">
                 <div className="truncate">{v.label}</div>
-                <div className="text-right text-white truncate">
+                <div className="text-right text-black truncate darK:text-white">
                   <v.render />
                 </div>
               </div>

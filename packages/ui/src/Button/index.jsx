@@ -1,17 +1,10 @@
-import React from  'react';
+import React from "react";
 import clsx from "clsx";
 import { LoadingOutlined } from "@ant-design/icons";
 
 // 默认 背景主题色，文字黑色，其他颜色由class控制
 // loading的时候，转圈并且disable
-export default function Button ({
-  className,
-  disabled,
-  loading,
-  loadingColor = "white",
-  children,
-  ...props
-}) {
+export default function Button({ className, disabled, loading, loadingColor = "white", children, ...props }) {
   return (
     <button
       disabled={disabled || loading}
@@ -24,12 +17,7 @@ export default function Button ({
       )}
       {...props}
     >
-      {loading && (
-        <LoadingOutlined
-          style={{ fontSize: 12, color: loadingColor, marginRight: 6 }}
-          spin
-        />
-      )}
+      {loading && <LoadingOutlined style={{ fontSize: 12, color: loadingColor, marginRight: 6 }} spin />}
       {children}
     </button>
   );

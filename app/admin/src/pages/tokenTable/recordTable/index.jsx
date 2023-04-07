@@ -19,15 +19,16 @@ export default function RecordTable({ list }) {
   const pageSize = 10;
 
   return (
-    <div className="p-3 mb-10 text-white rect-border lg:py-6 lg:px-0">
+    <div className="p-3 mb-10 rect-border lg:py-6 lg:px-0 bg-[#f6fafe] dark:bg-transparent">
       <div className="flex items-center justify-between mb-3 lg:px-6">
         <h2 className="font-medium text-c12 lg:text-c13">Stakeholders</h2>
-        <Link to="/record">
+
+        <Link to="/create/plan">
           <button
             type="button"
-            className="flex items-center justify-center w-8 h-8 text-xs font-medium leading-normal transition duration-150 ease-in-out rounded-md lg:w-40 lg:h-10 lg:dark:bg-white lg:rounded-lg dark:text-black shadow-d3 lg:hover:text-white lg:hover:bg-cw1 lg:hover:shadow-d7"
+            className="flex items-center justify-center w-8 h-8 text-xs font-medium leading-normal text-black transition duration-150 ease-in-out bg-black rounded-md lg:text-white bg-cw1 dark:text-black lg:bg-none lg:hover:opacity-70 lg:hover:dark:opacity-100 lg:w-40 lg:h-10 lg:dark:bg-white lg:dark:bg-none lg:rounded-lg lg:dark:text-black shadow-d3 lg:dark:hover:text-white lg:dark:hover:bg-cw1 lg:hover:shadow-d7"
           >
-            <PlusOutlined style={pc ? null : { color: "#69D0E5", fontSize: "16px" }} />
+            <PlusOutlined style={pc ? null : { fontSize: "16px" }} />
             <span className="ml-2 text-[14px] hidden lg:inline">New Record</span>
           </button>
         </Link>
@@ -44,12 +45,12 @@ export default function RecordTable({ list }) {
             return pc ? (
               <div className="grid grid-cols-5 mx-4 border-b border-b-1" key={idx}>
                 <div className="flex justify-center py-1">
-                  <div className="w-10 h-10 rounded-full bg-[#141414] flex justify-center items-center mr-2">
+                  <div className="w-10 h-10 rounded-full bg-[#ECF5FD] dark:bg-[#141414] flex justify-center items-center mr-2">
                     <img src={v.avatar || defaultAvator} className="object-cover w-6 h-6" />
                   </div>
 
-                  <div className="flex flex-col justify-center flex-none text-b-8">
-                    <h3 className="text-ellipsis w-[115px] truncate  text-b-8 text-c9">{v.granteeName}</h3>
+                  <div className="flex flex-col justify-center flex-none dark:text-b-8">
+                    <h3 className="text-ellipsis w-[115px] truncate  dark:text-b-8 text-c9">{v.granteeName}</h3>
                     {v.address && (
                       <p className="truncate w-[115px] text-ellipsis text-c14">{shortAddress(v.address)}</p>
                     )}
@@ -58,7 +59,7 @@ export default function RecordTable({ list }) {
                 <div className="flex items-center justify-center font-medium text-c1">{v.tipName}</div>
 
                 <div className="flex items-center justify-center">
-                  <span className="max-w-[115px] text-c5 text-ellipsis truncate border border-white px-4 rounded">
+                  <span className="max-w-[115px] text-c5 text-ellipsis truncate border border-black dark:border-white px-4 rounded">
                     {findAudience(v.target)}
                   </span>
                 </div>
@@ -66,18 +67,18 @@ export default function RecordTable({ list }) {
                 <div className="flex items-center justify-center font-medium text-c1">{round(v.percentage, 10)}%</div>
               </div>
             ) : (
-              <div className="grid items-center grid-cols-2 mx-4 mb-3" key={idx}>
+              <div className="grid items-center grid-cols-2 mb-3" key={idx}>
                 <div className="flex items-center justify-center ml-3">
-                  <div className="w-7 h-7 rounded-full bg-[#141414] flex flex-none justify-center items-center mr-2">
+                  <div className="w-7 h-7 rounded-full bg-[#ECF5FD] dark:bg-[#141414]  flex flex-none justify-center items-center mr-2">
                     <img src={v.avatar || defaultAvator} className="object-cover w-4 h-4" />
                   </div>
 
-                  <div className="flex flex-col justify-center flex-none text-b-8">
-                    <h3 className="text-ellipsis w-[115px] truncate  text-b-8 text-c8">{v.granteeName}</h3>
+                  <div className="flex flex-col justify-center flex-none dark:text-b-8">
+                    <h3 className="text-ellipsis w-[115px] truncate  dark:text-b-8 text-c8">{v.granteeName}</h3>
                     {v.address && <p className="truncate w-[115px] text-ellipsis text-c4">{shortAddress(v.address)}</p>}
                     {v.target && (
                       <div className="mt-px">
-                        <span className="max-w-[115px] text-ellipsis truncate text-c15  border border-white px-2 py-px rounded">
+                        <span className="max-w-[115px] text-ellipsis truncate text-c15  border border-black dark:border-white px-2 py-px rounded">
                           {findAudience(v.target)}
                         </span>
                       </div>

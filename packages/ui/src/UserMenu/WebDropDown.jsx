@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Popover } from "antd";
+import { Popover, Segmented } from "antd";
 import Avator from "./Avator";
 import Info from "./Info";
 import { useCurrentProject } from "@tbook/hooks";
@@ -9,34 +9,41 @@ import back from "@tbook/share/images/icon/back.svg";
 import clsx from "clsx";
 import { logout } from "@/utils/web3";
 import { useSwitchNetwork } from "wagmi";
+import { user } from "@tbook/store";
+import { useDispatch, useSelector } from "react-redux";
 
-const { chains } = conf;
+const { setTheme } = user;
+
+const { chains, themeList } = conf;
 export default function ({ open, setOpen }) {
   const project = useCurrentProject();
   const projectChain = chains.find((v) => project.chain === v.name);
   const id = projectChain?.evmChainId || 1;
   const [menuStep, setStep] = useState(0);
   const { switchNetwork } = useSwitchNetwork();
-
+  const theme = useSelector((state) => state.user.theme);
+  const dispatch = useDispatch();
   const InitMenu = () => (
     <>
       <Info />
       <>
         <div className="flex items-center justify-between text-c6 lg:h-10">
           <span className="dark:text-l-8">Network</span>
-          <span
-            onClick={() => setStep(1)}
-            className="flex items-center font-medium cursor-pointer dark:text-black"
-          >
+          <span onClick={() => setStep(1)} className="flex items-center font-medium cursor-pointer dark:text-black">
             <NetWork id={id} />
             <span className="ml-2">{projectChain?.name}</span>
           </span>
         </div>
         <div className="flex items-center justify-between text-c6 lg:h-10">
           <span className="dark:text-l-8">Theme</span>
-          <span className="font-medium cursor-pointer dark:text-black">
-            Dark
-          </span>
+
+          <Segmented
+            value={theme}
+            onChange={(v) => {
+              dispatch(setTheme(v));
+            }}
+            options={themeList}
+          />
         </div>
       </>
     </>
@@ -46,14 +53,8 @@ export default function ({ open, setOpen }) {
       <>
         <div className="mb-6">
           <div className="flex">
-            <img
-              className="w-6 h-6 mr-[27px] cursor-pointer"
-              src={back}
-              onClick={() => setStep(0)}
-            />
-            <span className="font-medium text-black text-c7">
-              Switch the network
-            </span>
+            <img className="w-6 h-6 mr-[27px] cursor-pointer" src={back} onClick={() => setStep(0)} />
+            <span className="font-medium text-black text-c7">Switch the network</span>
           </div>
         </div>
         {chains.map((chain) => (

@@ -56,16 +56,16 @@ export default function ({ tip, pc, isActive }) {
   return (
     <div
       className={clsx(
-        "flex flex-col justify-between bg-cover shadow-c2 rounded-xl lg:rounded-lg overflow-hidden relative",
+        "flex flex-col justify-between bg-cover dark:shadow-c2 rounded-xl lg:rounded-lg overflow-hidden relative",
         "w-[80vw] h-[180px] flex flex-col lg:w-[218px] lg:h-[140px] lg:dark:shadow-d5",
-        isActive ? "dark:bg-cw1" : "dark:bg-black  lg:dark:hover:bg-cw2 dark:shadow-d3"
+        isActive ? "bg-cw1 shadow-l2" : "bg-[#f6fafe] dark:bg-black lg:hover:bg-cw2 shadow-l3 dark:shadow-d3"
       )}
     >
       <div className="flex items-center lg:justify-between pt-3 px-4 lg:pt-2.5 ">
         <p
           className={clsx(
             "max-w-[96px] truncate text-c10  font-medium leading-none m-0 mr-1 lg:mr-0 lg:text-c3",
-            isActive ? "text-black" : "text-white"
+            isActive ? "text-black" : "text-black dark:text-white"
           )}
         >
           {tip.incentivePlanName}
@@ -74,7 +74,7 @@ export default function ({ tip, pc, isActive }) {
           <span
             className={clsx(
               "w-[96px] truncate text-center border text-xs leading-[16px] py-px lg:text-c4 lg:px-2 rounded",
-              isActive ? "text-black border-black" : "text-white border-white"
+              isActive ? "text-black border-black" : "text-black border-black dark:text-white dark:border-white"
             )}
           >
             {targetAudience}

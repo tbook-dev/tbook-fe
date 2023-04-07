@@ -31,7 +31,7 @@ export default function ({ loading, planName, targetAudince, availableAmount }) 
     {
       title: "Target Audience",
       value: () => (
-        <span className="max-w-full truncate border border-white rounded py-0.5 px-2 lg:px-4 lg:py-px">
+        <span className="max-w-full truncate border border-black dark:border-white rounded py-0.5 px-2 lg:px-4 lg:py-px">
           {targetAudince}
         </span>
       ),
@@ -70,7 +70,7 @@ export default function ({ loading, planName, targetAudince, availableAmount }) 
   );
 
   return (
-    <div className="overflow-hidden bg-white rounded-lg dark:bg-black shadow-d3">
+    <div className="overflow-hidden rounded-lg bg-[#f6fafe] dark:bg-black shadow-d3">
       <Spin spinning={loading}>
         <div className="lg:pt-4 lg:pb-[18px]">
           <div className="relative flex items-center justify-between h-10 overflow-hidden border-b lg:h-10 lg:pr-4 border-b-1">
@@ -110,8 +110,8 @@ export default function ({ loading, planName, targetAudince, availableAmount }) 
             {conf.map((v) => {
               return (
                 <div key={v.title} className="flex items-center h-10 px-4 border-b-1 lg:px-6 lg:py-2 text-c1">
-                  <span className="w-[41%] text-b-8">{v.title}</span>
-                  <span className="w-[59%] text-white flex justify-end lg:justify-between">
+                  <span className="w-[41%] dark:text-b-8">{v.title}</span>
+                  <span className="w-[59%] dark:text-white flex justify-end lg:justify-between">
                     {typeof v.value === "function" ? <v.value /> : v.value}
                   </span>
                 </div>

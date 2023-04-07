@@ -1,8 +1,7 @@
-// dark 模式下表单情况，紧紧包裹表单
-import { ConfigProvider, theme, Pagination } from "antd";
-import components from "@/theme/conf";
+import { Select, ConfigProvider, theme } from "antd";
 import { useTheme } from "@tbook/hooks";
-// 可能revise
+import components from "@/theme/conf";
+
 export default function ({ ...props }) {
   const userTheme = useTheme();
 
@@ -17,7 +16,7 @@ export default function ({ ...props }) {
         },
       }}
     >
-      <Pagination {...props} />
+      <Select {...props} />
     </ConfigProvider>
   );
 }

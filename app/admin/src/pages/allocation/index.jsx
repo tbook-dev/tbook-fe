@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useCallback, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Form, Input, InputNumber, Divider, Tooltip } from "antd";
-import AppConfigProvider from "@/theme/AppConfigProvider";
+import AppConfigProvider from "@/theme/LightProvider";
 import { CheckOutlined, InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllocatPlan, updateAllocationPlan } from "@/api/incentive";
@@ -180,7 +180,7 @@ function Allocation() {
           {pc && planLoading === null
             ? null
             : !planLoading && (
-                <div className="absolute py-6 w-[324px] rounded-lg top-0 left-[-350px]  text-white shadow-d11">
+                <div className="absolute py-6 w-[324px] rounded-lg top-0 left-[-350px] bg-[#f6fafe] dark:bg-transparent dark:text-white shadow-d11">
                   <h3 className="px-6 mb-4 font-medium text-c13">Token Distribution</h3>
                   <div className="flex justify-center">
                     <Chart data={pieData} width={275} height={275} totalToken={tokenTotalAmount} />
@@ -219,7 +219,7 @@ function Allocation() {
               <Spin />
             </div>
           ) : (
-            <div className="overflow-hidden rounded-tr-none dark:bg-cw1 dark:lg:shadow-d3 rounded-xl">
+            <div className="overflow-hidden rounded-tr-none bg-cw1 dark:lg:shadow-d3 rounded-xl">
               <div className="relative px-3 py-4 lg:pb-0 lg:pt-6 lg:px-4">
                 <Form
                   {...(pc ? formItemCol : null)}

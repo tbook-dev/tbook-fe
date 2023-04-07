@@ -1,9 +1,8 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { conf } from "@tbook/utils";
 
-const { shortAddress, grantStatusList, grantType, getLastVested, formatDollar }  = conf;
+const { shortAddress, grantStatusList, grantType, getLastVested, formatDollar } = conf;
 // const v = [
 //     {
 //         "date": "2023-12-01",
@@ -27,8 +26,6 @@ const { shortAddress, grantStatusList, grantType, getLastVested, formatDollar } 
 
 export default function ({ grant }) {
   // console.log(grant.grant.vestingSchedule.vestingDetail,'grant')
-  const theme = useSelector((state) => state.user.theme);
-  const isDark = theme === "dark";
 
   const conf = useMemo(
     () => [
@@ -60,7 +57,7 @@ export default function ({ grant }) {
 
   return (
     <Link
-      className="px-3 pt-3 pb-2.5 text-xs rounded-lg shadow-d3 text-b-8"
+      className="px-3 pt-3 pb-2.5 text-xs rounded-lg shadow-l3 dark:shadow-d3 text-c-3 dark:text-b-8 bg-[#f6fafe] dark:bg-transparent"
       to={`/grants/${grant?.grant?.grantId}/sign`}
     >
       <div className="flex items-center justify-between mb-2.5 text-c4">
@@ -69,8 +66,8 @@ export default function ({ grant }) {
           <span
             className="flex-none max-w-[50%] w-[73px] rounded h-5 flex justify-center items-center border"
             style={{
-              color: isDark ? status?.darkColor : "",
-              borderColor: isDark ? status?.darkColor : "",
+              color: status?.darkColor,
+              borderColor: status?.darkColor,
             }}
           >
             {status?.text}
@@ -84,8 +81,8 @@ export default function ({ grant }) {
         </div>
 
         <div className="flex flex-col justify-center flex-none">
-          <h3 className="w-full truncate text-c8 text-b-8">{grant?.grantee?.name}</h3>
-          <p className="w-full truncate text-c4 text-b-8">{shortAddress(grant?.grantee?.mainWallet)}</p>
+          <h3 className="w-full truncate text-c8">{grant?.grantee?.name}</h3>
+          <p className="w-full truncate text-c4">{shortAddress(grant?.grantee?.mainWallet)}</p>
         </div>
       </div>
 
@@ -100,8 +97,8 @@ export default function ({ grant }) {
         {conf.map((v) => {
           return (
             <div key={v.label} className="grid grid-cols-2 text-c4">
-              <div className="truncate text-b-8">{v.label}</div>
-              <div className="font-medium text-right text-white truncate">
+              <div className="truncate text-c-3 dark:text-b-8">{v.label}</div>
+              <div className="font-medium text-right text-black truncate dark:text-white">
                 <v.render />
               </div>
             </div>

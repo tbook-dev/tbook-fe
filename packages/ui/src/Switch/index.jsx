@@ -10,7 +10,9 @@ export default function Switch({ value, onChange, list }) {
               "flex items-center justify-center h-8 rounded-md",
               value === v.value
                 ? "bg-white text-black shadow-d9"
-                : "text-b-2"
+                : v.disabled
+                ? "text-c-9 dark:text-b-1"
+                : "text-c-6 dark:text-b-2"
             )}
             style={{ width: `${(1 / list.length) * 100}%` }}
             key={v.value}
@@ -18,7 +20,6 @@ export default function Switch({ value, onChange, list }) {
               if (!v.disabled) {
                 onChange(v.value);
               }
-            //   onChange(v.value);
             }}
           >
             {v.name}

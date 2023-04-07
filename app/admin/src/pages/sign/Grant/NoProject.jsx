@@ -1,10 +1,9 @@
 import grante403 from "@tbook/share/images/incentive/grantee403.png";
 import mgrante403 from "@tbook/share/images/incentive/mgrantee403.png";
 import { useResponsive } from "ahooks";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import { user } from "@tbook/store";
 import { useDispatch } from "react-redux";
-
 
 const { setLessNav } = user;
 
@@ -16,7 +15,7 @@ export default function () {
     dispatch(setLessNav(true));
     return () => {
       dispatch(setLessNav(false));
-    }
+    };
   }, []);
 
   return (
@@ -30,7 +29,7 @@ export default function () {
         <span className="hidden lg:inline-block py-px px-4 mb-1 border border-[#69D0E5] rounded text-c5 text-colorful1">
           Error
         </span>
-        <h2 className="font-extrabold text-white text-ch1 lg:text-cwh4">
+        <h2 className="font-extrabold dark:text-white text-ch1 lg:text-cwh4">
           <span className="mr-4 text-colorful1">Switch</span>
           to another address to check your access.
         </h2>

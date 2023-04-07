@@ -4,7 +4,7 @@ export default function Liquidfill({ percent = 30, size = 200, className = "" })
   return (
     <div
       className={clsx(
-        "relative  p-1 overflow-hidden border-transparent bg-[#191919]  border-[5px] shadow-[0_0_0_5px_black,0_0_0_10px_#191919]",
+        "relative  p-1 overflow-hidden border-transparent dark:bg-[#191919]  border-[5px] shadow-[0_0_0_5px_white,0_0_0_10px_#69D0E5] dark:shadow-[0_0_0_5px_black,0_0_0_10px_#191919]",
         className
       )}
       style={{ width: size - 10, height: size - 10, margin: 10, borderRadius: "50%" }}

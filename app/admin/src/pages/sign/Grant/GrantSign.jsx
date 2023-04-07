@@ -38,7 +38,7 @@ function GrantSign() {
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
   const signStatus = useMemo(() => {
-    // return 'done';
+    // return "allDone";
     if (signList.length === 0) {
       return null;
     }
@@ -245,24 +245,7 @@ function GrantSign() {
         <Card title="Grant" list={grantConf} />
 
         <Card title="Vesting" list={vestingConf}>
-          <ConfigProviderV2
-            conf={{
-              components: {
-                Table: {
-                  colorBgContainer: "#000",
-                  controlItemBgActive: "#000000",
-                  colorPrimary: "#000",
-                  colorBorderSecondary: "#000",
-                },
-              },
-            }}
-          >
-            <VestingSchedule
-              pagination={false}
-              scroll={{ y: 275 }}
-              dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []}
-            />
-          </ConfigProviderV2>
+          <VestingSchedule dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []} />
         </Card>
       </div>
 
