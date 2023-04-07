@@ -327,7 +327,22 @@ export const colors = [
   "#DFFFAD",
   "#E78E63",
 ];
-
+export const colorsBg = [
+  "#DB4A49",
+  "#6AB3F7",
+  "#FFD021",
+  "#67EBD4",
+  "#FFF600",
+  "#A4F8B3",
+  "#394496",
+  "#623A92",
+  "#4D79B6",
+  "#B93A84",
+  "#7EDDFF",
+  "#FFAC4B",
+  "#C4FD6E",
+  "#E78E63",
+];
 export const hexToRgba = (c, r) => {
   let color = c.slice(1); // 去掉'#'号
   let rgba = [

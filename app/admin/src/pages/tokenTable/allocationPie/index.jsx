@@ -5,7 +5,7 @@ import { conf } from "@tbook/utils";
 import { useMemo, useState } from "react";
 import Pagination from "@/components/pagination";
 
-const { getDividePercent, colors, hexToRgba } = conf;
+const { getDividePercent, colors, colorsBg, hexToRgba } = conf;
 
 export default function Pie({ pieList, totalToken }) {
   const [current, setCurrent] = useState(1);
@@ -52,11 +52,12 @@ export default function Pie({ pieList, totalToken }) {
         <div className="space-y-4 w-full lg:w-[342px] lg:h-[380px] justify-self-end">
           {reData.slice((current - 1) * pageSize, current * pageSize).map((v, idx) => {
             const c = v.name === "Free" ? "#666" : colors[(idx + (current - 1) * pageSize) % colors.length];
+            const bg = v.name === "Free" ? "#666" : colorsBg[(idx + (current - 1) * pageSize) % colors.length];
             return (
               <div
                 className="flex items-center justify-between h-10 px-4 py-1 font-medium border-l-4 rounded bg-b-1"
                 key={v.versionId}
-                style={{ borderColor: c, backgroundColor: `${hexToRgba(c, 0.1)}` }}
+                style={{ borderColor: c, backgroundColor: bg }}
               >
                 <div>
                   <p className="font-semibold text-c14">

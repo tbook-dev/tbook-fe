@@ -64,7 +64,7 @@ const Chart = ({ data, totalToken, width, height }) => {
     return () => {
       chart.current.dispose();
     };
-  }, [data, totalToken]);
+  }, [data, totalToken, theme]);
   return <div ref={ref} style={{ width: width || pc ? 400 : 300, height: height || pc ? 400 : 300 }} />;
 };
 export default Chart;
