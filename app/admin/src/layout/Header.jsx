@@ -13,13 +13,13 @@ import close3 from "@tbook/share/images/icon/close3.svg";
 import arrowRight from "@tbook/share/images/icon/arrow-right.svg";
 import { useCurrentProject } from "@tbook/hooks";
 import { conf } from "@tbook/utils";
-import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 import { useTheme } from "@tbook/hooks";
-import Setting from "@/components/setting";
 import { user } from "@tbook/store";
 import { useSwitchNetwork } from "wagmi";
 import { logout } from "@/utils/web3";
 import { Icon } from "@tbook/ui";
+import Setting from "@/components/setting";
+import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 
 const { chains, themeList } = conf;
 const { SwitchV0 } = Connect;
