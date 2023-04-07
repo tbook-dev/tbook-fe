@@ -124,7 +124,7 @@ function PlanList() {
         ) : !authUser ? (
           <NoConnect pc={pc} list={infoList} projectName={grantTotal?.project?.projectName} />
         ) : (
-          <div className="flex flex-col justify-between h-full px-4 pt-6 pb-3 text-black rounded-xl lg:rounded-2xl lg:p-10 dark:bg-cw1 lg:shadow-d6">
+          <div className="flex flex-col justify-between h-full px-4 pt-6 pb-3 text-black rounded-xl lg:rounded-2xl lg:p-10 bg-cw1 lg:shadow-d6">
             <div className="flex">
               <h2 className="font-bold text-cwh5 lg:ch2">{grantTotal?.project?.projectName}</h2>
             </div>
@@ -145,61 +145,26 @@ function PlanList() {
 
       {pc ? (
         <div className="hidden lg:block">
-          {/* {userLoading || grantInfoLoading ? null : (
-            <div className="justify-end hidden my-4 lg:flex">
-              <div className="flex items-center overflow-hidden bg-white dark:bg-black !divide-x dark:divide-black rounded-lg shadow-c12">
-                <div className="flex items-center justify-center w-10 h-10 bg-b-1">
-                  <BarsOutlined
-                    onClick={() => authUser && setDisplayType(1)}
-                    style={{
-                      cursor: authUser ? null : "not-allowed",
-                      color: authUser
-                        ? displayType === 1
-                          ? "#0049FF"
-                          : "#BFBFBF"
-                        : "rgba(255,255,255,.2)",
-                    }}
-                  />
+          {displayType === 1 && <GrantTable list={filterGrantList(grantList)} loading={grantInfoLoading} />}
+
+          {displayType === 0 && (
+            <div
+              className={clsx(
+                "grid gap-x-2 gap-y-3",
+                filterGrantList(grantList).length > 0 ? "grid-cols-4" : "grid-cols-1"
+              )}
+            >
+              {userLoading || grantInfoLoading ? (
+                <Spin />
+              ) : filterGrantList(grantList).length > 0 ? (
+                filterGrantList(grantList).map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
+              ) : (
+                <div className="h-[272px] rounded-xl bg-white dark:bg-b-1 flex items-center justify-center">
+                  <Empty />
                 </div>
-                <div className="flex items-center justify-center w-10 h-10 bg-b-1">
-                  <AppstoreOutlined
-                    onClick={() => authUser && setDisplayType(0)}
-                    style={{
-                      cursor: authUser ? null : "not-allowed",
-                      color: authUser
-                        ? displayType === 0
-                          ? "#0049FF"
-                          : "#BFBFBF"
-                        : "rgba(255,255,255,.2)",
-                    }}
-                  />
-                </div>
-              </div>
+              )}
             </div>
-          )} */}
-
-          <div className="hidden lg:block">
-            {displayType === 1 && <GrantTable list={filterGrantList(grantList)} loading={grantInfoLoading} />}
-
-            {displayType === 0 && (
-              <div
-                className={clsx(
-                  "grid gap-x-2 gap-y-3",
-                  filterGrantList(grantList).length > 0 ? "grid-cols-4" : "grid-cols-1"
-                )}
-              >
-                {userLoading || grantInfoLoading ? (
-                  <Spin />
-                ) : filterGrantList(grantList).length > 0 ? (
-                  filterGrantList(grantList).map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
-                ) : (
-                  <div className="h-[272px] rounded-xl bg-white dark:bg-b-1 flex items-center justify-center">
-                    <Empty />
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+          )}
         </div>
       ) : (
         <div className="block lg:hidden">

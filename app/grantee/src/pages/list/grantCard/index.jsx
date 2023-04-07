@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { conf } from "@tbook/utils";
 
-const {  grantStatusList, getLastVested, formatDollar } = conf;
+const { grantStatusList, getLastVested, formatDollar } = conf;
 
 export default function ({ grant }) {
   // console.log(grant.grant.vestingSchedule.vestingDetail,'grant')
