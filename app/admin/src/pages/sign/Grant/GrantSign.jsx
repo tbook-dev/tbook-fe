@@ -38,7 +38,7 @@ function GrantSign() {
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
   const signStatus = useMemo(() => {
-    // return "allDone";
+    return "allDone";
     if (signList.length === 0) {
       return null;
     }
