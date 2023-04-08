@@ -133,7 +133,7 @@ function PlanList() {
     }
     return res;
   }, [grantList, filters]);
-  console.log("filters.plan", filters.Plan);
+  // console.log("filters.plan", filters.Plan);
   return (
     <div className="w-full text-[#202124] mb-4 px-4 lg:px-0 lg:w-[936px] mx-auto">
       <div

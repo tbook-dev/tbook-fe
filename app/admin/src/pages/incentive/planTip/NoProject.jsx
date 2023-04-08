@@ -24,7 +24,7 @@ export default function ({ pc, link, desc = "Click to set up your incentive plan
   ) : (
     <div className="h-[180px] bg-cw1 rounded-xl flex justify-center items-center">
       <Link to={link}>
-        <Button className="w-[80vw] bg-none bg-black dark:text-white">
+        <Button className="w-[80vw] bg-none bg-black text-white dark:text-white">
           <PlusOutlined />
           <span className="ml-3">New Plan</span>
         </Button>

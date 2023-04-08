@@ -13,13 +13,13 @@ import close3 from "@tbook/share/images/icon/close3.svg";
 import arrowRight from "@tbook/share/images/icon/arrow-right.svg";
 import { useCurrentProject } from "@tbook/hooks";
 import { conf } from "@tbook/utils";
-import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 import { useTheme } from "@tbook/hooks";
-import Setting from "@/components/setting";
 import { user } from "@tbook/store";
 import { useSwitchNetwork } from "wagmi";
 import { logout } from "@/utils/web3";
 import { Icon } from "@tbook/ui";
+import Setting from "@/components/setting";
+import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 
 const { chains, themeList } = conf;
 const { SwitchV0 } = Connect;
@@ -36,7 +36,6 @@ function Header() {
   const id = projectChain?.evmChainId || 1;
   const theme = useTheme();
   const themeSetting = useSelector((state) => state.user.theme);
-  console.log({ themeSetting });
   const { switchNetwork } = useSwitchNetwork();
 
   const dispatch = useDispatch();
@@ -91,7 +90,7 @@ function Header() {
           ))}
         </div>
 
-        <div className="border-t border-b-1">
+        <div>
           <div className="flex items-center justify-between px-8 text-c12 h-14">
             <span className="text-[#666] mr-2">Theme</span>
             <span className="flex items-center dark:text-white" onClick={() => setSetStatus("theme")}>

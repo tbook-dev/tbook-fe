@@ -1,54 +1,35 @@
-import React, { useState, useReducer, useEffect, useMemo, useCallback } from "react";
-import { NavLink, Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getIncentiveList, getTipGrantList, getTotalGrantInfo } from "@/api/incentive";
-import { PlusOutlined, AppstoreOutlined, BarsOutlined } from "@ant-design/icons";
+import React, { useState, useReducer, useMemo, useCallback } from "react";
+import { getTotalGrantInfo } from "@/api/incentive";
 import GrantTable from "./GrantTable";
-import { Button, Drawer, Space } from "antd";
 import { Empty } from "@tbook/ui";
 import { useAsyncEffect, useResponsive } from "ahooks";
-import { useCurrentProjectId, useUserInfoLoading, useProjects } from "@tbook/hooks";
+import { useCurrentProjectId, useUserInfoLoading } from "@tbook/hooks";
 import _ from "lodash";
 
 import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
-import PlanCard from "./planCard/Active";
 import GrantCard from "./grantCard";
 import GrantCardV2 from "./grantCard/v2";
 import FilterPanel from "./filter";
 import { Spin } from "antd";
 import { filterReducer, initialFilters } from "@/store/parts";
-import dayjs from "dayjs";
-import { useSigner, useAccount } from "wagmi";
 import NoConnect from "./planTip/NoConnect";
-import PlanTipNoProject from "./planTip/NoProject";
 import { conf } from "@tbook/utils";
 
 const { formatDollar } = conf;
 
 function PlanList() {
-  const [swiper, setSwiper] = useState(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [tipList, updateTipList] = useState([]);
   const [grantList, updateGrantList] = useState([]);
   const [grantInfoLoading, setGrantInfoLoading] = useState(false);
   const [grantTotal, updateGrantTotal] = useState({});
   const userLoading = useUserInfoLoading();
   const projectId = useCurrentProjectId();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const authUser = useSelector((state) => state.user.authUser);
   const [drawerOpen, setDrawer] = useState(false);
   const { pc } = useResponsive();
   const [filters, dispatchFilter] = useReducer(filterReducer, initialFilters);
-  const [searchParams] = useSearchParams();
-  const projects = useProjects();
   // type, 0是卡片，1是表格
   const [displayType, setDisplayType] = useState(0);
-
-  const { data: signer } = useSigner();
-  const { address } = useAccount();
-
-  const selectedTipId = searchParams.get("tipId");
 
   // console.log("authUser", authUser);
   useAsyncEffect(async () => {
@@ -124,7 +105,7 @@ function PlanList() {
         ) : !authUser ? (
           <NoConnect pc={pc} list={infoList} projectName={grantTotal?.project?.projectName} />
         ) : (
-          <div className="flex flex-col justify-between h-full px-4 pt-6 pb-3 text-black rounded-xl lg:rounded-2xl lg:p-10 dark:bg-cw1 lg:shadow-d6">
+          <div className="flex flex-col justify-between h-full px-4 pt-6 pb-3 text-black rounded-xl lg:rounded-2xl lg:p-10 bg-cw1 lg:shadow-d6">
             <div className="flex">
               <h2 className="font-bold text-cwh5 lg:ch2">{grantTotal?.project?.projectName}</h2>
             </div>
@@ -145,61 +126,26 @@ function PlanList() {
 
       {pc ? (
         <div className="hidden lg:block">
-          {/* {userLoading || grantInfoLoading ? null : (
-            <div className="justify-end hidden my-4 lg:flex">
-              <div className="flex items-center overflow-hidden bg-white dark:bg-black !divide-x dark:divide-black rounded-lg shadow-c12">
-                <div className="flex items-center justify-center w-10 h-10 bg-b-1">
-                  <BarsOutlined
-                    onClick={() => authUser && setDisplayType(1)}
-                    style={{
-                      cursor: authUser ? null : "not-allowed",
-                      color: authUser
-                        ? displayType === 1
-                          ? "#0049FF"
-                          : "#BFBFBF"
-                        : "rgba(255,255,255,.2)",
-                    }}
-                  />
+          {displayType === 1 && <GrantTable list={filterGrantList(grantList)} loading={grantInfoLoading} />}
+
+          {displayType === 0 && (
+            <div
+              className={clsx(
+                "grid gap-x-2 gap-y-3",
+                filterGrantList(grantList).length > 0 ? "grid-cols-4" : "grid-cols-1"
+              )}
+            >
+              {userLoading || grantInfoLoading ? (
+                <Spin />
+              ) : filterGrantList(grantList).length > 0 ? (
+                filterGrantList(grantList).map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
+              ) : (
+                <div className="h-[272px] rounded-xl bg-white dark:bg-b-1 flex items-center justify-center">
+                  <Empty />
                 </div>
-                <div className="flex items-center justify-center w-10 h-10 bg-b-1">
-                  <AppstoreOutlined
-                    onClick={() => authUser && setDisplayType(0)}
-                    style={{
-                      cursor: authUser ? null : "not-allowed",
-                      color: authUser
-                        ? displayType === 0
-                          ? "#0049FF"
-                          : "#BFBFBF"
-                        : "rgba(255,255,255,.2)",
-                    }}
-                  />
-                </div>
-              </div>
+              )}
             </div>
-          )} */}
-
-          <div className="hidden lg:block">
-            {displayType === 1 && <GrantTable list={filterGrantList(grantList)} loading={grantInfoLoading} />}
-
-            {displayType === 0 && (
-              <div
-                className={clsx(
-                  "grid gap-x-2 gap-y-3",
-                  filterGrantList(grantList).length > 0 ? "grid-cols-4" : "grid-cols-1"
-                )}
-              >
-                {userLoading || grantInfoLoading ? (
-                  <Spin />
-                ) : filterGrantList(grantList).length > 0 ? (
-                  filterGrantList(grantList).map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
-                ) : (
-                  <div className="h-[272px] rounded-xl bg-white dark:bg-b-1 flex items-center justify-center">
-                    <Empty />
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+          )}
         </div>
       ) : (
         <div className="block lg:hidden">
