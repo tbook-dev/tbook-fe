@@ -11,7 +11,6 @@ import clsx from "clsx";
 import VestedCard from "../vested";
 import Banner from "../../component/banner";
 import signIcon from "@tbook/share/images/incentive/sign.svg";
-import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 import { Spin } from "antd";
 import Action from "../action";
 import NoProject from "./NoProject";
@@ -36,7 +35,7 @@ function GrantSign() {
   // console.log("scheduleInfo", scheduleInfo);
   // 签名状态
   const signStatus = useMemo(() => {
-    // return 'done';
+    // return "allDone";
     if (signList.length === 0) {
       return null;
     }
@@ -44,7 +43,8 @@ function GrantSign() {
     if (sg?.grantSign.signStatus === 1) {
       return "notyet";
     } else {
-      return signList.filter((sg) => sg.grantSign.signStatus === 2).length === 2 ? "allDone" : "done";
+      return "allDone";
+      // return signList.filter((sg) => sg.grantSign.signStatus === 2).length === 2 ? "allDone" : "done";
     }
   }, [signList]);
 
@@ -241,24 +241,7 @@ function GrantSign() {
         <Card title="Grant" list={grantConf} />
 
         <Card title="Vesting" list={vestingConf}>
-          <ConfigProviderV2
-            conf={{
-              components: {
-                Table: {
-                  colorBgContainer: "#000",
-                  controlItemBgActive: "#000000",
-                  colorPrimary: "#000",
-                  colorBorderSecondary: "#000",
-                },
-              },
-            }}
-          >
-            <VestingSchedule
-              pagination={false}
-              scroll={{ y: 275 }}
-              dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []}
-            />
-          </ConfigProviderV2>
+          <VestingSchedule dataList={scheduleInfo?.vestingSchedule?.vestingDetail || []} />
         </Card>
       </div>
 
