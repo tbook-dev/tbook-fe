@@ -11,7 +11,6 @@ import clsx from "clsx";
 import VestedCard from "../vested";
 import Banner from "../../component/banner";
 import signIcon from "@tbook/share/images/incentive/sign.svg";
-import ConfigProviderV2 from "@/theme/ConfigProviderV2";
 import { Spin } from "antd";
 import Action from "../action";
 import NoProject from "./NoProject";
