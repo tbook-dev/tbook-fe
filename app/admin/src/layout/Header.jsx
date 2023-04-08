@@ -36,7 +36,6 @@ function Header() {
   const id = projectChain?.evmChainId || 1;
   const theme = useTheme();
   const themeSetting = useSelector((state) => state.user.theme);
-  console.log({ themeSetting });
   const { switchNetwork } = useSwitchNetwork();
 
   const dispatch = useDispatch();
