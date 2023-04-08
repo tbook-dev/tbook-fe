@@ -93,8 +93,8 @@ function PlanList() {
     ];
   }, [grantTotal]);
 
-  console.log("filters.plan", filters.Plan);
-  console.log({ authUser });
+  // console.log("filters.plan", filters.Plan);
+  // console.log({ authUser });
   return (
     <div className="w-full mb-5 px-4 pt-3 lg:pt-16 lg:px-0 lg:w-[936px] mx-auto">
       <div className="w-full mb-10 h-[240px] lg:h-64">

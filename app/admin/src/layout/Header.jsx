@@ -119,7 +119,7 @@ function Header() {
             key={chain.evmChainId}
             className={clsx(
               "h-14 flex items-center text-c13 font-medium",
-              chain.evmChainId === id ? "dark:text-white" : "dark:text-c-6"
+              chain.evmChainId === id ? "dark:text-white" : "dark:text-c-6 text-c-6"
             )}
             onClick={() => {
               if (chain.evmChainId !== id) {
@@ -153,7 +153,7 @@ function Header() {
               key={v.value}
               className={clsx(
                 "h-14 flex items-center text-c13",
-                themeSetting === v.value ? "dark:text-white font-bold" : "dark:text-c-6"
+                themeSetting === v.value ? "dark:text-white font-bold" : "dark:text-c-6 text-c-6"
               )}
             >
               {v.label}
