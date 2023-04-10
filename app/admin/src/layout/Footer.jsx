@@ -68,6 +68,8 @@ export default function () {
             value={themeSetting}
             onChange={(v) => {
               dispatch(setTheme(v));
+              setOpenDrawer(false);
+              setStep(0);
             }}
             options={themeList}
           />
