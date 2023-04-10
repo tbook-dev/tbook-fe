@@ -20,6 +20,7 @@ import { logout } from "@/utils/web3";
 import { Icon } from "@tbook/ui";
 import Setting from "@/components/setting";
 import ConfigProviderV2 from "@/theme/ConfigProviderV2";
+import menu from "./menu";
 
 const { chains, themeList } = conf;
 const { SwitchV0 } = Connect;
@@ -40,16 +41,7 @@ function Header() {
 
   const dispatch = useDispatch();
   const [setStatus, setSetStatus] = useState(null);
-  const menu = [
-    {
-      link: "/",
-      text: "INCENTIVE",
-    },
-    {
-      link: "/tokenTable",
-      text: "TOKENTABLE",
-    },
-  ];
+
   async function handleSwitch(id) {
     // 1 Ethereum
     // 56 BNB
