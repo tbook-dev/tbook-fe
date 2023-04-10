@@ -328,9 +328,8 @@ function PlanList() {
               </Link>
             </div>
           )}  */}
-
           {userLoading || grantLoading ? null : (
-            <div className="fixed left-0 right-0 flex justify-center bottom-8">
+            <div className="flex mt-6 mb-2">
               <button
                 type="button"
                 disabled={filters.Plan === null || filters.Plan === undefined}
@@ -342,7 +341,6 @@ function PlanList() {
               </button>
             </div>
           )}
-
           {/* <Drawer
             placement="bottom"
             closable={false}
