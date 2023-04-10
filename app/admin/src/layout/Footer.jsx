@@ -96,7 +96,6 @@ export default function () {
               onClick={() => {
                 if (chain.evmChainId !== id) {
                   handleSwitch(chain.evmChainId);
-                  setStep(0);
                 }
               }}
             >
@@ -135,7 +134,10 @@ export default function () {
         closable={false}
         open={openDrawer}
         maskStyle={{ backdropFilter: "blur(7px)" }}
-        onClose={() => setOpenDrawer(false)}
+        onClose={() => {
+          setOpenDrawer(false);
+          setStep(0);
+        }}
         contentWrapperStyle={{
           height: "50vh",
           borderRadius: "24px 24px 0px 0px",
