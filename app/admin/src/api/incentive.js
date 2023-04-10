@@ -23,6 +23,15 @@ export const getIncentiveList = async function (projectId) {
   }
 };
 
+export const getIncentiveListWithGrants = async function (projectId) {
+  try {
+    const res = await request(`${host}/projects/${projectId}/planWithGrants`);
+    return (Array.isArray(res) ? res : []).slice();
+  } catch (error) {
+    return [];
+  }
+};
+
 export const getTIPInfo = async function (incentivePlanId) {
   return request(`${host}/tip/tipInfo?incentivePlanId=${incentivePlanId}`);
 };

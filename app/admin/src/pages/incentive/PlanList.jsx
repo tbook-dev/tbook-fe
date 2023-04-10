@@ -1,6 +1,6 @@
 import React, { useState, useReducer, useEffect, useCallback } from "react";
 import { NavLink, Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getIncentiveList, getTipGrantList } from "@/api/incentive";
+import { getIncentiveList, getTipGrantList, getIncentiveListWithGrants } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
@@ -74,11 +74,13 @@ function PlanList() {
   useAsyncEffect(async () => {
     if (!projectId) return;
     setGrantLoading(true);
-    const list1 = await getIncentiveList(projectId);
+    const list1 = await getIncentiveListWithGrants(projectId);
     // format
     updateTipList(list1);
     // grants
-    const list2 = await Promise.all(list1.map((tip) => getTipGrantList(tip.incentivePlanId)));
+    //const list2 = await Promise.all(list1.map((tip) => getTipGrantList(tip.incentivePlanId)));
+    const list2 = list1.map((tip) => tip.grants);
+    console.log({list2})
     let activeIdx = list1.findIndex((t) => t.incentivePlanId == selectedTipId);
     if (activeIdx === -1) {
       const list2Formated = _.cloneDeep(list2)
