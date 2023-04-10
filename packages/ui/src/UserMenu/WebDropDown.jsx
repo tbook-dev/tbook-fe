@@ -41,6 +41,8 @@ export default function ({ open, setOpen }) {
             value={theme}
             onChange={(v) => {
               dispatch(setTheme(v));
+              setOpen(false);
+              setStep(0);
             }}
             options={themeList}
           />
