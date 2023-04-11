@@ -1,6 +1,6 @@
 // import { setAuthUser } from "../store/user";
 import { user } from "@tbook/store";
-import { message } from "antd";
+// import { message } from "antd";
 let store;
 
 const { setAuthUser } = user;
@@ -40,14 +40,9 @@ export default function request(url, options = {}) {
   const { method, body } = options;
 
   // get请求没有请求体，需要将参数拼接到url上
-  if (
-    method === "GET" &&
-    Object.prototype.toString.call(body) === "[object Object]"
-  ) {
+  if (method === "GET" && Object.prototype.toString.call(body) === "[object Object]") {
     const paramsArray = [];
-    Object.keys(body).forEach((key) =>
-      paramsArray.push(key + "=" + encodeURIComponent(body[key]))
-    );
+    Object.keys(body).forEach((key) => paramsArray.push(key + "=" + encodeURIComponent(body[key])));
     if (url.search(/\?/) === -1) {
       url += "?" + paramsArray.join("&");
     } else {
@@ -83,18 +78,15 @@ export default function request(url, options = {}) {
           }
           store.dispatch(setAuthUser(true));
 
-          const data =
-            options.headers["Content-type"] === ContentType.download
-              ? res.blob()
-              : res.json();
+          const data = options.headers["Content-type"] === ContentType.download ? res.blob() : res.json();
           resolve(data);
         })
         .catch((err) => {
           console.log("reqeust error", err);
-          const whiteList = [401]
-          if(!whiteList.includes(err.status)){
-            message.error(err?.message || 'An error happens, plase try it later!')
-          }
+          // const whiteList = [401]
+          // if(!whiteList.includes(err.status)){
+          //   message.error(err?.message || 'An error happens, plase try it later!')
+          // }
           reject(err);
         });
     }),
@@ -116,8 +108,8 @@ request.Put = (url, params) => {
 request.PostForm = (url, params) => {
   const formData = new FormData();
   for (const name in params) {
-    if(params.hasOwnProperty(name)){
-      console.log(name, params[name])
+    if (params.hasOwnProperty(name)) {
+      console.log(name, params[name]);
       formData.append(name, params[name]);
     }
   }
@@ -130,8 +122,8 @@ request.PostForm = (url, params) => {
 request.PostFormV1 = (url, params) => {
   const formData = new URLSearchParams();
   for (const name in params) {
-    if(params.hasOwnProperty(name)){
-      console.log(name, params[name])
+    if (params.hasOwnProperty(name)) {
+      console.log(name, params[name]);
       formData.append(name, params[name]);
     }
   }
