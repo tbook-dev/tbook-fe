@@ -9,6 +9,7 @@
 @import 'additional-styles/theme.css'; */
 
 @import 'tailwindcss/utilities';
+@import '@tbook/share/font/rhd.css';
 
 :root {
     font-family: 'Red Hat Display', sans-serif;;
