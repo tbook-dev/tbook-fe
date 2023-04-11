@@ -113,7 +113,7 @@ export default function () {
   };
   return pc ? null : (
     <footer className="h-12 mt-1.5">
-      <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between h-12 px-4 text-c9  shadow-l6 dark:shadow-l5 bg-[#FBFDFF] dark:bg-black rounde-t-md">
+      <div className="fixed z-10 bottom-0 left-0 right-0 flex items-center justify-between h-12 px-4 text-c9  shadow-l6 dark:shadow-l5 bg-[#FBFDFF] dark:bg-black rounde-t-md">
         {menu.map((v) => (
           <NavLink to={v.link} key={v.link}>
             {({ isActive }) => {

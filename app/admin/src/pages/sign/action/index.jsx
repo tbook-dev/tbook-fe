@@ -135,7 +135,7 @@ export default function ({ signStatus, signList, setSignList }) {
   };
   return (
     (signStatus === "notyet" || signStatus === "done") && (
-      <div className="fixed bottom-0 left-0 right-0 before:absolute before:inset-0 before:bg-l-2 before:dark:bg-b-1 before:blur-[1px] before:backdrop-blur-sm">
+      <div className="fixed bottom-[60px] lg:bottom-0 left-0 right-0 before:absolute before:inset-0 before:bg-l-2 before:dark:bg-b-1 before:blur-[1px] before:backdrop-blur-sm">
         <Sign />
       </div>
     )

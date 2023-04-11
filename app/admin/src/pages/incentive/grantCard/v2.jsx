@@ -107,7 +107,7 @@ export default function ({ grant }) {
             return (
               <div key={v.label} className="grid grid-cols-2 text-[14px] leading-[22px]">
                 <div className="truncate">{v.label}</div>
-                <div className="text-right text-black truncate darK:text-white">
+                <div className="text-right text-black truncate dark:text-white">
                   <v.render />
                 </div>
               </div>
