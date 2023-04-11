@@ -1,6 +1,4 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { PlusOutlined } from "@ant-design/icons";
 import { useResponsive } from "ahooks";
 import { conf } from "@tbook/utils";
 import { useFindAudience } from "@tbook/hooks";
@@ -24,16 +22,6 @@ export default function RecordTable({ list }) {
     <div className="p-3 mb-10 rect-border lg:py-6 lg:px-0 bg-[#f6fafe] dark:bg-transparent">
       <div className="flex items-center justify-between mb-3 lg:px-6">
         <h2 className="font-medium text-c12 lg:text-c13">Stakeholders</h2>
-
-        <Link to="/create/plan">
-          <button
-            type="button"
-            className="flex items-center justify-center w-8 h-8 text-xs font-medium leading-normal text-black transition duration-150 ease-in-out bg-black rounded-md lg:text-white bg-cw1 dark:text-black lg:bg-none lg:hover:opacity-70 lg:hover:dark:opacity-100 lg:w-40 lg:h-10 lg:dark:bg-white lg:dark:bg-none lg:rounded-lg lg:dark:text-black shadow-d3 lg:dark:hover:text-white lg:dark:hover:bg-cw1 lg:hover:shadow-d7"
-          >
-            <PlusOutlined style={pc ? null : { fontSize: "16px" }} />
-            <span className="ml-2 text-[14px] hidden lg:inline">New Record</span>
-          </button>
-        </Link>
       </div>
 
       <div className="lg:border-t lg:border-b-1">
