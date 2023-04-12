@@ -334,7 +334,7 @@ function PlanList() {
             </div>
           )}  */}
           {userLoading || grantLoading ? null : (
-            <div className="flex mt-6 mb-2">
+            <div className="flex items-center justify-between mt-6 mb-2">
               <button
                 type="button"
                 disabled={filters.Plan === null || filters.Plan === undefined}
@@ -350,30 +350,10 @@ function PlanList() {
                 <PlusOutlined />
                 <span className="ml-2 text-[14px]">New Grant</span>
               </button>
+
+              <FilterPanel tipList={tipList} filters={filters} open={filterOpen} setOpen={setFilter} />
             </div>
           )}
-          {/* <Drawer
-            placement="bottom"
-            closable={false}
-            open={filterOpen}
-            contentWrapperStyle={{
-              height: "70vh",
-              borderRadius: "24px 24px 0px 0px",
-              overflow: "hidden",
-            }}
-            onClose={() => setFilter(false)}
-          >
-            <FilterPanel
-              tipList={tipList}
-              filters={filters}
-              dispatch={dispatchFilter}
-              swiper={swiper}
-            />
-          </Drawer>
-
-          <nav>
-            <Button onClick={() => setFilter(true)}>open</Button>
-          </nav> */}
 
           <div
             className={clsx(

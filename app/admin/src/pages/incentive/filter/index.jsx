@@ -11,7 +11,7 @@ const getFilterOpitons = (plans) => {
     {
       group: "Status",
       list: grantStatusList.map((v) => ({
-        label: v.label,
+        label: v.text,
         value: v.value,
         disabled: false,
       })),
@@ -58,9 +58,13 @@ const getFilterOpitons = (plans) => {
   ];
 };
 
-export default React.memo(function ({ tipList, open, setOpen }) {
+export default React.memo(function ({ tipList, open, setOpen, filters }) {
   const { pc } = useResponsive();
   const filterOpitons = getFilterOpitons(tipList);
 
-  return pc ? <WebFilter filterOpitons={filterOpitons} /> : <MobleFilter filterOpitons={filterOpitons} />;
+  return pc ? (
+    <WebFilter open={open} setOpen={setOpen} filterOpitons={filterOpitons} />
+  ) : (
+    <MobleFilter open={open} setOpen={setOpen} filterOpitons={filterOpitons} filters={filters} />
+  );
 });
