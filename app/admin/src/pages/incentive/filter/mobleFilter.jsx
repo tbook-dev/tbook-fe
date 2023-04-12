@@ -1,38 +1,50 @@
 import { Drawer } from "antd";
 import clsx from "clsx";
 import filterIcon from "@tbook/share/images/icon/filter.svg";
+import closeIcon from "@tbook/share/images/icon/close3.svg";
 
 export default function ({ open, filters, setOpen, filterOpitons }) {
   console.log({ filters, filterOpitons });
   const Content = () => {
     return (
-      <div>
-        {filterOpitons.map((conf) => {
-          return (
-            <div key={conf.group}>
-              <h3 className="text-[#606368] text-[16px] mb-3">{conf.group}</h3>
-              <div className="grid grid-cols-3 gap-x-2.5 gap-y-2 mb-6">
-                {conf.list.map((v, idx, arr) => {
-                  return (
-                    <div
-                      key={v.value}
-                      className={clsx(
-                        "w-[108px] text-xs h-[28px] leading-[28px] text-center truncate px-2 rounded-2xl",
-                        filters[conf.group] === v.value
-                          ? "bg-[#0049FF] text-white"
-                          : v.disabled
-                          ? "bg-[#F0F0F0] text-[#B8B8B8]"
-                          : "bg-[#F0F0F0] text-[#606368]"
-                      )}
-                    >
-                      {v.label}
-                    </div>
-                  );
-                })}
+      <div className="relative px-4 -mx-6">
+        <div className="sticky top-0 flex justify-end">
+          <img src={closeIcon} className="object-contain w-4 h-4" onClick={() => setOpen(false)} />
+        </div>
+
+        <div className="mb-6 space-y-6">
+          {filterOpitons.map((conf) => {
+            return (
+              <div key={conf.group}>
+                <h3 className="mb-3 font-bold text-c-3 text-c17">{conf.group}</h3>
+                <div className="grid grid-cols-2 gap-x-5 gap-y-2">
+                  {conf.list.map((v) => {
+                    return (
+                      <div
+                        key={v.value}
+                        className={clsx(
+                          "w-full text-c4 h-7 flex justify-center items-center truncate rounded-md",
+                          filters[conf.group] === v.value
+                            ? "bg-cw1 text-black font-bold"
+                            : v.disabled
+                            ? "bg-[#f0f0f0] text-[#B8B8B8]"
+                            : "bg-[#F0F0F0] text-c-6"
+                        )}
+                      >
+                        {v.label}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+
+        <div className="grid grid-cols-2 px-8 text-base font-medium text-black gap-x-5">
+          <div className="flex items-center justify-center w-full rounded-md h-9 shadow-l1">Clear All</div>
+          <div className="flex items-center justify-center w-full rounded-md h-9 bg-cw1">Apply</div>
+        </div>
       </div>
     );
   };
@@ -42,9 +54,11 @@ export default function ({ open, filters, setOpen, filterOpitons }) {
       <Drawer
         placement="bottom"
         open={open}
+        closable={false}
+        maskStyle={{ backdropFilter: "blur(7px)" }}
         contentWrapperStyle={{
-          height: "70vh",
-          borderRadius: "24px 24px 0px 0px",
+          height: "80vh",
+          borderRadius: "18px 18px 0px 0px",
           overflow: "hidden",
         }}
         onClose={() => setOpen(false)}
