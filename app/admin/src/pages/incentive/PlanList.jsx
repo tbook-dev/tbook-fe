@@ -121,6 +121,17 @@ function PlanList() {
     // console.log("activeIdx--in", activeIdx);
   }, [projectId]);
 
+  useEffect(() => {
+    if (swiper && filters.Plan !== null && !pc && tipList.length > 0) {
+      const idx = tipList.findIndex((v) => v.incentivePlanId === filters.Plan);
+      try {
+        idx !== -1 && swiper?.slideTo(idx);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [filters.Plan, swiper, tipList.length]);
+
   const filterGrantList = useCallback(() => {
     const { Status, Plan } = filters;
     let res = grantList;
