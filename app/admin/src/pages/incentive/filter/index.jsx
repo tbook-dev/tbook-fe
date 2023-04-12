@@ -2,6 +2,9 @@ import React from "react";
 import clsx from "clsx";
 import { conf } from "@tbook/utils";
 const { grantStatusList, grantType } = conf;
+import MobleFilter from "./mobleFilter";
+import WebFilter from "./webFilter";
+import { useResponsive } from "ahooks";
 
 const getFilterOpitons = (plans) => {
   return [
@@ -55,50 +58,9 @@ const getFilterOpitons = (plans) => {
   ];
 };
 
-export default React.memo(function ({ tipList, filters, dispatch, swiper }) {
-  return (
-    <div>
-      {getFilterOpitons(tipList).map((conf) => {
-        return (
-          <div key={conf.group}>
-            <h3 className="text-[#606368] text-[16px] mb-3">{conf.group}</h3>
-            <div className="grid grid-cols-3 gap-x-2.5 gap-y-2 mb-6">
-              {conf.list.map((v, idx, arr) => {
-                return (
-                  <div
-                    key={v.value}
-                    className={clsx(
-                      "w-[108px] text-xs h-[28px] leading-[28px] text-center truncate px-2 rounded-2xl",
-                      filters[conf.group] === v.value
-                        ? "bg-[#0049FF] text-white"
-                        : v.disabled
-                        ? "bg-[#F0F0F0] text-[#B8B8B8]"
-                        : "bg-[#F0F0F0] text-[#606368]"
-                    )}
-                    onClick={() => {
-                      if (v.disabled) return;
+export default React.memo(function ({ tipList, open, setOpen }) {
+  const { pc } = useResponsive();
+  const filterOpitons = getFilterOpitons(tipList);
 
-                      dispatch({ type: conf.group, payload: v.value });
-
-                      if (conf.group === "Plan") {
-                        // swiper
-                        if (idx === 0) {
-                          // all
-                          swiper.slideTo(arr.length - 1);
-                        } else {
-                          swiper.slideTo(idx - 1);
-                        }
-                      }
-                    }}
-                  >
-                    {v.label}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
+  return pc ? <WebFilter filterOpitons={filterOpitons} /> : <MobleFilter filterOpitons={filterOpitons} />;
 });

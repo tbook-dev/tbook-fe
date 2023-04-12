@@ -40,7 +40,7 @@ function PlanList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.user.authUser);
-  const [drawerOpen, setDrawer] = useState(false);
+  const [filterOpen, setFilter] = useState(false);
   const { pc } = useResponsive();
   const [filters, dispatchFilter] = useReducer(filterReducer, initialFilters);
   const [searchParams] = useSearchParams();
@@ -192,7 +192,7 @@ function PlanList() {
                   prevEl: ".swiper-button-prev",
                 }}
                 onSlideChange={(w) => {
-                  if (!pc && !drawerOpen) {
+                  if (!pc && !filterOpen) {
                     let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
                     // console.log({ incentivePlanId }, "xxx");
                     dispatchFilter({
@@ -355,13 +355,13 @@ function PlanList() {
           {/* <Drawer
             placement="bottom"
             closable={false}
-            open={drawerOpen}
+            open={filterOpen}
             contentWrapperStyle={{
               height: "70vh",
               borderRadius: "24px 24px 0px 0px",
               overflow: "hidden",
             }}
-            onClose={() => setDrawer(false)}
+            onClose={() => setFilter(false)}
           >
             <FilterPanel
               tipList={tipList}
@@ -372,7 +372,7 @@ function PlanList() {
           </Drawer>
 
           <nav>
-            <Button onClick={() => setDrawer(true)}>open</Button>
+            <Button onClick={() => setFilter(true)}>open</Button>
           </nav> */}
 
           <div
