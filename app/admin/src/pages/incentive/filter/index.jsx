@@ -1,13 +1,17 @@
 import React from "react";
 import clsx from "clsx";
 import { conf } from "@tbook/utils";
-const { grantStatusList, grantType } = conf;
+const { grantStatusList, grantType, sortList } = conf;
 import MobleFilter from "./mobleFilter";
 import WebFilter from "./webFilter";
 import { useResponsive } from "ahooks";
 
 const getFilterOpitons = (plans) => {
   return [
+    {
+      group: "Sort By",
+      list: sortList,
+    },
     {
       group: "Status",
       list: grantStatusList.map((v) => ({

@@ -355,3 +355,26 @@ export const themeList = [
   { label: "Dark", value: "dark" },
   { label: "Light", value: "light" },
 ];
+
+export const sortList = [
+  {
+    label: "Recently Granted",
+    value: 1,
+    disabled: false,
+  },
+  {
+    label: "Token Amount",
+    value: 2,
+    disabled: false,
+  },
+  {
+    label: "Vested Token Amount",
+    value: 3,
+    disabled: false,
+  },
+  {
+    label: "Recently Vested",
+    value: 4,
+    disabled: false,
+  },
+];

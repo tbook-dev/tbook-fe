@@ -28,4 +28,5 @@ export const initialFilters = {
   Plan: null,
   "Vesting Type": null,
   "Grant Type": null,
+  "Sort By": null,
 };
