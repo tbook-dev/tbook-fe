@@ -58,13 +58,13 @@ const getFilterOpitons = (plans) => {
   ];
 };
 
-export default React.memo(function ({ tipList, open, setOpen, filters }) {
+export default React.memo(function ({ tipList, open, setOpen, filters, dispatch }) {
   const { pc } = useResponsive();
   const filterOpitons = getFilterOpitons(tipList);
 
   return pc ? (
     <WebFilter open={open} setOpen={setOpen} filterOpitons={filterOpitons} />
   ) : (
-    <MobleFilter open={open} setOpen={setOpen} filterOpitons={filterOpitons} filters={filters} />
+    <MobleFilter open={open} setOpen={setOpen} filterOpitons={filterOpitons} filters={filters} dispatch={dispatch} />
   );
 });

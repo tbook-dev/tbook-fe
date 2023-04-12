@@ -2,9 +2,38 @@ import { Drawer } from "antd";
 import clsx from "clsx";
 import filterIcon from "@tbook/share/images/icon/filter.svg";
 import closeIcon from "@tbook/share/images/icon/close3.svg";
+import { useCallback, useReducer } from "react";
+import { filterReducer, initialFilters } from "@/store/parts";
 
-export default function ({ open, filters, setOpen, filterOpitons }) {
-  console.log({ filters, filterOpitons });
+export default function ({ open, filters: withPlanFilters, setOpen, filterOpitons, dispatch }) {
+  const [filters, dispatchFilter] = useReducer(filterReducer, { ...initialFilters, ...withPlanFilters });
+
+  const handleClearAll = useCallback(() => {
+    const filters = { ...initialFilters, ...withPlanFilters };
+    for (let group in filters) {
+      dispatchFilter({
+        type: group,
+        payload: {
+          value: filters[group],
+          isNegate: false,
+        },
+      });
+    }
+  }, [dispatchFilter, withPlanFilters]);
+
+  const handleApply = useCallback(() => {
+    for (let group in filters) {
+      dispatch({
+        type: group,
+        payload: {
+          value: filters[group],
+          isNegate: false,
+        },
+      });
+    }
+    setOpen(false);
+  }, [filters, dispatch]);
+
   const Content = () => {
     return (
       <div className="relative px-4 -mx-6">
@@ -22,6 +51,15 @@ export default function ({ open, filters, setOpen, filterOpitons }) {
                     return (
                       <div
                         key={v.value}
+                        onClick={() => {
+                          dispatchFilter({
+                            type: conf.group,
+                            payload: {
+                              value: v.value,
+                              isNegate: true,
+                            },
+                          });
+                        }}
                         className={clsx(
                           "w-full text-c4 h-7 flex justify-center items-center truncate rounded-md",
                           filters[conf.group] === v.value
@@ -42,8 +80,12 @@ export default function ({ open, filters, setOpen, filterOpitons }) {
         </div>
 
         <div className="grid grid-cols-2 px-8 text-base font-medium text-black gap-x-5">
-          <div className="flex items-center justify-center w-full rounded-md h-9 shadow-l1">Clear All</div>
-          <div className="flex items-center justify-center w-full rounded-md h-9 bg-cw1">Apply</div>
+          <div className="flex items-center justify-center w-full rounded-md h-9 shadow-l1" onClick={handleClearAll}>
+            Clear All
+          </div>
+          <div className="flex items-center justify-center w-full rounded-md h-9 bg-cw1" onClick={handleApply}>
+            Apply
+          </div>
         </div>
       </div>
     );

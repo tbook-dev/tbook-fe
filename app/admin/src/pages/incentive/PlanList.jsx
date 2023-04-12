@@ -351,7 +351,13 @@ function PlanList() {
                 <span className="ml-2 text-[14px]">New Grant</span>
               </button>
 
-              <FilterPanel tipList={tipList} filters={filters} open={filterOpen} setOpen={setFilter} />
+              <FilterPanel
+                tipList={tipList}
+                filters={filters}
+                open={filterOpen}
+                setOpen={setFilter}
+                dispatch={dispatchFilter}
+              />
             </div>
           )}
 
