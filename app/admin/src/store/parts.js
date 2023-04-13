@@ -23,10 +23,25 @@ export function filterReducer(filters, action) {
   };
 }
 
+// 筛选框变成多选的
 export const initialFilters = {
-  Status: null,
-  Plan: null,
-  "Vesting Type": null,
-  "Grant Type": null,
-  "Sort By": null,
+  status: [
+    {
+      label: "Token lockup",
+      value: "Token lockup",
+      disabled: true,
+      key: "grantType",
+    },
+  ],
+  plan: [
+    {
+      value: 22718960009,
+      label: "name",
+      key: "plan",
+      disable: false,
+    },
+  ],
+  vestingType: [],
+  grantType: [],
+  sortBy: 1,
 };

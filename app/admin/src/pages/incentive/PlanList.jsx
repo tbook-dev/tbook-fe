@@ -1,16 +1,16 @@
-import React, { useState, useReducer, useEffect, useCallback } from "react";
+import React, { useState, useReducer, useEffect, useCallback, useMemo } from "react";
 import { NavLink, Link, useNavigate, useSearchParams } from "react-router-dom";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
-import { PlusOutlined, AppstoreOutlined, BarsOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
 import { Empty } from "@tbook/ui";
 import { useAsyncEffect, useResponsive } from "ahooks";
 import { useCurrentProjectId, useUserInfoLoading, useTheme, useProjects } from "@tbook/hooks";
-import _ from "lodash";
+import _, { keyBy } from "lodash";
 import { signLoginMetaMask } from "@/utils/web3";
 import { useDispatch, useSelector } from "react-redux";
 import { user } from "@tbook/store";
@@ -30,6 +30,7 @@ import filterList from "@tbook/share/images/icon/list-default.png";
 import filterList2 from "@tbook/share/images/icon/list-active.png";
 import filterCard from "@tbook/share/images/icon/card-default.png";
 import filterCard2 from "@tbook/share/images/icon/card-active.png";
+import closeIcon from "@tbook/share/images/icon/close4.svg";
 import Select from "@/components/select/themeSelect";
 import { conf } from "@tbook/utils";
 
@@ -129,7 +130,7 @@ function PlanList() {
   }, [projectId]);
 
   useEffect(() => {
-    if (swiper && filters.Plan !== null && !pc && tipList.length > 0) {
+    if (swiper && filters.plan !== null && !pc && tipList.length > 0) {
       const idx = tipList.findIndex((v) => v.incentivePlanId === filters.Plan);
       try {
         idx !== -1 && swiper?.slideTo(idx);
@@ -137,7 +138,7 @@ function PlanList() {
         console.log(error);
       }
     }
-  }, [filters.Plan, swiper, tipList.length]);
+  }, [filters.plan, swiper, tipList.length]);
 
   const filterGrantList = useCallback(() => {
     const { Status, Plan } = filters;
@@ -151,6 +152,12 @@ function PlanList() {
     }
     return res;
   }, [grantList, filters]);
+
+  const flatFilters = useMemo(() => {
+    const flatKeys = ["status", "plan", "vestingType", "grantType"];
+    return _.flattenDeep([flatKeys.map((key) => filters[key])]);
+  }, filters);
+  console.log({ flatFilters });
   // console.log("filters.plan", filters.Plan);
   return (
     <div className="w-full text-[#202124] mb-4 px-4 lg:px-0 lg:w-[936px] mx-auto">
@@ -323,6 +330,24 @@ function PlanList() {
               </div>
             )}
             <div className={clsx(filterOpen ? "col-span-3" : "col-span-full")}>
+              {flatFilters.length > 0 && (
+                <div className="flex mb-3 space-x-4 col-span-full">
+                  {flatFilters.map((v) => (
+                    <div
+                      key={v.key + v.value}
+                      className="flex items-center rounded text-c5 py-1.5 px-4 dark:bg-[#191919] dark:text-white"
+                    >
+                      {v.label}
+                      <img className="w-2.5 h-2.5 object-contain ml-2.5 cursor-pointer" src={closeIcon} />
+                    </div>
+                  ))}
+
+                  <div className="flex items-center justify-center rounded text-c5 py-1.5 w-[120px]  cursor-pointer shadow-d3 dark:text-white">
+                    Clear All
+                  </div>
+                </div>
+              )}
+
               {displayType === 1 && <GrantTable list={filterGrantList(grantList)} loading={grantLoading} />}
 
               {displayType === 0 && (

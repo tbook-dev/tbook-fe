@@ -9,14 +9,17 @@ const getFilterOpitons = (plans, pc) => {
   const options = [
     {
       group: "Status",
+      key: "status",
       list: grantStatusList.map((v) => ({
         label: v.text,
         value: v.value,
         disabled: false,
+        key: "status",
       })),
     },
     {
       group: "Plan",
+      key: "plan",
       list: [
         {
           label: "all",
@@ -28,29 +31,35 @@ const getFilterOpitons = (plans, pc) => {
           label: v.incentivePlanName,
           value: v.incentivePlanId,
           disabled: false,
+          key: "plan",
         }))
       ),
     },
     {
       group: "Vesting Type",
+      key: "vestingType",
       list: grantType.map((v) => ({
         label: v.label,
         value: v.value,
         disabled: v.disabled,
+        key: "vestingType",
       })),
     },
     {
       group: "Grant Type",
+      key: "grantType",
       list: [
         {
           label: "Token option",
           value: "Token option",
           disabled: false,
+          key: "grantType",
         },
         {
           label: "Token lockup",
           value: "Token lockup",
           disabled: true,
+          key: "grantType",
         },
       ],
     },
@@ -61,6 +70,7 @@ const getFilterOpitons = (plans, pc) => {
     : [
         {
           group: "Sort By",
+          key: "sortBy",
           list: sortList,
         },
         ...options,
