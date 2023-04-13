@@ -1,23 +1,12 @@
 // dark 模式下表单情况，紧紧包裹表单
-import { ConfigProvider, theme, Pagination } from "antd";
-import components from "@/theme/conf";
-import { useTheme } from "@tbook/hooks";
+import { Pagination } from "antd";
+import ThemeProvider from "@/theme/ThemeProvider";
+
 // 可能revise
 export default function ({ ...props }) {
-  const userTheme = useTheme();
-
   return (
-    <ConfigProvider
-      theme={{
-        algorithm: userTheme === "dark" ? theme.darkAlgorithm : theme.defaultAlgorithm,
-        // theme.defaultAlgorithm,
-        components,
-        token: {
-          colorPrimary: userTheme === "dark" ? "#fff" : "#69D0E5",
-        },
-      }}
-    >
+    <ThemeProvider>
       <Pagination {...props} />
-    </ConfigProvider>
+    </ThemeProvider>
   );
 }

@@ -355,3 +355,8 @@ export const themeList = [
   { label: "Dark", value: "dark" },
   { label: "Light", value: "light" },
 ];
+
+export const getLoad = (list) => {
+  console.log(list);
+  return !list.filter((v) => !v).length === list.length;
+};
