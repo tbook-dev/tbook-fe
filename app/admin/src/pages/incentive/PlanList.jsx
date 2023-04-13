@@ -26,6 +26,9 @@ import { useSigner, useAccount } from "wagmi";
 import PlanTipNoConnect from "./planTip/NoConnect";
 import PlanTipNoProject from "./planTip/NoProject";
 import filterIcon from "@tbook/share/images/icon/filter.svg";
+import filterList from "@tbook/share/images/icon/filter-list.svg";
+import filterCard2 from "@tbook/share/images/icon/filter-card2.svg";
+import filterCard from "@tbook/share/images/icon/filter-card.svg";
 import Select from "@/components/select/themeSelect";
 import { conf } from "@tbook/utils";
 
@@ -284,32 +287,40 @@ function PlanList() {
                 }}
               />
 
-              <div className="flex items-center  bg-white dark:bg-black !divide-x dark:divide-black rounded-lg shadow-c12">
+              <div className="flex items-center bg-white rounded-lg dark:bg-black shadow-c12">
                 <Select options={sortList} style={{ width: 214 }} />
-                <div className="flex items-center justify-center ml-3 bg-b-1">
-                  <BarsOutlined
-                    onClick={() => authUser && setDisplayType(1)}
-                    style={{
-                      cursor: authUser ? null : "not-allowed",
-                      color: authUser ? (displayType === 1 ? "#0049FF" : "#BFBFBF") : "rgba(255,255,255,.2)",
-                    }}
-                  />
-                </div>
-                <div className="flex items-center justify-center w-10 h-10 bg-b-1">
-                  <AppstoreOutlined
-                    onClick={() => authUser && setDisplayType(0)}
-                    style={{
-                      cursor: authUser ? null : "not-allowed",
-                      color: authUser ? (displayType === 0 ? "#0049FF" : "#BFBFBF") : "rgba(255,255,255,.2)",
-                    }}
-                  />
-                </div>
+                <img
+                  src={filterList}
+                  className={clsx(
+                    !authUser && "cursor-not-allowed",
+                    "w-10 h-10 object-cover ml-3 cursor-pointer hover:opacity-70"
+                  )}
+                  onClick={() => authUser && setDisplayType(1)}
+                />
+                <img
+                  src={filterCard}
+                  className={clsx(
+                    !authUser && "cursor-not-allowed",
+                    "w-10 h-10 object-cover cursor-pointer hover:opacity-70"
+                  )}
+                  onClick={() => authUser && setDisplayType(0)}
+                />
               </div>
             </div>
           )}
 
           <div className={clsx("grid gap-x-2 grid-cols-4")}>
-            {filterOpen && <div className="col-span-1">xxx</div>}
+            {filterOpen && (
+              <div className="col-span-1">
+                <FilterPanel
+                  tipList={tipList}
+                  filters={filters}
+                  open={filterOpen}
+                  setOpen={setFilter}
+                  dispatch={dispatchFilter}
+                />
+              </div>
+            )}
             <div className={clsx(filterOpen ? "col-span-3" : "col-span-full")}>
               {displayType === 1 && <GrantTable list={filterGrantList(grantList)} loading={grantLoading} />}
 

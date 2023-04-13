@@ -1,17 +1,12 @@
 import React from "react";
-import clsx from "clsx";
 import { conf } from "@tbook/utils";
 const { grantStatusList, grantType, sortList } = conf;
 import MobleFilter from "./mobleFilter";
 import WebFilter from "./webFilter";
 import { useResponsive } from "ahooks";
 
-const getFilterOpitons = (plans) => {
-  return [
-    {
-      group: "Sort By",
-      list: sortList,
-    },
+const getFilterOpitons = (plans, pc) => {
+  const options = [
     {
       group: "Status",
       list: grantStatusList.map((v) => ({
@@ -60,14 +55,24 @@ const getFilterOpitons = (plans) => {
       ],
     },
   ];
+
+  return pc
+    ? options
+    : [
+        {
+          group: "Sort By",
+          list: sortList,
+        },
+        ...options,
+      ];
 };
 
 export default React.memo(function ({ tipList, open, setOpen, filters, dispatch }) {
   const { pc } = useResponsive();
-  const filterOpitons = getFilterOpitons(tipList);
+  const filterOpitons = getFilterOpitons(tipList, pc);
 
   return pc ? (
-    <WebFilter open={open} setOpen={setOpen} filterOpitons={filterOpitons} />
+    <WebFilter open={open} setOpen={setOpen} filterOpitons={filterOpitons} filters={filters} dispatch={dispatch} />
   ) : (
     <MobleFilter open={open} setOpen={setOpen} filterOpitons={filterOpitons} filters={filters} dispatch={dispatch} />
   );
