@@ -74,7 +74,7 @@ function Record() {
         </div>
 
         <div className="mb-6  lg:w-[600px] mx-4 lg:mx-auto lg:mb-0">
-          <div className="overflow-hidden dark:bg-cw1 dark:lg:shadow-d3 rounded-xl ">
+          <div className="overflow-hidden bg-cw1 dark:lg:shadow-d3 rounded-xl ">
             <div className="relative px-3 py-4 lg:pb-0 lg:pt-6 lg:px-4">
               <Form
                 {...(pc ? formItemCol : null)}

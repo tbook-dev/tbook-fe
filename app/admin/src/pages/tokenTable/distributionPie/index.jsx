@@ -54,7 +54,7 @@ export default function Pie({ dilutedToken, loading }) {
           <p className="text-xs">Add historical token grants and investments, and complete your tokentable. </p>
         </div>
 
-        <Link to="/create/plan" className="justify-self-end">
+        <Link to="/record" className="justify-self-end">
           <button
             type="button"
             className="flex items-center justify-center w-8 h-8 text-xs font-medium leading-normal text-black transition duration-150 ease-in-out bg-black rounded-md justify-self-end lg:text-white bg-cw1 dark:text-black lg:bg-none lg:hover:opacity-70 lg:hover:dark:opacity-100 lg:w-40 lg:h-10 lg:dark:bg-white lg:dark:bg-none lg:rounded-lg lg:dark:text-black shadow-d3 lg:dark:hover:text-white lg:dark:hover:bg-cw1 lg:hover:shadow-d7"
@@ -68,8 +68,8 @@ export default function Pie({ dilutedToken, loading }) {
       <ThemeProvider>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-2.5 lg:gap-y-0 lg:gap-x-12">
           {loading ? (
-            <div className="self-center justify-self-center">
-              <Skeleton.Image active />
+            <div className="flex items-center self-center justify-center justify-self-cente">
+              <div className="animate-pulse  w-[200px] h-[200px] rounded-full bg-[rgb(210,210,210)] dark:bg-[#303030]" />
             </div>
           ) : (
             <div className="self-start w-full justify-self-center">

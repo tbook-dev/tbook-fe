@@ -51,7 +51,7 @@ export default function Pie({ pieList, totalToken, loading }) {
           <div className="self-center justify-self-center">
             {loading ? (
               <div className="flex items-center h-[300px] lg:h-[400px] justify-center">
-                <Skeleton.Image active />
+                <div className="animate-pulse w-[200px] h-[200px] rounded-full border-8  border-[#d2d2d2] dark:border-[#303030]" />
               </div>
             ) : (
               <Chart data={reData} totalToken={totalToken} />
