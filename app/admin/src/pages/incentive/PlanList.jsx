@@ -296,7 +296,19 @@ function PlanList() {
               />
 
               <div className="flex items-center bg-white rounded-lg dark:bg-black shadow-c12">
-                <Select options={sortList} style={{ width: 214 }} />
+                <Select
+                  options={sortList}
+                  style={{ width: 214 }}
+                  value={filters.sortBy}
+                  onChange={(v) => {
+                    dispatchFilter({
+                      type: "sortBy",
+                      payload: {
+                        value: v,
+                      },
+                    });
+                  }}
+                />
                 <img
                   src={displayType === 1 ? filterList2 : filterList}
                   className={clsx(

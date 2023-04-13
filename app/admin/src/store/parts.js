@@ -17,10 +17,19 @@ export function filterReducer(filters, action) {
   //   }
   // }
   // console.log({preVal, curlVal})
-  return {
-    ...filters,
-    [action.type]: isNegate ? (preVal === curlVal ? null : curlVal) : curlVal,
-  };
+  switch (action.type) {
+    case "sortBy": {
+      filters.sortBy = action.payload.value;
+      break;
+    }
+  }
+
+  // return {
+  //   ...filters,
+  //   [action.type]: isNegate ? (preVal === curlVal ? null : curlVal) : curlVal,
+  // };
+  console.log({ filters });
+  return filters;
 }
 
 // 筛选框变成多选的
