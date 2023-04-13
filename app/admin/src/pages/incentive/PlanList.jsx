@@ -9,7 +9,7 @@ import { PlusOutlined, AppstoreOutlined, BarsOutlined } from "@ant-design/icons"
 import GrantTable from "./GrantTable";
 import { Empty } from "@tbook/ui";
 import { useAsyncEffect, useResponsive } from "ahooks";
-import { useCurrentProjectId, useUserInfoLoading, useProjects } from "@tbook/hooks";
+import { useCurrentProjectId, useUserInfoLoading, useTheme, useProjects } from "@tbook/hooks";
 import _ from "lodash";
 import { signLoginMetaMask } from "@/utils/web3";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,8 +25,11 @@ import dayjs from "dayjs";
 import { useSigner, useAccount } from "wagmi";
 import PlanTipNoConnect from "./planTip/NoConnect";
 import PlanTipNoProject from "./planTip/NoProject";
-import { useTheme } from "@tbook/hooks";
+import filterIcon from "@tbook/share/images/icon/filter.svg";
+import Select from "@/components/select/themeSelect";
+import { conf } from "@tbook/utils";
 
+const { sortList } = conf;
 const { setAuthUser, fetchUserInfo } = user;
 
 function PlanList() {
@@ -271,19 +274,24 @@ function PlanList() {
             )}
           </div>
 
-          {/* {userLoading || grantLoading ? null : (
-            <div className="justify-end hidden my-4 lg:flex">
-              <div className="flex items-center overflow-hidden bg-white dark:bg-black !divide-x dark:divide-black rounded-lg shadow-c12">
-                <div className="flex items-center justify-center w-10 h-10 bg-b-1">
+          {userLoading || grantLoading ? null : (
+            <div className="flex items-center justify-between my-4">
+              <img
+                src={filterIcon}
+                className="object-contain w-10 h-10 cursor-pointer"
+                onClick={() => {
+                  setFilter(!filterOpen);
+                }}
+              />
+
+              <div className="flex items-center  bg-white dark:bg-black !divide-x dark:divide-black rounded-lg shadow-c12">
+                <Select options={sortList} style={{ width: 214 }} />
+                <div className="flex items-center justify-center ml-3 bg-b-1">
                   <BarsOutlined
                     onClick={() => authUser && setDisplayType(1)}
                     style={{
                       cursor: authUser ? null : "not-allowed",
-                      color: authUser
-                        ? displayType === 1
-                          ? "#0049FF"
-                          : "#BFBFBF"
-                        : "rgba(255,255,255,.2)",
+                      color: authUser ? (displayType === 1 ? "#0049FF" : "#BFBFBF") : "rgba(255,255,255,.2)",
                     }}
                   />
                 </div>
@@ -292,39 +300,38 @@ function PlanList() {
                     onClick={() => authUser && setDisplayType(0)}
                     style={{
                       cursor: authUser ? null : "not-allowed",
-                      color: authUser
-                        ? displayType === 0
-                          ? "#0049FF"
-                          : "#BFBFBF"
-                        : "rgba(255,255,255,.2)",
+                      color: authUser ? (displayType === 0 ? "#0049FF" : "#BFBFBF") : "rgba(255,255,255,.2)",
                     }}
                   />
                 </div>
               </div>
             </div>
-          )} */}
+          )}
 
-          <div className="hidden lg:block">
-            {displayType === 1 && <GrantTable list={filterGrantList(grantList)} loading={grantLoading} />}
+          <div className={clsx("grid gap-x-2 grid-cols-4")}>
+            {filterOpen && <div className="col-span-1">xxx</div>}
+            <div className={clsx(filterOpen ? "col-span-3" : "col-span-full")}>
+              {displayType === 1 && <GrantTable list={filterGrantList(grantList)} loading={grantLoading} />}
 
-            {displayType === 0 && (
-              <div
-                className={clsx(
-                  "grid gap-x-2 gap-y-3",
-                  filterGrantList(grantList).length > 0 ? "grid-cols-4" : "grid-cols-1"
-                )}
-              >
-                {userLoading || grantLoading ? (
-                  <Spin />
-                ) : filterGrantList(grantList).length > 0 ? (
-                  filterGrantList(grantList).map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
-                ) : (
-                  <div className="h-[272px] rounded-xl bg-[#f6f8fa] dark:bg-b-1 flex items-center justify-center">
-                    <Empty />
-                  </div>
-                )}
-              </div>
-            )}
+              {displayType === 0 && (
+                <div
+                  className={clsx(
+                    "grid gap-x-2 gap-y-3",
+                    filterGrantList(grantList).length > 0 ? (filterOpen ? "grid-cols-3" : "grid-cols-4") : "grid-cols-1"
+                  )}
+                >
+                  {userLoading || grantLoading ? (
+                    <Spin />
+                  ) : filterGrantList(grantList).length > 0 ? (
+                    filterGrantList(grantList).map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
+                  ) : (
+                    <div className="h-[272px] rounded-xl bg-[#f6f8fa] dark:bg-b-1 flex items-center justify-center">
+                      <Empty />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       ) : (

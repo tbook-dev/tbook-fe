@@ -41,7 +41,7 @@ export default function ({ list = [], loading = false }) {
       // className:"flex justify-center",
       render(_, record) {
         const stauts = record?.grant?.grantStatus;
-        const content = grantStatusList.find((item) => stauts === item.value)?.render();
+        const content = grantStatusList.find((item) => stauts === item.value)?.text;
         // Draft-编辑操作-跳转对应grant创建编辑页
         // signing的是链接
         return <Link to={`/grants/${record.grant?.grantId}/sign`}>{content}</Link>;
