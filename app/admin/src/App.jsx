@@ -16,7 +16,7 @@ import { WagmiConfig } from "wagmi";
 import { watchAccount, getAccount, fetchSigner } from "wagmi/actions";
 import { Web3Modal } from "@web3modal/react";
 import { WalletProvider, SuietWallet } from "@suiet/wallet-kit";
-import "@suiet/wallet-kit/style.css";
+// import "@suiet/wallet-kit/style.css";
 import { wagmiClient, ethereumClient, changeAccountSignIn, logout } from "@/utils/web3";
 
 const { fetchUserInfo } = user;

@@ -25,7 +25,7 @@ export default function RecordTable({ list }) {
       <div className="flex items-center justify-between mb-3 lg:px-6">
         <h2 className="font-medium text-c12 lg:text-c13">Stakeholders</h2>
 
-        <Link to="/create/plan">
+        <Link to="/record">
           <button
             type="button"
             className="flex items-center justify-center w-8 h-8 text-xs font-medium leading-normal text-black transition duration-150 ease-in-out bg-black rounded-md lg:text-white bg-cw1 dark:text-black lg:bg-none lg:hover:opacity-70 lg:hover:dark:opacity-100 lg:w-40 lg:h-10 lg:dark:bg-white lg:dark:bg-none lg:rounded-lg lg:dark:text-black shadow-d3 lg:dark:hover:text-white lg:dark:hover:bg-cw1 lg:hover:shadow-d7"
