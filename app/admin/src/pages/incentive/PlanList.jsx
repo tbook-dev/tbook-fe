@@ -26,9 +26,10 @@ import { useSigner, useAccount } from "wagmi";
 import PlanTipNoConnect from "./planTip/NoConnect";
 import PlanTipNoProject from "./planTip/NoProject";
 import filterIcon from "@tbook/share/images/icon/filter.svg";
-import filterList from "@tbook/share/images/icon/filter-list.svg";
-import filterCard2 from "@tbook/share/images/icon/filter-card2.svg";
-import filterCard from "@tbook/share/images/icon/filter-card.svg";
+import filterList from "@tbook/share/images/icon/list-default.png";
+import filterList2 from "@tbook/share/images/icon/list-active.png";
+import filterCard from "@tbook/share/images/icon/card-default.png";
+import filterCard2 from "@tbook/share/images/icon/card-active.png";
 import Select from "@/components/select/themeSelect";
 import { conf } from "@tbook/utils";
 
@@ -290,7 +291,7 @@ function PlanList() {
               <div className="flex items-center bg-white rounded-lg dark:bg-black shadow-c12">
                 <Select options={sortList} style={{ width: 214 }} />
                 <img
-                  src={filterList}
+                  src={displayType === 1 ? filterList2 : filterList}
                   className={clsx(
                     !authUser && "cursor-not-allowed",
                     "w-10 h-10 object-cover ml-3 cursor-pointer hover:opacity-70"
@@ -298,7 +299,7 @@ function PlanList() {
                   onClick={() => authUser && setDisplayType(1)}
                 />
                 <img
-                  src={filterCard}
+                  src={displayType === 0 ? filterCard2 : filterCard}
                   className={clsx(
                     !authUser && "cursor-not-allowed",
                     "w-10 h-10 object-cover cursor-pointer hover:opacity-70"
