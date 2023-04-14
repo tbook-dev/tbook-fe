@@ -7,7 +7,7 @@ import { filterReducer, initialFilters } from "@/store/parts";
 
 export default function ({ open, filters: withPlanFilters, setOpen, filterOpitons, dispatch }) {
   const [filters, dispatchFilter] = useReducer(filterReducer, { ...initialFilters, ...withPlanFilters });
-  console.log({ withPlanFilters });
+  // console.log({ withPlanFilters });
   useEffect(() => {
     // 设置默认选中的plan
     dispatchFilter({

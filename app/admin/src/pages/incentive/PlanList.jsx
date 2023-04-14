@@ -31,7 +31,7 @@ import closeIcon from "@tbook/share/images/icon/close4.svg";
 import Select from "@/components/select/themeSelect";
 import { conf } from "@tbook/utils";
 
-const { sortList } = conf;
+const { sortList, dateFormat } = conf;
 
 function PlanList() {
   const [swiper, setSwiper] = useState(null);
@@ -116,15 +116,15 @@ function PlanList() {
   }, [projectId]);
 
   useEffect(() => {
-    if (swiper && filters.plan !== null && !pc && tipList.length > 0) {
-      const idx = tipList.findIndex((v) => v.incentivePlanId === filters.Plan);
+    if (swiper && filters.plan.length === 1 && tipList.length > 0) {
+      const idx = tipList.findIndex((v) => v.incentivePlanId === filters.plan[0]?.value);
       try {
         idx !== -1 && swiper?.slideTo(idx);
       } catch (error) {
         console.log(error);
       }
     }
-  }, [filters.plan, swiper, tipList.length]);
+  }, [filters.plan.length, swiper, tipList.length]);
 
   const filterGrantList = useMemo(() => {
     const { status = [], plan = [], vestingType = [], grantType = [], sortBy = 1 } = filters;
@@ -139,7 +139,10 @@ function PlanList() {
       res = res.filter((grant) => vestingType.find((v) => grant?.grant?.grantType === v.value));
     }
     if (sortBy === 1) {
-      // res = res.sort();
+      // grantDate
+      res = res.sort((a, b) =>
+        dayjs(b?.grant?.grantDate, dateFormat).isBefore(dayjs(a?.grant?.grantDate, dateFormat)) ? -1 : 1
+      );
     } else if (sortBy === 2) {
       // Token Amount
       res = res.sort((a, b) => b?.grant?.grantNum - a?.grant?.grantNum);
@@ -154,8 +157,8 @@ function PlanList() {
 
   const flatKeys = ["status", "plan", "vestingType", "grantType"];
   const flatFilters = _.flattenDeep([flatKeys.map((key) => filters[key])]);
-
-  console.log({ flatFilters, grantList, filterGrantList });
+  // console.log(filterGrantList.map((v) => v?.grant?.grantDate));
+  // console.log({ flatFilters, grantList, filterGrantList });
   // console.log("filters.plan", filters.Plan);
   // console.log(filters, flatFilters);
   return (
