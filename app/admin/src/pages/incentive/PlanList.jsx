@@ -348,11 +348,32 @@ function PlanList() {
                       className="flex items-center rounded text-c5 py-1.5 px-4 mr-4 mb-3 dark:bg-[#191919] dark:text-white"
                     >
                       {v.label}
-                      <img className="w-2.5 h-2.5 object-contain ml-2.5 cursor-pointer" src={closeIcon} />
+                      <img
+                        onClick={() => {
+                          const list = filters[v.key];
+                          const res = list.filter((i) => i.value !== v.value);
+                          dispatchFilter({
+                            type: v.key,
+                            payload: {
+                              value: res,
+                            },
+                          });
+                        }}
+                        className="w-2.5 h-2.5 object-contain ml-2.5 cursor-pointer"
+                        src={closeIcon}
+                      />
                     </div>
                   ))}
 
-                  <div className="flex items-center justify-center rounded text-c5 mr-4 mb-3 py-1.5 w-[120px]  cursor-pointer shadow-d3 dark:text-white">
+                  <div
+                    className="flex items-center justify-center rounded text-c5 mr-4 mb-3 py-1.5 w-[120px]  cursor-pointer shadow-d3 dark:text-white"
+                    onClick={() => {
+                      dispatchFilter({
+                        type: "clearAll",
+                        payload: null,
+                      });
+                    }}
+                  >
                     Clear All
                   </div>
                 </div>
