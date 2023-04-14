@@ -25,6 +25,10 @@ export function filterReducer(filters, action) {
       newKeyValues = initialFilters;
       break;
     }
+    case "cover": {
+      newKeyValues = action.payload.value;
+      break;
+    }
   }
 
   // return {

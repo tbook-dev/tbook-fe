@@ -1,8 +1,4 @@
 import clsx from "clsx";
-import filterIcon from "@tbook/share/images/icon/filter.svg";
-import closeIcon from "@tbook/share/images/icon/close3.svg";
-import { useCallback, useEffect, useReducer } from "react";
-import { filterReducer, initialFilters } from "@/store/parts";
 
 export default function ({ filters, setOpen, filterOpitons, dispatch }) {
   return (

@@ -7,34 +7,33 @@ import { filterReducer, initialFilters } from "@/store/parts";
 
 export default function ({ open, filters: withPlanFilters, setOpen, filterOpitons, dispatch }) {
   const [filters, dispatchFilter] = useReducer(filterReducer, { ...initialFilters, ...withPlanFilters });
-
+  console.log({ withPlanFilters });
   useEffect(() => {
-    handleClearAll();
+    // 设置默认选中的plan
+    dispatchFilter({
+      type: "cover",
+      payload: {
+        value: { ...initialFilters, ...withPlanFilters },
+      },
+    });
   }, [withPlanFilters]);
 
-  const handleClearAll = useCallback(() => {
-    const filters = { ...initialFilters, ...withPlanFilters };
-    for (let group in filters) {
-      dispatchFilter({
-        type: group,
-        payload: {
-          value: filters[group],
-          isNegate: false,
-        },
-      });
-    }
-  }, [dispatchFilter, withPlanFilters]);
+  const handleClearAll = () => {
+    dispatchFilter({
+      type: "clearAll",
+      payload: {
+        value: null,
+      },
+    });
+  };
 
   const handleApply = useCallback(() => {
-    for (let group in filters) {
-      dispatch({
-        type: group,
-        payload: {
-          value: filters[group],
-          isNegate: false,
-        },
-      });
-    }
+    dispatch({
+      type: "cover",
+      payload: {
+        value: filters,
+      },
+    });
     setOpen(false);
   }, [filters, dispatch]);
 
@@ -52,21 +51,33 @@ export default function ({ open, filters: withPlanFilters, setOpen, filterOpiton
                 <h3 className="mb-3 font-bold text-c-3 text-c17">{conf.group}</h3>
                 <div className="grid grid-cols-2 gap-x-5 gap-y-2">
                   {conf.list.map((v) => {
+                    const list = filters[v.key];
+                    const isSelected =
+                      v.key === "sortBy" ? v.value === filters.sortBy : !!list.find((i) => i.value === v.value);
                     return (
                       <div
                         key={v.value}
                         onClick={() => {
+                          if (v.disabled) return;
+                          let res = [];
+                          if (list?.find((i) => i.value === v.value)) {
+                            // 反选
+                            res = list.filter((i) => i.value !== v.value);
+                          } else {
+                            // 增加
+                            res = [...list, v];
+                          }
+
                           dispatchFilter({
-                            type: conf.group,
+                            type: v.key,
                             payload: {
-                              value: v.value,
-                              isNegate: true,
+                              value: res,
                             },
                           });
                         }}
                         className={clsx(
                           "w-full text-c4 h-7 flex justify-center items-center truncate rounded-md",
-                          filters[conf.group] === v.value
+                          isSelected
                             ? "bg-cw1 text-black font-bold"
                             : v.disabled
                             ? "bg-[#f0f0f0] text-[#B8B8B8]"

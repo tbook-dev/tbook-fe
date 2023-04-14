@@ -139,9 +139,14 @@ function PlanList() {
       res = res.filter((grant) => vestingType.find((v) => grant?.grant?.grantType === v.value));
     }
     if (sortBy === 1) {
-      res = res.sort();
+      // res = res.sort();
     } else if (sortBy === 2) {
+      // Token Amount
       res = res.sort((a, b) => b?.grant?.grantNum - a?.grant?.grantNum);
+    } else if (sortBy === 3) {
+      res = res.sort((a, b) => b?.vestedAmount - a?.vestedAmount);
+    } else if (sortBy === 4) {
+      // res = res.sort((a, b) => b?.vestedAmount - a?.vestedAmount);
     }
     // grantType 现在都是token option, 现在没效果
     return res;

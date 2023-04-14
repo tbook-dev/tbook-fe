@@ -63,7 +63,7 @@ const getFilterOpitons = (plans, pc) => {
         {
           group: "Sort By",
           key: "sortBy",
-          list: sortList,
+          list: sortList.map((v) => ({ ...v, key: "sortBy" })),
         },
         ...options,
       ];
