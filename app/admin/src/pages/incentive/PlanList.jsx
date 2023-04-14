@@ -126,9 +126,9 @@ function PlanList() {
     }
   }, [filters.plan.length, swiper, tipList.length]);
 
-  const filterGrantList = useMemo(() => {
+  const getfilterGrantList = () => {
     const { status = [], plan = [], vestingType = [], grantType = [], sortBy = 1 } = filters;
-    let res = grantList;
+    let res = grantList.slice();
     if (status.length > 0) {
       res = res.filter((grant) => status.find((v) => grant?.grant?.grantStatus === v.value));
     }
@@ -161,11 +161,12 @@ function PlanList() {
     }
     // grantType 现在都是token option, 现在没效果
     return res;
-  }, [grantList, filters]);
+  };
+  const filterGrantList = getfilterGrantList();
 
   const flatKeys = ["status", "plan", "vestingType", "grantType"];
   const flatFilters = _.flattenDeep([flatKeys.map((key) => filters[key])]);
-  // console.log({ flatFilters, grantList, filterGrantList });
+  // console.log({ grantList, filters });
   // console.log("filters.plan", filters.Plan);
   // console.log(filters, flatFilters);
   return (
@@ -289,7 +290,7 @@ function PlanList() {
       </div>
 
       {pc ? (
-        <div className="hidden lg:block">
+        <div>
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-[32px] lg:text-cwh2 dark:text-white font-bold">Grants</h2>
 
@@ -298,7 +299,13 @@ function PlanList() {
                 type="button"
                 disabled={filters.plan.length !== 1}
                 onClick={() => navigate(`/incentive/grant/${filters.plan[0]?.value}/create`)}
-                className="flex items-center justify-center text-xs font-medium leading-normal text-white transition duration-150 ease-in-out bg-black bg-none dark:bg-white lg:hover:dark:opacity-100 lg:hover:opacity-70 lg:w-40 lg:h-10 disabled:bg-l-2 disabled:text-l-1 lg:rounded-lg dark:text-black shadow-d3 hover:text-white lg:dark:hover:bg-cw1 hover:shadow-d7 lg:dark:hover:text-white dark:disabled:bg-b-1 dark:disabled:text-b-2 hover:disabled:bg-none hover:disabled:shadow-none"
+                className={clsx(
+                  "flex items-center justify-center text-xs font-medium text-white  bg-black",
+                  "dark:bg-white lg:hover:dark:opacity-100 lg:hover:opacity-70 lg:w-40 lg:h-10",
+                  " disabled:bg-l-2 disabled:text-l-1 lg:rounded-lg dark:text-black shadow-d3 hover:text-white lg:dark:hover:bg-cw1",
+                  " hover:shadow-d7 disabled:shadow-none dark:disabled:bg-b-1 dark:disabled:text-b-2",
+                  "lg:hover:dark:disabled:bg-none hover:disabled:shadow-none disabled:dark:hover:text-b-2 "
+                )}
               >
                 <PlusOutlined />
                 <span className="ml-2 text-[14px]">New Grant</span>
@@ -402,7 +409,14 @@ function PlanList() {
                 </div>
               )}
 
-              {displayType === 1 && <GrantTable list={filterGrantList} loading={grantLoading} />}
+              {displayType === 1 &&
+                (filterGrantList.length > 0 ? (
+                  <GrantTable list={filterGrantList} loading={grantLoading} />
+                ) : (
+                  <div className="h-[272px] rounded-xl bg-[#f6f8fa] dark:bg-b-1 flex items-center justify-center">
+                    <Empty />
+                  </div>
+                ))}
 
               {displayType === 0 && (
                 <div

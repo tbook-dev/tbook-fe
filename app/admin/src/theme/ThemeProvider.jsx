@@ -3,7 +3,7 @@ import { ConfigProvider, theme } from "antd";
 import components from "@/theme/conf";
 import { useTheme } from "@tbook/hooks";
 // 可能revise
-export default function ({ children }) {
+export default function ({ children, ...props }) {
   const userTheme = useTheme();
 
   return (
@@ -16,6 +16,7 @@ export default function ({ children }) {
           colorPrimary: userTheme === "dark" ? "#fff" : "#69D0E5",
         },
       }}
+      {...props}
     >
       {children}
     </ConfigProvider>

@@ -1,36 +1,10 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { conf } from "@tbook/utils";
 
 const { shortAddress, grantStatusList, grantType, getLastVested, formatDollar } = conf;
 
-// const v = [
-//     {
-//         "date": "2023-12-01",
-//         "quantity": 8000,
-//         "cumulative": 10000,
-//         "isVested": false
-//     },
-//     {
-//         "date": "2023-01-01",
-//         "quantity": 2000,
-//         "cumulative": 2000,
-//         "isVested": true
-//     },
-//     {
-//         "date": "2023-02-02",
-//         "quantity": 3000,
-//         "cumulative": 3000,
-//         "isVested": true
-//     }
-// ]
-//   pc版本的card, card本身有多种风格，不应当为同一个组件，会很乱。
 export default function ({ grant }) {
-  // console.log(grant.grant.vestingSchedule.vestingDetail,'grant')
-  const theme = useSelector((state) => state.user.theme);
-  const isDark = theme === "dark";
-
   const conf = useMemo(
     () => [
       {

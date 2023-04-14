@@ -1,20 +1,16 @@
 import React from "react";
-import { Table, ConfigProvider, Empty } from "antd";
+import { Table } from "antd";
 import { conf } from "@tbook/utils";
-import { Link } from "react-router-dom";
+import ThemeProvider from "@/theme/ThemeProvider";
 
-const { grantStatusList, grantType, formatDollar, shortAddress } = conf;
+const { grantStatusList, grantType, formatDollar, shortAddress, getLastVested } = conf;
 
 export default function ({ list = [], loading = false }) {
   const columns = [
     {
       title: "GRANT ID",
       align: "center",
-      render: (_, v) => (
-        <Link to={`/grants/${v?.grant?.grantId}/sign`}>
-          <p className="text-[#0049FF]">{v?.grant?.grantId}</p>
-        </Link>
-      ),
+      render: (_, v) => v?.grant?.grantId,
     },
     {
       title: "GRANTEE",
@@ -22,15 +18,13 @@ export default function ({ list = [], loading = false }) {
       dataIndex: "granteeId",
       render(_, record) {
         return (
-          <div className="flex">
-            <img src={record?.grantee?.avatar} className="w-[40px] h-[40px] rounded-full mr-1.5" />
-            <div className="flex flex-col justify-center flex-none">
-              <h3 className="text-ellipsis w-max-[130px]	truncate font-bold text-[#202124] text-base">
-                {record?.grantee?.name}
-              </h3>
-              <p className="text-ellipsis	truncate text-[#45484F] text-sm">
-                {shortAddress(record?.grantee?.mainWallet)}
-              </p>
+          <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center w-10 h-10 rounded-full dark:bg-[#141414] mr-2">
+              <img src={record?.grantee?.avatar} className="w-6 h-6 rounded-full" />
+            </div>
+            <div className="flex flex-col justify-center flex-none text-b-8">
+              <h3 className="text-ellipsis w-max-[130px]	truncate font-bold text-base">{record?.grantee?.name}</h3>
+              <p className="text-sm truncate text-ellipsis">{shortAddress(record?.grantee?.mainWallet)}</p>
             </div>
           </div>
         );
@@ -38,81 +32,68 @@ export default function ({ list = [], loading = false }) {
     },
     {
       title: "STATUS",
-      // className:"flex justify-center",
-      render(_, record) {
-        const stauts = record?.grant?.grantStatus;
-        const content = grantStatusList.find((item) => stauts === item.value)?.text;
-        // Draft-编辑操作-跳转对应grant创建编辑页
-        // signing的是链接
-        return <Link to={`/grants/${record.grant?.grantId}/sign`}>{content}</Link>;
-      },
-    },
-    {
-      title: "GRANT DATE",
       align: "center",
       render(_, record) {
-        return record?.grant?.grantDate;
-      },
-    },
-    {
-      title: "VESTING BY",
-      align: "center",
-      render(_, record) {
-        const type = grantType.find((item) => item.value === record?.grant?.grantType);
+        const status = grantStatusList.find((item) => record.grant?.grantStatus === item.value);
         return (
-          <div className="flex">
-            {type?.label}
-            <img src={type?.icon} className="ml-2" />
-          </div>
+          status && (
+            <span
+              className="text-center max-w-[100px] w-20 px-2 truncate border rounded"
+              style={{
+                color: status?.darkColor,
+                borderColor: status?.darkColor,
+              }}
+            >
+              {status?.text}
+            </span>
+          )
         );
       },
     },
     {
-      title: "TOTAL TOKEN",
+      title: "VESTING TYPE",
       align: "center",
       render(_, record) {
-        return formatDollar(record?.grant?.grantNum);
+        const type = grantType.find((item) => item.value === record?.grant?.grantType);
+        return <span>{type?.label}</span>;
       },
     },
     {
-      title: "VESTED TOKEN",
+      title: "LATEST VESTING",
+      align: "center",
+      render(_, record) {
+        return getLastVested(record?.grant?.vestingSchedule?.vestingDetail)?.date || "-";
+      },
+    },
+
+    {
+      title: "VESTED AMOUNT",
       align: "center",
       render(_, record) {
         return formatDollar(record?.vestedAmount);
       },
     },
 
-    // {
-    //   title: "ACTION",
-    //   align:"center",
-    //   render(_, record) {
-    //     let text = "",
-    //       link = "";
-    //     switch (record?.grant?.grantStatus) {
-    //       case 1:
-    //         // 草稿
-    //         text = "EDIT";
-    //         link = `/incentive/grant/${record?.grant?.incentivePlanId}/create?grantId=${record?.grant?.grantId}`;
-    //         break;
-
-    //       case 2:
-    //         // signing
-    //         text = "SIGN";
-    //         link = `/grants/${record?.grant?.grantId}/sign`;
-    //         break;
-
-    //       default:
-    //         // view-
-    //         text = "VIEW";
-    //         link = `/incentive/grant/${record?.grant?.incentivePlanId}/${record?.grant?.grantId}/detail`;
-    //     }
-
-    //     return <Link to={link}>{text}</Link>;
-    //   },
-    // },
+    {
+      title: "TOTAL AMOUNT",
+      align: "center",
+      render(_, record) {
+        return formatDollar(record?.grant?.grantNum);
+      },
+    },
   ];
 
   return (
-    <Table bordered loading={loading} columns={columns} rowKey={(record) => record?.grant?.grantId} dataSource={list} />
+    <ThemeProvider>
+      <Table
+        loading={loading}
+        columns={columns}
+        rowKey={(record) => record?.grant?.grantId}
+        dataSource={Array.from(list)}
+        scroll={{ x: 928 }}
+        size="small"
+        pagination={{ size: "default" }}
+      />
+    </ThemeProvider>
   );
 }
