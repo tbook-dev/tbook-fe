@@ -31,7 +31,7 @@ import closeIcon from "@tbook/share/images/icon/close4.svg";
 import Select from "@/components/select/themeSelect";
 import { conf } from "@tbook/utils";
 
-const { sortList, dateFormat } = conf;
+const { sortList, dateFormat, getLastVested } = conf;
 
 function PlanList() {
   const [swiper, setSwiper] = useState(null);
@@ -149,7 +149,15 @@ function PlanList() {
     } else if (sortBy === 3) {
       res = res.sort((a, b) => b?.vestedAmount - a?.vestedAmount);
     } else if (sortBy === 4) {
-      // res = res.sort((a, b) => b?.vestedAmount - a?.vestedAmount);
+      // 存在没有授予的情况
+      res = res.sort((a, b) =>
+        dayjs(getLastVested(b?.grant?.vestingSchedule?.vestingDetail)?.date, dateFormat).isBefore(
+          dayjs(getLastVested(a?.grant?.vestingSchedule?.vestingDetail)?.date, dateFormat)
+        )
+          ? 1
+          : -1
+      );
+      res.reverse();
     }
     // grantType 现在都是token option, 现在没效果
     return res;
@@ -157,7 +165,6 @@ function PlanList() {
 
   const flatKeys = ["status", "plan", "vestingType", "grantType"];
   const flatFilters = _.flattenDeep([flatKeys.map((key) => filters[key])]);
-  // console.log(filterGrantList.map((v) => v?.grant?.grantDate));
   // console.log({ flatFilters, grantList, filterGrantList });
   // console.log("filters.plan", filters.Plan);
   // console.log(filters, flatFilters);
