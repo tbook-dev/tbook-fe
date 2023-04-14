@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useEffect, useCallback, useMemo } from "react";
-import { NavLink, Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { getIncentiveList, getTipGrantList } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
@@ -10,10 +10,8 @@ import GrantTable from "./GrantTable";
 import { Empty } from "@tbook/ui";
 import { useAsyncEffect, useResponsive } from "ahooks";
 import { useCurrentProjectId, useUserInfoLoading, useTheme, useProjects } from "@tbook/hooks";
-import _, { keyBy } from "lodash";
-import { signLoginMetaMask } from "@/utils/web3";
-import { useDispatch, useSelector } from "react-redux";
-import { user } from "@tbook/store";
+import _ from "lodash";
+import { useSelector } from "react-redux";
 import clsx from "clsx";
 import PlanCard from "./planCard/Active";
 import GrantCard from "./grantCard";
@@ -22,7 +20,6 @@ import FilterPanel from "./filter";
 import { Spin } from "antd";
 import { filterReducer, initialFilters } from "@/store/parts";
 import dayjs from "dayjs";
-import { useSigner, useAccount } from "wagmi";
 import PlanTipNoConnect from "./planTip/NoConnect";
 import PlanTipNoProject from "./planTip/NoProject";
 import filterIcon from "@tbook/share/images/icon/filter.svg";
@@ -35,7 +32,6 @@ import Select from "@/components/select/themeSelect";
 import { conf } from "@tbook/utils";
 
 const { sortList } = conf;
-const { setAuthUser, fetchUserInfo } = user;
 
 function PlanList() {
   const [swiper, setSwiper] = useState(null);
@@ -45,7 +41,6 @@ function PlanList() {
   const [grantLoading, setGrantLoading] = useState(false);
   const userLoading = useUserInfoLoading();
   const projectId = useCurrentProjectId();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.user.authUser);
   const [filterOpen, setFilter] = useState(false);
@@ -57,22 +52,8 @@ function PlanList() {
   // type, 0是卡片，1是表格
   const [displayType, setDisplayType] = useState(0);
 
-  const { data: signer } = useSigner();
-  const { address } = useAccount();
-
   const selectedTipId = searchParams.get("tipId");
 
-  // console.log("authUser", authUser);
-  async function handleSignIn() {
-    // console.log("authUser", authUser);
-    if (authUser) {
-      navigate("/incentive/create");
-    } else {
-      await signLoginMetaMask(address, signer);
-      dispatch(fetchUserInfo());
-      dispatch(setAuthUser(true));
-    }
-  }
   useEffect(() => {
     return () => {
       swiper?.destroy();
@@ -153,12 +134,12 @@ function PlanList() {
     return res;
   }, [grantList, filters]);
 
-  const flatFilters = useMemo(() => {
-    const flatKeys = ["status", "plan", "vestingType", "grantType"];
-    return _.flattenDeep([flatKeys.map((key) => filters[key])]);
-  }, filters);
-  console.log({ flatFilters });
+  const flatKeys = ["status", "plan", "vestingType", "grantType"];
+  const flatFilters = _.flattenDeep([flatKeys.map((key) => filters[key])]);
+
+  // console.log({ flatFilters });
   // console.log("filters.plan", filters.Plan);
+  console.log({ filters });
   return (
     <div className="w-full text-[#202124] mb-4 px-4 lg:px-0 lg:w-[936px] mx-auto">
       <div
@@ -385,21 +366,6 @@ function PlanList() {
         </div>
       ) : (
         <div className="block lg:hidden">
-          {/* {swiper?.realIndex !== tipList.length && (
-            <div className="fixed left-0 right-0 bottom-8">
-              <Link
-                to={`/incentive/grant/${
-                  swiper?.realIndex !== tipList.length
-                    ? tipList[swiper?.realIndex]?.incentivePlanId
-                    : "tmp"
-                }/create`}
-                className="flex items-center justify-center  w-60 h-[35px] bg-[#0049FF] text-white text-[16px] leading-[20px] mx-auto rounded-3xl"
-              >
-                <PlusOutlined />
-                <span className="mx-6">New Grant</span>
-              </Link>
-            </div>
-          )}  */}
           {userLoading || grantLoading ? null : (
             <div className="flex items-center justify-between mt-6 mb-2">
               <button

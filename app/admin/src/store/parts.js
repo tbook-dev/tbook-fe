@@ -17,9 +17,10 @@ export function filterReducer(filters, action) {
   //   }
   // }
   // console.log({preVal, curlVal})
+  let newKeyValues = {};
   switch (action.type) {
     case "sortBy": {
-      filters.sortBy = action.payload.value;
+      newKeyValues.sortBy = action.payload.value;
       break;
     }
   }
@@ -28,8 +29,8 @@ export function filterReducer(filters, action) {
   //   ...filters,
   //   [action.type]: isNegate ? (preVal === curlVal ? null : curlVal) : curlVal,
   // };
-  console.log({ filters });
-  return filters;
+  // console.log({ filters });
+  return { ...filters, ...newKeyValues };
 }
 
 // 筛选框变成多选的
