@@ -93,7 +93,14 @@ function PlanList() {
     dispatchFilter({
       type: "plan",
       payload: {
-        value: [list1[activeIdx].incentivePlanId],
+        value: [
+          {
+            value: list1[activeIdx].incentivePlanId,
+            label: list1[activeIdx].incentivePlanName,
+            key: "plan",
+            disabled: false,
+          },
+        ],
       },
     });
 
@@ -198,12 +205,14 @@ function PlanList() {
                 onSlideChange={(w) => {
                   if (!pc && !filterOpen) {
                     // let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
-                    let plan = tipList[w.realIndex];
+                    let tip = tipList[w.realIndex];
 
                     dispatchFilter({
                       type: "plan",
                       payload: {
-                        value: [plan.incentivePlanId],
+                        value: [
+                          { value: tip.incentivePlanId, label: tip.incentivePlanName, key: "plan", disabled: false },
+                        ],
                       },
                     });
                   }
@@ -219,13 +228,20 @@ function PlanList() {
                             dispatchFilter({
                               type: "plan",
                               payload: {
-                                value: [tip.incentivePlanId],
+                                value: [
+                                  {
+                                    value: tip.incentivePlanId,
+                                    label: tip.incentivePlanName,
+                                    key: "plan",
+                                    disabled: false,
+                                  },
+                                ],
                               },
                             });
                           }}
                         >
                           <PlanCard
-                            isActive={filters?.plan?.length === 1 && filters?.plan[0] === tip.incentivePlanId}
+                            isActive={filters?.plan?.length === 1 && filters?.plan[0]?.value === tip.incentivePlanId}
                             tip={tip}
                             pc={pc}
                           />
