@@ -89,15 +89,13 @@ function PlanList() {
     // const activeIdx = list2Formated[0]?.idx || 0;
     setActiveIndex(activeIdx);
     console.log("activeIdx", activeIdx);
-    // if (pc) {
+
     dispatchFilter({
-      type: "Plan",
+      type: "plan",
       payload: {
-        value: list1[activeIdx]?.incentivePlanId,
-        isNegate: false,
+        value: [list1[activeIdx]],
       },
     });
-    // }
 
     // console.log(list1[activeIdx+1]?.incentivePlanId)
     // !pc &&
@@ -139,7 +137,7 @@ function PlanList() {
 
   // console.log({ flatFilters });
   // console.log("filters.plan", filters.Plan);
-  console.log({ filters });
+  console.log({ plan: filters.plan });
   return (
     <div className="w-full text-[#202124] mb-4 px-4 lg:px-0 lg:w-[936px] mx-auto">
       <div
@@ -199,13 +197,13 @@ function PlanList() {
                 }}
                 onSlideChange={(w) => {
                   if (!pc && !filterOpen) {
-                    let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
-                    // console.log({ incentivePlanId }, "xxx");
+                    // let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
+                    let plan = tipList[w.realIndex];
+
                     dispatchFilter({
-                      type: "Plan",
+                      type: "plan",
                       payload: {
-                        value: incentivePlanId,
-                        isNegate: false,
+                        value: [plan],
                       },
                     });
                   }
@@ -219,15 +217,20 @@ function PlanList() {
                           style={{ padding: "4px 4px" }}
                           onClick={() => {
                             dispatchFilter({
-                              type: "Plan",
+                              type: "plan",
                               payload: {
-                                value: tip.incentivePlanId,
-                                isNegate: true,
+                                value: [tip],
                               },
                             });
                           }}
                         >
-                          <PlanCard isActive={filters.Plan === tip.incentivePlanId} tip={tip} pc={pc} />
+                          <PlanCard
+                            isActive={
+                              filters?.plan?.length === 1 && filters?.plan[0]?.incentivePlanId === tip.incentivePlanId
+                            }
+                            tip={tip}
+                            pc={pc}
+                          />
                         </div>
                       </SwiperSlide>
                     );

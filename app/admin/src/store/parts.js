@@ -23,6 +23,9 @@ export function filterReducer(filters, action) {
       newKeyValues.sortBy = action.payload.value;
       break;
     }
+    case "plan": {
+      newKeyValues.plan = action.payload.value;
+    }
   }
 
   // return {
