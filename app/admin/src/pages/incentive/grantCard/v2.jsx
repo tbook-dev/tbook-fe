@@ -23,12 +23,7 @@ export default function ({ grant }) {
         label: "Vesting Type",
         render: () => {
           const type = grantType.find((item) => item.value === grant?.grant?.grantType);
-          return (
-            <div className="flex items-center justify-end">
-              <img src={type?.icon} className="mr-px" />
-              {type?.label}
-            </div>
-          );
+          return type?.label;
         },
       },
     ],
