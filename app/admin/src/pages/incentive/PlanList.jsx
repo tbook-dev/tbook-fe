@@ -126,15 +126,17 @@ function PlanList() {
     }
   }, [filters.plan, swiper, tipList.length]);
 
-  const filterGrantList = useCallback(() => {
-    const { Status, Plan } = filters;
+  const filterGrantList = useMemo(() => {
+    const { status = [], plan = [], vestingType = [], grantType = [], sortBy = 1 } = filters;
     let res = grantList;
-    if (Status !== null) {
-      res = res.filter((grant) => grant?.grant?.grantStatus === Status);
+    if (status.length > 0) {
+      res = res.filter((grant) => status.find((v) => grant?.grant?.grantStatus === v.value));
     }
-    // console.log(filters)
-    if (Plan !== null) {
-      res = res.filter((grant) => grant?.grant?.incentivePlanId === Plan);
+    if (plan.length > 0) {
+      res = res.filter((grant) => plan.find((v) => grant?.grant?.incentivePlanId === v.value));
+    }
+    if (vestingType.length > 0) {
+      res = res.filter((grant) => plan.find((v) => grant?.grant?.incentivePlanId === v.value));
     }
     return res;
   }, [grantList, filters]);
@@ -142,7 +144,7 @@ function PlanList() {
   const flatKeys = ["status", "plan", "vestingType", "grantType"];
   const flatFilters = _.flattenDeep([flatKeys.map((key) => filters[key])]);
 
-  // console.log({ flatFilters });
+  console.log({ flatFilters, grantList, filterGrantList });
   // console.log("filters.plan", filters.Plan);
   // console.log(filters, flatFilters);
   return (
@@ -379,19 +381,19 @@ function PlanList() {
                 </div>
               )}
 
-              {displayType === 1 && <GrantTable list={filterGrantList(grantList)} loading={grantLoading} />}
+              {displayType === 1 && <GrantTable list={filterGrantList} loading={grantLoading} />}
 
               {displayType === 0 && (
                 <div
                   className={clsx(
                     "grid gap-x-2 gap-y-3",
-                    filterGrantList(grantList).length > 0 ? (filterOpen ? "grid-cols-3" : "grid-cols-4") : "grid-cols-1"
+                    filterGrantList.length > 0 ? (filterOpen ? "grid-cols-3" : "grid-cols-4") : "grid-cols-1"
                   )}
                 >
                   {userLoading || grantLoading ? (
                     <Spin />
-                  ) : filterGrantList(grantList).length > 0 ? (
-                    filterGrantList(grantList).map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
+                  ) : filterGrantList.length > 0 ? (
+                    filterGrantList.map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
                   ) : (
                     <div className="h-[272px] rounded-xl bg-[#f6f8fa] dark:bg-b-1 flex items-center justify-center">
                       <Empty />
@@ -432,16 +434,11 @@ function PlanList() {
             </div>
           )}
 
-          <div
-            className={clsx(
-              "grid gap-x-2 gap-y-2",
-              filterGrantList(grantList).length > 0 ? "grid-cols-2" : "grid-cols-1"
-            )}
-          >
+          <div className={clsx("grid gap-x-2 gap-y-2", filterGrantList.length > 0 ? "grid-cols-2" : "grid-cols-1")}>
             {userLoading || grantLoading ? (
               <Spin />
-            ) : filterGrantList(grantList).length > 0 ? (
-              filterGrantList(grantList).map((grant) => <GrantCard grant={grant} key={grant.grant.grantId} />)
+            ) : filterGrantList.length > 0 ? (
+              filterGrantList.map((grant) => <GrantCard grant={grant} key={grant.grant.grantId} />)
             ) : (
               <div className="h-[222px] rounded-lg bg-[#f6f8fa]  dark:bg-b-1 shadow-l3 flex items-center justify-center">
                 <Empty description="No grant" />
