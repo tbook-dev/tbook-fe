@@ -13,21 +13,33 @@ export default function ({ filters, setOpen, filterOpitons, dispatch }) {
             <h3 className="mb-3 font-bold dark:text-white text-c-3 text-c17">{conf.group}</h3>
             <div className="grid grid-cols-2 gap-x-2 gap-y-2">
               {conf.list.map((v) => {
+                const list = filters[v.key];
+                const isSelected = !!list.find((i) => i.value === v.value);
+
                 return (
                   <div
                     key={v.value}
                     onClick={() => {
-                      // dispatchFilter({
-                      //   type: conf.group,
-                      //   payload: {
-                      //     value: v.value,
-                      //     isNegate: true,
-                      //   },
-                      // });
+                      if (v.disabled) return;
+                      let res = [];
+                      if (list?.find((i) => i.value === v.value)) {
+                        // 反选
+                        res = list.filter((i) => i.value !== v.value);
+                      } else {
+                        // 增加
+                        res = [...list, v];
+                      }
+
+                      dispatch({
+                        type: v.key,
+                        payload: {
+                          value: res,
+                        },
+                      });
                     }}
                     className={clsx(
                       "w-full text-c4 h-7 px-1  flex justify-center items-center truncate text-ellipsis rounded hover:opacity-70",
-                      filters[conf.group] === v.value
+                      isSelected
                         ? "bg-cw1 text-black font-bold cursor-pointer"
                         : v.disabled
                         ? "bg-[#191919] text-b-1 font-medium"

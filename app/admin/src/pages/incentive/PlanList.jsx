@@ -144,7 +144,7 @@ function PlanList() {
 
   // console.log({ flatFilters });
   // console.log("filters.plan", filters.Plan);
-  console.log({ plan: filters.plan });
+  // console.log(filters, flatFilters);
   return (
     <div className="w-full text-[#202124] mb-4 px-4 lg:px-0 lg:w-[936px] mx-auto">
       <div
@@ -273,8 +273,8 @@ function PlanList() {
             {userLoading || grantLoading ? null : (
               <button
                 type="button"
-                disabled={filters.Plan === null || filters.Plan === undefined}
-                onClick={() => navigate(`/incentive/grant/${filters.Plan}/create`)}
+                disabled={filters.plan.length !== 1}
+                onClick={() => navigate(`/incentive/grant/${filters.plan[0]?.value}/create`)}
                 className="flex items-center justify-center text-xs font-medium leading-normal text-white transition duration-150 ease-in-out bg-black bg-none dark:bg-white lg:hover:dark:opacity-100 lg:hover:opacity-70 lg:w-40 lg:h-10 disabled:bg-l-2 disabled:text-l-1 lg:rounded-lg dark:text-black shadow-d3 hover:text-white lg:dark:hover:bg-cw1 hover:shadow-d7 lg:dark:hover:text-white dark:disabled:bg-b-1 dark:disabled:text-b-2 hover:disabled:bg-none hover:disabled:shadow-none"
               >
                 <PlusOutlined />
@@ -341,18 +341,18 @@ function PlanList() {
             )}
             <div className={clsx(filterOpen ? "col-span-3" : "col-span-full")}>
               {flatFilters.length > 0 && (
-                <div className="flex mb-3 space-x-4 col-span-full">
+                <div className="flex flex-wrap mb-3 col-span-full">
                   {flatFilters.map((v) => (
                     <div
                       key={v.key + v.value}
-                      className="flex items-center rounded text-c5 py-1.5 px-4 dark:bg-[#191919] dark:text-white"
+                      className="flex items-center rounded text-c5 py-1.5 px-4 mr-4 mb-3 dark:bg-[#191919] dark:text-white"
                     >
                       {v.label}
                       <img className="w-2.5 h-2.5 object-contain ml-2.5 cursor-pointer" src={closeIcon} />
                     </div>
                   ))}
 
-                  <div className="flex items-center justify-center rounded text-c5 py-1.5 w-[120px]  cursor-pointer shadow-d3 dark:text-white">
+                  <div className="flex items-center justify-center rounded text-c5 mr-4 mb-3 py-1.5 w-[120px]  cursor-pointer shadow-d3 dark:text-white">
                     Clear All
                   </div>
                 </div>

@@ -17,6 +17,7 @@ export function filterReducer(filters, action) {
   //   }
   // }
   // console.log({preVal, curlVal})
+  console.log({ action });
   let newKeyValues = {};
   switch (action.type) {
     case "sortBy": {
@@ -25,6 +26,19 @@ export function filterReducer(filters, action) {
     }
     case "plan": {
       newKeyValues.plan = action.payload.value;
+      break;
+    }
+    case "status": {
+      newKeyValues.status = action.payload.value;
+      break;
+    }
+    case "vestingType": {
+      newKeyValues.vestingType = action.payload.value;
+      break;
+    }
+    case "grantType": {
+      newKeyValues.grantType = action.payload.value;
+      break;
     }
   }
 
@@ -38,22 +52,8 @@ export function filterReducer(filters, action) {
 
 // 筛选框变成多选的
 export const initialFilters = {
-  status: [
-    {
-      label: "Token lockup",
-      value: "Token lockup",
-      disabled: true,
-      key: "grantType",
-    },
-  ],
-  plan: [
-    {
-      value: 22718960009,
-      label: "name",
-      key: "plan",
-      disable: false,
-    },
-  ],
+  status: [],
+  plan: [],
   vestingType: [],
   grantType: [],
   sortBy: 1,

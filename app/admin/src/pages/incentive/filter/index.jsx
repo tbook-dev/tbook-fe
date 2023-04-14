@@ -20,20 +20,12 @@ const getFilterOpitons = (plans, pc) => {
     {
       group: "Plan",
       key: "plan",
-      list: [
-        {
-          label: "all",
-          value: null,
-          disabled: false,
-        },
-      ].concat(
-        plans?.map((v) => ({
-          label: v.incentivePlanName,
-          value: v.incentivePlanId,
-          disabled: false,
-          key: "plan",
-        }))
-      ),
+      list: plans?.map((v) => ({
+        label: v.incentivePlanName,
+        value: v.incentivePlanId,
+        disabled: false,
+        key: "plan",
+      })),
     },
     {
       group: "Vesting Type",
