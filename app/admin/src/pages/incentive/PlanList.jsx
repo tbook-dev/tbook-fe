@@ -453,8 +453,8 @@ function PlanList() {
             <div className="flex items-center justify-between mt-6 mb-2">
               <button
                 type="button"
-                disabled={filters.Plan === null || filters.Plan === undefined}
-                onClick={() => navigate(`/incentive/grant/${filters.Plan}/create`)}
+                disabled={filters.plan.length !== 1}
+                onClick={() => navigate(`/incentive/grant/${filters.plan[0]?.value}/create`)}
                 className={clsx(
                   "flex items-center justify-center w-[240px] h-8  lg:w-40 lg:h-10 text-xs font-medium ",
                   "rounded-md lg:rounded-lg  shadow-d3",
