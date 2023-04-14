@@ -93,7 +93,7 @@ function PlanList() {
     dispatchFilter({
       type: "plan",
       payload: {
-        value: [list1[activeIdx]],
+        value: [list1[activeIdx].incentivePlanId],
       },
     });
 
@@ -203,7 +203,7 @@ function PlanList() {
                     dispatchFilter({
                       type: "plan",
                       payload: {
-                        value: [plan],
+                        value: [plan.incentivePlanId],
                       },
                     });
                   }
@@ -219,15 +219,13 @@ function PlanList() {
                             dispatchFilter({
                               type: "plan",
                               payload: {
-                                value: [tip],
+                                value: [tip.incentivePlanId],
                               },
                             });
                           }}
                         >
                           <PlanCard
-                            isActive={
-                              filters?.plan?.length === 1 && filters?.plan[0]?.incentivePlanId === tip.incentivePlanId
-                            }
+                            isActive={filters?.plan?.length === 1 && filters?.plan[0] === tip.incentivePlanId}
                             tip={tip}
                             pc={pc}
                           />
