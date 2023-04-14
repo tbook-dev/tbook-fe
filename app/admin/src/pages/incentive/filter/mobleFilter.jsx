@@ -60,12 +60,16 @@ export default function ({ open, filters: withPlanFilters, setOpen, filterOpiton
                         onClick={() => {
                           if (v.disabled) return;
                           let res = [];
-                          if (list?.find((i) => i.value === v.value)) {
-                            // 反选
-                            res = list.filter((i) => i.value !== v.value);
+                          if (v.key === "sortBy") {
+                            res = v.value;
                           } else {
-                            // 增加
-                            res = [...list, v];
+                            if (list?.find((i) => i.value === v.value)) {
+                              // 反选
+                              res = list.filter((i) => i.value !== v.value);
+                            } else {
+                              // 增加
+                              res = [...list, v];
+                            }
                           }
 
                           dispatchFilter({
