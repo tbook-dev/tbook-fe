@@ -374,7 +374,7 @@ function PlanList() {
               </div>
             )}
             <div className={clsx(filterOpen ? "col-span-3" : "col-span-full")}>
-              {flatFilters.length > 0 && (
+              {flatFilters.length > 0 && !(userLoading || grantLoading) && (
                 <div className="flex flex-wrap mb-3 col-span-full">
                   {flatFilters.map((v) => (
                     <div
@@ -413,32 +413,38 @@ function PlanList() {
                 </div>
               )}
 
-              {displayType === 1 &&
-                (filterGrantList.length > 0 ? (
-                  <GrantTable list={filterGrantList} filters={filters} />
-                ) : (
-                  <div className="h-[272px] rounded-xl bg-[#f6f8fa] dark:bg-b-1 flex items-center justify-center">
-                    <Empty />
-                  </div>
-                ))}
+              {userLoading || grantLoading ? (
+                <div className="flex items-center justify-center w-full h-[300px]">
+                  <Spin />
+                </div>
+              ) : (
+                <>
+                  {displayType === 1 &&
+                    (filterGrantList.length > 0 ? (
+                      <GrantTable list={filterGrantList} filters={filters} />
+                    ) : (
+                      <div className="h-[272px] rounded-xl bg-[#f6f8fa] dark:bg-b-1 flex items-center justify-center">
+                        <Empty />
+                      </div>
+                    ))}
 
-              {displayType === 0 && (
-                <div
-                  className={clsx(
-                    "grid gap-x-2 gap-y-3",
-                    filterGrantList.length > 0 ? (filterOpen ? "grid-cols-3" : "grid-cols-4") : "grid-cols-1"
-                  )}
-                >
-                  {userLoading || grantLoading ? (
-                    <Spin />
-                  ) : filterGrantList.length > 0 ? (
-                    filterGrantList.map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
-                  ) : (
-                    <div className="h-[272px] rounded-xl bg-[#f6f8fa] dark:bg-b-1 flex items-center justify-center">
-                      <Empty />
+                  {displayType === 0 && (
+                    <div
+                      className={clsx(
+                        "grid gap-x-2 gap-y-3",
+                        filterGrantList.length > 0 ? (filterOpen ? "grid-cols-3" : "grid-cols-4") : "grid-cols-1"
+                      )}
+                    >
+                      {filterGrantList.length > 0 ? (
+                        filterGrantList.map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
+                      ) : (
+                        <div className="h-[272px] rounded-xl bg-[#f6f8fa] dark:bg-b-1 flex items-center justify-center">
+                          <Empty />
+                        </div>
+                      )}
                     </div>
                   )}
-                </div>
+                </>
               )}
             </div>
           </div>
