@@ -136,8 +136,14 @@ function PlanList() {
       res = res.filter((grant) => plan.find((v) => grant?.grant?.incentivePlanId === v.value));
     }
     if (vestingType.length > 0) {
-      res = res.filter((grant) => plan.find((v) => grant?.grant?.incentivePlanId === v.value));
+      res = res.filter((grant) => vestingType.find((v) => grant?.grant?.grantType === v.value));
     }
+    if (sortBy === 1) {
+      res = res.sort();
+    } else if (sortBy === 2) {
+      res = res.sort((a, b) => b?.grant?.grantNum - a?.grant?.grantNum);
+    }
+    // grantType 现在都是token option, 现在没效果
     return res;
   }, [grantList, filters]);
 
