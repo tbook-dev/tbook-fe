@@ -24,8 +24,8 @@ export default function ({ grant }) {
         render: () => {
           const type = grantType.find((item) => item.value === grant?.grant?.grantType);
           return (
-            <div className="flex justify-end">
-              <img src={type?.icon} className="mr-1" />
+            <div className="flex items-center justify-end">
+              <img src={type?.icon} className="mr-px" />
               {type?.label}
             </div>
           );
