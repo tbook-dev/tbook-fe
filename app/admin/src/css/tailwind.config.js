@@ -39,6 +39,7 @@ module.exports = {
         l4: "0px 0px 8px rgba(0, 0, 0, 0.1)",
         l5: "0px -2px 8px rgba(255, 255, 255, 0.25)",
         l6: "0px -2px 8px rgba(0, 0, 0, 0.1)",
+        l7: "1px 2px 10px rgba(255, 255, 255, 0.35)",
 
         DEFAULT: "0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.02)",
         md: "0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.02)",
@@ -81,6 +82,7 @@ module.exports = {
         c14: ["14px", { lineHeight: "18px" }],
         c15: ["12px", { lineHeight: "14px" }],
         c16: ["14px", { lineHeight: "20px" }],
+        c17: ["16px", { lineHeight: "16px" }],
 
         // coustom web h1
         cwh1: ["32px", { lineHeight: "40px" }],

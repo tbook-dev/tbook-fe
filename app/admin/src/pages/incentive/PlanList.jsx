@@ -1,19 +1,17 @@
-import React, { useState, useReducer, useEffect, useCallback } from "react";
-import { NavLink, Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getIncentiveList, getTipGrantList, getIncentiveListWithGrants } from "@/api/incentive";
+import React, { useState, useReducer, useEffect } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { getIncentiveListWithGrants } from "@/api/incentive";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
-import { PlusOutlined, AppstoreOutlined, BarsOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import GrantTable from "./GrantTable";
 import { Empty } from "@tbook/ui";
 import { useAsyncEffect, useResponsive } from "ahooks";
-import { useCurrentProjectId, useUserInfoLoading, useProjects } from "@tbook/hooks";
+import { useCurrentProjectId, useUserInfoLoading, useTheme, useProjects } from "@tbook/hooks";
 import _ from "lodash";
-import { signLoginMetaMask } from "@/utils/web3";
-import { useDispatch, useSelector } from "react-redux";
-import { user } from "@tbook/store";
+import { useSelector } from "react-redux";
 import clsx from "clsx";
 import PlanCard from "./planCard/Active";
 import GrantCard from "./grantCard";
@@ -22,12 +20,20 @@ import FilterPanel from "./filter";
 import { Spin } from "antd";
 import { filterReducer, initialFilters } from "@/store/parts";
 import dayjs from "dayjs";
-import { useSigner, useAccount } from "wagmi";
 import PlanTipNoConnect from "./planTip/NoConnect";
 import PlanTipNoProject from "./planTip/NoProject";
-import { useTheme } from "@tbook/hooks";
+import filterIcon from "@tbook/share/images/icon/filter.svg";
+import filterIcon2 from "@tbook/share/images/icon/filter2.svg";
+import filterList from "@tbook/share/images/icon/list-default.png";
+import filterList2 from "@tbook/share/images/icon/list-active.png";
+import filterCard from "@tbook/share/images/icon/card-default.png";
+import filterCard2 from "@tbook/share/images/icon/card-active.png";
+import closeIcon from "@tbook/share/images/icon/close4.svg";
+import closeIcon2 from "@tbook/share/images/icon/close5.svg";
+import Select from "@/components/select/themeSelect";
+import { conf } from "@tbook/utils";
 
-const { setAuthUser, fetchUserInfo } = user;
+const { sortList, dateFormat, getLastVested } = conf;
 
 function PlanList() {
   const [swiper, setSwiper] = useState(null);
@@ -37,10 +43,9 @@ function PlanList() {
   const [grantLoading, setGrantLoading] = useState(false);
   const userLoading = useUserInfoLoading();
   const projectId = useCurrentProjectId();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.user.authUser);
-  const [drawerOpen, setDrawer] = useState(false);
+  const [filterOpen, setFilter] = useState(false);
   const { pc } = useResponsive();
   const [filters, dispatchFilter] = useReducer(filterReducer, initialFilters);
   const [searchParams] = useSearchParams();
@@ -49,22 +54,8 @@ function PlanList() {
   // type, 0是卡片，1是表格
   const [displayType, setDisplayType] = useState(0);
 
-  const { data: signer } = useSigner();
-  const { address } = useAccount();
-
   const selectedTipId = searchParams.get("tipId");
 
-  // console.log("authUser", authUser);
-  async function handleSignIn() {
-    // console.log("authUser", authUser);
-    if (authUser) {
-      navigate("/incentive/create");
-    } else {
-      await signLoginMetaMask(address, signer);
-      dispatch(fetchUserInfo());
-      dispatch(setAuthUser(true));
-    }
-  }
   useEffect(() => {
     return () => {
       swiper?.destroy();
@@ -80,7 +71,7 @@ function PlanList() {
     // grants
     //const list2 = await Promise.all(list1.map((tip) => getTipGrantList(tip.incentivePlanId)));
     const list2 = list1.map((tip) => tip.grants);
-    console.log({list2})
+    console.log({ list2 });
     let activeIdx = list1.findIndex((t) => t.incentivePlanId == selectedTipId);
     if (activeIdx === -1) {
       const list2Formated = _.cloneDeep(list2)
@@ -102,15 +93,20 @@ function PlanList() {
     // const activeIdx = list2Formated[0]?.idx || 0;
     setActiveIndex(activeIdx);
     console.log("activeIdx", activeIdx);
-    // if (pc) {
+
     dispatchFilter({
-      type: "Plan",
+      type: "plan",
       payload: {
-        value: list1[activeIdx]?.incentivePlanId,
-        isNegate: false,
+        value: [
+          {
+            value: list1[activeIdx].incentivePlanId,
+            label: list1[activeIdx].incentivePlanName,
+            key: "plan",
+            disabled: false,
+          },
+        ],
       },
     });
-    // }
 
     // console.log(list1[activeIdx+1]?.incentivePlanId)
     // !pc &&
@@ -123,19 +119,60 @@ function PlanList() {
     // console.log("activeIdx--in", activeIdx);
   }, [projectId]);
 
-  const filterGrantList = useCallback(() => {
-    const { Status, Plan } = filters;
-    let res = grantList;
-    if (Status !== null) {
-      res = res.filter((grant) => grant?.grant?.grantStatus === Status);
+  useEffect(() => {
+    if (swiper && filters.plan.length === 1 && tipList.length > 0) {
+      const idx = tipList.findIndex((v) => v.incentivePlanId === filters.plan[0]?.value);
+      try {
+        idx !== -1 && swiper?.slideTo(idx);
+      } catch (error) {
+        console.log(error);
+      }
     }
-    // console.log(filters)
-    if (Plan !== null) {
-      res = res.filter((grant) => grant?.grant?.incentivePlanId === Plan);
+  }, [filters.plan.length, swiper, tipList.length]);
+
+  const getfilterGrantList = () => {
+    const { status = [], plan = [], vestingType = [], grantType = [], sortBy = 1 } = filters;
+    let res = grantList.slice();
+    if (status.length > 0) {
+      res = res.filter((grant) => status.find((v) => grant?.grant?.grantStatus === v.value));
     }
+    if (plan.length > 0) {
+      res = res.filter((grant) => plan.find((v) => grant?.grant?.incentivePlanId === v.value));
+    }
+    if (vestingType.length > 0) {
+      res = res.filter((grant) => vestingType.find((v) => grant?.grant?.grantType === v.value));
+    }
+    if (sortBy === 1) {
+      // grantDate
+      res = res.sort((a, b) =>
+        dayjs(b?.grant?.grantDate, dateFormat).isBefore(dayjs(a?.grant?.grantDate, dateFormat)) ? -1 : 1
+      );
+    } else if (sortBy === 2) {
+      // Token Amount
+      res = res.sort((a, b) => b?.grant?.grantNum - a?.grant?.grantNum);
+    } else if (sortBy === 3) {
+      res = res.sort((a, b) => b?.vestedAmount - a?.vestedAmount);
+    } else if (sortBy === 4) {
+      // 存在没有授予的情况
+      res = res.sort((a, b) =>
+        dayjs(getLastVested(b?.grant?.vestingSchedule?.vestingDetail)?.date, dateFormat).isBefore(
+          dayjs(getLastVested(a?.grant?.vestingSchedule?.vestingDetail)?.date, dateFormat)
+        )
+          ? 1
+          : -1
+      );
+      res.reverse();
+    }
+    // grantType 现在都是token option, 现在没效果
     return res;
-  }, [grantList, filters]);
+  };
+  const filterGrantList = getfilterGrantList();
+
+  const flatKeys = ["status", "plan", "vestingType", "grantType"];
+  const flatFilters = _.flattenDeep([flatKeys.map((key) => filters[key])]);
+  // console.log({ grantList, filters });
   // console.log("filters.plan", filters.Plan);
+  // console.log(filters, flatFilters);
   return (
     <div className="w-full text-[#202124] mb-4 px-4 lg:px-0 lg:w-[936px] mx-auto">
       <div
@@ -194,14 +231,16 @@ function PlanList() {
                   prevEl: ".swiper-button-prev",
                 }}
                 onSlideChange={(w) => {
-                  if (!pc && !drawerOpen) {
-                    let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
-                    // console.log({ incentivePlanId }, "xxx");
+                  if (!pc && !filterOpen) {
+                    // let incentivePlanId = tipList[w.realIndex]?.incentivePlanId;
+                    let tip = tipList[w.realIndex];
+
                     dispatchFilter({
-                      type: "Plan",
+                      type: "plan",
                       payload: {
-                        value: incentivePlanId,
-                        isNegate: false,
+                        value: [
+                          { value: tip.incentivePlanId, label: tip.incentivePlanName, key: "plan", disabled: false },
+                        ],
                       },
                     });
                   }
@@ -215,15 +254,25 @@ function PlanList() {
                           style={{ padding: "4px 4px" }}
                           onClick={() => {
                             dispatchFilter({
-                              type: "Plan",
+                              type: "plan",
                               payload: {
-                                value: tip.incentivePlanId,
-                                isNegate: true,
+                                value: [
+                                  {
+                                    value: tip.incentivePlanId,
+                                    label: tip.incentivePlanName,
+                                    key: "plan",
+                                    disabled: false,
+                                  },
+                                ],
                               },
                             });
                           }}
                         >
-                          <PlanCard isActive={filters.Plan === tip.incentivePlanId} tip={tip} pc={pc} />
+                          <PlanCard
+                            isActive={filters?.plan?.length === 1 && filters?.plan[0]?.value === tip.incentivePlanId}
+                            tip={tip}
+                            pc={pc}
+                          />
                         </div>
                       </SwiperSlide>
                     );
@@ -245,16 +294,22 @@ function PlanList() {
       </div>
 
       {pc ? (
-        <div className="hidden lg:block">
+        <div>
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-[32px] lg:text-cwh2 dark:text-white font-bold">Grants</h2>
 
             {userLoading || grantLoading ? null : (
               <button
                 type="button"
-                disabled={filters.Plan === null || filters.Plan === undefined}
-                onClick={() => navigate(`/incentive/grant/${filters.Plan}/create`)}
-                className="flex items-center justify-center text-xs font-medium leading-normal text-white transition duration-150 ease-in-out bg-black bg-none dark:bg-white lg:hover:dark:opacity-100 lg:hover:opacity-70 lg:w-40 lg:h-10 disabled:bg-l-2 disabled:text-l-1 lg:rounded-lg dark:text-black shadow-d3 hover:text-white lg:dark:hover:bg-cw1 hover:shadow-d7 lg:dark:hover:text-white dark:disabled:bg-b-1 dark:disabled:text-b-2 hover:disabled:bg-none hover:disabled:shadow-none"
+                disabled={filters.plan.length !== 1}
+                onClick={() => navigate(`/incentive/grant/${filters.plan[0]?.value}/create`)}
+                className={clsx(
+                  "flex items-center justify-center text-xs font-medium text-white  bg-black",
+                  "dark:bg-white lg:hover:dark:opacity-100 lg:hover:opacity-70 lg:w-40 lg:h-10",
+                  " disabled:bg-l-2 disabled:text-l-1 lg:rounded-lg dark:text-black shadow-d3 hover:text-white lg:dark:hover:bg-cw1",
+                  " hover:shadow-d7 disabled:shadow-none dark:disabled:bg-b-1 dark:disabled:text-b-2",
+                  "lg:hover:dark:disabled:bg-none hover:disabled:shadow-none disabled:dark:hover:text-b-2 "
+                )}
               >
                 <PlusOutlined />
                 <span className="ml-2 text-[14px]">New Grant</span>
@@ -262,81 +317,136 @@ function PlanList() {
             )}
           </div>
 
-          {/* {userLoading || grantLoading ? null : (
-            <div className="justify-end hidden my-4 lg:flex">
-              <div className="flex items-center overflow-hidden bg-white dark:bg-black !divide-x dark:divide-black rounded-lg shadow-c12">
-                <div className="flex items-center justify-center w-10 h-10 bg-b-1">
-                  <BarsOutlined
-                    onClick={() => authUser && setDisplayType(1)}
-                    style={{
-                      cursor: authUser ? null : "not-allowed",
-                      color: authUser
-                        ? displayType === 1
-                          ? "#0049FF"
-                          : "#BFBFBF"
-                        : "rgba(255,255,255,.2)",
-                    }}
-                  />
-                </div>
-                <div className="flex items-center justify-center w-10 h-10 bg-b-1">
-                  <AppstoreOutlined
-                    onClick={() => authUser && setDisplayType(0)}
-                    style={{
-                      cursor: authUser ? null : "not-allowed",
-                      color: authUser
-                        ? displayType === 0
-                          ? "#0049FF"
-                          : "#BFBFBF"
-                        : "rgba(255,255,255,.2)",
-                    }}
-                  />
-                </div>
+          {userLoading || grantLoading ? null : (
+            <div className="flex items-center justify-between my-4">
+              <img
+                src={theme === "dark" ? filterIcon : filterIcon2}
+                className="object-contain w-10 h-10 cursor-pointer"
+                onClick={() => {
+                  setFilter(!filterOpen);
+                }}
+              />
+
+              <div className="flex items-center bg-white rounded-lg dark:bg-black shadow-c12">
+                <Select
+                  options={sortList}
+                  style={{ width: 214 }}
+                  value={filters.sortBy}
+                  onChange={(v) => {
+                    dispatchFilter({
+                      type: "sortBy",
+                      payload: {
+                        value: v,
+                      },
+                    });
+                  }}
+                />
+                <img
+                  src={displayType === 1 ? filterList2 : filterList}
+                  className={clsx(
+                    !authUser && "cursor-not-allowed",
+                    "w-10 h-10 object-cover ml-3 cursor-pointer hover:opacity-70"
+                  )}
+                  onClick={() => authUser && setDisplayType(1)}
+                />
+                <img
+                  src={displayType === 0 ? filterCard2 : filterCard}
+                  className={clsx(
+                    !authUser && "cursor-not-allowed",
+                    "w-10 h-10 object-cover cursor-pointer hover:opacity-70"
+                  )}
+                  onClick={() => authUser && setDisplayType(0)}
+                />
               </div>
             </div>
-          )} */}
+          )}
 
-          <div className="hidden lg:block">
-            {displayType === 1 && <GrantTable list={filterGrantList(grantList)} loading={grantLoading} />}
+          <div className={clsx("grid gap-x-2 grid-cols-4")}>
+            {filterOpen && (
+              <div className="col-span-1">
+                <FilterPanel
+                  tipList={tipList}
+                  filters={filters}
+                  open={filterOpen}
+                  setOpen={setFilter}
+                  dispatch={dispatchFilter}
+                />
+              </div>
+            )}
+            <div className={clsx(filterOpen ? "col-span-3" : "col-span-full")}>
+              {flatFilters.length > 0 && (
+                <div className="flex flex-wrap mb-3 col-span-full">
+                  {flatFilters.map((v) => (
+                    <div
+                      key={v.key + v.value}
+                      className="flex items-center rounded text-c5 py-1.5 px-4 mr-4 mb-3 bg-[#f6fafe]  dark:bg-[#191919] dark:text-white"
+                    >
+                      {v.label}
+                      <img
+                        onClick={() => {
+                          const list = filters[v.key];
+                          const res = list.filter((i) => i.value !== v.value);
+                          dispatchFilter({
+                            type: v.key,
+                            payload: {
+                              value: res,
+                            },
+                          });
+                        }}
+                        className="w-2.5 h-2.5 object-contain ml-2.5 cursor-pointer"
+                        src={theme === "dark" ? closeIcon : closeIcon2}
+                      />
+                    </div>
+                  ))}
 
-            {displayType === 0 && (
-              <div
-                className={clsx(
-                  "grid gap-x-2 gap-y-3",
-                  filterGrantList(grantList).length > 0 ? "grid-cols-4" : "grid-cols-1"
-                )}
-              >
-                {userLoading || grantLoading ? (
-                  <Spin />
-                ) : filterGrantList(grantList).length > 0 ? (
-                  filterGrantList(grantList).map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
+                  <div
+                    className="flex items-center justify-center rounded text-c5 mr-4 mb-3 py-1.5 w-[120px]  cursor-pointer dark:shadow-d3 text-white hover:opacity-70 bg-black dark:bg-transparent"
+                    onClick={() => {
+                      dispatchFilter({
+                        type: "clearAll",
+                        payload: null,
+                      });
+                    }}
+                  >
+                    Clear All
+                  </div>
+                </div>
+              )}
+
+              {displayType === 1 &&
+                (filterGrantList.length > 0 ? (
+                  <GrantTable list={filterGrantList} filters={filters} />
                 ) : (
                   <div className="h-[272px] rounded-xl bg-[#f6f8fa] dark:bg-b-1 flex items-center justify-center">
                     <Empty />
                   </div>
-                )}
-              </div>
-            )}
+                ))}
+
+              {displayType === 0 && (
+                <div
+                  className={clsx(
+                    "grid gap-x-2 gap-y-3",
+                    filterGrantList.length > 0 ? (filterOpen ? "grid-cols-3" : "grid-cols-4") : "grid-cols-1"
+                  )}
+                >
+                  {userLoading || grantLoading ? (
+                    <Spin />
+                  ) : filterGrantList.length > 0 ? (
+                    filterGrantList.map((grant) => <GrantCardV2 grant={grant} key={grant.grant.grantId} />)
+                  ) : (
+                    <div className="h-[272px] rounded-xl bg-[#f6f8fa] dark:bg-b-1 flex items-center justify-center">
+                      <Empty />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       ) : (
         <div className="block lg:hidden">
-          {/* {swiper?.realIndex !== tipList.length && (
-            <div className="fixed left-0 right-0 bottom-8">
-              <Link
-                to={`/incentive/grant/${
-                  swiper?.realIndex !== tipList.length
-                    ? tipList[swiper?.realIndex]?.incentivePlanId
-                    : "tmp"
-                }/create`}
-                className="flex items-center justify-center  w-60 h-[35px] bg-[#0049FF] text-white text-[16px] leading-[20px] mx-auto rounded-3xl"
-              >
-                <PlusOutlined />
-                <span className="mx-6">New Grant</span>
-              </Link>
-            </div>
-          )}  */}
           {userLoading || grantLoading ? null : (
-            <div className="flex mt-6 mb-2">
+            <div className="flex items-center justify-between mt-6 mb-2">
               <button
                 type="button"
                 disabled={filters.Plan === null || filters.Plan === undefined}
@@ -352,41 +462,22 @@ function PlanList() {
                 <PlusOutlined />
                 <span className="ml-2 text-[14px]">New Grant</span>
               </button>
+
+              <FilterPanel
+                tipList={tipList}
+                filters={filters}
+                open={filterOpen}
+                setOpen={setFilter}
+                dispatch={dispatchFilter}
+              />
             </div>
           )}
-          {/* <Drawer
-            placement="bottom"
-            closable={false}
-            open={drawerOpen}
-            contentWrapperStyle={{
-              height: "70vh",
-              borderRadius: "24px 24px 0px 0px",
-              overflow: "hidden",
-            }}
-            onClose={() => setDrawer(false)}
-          >
-            <FilterPanel
-              tipList={tipList}
-              filters={filters}
-              dispatch={dispatchFilter}
-              swiper={swiper}
-            />
-          </Drawer>
 
-          <nav>
-            <Button onClick={() => setDrawer(true)}>open</Button>
-          </nav> */}
-
-          <div
-            className={clsx(
-              "grid gap-x-2 gap-y-2",
-              filterGrantList(grantList).length > 0 ? "grid-cols-2" : "grid-cols-1"
-            )}
-          >
+          <div className={clsx("grid gap-x-2 gap-y-2", filterGrantList.length > 0 ? "grid-cols-2" : "grid-cols-1")}>
             {userLoading || grantLoading ? (
               <Spin />
-            ) : filterGrantList(grantList).length > 0 ? (
-              filterGrantList(grantList).map((grant) => <GrantCard grant={grant} key={grant.grant.grantId} />)
+            ) : filterGrantList.length > 0 ? (
+              filterGrantList.map((grant) => <GrantCard grant={grant} key={grant.grant.grantId} />)
             ) : (
               <div className="h-[222px] rounded-lg bg-[#f6f8fa]  dark:bg-b-1 shadow-l3 flex items-center justify-center">
                 <Empty description="No grant" />

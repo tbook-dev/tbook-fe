@@ -68,7 +68,6 @@ export default function Pie({ pieList, totalToken, loading }) {
                   <div
                     key={v.id}
                     className="flex items-center justify-between h-10 px-4 py-1 font-medium border-l-4 rounded bg-b-1"
-                    key={v.versionId}
                     style={{ borderColor: c, backgroundColor: hexToRgba(bg, 0.04) }}
                   >
                     <div>

@@ -1,36 +1,31 @@
-import React from "react";
-import { Table, ConfigProvider, Empty } from "antd";
+import React, { useEffect, useState } from "react";
 import { conf } from "@tbook/utils";
-import { Link } from "react-router-dom";
+import Pagination from "@/components/pagination";
 
-const { grantStatusList, grantType, formatDollar, shortAddress } = conf;
+const { grantStatusList, grantType, formatDollar, shortAddress, getLastVested } = conf;
 
-export default function ({ list = [], loading = false }) {
+export default function ({ list = [], filters }) {
+  const [current, setCurrent] = useState(1);
+  const pageSize = 10;
+  useEffect(() => {
+    setCurrent(1);
+  }, [filters]);
   const columns = [
     {
       title: "GRANT ID",
-      align: "center",
-      render: (_, v) => (
-        <Link to={`/grants/${v?.grant?.grantId}/sign`}>
-          <p className="text-[#0049FF]">{v?.grant?.grantId}</p>
-        </Link>
-      ),
+      render: (_, v) => v?.grant?.grantId,
     },
     {
       title: "GRANTEE",
-      align: "center",
-      dataIndex: "granteeId",
       render(_, record) {
         return (
-          <div className="flex">
-            <img src={record?.grantee?.avatar} className="w-[40px] h-[40px] rounded-full mr-1.5" />
-            <div className="flex flex-col justify-center flex-none">
-              <h3 className="text-ellipsis w-max-[130px]	truncate font-bold text-[#202124] text-base">
-                {record?.grantee?.name}
-              </h3>
-              <p className="text-ellipsis	truncate text-[#45484F] text-sm">
-                {shortAddress(record?.grantee?.mainWallet)}
-              </p>
+          <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[rgba(69, 160, 245, 0.2)] dark:bg-[#141414] mr-2">
+              <img src={record?.grantee?.avatar} className="w-6 h-6 rounded-full" />
+            </div>
+            <div className="flex flex-col justify-center flex-none text-c-3 dark:text-b-8">
+              <h3 className="text-ellipsis w-max-[130px]	truncate  text-base">{record?.grantee?.name}</h3>
+              <p className="text-sm truncate text-ellipsis">{shortAddress(record?.grantee?.mainWallet)}</p>
             </div>
           </div>
         );
@@ -38,81 +33,93 @@ export default function ({ list = [], loading = false }) {
     },
     {
       title: "STATUS",
-      // className:"flex justify-center",
       render(_, record) {
-        const stauts = record?.grant?.grantStatus;
-        const content = grantStatusList.find((item) => stauts === item.value)?.render();
-        // Draft-编辑操作-跳转对应grant创建编辑页
-        // signing的是链接
-        return <Link to={`/grants/${record.grant?.grantId}/sign`}>{content}</Link>;
-      },
-    },
-    {
-      title: "GRANT DATE",
-      align: "center",
-      render(_, record) {
-        return record?.grant?.grantDate;
-      },
-    },
-    {
-      title: "VESTING BY",
-      align: "center",
-      render(_, record) {
-        const type = grantType.find((item) => item.value === record?.grant?.grantType);
+        const status = grantStatusList.find((item) => record.grant?.grantStatus === item.value);
         return (
-          <div className="flex">
-            {type?.label}
-            <img src={type?.icon} className="ml-2" />
-          </div>
+          status && (
+            <span
+              className="text-center max-w-[100px] w-20 px-2 truncate border rounded"
+              style={{
+                color: status?.darkColor,
+                borderColor: status?.darkColor,
+              }}
+            >
+              {status?.text}
+            </span>
+          )
         );
       },
     },
     {
-      title: "TOTAL TOKEN",
-      align: "center",
+      title: "VESTING TYPE",
       render(_, record) {
-        return formatDollar(record?.grant?.grantNum);
+        const type = grantType.find((item) => item.value === record?.grant?.grantType);
+        return <span>{type?.label}</span>;
       },
     },
     {
-      title: "VESTED TOKEN",
-      align: "center",
+      title: "LATEST VESTING",
+      render(_, record) {
+        return getLastVested(record?.grant?.vestingSchedule?.vestingDetail)?.date || "-";
+      },
+    },
+
+    {
+      title: "VESTED AMOUNT",
       render(_, record) {
         return formatDollar(record?.vestedAmount);
       },
     },
 
-    // {
-    //   title: "ACTION",
-    //   align:"center",
-    //   render(_, record) {
-    //     let text = "",
-    //       link = "";
-    //     switch (record?.grant?.grantStatus) {
-    //       case 1:
-    //         // 草稿
-    //         text = "EDIT";
-    //         link = `/incentive/grant/${record?.grant?.incentivePlanId}/create?grantId=${record?.grant?.grantId}`;
-    //         break;
-
-    //       case 2:
-    //         // signing
-    //         text = "SIGN";
-    //         link = `/grants/${record?.grant?.grantId}/sign`;
-    //         break;
-
-    //       default:
-    //         // view-
-    //         text = "VIEW";
-    //         link = `/incentive/grant/${record?.grant?.incentivePlanId}/${record?.grant?.grantId}/detail`;
-    //     }
-
-    //     return <Link to={link}>{text}</Link>;
-    //   },
-    // },
+    {
+      title: "TOTAL AMOUNT",
+      render(_, record) {
+        return formatDollar(record?.grant?.grantNum);
+      },
+    },
   ];
 
   return (
-    <Table bordered loading={loading} columns={columns} rowKey={(record) => record?.grant?.grantId} dataSource={list} />
+    <div className="mb-10 dark:text-white">
+      <table className="min-w-full text-xs text-center">
+        <thead className="h-12 font-medium">
+          <tr>
+            {columns.map((v) => {
+              return (
+                <th scope="col" className="px-6 py-4 bg-[#f6fafe]  dark:bg-[#191919]" key={v.title}>
+                  {v.title}
+                </th>
+              );
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {list.slice((current - 1) * pageSize, current * pageSize).map((v) => {
+            return (
+              <tr key={v?.grant?.grantId}>
+                {columns.map((c) => {
+                  return (
+                    <td className="py-2 " key={c.title}>
+                      {c.render(null, v)}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <div className="flex justify-end pt-2">
+        <Pagination
+          hideOnSinglePage
+          responsive
+          showSizeChanger={false}
+          current={current}
+          pageSize={pageSize}
+          total={list.length}
+          onChange={setCurrent}
+        />
+      </div>
+    </div>
   );
 }
