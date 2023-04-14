@@ -413,7 +413,7 @@ function PlanList() {
 
               {displayType === 1 &&
                 (filterGrantList.length > 0 ? (
-                  <GrantTable list={filterGrantList} loading={grantLoading} />
+                  <GrantTable list={filterGrantList} filters={filters} />
                 ) : (
                   <div className="h-[272px] rounded-xl bg-[#f6f8fa] dark:bg-b-1 flex items-center justify-center">
                     <Empty />
