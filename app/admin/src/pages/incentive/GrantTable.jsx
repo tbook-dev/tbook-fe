@@ -22,8 +22,8 @@ export default function ({ list = [], loading = false }) {
             <div className="flex items-center justify-center w-10 h-10 rounded-full dark:bg-[#141414] mr-2">
               <img src={record?.grantee?.avatar} className="w-6 h-6 rounded-full" />
             </div>
-            <div className="flex flex-col justify-center flex-none text-b-8">
-              <h3 className="text-ellipsis w-max-[130px]	truncate font-bold text-base">{record?.grantee?.name}</h3>
+            <div className="flex flex-col justify-center flex-none text-c-3 dark:text-b-8">
+              <h3 className="text-ellipsis w-max-[130px]	truncate  text-base">{record?.grantee?.name}</h3>
               <p className="text-sm truncate text-ellipsis">{shortAddress(record?.grantee?.mainWallet)}</p>
             </div>
           </div>

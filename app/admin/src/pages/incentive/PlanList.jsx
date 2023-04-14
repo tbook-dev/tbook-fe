@@ -23,11 +23,13 @@ import dayjs from "dayjs";
 import PlanTipNoConnect from "./planTip/NoConnect";
 import PlanTipNoProject from "./planTip/NoProject";
 import filterIcon from "@tbook/share/images/icon/filter.svg";
+import filterIcon2 from "@tbook/share/images/icon/filter2.svg";
 import filterList from "@tbook/share/images/icon/list-default.png";
 import filterList2 from "@tbook/share/images/icon/list-active.png";
 import filterCard from "@tbook/share/images/icon/card-default.png";
 import filterCard2 from "@tbook/share/images/icon/card-active.png";
 import closeIcon from "@tbook/share/images/icon/close4.svg";
+import closeIcon2 from "@tbook/share/images/icon/close5.svg";
 import Select from "@/components/select/themeSelect";
 import { conf } from "@tbook/utils";
 
@@ -316,7 +318,7 @@ function PlanList() {
           {userLoading || grantLoading ? null : (
             <div className="flex items-center justify-between my-4">
               <img
-                src={filterIcon}
+                src={theme === "dark" ? filterIcon : filterIcon2}
                 className="object-contain w-10 h-10 cursor-pointer"
                 onClick={() => {
                   setFilter(!filterOpen);
@@ -375,7 +377,7 @@ function PlanList() {
                   {flatFilters.map((v) => (
                     <div
                       key={v.key + v.value}
-                      className="flex items-center rounded text-c5 py-1.5 px-4 mr-4 mb-3 dark:bg-[#191919] dark:text-white"
+                      className="flex items-center rounded text-c5 py-1.5 px-4 mr-4 mb-3 bg-[#f6fafe]  dark:bg-[#191919] dark:text-white"
                     >
                       {v.label}
                       <img
@@ -390,13 +392,13 @@ function PlanList() {
                           });
                         }}
                         className="w-2.5 h-2.5 object-contain ml-2.5 cursor-pointer"
-                        src={closeIcon}
+                        src={theme === "dark" ? closeIcon : closeIcon2}
                       />
                     </div>
                   ))}
 
                   <div
-                    className="flex items-center justify-center rounded text-c5 mr-4 mb-3 py-1.5 w-[120px]  cursor-pointer shadow-d3 dark:text-white"
+                    className="flex items-center justify-center rounded text-c5 mr-4 mb-3 py-1.5 w-[120px]  cursor-pointer dark:shadow-d3 text-white hover:opacity-70 bg-black dark:bg-transparent"
                     onClick={() => {
                       dispatchFilter({
                         type: "clearAll",

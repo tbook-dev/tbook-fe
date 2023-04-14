@@ -1,8 +1,8 @@
 import clsx from "clsx";
 
-export default function ({ filters, setOpen, filterOpitons, dispatch }) {
+export default function ({ filters, filterOpitons, dispatch }) {
   return (
-    <div className="w-full px-4 py-6 space-y-4 rounded-lg shadow-l7">
+    <div className="w-full px-4 py-6 space-y-4 rounded-lg shadow-l7 bg-[#f6fafe] dark:bg-transparent">
       {filterOpitons.map((conf) => {
         return (
           <div key={conf.group}>
@@ -38,8 +38,8 @@ export default function ({ filters, setOpen, filterOpitons, dispatch }) {
                       isSelected
                         ? "bg-cw1 text-black font-bold cursor-pointer"
                         : v.disabled
-                        ? "bg-[#191919] text-b-1 font-medium"
-                        : "bg-[#191919] text-c-6 font-medium cursor-pointer"
+                        ? "bg-white dark:bg-[#191919] text-l-1 dark:text-b-1 font-medium"
+                        : "bg-white dark:bg-[#191919] text-c-9 dark:ext-c-6 font-medium cursor-pointer"
                     )}
                   >
                     {v.label}
