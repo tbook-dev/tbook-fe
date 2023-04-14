@@ -16,11 +16,11 @@ export default function TokenTable() {
   const authUser = useSelector((state) => state.user.authUser);
   const projectId = useCurrentProjectId();
   const [tokenDist, setTokenDist] = useState([]);
-  const [tokenDistLoading, setTokenDistLoading] = useState(false);
+  const [tokenDistLoading, setTokenDistLoading] = useState(true);
   const [dilutedToken, setDilutedToken] = useState([]);
-  const [dilutedTokenloading, setDilutedTokenloading] = useState(false);
+  const [dilutedTokenloading, setDilutedTokenloading] = useState(true);
   const [recordList, setRecordList] = useState([]);
-  const [recordListLoading, setRecordListLoading] = useState(false);
+  const [recordListLoading, setRecordListLoading] = useState(true);
   const project = useCurrentProject();
   const navigate = useNavigate();
   const findAudience = useFindAudience();
@@ -66,22 +66,22 @@ export default function TokenTable() {
     setRecordListLoading(false);
   }, [projectId]);
 
-  return (
+  return userLoading ? (
+    <Loading />
+  ) : (
     <div className="dark:text-white bx py-[25px] lg:py-[58px]">
-      {/* section  */}
       <div className="mb-5 lg:mb-12">
-        {userLoading || tokenDistLoading ? (
-          <Loading />
-        ) : (
-          <>
-            <AllocationPie pieList={tokenDist} totalToken={tokenTotalAmount} versions={versions} />
-            <TokenDistribution dilutedToken={dilutedToken} dilutedTokenloading={dilutedTokenloading} />
-          </>
-        )}
+        <AllocationPie
+          loading={tokenDistLoading}
+          pieList={tokenDist}
+          totalToken={tokenTotalAmount}
+          versions={versions}
+        />
+        <TokenDistribution loading={dilutedTokenloading} dilutedToken={dilutedToken} />
       </div>
 
       {/* {tipList.length === 0 ? <Template /> : <RecordTable />} */}
-      {userLoading || recordListLoading ? <Loading /> : <RecordTable list={recordList} />}
+      {recordListLoading ? <Loading /> : <RecordTable list={recordList} />}
     </div>
   );
 }

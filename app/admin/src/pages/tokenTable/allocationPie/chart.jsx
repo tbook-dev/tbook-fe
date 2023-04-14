@@ -12,7 +12,7 @@ const { formatDollar, colors } = conf;
 
 echarts.use([GraphicComponent, TooltipComponent, LegendComponent, PieChart, CanvasRenderer, LabelLayout]);
 
-const getColor = (idx) => colors[idx % 14];
+const getColor = (idx) => colors[idx % colors.length];
 
 const Chart = ({ data, totalToken, width, height }) => {
   const ref = useRef(null);

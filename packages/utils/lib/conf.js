@@ -380,3 +380,8 @@ export const sortList = [
 ];
 // recently vested  应该是最近成熟的，按最近发生成熟排序
 // recently granted 应该是按授予日期排序，不涉及到状态, grantDate
+
+export const getLoad = (list) => {
+  console.log(list);
+  return !list.filter((v) => !v).length === list.length;
+};
