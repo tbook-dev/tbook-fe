@@ -1,6 +1,10 @@
 import logo from "@tbook/share/images/icon/logo.svg";
 import tel from "@/images/icon/tel.svg";
+import twitter from "@/images/icon/twitter.svg";
 import { NavLink, Link } from "react-router-dom";
+
+const telLink = `https://t.me/Peter_TBook`;
+const twitterLink = `https://twitter.com/realtbook?s=21&t=ccMMXb68Jav5nnocUz9JLw`;
 
 const list = [
   {
@@ -35,9 +39,14 @@ export default function Footer() {
 
           <div className="mb-[60px] hidden lg:block">
             <h3 className="font-bold text-white text-c9 mb-[30px]">Contact us</h3>
-            <a href="https://t.me/Peter_TBook" target="_blank">
-              <img src={tel} />
-            </a>
+            <div className="flex">
+              <a className="w-[46px]" href={telLink} target="_blank">
+                <img src={tel} />
+              </a>
+              <a className="ml-8 w-[46px]" href={twitterLink} target="_blank">
+                <img src={twitter} />
+              </a>
+            </div>
           </div>
         </div>
 
@@ -77,9 +86,15 @@ export default function Footer() {
       </div>
       <div>
         <div className="px-16 py-8 bx">
-          <a href="https://t.me/Peter_TBook" target="_blank" className="flex justify-center mb-3 lg:hidden">
-            <img src={tel} />
-          </a>
+          <div className="flex justify-center mb-3 lg:hidden">
+            <a href={telLink} target="_blank" className="w-10">
+              <img src={tel} />
+            </a>
+            <a href={twitterLink} target="_blank" className="w-10">
+              <img src={twitter} />
+            </a>
+          </div>
+
           <p className="text-c4 text-c-6">© 2023 TBOOK All rights reserved</p>
         </div>
       </div>
