@@ -10,9 +10,6 @@ import Template from "./template";
 import { useNavigate } from "react-router-dom";
 import { useFindAudience } from "@tbook/hooks";
 import Loading from "@/components/loading";
-import { conf } from "@tbook/utils";
-
-const { getLoad } = conf;
 
 export default function TokenTable() {
   const userLoading = useUserInfoLoading();

@@ -1,6 +1,4 @@
 import _ from "lodash";
-// import dateIcon from "@/images/icon/date.svg";
-import dateIcon from "@tbook/share/images/icon/date.svg";
 import dayjs from "dayjs";
 
 /**
@@ -37,7 +35,6 @@ export const grantType = [
     value: 1,
     label: "Cliff Vesting",
     disabled: false,
-    icon: dateIcon,
   },
   {
     name: "Periods",
@@ -364,6 +361,31 @@ export const themeList = [
   { label: "Dark", value: "dark" },
   { label: "Light", value: "light" },
 ];
+
+export const sortList = [
+  {
+    label: "Recently Granted", // 默认选中
+    value: 1,
+    disabled: false,
+  },
+  {
+    label: "Token Amount",
+    value: 2,
+    disabled: false,
+  },
+  {
+    label: "Vested Token Amount",
+    value: 3,
+    disabled: false,
+  },
+  {
+    label: "Recently Vested",
+    value: 4,
+    disabled: false,
+  },
+];
+// recently vested  应该是最近成熟的，按最近发生成熟排序
+// recently granted 应该是按授予日期排序，不涉及到状态, grantDate
 
 export const getLoad = (list) => {
   console.log(list);
