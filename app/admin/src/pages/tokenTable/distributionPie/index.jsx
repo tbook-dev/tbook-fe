@@ -48,11 +48,8 @@ export default function Pie({ dilutedToken, loading }) {
 
   return (
     <div className="p-3 mb-4 bx lg:p-6 lg:mb-10 rect-border bg-[#f6fafe] dark:bg-transparent">
-      <div className="flex items-center justify-between mb-3">
-        <div>
-          <h2 className="font-medium text-c13">Diluted Token Distribution</h2>
-          <p className="text-xs">Add historical token grants and investments, and complete your tokentable. </p>
-        </div>
+      <div className="flex items-center justify-between mb-3 lg:mb-6">
+        <h2 className="font-medium text-c13">Diluted Token Distribution</h2>
 
         <Link to="/record" className="justify-self-end">
           <button
