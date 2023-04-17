@@ -57,7 +57,7 @@ const getFilterOpitons = (plans, pc) => {
     },
   ];
 
-  return pc
+  const res = pc
     ? options
     : [
         {
@@ -67,6 +67,8 @@ const getFilterOpitons = (plans, pc) => {
         },
         ...options,
       ];
+
+  return res.filter((v) => v.list?.length > 0);
 };
 
 export default React.memo(function ({ tipList, open, setOpen, filters, dispatch }) {
