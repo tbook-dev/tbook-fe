@@ -92,6 +92,7 @@ module.exports = {
 
         // coustom h5 h1
         ch1: ["28px", { lineHeight: "36px" }],
+        ch2: ["22px", { lineHeight: "36px" }],
 
         // xxs: ["11px", { lineHeight: '30px', "transform-origin-x": 0, "transform": 'scale(0.9)'}],
         // xs: ["0.75rem", { lineHeight: "1.5" }],
