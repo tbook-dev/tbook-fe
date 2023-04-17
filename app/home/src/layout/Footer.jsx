@@ -9,7 +9,7 @@ const twitterLink = `https://twitter.com/realtbook?s=21&t=ccMMXb68Jav5nnocUz9JLw
 const list = [
   {
     text: "Contact Us",
-    href: "https://t.me/Peter_TBook",
+    href: telLink,
   },
   // {
   //   text: "Terms of Use",
@@ -87,7 +87,7 @@ export default function Footer() {
       <div>
         <div className="px-16 py-8 bx">
           <div className="flex justify-center mb-3 lg:hidden">
-            <a href={telLink} target="_blank" className="w-10">
+            <a href={telLink} target="_blank" className="w-10 mr-4">
               <img src={tel} />
             </a>
             <a href={twitterLink} target="_blank" className="w-10">
