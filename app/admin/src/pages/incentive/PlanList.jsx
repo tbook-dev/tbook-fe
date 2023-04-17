@@ -92,19 +92,26 @@ function PlanList() {
     setActiveIndex(activeIdx);
     console.log("activeIdx", activeIdx);
 
-    dispatchFilter({
-      type: "plan",
-      payload: {
-        value: [
-          {
-            value: list1[activeIdx].incentivePlanId,
-            label: list1[activeIdx].incentivePlanName,
-            key: "plan",
-            disabled: false,
-          },
-        ],
-      },
-    });
+    if (list1.length > 0) {
+      dispatchFilter({
+        type: "plan",
+        payload: {
+          value: [
+            {
+              value: list1[activeIdx].incentivePlanId,
+              label: list1[activeIdx].incentivePlanName,
+              key: "plan",
+              disabled: false,
+            },
+          ],
+        },
+      });
+    } else {
+      dispatchFilter({
+        type: "clearAll",
+        payload: null,
+      });
+    }
 
     // console.log(list1[activeIdx+1]?.incentivePlanId)
     // !pc &&
