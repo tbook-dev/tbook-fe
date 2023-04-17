@@ -39,8 +39,8 @@ export default function Footer() {
 
           <div className="mb-[60px] hidden lg:block">
             <h3 className="font-bold text-white text-c9 mb-[30px]">Contact us</h3>
-            <div className="flex">
-              <a className="w-[46px]" href={telLink} target="_blank">
+            <div className="flex items-center">
+              <a className="w-[40px]" href={telLink} target="_blank">
                 <img src={tel} />
               </a>
               <a className="ml-8 w-[46px]" href={twitterLink} target="_blank">
@@ -87,7 +87,7 @@ export default function Footer() {
       <div>
         <div className="px-16 py-8 bx">
           <div className="flex justify-center mb-3 lg:hidden">
-            <a href={telLink} target="_blank" className="w-10 mr-4">
+            <a href={telLink} target="_blank" className="mr-4 w-9">
               <img src={tel} />
             </a>
             <a href={twitterLink} target="_blank" className="w-10">
