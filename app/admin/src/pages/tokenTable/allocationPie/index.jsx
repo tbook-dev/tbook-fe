@@ -40,7 +40,7 @@ export default function Pie({ pieList, totalToken, loading }) {
   return (
     <div className="p-3 mb-4 bx lg:p-6 lg:mb-10 rect-border bg-[#f6fafe] dark:bg-transparent">
       <div className="flex justify-between lg:justify-start">
-        <h2 className="font-medium lg:mr-4 text-c13">Token Allocation</h2>
+        <h2 className="font-bold lg:font-medium lg:mr-4 text-ch2">Token Allocation</h2>
         <Link to="/allocation" target="_blank">
           <img src={editIcon} className="w-8 h-8 rounded" />
         </Link>

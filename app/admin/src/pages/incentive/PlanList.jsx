@@ -190,7 +190,7 @@ function PlanList() {
         }}
       >
         <div className="flex items-center justify-between mb-2 lg:mb-6">
-          <h2 className="font-bold text-ch1 lg:text-cwh1 dark:text-white">Incentive Plans</h2>
+          <h2 className="font-bold text-ch2 lg:text-cwh1 dark:text-white">Incentive Plans</h2>
 
           {authUser && tipList.length > 0 && (
             <Link to="/create/plan">
