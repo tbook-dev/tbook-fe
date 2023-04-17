@@ -21,7 +21,7 @@ export default function RecordTable({ list }) {
   return (
     <div className="p-3 mb-10 rect-border lg:py-6 lg:px-0 bg-[#f6fafe] dark:bg-transparent">
       <div className="flex items-center justify-between mb-3 lg:px-6">
-        <h2 className="font-medium text-c12 lg:text-c13">Stakeholders</h2>
+        <h2 className="font-bold text-ch2 lg:font-medium lg:text-c13">Stakeholders</h2>
       </div>
 
       <div className="lg:border-t lg:border-b-1">
