@@ -245,6 +245,15 @@ export function maxValidator(max, label) {
   };
 }
 
+export function emptyNotNegativeValidator(label) {
+  return function (_, value) {
+    if (value < 0) {
+      return Promise.reject(new Error(`${label} cannot be less than 0!`));
+    }
+    return Promise.resolve();
+  };
+}
+
 export function getLastVested(list = []) {
   const vestedList = list
     .filter((m) => m.isVested)

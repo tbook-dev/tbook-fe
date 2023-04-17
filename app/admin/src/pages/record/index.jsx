@@ -10,7 +10,8 @@ import { conf } from "@tbook/utils";
 import { Back } from "@tbook/ui";
 import { useAsyncEffect } from "ahooks";
 
-const { dateFormat, defaultErrorMsg, minZeroValidator, moreZeroValidator, maxValidator, getDividePercent } = conf;
+const { dateFormat, defaultErrorMsg, minZeroValidator, emptyNotNegativeValidator, maxValidator, getDividePercent } =
+  conf;
 
 const formItemCol = { labelCol: { span: 10 }, wrapperCol: { span: 14 } };
 
@@ -69,7 +70,9 @@ function Record() {
         <div className="mb-6  lg:w-[600px] mx-4 lg:mx-auto lg:mb-10">
           <div className="flex flex-col justify-center flex-auto ml-[52px] lg:ml-0 lg:text-c">
             <h1 className="mb-1 font-bold text-c11 lg:text-cwh3 dark:text-white">New Grant Record</h1>
-            <h2 className="text-c2 lg:text-cwh2 dark:text-b-8">Edit and manage the grant records.</h2>
+            <h2 className="text-c2 lg:text-cwh2 dark:text-b-8">
+              Add external allocation records to track the whole token allocation plan.
+            </h2>
           </div>
         </div>
 
@@ -159,17 +162,7 @@ function Record() {
                     </Form.Item>
                   </div>
                 </Form.Item>
-                <Form.Item
-                  label="Investment"
-                  name="tokenValue"
-                  rules={[
-                    {
-                      validator: moreZeroValidator("nvestment"),
-                    },
-                  ]}
-                >
-                  <Input placeholder="Not set yet" type="number" suffix="USD" min={0} />
-                </Form.Item>
+
                 <Form.Item
                   label="Grant Date"
                   name="grantDate"
@@ -181,6 +174,23 @@ function Record() {
                   ]}
                 >
                   <DatePicker className="w-full" />
+                </Form.Item>
+
+                <Form.Item
+                  label={
+                    <div className="flex text-right lg:block ">
+                      Invest Amount <br />
+                      <span className="ml-1 lg:ml-0 text-l-4">(optional)</span>
+                    </div>
+                  }
+                  name="tokenValue"
+                  rules={[
+                    {
+                      validator: emptyNotNegativeValidator("Invest amount"),
+                    },
+                  ]}
+                >
+                  <Input placeholder="Not set yet" type="number" suffix="USD" min={0} />
                 </Form.Item>
 
                 <AppConfigProvider>
