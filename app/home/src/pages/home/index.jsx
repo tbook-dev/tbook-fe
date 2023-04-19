@@ -7,6 +7,7 @@ import Partners from "@/partials/home/partners";
 import Product from "@/partials/home/product";
 import Testimonial from "@/partials/home/testimonial";
 import Subscribe from "@/partials/subscribe";
+import Calendly from "@/partials/calendly";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Product />
       <Partners />
       <Testimonial />
+      <Calendly />
       <Subscribe />
     </div>
   );
