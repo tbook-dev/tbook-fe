@@ -318,10 +318,8 @@ function PlanList() {
         </div>
       </div>
 
-      {loading ? (
-        <Loading h="h-[300px]" />
-      ) : showTemplate ? (
-        <Suspense fallback={<Loading h="h-[300px]" />}>
+      {loading ? null : showTemplate ? (
+        <Suspense fallback={<Loading />}>
           <TemplateComponent />
         </Suspense>
       ) : pc ? (
