@@ -11,7 +11,7 @@ export default function Da() {
     Calendly?.initPopupWidget({ url: caLink });
   };
   return (
-    <div className="p-3 mb-10 rounded-lg lg:p-10 lg:rounded-2xl shadow-d6 bx">
+    <div className="p-3 mb-10 lg:mb-[144px] rounded-lg lg:p-10 lg:rounded-2xl shadow-d6 bx">
       <div className="mb-5 text-center lg:mb-10">
         <h2 className="mb-0.5 lg:text-c3 lg:mb-3 text-sm font-medium">
           <span className="text-colorful1">{title}</span>
