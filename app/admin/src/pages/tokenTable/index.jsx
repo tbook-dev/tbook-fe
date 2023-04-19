@@ -1,15 +1,16 @@
+import { useState, lazy, Suspense, useMemo } from "react";
 import AllocationPie from "./allocationPie";
 import TokenDistribution from "./distributionPie";
 import RecordTable from "./recordTable";
 import { useCurrentProjectId, useUserInfoLoading, useCurrentProject } from "@tbook/hooks";
 import { useAsyncEffect, useResponsive } from "ahooks";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getTokenDist, getDilutedToken, getAllocatPlan, getGrantRecordList } from "@/api/incentive";
-import Template from "./template";
+import { useSelector } from "react-redux";
+import { getTokenDist, getDilutedToken, getAllocatPlan, getGrantRecordList, getIncentiveList } from "@/api/incentive";
 import { useNavigate } from "react-router-dom";
 import { useFindAudience } from "@tbook/hooks";
 import Loading from "@/components/loading";
+
+const TemplateComponent = lazy(() => import("./template"));
 
 export default function TokenTable() {
   const userLoading = useUserInfoLoading();
@@ -24,17 +25,42 @@ export default function TokenTable() {
   const project = useCurrentProject();
   const navigate = useNavigate();
   const findAudience = useFindAudience();
+  const [tipLoading, setTipLoading] = useState(false);
+  const [hasTip, setHasTip] = useState(false);
   const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || 100000000;
   const [versions, setVersions] = useState([]);
 
   const { pc } = useResponsive();
 
-  useEffect(() => {
-    if (!userLoading && !authUser) {
-      navigate("/");
+  const loading = useMemo(() => {
+    if (userLoading) {
+      return true;
     }
-    return () => {};
-  }, [userLoading]);
+    if (tipLoading) {
+      return true;
+    }
+    return false;
+  }, [userLoading, tipLoading]);
+  const showTemplate = useMemo(() => {
+    if (!authUser) {
+      // 没有登录
+      return true;
+    } else {
+      if (!hasTip) {
+        return true;
+      }
+    }
+    return false;
+  }, [authUser, projectId, hasTip]);
+
+  useAsyncEffect(async () => {
+    if (!projectId) return;
+    setTipLoading(true);
+    const list = await getIncentiveList(projectId);
+    setHasTip(list.length > 0);
+    setTipLoading(false);
+  }, [projectId]);
+
   useAsyncEffect(async () => {
     if (!projectId) return;
     setTokenDistLoading(true);
@@ -65,9 +91,22 @@ export default function TokenTable() {
     setRecordList(list);
     setRecordListLoading(false);
   }, [projectId]);
-
-  return userLoading ? (
+  return loading ? (
     <Loading />
+  ) : !authUser ? (
+    <div className="text-white">
+      <div> connect wallet</div>
+      <Suspense fallback={<Loading h="h-[300px]" />}>
+        <TemplateComponent />
+      </Suspense>
+    </div>
+  ) : !hasTip ? (
+    <div className="text-white">
+      <div> project no tip</div>
+      <Suspense fallback={<Loading h="h-[300px]" />}>
+        <TemplateComponent />
+      </Suspense>
+    </div>
   ) : (
     <div className="dark:text-white bx py-[25px] lg:py-[58px]">
       <div className="mb-5 lg:mb-12">
