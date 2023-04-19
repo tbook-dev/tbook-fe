@@ -20,7 +20,7 @@ import FilterPanel from "./filter";
 import { filterReducer, initialFilters } from "@/store/parts";
 import dayjs from "dayjs";
 import PlanTipNoConnect from "./planTip/NoConnect";
-import PlanTipNoProject from "./planTip/NoProject";
+import PlanTipNoProject from "./planTip/NoTip";
 import filterIcon from "@tbook/share/images/icon/filter.svg";
 import filterIcon2 from "@tbook/share/images/icon/filter2.svg";
 import filterList from "@tbook/share/images/icon/list-default.png";
@@ -234,9 +234,9 @@ function PlanList() {
           {loading ? (
             <Loading />
           ) : !authUser ? (
-            <PlanTipNoConnect pc={pc} />
+            <PlanTipNoConnect />
           ) : projects.length === 0 || tipList.length === 0 ? (
-            <PlanTipNoProject pc={pc} link={projects.length === 0 ? "/create/project" : "/create/plan"} />
+            <PlanTipNoProject link={projects.length === 0 ? "/create/project" : "/create/plan"} />
           ) : (
             <>
               <div className="hidden lg:flex lg:justify-center lg:items-center absolute swiper-button-next !-right-12 border !w-8 !h-8 rounded-full"></div>

@@ -7,8 +7,10 @@ import { useAsyncEffect, useResponsive } from "ahooks";
 import { useSelector } from "react-redux";
 import { getTokenDist, getDilutedToken, getAllocatPlan, getGrantRecordList, getIncentiveList } from "@/api/incentive";
 import { useNavigate } from "react-router-dom";
-import { useFindAudience } from "@tbook/hooks";
+import { useFindAudience, useProjects } from "@tbook/hooks";
 import Loading from "@/components/loading";
+import NoConnect from "../incentive/planTip/NoConnect";
+import Notip from "../incentive/planTip/NoTip";
 
 const TemplateComponent = lazy(() => import("./template"));
 
@@ -23,6 +25,8 @@ export default function TokenTable() {
   const [recordList, setRecordList] = useState([]);
   const [recordListLoading, setRecordListLoading] = useState(true);
   const project = useCurrentProject();
+  const projects = useProjects();
+
   const navigate = useNavigate();
   const findAudience = useFindAudience();
   const [tipLoading, setTipLoading] = useState(false);
@@ -41,17 +45,6 @@ export default function TokenTable() {
     }
     return false;
   }, [userLoading, tipLoading]);
-  const showTemplate = useMemo(() => {
-    if (!authUser) {
-      // 没有登录
-      return true;
-    } else {
-      if (!hasTip) {
-        return true;
-      }
-    }
-    return false;
-  }, [authUser, projectId, hasTip]);
 
   useAsyncEffect(async () => {
     if (!projectId) return;
@@ -91,36 +84,42 @@ export default function TokenTable() {
     setRecordList(list);
     setRecordListLoading(false);
   }, [projectId]);
-  return loading ? (
-    <Loading />
-  ) : !authUser ? (
-    <div className="text-white">
-      <div> connect wallet</div>
-      <Suspense fallback={<Loading h="h-[300px]" />}>
-        <TemplateComponent />
-      </Suspense>
-    </div>
-  ) : !hasTip ? (
-    <div className="text-white">
-      <div> project no tip</div>
-      <Suspense fallback={<Loading h="h-[300px]" />}>
-        <TemplateComponent />
-      </Suspense>
-    </div>
-  ) : (
+  return (
     <div className="dark:text-white bx py-[25px] lg:py-[58px]">
-      <div className="mb-5 lg:mb-12">
-        <AllocationPie
-          loading={tokenDistLoading}
-          pieList={tokenDist}
-          totalToken={tokenTotalAmount}
-          versions={versions}
-        />
-        <TokenDistribution loading={dilutedTokenloading} dilutedToken={dilutedToken} />
-      </div>
+      {loading ? (
+        <Loading />
+      ) : !authUser ? (
+        <>
+          <NoConnect pc={pc} title="New Token Allocation" paragraph="Connect wallet to incentivize on TBOOK." />
+          <Suspense fallback={<Loading h="h-[300px]" />}>
+            <TemplateComponent />
+          </Suspense>
+        </>
+      ) : projects.length === 0 || !hasTip ? (
+        <>
+          <Notip
+            link={projects.length === 0 ? "/create/project" : "/create/plan"}
+            desc="Click to set up your token allocation or select an open template to incentivize on TBOOK."
+          />
+          <Suspense fallback={<Loading h="h-[300px]" />}>
+            <TemplateComponent />
+          </Suspense>
+        </>
+      ) : (
+        <>
+          <div className="mb-5 lg:mb-12">
+            <AllocationPie
+              loading={tokenDistLoading}
+              pieList={tokenDist}
+              totalToken={tokenTotalAmount}
+              versions={versions}
+            />
+            <TokenDistribution loading={dilutedTokenloading} dilutedToken={dilutedToken} />
+          </div>
 
-      {/* {tipList.length === 0 ? <Template /> : <RecordTable />} */}
-      {recordListLoading ? <Loading /> : <RecordTable list={recordList} />}
+          {recordListLoading ? <Loading /> : <RecordTable list={recordList} />}
+        </>
+      )}
     </div>
   );
 }
