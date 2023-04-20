@@ -11,8 +11,10 @@ import { useFindAudience, useProjects } from "@tbook/hooks";
 import Loading from "@/components/loading";
 import NoConnect from "../incentive/planTip/NoConnect";
 import Notip from "../incentive/planTip/NoTip";
+import { conf } from "@tbook/utils";
 
 const TemplateComponent = lazy(() => import("./template"));
+const { defaultMaxAmount } = conf;
 
 export default function TokenTable() {
   const userLoading = useUserInfoLoading();
@@ -31,7 +33,7 @@ export default function TokenTable() {
   const findAudience = useFindAudience();
   const [tipLoading, setTipLoading] = useState(false);
   const [hasTip, setHasTip] = useState(false);
-  const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || 100000000;
+  const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || defaultMaxAmount;
   const [versions, setVersions] = useState([]);
 
   const { pc } = useResponsive();

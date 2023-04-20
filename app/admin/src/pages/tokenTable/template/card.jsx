@@ -3,6 +3,7 @@ import { useHover, useResponsive } from "ahooks";
 import { useRef } from "react";
 import clsx from "clsx";
 import { useSelector } from "react-redux";
+import Chart from "../allocationPie/chart";
 
 export default function ({ tpl }) {
   const authUser = useSelector((state) => state.user.authUser);
@@ -22,7 +23,15 @@ export default function ({ tpl }) {
         authUser && !pc && navigate(link);
       }}
     >
-      <div className="w-full h-[190px] px-3 lg:px-4"></div>
+      <div className="w-full h-[190px] px-3 lg:px-4">
+        <Chart
+          data={tpl.plans.map((v) => ({ id: v.id, name: v.name, value: v.tokens, percentage: v.percentage }))}
+          totalToken={tpl.maxTokenSupply}
+          width="100%"
+          height="100%"
+          fontSize={12}
+        />
+      </div>
       <div
         className={clsx(
           pc && isHovering ? "invisible" : "visible",

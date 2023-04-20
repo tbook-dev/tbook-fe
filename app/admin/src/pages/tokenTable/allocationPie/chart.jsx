@@ -14,7 +14,7 @@ echarts.use([GraphicComponent, TooltipComponent, LegendComponent, PieChart, Canv
 
 const getColor = (idx) => colors[idx % colors.length];
 
-const Chart = ({ data, totalToken, width, height }) => {
+const Chart = ({ data, totalToken, width, height, fontSize }) => {
   const ref = useRef(null);
   const { pc } = useResponsive();
   const chart = useRef(null);
@@ -40,7 +40,7 @@ const Chart = ({ data, totalToken, width, height }) => {
             text: `${formatDollar(totalToken)}\nMAX TOTAL SUPPLY`, // 设置文本
             textAlign: "center",
             fill: theme === "dark" ? "#fff" : "#000", // 设置文本颜色
-            fontSize: pc ? 16 : 14, // 设置字号
+            fontSize: fontSize || pc ? 16 : 14, // 设置字号
           },
         },
       ],
@@ -65,6 +65,6 @@ const Chart = ({ data, totalToken, width, height }) => {
       chart.current.dispose();
     };
   }, [data, totalToken, theme]);
-  return <div ref={ref} style={{ width: width || pc ? 400 : 300, height: height || pc ? 400 : 300 }} />;
+  return <div ref={ref} style={{ width: width || (pc ? 400 : 300), height: height || (pc ? 400 : 300) }} />;
 };
 export default Chart;
