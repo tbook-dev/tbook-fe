@@ -25,7 +25,7 @@ function TemplateCard({ tpl }) {
         authUser && !pc && navigate(link);
       }}
     >
-      <div className="w-full h-[85px] lg:h-[190px] px-3 lg:px-4">
+      <div className="w-full px-3 lg:px-4" style={{ height: pc ? 190 : "calc(50vw - 12px)" }}>
         <Chart data={list} totalToken={tpl.maxTokenSupply} width="100%" height="100%" fontSize={8} />
       </div>
       <div
