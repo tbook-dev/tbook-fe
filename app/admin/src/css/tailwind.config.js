@@ -133,6 +133,11 @@ module.exports = {
         // disable
         disable: "rgba(255, 255, 255, 0.2)",
         theme: "#69D0E5",
+        //bg-container
+        bg: {
+          b: "#000",
+          l: "#FBFDFF",
+        },
       },
       borderWidth: {
         3: "3px",

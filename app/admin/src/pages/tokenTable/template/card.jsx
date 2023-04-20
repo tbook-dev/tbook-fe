@@ -1,51 +1,56 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useHover, useResponsive } from "ahooks";
 import { useRef } from "react";
 import clsx from "clsx";
+import { useSelector } from "react-redux";
 
 export default function ({ tpl }) {
+  const authUser = useSelector((state) => state.user.authUser);
+
   const ref = useRef(null);
   const isHovering = useHover(ref);
   const { pc } = useResponsive();
-  console.log(pc && isHovering);
+  const navigate = useNavigate();
+  const link = `/allocation?id=${tpl.id}`;
+
   return (
     <div
       key={tpl.tplName}
       ref={ref}
-      className="relative px-3 pt-1 pb-2 rounded-lg lg:px-4 lg:pt-2 lg:pb-6 lg:rounded-2xl lg:shadow-d6 shadow-d3"
+      className="relative pt-1 rounded-lg  lg:pt-2 overflow-hidden lg:rounded-2xl lg:shadow-d6 shadow-d3 lg:hover:bg-cw2 dark:bg-bg-b bg-[#ECF5FE]"
+      onClick={() => {
+        authUser && !pc && navigate(link);
+      }}
     >
-      <div className="h-[110px] w-[105px] mx-auto"></div>
-      <h3 className="truncate font-bold text-center lg:text-left text-c9 lg:text-cwh2 mb-1.5 lg:mb-2">{tpl.tplName}</h3>
-      <div className="mb-2 space-y-1 text-c4 lg:text-c16">
-        <div className="flex justify-between">
-          <p>Plans</p>
-          <p>{tpl.plans.length}</p>
-        </div>
-        <div className="flex justify-between">
-          <p>Holders</p>
-          <p>{tpl.holders}</p>
+      <div className="w-full h-[190px] px-3 lg:px-4"></div>
+      <div
+        className={clsx(
+          pc && isHovering ? "invisible" : "visible",
+          "bg-[#f6fafe] dark:bg-transparent pt-4 px-3 lg:px-4  pb-2 lg:pb-6"
+        )}
+      >
+        <h3 className="truncate font-bold text-center lg:text-left text-c9 lg:text-cwh2 mb-1.5 lg:mb-2">
+          {tpl.tplName}
+        </h3>
+        <div className="flex flex-wrap">
+          {tpl.tags?.map((v) => (
+            <div key={v} className="px-3 mr-2 rounded dark:bg-b-1 bg-l-1 text-c5">
+              {v}
+            </div>
+          ))}
         </div>
       </div>
 
-      {pc ? (
-        <Link
-          to={`/allocation?id=${tpl.id}`}
-          className={clsx(isHovering ? "block absolute left-0 right-0 bottom-0" : "hidden")}
-        >
+      {authUser && pc && (
+        <Link to={link} className={clsx(isHovering ? "block absolute left-0 right-0 bottom-10 px-5" : "hidden")}>
           <button
             type="button"
-            className="w-full text-c9 flex items-center justify-center h-10  font-medium leading-normal  rounded-md  dark:disabled:bg-none	dark:bg-cw1 dark:text-black shadow-d3 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
+            className={clsx(
+              "w-full h-10 font-medium leading-normal rounded-md text-c9 hover:opacity-70",
+              "bg-black text-white dark:bg-white dark:text-black"
+            )}
           >
-            Use as yours
-          </button>
-        </Link>
-      ) : (
-        <Link to={`/allocation?id=${tpl.id}`}>
-          <button
-            type="button"
-            className="w-full text-c9 flex items-center justify-center h-10  font-medium leading-normal  rounded-md  dark:disabled:bg-none	dark:bg-cw1 dark:text-black shadow-d3 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
-          >
-            Use as yours
+            Use as yours to incentive fast!
           </button>
         </Link>
       )}

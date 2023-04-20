@@ -39,6 +39,7 @@ export default function Template({
         latestValuation: 1000000,
         maxTokenSupply: 1000,
         holders: "500~100",
+        tags: ["NFT", "Defi"],
         plans: [
           {
             isForIncentive: false,
@@ -55,6 +56,7 @@ export default function Template({
         latestValuation: 1000000,
         maxTokenSupply: 1000,
         holders: "500~100",
+        tags: ["Defi"],
         plans: [
           {
             isForIncentive: false,
@@ -71,6 +73,7 @@ export default function Template({
         latestValuation: 1000000,
         maxTokenSupply: 1000,
         holders: "500~100",
+        tags: ["Defi"],
         plans: [
           {
             isForIncentive: false,
