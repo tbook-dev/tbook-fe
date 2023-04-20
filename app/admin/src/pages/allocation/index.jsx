@@ -188,38 +188,12 @@ function Allocation() {
                 </div>
               )}
 
-          {pc && (
-            <div className="absolute top-0 right-[-348px] w-[348px] space-y-4 text-white">
-              {versions.map((v, idx) => (
-                <div
-                  className={clsx(
-                    currentPlan === v.versionId ? "text-black bg-[#26E3C2] rounded-r" : "ml-6 bg-b-1 rounded",
-                    "flex items-center justify-between px-4 py-3 font-medium",
-                    currentPlan !== v.versionId && "cursor-pointer"
-                  )}
-                  key={v.versionId}
-                  onClick={() => {
-                    if (currentPlan !== v.versionId) {
-                      setCurrentPlan(v.versionId);
-                    }
-                  }}
-                >
-                  <p className={clsx("text-c14", idx === 0 && currentPlan !== v.versionId && "text-colorful1")}>
-                    {v.versionName}
-                  </p>
-                  <p className={clsx("text-c4", idx === 0 && currentPlan !== v.versionId && "text-colorful1")}>
-                    {v.createDate}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
           {planLoading === null ? null : planLoading ? (
             <div className="flex justify-center">
               <Spin />
             </div>
           ) : (
-            <div className="overflow-hidden rounded-tr-none bg-cw1 dark:lg:shadow-d3 rounded-xl">
+            <div className="overflow-hidden bg-cw1 dark:lg:shadow-d3 rounded-xl">
               <div className="relative px-3 py-4 lg:pb-0 lg:pt-6 lg:px-4">
                 <Form
                   {...(pc ? formItemCol : null)}
