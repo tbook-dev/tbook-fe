@@ -4,6 +4,7 @@ import { useRef, memo, useMemo } from "react";
 import clsx from "clsx";
 import { useSelector } from "react-redux";
 import Chart from "../allocationPie/chart";
+import Arrow from "@tbook/share/images/icon/arrow2.svg";
 
 function TemplateCard({ tpl }) {
   const authUser = useSelector((state) => state.user.authUser);
@@ -21,9 +22,6 @@ function TemplateCard({ tpl }) {
       key={tpl.tplName}
       ref={ref}
       className="relative pt-1 rounded-lg  lg:pt-2 lg:rounded-2xl lg:shadow-d6 shadow-d3 lg:hover:bg-cw2 dark:bg-bg-b bg-[#ECF5FE]"
-      onClick={() => {
-        authUser && !pc && navigate(link);
-      }}
     >
       <div className="w-full px-3 lg:px-4" style={{ height: pc ? 190 : "calc(50vw - 12px)" }}>
         <Chart data={list} totalToken={tpl.maxTokenSupply} width="100%" height="100%" fontSize={8} />
@@ -31,19 +29,29 @@ function TemplateCard({ tpl }) {
       <div
         className={clsx(
           pc && isHovering ? "invisible" : "visible",
-          "bg-[#f6fafe] dark:bg-transparent pt-4 px-3 lg:px-4  pb-2 lg:pb-6 rounded-b-lg"
+          "bg-[#f6fafe] dark:bg-transparent flex flex-wrap justify-between items-center pt-4 px-3 lg:px-4  pb-2 lg:pb-6 rounded-b-lg"
         )}
       >
-        <h3 className="truncate font-bold text-center lg:text-left text-c9 lg:text-cwh2 mb-1.5 lg:mb-2">
-          {tpl.tplName}
-        </h3>
-        <div className="flex flex-wrap">
-          {tpl.tags?.map((v) => (
-            <div key={v} className="px-3 mr-2 rounded dark:bg-b-1 bg-l-1 text-c5">
-              {v}
-            </div>
-          ))}
+        <div className="w-[70vw] lg:w-full">
+          <h3 className="truncate font-bold text-left text-c9 lg:text-cwh2 mb-1.5 lg:mb-2">{tpl.tplName}</h3>
+          <div className="flex flex-wrap">
+            {tpl.tags?.map((v) => (
+              <div key={v} className="px-3 mr-2 rounded dark:bg-b-1 bg-l-1 text-c5">
+                {v}
+              </div>
+            ))}
+          </div>
         </div>
+
+        {!pc && authUser && (
+          <img
+            src={Arrow}
+            className="flex-none object-contain w-9 h-9"
+            onClick={() => {
+              navigate(link);
+            }}
+          />
+        )}
       </div>
 
       {authUser && pc && (
