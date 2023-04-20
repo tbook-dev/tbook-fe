@@ -40,7 +40,7 @@ const Chart = ({ data, totalToken, width, height, fontSize }) => {
             text: `${formatDollar(totalToken)}\nMAX TOTAL SUPPLY`, // 设置文本
             textAlign: "center",
             fill: theme === "dark" ? "#fff" : "#000", // 设置文本颜色
-            fontSize: fontSize || pc ? 16 : 14, // 设置字号
+            fontSize: fontSize || (pc ? 16 : 14), // 设置字号
           },
         },
       ],

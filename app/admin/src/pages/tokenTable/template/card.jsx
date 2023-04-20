@@ -1,41 +1,37 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useHover, useResponsive } from "ahooks";
-import { useRef } from "react";
+import { useRef, memo, useMemo } from "react";
 import clsx from "clsx";
 import { useSelector } from "react-redux";
 import Chart from "../allocationPie/chart";
 
-export default function ({ tpl }) {
+function TemplateCard({ tpl }) {
   const authUser = useSelector((state) => state.user.authUser);
-
   const ref = useRef(null);
   const isHovering = useHover(ref);
   const { pc } = useResponsive();
   const navigate = useNavigate();
   const link = `/allocation?id=${tpl.id}`;
+  const list = useMemo(() => {
+    return tpl.plans.map((v) => ({ id: v.id, name: v.name, value: v.tokens, percentage: v.percent }));
+  }, [tpl]);
 
   return (
     <div
       key={tpl.tplName}
       ref={ref}
-      className="relative pt-1 rounded-lg  lg:pt-2 overflow-hidden lg:rounded-2xl lg:shadow-d6 shadow-d3 lg:hover:bg-cw2 dark:bg-bg-b bg-[#ECF5FE]"
+      className="relative pt-1 rounded-lg  lg:pt-2 lg:rounded-2xl lg:shadow-d6 shadow-d3 lg:hover:bg-cw2 dark:bg-bg-b bg-[#ECF5FE]"
       onClick={() => {
         authUser && !pc && navigate(link);
       }}
     >
-      <div className="w-full h-[190px] px-3 lg:px-4">
-        <Chart
-          data={tpl.plans.map((v) => ({ id: v.id, name: v.name, value: v.tokens, percentage: v.percentage }))}
-          totalToken={tpl.maxTokenSupply}
-          width="100%"
-          height="100%"
-          fontSize={12}
-        />
+      <div className="w-full h-[85px] lg:h-[190px] px-3 lg:px-4">
+        <Chart data={list} totalToken={tpl.maxTokenSupply} width="100%" height="100%" fontSize={8} />
       </div>
       <div
         className={clsx(
           pc && isHovering ? "invisible" : "visible",
-          "bg-[#f6fafe] dark:bg-transparent pt-4 px-3 lg:px-4  pb-2 lg:pb-6"
+          "bg-[#f6fafe] dark:bg-transparent pt-4 px-3 lg:px-4  pb-2 lg:pb-6 rounded-b-lg"
         )}
       >
         <h3 className="truncate font-bold text-center lg:text-left text-c9 lg:text-cwh2 mb-1.5 lg:mb-2">
@@ -66,3 +62,5 @@ export default function ({ tpl }) {
     </div>
   );
 }
+
+export default memo(TemplateCard);
