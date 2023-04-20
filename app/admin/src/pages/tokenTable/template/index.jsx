@@ -1,11 +1,36 @@
 import { useAsyncEffect } from "ahooks";
 import { useState } from "react";
-import { Empty } from "@tbook/ui";
-import { Link } from "react-router-dom";
 import Card from "./card";
+import Select from "@/components/select/themeSelect";
 
-export default function Template() {
+const cateGoryList = [
+  {
+    label: "NFT",
+    value: 0,
+  },
+  {
+    label: "Defi",
+    value: 1,
+  },
+];
+const scenarioList = [
+  {
+    label: "cenario1",
+    value: 0,
+  },
+  {
+    label: "cenario2",
+    value: 1,
+  },
+];
+export default function Template({
+  title = "Tokentable Templates",
+  paragraph = "Discover innovative token table solutions by studying successful projects",
+}) {
   const [tplList, setTpl] = useState([]);
+  const [cateGory, setCateGory] = useState([]);
+  const [scenario, setScenario] = useState([]);
+
   useAsyncEffect(async () => {
     setTpl([
       {
@@ -60,10 +85,32 @@ export default function Template() {
   }, []);
 
   return (
-    <div>
-      <h2 className="mb-2 font-bold text-c12 lg:text-c13">Open Template</h2>
+    <div className="mb-10 dark:text-white">
+      <div className="mb-4 text-center">
+        <h2 className="font-bold lg:mb-1 text-ch1 lg:text-cwh1">{title}</h2>
+        <p className="mb-2 text-c15 lg:text-c18 lg:mb-4">{paragraph}</p>
+        <div className="flex items-center justify-center space-x-2 lg:space-x-4">
+          <Select
+            options={cateGoryList}
+            className="w-1/2 lg:w-[214px]"
+            placeholder="Filter Catogeries"
+            mode="multiple"
+            allowClear
+            onChange={(values) => {
+              console.log(values);
+            }}
+          />
+          <Select
+            options={scenarioList}
+            className="w-1/2 lg:w-[214px]"
+            placeholder="Filter Scenarios"
+            mode="multiple"
+            allowClear
+          />
+        </div>
+      </div>
 
-      <div className="grid grid-cols-2 gap-2.5 lg:gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 lg:gap-6 lg:grid-cols-3">
         {tplList.map((tpl) => (
           <Card key={tpl.tplName} tpl={tpl} />
         ))}
