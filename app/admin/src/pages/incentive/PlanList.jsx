@@ -232,7 +232,7 @@ function PlanList() {
 
         <div className="relative lg:h-[150px] lg:flex lg:justify-center">
           {loading ? (
-            <Loading />
+            <Loading h="h-[300px]" />
           ) : !authUser ? (
             <PlanTipNoConnect />
           ) : projects.length === 0 || tipList.length === 0 ? (
@@ -319,7 +319,7 @@ function PlanList() {
       </div>
 
       {loading ? null : showTemplate ? (
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Loading h="h-[300px]" />}>
           <TemplateComponent />
         </Suspense>
       ) : pc ? (

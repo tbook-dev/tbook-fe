@@ -89,7 +89,7 @@ export default function TokenTable() {
   return (
     <div className="dark:text-white bx py-[25px] lg:py-[58px]">
       {loading ? (
-        <Loading />
+        <Loading h="h-[300px]" />
       ) : !authUser ? (
         <>
           <NoConnect pc={pc} title="New Token Allocation" paragraph="Connect wallet to incentivize on TBOOK." />

@@ -71,7 +71,7 @@ function App() {
                   element={
                     <Suspense
                       fallback={
-                        <div className="flex flex-col items-center justify-center h-screen">
+                        <div className="flex flex-col items-center justify-center h-[300px]">
                           <Spin />
                         </div>
                       }
