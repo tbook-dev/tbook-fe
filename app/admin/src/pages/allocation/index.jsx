@@ -242,7 +242,10 @@ function Allocation() {
                       },
                     ]}
                   >
-                    <Input placeholder="Edit your project name." />
+                    <Input
+                      placeholder="Edit your project name."
+                      disabled={remotePlanList.current.filter((v) => v.planId !== undefined)?.length > 0}
+                    />
                   </Form.Item>
 
                   <Form.Item
