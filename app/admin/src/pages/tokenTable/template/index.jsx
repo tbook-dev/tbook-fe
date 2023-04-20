@@ -13,16 +13,7 @@ const cateGoryList = [
     value: 1,
   },
 ];
-const scenarioList = [
-  {
-    label: "cenario1",
-    value: 0,
-  },
-  {
-    label: "cenario2",
-    value: 1,
-  },
-];
+
 export default function Template({
   title = "Tokentable Templates",
   paragraph = "Discover innovative token table solutions by studying successful projects",
@@ -103,23 +94,16 @@ export default function Template({
       <div className="mb-4 text-center">
         <h2 className="font-bold lg:mb-1 text-ch1 lg:text-cwh1">{title}</h2>
         <p className="mb-2 text-c15 lg:text-c18 lg:mb-4">{paragraph}</p>
-        <div className="flex items-center justify-center space-x-2 lg:space-x-4">
+        <div className="flex items-center justify-center">
           <Select
             options={cateGoryList}
-            className="w-1/2 lg:w-[214px]"
+            className="w-full lg:w-[214px]"
             placeholder="Filter Catogeries"
             mode="multiple"
             allowClear
             onChange={(values) => {
               console.log(values);
             }}
-          />
-          <Select
-            options={scenarioList}
-            className="w-1/2 lg:w-[214px]"
-            placeholder="Filter Scenarios"
-            mode="multiple"
-            allowClear
           />
         </div>
       </div>

@@ -99,10 +99,13 @@ export default function TokenTable() {
         </>
       ) : projects.length === 0 || !hasTip ? (
         <>
-          <Notip
-            link={projects.length === 0 ? "/create/project" : "/create/plan"}
-            desc="Click to set up your token allocation or select an open template to incentivize on TBOOK."
-          />
+          <div className="mb-5 lg:my-12">
+            <Notip
+              link={projects.length === 0 ? "/create/project" : "/create/plan"}
+              desc="Click to set up your token allocation or select an open template to incentivize on TBOOK."
+            />
+          </div>
+
           <Suspense fallback={<Loading h="h-[300px]" />}>
             <TemplateComponent />
           </Suspense>
