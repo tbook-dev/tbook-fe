@@ -41,7 +41,7 @@ function PlanList() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [tipList, updateTipList] = useState([]);
   const [grantList, updateGrantList] = useState([]);
-  const [grantLoading, setGrantLoading] = useState(false);
+  const [grantLoading, setGrantLoading] = useState(null);
   const userLoading = useUserInfoLoading();
   const projectId = useCurrentProjectId();
   const navigate = useNavigate();
@@ -148,13 +148,10 @@ function PlanList() {
     return false;
   }, [authUser, projectId, tipList]);
   const loading = useMemo(() => {
-    if (userLoading) {
-      return true;
+    if (userLoading === false && grantLoading === false) {
+      return false;
     }
-    if (grantLoading) {
-      return true;
-    }
-    return false;
+    return true;
   }, [userLoading, grantLoading]);
 
   const getfilterGrantList = () => {

@@ -27,22 +27,18 @@ export default function TokenTable() {
   const [recordListLoading, setRecordListLoading] = useState(true);
   const project = useCurrentProject();
   const projects = useProjects();
-  const [tipLoading, setTipLoading] = useState(false);
+  const [tipLoading, setTipLoading] = useState(null);
   const [hasTip, setHasTip] = useState(false);
   const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || defaultMaxAmount;
 
   const { pc } = useResponsive();
 
   const loading = useMemo(() => {
-    if (userLoading) {
-      return true;
+    if (userLoading === false && tipLoading === false) {
+      return false;
     }
-    if (tipLoading) {
-      return true;
-    }
-    return false;
+    return true;
   }, [userLoading, tipLoading]);
-
   useAsyncEffect(async () => {
     if (!projectId) return;
     setTipLoading(true);
