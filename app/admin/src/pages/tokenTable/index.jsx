@@ -5,9 +5,8 @@ import RecordTable from "./recordTable";
 import { useCurrentProjectId, useUserInfoLoading, useCurrentProject } from "@tbook/hooks";
 import { useAsyncEffect, useResponsive } from "ahooks";
 import { useSelector } from "react-redux";
-import { getTokenDist, getDilutedToken, getAllocatPlan, getGrantRecordList, getIncentiveList } from "@/api/incentive";
-import { useNavigate } from "react-router-dom";
-import { useFindAudience, useProjects } from "@tbook/hooks";
+import { getTokenDist, getDilutedToken, getGrantRecordList, getIncentiveList } from "@/api/incentive";
+import { useProjects } from "@tbook/hooks";
 import Loading from "@/components/loading";
 import NoConnect from "../incentive/planTip/NoConnect";
 import Notip from "../incentive/planTip/NoTip";
@@ -28,13 +27,9 @@ export default function TokenTable() {
   const [recordListLoading, setRecordListLoading] = useState(true);
   const project = useCurrentProject();
   const projects = useProjects();
-
-  const navigate = useNavigate();
-  const findAudience = useFindAudience();
   const [tipLoading, setTipLoading] = useState(false);
   const [hasTip, setHasTip] = useState(false);
   const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || defaultMaxAmount;
-  const [versions, setVersions] = useState([]);
 
   const { pc } = useResponsive();
 
@@ -61,14 +56,6 @@ export default function TokenTable() {
     setTokenDistLoading(true);
     const list = await getTokenDist(projectId);
     setTokenDist(list.map((v) => ({ ...v, label: v.planName })));
-    const info = await getAllocatPlan(projectId);
-    setVersions([
-      {
-        versionName: "Version01",
-        createDate: info.date,
-        versionId: 1,
-      },
-    ]);
     setTokenDistLoading(false);
   }, [projectId]);
 
@@ -86,6 +73,7 @@ export default function TokenTable() {
     setRecordList(list);
     setRecordListLoading(false);
   }, [projectId]);
+
   return (
     <div className="dark:text-white bx py-[25px] lg:py-[58px]">
       {loading ? (
@@ -113,12 +101,7 @@ export default function TokenTable() {
       ) : (
         <>
           <div className="mb-5 lg:mb-12">
-            <AllocationPie
-              loading={tokenDistLoading}
-              pieList={tokenDist}
-              totalToken={tokenTotalAmount}
-              versions={versions}
-            />
+            <AllocationPie loading={tokenDistLoading} pieList={tokenDist} totalToken={tokenTotalAmount} />
             <TokenDistribution loading={dilutedTokenloading} dilutedToken={dilutedToken} />
           </div>
 
