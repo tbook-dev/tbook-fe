@@ -1,14 +1,20 @@
 import { Button } from "@tbook/ui";
 import { useSignIn } from "@tbook/hooks";
+import { useResponsive } from "ahooks";
 
-export default function ({ pc }) {
+export default function ({
+  title = "New Token Incentive Plan",
+  paragraph = "Connect wallet to set up your incentive plan.",
+}) {
+  const { pc } = useResponsive();
+
   const { loading, handleSignIn } = useSignIn();
   // console.log({ loading, handleSignIn})
   return pc ? (
     <div className="hidden lg:flex items-center justify-between rounded-xl bg-cw1 w-full px-8 py-[38px]">
       <div>
-        <p className="mb-1 text-cwh2 text-c-3">New Token Incentive Plan</p>
-        <p className="text-base text-c-3">Connect wallet to set up your incentive plan.</p>
+        <p className="mb-1 text-cwh2 text-c-3">{title}</p>
+        <p className="text-base text-c-3">{paragraph}</p>
       </div>
 
       <Button

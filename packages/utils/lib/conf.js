@@ -391,3 +391,5 @@ export const getLoad = (list) => {
   console.log(list);
   return !list.filter((v) => !v).length === list.length;
 };
+
+export const defaultMaxAmount = 100000000;

@@ -1,8 +1,11 @@
 import { Button } from "@tbook/ui";
 import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
+import { useResponsive } from "ahooks";
 
-export default function ({ pc, link, desc = "Click to set up your incentive plan." }) {
+export default function ({ link, desc = "Click to set up your incentive plan." }) {
+  const { pc } = useResponsive();
+
   // console.log({ loading, handleSignIn})
   return pc ? (
     <div className="hidden lg:flex items-center justify-between rounded-xl  w-full bg-cw1 px-8 py-[38px]">

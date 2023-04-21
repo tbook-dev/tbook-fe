@@ -1,79 +1,42 @@
-import { useAsyncEffect } from "ahooks";
+import { useRequest } from "ahooks";
 import { useState } from "react";
-import { Empty } from "@tbook/ui";
-import { Link } from "react-router-dom";
 import Card from "./card";
+import Select from "@/components/select/themeSelect";
+import { getTemplate, getTags } from "@/api/incentive";
 
-export default function Template() {
-  const [tplList, setTpl] = useState([]);
-  useAsyncEffect(async () => {
-    setTpl([
-      {
-        id: 1,
-        tplName: "Uniswap TemplateTemplateTemplateTemplate",
-        latestValuation: 1000000,
-        maxTokenSupply: 1000,
-        holders: "500~100",
-        plans: [
-          {
-            isForIncentive: false,
-            name: "UniCommunityGrowth",
-            targetAudience: 2,
-            percent: 10,
-            tokens: 2000,
-          },
-        ],
-      },
-      {
-        id: 2,
-        tplName: "Binance Template1",
-        latestValuation: 1000000,
-        maxTokenSupply: 1000,
-        holders: "500~100",
-        plans: [
-          {
-            isForIncentive: false,
-            name: "UniCommunityGrowth",
-            targetAudience: 2,
-            percent: 10,
-            tokens: 2000,
-          },
-        ],
-      },
-      {
-        id: 3,
-        tplName: "Binance Template2",
-        latestValuation: 1000000,
-        maxTokenSupply: 1000,
-        holders: "500~100",
-        plans: [
-          {
-            isForIncentive: false,
-            name: "UniCommunityGrowth",
-            targetAudience: 2,
-            percent: 10,
-            tokens: 2000,
-          },
-        ],
-      },
-    ]);
-  }, []);
+export default function Template({
+  title = "Tokentable Templates",
+  paragraph = "Discover innovative token table solutions by studying successful projects",
+}) {
+  const [cateGory, setCateGory] = useState([]);
+  const { data: templateList = [] } = useRequest(() => getTemplate(cateGory), { refreshDeps: [cateGory] });
+  const { data: tagList = [] } = useRequest(getTags);
 
   return (
-    <div>
-      <h2 className="mb-2 font-bold text-c12 lg:text-c13">Open Template</h2>
+    <div className="mb-10 dark:text-white">
+      <div className="mb-4 text-center">
+        <h2 className="font-bold lg:mb-1 text-ch1 lg:text-cwh1">{title}</h2>
+        <p className="mb-2 text-c15 lg:text-c18 lg:mb-4">{paragraph}</p>
+        <div className="flex items-center justify-center">
+          <Select
+            options={tagList?.map((v) => ({ label: v, value: v }))}
+            className="w-full lg:w-[300px]"
+            placeholder="Filter Catogeries"
+            mode="multiple"
+            allowClear
+            value={cateGory}
+            onChange={(values) => {
+              setCateGory(values);
+            }}
+          />
+        </div>
+      </div>
 
-      {tplList.length === 0 ? (
-        <div className="h-[272px] rounded-xl bg-white dark:bg-b-1 flex items-center justify-center">
-          <Empty description="COMING SOON" />
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 gap-2.5 lg:gap-6 lg:grid-cols-3">
-          {tplList.map((tpl) => (
-            <Card key={tpl.tplName} tpl={tpl} />
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-1 gap-2 lg:gap-6 lg:grid-cols-3">
+        {templateList.map((tpl) => (
+          <Card key={tpl.templateId} tpl={tpl} />
+        ))}
+      </div>
     </div>
   );
 }

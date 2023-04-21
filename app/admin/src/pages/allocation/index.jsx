@@ -4,7 +4,7 @@ import { Button, Form, Input, InputNumber, Divider, Tooltip } from "antd";
 import AppConfigProvider from "@/theme/LightProvider";
 import { CheckOutlined, InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllocatPlan, updateAllocationPlan } from "@/api/incentive";
+import { getAllocatPlan, updateAllocationPlan, getTemplateDetail } from "@/api/incentive";
 import { useCurrentProjectId, useCurrentProject, useProjectAudience } from "@tbook/hooks";
 import { useResponsive } from "ahooks";
 import starIcon from "@tbook/share/images/icon/star.svg";
@@ -20,16 +20,17 @@ import { Back } from "@tbook/ui";
 import { sumBy } from "lodash";
 import { message } from "antd";
 import { user } from "@tbook/store";
-
+import { useSearchParams } from "react-router-dom";
 const { fetchUserInfo } = user;
 
-const { getDividePercent, minZeroValidator, maxValidator, formatDollar, defaultErrorMsg } = conf;
+const { getDividePercent, minZeroValidator, maxValidator, formatDollar, defaultErrorMsg, defaultMaxAmount } = conf;
 
 const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
 
 function Allocation() {
   const [form] = Form.useForm();
   const userStore = useSelector((state) => state.user);
+
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [addedAudience, setAddedAudience] = useState([]);
   const [inputVal, setInputVal] = useState("");
@@ -39,29 +40,27 @@ function Allocation() {
   const project = useCurrentProject();
   const projectAudience = useProjectAudience();
   const { pc } = useResponsive();
-  const [currentPlan, setCurrentPlan] = useState(1);
   const [planLoading, setPlanLoading] = useState(null);
   const planList = Form.useWatch("planList", form);
-  const [versions, setVersions] = useState([]);
-  const [versionLoading, setVersionLoading] = useState(false);
   const remotePlanList = useRef(null);
+  const [searchParams] = useSearchParams();
+  const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || defaultMaxAmount;
+  const [tempInfo, setTempInfo] = useState({});
+
+  const isTemplateMode = useMemo(() => {
+    return !!searchParams.get("id");
+  }, [searchParams]);
 
   const options = [...projectAudience, ...addedAudience];
-  const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || 100000000;
-  // console.log("project->", project);
-  const versionId = useMemo(() => {
-    const us = new URLSearchParams(location.search);
-    return us.get("tpl");
-  }, [location.href]);
 
-  const fetchAndSet = async () => {
-    if (projectId) {
+  const fetchPlanAndSet = async () => {
+    if (projectId && !isTemplateMode) {
       setPlanLoading(true);
       const info = await getAllocatPlan(projectId);
       setPlanLoading(false);
       try {
         info.planList = JSON.parse(info.planList);
-      } catch {
+      } catch (err) {
         info.planList = [{ planType: 2 }];
       }
 
@@ -71,34 +70,47 @@ function Allocation() {
           : [{ planType: 2 }];
       remotePlanList.current = info.planList;
       form.setFieldsValue(info);
-      setVersions([{ createDate: info.date, versionId: 1, versionName: "Version01" }]);
     }
   };
 
-  useAsyncEffect(fetchAndSet, [projectId]);
+  const fetchTplAndSet = async () => {
+    if (isTemplateMode) {
+      const templateId = searchParams.get("id");
+      setPlanLoading(true);
+      let res = {};
+      try {
+        res = await getTemplateDetail(templateId);
+      } catch (error) {}
+      setPlanLoading(false);
+      const info = {};
+      try {
+        info.planList = JSON.parse(res.distributionDetail);
+      } catch {
+        info.planList = [{ planType: 2 }];
+      }
 
-  // useAsyncEffect(async () => {
-  //   if (projectId & pc) {
-  //     setVersionLoading(true);
-  //     // 当有url的时候是查看历史记录否则是最新的
-  //     // let list = [];
-  //     let list = mockList;
-  //     let currentVersion = null;
-  //     if (Array.isArray(list) && list.length > 0) {
-  //       if (versionId) {
-  //         currentVersion = list?.find((v) => v.versionId === versionId) || list[list.length - 1];
-  //       } else {
-  //         currentVersion = list[0];
-  //       }
-  //     } else {
-  //       currentVersion = { versionName: "Version01", createDate: dayjs().format(dateFormat), versionId: "1" };
-  //       list = [currentVersion];
-  //     }
-  //     setVersions(list);
-  //     setCurrentPlan(currentVersion.versionId);
-  //     setVersionLoading(false);
-  //   }
-  // }, [projectId, versionId,versions,  pc]);
+      info.planList =
+        info.planList.length > 0
+          ? info.planList?.map((v) => ({
+              planName: v.targetName,
+              percentage: round(v.percentage, 10),
+              tokenNum: round((tokenTotalAmount * v.percentage) / 100, 10),
+            }))
+          : [{ planType: 2 }];
+      remotePlanList.current = info.planList;
+
+      info.maxTokenSupply = tokenTotalAmount;
+      form.setFieldsValue(info);
+      let tags = [];
+      try {
+        tags = JSON.parse(res.tags);
+      } catch (err) {}
+      setTempInfo({ ...info, tags, name: res.name });
+    }
+  };
+
+  useAsyncEffect(fetchPlanAndSet, [projectId]);
+  useAsyncEffect(fetchTplAndSet, []);
 
   const pieData = useMemo(() => {
     if (Array.isArray(planList)) {
@@ -170,10 +182,23 @@ function Allocation() {
       {!pc && <Back link="/tokenTable" />}
       <div className="pt-3 lg:py-12 ">
         <div className="mb-6  lg:w-[600px] mx-4 lg:mx-auto lg:mb-10">
-          <div className="flex flex-col justify-center flex-auto ml-[52px] lg:ml-0 lg:text-c">
-            <h1 className="mb-1 font-bold text-c11 lg:text-cwh3 dark:text-white">Token Allocation Plan</h1>
-            <h2 className="text-c2 lg:text-cwh2 dark:text-b-8">Edit and define your Token Allocation Plan.</h2>
-          </div>
+          {isTemplateMode ? (
+            <div>
+              <h1 className="mb-2.5 font-bold text-c11 lg:text-cwh3 dark:text-white">{tempInfo.name}</h1>
+              <div className="flex flex-wrap">
+                {tempInfo?.tags?.map((v) => (
+                  <div key={v} className="px-3 mb-2 mr-2 rounded dark:bg-b-1 dark:text-white bg-l-1 text-c5">
+                    {v}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col justify-center flex-auto ml-[52px] lg:ml-0 lg:text-c">
+              <h1 className="mb-1 font-bold text-c11 lg:text-cwh3 dark:text-white">Token Allocation Plan</h1>
+              <h2 className="text-c2 lg:text-cwh2 dark:text-b-8">Edit and define your Token Allocation Plan.</h2>
+            </div>
+          )}
         </div>
 
         <div className="mb-6 relative lg:w-[600px] mx-4 lg:mx-auto lg:mb-0">
@@ -188,38 +213,12 @@ function Allocation() {
                 </div>
               )}
 
-          {pc && (
-            <div className="absolute top-0 right-[-348px] w-[348px] space-y-4 text-white">
-              {versions.map((v, idx) => (
-                <div
-                  className={clsx(
-                    currentPlan === v.versionId ? "text-black bg-[#26E3C2] rounded-r" : "ml-6 bg-b-1 rounded",
-                    "flex items-center justify-between px-4 py-3 font-medium",
-                    currentPlan !== v.versionId && "cursor-pointer"
-                  )}
-                  key={v.versionId}
-                  onClick={() => {
-                    if (currentPlan !== v.versionId) {
-                      setCurrentPlan(v.versionId);
-                    }
-                  }}
-                >
-                  <p className={clsx("text-c14", idx === 0 && currentPlan !== v.versionId && "text-colorful1")}>
-                    {v.versionName}
-                  </p>
-                  <p className={clsx("text-c4", idx === 0 && currentPlan !== v.versionId && "text-colorful1")}>
-                    {v.createDate}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
           {planLoading === null ? null : planLoading ? (
             <div className="flex justify-center">
               <Spin />
             </div>
           ) : (
-            <div className="overflow-hidden rounded-tr-none bg-cw1 dark:lg:shadow-d3 rounded-xl">
+            <div className="overflow-hidden bg-cw1 dark:lg:shadow-d3 rounded-xl">
               <div className="relative px-3 py-4 lg:pb-0 lg:pt-6 lg:px-4">
                 <Form
                   {...(pc ? formItemCol : null)}
@@ -242,7 +241,10 @@ function Allocation() {
                       },
                     ]}
                   >
-                    <Input placeholder="Edit your project name." />
+                    <Input
+                      placeholder="Edit your project name."
+                      disabled={remotePlanList.current.filter((v) => v.planId !== undefined)?.length > 0}
+                    />
                   </Form.Item>
 
                   <Form.Item
