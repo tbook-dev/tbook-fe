@@ -130,3 +130,11 @@ export const addGrantRecord = async function (projectId, values) {
 export const getGrantRecordList = async function (projectId) {
   return request(`${host}/projects/${projectId}/grantRecordList`);
 };
+
+export const getTemplate = async function (tags = []) {
+  return request(`${host}/projects/templateList?tags=${tags.join(",")}`);
+};
+
+export const getTags = async function () {
+  return request(`${host}/projects/tagList`);
+};

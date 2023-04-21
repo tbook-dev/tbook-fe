@@ -12,19 +12,36 @@ function TemplateCard({ tpl }) {
   const isHovering = useHover(ref);
   const { pc } = useResponsive();
   const navigate = useNavigate();
-  const link = `/allocation?id=${tpl.id}`;
+  const link = `/allocation?id=${tpl.templateId}`;
   const list = useMemo(() => {
-    return tpl.plans.map((v) => ({ id: v.id, name: v.name, value: v.tokens, percentage: v.percent }));
+    let plans = [];
+    try {
+      plans = JSON.parse(tpl.distributionDetail);
+    } catch (error) {
+      console.log(error);
+    }
+    return plans.map((v, idx) => ({
+      id: idx,
+      name: v.targetName,
+      value: (tpl.maxTotalSupply * v.percentage) / 100,
+      percentage: v.percentage,
+    }));
+  }, [tpl]);
+  const tags = useMemo(() => {
+    let t = [];
+    try {
+      t = JSON.parse(tpl.tags);
+    } catch (error) {}
+    return t;
   }, [tpl]);
 
   return (
     <div
-      key={tpl.tplName}
       ref={ref}
       className="relative pt-1 rounded-lg  lg:pt-2 lg:rounded-2xl lg:shadow-d6 shadow-d3 lg:hover:bg-cw2 dark:bg-bg-b bg-[#ECF5FE]"
     >
       <div className="w-full px-3 lg:px-4" style={{ height: pc ? 190 : "calc(50vw - 12px)" }}>
-        <Chart data={list} totalToken={tpl.maxTokenSupply} width="100%" height="100%" fontSize={8} />
+        <Chart data={list} totalToken={tpl.maxTotalSupply} width="100%" height="100%" fontSize={8} />
       </div>
       <div
         className={clsx(
@@ -35,8 +52,8 @@ function TemplateCard({ tpl }) {
         <div className="w-[70vw] lg:w-full">
           <h3 className="truncate font-bold text-left text-c9 lg:text-cwh2 mb-1.5 lg:mb-2">{tpl.tplName}</h3>
           <div className="flex flex-wrap">
-            {tpl.tags?.map((v) => (
-              <div key={v} className="px-3 mr-2 rounded dark:bg-b-1 bg-l-1 text-c5">
+            {tags.map((v) => (
+              <div key={v} className="px-3 mb-2 mr-2 rounded dark:bg-b-1 bg-l-1 text-c5">
                 {v}
               </div>
             ))}
