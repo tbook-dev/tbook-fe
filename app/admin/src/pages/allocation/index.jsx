@@ -4,7 +4,7 @@ import { Button, Form, Input, InputNumber, Divider, Tooltip } from "antd";
 import AppConfigProvider from "@/theme/LightProvider";
 import { CheckOutlined, InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllocatPlan, updateAllocationPlan } from "@/api/incentive";
+import { getAllocatPlan, updateAllocationPlan, getTemplateDetail } from "@/api/incentive";
 import { useCurrentProjectId, useCurrentProject, useProjectAudience } from "@tbook/hooks";
 import { useResponsive } from "ahooks";
 import starIcon from "@tbook/share/images/icon/star.svg";
@@ -20,16 +20,17 @@ import { Back } from "@tbook/ui";
 import { sumBy } from "lodash";
 import { message } from "antd";
 import { user } from "@tbook/store";
-
+import { useSearchParams } from "react-router-dom";
 const { fetchUserInfo } = user;
 
-const { getDividePercent, minZeroValidator, maxValidator, formatDollar, defaultErrorMsg } = conf;
+const { getDividePercent, minZeroValidator, maxValidator, formatDollar, defaultErrorMsg, defaultMaxAmount } = conf;
 
 const formItemCol = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
 
 function Allocation() {
   const [form] = Form.useForm();
   const userStore = useSelector((state) => state.user);
+
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [addedAudience, setAddedAudience] = useState([]);
   const [inputVal, setInputVal] = useState("");
@@ -39,23 +40,20 @@ function Allocation() {
   const project = useCurrentProject();
   const projectAudience = useProjectAudience();
   const { pc } = useResponsive();
-  const [currentPlan, setCurrentPlan] = useState(1);
   const [planLoading, setPlanLoading] = useState(null);
   const planList = Form.useWatch("planList", form);
-  const [versions, setVersions] = useState([]);
-  const [versionLoading, setVersionLoading] = useState(false);
   const remotePlanList = useRef(null);
+  const [searchParams] = useSearchParams();
+  const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || defaultMaxAmount;
+
+  const isTemplateMode = useMemo(() => {
+    return !!searchParams.get("id");
+  }, [searchParams]);
 
   const options = [...projectAudience, ...addedAudience];
-  const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || 100000000;
-  // console.log("project->", project);
-  const versionId = useMemo(() => {
-    const us = new URLSearchParams(location.search);
-    return us.get("tpl");
-  }, [location.href]);
 
-  const fetchAndSet = async () => {
-    if (projectId) {
+  const fetchPlanAndSet = async () => {
+    if (projectId && !isTemplateMode) {
       setPlanLoading(true);
       const info = await getAllocatPlan(projectId);
       setPlanLoading(false);
@@ -71,34 +69,44 @@ function Allocation() {
           : [{ planType: 2 }];
       remotePlanList.current = info.planList;
       form.setFieldsValue(info);
-      setVersions([{ createDate: info.date, versionId: 1, versionName: "Version01" }]);
     }
   };
 
-  useAsyncEffect(fetchAndSet, [projectId]);
+  const fetchTplAndSet = async () => {
+    if (isTemplateMode) {
+      const templateId = searchParams.get("id");
+      setPlanLoading(true);
+      let res = {};
+      try {
+        res = await getTemplateDetail(templateId);
+      } catch (error) {}
+      setPlanLoading(false);
+      const info = {};
+      try {
+        info.planList = JSON.parse(res.distributionDetail);
+      } catch {
+        info.planList = [{ planType: 2 }];
+      }
 
-  // useAsyncEffect(async () => {
-  //   if (projectId & pc) {
-  //     setVersionLoading(true);
-  //     // 当有url的时候是查看历史记录否则是最新的
-  //     // let list = [];
-  //     let list = mockList;
-  //     let currentVersion = null;
-  //     if (Array.isArray(list) && list.length > 0) {
-  //       if (versionId) {
-  //         currentVersion = list?.find((v) => v.versionId === versionId) || list[list.length - 1];
-  //       } else {
-  //         currentVersion = list[0];
-  //       }
-  //     } else {
-  //       currentVersion = { versionName: "Version01", createDate: dayjs().format(dateFormat), versionId: "1" };
-  //       list = [currentVersion];
-  //     }
-  //     setVersions(list);
-  //     setCurrentPlan(currentVersion.versionId);
-  //     setVersionLoading(false);
-  //   }
-  // }, [projectId, versionId,versions,  pc]);
+      info.planList =
+        info.planList.length > 0
+          ? info.planList?.map((v) => ({
+              planName: v.targetName,
+              percentage: round(v.percentage, 10),
+              tokenNum: round((tokenTotalAmount * v.percentage) / 100, 10),
+            }))
+          : [{ planType: 2 }];
+      remotePlanList.current = info.planList;
+
+      info.maxTokenSupply = tokenTotalAmount;
+      form.setFieldsValue(info);
+
+      console.log({ info });
+    }
+  };
+
+  useAsyncEffect(fetchPlanAndSet, [projectId]);
+  useAsyncEffect(fetchTplAndSet, []);
 
   const pieData = useMemo(() => {
     if (Array.isArray(planList)) {

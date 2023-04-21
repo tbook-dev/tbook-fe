@@ -138,3 +138,6 @@ export const getTemplate = async function (tags = []) {
 export const getTags = async function () {
   return fetch(`${host}/projects/tagList`).then((res) => res.json());
 };
+export const getTemplateDetail = async function (templateId) {
+  return fetch(`${host}/projects/template?templateId=${templateId}`).then((res) => res.json());
+};
