@@ -136,6 +136,12 @@ function PlanList() {
     }
   }, [filters.plan.length, swiper, tipList.length]);
 
+  useEffect(() => {
+    if (!userLoading && !authUser) {
+      setGrantLoading(false);
+    }
+  }, [userLoading, authUser]);
+
   const showTemplate = useMemo(() => {
     if (!authUser) {
       // 没有登录
@@ -153,7 +159,7 @@ function PlanList() {
     }
     return true;
   }, [userLoading, grantLoading]);
-
+  console.log({ userLoading, grantLoading, loading });
   const getfilterGrantList = () => {
     const { status = [], plan = [], vestingType = [], grantType = [], sortBy = 1 } = filters;
     let res = grantList.slice();
