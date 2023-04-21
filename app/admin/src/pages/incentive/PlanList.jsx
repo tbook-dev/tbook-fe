@@ -403,7 +403,7 @@ function PlanList() {
               </div>
             )}
             <div className={clsx(filterOpen ? "col-span-3" : "col-span-full")}>
-              {flatFilters.length > 0 && loading && (
+              {flatFilters.length > 0 && (
                 <div className="flex flex-wrap mb-3 col-span-full">
                   {flatFilters.map((v) => (
                     <div
