@@ -45,6 +45,7 @@ function Allocation() {
   const remotePlanList = useRef(null);
   const [searchParams] = useSearchParams();
   const tokenTotalAmount = project?.tokenInfo?.tokenTotalAmount || defaultMaxAmount;
+  const [tempInfo, setTempInfo] = useState({});
 
   const isTemplateMode = useMemo(() => {
     return !!searchParams.get("id");
@@ -59,7 +60,7 @@ function Allocation() {
       setPlanLoading(false);
       try {
         info.planList = JSON.parse(info.planList);
-      } catch {
+      } catch (err) {
         info.planList = [{ planType: 2 }];
       }
 
@@ -100,8 +101,11 @@ function Allocation() {
 
       info.maxTokenSupply = tokenTotalAmount;
       form.setFieldsValue(info);
-
-      console.log({ info });
+      let tags = [];
+      try {
+        tags = JSON.parse(res.tags);
+      } catch (err) {}
+      setTempInfo({ ...info, tags, name: res.name });
     }
   };
 
@@ -178,10 +182,23 @@ function Allocation() {
       {!pc && <Back link="/tokenTable" />}
       <div className="pt-3 lg:py-12 ">
         <div className="mb-6  lg:w-[600px] mx-4 lg:mx-auto lg:mb-10">
-          <div className="flex flex-col justify-center flex-auto ml-[52px] lg:ml-0 lg:text-c">
-            <h1 className="mb-1 font-bold text-c11 lg:text-cwh3 dark:text-white">Token Allocation Plan</h1>
-            <h2 className="text-c2 lg:text-cwh2 dark:text-b-8">Edit and define your Token Allocation Plan.</h2>
-          </div>
+          {isTemplateMode ? (
+            <div>
+              <h1 className="mb-2.5 font-bold text-c11 lg:text-cwh3 dark:text-white">{tempInfo.name}</h1>
+              <div className="flex flex-wrap">
+                {tempInfo?.tags?.map((v) => (
+                  <div key={v} className="px-3 mb-2 mr-2 rounded dark:bg-b-1 dark:text-white bg-l-1 text-c5">
+                    {v}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col justify-center flex-auto ml-[52px] lg:ml-0 lg:text-c">
+              <h1 className="mb-1 font-bold text-c11 lg:text-cwh3 dark:text-white">Token Allocation Plan</h1>
+              <h2 className="text-c2 lg:text-cwh2 dark:text-b-8">Edit and define your Token Allocation Plan.</h2>
+            </div>
+          )}
         </div>
 
         <div className="mb-6 relative lg:w-[600px] mx-4 lg:mx-auto lg:mb-0">
