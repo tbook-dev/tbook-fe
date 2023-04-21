@@ -159,7 +159,7 @@ function PlanList() {
     }
     return true;
   }, [userLoading, grantLoading]);
-  console.log({ userLoading, grantLoading, loading });
+
   const getfilterGrantList = () => {
     const { status = [], plan = [], vestingType = [], grantType = [], sortBy = 1 } = filters;
     let res = grantList.slice();
