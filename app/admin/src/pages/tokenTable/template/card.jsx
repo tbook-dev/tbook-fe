@@ -38,14 +38,17 @@ function TemplateCard({ tpl }) {
   return (
     <div
       ref={ref}
-      className="relative pt-1 rounded-lg  lg:pt-2 lg:rounded-2xl lg:shadow-d6 shadow-d3 lg:hover:bg-cw2 dark:bg-bg-b bg-[#ECF5FE]"
+      className={clsx(
+        "relative pt-1 rounded-lg  lg:pt-2 lg:rounded-2xl lg:shadow-d6 shadow-d3  dark:bg-bg-b bg-[#ECF5FE]",
+        authUser && "lg:hover:bg-cw2"
+      )}
     >
       <div className="w-full px-3 lg:px-4" style={{ height: pc ? 190 : "calc(50vw - 12px)" }}>
         <Chart data={list} totalToken={tpl.maxTotalSupply} width="100%" height="100%" fontSize={8} />
       </div>
       <div
         className={clsx(
-          pc && isHovering ? "invisible" : "visible",
+          isHovering && authUser && pc ? "invisible" : "visible",
           "bg-[#f6fafe] dark:bg-transparent flex flex-wrap justify-between items-center pt-4 px-3 lg:px-4  pb-2 lg:pb-6 rounded-b-lg"
         )}
       >

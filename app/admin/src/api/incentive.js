@@ -132,9 +132,9 @@ export const getGrantRecordList = async function (projectId) {
 };
 
 export const getTemplate = async function (tags = []) {
-  return request(`${host}/projects/templateList?tags=${tags.join(",")}`);
+  return fetch(`${host}/projects/templateList?tags=${tags.join(",")}`).then((res) => res.json());
 };
 
 export const getTags = async function () {
-  return request(`${host}/projects/tagList`);
+  return fetch(`${host}/projects/tagList`).then((res) => res.json());
 };
