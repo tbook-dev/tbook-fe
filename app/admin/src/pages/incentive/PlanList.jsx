@@ -138,6 +138,12 @@ function PlanList() {
     }
   }, [filters.plan.length, swiper, tipList.length]);
 
+  useEffect(() => {
+    if (!userLoading && !authUser) {
+      setGrantLoading(false);
+    }
+  }, [userLoading, authUser]);
+
   const showTemplate = useMemo(() => {
     if (!authUser) {
       // 没有登录

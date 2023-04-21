@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense, useMemo } from "react";
+import { useState, lazy, Suspense, useMemo, useEffect } from "react";
 import AllocationPie from "./allocationPie";
 import TokenDistribution from "./distributionPie";
 import RecordTable from "./recordTable";
@@ -39,6 +39,13 @@ export default function TokenTable() {
     }
     return true;
   }, [userLoading, tipLoading]);
+
+  useEffect(() => {
+    if (!userLoading && !authUser) {
+      setTipLoading(false);
+    }
+  }, [userLoading, authUser]);
+
   useAsyncEffect(async () => {
     if (!projectId) return;
     setTipLoading(true);
@@ -76,20 +83,31 @@ export default function TokenTable() {
         <Loading h="h-[300px]" />
       ) : !authUser ? (
         <>
-          <NoConnect pc={pc} title="New Token Allocation" paragraph="Connect wallet to incentivize on TBOOK." />
+          <div className="mb-5 lg:my-12">
+            <NoConnect pc={pc} title="New Token Allocation" paragraph="Connect wallet to incentivize on TBOOK." />
+          </div>
           <Suspense fallback={<Loading h="h-[300px]" />}>
             <TemplateComponent />
           </Suspense>
         </>
-      ) : projects.length === 0 || !hasTip ? (
+      ) : projects.length === 0 ? (
         <>
           <div className="mb-5 lg:my-12">
             <Notip
-              link={projects.length === 0 ? "/create/project" : "/create/plan"}
+              link="/create/project"
               desc="Click to set up your token allocation or select an open template to incentivize on TBOOK."
             />
           </div>
 
+          <Suspense fallback={<Loading h="h-[300px]" />}>
+            <TemplateComponent />
+          </Suspense>
+        </>
+      ) : !hasTip ? (
+        <>
+          <div className="mb-5 lg:my-12">
+            <AllocationPie loading={false} pieList={[]} totalToken={tokenTotalAmount} />
+          </div>
           <Suspense fallback={<Loading h="h-[300px]" />}>
             <TemplateComponent />
           </Suspense>
