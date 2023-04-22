@@ -53,7 +53,7 @@ function TemplateCard({ tpl }) {
         )}
       >
         <div className="w-[70vw] lg:w-full">
-          <h3 className="truncate font-bold text-left text-c9 lg:text-cwh2 mb-1.5 lg:mb-2">{tpl.tplName}</h3>
+          <h3 className="truncate font-bold text-left text-c9 lg:text-cwh2 mb-1.5 lg:mb-2">{tpl.name}</h3>
           <div className="flex flex-wrap">
             {tags.map((v) => (
               <div key={v} className="px-3 mb-2 mr-2 rounded dark:bg-b-1 bg-l-1 text-c5">
