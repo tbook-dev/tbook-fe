@@ -98,7 +98,7 @@ function Allocation() {
             }))
           : [{ planType: 2 }];
       remotePlanList.current = info.planList;
-
+      info.projectName = project.projectName;
       info.maxTokenSupply = tokenTotalAmount;
       form.setFieldsValue(info);
       let tags = [];
