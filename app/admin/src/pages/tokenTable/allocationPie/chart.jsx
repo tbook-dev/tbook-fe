@@ -27,6 +27,7 @@ const Chart = ({ data, totalToken, width, height, fontSize }) => {
       backgroundColor: "transparent",
       tooltip: {
         trigger: "item",
+        confine: true,
         formatter(param) {
           return `${param.name} : ${param.data.percentage}%`;
         },
