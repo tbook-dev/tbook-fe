@@ -6,7 +6,7 @@ import Features from "@/partials/features";
 import Partners from "@/partials/partners";
 import Product from "@/partials/product";
 import Testimonial from "@/partials/testimonial";
-import Calendly from "@/partials/calendly";
+// import Calendly from "@/partials/calendly";
 import Subscribe from "@/partials/subscribe";
 
 export default function Home() {
@@ -17,7 +17,7 @@ export default function Home() {
       <Product />
       <Partners />
       <Testimonial />
-      <Calendly />
+      {/* <Calendly /> */}
       <Subscribe />
     </div>
   );
