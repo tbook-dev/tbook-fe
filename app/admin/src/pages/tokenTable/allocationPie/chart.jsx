@@ -26,6 +26,7 @@ const Chart = ({ data, totalToken, width, height, fontSize }) => {
     const option = {
       backgroundColor: "transparent",
       tooltip: {
+        // show: false,
         trigger: "item",
         confine: true,
         formatter(param) {
