@@ -106,11 +106,17 @@ function TemplateCard({ tpl }) {
           </div>
         )}
         {!pc && open && (
-          <Link to={link}>
-            <button className="block mb-5 h-10 w-[80vw] mx-auto text-black font-medium text-c6 bg-cw1 rounded-md">
-              Apply
-            </button>
-          </Link>
+          <button
+            disabled={!authUser}
+            onClick={() => navigate(link)}
+            className={clsx(
+              "block mb-5 h-10 w-[80vw] mx-auto text-black font-medium text-c6 bg-cw1 rounded-md",
+              "disabled:bg-l-1 disabled:bg-none disabled:text-l-1",
+              "dark:disabled:bg-b-1 dark:disabled:text-b-1"
+            )}
+          >
+            Apply
+          </button>
         )}
       </div>
 
@@ -141,17 +147,19 @@ function TemplateCard({ tpl }) {
                 </div>
               </div>
 
-              <Link to={link}>
-                <button
-                  type="button"
-                  className={clsx(
-                    "w-[120px] h-10 font-medium rounded-lg text-c2 hover:opacity-70",
-                    "bg-black text-white dark:bg-white dark:text-black"
-                  )}
-                >
-                  Apply
-                </button>
-              </Link>
+              <button
+                disabled={!authUser}
+                onClick={() => navigate(link)}
+                type="button"
+                className={clsx(
+                  "w-[120px] h-10 font-medium rounded-lg text-c2 hover:opacity-70",
+                  "bg-black text-white dark:bg-white dark:text-black",
+                  "disabled:bg-l-1 disabled:hover:opacity-100 disabled:text-l-1",
+                  "dark:disabled:bg-b-1 dark:disabled:text-b-1"
+                )}
+              >
+                Apply
+              </button>
             </div>
 
             <div className="grid items-center lg:grid-cols-2 lg:gap-x-12">
