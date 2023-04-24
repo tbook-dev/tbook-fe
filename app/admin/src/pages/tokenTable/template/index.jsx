@@ -1,5 +1,5 @@
 import { useRequest } from "ahooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "./card";
 import Select from "@/components/select/themeSelect";
 import { getTemplate, getTags } from "@/api/incentive";
@@ -15,6 +15,9 @@ export default function Template({
   const { data: tagList = [] } = useRequest(getTags);
   const [current, setCurrent] = useState(1);
   const pageSize = 9;
+  useEffect(() => {
+    setCurrent(1);
+  }, [cateGory]);
   return (
     <div className="mb-10 dark:text-white">
       <div className="mb-4 text-center">
