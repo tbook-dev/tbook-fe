@@ -5,16 +5,18 @@ import clsx from "clsx";
 import { useSelector } from "react-redux";
 import Chart from "../allocationPie/chart";
 import Arrow from "@tbook/share/images/icon/arrow2.svg";
+import Arrow3 from "@tbook/share/images/icon/arrow3.svg";
 import { Modal } from "antd";
 import ThemeProvider from "@/theme/ThemeProvider";
 import { conf } from "@tbook/utils";
+import { useTheme } from "@tbook/hooks";
 
 const { colorsBg, colors, hexToRgba } = conf;
 
 function TemplateCard({ tpl }) {
   const authUser = useSelector((state) => state.user.authUser);
   const [open, setOpen] = useState(false);
-
+  const theme = useTheme();
   const { pc } = useResponsive();
   const navigate = useNavigate();
   const link = `/allocation?id=${tpl.templateId}`;
@@ -70,10 +72,10 @@ function TemplateCard({ tpl }) {
 
           {!pc && (
             <img
-              src={Arrow}
+              src={theme === "dark" ? Arrow : Arrow3}
               className={clsx("flex-none object-contain w-9 h-9", open && "rotate-180")}
               onClick={() => {
-                authUser && setOpen(!open);
+                setOpen(!open);
               }}
             />
           )}
