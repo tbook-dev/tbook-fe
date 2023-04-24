@@ -3,13 +3,14 @@ import { useState } from "react";
 import Card from "./card";
 import Select from "@/components/select/themeSelect";
 import { getTemplate, getTags } from "@/api/incentive";
+import Loading from "@/components/loading";
 
 export default function Template({
   title = "Tokentable Templates",
   paragraph = "Discover innovative token table solutions by studying successful projects",
 }) {
   const [cateGory, setCateGory] = useState([]);
-  const { data: templateList = [] } = useRequest(() => getTemplate(cateGory), { refreshDeps: [cateGory] });
+  const { data: templateList = [], loading } = useRequest(() => getTemplate(cateGory), { refreshDeps: [cateGory] });
   const { data: tagList = [] } = useRequest(getTags);
 
   return (
@@ -32,11 +33,15 @@ export default function Template({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-2 lg:gap-6 lg:grid-cols-3">
-        {templateList.map((tpl) => (
-          <Card key={tpl.templateId} tpl={tpl} />
-        ))}
-      </div>
+      {loading ? (
+        <Loading h="h-[300px]" />
+      ) : (
+        <div className="grid grid-cols-1 gap-2 lg:gap-6 lg:grid-cols-3">
+          {templateList.map((tpl) => (
+            <Card key={tpl.templateId} tpl={tpl} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
