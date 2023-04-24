@@ -1,13 +1,13 @@
 import React, { useMemo, useState, useCallback, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Button, Form, Input, InputNumber, Divider, Tooltip } from "antd";
+import { Button, Form, Input, InputNumber, Divider } from "antd";
 import AppConfigProvider from "@/theme/LightProvider";
 import { CheckOutlined, InfoCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllocatPlan, updateAllocationPlan, getTemplateDetail } from "@/api/incentive";
 import { useCurrentProjectId, useCurrentProject, useProjectAudience } from "@tbook/hooks";
 import { useResponsive } from "ahooks";
-import starIcon from "@tbook/share/images/icon/star.svg";
+// import starIcon from "@tbook/share/images/icon/star.svg";
 import { conf } from "@tbook/utils";
 import Chart from "../tokenTable/allocationPie/chart";
 import clsx from "clsx";
@@ -322,11 +322,11 @@ function Allocation() {
                                     }}
                                   />
                                   <p>{`${idx + 1}`.padStart(2, "0")}</p>
-                                  {planType === 1 && (
+                                  {/* {planType === 1 && (
                                     <Tooltip title="for incentive" placement="right">
                                       <img className="w-4 ml-1.5" src={starIcon} />
                                     </Tooltip>
-                                  )}
+                                  )} */}
                                 </div>
 
                                 <div
