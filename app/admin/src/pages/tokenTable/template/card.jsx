@@ -83,7 +83,7 @@ function TemplateCard({ tpl }) {
               "bg-black text-white dark:bg-white dark:text-black"
             )}
           >
-            Use as yours to incentive fast!
+            Apply
           </button>
         </Link>
       )}
