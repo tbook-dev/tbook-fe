@@ -64,7 +64,10 @@ function PlanList() {
   }, []);
 
   useAsyncEffect(async () => {
-    if (!projectId) return;
+    if (!projectId) {
+      setGrantLoading(false);
+      return;
+    }
     setGrantLoading(true);
     const list1 = await getIncentiveList(projectId);
     // format

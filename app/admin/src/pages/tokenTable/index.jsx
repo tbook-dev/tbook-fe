@@ -47,7 +47,10 @@ export default function TokenTable() {
   }, [userLoading, authUser]);
 
   useAsyncEffect(async () => {
-    if (!projectId) return;
+    if (!projectId) {
+      setTipLoading(false);
+      return;
+    }
     setTipLoading(true);
     const list = await getIncentiveList(projectId);
     setHasTip(list.length > 0);
