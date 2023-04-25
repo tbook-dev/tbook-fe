@@ -11,7 +11,7 @@ import ThemeProvider from "@/theme/ThemeProvider";
 import { conf } from "@tbook/utils";
 import { useTheme } from "@tbook/hooks";
 
-const { colorsBg, colors, hexToRgba } = conf;
+const { colorsBg, colors, hexToRgba, defaultMaxAmount } = conf;
 
 function TemplateCard({ tpl }) {
   const authUser = useSelector((state) => state.user.authUser);
@@ -30,7 +30,7 @@ function TemplateCard({ tpl }) {
     return plans.map((v, idx) => ({
       id: idx,
       name: v.targetName,
-      value: (tpl.maxTotalSupply * v.percentage) / 100,
+      value: (defaultMaxAmount * v.percentage) / 100,
       percentage: v.percentage,
     }));
   }, [tpl]);
