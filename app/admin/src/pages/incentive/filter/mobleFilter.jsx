@@ -80,7 +80,7 @@ export default function ({ open, filters: withPlanFilters, setOpen, filterOpiton
                           });
                         }}
                         className={clsx(
-                          "w-full text-c4 h-7 leading-[28px] text-center text-ellipsis truncate rounded-md",
+                          "w-full text-c4 h-7 leading-[28px] px-2 text-center text-ellipsis truncate rounded-md",
                           isSelected
                             ? "bg-cw1 text-black font-bold"
                             : v.disabled

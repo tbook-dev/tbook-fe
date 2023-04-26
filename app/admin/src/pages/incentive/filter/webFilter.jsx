@@ -34,7 +34,7 @@ export default function ({ filters, filterOpitons, dispatch }) {
                       });
                     }}
                     className={clsx(
-                      "w-full text-c4 h-7 px-1  leading-[28px] text-center truncate text-ellipsis rounded hover:opacity-70",
+                      "w-full text-c4 h-7 px-2  leading-[28px] text-center truncate text-ellipsis rounded hover:opacity-70",
                       isSelected
                         ? "bg-cw1 text-black font-bold cursor-pointer"
                         : v.disabled
