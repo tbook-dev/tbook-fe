@@ -296,7 +296,7 @@ function PlanList() {
                                 disabled: false,
                               },
                             ];
-                            if (!pc && isActive) {
+                            if (isActive) {
                               value = [];
                             }
 
