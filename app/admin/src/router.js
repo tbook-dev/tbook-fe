@@ -10,7 +10,11 @@ const routes = [
   //   component: lazy(() => import("@/components/liquidfill")),
   // },
   {
-    path: "/create/:pageType",
+    path: "/create/project",
+    component: lazy(() => import("@/pages/incentive/ProjectCreate")),
+  },
+  {
+    path: "/create/plan",
     component: lazy(() => import("@/pages/incentive/PlanCreate")),
   },
   {
