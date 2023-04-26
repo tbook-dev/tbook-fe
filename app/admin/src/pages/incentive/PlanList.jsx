@@ -279,31 +279,34 @@ function PlanList() {
               >
                 {Array.isArray(tipList) &&
                   tipList.map((tip) => {
+                    const isActive = filters?.plan?.length === 1 && filters?.plan[0]?.value === tip.incentivePlanId;
+
                     return (
                       <SwiperSlide key={tip.incentivePlanId} style={{ width: "auto", cursor: "pointer" }}>
                         <div
                           style={{ padding: "4px 4px" }}
                           onClick={() => {
+                            let value = [
+                              {
+                                value: tip.incentivePlanId,
+                                label: tip.incentivePlanName,
+                                key: "plan",
+                                disabled: false,
+                              },
+                            ];
+                            if (!pc && isActive) {
+                              value = [];
+                            }
+
                             dispatchFilter({
                               type: "plan",
                               payload: {
-                                value: [
-                                  {
-                                    value: tip.incentivePlanId,
-                                    label: tip.incentivePlanName,
-                                    key: "plan",
-                                    disabled: false,
-                                  },
-                                ],
+                                value,
                               },
                             });
                           }}
                         >
-                          <PlanCard
-                            isActive={filters?.plan?.length === 1 && filters?.plan[0]?.value === tip.incentivePlanId}
-                            tip={tip}
-                            pc={pc}
-                          />
+                          <PlanCard isActive={isActive} tip={tip} pc={pc} />
                         </div>
                       </SwiperSlide>
                     );
