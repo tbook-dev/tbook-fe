@@ -305,6 +305,7 @@ function PlanCreate() {
                         min={0}
                         max={project?.tokenInfo?.surplusTokenNum}
                         style={{ width: "100%" }}
+                        type="number"
                       />
                     </Form.Item>
 
