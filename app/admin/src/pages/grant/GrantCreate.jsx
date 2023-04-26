@@ -511,6 +511,7 @@ function GrantCreate() {
                                     min={1}
                                     style={{ width: "100%" }}
                                     placeholder="Editable"
+                                    type="number"
                                   />
                                 </Form.Item>
                                 <Form.Item
@@ -589,6 +590,7 @@ function GrantCreate() {
                                     min={1}
                                     style={{ width: "100%" }}
                                     placeholder="Editable"
+                                    type="number"
                                   />
                                 </Form.Item>
                                 <Form.Item
@@ -677,6 +679,7 @@ function GrantCreate() {
                                           precision={0}
                                           style={{ width: "100%" }}
                                           placeholder="Editable"
+                                          type="number"
                                         />
                                       </Form.Item>
                                       <Form.Item
@@ -825,6 +828,7 @@ function GrantCreate() {
                                                 precision={0}
                                                 min={1}
                                                 placeholder="Length"
+                                                type="number"
                                               />
                                             </Form.Item>
                                             <Form.Item
@@ -908,6 +912,7 @@ function GrantCreate() {
                                                 step={1}
                                                 precision={0}
                                                 min={1}
+                                                type="number"
                                                 placeholder="Token Amount"
                                               />
                                             </Form.Item>

@@ -157,6 +157,7 @@ function Record() {
                         step={1}
                         precision={0}
                         min={1}
+                        type="number"
                         placeholder="Token Amount"
                       />
                     </Form.Item>

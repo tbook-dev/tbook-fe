@@ -277,6 +277,7 @@ function Allocation() {
                       min={0}
                       max={tokenTotalAmount}
                       style={{ width: "100%" }}
+                      type="number"
                       placeholder="Edit the token amount you would like to supply."
                     />
                   </Form.Item>
