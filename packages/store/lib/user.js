@@ -4,7 +4,7 @@ const { getCurrentProjectId, saveCurrentProjectId, setCurrentTheme, getCurrentTh
 
 const host = import.meta.env.VITE_API_HOST;
 
-const getUserInfo = async function () {
+export const getUserInfo = async function () {
   return fetch(`${host}/info`, { credentials: "include" }).then((res) => res.json());
 };
 
