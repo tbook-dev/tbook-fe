@@ -303,6 +303,8 @@ function PlanCreate() {
                       <InputNumber
                         placeholder="Editable"
                         min={0}
+                        step={1}
+                        precision={0}
                         max={project?.tokenInfo?.surplusTokenNum}
                         style={{ width: "100%" }}
                         type="number"
