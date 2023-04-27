@@ -198,7 +198,7 @@ function PlanList() {
     return res;
   };
   const filterGrantList = getfilterGrantList();
-  console.log({ filterGrantList });
+  // console.log({ filterGrantList });
 
   const flatKeys = ["status", "plan", "vestingType", "grantType"];
   const flatFilters = _.flattenDeep([flatKeys.map((key) => filters[key])]);
