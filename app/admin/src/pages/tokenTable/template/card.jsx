@@ -1,54 +1,200 @@
-import { Link } from "react-router-dom";
-import { useHover, useResponsive } from "ahooks";
-import { useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useResponsive } from "ahooks";
+import { memo, useMemo, useState } from "react";
 import clsx from "clsx";
+import { useSelector } from "react-redux";
+import Chart from "../allocationPie/chart";
+import Arrow from "@tbook/share/images/icon/arrow2.svg";
+import Arrow3 from "@tbook/share/images/icon/arrow3.svg";
+import { Modal } from "antd";
+import ThemeProvider from "@/theme/ThemeProvider";
+import { conf } from "@tbook/utils";
+import { useTheme } from "@tbook/hooks";
 
-export default function ({ tpl }) {
-  const ref = useRef(null);
-  const isHovering = useHover(ref);
+const { colorsBg, colors, hexToRgba, defaultMaxAmount } = conf;
+
+function TemplateCard({ tpl }) {
+  const authUser = useSelector((state) => state.user.authUser);
+  const [open, setOpen] = useState(false);
+  const theme = useTheme();
   const { pc } = useResponsive();
-  console.log(pc && isHovering);
+  const navigate = useNavigate();
+  const link = `/allocation?id=${tpl.templateId}`;
+  const list = useMemo(() => {
+    let plans = [];
+    try {
+      plans = JSON.parse(tpl.distributionDetail);
+    } catch (error) {
+      console.log(error);
+    }
+    return plans.map((v, idx) => ({
+      id: idx,
+      name: v.targetName,
+      value: (defaultMaxAmount * v.percentage) / 100,
+      percentage: v.percentage,
+    }));
+  }, [tpl]);
+  const tags = useMemo(() => {
+    let t = [];
+    try {
+      t = JSON.parse(tpl.tags);
+    } catch (error) {}
+    return t;
+  }, [tpl]);
+
   return (
-    <div
-      key={tpl.tplName}
-      ref={ref}
-      className="relative px-3 pt-1 pb-2 rounded-lg lg:px-4 lg:pt-2 lg:pb-6 lg:rounded-2xl lg:shadow-d6 shadow-d3"
-    >
-      <div className="h-[110px] w-[105px] mx-auto"></div>
-      <h3 className="truncate font-bold text-center lg:text-left text-c9 lg:text-cwh2 mb-1.5 lg:mb-2">{tpl.tplName}</h3>
-      <div className="mb-2 space-y-1 text-c4 lg:text-c16">
-        <div className="flex justify-between">
-          <p>Plans</p>
-          <p>{tpl.plans.length}</p>
+    <>
+      <div
+        onClick={() => pc && setOpen(true)}
+        className={clsx(
+          "relative pt-1 rounded-lg  lg:pt-2 lg:rounded-2xl lg:shadow-d6 shadow-d3  dark:bg-bg-b bg-[#ECF5FE]",
+          "lg:hover:bg-cw2 cursor-pointer"
+        )}
+      >
+        <div className="w-full px-3 lg:px-4" style={{ height: pc ? 190 : "calc(50vw - 12px)" }}>
+          <Chart data={list} totalToken={tpl.maxTotalSupply} width="100%" height="100%" fontSize={8} />
         </div>
-        <div className="flex justify-between">
-          <p>Holders</p>
-          <p>{tpl.holders}</p>
+        <div
+          className={clsx(
+            "bg-[#f6fafe] dark:bg-transparent flex flex-wrap justify-between items-center pt-4 px-3 lg:px-4  pb-2 lg:pb-6 rounded-b-lg"
+          )}
+        >
+          <div className="w-[70vw] lg:w-full">
+            <h3 className="truncate font-bold text-left text-c9 lg:text-cwh2 mb-1.5 lg:mb-2">{tpl.name}</h3>
+            <div className="flex flex-wrap">
+              {tags.map((v) => (
+                <div key={v} className="px-3 mb-2 mr-2 rounded dark:bg-b-1 bg-l-1 text-c5">
+                  {v}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {!pc && (
+            <img
+              src={theme === "dark" ? Arrow : Arrow3}
+              className={clsx("flex-none object-contain w-9 h-9", open && "rotate-180")}
+              onClick={() => {
+                setOpen(!open);
+              }}
+            />
+          )}
         </div>
+        {!pc && open && (
+          <div className="px-3 mb-5 space-y-4">
+            {list.map((v, idx) => {
+              const c = colors[idx % colors.length];
+              const bg = colorsBg[idx % colorsBg.length];
+
+              return (
+                <div
+                  key={v.id}
+                  className="flex items-center justify-center h-10 px-4 py-1 font-medium border-l-4 rounded bg-b-1"
+                  style={{ borderColor: c, backgroundColor: hexToRgba(bg, 0.04) }}
+                >
+                  <div className="flex-none max-w-full">
+                    <p className="font-semibold truncate text-c14 text-ellipsis">
+                      <span className="mr-1 " style={{ color: c }}>
+                        {v.percentage}%
+                      </span>
+                      {v.name}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {!pc && open && (
+          <button
+            disabled={!authUser}
+            onClick={() => navigate(link)}
+            className={clsx(
+              "block mb-5 h-10 w-[80vw] mx-auto text-black font-medium text-c6 bg-cw1 rounded-md",
+              "disabled:bg-l-1 disabled:bg-none disabled:text-l-1",
+              "dark:disabled:bg-b-1 dark:disabled:text-b-1"
+            )}
+          >
+            Apply
+          </button>
+        )}
       </div>
 
-      {pc ? (
-        <Link
-          to={`/allocation?id=${tpl.id}`}
-          className={clsx(isHovering ? "block absolute left-0 right-0 bottom-0" : "hidden")}
-        >
-          <button
-            type="button"
-            className="w-full text-c9 flex items-center justify-center h-10  font-medium leading-normal  rounded-md  dark:disabled:bg-none	dark:bg-cw1 dark:text-black shadow-d3 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
+      {pc && (
+        <ThemeProvider>
+          <Modal
+            open={open}
+            footer={null}
+            destroyOnClose
+            maskClosable
+            width={936}
+            maskStyle={{ backdropFilter: "blur(6px)", backgroundColor: "rgba(0,0,0,0.6)" }}
+            onCancel={() => {
+              setOpen(false);
+            }}
+            closable={false}
+            centered
           >
-            Use as yours
-          </button>
-        </Link>
-      ) : (
-        <Link to={`/allocation?id=${tpl.id}`}>
-          <button
-            type="button"
-            className="w-full text-c9 flex items-center justify-center h-10  font-medium leading-normal  rounded-md  dark:disabled:bg-none	dark:bg-cw1 dark:text-black shadow-d3 dark:disabled:bg-[#141414] dark:disabled:text-b-2"
-          >
-            Use as yours
-          </button>
-        </Link>
+            <div className="flex items-center justify-between px-4">
+              <div>
+                <h2 className="mb-2 mr-4 font-bold text-cwh3">{tpl.name}</h2>
+                <div className="flex flex-wrap">
+                  {tags.map((v) => (
+                    <div key={v} className="px-3 mb-2 mr-2 rounded dark:bg-b-1 bg-l-1 text-c5">
+                      {v}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                disabled={!authUser}
+                onClick={() => navigate(link)}
+                type="button"
+                className={clsx(
+                  "w-[120px] h-10 font-medium rounded-lg text-c2 hover:opacity-70",
+                  "bg-black text-white dark:bg-white dark:text-black",
+                  "disabled:bg-l-1 disabled:hover:opacity-100 disabled:text-l-1",
+                  "dark:disabled:bg-b-1 dark:disabled:text-b-1"
+                )}
+              >
+                Apply
+              </button>
+            </div>
+
+            <div className="grid items-center lg:grid-cols-2 lg:gap-x-12">
+              <div className="w-full h-[320px]">
+                <Chart data={list} totalToken={tpl.maxTotalSupply} width="100%" height="100%" />
+              </div>
+              <div className="space-y-4">
+                {list.map((v, idx) => {
+                  const c = colors[idx % colors.length];
+                  const bg = colorsBg[idx % colorsBg.length];
+
+                  return (
+                    <div
+                      key={v.id}
+                      className="flex items-center justify-center h-10 px-4 py-1 font-medium border-l-4 rounded bg-b-1"
+                      style={{ borderColor: c, backgroundColor: hexToRgba(bg, 0.04) }}
+                    >
+                      <div className="flex-none max-w-full">
+                        <p className="font-semibold truncate text-c14 text-ellipsis">
+                          <span className="mr-1 " style={{ color: c }}>
+                            {v.percentage}%
+                          </span>
+                          {v.name}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </Modal>
+        </ThemeProvider>
       )}
-    </div>
+    </>
   );
 }
+
+export default memo(TemplateCard);

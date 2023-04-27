@@ -83,6 +83,7 @@ module.exports = {
         c15: ["12px", { lineHeight: "14px" }],
         c16: ["14px", { lineHeight: "20px" }],
         c17: ["16px", { lineHeight: "16px" }],
+        c18: ["16px", { lineHeight: "24px" }],
 
         // coustom web h1
         cwh1: ["32px", { lineHeight: "40px" }],
@@ -132,6 +133,11 @@ module.exports = {
         // disable
         disable: "rgba(255, 255, 255, 0.2)",
         theme: "#69D0E5",
+        //bg-container
+        bg: {
+          b: "#000",
+          l: "#FBFDFF",
+        },
       },
       borderWidth: {
         3: "3px",

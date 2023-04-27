@@ -130,3 +130,14 @@ export const addGrantRecord = async function (projectId, values) {
 export const getGrantRecordList = async function (projectId) {
   return request(`${host}/projects/${projectId}/grantRecordList`);
 };
+
+export const getTemplate = async function (tags = []) {
+  return fetch(`${host}/projects/templateList?tags=${tags.join(",")}`).then((res) => res.json());
+};
+
+export const getTags = async function () {
+  return fetch(`${host}/projects/tagList`).then((res) => res.json());
+};
+export const getTemplateDetail = async function (templateId) {
+  return fetch(`${host}/projects/template?templateId=${templateId}`).then((res) => res.json());
+};

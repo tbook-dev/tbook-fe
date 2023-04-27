@@ -1,8 +1,9 @@
 import { Spin } from "antd";
+import clsx from "clsx";
 
-export default function () {
+export default function ({ h = "h-screen" }) {
   return (
-    <div className="flex items-center justify-center w-full h-screen">
+    <div className={clsx("flex items-center justify-center w-full", h)}>
       <Spin />
     </div>
   );

@@ -419,11 +419,21 @@ function GrantCreate() {
                       name="grantNum"
                       rules={[
                         {
-                          validator: minZeroValidator("Total Amount"),
+                          required: true,
+                          message: "Please input the Total Amount!",
                         },
                       ]}
                     >
-                      <Input placeholder="Editable" type="number" suffix="Token" min={0} />
+                      <InputNumber
+                        style={{ width: "100%" }}
+                        min={0}
+                        step={1}
+                        precision={0}
+                        placeholder="Editable"
+                        type="number"
+                        suffix="Token"
+                        max={detail?.totalTokenNum - detail?.grantedTokenNum}
+                      />
                     </Form.Item>
                     <Form.Item
                       label="Exercise Price"
@@ -511,6 +521,7 @@ function GrantCreate() {
                                     min={1}
                                     style={{ width: "100%" }}
                                     placeholder="Editable"
+                                    type="number"
                                   />
                                 </Form.Item>
                                 <Form.Item
@@ -589,6 +600,7 @@ function GrantCreate() {
                                     min={1}
                                     style={{ width: "100%" }}
                                     placeholder="Editable"
+                                    type="number"
                                   />
                                 </Form.Item>
                                 <Form.Item
@@ -677,6 +689,7 @@ function GrantCreate() {
                                           precision={0}
                                           style={{ width: "100%" }}
                                           placeholder="Editable"
+                                          type="number"
                                         />
                                       </Form.Item>
                                       <Form.Item
@@ -825,6 +838,7 @@ function GrantCreate() {
                                                 precision={0}
                                                 min={1}
                                                 placeholder="Length"
+                                                type="number"
                                               />
                                             </Form.Item>
                                             <Form.Item
@@ -908,6 +922,7 @@ function GrantCreate() {
                                                 step={1}
                                                 precision={0}
                                                 min={1}
+                                                type="number"
                                                 placeholder="Token Amount"
                                               />
                                             </Form.Item>
