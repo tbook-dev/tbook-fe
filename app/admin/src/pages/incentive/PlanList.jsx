@@ -187,19 +187,18 @@ function PlanList() {
       res = res.sort((a, b) => b?.vestedAmount - a?.vestedAmount);
     } else if (sortBy === 4) {
       // 存在没有授予的情况
-      res = res.sort((a, b) =>
-        dayjs(getLastVested(b?.grant?.vestingSchedule?.vestingDetail)?.date, dateFormat).isBefore(
-          dayjs(getLastVested(a?.grant?.vestingSchedule?.vestingDetail)?.date, dateFormat)
-        )
-          ? 1
-          : -1
-      );
-      res.reverse();
+      res = res.map((v) => ({ ...v, lastestVest: getLastVested(v?.grant?.vestingSchedule?.vestingDetail)?.date }));
+      const unvest = res.filter((v) => !v.lastestVest);
+      const vested = res
+        .filter((v) => !!v.lastestVest)
+        .sort((a, b) => (dayjs(a.lastestVest, dateFormat).isBefore(dayjs(b.lastestVest, dateFormat)) ? 1 : -1));
+      res = [...vested, ...unvest];
     }
     // grantType 现在都是token option, 现在没效果
     return res;
   };
   const filterGrantList = getfilterGrantList();
+  console.log({ filterGrantList });
 
   const flatKeys = ["status", "plan", "vestingType", "grantType"];
   const flatFilters = _.flattenDeep([flatKeys.map((key) => filters[key])]);
