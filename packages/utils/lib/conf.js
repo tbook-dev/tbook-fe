@@ -253,6 +253,7 @@ export function emptyNotNegativeValidator(label) {
 
 export function getLastVested(list = []) {
   const vestedList = list
+    .slice()
     .filter((m) => m.isVested)
     .sort((a, b) => {
       return dayjs(a.date, dateFormat).isAfter(dayjs(b.date)) ? 1 : -1;
