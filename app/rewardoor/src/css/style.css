@@ -1,0 +1,78 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+
+/* Additional styles */
+/* @import 'additional-styles/utility-patterns.css';
+@import 'additional-styles/range-slider.css';
+@import 'additional-styles/toggle-switch.css';
+@import 'additional-styles/flatpickr.css';
+@import 'additional-styles/theme.css'; */
+
+@import 'tailwindcss/utilities';
+@import '@tbook/share/font/rhd.css';
+
+:root {
+    font-family: 'Red Hat Display', sans-serif;;
+}
+.swiper-wrapper{
+    align-items: center;
+}
+
+@layer components { 
+    .text-colorful1{
+        background: linear-gradient(57.39deg, #6AB3F7 -4.5%, #67EBD4 96.91%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+    }
+    .bx{
+        @apply px-4 lg:px-0 lg:w-[936px] mx-auto;
+    }
+    .rect-border{
+        @apply shadow-d10 rounded lg:rounded-lg; 
+    }
+}
+
+@media (min-width: 1120px){
+    .ant-btn{
+        font-weight: 500 !important;
+    }
+}
+
+.box-waves:nth-child(1) {
+    transform: translate(-50%, 0);
+    z-index: 3;
+    animation: wave-move1 1.5s linear infinite;
+    margin-bottom: -2px;
+  }
+
+.box-waves:nth-child(2) {
+transform: translate(0, 0);
+z-index: 2;
+animation: wave-move2 3s linear infinite;
+}
+.box-waves {
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    width: 200%;
+  }
+.box-waves:nth-child(3) {
+transform: translate(-50%, 0);
+z-index: 1;
+animation: wave-move1 3s linear infinite;
+}
+
+@keyframes wave-move1 {
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes wave-move2 {
+    100% {
+      transform: translate(-50%, 0);
+    }
+  }
+

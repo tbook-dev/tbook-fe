@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>TBook</title>
+  </head>
+  <body class="antialiased">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script>
+      (function () {
+        var src = "//cdn.jsdelivr.net/npm/eruda";
+        if (/eruda=true/.test(window.location) && screen.width < 1000) {
+          document.write("<scr" + 'ipt src="' + src + '"></scr' + "ipt>");
+          document.write("<scr" + "ipt>eruda.init();</scr" + "ipt>");
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -115,6 +115,20 @@ importers:
       '@tbook/utils': link:../../packages/utils
       typed.js: 2.0.12
 
+  app/rewardoor:
+    specifiers:
+      '@tbook/hooks': workspace:*
+      '@tbook/share': workspace:*
+      '@tbook/store': workspace:*
+      '@tbook/ui': workspace:*
+      '@tbook/utils': workspace:*
+    dependencies:
+      '@tbook/hooks': link:../../packages/hooks
+      '@tbook/share': link:../../packages/share
+      '@tbook/store': link:../../packages/store
+      '@tbook/ui': link:../../packages/ui
+      '@tbook/utils': link:../../packages/utils
+
   packages/hooks:
     specifiers:
       '@tbook/share': workspace:*

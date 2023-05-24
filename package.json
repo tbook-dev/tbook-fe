@@ -11,7 +11,9 @@
     "grantee:dev": "pnpm --filter @tbook/grantee  run dev",
     "grantee:build": "pnpm --filter @tbook/grantee  run build",
     "home:dev": "pnpm --filter @tbook/home  run dev",
-    "home:build": "pnpm --filter @tbook/home  run build"
+    "home:build": "pnpm --filter @tbook/home  run build",
+    "rewardoor:dev": "pnpm --filter @tbook/rewardoor  run dev",
+    "rewardoor:build": "pnpm --filter @tbook/rewardoor  run build"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.2.0",
