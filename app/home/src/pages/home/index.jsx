@@ -1,24 +1,25 @@
-import "swiper/css";
-import "swiper/css/navigation";
+import 'swiper/css'
+import 'swiper/css/navigation'
 
-import Banner from "@/partials/home/banner";
-import Features from "@/partials/home/features";
-import Partners from "@/partials/home/partners";
-import Product from "@/partials/home/product";
-import Testimonial from "@/partials/home/testimonial";
-import Subscribe from "@/partials/subscribe";
-import Calendly from "@/partials/calendly";
+import Banner from '@/partials/banner'
+import Features from '@/partials/features'
+import Partners from '@/partials/partners'
+import Product from '@/partials/product'
+import Testimonial from '@/partials/testimonial'
+// import Calendly from "@/partials/calendly";
+import Subscribe from '@/partials/subscribe'
+import Calendly from '@/partials/calendly'
 
-export default function Home() {
+export default function Home () {
   return (
-    <div className="w-full text-[#202124] mb-4 px-4 lg:px-0">
+    <div className='w-full text-[#202124] mb-4 px-4 lg:px-0'>
       <Banner />
       <Features />
       <Product />
       <Partners />
       <Testimonial />
-      <Calendly />
+      {/* <Calendly /> */}
       <Subscribe />
     </div>
-  );
+  )
 }
