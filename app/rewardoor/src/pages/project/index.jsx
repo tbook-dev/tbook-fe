@@ -72,7 +72,7 @@ export default function () {
           </Form.Item>
         </Form>
 
-        <div className='flex justify-center pt-20'>
+        <div className='flex justify-center py-20'>
           <Button className='mr-6'>Cancel</Button>
           <Button
             type='primary'

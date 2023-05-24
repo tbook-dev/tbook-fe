@@ -8,6 +8,10 @@ const routes = [
   {
     path: '/new-project',
     component: lazy(() => import('@/pages/project'))
+  },
+  {
+    path: '/nft',
+    component: lazy(() => import('@/pages/nft'))
   }
 ]
 
