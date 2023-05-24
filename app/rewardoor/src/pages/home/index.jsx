@@ -19,7 +19,9 @@ export default function () {
           </p>
         </div>
         <div className='flex justify-center'>
-          <Button className='mr-6'>Get Started</Button>
+          <Button type='primary' className='mr-6'>
+            Get Started
+          </Button>
           <Button>Developer Center</Button>
         </div>
       </div>
