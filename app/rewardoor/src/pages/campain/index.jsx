@@ -1,6 +1,10 @@
 import { Button, Form, Input, Upload, DatePicker, Select } from 'antd'
 import { useState } from 'react'
 import clsx from 'clsx'
+import { PlusOutlined } from '@ant-design/icons'
+import { useResponsive } from 'ahooks'
+import closeIcon from '@tbook/share/images/icon/close4.svg'
+
 import uploadIcon from '@/images/icon/upload.svg'
 
 const textMap = {
@@ -8,11 +12,38 @@ const textMap = {
   2: 'Credential',
   3: 'Incentive'
 }
-const NFTMap = {
-  1: 'Token shares the same image',
-  2: 'Token shares different images',
-  3: 'Import a deployed NFT'
-}
+const incentiveMethodList = [
+  {
+    title: 'Anyone who get the credentials',
+    desc: 'Anyone who gets the credentials can claim the reward.',
+    value: 1
+  },
+  {
+    title: 'FCFS',
+    desc: 'First come, first served. Whoever gets the credentials first can claim the reward first.',
+    value: 2
+  },
+  {
+    title: 'Lucky Draw',
+    desc: 'A random selection of participants from those who meet the requirements.',
+    value: 3
+  }
+]
+const rewardDistributionMethod = [
+  {
+    label: 'Airdrop',
+    value: 1
+  },
+  {
+    label: 'Claim',
+    value: 2
+  }
+]
+
+const incentiveAssetsTypeList = [
+  { label: 'NFT', value: 1 },
+  { label: 'POINTS', vlaue: 2 }
+]
 const { RangePicker } = DatePicker
 
 export default function () {
@@ -21,7 +52,10 @@ export default function () {
   const [setUpForm] = Form.useForm()
 
   const [credentialForm] = Form.useForm()
+  const [incentiveForm] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
+  const { pc } = useResponsive()
+
   const credentialList = [
     {
       label: 'User of GoPlus Security Service',
@@ -178,6 +212,120 @@ export default function () {
                 mode='multiple'
               />
             </Form.Item>
+          </Form>
+        )}
+
+        {step === '3' && (
+          <Form
+            form={incentiveForm}
+            layout='vertical'
+            requiredMark={false}
+            // initialValues={{ category: 'DeFi' }}
+          >
+            <Form.List
+              name='incentive'
+              rules={[
+                {
+                  validator: async (x, plans) => {
+                    //   if (!plans || plans.length < 1) {
+                    //     return Promise.reject(new Error("At least 1 Plan"));
+                    //   }
+                    //   const tokenSum = sumBy(plans, "tokenNum");
+                    //   if (tokenSum > tokenTotalAmount) {
+                    //     return Promise.reject(new Error("Total Token exceed the max token supply"));
+                    //   }
+                  }
+                }
+              ]}
+            >
+              {(fields, { add, remove }, { errors }) => {
+                return (
+                  <>
+                    {fields.map(({ key, name, ...restField }, idx) => {
+                      console.log(idx)
+                      return (
+                        <div
+                          key={key}
+                          className='bg-b-1 rounded-md p-4 mb-3 relative'
+                        >
+                          {idx !== 0 && (
+                            <img
+                              src={closeIcon}
+                              onClick={() => {
+                                remove(name)
+                              }}
+                              className='object-contain w-4 h-4 cursor-pointer absolute top-3 right-3 z-10'
+                            />
+                          )}
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'method']}
+                            label='Incentive Method'
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <Select placeholder='Select the category'>
+                              {incentiveMethodList.map(v => {
+                                return (
+                                  <Select.Option value={v.value} key={v.value}>
+                                    <p>{v.title}</p>
+                                    <p>{v.desc}</p>
+                                  </Select.Option>
+                                )
+                              })}
+                            </Select>
+                          </Form.Item>
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'amount']}
+                            label='Amount'
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Missing!'
+                              }
+                            ]}
+                          >
+                            <Input placeholder='Enter the participant amount you would like to incentive' />
+                          </Form.Item>
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'distributionMethod']}
+                            label='Reward Distribution Method'
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <Select
+                              placeholder='Select the Reward Distribution Method'
+                              options={rewardDistributionMethod}
+                            />
+                          </Form.Item>
+                        </div>
+                      )
+                    })}
+                    <p style={{ color: '#dc4446', marginBottom: 12 }}>
+                      {errors}
+                    </p>
+
+                    <div className='mb-4'>
+                      <Button
+                        onClick={() => {
+                          add()
+                          const incentives =
+                            incentiveForm.getFieldValue('incentive')
+                          incentiveForm.setFieldValue(
+                            ['incentive', incentives.length - 1, 'assets'],
+                            1
+                          )
+                        }}
+                        block
+                        className='!flex items-center justify-center'
+                      >
+                        <PlusOutlined /> New Reward
+                      </Button>
+                    </div>
+                  </>
+                )
+              }}
+            </Form.List>
           </Form>
         )}
 
