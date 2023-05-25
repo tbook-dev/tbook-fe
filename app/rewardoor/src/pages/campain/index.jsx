@@ -1,33 +1,27 @@
-import { Button, Form, Input, Upload } from 'antd'
+import { Button, Form, Input, Upload, DatePicker } from 'antd'
 import { useState } from 'react'
 import clsx from 'clsx'
 import uploadIcon from '@/images/icon/upload.svg'
 
 const textMap = {
-  1: {
-    title: 'Choose the Wallet',
-    step: 'Choose the Wallet'
-  },
-  2: {
-    title: 'New NFT',
-    step: 'New NFT'
-  },
-  3: {
-    title: 'Ready to Deploy?',
-    step: 'Deploy'
-  }
+  1: 'Set up',
+  2: 'Credential',
+  3: 'Incentive'
 }
 const NFTMap = {
   1: 'Token shares the same image',
   2: 'Token shares different images',
   3: 'Import a deployed NFT'
 }
+const { RangePicker } = DatePicker
 
 export default function () {
-  const [step, setStep] = useState('2')
+  const [step, setStep] = useState('1')
   const [NFTtype, setNFTtype] = useState('2')
 
-  const [form] = Form.useForm()
+  const [setUpForm] = Form.useForm()
+
+  const [credentialForm] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
 
   const normFile = e => {
@@ -37,24 +31,42 @@ export default function () {
     }
     return e?.fileList
   }
-
-  function handleCreate () {
-    form
+  function handleStepUp () {
+    setUpForm
       .validateFields()
       .then(values => {
         setConfirmLoading(true)
         console.log(values)
       })
       .catch(err => {
+        setConfirmLoading(false)
         console.log(err, 'error')
       })
+  }
+  function handleCredential () {
+    credentialForm
+      .validateFields()
+      .then(values => {
+        setConfirmLoading(true)
+        console.log(values)
+      })
+      .catch(err => {
+        setConfirmLoading(false)
+        console.log(err, 'error')
+      })
+  }
+  function handleClick () {
+    if (step === '1') {
+      handleStepUp()
+    }
+    if (step === '2') {
+      handleCredential()
+    }
   }
   return (
     <div className='w-full min-h-screen text-white'>
       <div className='w-[600px] mx-auto pt-20'>
-        <h1 className='text-5xl text-center mb-12 font-bold'>
-          {textMap[step]?.title}
-        </h1>
+        <h1 className='text-5xl  mb-12 font-bold'>New Campaign</h1>
 
         <div className='h-10 grid grid-cols-3 gap-x-10 mb-3'>
           {Object.entries(textMap).map(([n, v]) => {
@@ -70,15 +82,63 @@ export default function () {
                   setStep(n)
                 }}
               >
-                {`${n} ${v.step}`}
+                {`${n} ${v}`}
               </div>
             )
           })}
         </div>
+        {step === '1' && (
+          <>
+            <Form form={setUpForm} layout='vertical' requiredMark={false}>
+              <Form.Item
+                label='Campaign Title'
+                name='title'
+                rules={[
+                  { required: true, message: 'Campaign Title is required' }
+                ]}
+              >
+                <Input placeholder='Enter a campaign title' />
+              </Form.Item>
+
+              <Form.Item label='Campaign Card Banner'>
+                <Form.Item
+                  valuePropName='fileList'
+                  getValueFromEvent={normFile}
+                  noStyle
+                >
+                  <Upload.Dragger name='banner' action='/upload.do'>
+                    <p className='ant-upload-drag-icon flex justify-center'>
+                      <img src={uploadIcon} />
+                    </p>
+                    <p className='ant-upload-text'>Upload an image</p>
+                    <p className='ant-upload-hint'>296*312 or higher</p>
+                    <p className='ant-upload-hint'>recommended Max 20MB.</p>
+                  </Upload.Dragger>
+                </Form.Item>
+              </Form.Item>
+              <Form.Item
+                label='Description'
+                name='description'
+                rules={[
+                  { required: true, message: 'Description Title is required' }
+                ]}
+              >
+                <Input placeholder='Enter' />
+              </Form.Item>
+              <Form.Item
+                label='Schedule'
+                name='schedule'
+                rules={[{ required: true, message: 'Schedule is required' }]}
+              >
+                <RangePicker className='w-full' />
+              </Form.Item>
+            </Form>
+          </>
+        )}
 
         {step === '2' && (
           <Form
-            form={form}
+            form={credentialForm}
             layout='vertical'
             requiredMark={false}
             // initialValues={{ category: 'DeFi' }}
@@ -169,11 +229,7 @@ export default function () {
 
         <div className='flex justify-center py-20'>
           <Button className='mr-6'>Cancel</Button>
-          <Button
-            type='primary'
-            onClick={handleCreate}
-            loading={confirmLoading}
-          >
+          <Button type='primary' onClick={handleClick} loading={confirmLoading}>
             Create
           </Button>
         </div>
