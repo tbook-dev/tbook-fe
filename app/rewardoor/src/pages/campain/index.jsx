@@ -96,7 +96,7 @@ export default function () {
           {Object.entries(textMap).map(([n, v]) => {
             return (
               <div
-                key={v.step}
+                key={v}
                 className={clsx(
                   n === step ? 'text-white' : 'text-c-9',
                   'font-medium text-sm bg-b-1 cursor-pointer flex justify-center items-center',
@@ -172,7 +172,11 @@ export default function () {
               name='name'
               rules={[{ required: true, message: 'NFT Name is required' }]}
             >
-              <Select options={credentialList} className='w-full' />
+              <Select
+                options={credentialList}
+                className='w-full'
+                mode='multiple'
+              />
             </Form.Item>
           </Form>
         )}
