@@ -1,4 +1,4 @@
-import { Button, Form, Input, Upload, DatePicker } from 'antd'
+import { Button, Form, Input, Upload, DatePicker, Select } from 'antd'
 import { useState } from 'react'
 import clsx from 'clsx'
 import uploadIcon from '@/images/icon/upload.svg'
@@ -17,13 +17,37 @@ const { RangePicker } = DatePicker
 
 export default function () {
   const [step, setStep] = useState('1')
-  const [NFTtype, setNFTtype] = useState('2')
 
   const [setUpForm] = Form.useForm()
 
   const [credentialForm] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
-
+  const credentialList = [
+    {
+      label: 'User of GoPlus Security Service',
+      value: 1
+    },
+    {
+      label: 'Ethereum Transactors_10 transactions',
+      value: 2
+    },
+    {
+      label: 'USDT Trader-Receive',
+      value: 3
+    },
+    {
+      label: 'Buyer of GoPlus Security Service',
+      value: 4
+    },
+    {
+      label: 'GoPlus Security - Twitter Followers',
+      value: 5
+    },
+    {
+      label: 'GoPlus Security - Twitter Space Participants',
+      value: 6
+    }
+  ]
   const normFile = e => {
     console.log('Upload event:', e)
     if (Array.isArray(e)) {
@@ -143,87 +167,13 @@ export default function () {
             requiredMark={false}
             // initialValues={{ category: 'DeFi' }}
           >
-            <div className='h-10 grid grid-cols-3 gap-x-2.5 mb-3 bg-b-1'>
-              {Object.entries(NFTMap).map(([n, v]) => {
-                return (
-                  <div
-                    key={v}
-                    className={clsx(
-                      n === NFTtype ? 'text-white' : 'text-c-9',
-                      'font-medium text-xs bg-b-1 cursor-pointer flex justify-center items-center',
-                      'rounded-md select-none'
-                    )}
-                    onClick={() => {
-                      setNFTtype(n)
-                    }}
-                  >
-                    {v}
-                  </div>
-                )
-              })}
-            </div>
-            {NFTtype === '2' && (
-              <>
-                <Form.Item
-                  label='NFT Name'
-                  name='name'
-                  rules={[{ required: true, message: 'NFT Name is required' }]}
-                >
-                  <Input placeholder='Enter an NFT name visible on blockchain that serves as an official verification' />
-                </Form.Item>
-
-                <Form.Item
-                  label='Symbol'
-                  name='symbol'
-                  rules={[{ required: true, message: 'Symbol is required' }]}
-                >
-                  <Input placeholder='Token ticker for NFT contract visible on blockchain that serves as an official verification' />
-                </Form.Item>
-
-                <Form.Item label='Dragger'>
-                  <Form.Item
-                    name='dragger'
-                    valuePropName='fileList'
-                    getValueFromEvent={normFile}
-                    noStyle
-                  >
-                    <Upload.Dragger name='files' action='/upload.do'>
-                      <p className='ant-upload-drag-icon flex justify-center'>
-                        <img src={uploadIcon} />
-                      </p>
-                      <p className='ant-upload-text'>
-                        Upload the compress of the images
-                      </p>
-                      <p className='ant-upload-hint'>
-                        ZIP,RAR of images. Maximum file size 100 MB.
-                      </p>
-                    </Upload.Dragger>
-                  </Form.Item>
-                </Form.Item>
-
-                <Form.Item
-                  label='Minting Cap'
-                  name='cap'
-                  rules={[
-                    { required: true, message: 'Minting Cap is required' }
-                  ]}
-                >
-                  <Input placeholder='Enter the number of minting cap' />
-                </Form.Item>
-              </>
-            )}
-
-            {NFTtype === '3' && (
-              <Form.Item
-                label='NFT Contract'
-                name='contract'
-                rules={[
-                  { required: true, message: 'NFT Contract is required' }
-                ]}
-              >
-                <Input placeholder='Paste your NFT Contract Address here' />
-              </Form.Item>
-            )}
+            <Form.Item
+              label='Choose the Credentials or Define new Credential'
+              name='name'
+              rules={[{ required: true, message: 'NFT Name is required' }]}
+            >
+              <Select options={credentialList} className='w-full' />
+            </Form.Item>
           </Form>
         )}
 
