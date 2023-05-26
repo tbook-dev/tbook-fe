@@ -2,7 +2,6 @@ import { Button, Form, Input, Upload, DatePicker, Select } from 'antd'
 import { useState } from 'react'
 import clsx from 'clsx'
 import { PlusOutlined } from '@ant-design/icons'
-import { useResponsive } from 'ahooks'
 import closeIcon from '@tbook/share/images/icon/close4.svg'
 import TagList from '@/components/tagList'
 import TagRadio from '@/components/tagRadio'
@@ -238,7 +237,12 @@ export default function () {
             layout='vertical'
             requiredMark={false}
             initialValues={{
-              incentive: [{ credentials: credentialList.map(v => v.value) }]
+              incentive: [
+                {
+                  credentials: credentialList.map(v => v.value),
+                  incentiveAsset: 1
+                }
+              ]
             }}
           >
             <Form.List
