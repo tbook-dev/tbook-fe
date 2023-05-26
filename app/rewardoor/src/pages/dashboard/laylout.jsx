@@ -77,7 +77,7 @@ export default function Layout ({ children }) {
         </div>
       </div>
 
-      <div className='rounded-3xl bg-[#191919] w-[928px]'>{children}</div>
+      <div className='w-[928px]'>{children}</div>
     </div>
   )
 }
