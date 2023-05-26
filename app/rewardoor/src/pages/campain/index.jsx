@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { PlusOutlined } from '@ant-design/icons'
 import { useResponsive } from 'ahooks'
 import closeIcon from '@tbook/share/images/icon/close4.svg'
-
+import TagList from '@/components/tagList'
 import uploadIcon from '@/images/icon/upload.svg'
 
 const textMap = {
@@ -220,7 +220,9 @@ export default function () {
             form={incentiveForm}
             layout='vertical'
             requiredMark={false}
-            // initialValues={{ category: 'DeFi' }}
+            initialValues={{
+              incentive: [{ credentials: credentialList.map(v => v.value) }]
+            }}
           >
             <Form.List
               name='incentive'
@@ -257,6 +259,14 @@ export default function () {
                               className='object-contain w-4 h-4 cursor-pointer absolute top-3 right-3 z-10'
                             />
                           )}
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'credentials']}
+                            label='Choose the Credentials'
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <TagList options={credentialList} />
+                          </Form.Item>
                           <Form.Item
                             {...restField}
                             name={[name, 'method']}
