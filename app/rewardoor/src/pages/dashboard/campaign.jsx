@@ -1,6 +1,8 @@
 import Layout from './laylout'
 import clsx from 'clsx'
 
+const title = `We're thrilled to announce our very first Community Giveaway on Rewardoor!
+To celebrate the growing success of our community, we're offering a total prize pool of 50 NFT Fragments to be shared among 10 lucky winners!`
 export default function () {
   const credentialList = [
     {
@@ -52,6 +54,31 @@ export default function () {
               )
             })}
           </div>
+        </div>
+
+        <div className='pt-4 pb-5 pl-8 bg-gray rounded-[20px]'>
+          <h2 className='font-bold text-base mb-4'>Reward</h2>
+          <div className='flex flex-wrap'>
+            <div
+              className={clsx(
+                'flex items-center group justify-center h-8 px-6 rounded-md relative bg-b-1 mr-6 mb-3 text-white'
+              )}
+            >
+              🎁 NFT
+            </div>
+            <div
+              className={clsx(
+                'flex items-center group justify-center h-8 px-6 rounded-md relative bg-b-1 mr-6 mb-3 text-white'
+              )}
+            >
+              💎 POINTS
+            </div>
+          </div>
+        </div>
+
+        <div className='pt-4 pb-5 pl-8 bg-gray rounded-[20px]'>
+          <h2 className='font-bold text-base mb-4'>Campaign Description</h2>
+          <div className='font-medium text-base'>{title}</div>
         </div>
       </section>
     </Layout>
