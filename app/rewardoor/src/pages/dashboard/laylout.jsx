@@ -1,3 +1,5 @@
+import clsx from 'clsx'
+
 const sideMenu = [
   {
     title: 'Overview',
@@ -10,7 +12,7 @@ const sideMenu = [
     title: 'Incentive Campaign',
     link: 'campaign',
     validator: function () {
-      return false
+      return true
     }
   },
   {
@@ -38,16 +40,44 @@ const sideMenu = [
 
 export default function Layout ({ children }) {
   const projectName = 'Project1'
+  const validatorSucessIdx = sideMenu.findIndex(v => v.validator())
+
   return (
-    <div className='grid grid-cols-2 gap-x-16 pt-20'>
-      <div className='w-[310px] rounded bg-b-1'>
-        <div>{projectName}</div>
-        {sideMenu.map(v => {
-          return <div key={v.link}>{v.title}</div>
-        })}
+    <div className='flex justify-between	pt-20 w-[1280px] mx-auto text-white'>
+      <div className='w-[288px] bg-[#191919] rounded-3xl font-bold'>
+        <div className='pt-[30px]  pb-[42px] text-center text-2xl'>
+          {projectName}
+        </div>
+        <div className='mb-[50px] bg-black'>
+          {sideMenu.map((v, idx) => {
+            return (
+              <div
+                key={v.link}
+                className={clsx(
+                  validatorSucessIdx === idx && 'pl-4 bg-[#191919]'
+                )}
+              >
+                <div
+                  className={clsx(
+                    'text-base flex justify-center items-center relative',
+                    validatorSucessIdx === idx
+                      ? 'bg-black h-10 rounded-l-3xl'
+                      : 'h-14 bg-[#191919]',
+                    // 下一个
+                    idx + 1 === validatorSucessIdx && 'rounded-br-3xl',
+                    // 上一个
+                    idx - 1 === validatorSucessIdx && 'rounded-tr-3xl'
+                  )}
+                >
+                  {v.title}
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </div>
 
-      <div className='rounded bg-b-1'>{children}</div>
+      <div className='rounded-3xl bg-[#191919] w-[928px]'>{children}</div>
     </div>
   )
 }
