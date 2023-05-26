@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import closeIcon from '@tbook/share/images/icon/close4.svg'
 import { useEffect, useState } from 'react'
 
-export default function Switch ({ value, onChange, options }) {
+export default function TagList ({ value, onChange, options }) {
   const [list, setList] = useState(options)
   useEffect(() => {
     setList(options)

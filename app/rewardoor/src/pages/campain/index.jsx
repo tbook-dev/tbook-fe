@@ -5,6 +5,8 @@ import { PlusOutlined } from '@ant-design/icons'
 import { useResponsive } from 'ahooks'
 import closeIcon from '@tbook/share/images/icon/close4.svg'
 import TagList from '@/components/tagList'
+import TagRadio from '@/components/tagRadio'
+
 import uploadIcon from '@/images/icon/upload.svg'
 
 const textMap = {
@@ -41,8 +43,8 @@ const rewardDistributionMethod = [
 ]
 
 const incentiveAssetsTypeList = [
-  { label: 'NFT', value: 1 },
-  { label: 'POINTS', vlaue: 2 }
+  { label: '🎁 NFT', value: 1 },
+  { label: '💎 POINTS', value: 2 }
 ]
 const { RangePicker } = DatePicker
 
@@ -50,11 +52,10 @@ export default function () {
   const [step, setStep] = useState('1')
 
   const [setUpForm] = Form.useForm()
-
   const [credentialForm] = Form.useForm()
   const [incentiveForm] = Form.useForm()
+
   const [confirmLoading, setConfirmLoading] = useState(false)
-  const { pc } = useResponsive()
 
   const credentialList = [
     {
@@ -113,12 +114,28 @@ export default function () {
         console.log(err, 'error')
       })
   }
+  function handleIncentive () {
+    console.log('xx')
+    incentiveForm
+      .validateFields()
+      .then(values => {
+        setConfirmLoading(true)
+        console.log(values)
+      })
+      .catch(err => {
+        setConfirmLoading(false)
+        console.log(err, 'error')
+      })
+  }
   function handleClick () {
     if (step === '1') {
       handleStepUp()
     }
     if (step === '2') {
       handleCredential()
+    }
+    if (step === '3') {
+      handleIncentive()
     }
   }
   return (
@@ -266,6 +283,14 @@ export default function () {
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
                             <TagList options={credentialList} />
+                          </Form.Item>
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'incentiveAsset']}
+                            label='Choose the Incentive Assets'
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <TagRadio options={incentiveAssetsTypeList} />
                           </Form.Item>
                           <Form.Item
                             {...restField}
