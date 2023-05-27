@@ -1,12 +1,13 @@
-import { Button } from 'antd'
+import Button from '@/components/button'
 import bg from '@/images/home-bg.png'
+
 export default function () {
   return (
     <div
-      className='w-full min-h-screen bg-[center_top_1rem]'
+      className='w-full  bg-[center_top_1rem]'
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className='w-[800px] mx-auto pt-[200px]'>
+      <div className='w-[800px] mx-auto pt-[280px]'>
         <div className='text-center mb-8'>
           <h2 className='text-colorful1 font-bold text-6xl'>
             Incentivize core

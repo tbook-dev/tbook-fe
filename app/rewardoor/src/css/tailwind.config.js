@@ -16,7 +16,7 @@ module.exports = {
         lg: '1120px' // 96*2+928=1120
       },
       backgroundImage: {
-        cw1: 'linear-gradient(283.69deg, #4D0BEF -14.58%, #D645ED 134.55%));'
+        cw1: 'linear-gradient(283.69deg, #4D0BEF -14.58%, #D645ED 134.55%);'
       },
       fontFamily: {
         rhd: ['Red Hat Display', 'sans-serif']
@@ -55,6 +55,9 @@ module.exports = {
       },
       borderWidth: {
         3: '3px'
+      },
+      borderRadius: {
+        button: '20px'
       },
       minWidth: {
         36: '9rem',
