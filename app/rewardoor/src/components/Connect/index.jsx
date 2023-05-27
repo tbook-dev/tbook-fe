@@ -1,5 +1,12 @@
 import Button from '../button'
+import { useSignIn } from '@tbook/hooks'
 
 export default function Connect () {
-  return <Button type='primary'>Connect</Button>
+  const { loading, handleSignIn } = useSignIn()
+
+  return (
+    <Button type='primary' onClick={handleSignIn} loading={loading}>
+      Connect
+    </Button>
+  )
 }

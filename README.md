@@ -3,3 +3,6 @@
 
 - 当app下变化时候，执行对应的build
 - 当packages下变化时候，app目录下所有的应用均应执行
+
+轮播图：
+https://www.embla-carousel.com/examples/static/#opacity
