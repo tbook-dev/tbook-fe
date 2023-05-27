@@ -52,7 +52,7 @@ function App () {
   }, [theme])
 
   useAsyncEffect(async () => {
-    // dispatch(fetchUserInfo())
+    dispatch(fetchUserInfo())
   }, [])
 
   return (

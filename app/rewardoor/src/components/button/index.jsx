@@ -11,7 +11,6 @@ export default function Button ({
   className,
   ...props
 }) {
-  console.log({ loading })
   return (
     <button
       disabled={loading}
