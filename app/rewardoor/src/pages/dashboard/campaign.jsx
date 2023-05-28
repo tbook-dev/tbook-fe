@@ -53,6 +53,8 @@ export default function () {
           <Button type='primary'> + New Campaign</Button>
         </Link>
       </section>
+
+      <section>not ready</section>
     </Layout>
   )
 }
