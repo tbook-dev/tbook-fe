@@ -1,22 +1,37 @@
-import { Button, Form, Input, Upload } from 'antd'
+import { Form, Input, Upload } from 'antd'
 import { useState } from 'react'
 import clsx from 'clsx'
 import uploadIcon from '@/images/icon/upload.svg'
+import Button from '@/components/button'
+import { conf } from '@tbook/utils'
+import { useAccount, useSwitchNetwork } from 'wagmi'
+import { logout } from '@/utils/web3'
+import { NetWork } from '@tbook/ui'
+import { useNavigate } from 'react-router-dom'
+
+const { chains } = conf
 
 const textMap = {
   1: {
     title: 'Choose the Wallet',
-    step: 'Choose the Wallet'
+    step: 'Choose the Wallet',
+    cancel: 'Cancel',
+    next: 'Next'
   },
   2: {
     title: 'New NFT',
-    step: 'New NFT'
+    step: 'New NFT',
+    cancel: 'Previous',
+    next: 'Next'
   },
   3: {
     title: 'Ready to Deploy?',
-    step: 'Deploy'
+    step: 'Deploy',
+    cancel: 'Previous',
+    next: 'Create'
   }
 }
+
 const NFTMap = {
   1: 'Token shares the same image',
   2: 'Token shares different images',
@@ -24,12 +39,26 @@ const NFTMap = {
 }
 
 export default function () {
-  const [step, setStep] = useState('2')
+  const [step, setStep] = useState('1')
   const [NFTtype, setNFTtype] = useState('2')
-
+  const { switchNetwork } = useSwitchNetwork()
+  const navigate = useNavigate()
+  const { address, isConnected, ...others } = useAccount()
+  const id = 1
   const [form] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
+  async function handleSwitch (id) {
+    // 1 Ethereum
+    // 56 BNB
+    if (switchNetwork) {
+      switchNetwork(id)
+    }
+    localStorage.setItem('chainId', id)
+    await logout()
+    window.location.href = `${location.origin}`
+  }
 
+  // 当前的主网
   const normFile = e => {
     console.log('Upload event:', e)
     if (Array.isArray(e)) {
@@ -39,6 +68,10 @@ export default function () {
   }
 
   function handleCreate () {
+    if (step === '1') {
+      setStep('2')
+      return
+    }
     form
       .validateFields()
       .then(values => {
@@ -48,6 +81,17 @@ export default function () {
       .catch(err => {
         console.log(err, 'error')
       })
+  }
+
+  function handleCancel () {
+    if (step === '1') {
+      navigate('/dashboard/assets')
+      return
+    }
+    if (step !== '3') {
+      setStep(Number(step) - 1 + '')
+      return
+    }
   }
   return (
     <div className='w-full min-h-screen text-white'>
@@ -63,18 +107,44 @@ export default function () {
                 key={v.step}
                 className={clsx(
                   n === step ? 'text-white' : 'text-c-9',
-                  'font-medium text-sm bg-b-1 cursor-pointer flex justify-center items-center',
+                  'font-medium text-sm bg-b-1  flex justify-center items-center',
                   'rounded-md select-none'
+                  // 'cursor-pointer'
                 )}
-                onClick={() => {
-                  setStep(n)
-                }}
+                // onClick={() => {
+                //   setStep(n)
+                // }}
               >
                 {`${n} ${v.step}`}
               </div>
             )
           })}
         </div>
+        {step === '1' && (
+          <div className='space-y-3 text-sm'>
+            {chains.map(chain => (
+              <div
+                key={chain.evmChainId}
+                className={clsx(
+                  chain.evmChainId === id
+                    ? 'text-white font-bold'
+                    : 'font-medium cursor-pointer text-c-9',
+                  'bg-gray rounded-button flex justify-center items-center h-10 hover:opacity-70'
+                )}
+                // onClick={() => {
+                //   if (chain.evmChainId !== id) {
+                //     handleSwitch(chain.evmChainId)
+                //   }
+                // }}
+              >
+                <div className='flex items-center justify-center w-6 h-6'>
+                  <NetWork id={chain.evmChainId} />
+                </div>
+                <span className={clsx('ml-2 ')}>{chain.name}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
         {step === '2' && (
           <Form
@@ -168,13 +238,15 @@ export default function () {
         )}
 
         <div className='flex justify-center py-20'>
-          <Button className='mr-6'>Cancel</Button>
+          <Button className='mr-6' onClick={handleCancel}>
+            {textMap[step]?.cancel}
+          </Button>
           <Button
             type='primary'
             onClick={handleCreate}
             loading={confirmLoading}
           >
-            Create
+            {textMap[step]?.next}
           </Button>
         </div>
       </div>

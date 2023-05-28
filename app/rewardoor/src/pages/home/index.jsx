@@ -15,7 +15,7 @@ export default function () {
     if (isConnected) {
       if (projects.length > 0) {
         // 所有的活动页面
-        navigate(`/dashboard/campain`)
+        navigate(`/dashboard/overview`)
       } else {
         navigate(`/new-project`)
       }

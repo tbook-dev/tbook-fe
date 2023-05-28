@@ -12,7 +12,7 @@ export default function NFT () {
         <h4 className='text-white font-bold text-base'>{title}</h4>
         <p className='text-c-9 font-medium text-sm'>{desc}</p>
       </div>
-      <Link>
+      <Link to='/nft'>
         <Button type='primary'>+ New NFT</Button>
       </Link>
     </div>
