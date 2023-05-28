@@ -6,9 +6,10 @@ import closeIcon from '@tbook/share/images/icon/close4.svg'
 import TagList from '@/components/tagList'
 import TagRadio from '@/components/tagRadio'
 import Button from '@/components/button'
+import { useNavigate } from 'react-router-dom'
 
 import uploadIcon from '@/images/icon/upload.svg'
-
+const dashboardLink = `/dashboard/campaign`
 const textMap = {
   1: {
     title: 'Set upt',
@@ -68,6 +69,7 @@ export default function () {
   const [incentiveForm] = Form.useForm()
 
   const [confirmLoading, setConfirmLoading] = useState(false)
+  const navigate = useNavigate()
 
   const credentialList = [
     {
@@ -152,7 +154,7 @@ export default function () {
   }
   function handleCancel () {
     if (step === '1') {
-      navigate(assetsLink)
+      navigate(dashboardLink)
       return
     }
     if (step !== '3') {
@@ -169,7 +171,7 @@ export default function () {
           {Object.entries(textMap).map(([n, v]) => {
             return (
               <div
-                key={v}
+                key={n}
                 className={clsx(
                   n === step ? 'text-white' : 'text-c-9',
                   'font-medium text-sm bg-b-1 flex justify-center items-center',

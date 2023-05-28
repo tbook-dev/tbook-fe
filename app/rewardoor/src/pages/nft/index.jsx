@@ -39,7 +39,7 @@ const NFTMap = {
   2: 'Token shares different images',
   3: 'Import a deployed NFT'
 }
-const assetsLink = `/dashboard/assets`
+const dashboardLink = `/dashboard/assets`
 
 export default function () {
   const [step, setStep] = useState('1')
@@ -88,7 +88,7 @@ export default function () {
             projectId: project.projectId
           })
         } catch (err) {
-          navigate(assetsLink)
+          navigate(dashboardLink)
         }
         setConfirmLoading(false)
       })
@@ -100,7 +100,7 @@ export default function () {
 
   function handleCancel () {
     if (step === '1') {
-      navigate(assetsLink)
+      navigate(dashboardLink)
       return
     }
     if (step !== '3') {
