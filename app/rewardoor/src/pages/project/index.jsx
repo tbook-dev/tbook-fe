@@ -1,4 +1,5 @@
-import { Button, Form, Input, Select } from 'antd'
+import { Form, Input, Select } from 'antd'
+import Button from '@/components/button'
 import { useState } from 'react'
 
 const categoryList = [
@@ -42,7 +43,7 @@ export default function () {
         >
           <Form.Item
             label='Project Name'
-            name='name'
+            name='projectName'
             rules={[{ required: true, message: 'Project Name is required' }]}
           >
             <Input placeholder='Enter a Project Name' />
@@ -59,7 +60,7 @@ export default function () {
             />
           </Form.Item>
           <Form.Item
-            name='category'
+            name='tags'
             label='Project Category'
             rules={[
               { required: true, message: 'Project Category is required' }
@@ -67,6 +68,8 @@ export default function () {
           >
             <Select
               placeholder='Select the category'
+              mode='multiple'
+              allowClear
               options={categoryList.map(v => ({ value: v, label: v }))}
             />
           </Form.Item>
