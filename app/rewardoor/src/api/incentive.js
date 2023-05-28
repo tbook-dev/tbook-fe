@@ -13,7 +13,9 @@ export const getUserAssets = async function () {
 export const createProject = async function (values) {
   return request.Post(`${host}/project`, values)
 }
-
+export const createNFT = async function (values) {
+  return request.Post(`${host}/nft/create`, values)
+}
 export const getIncentiveList = async function (projectId) {
   try {
     const res = await request(`${host}/projects/${projectId}/tips`)

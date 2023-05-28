@@ -8,6 +8,7 @@ import { useAccount, useSwitchNetwork } from 'wagmi'
 import { logout } from '@/utils/web3'
 import { NetWork } from '@tbook/ui'
 import { useNavigate } from 'react-router-dom'
+import { createNFT } from '@/api/incentive'
 
 const { chains } = conf
 
@@ -37,6 +38,7 @@ const NFTMap = {
   2: 'Token shares different images',
   3: 'Import a deployed NFT'
 }
+const assetsLink = `/dashboard/assets`
 
 export default function () {
   const [step, setStep] = useState('1')
@@ -72,20 +74,24 @@ export default function () {
       setStep('2')
       return
     }
+    setConfirmLoading(true)
+
     form
       .validateFields()
-      .then(values => {
-        setConfirmLoading(true)
-        console.log(values)
+      .then(async values => {
+        const res = await createNFT(values)
+        console.log(values, res)
+        setConfirmLoading(false)
       })
       .catch(err => {
         console.log(err, 'error')
+        setConfirmLoading(false)
       })
   }
 
   function handleCancel () {
     if (step === '1') {
-      navigate('/dashboard/assets')
+      navigate(assetsLink)
       return
     }
     if (step !== '3') {
@@ -94,7 +100,7 @@ export default function () {
     }
   }
   return (
-    <div className='w-full min-h-screen text-white'>
+    <div className='w-full text-white'>
       <div className='w-[600px] mx-auto pt-20'>
         <h1 className='text-5xl text-center mb-12 font-bold'>
           {textMap[step]?.title}
