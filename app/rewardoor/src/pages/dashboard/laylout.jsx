@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-
+import { useCurrentProject } from '@tbook/hooks'
 const sideMenu = [
   {
     title: 'Overview',
@@ -39,14 +39,14 @@ const sideMenu = [
 ]
 
 export default function Layout ({ children }) {
-  const projectName = 'Project1'
+  const project = useCurrentProject()
   const validatorSucessIdx = sideMenu.findIndex(v => v.validator())
 
   return (
     <div className='flex justify-between	pt-20 w-[1280px] mx-auto text-white'>
       <div className='w-[288px] bg-[#191919] rounded-3xl font-bold'>
         <div className='pt-[30px]  pb-[42px] text-center text-2xl'>
-          {projectName}
+          {project?.projectName}
         </div>
         <div className='mb-[50px] bg-black'>
           {sideMenu.map((v, idx) => {
@@ -54,7 +54,9 @@ export default function Layout ({ children }) {
               <div
                 key={v.link}
                 className={clsx(
-                  validatorSucessIdx === idx && 'pl-4 bg-[#191919]'
+                  validatorSucessIdx === idx
+                    ? 'pl-4 bg-[#191919]'
+                    : 'cursor-pointer'
                 )}
               >
                 <div
@@ -69,6 +71,9 @@ export default function Layout ({ children }) {
                     idx - 1 === validatorSucessIdx && 'rounded-tr-3xl'
                   )}
                 >
+                  {validatorSucessIdx === idx && (
+                    <div className='absolute h-4 w-4 rounded-full left-4 bg-cw1' />
+                  )}
                   {v.title}
                 </div>
               </div>
