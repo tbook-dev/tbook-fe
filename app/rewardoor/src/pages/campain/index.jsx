@@ -1,17 +1,30 @@
-import { Button, Form, Input, Upload, DatePicker, Select } from 'antd'
+import { Form, Input, Upload, DatePicker, Select } from 'antd'
 import { useState } from 'react'
 import clsx from 'clsx'
 import { PlusOutlined } from '@ant-design/icons'
 import closeIcon from '@tbook/share/images/icon/close4.svg'
 import TagList from '@/components/tagList'
 import TagRadio from '@/components/tagRadio'
+import Button from '@/components/button'
 
 import uploadIcon from '@/images/icon/upload.svg'
 
 const textMap = {
-  1: 'Set up',
-  2: 'Credential',
-  3: 'Incentive'
+  1: {
+    title: 'Set upt',
+    cancel: 'Cancel',
+    next: 'Next'
+  },
+  2: {
+    title: 'Credential',
+    cancel: 'Previous',
+    next: 'Next'
+  },
+  3: {
+    title: 'Incentive',
+    cancel: 'Previous',
+    next: 'Create'
+  }
 }
 const incentiveMethodList = [
   {
@@ -126,7 +139,7 @@ export default function () {
         console.log(err, 'error')
       })
   }
-  function handleClick () {
+  function handleCreate () {
     if (step === '1') {
       handleStepUp()
     }
@@ -135,6 +148,16 @@ export default function () {
     }
     if (step === '3') {
       handleIncentive()
+    }
+  }
+  function handleCancel () {
+    if (step === '1') {
+      navigate(assetsLink)
+      return
+    }
+    if (step !== '3') {
+      setStep(Number(step) - 1 + '')
+      return
     }
   }
   return (
@@ -149,14 +172,15 @@ export default function () {
                 key={v}
                 className={clsx(
                   n === step ? 'text-white' : 'text-c-9',
-                  'font-medium text-sm bg-b-1 cursor-pointer flex justify-center items-center',
+                  'font-medium text-sm bg-b-1 flex justify-center items-center',
                   'rounded-md select-none'
+                  // 'cursor-pointer'
                 )}
-                onClick={() => {
-                  setStep(n)
-                }}
+                // onClick={() => {
+                //   setStep(n)
+                // }}
               >
-                {`${n} ${v}`}
+                {`${n} ${v.title}`}
               </div>
             )
           })}
@@ -369,9 +393,15 @@ export default function () {
         )}
 
         <div className='flex justify-center py-20'>
-          <Button className='mr-6'>Cancel</Button>
-          <Button type='primary' onClick={handleClick} loading={confirmLoading}>
-            Create
+          <Button className='mr-6' onClick={handleCancel}>
+            {textMap[step]?.cancel}
+          </Button>
+          <Button
+            type='primary'
+            onClick={handleCreate}
+            loading={confirmLoading}
+          >
+            {textMap[step]?.next}
           </Button>
         </div>
       </div>
