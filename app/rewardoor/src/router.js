@@ -18,13 +18,22 @@ const routes = [
     path: '/campain',
     component: lazy(() => import('@/pages/campain'))
   },
+  // dashboard 部分
   {
-    path: '/dashboard',
-    component: lazy(() => import('@/pages/dashboard'))
+    path: '/dashboard/overview',
+    component: lazy(() => import('@/pages/dashboard/overview'))
+  },
+  {
+    path: '/dashboard/campain',
+    component: lazy(() => import('@/pages/dashboard/campaign'))
   },
   {
     path: '/dashboard/campain/:id',
-    component: lazy(() => import('@/pages/dashboard/campaign'))
+    component: lazy(() => import('@/pages/dashboard/campaign-detail'))
+  },
+  {
+    path: '/dashboard/assets',
+    component: lazy(() => import('@/pages/dashboard/assets'))
   }
 ]
 

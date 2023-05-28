@@ -1,37 +1,40 @@
 import clsx from 'clsx'
 import { useCurrentProject } from '@tbook/hooks'
+import { useNavigate } from 'react-router-dom'
 const sideMenu = [
   {
     title: 'Overview',
-    link: 'overview',
+    link: '/dashboard/overview',
     validator: function () {
       return false
     }
   },
   {
     title: 'Incentive Campaign',
-    link: 'campaign',
+    link: '/dashboard/campaign',
     validator: function () {
       return true
     }
   },
   {
     title: 'Incentive Assets',
-    link: 'assets',
+    link: '/dashboard/assets',
     validator: function () {
       return false
     }
   },
   {
     title: 'User Profiling',
-    link: 'profile',
+    link: '/profile',
+    disabled: true,
     validator: function () {
       return false
     }
   },
   {
     title: 'Settings',
-    link: 'settings',
+    link: '/settings',
+    disabled: true,
     validator: function () {
       return false
     }
@@ -41,6 +44,7 @@ const sideMenu = [
 export default function Layout ({ children }) {
   const project = useCurrentProject()
   const validatorSucessIdx = sideMenu.findIndex(v => v.validator())
+  const navigate = useNavigate()
 
   return (
     <div className='flex justify-between	pt-20 w-[1280px] mx-auto text-white'>
@@ -58,6 +62,11 @@ export default function Layout ({ children }) {
                     ? 'pl-4 bg-[#191919]'
                     : 'cursor-pointer'
                 )}
+                onClick={() => {
+                  if (validatorSucessIdx !== idx && !v.disabled) {
+                    navigate(v.link)
+                  }
+                }}
               >
                 <div
                   className={clsx(
