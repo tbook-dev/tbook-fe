@@ -40,7 +40,7 @@ const NFTMap = {
 
 export default function () {
   const [step, setStep] = useState('1')
-  const [NFTtype, setNFTtype] = useState('2')
+  const [NFTtype, setNFTtype] = useState('3')
   const { switchNetwork } = useSwitchNetwork()
   const navigate = useNavigate()
   const { address, isConnected, ...others } = useAccount()
@@ -172,6 +172,7 @@ export default function () {
                 )
               })}
             </div>
+            {NFTtype === '1' && 'not ready'}
             {NFTtype === '2' && (
               <>
                 <Form.Item
