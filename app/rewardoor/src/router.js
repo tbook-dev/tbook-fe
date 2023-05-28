@@ -24,11 +24,11 @@ const routes = [
     component: lazy(() => import('@/pages/dashboard/overview'))
   },
   {
-    path: '/dashboard/campain',
+    path: '/dashboard/campaign',
     component: lazy(() => import('@/pages/dashboard/campaign'))
   },
   {
-    path: '/dashboard/campain/:id',
+    path: '/dashboard/campaign/:id',
     component: lazy(() => import('@/pages/dashboard/campaign-detail'))
   },
   {
