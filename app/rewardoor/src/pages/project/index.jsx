@@ -1,6 +1,11 @@
 import { Form, Input, Select } from 'antd'
 import Button from '@/components/button'
 import { useState } from 'react'
+import { createProject } from '@/api/incentive'
+import { user } from '@tbook/store'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+const { setAuthUser, setUser, setProjects, getUserInfo } = user
 
 const categoryList = [
   'DeFi',
@@ -18,15 +23,36 @@ const categoryList = [
 export default function () {
   const [form] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   function handleCreate () {
+    setConfirmLoading(true)
     form
       .validateFields()
-      .then(values => {
-        setConfirmLoading(true)
-        console.log(values)
+      .then(async values => {
+        try {
+          const res = await createProject(values)
+          setConfirmLoading(false)
+          console.log(res)
+          getUserInfo()
+            .then(response => {
+              // console.log("response", response);
+              dispatch(setAuthUser(true))
+              dispatch(setUser(response?.user || {}))
+              dispatch(setProjects(response?.projects || []))
+              navigate('/dashboard')
+            })
+            .catch(err => {
+              dispatch(setAuthUser(false))
+              console.log(err, 'xxx')
+            })
+        } catch (err) {
+          console.log(err)
+        }
       })
       .catch(err => {
+        setConfirmLoading(false)
         console.log(err, 'error')
       })
   }
@@ -51,7 +77,7 @@ export default function () {
 
           <Form.Item
             label='Project URL'
-            name='url'
+            name='projectUrl'
             rules={[{ required: true, message: 'Project URL is required' }]}
           >
             <Input

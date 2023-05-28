@@ -19,6 +19,10 @@ const routes = [
     component: lazy(() => import('@/pages/campain'))
   },
   {
+    path: '/dashboard',
+    component: lazy(() => import('@/pages/dashboard'))
+  },
+  {
     path: '/dashboard/campain/:id',
     component: lazy(() => import('@/pages/dashboard/campaign'))
   }
