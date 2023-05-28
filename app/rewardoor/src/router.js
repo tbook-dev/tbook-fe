@@ -1,5 +1,6 @@
 import { lazy } from 'react'
 
+// 只有首页不需要登录，其他的都需要登录
 const routes = [
   {
     path: '/',

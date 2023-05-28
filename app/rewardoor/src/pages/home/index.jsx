@@ -1,7 +1,28 @@
 import Button from '@/components/button'
 import bg from '@/images/home-bg.png'
+import { useProjects } from '@tbook/hooks'
+import { useNavigate } from 'react-router-dom'
+import { useAccount } from 'wagmi'
+import { useSignIn } from '@tbook/hooks'
 
 export default function () {
+  const navigate = useNavigate()
+  const { isConnected } = useAccount()
+  const projects = useProjects()
+  const { loading, handleSignIn } = useSignIn()
+
+  function handleClick () {
+    if (isConnected) {
+      if (projects.length > 0) {
+        // 所有的活动页面
+        navigate(`/dashboard/campain`)
+      } else {
+        navigate(`/new-project`)
+      }
+    } else {
+      handleSignIn()
+    }
+  }
   return (
     <div
       className='w-full  bg-[center_top_1rem]'
@@ -20,7 +41,12 @@ export default function () {
           </p>
         </div>
         <div className='flex justify-center'>
-          <Button type='primary' className='mr-6'>
+          <Button
+            type='primary'
+            className='mr-6'
+            onClick={handleClick}
+            loading={loading}
+          >
             Get Started
           </Button>
           <Button>Developer Center</Button>
