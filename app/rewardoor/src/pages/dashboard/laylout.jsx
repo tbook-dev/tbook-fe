@@ -50,12 +50,12 @@ export default function Layout ({ children }) {
 
   return (
     <div className='flex justify-between	pt-20 w-[1280px] mx-auto text-white'>
-      <div className='w-[288px] bg-[#191919] rounded-3xl font-bold'>
+      <div className='w-[288px] h-[418px] bg-[#191919] rounded-3xl font-bold'>
         <div className='bg-black'>
           <div
             className={clsx(
               'pt-[30px] rounded-3xl pb-[42px] text-center text-2xl bg-gray',
-              validatorSucessIdx === 0 ? 'rounded-br-3xl' : 'rounded-br-none'
+              validatorSucessIdx === 0 ? 'rounded-bl-none' : 'rounded-b-none'
             )}
           >
             {project?.projectName}

@@ -11,12 +11,12 @@ const items = [
   {
     key: '2',
     label: `Credentials`,
-    children: `Content 2`
+    children: `not ready`
   },
   {
     key: '3',
     label: `Points`,
-    children: `Content 3`
+    children: `not ready`
   }
 ]
 

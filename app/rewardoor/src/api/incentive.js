@@ -1,4 +1,10 @@
 import request from './request'
+import { Network, Alchemy } from 'alchemy-sdk'
+const settings = {
+  apiKey: '8s2Swo7n62XYd3ApkcnentYuEi5BI1Yj',
+  network: Network.ETH_MAINNET
+}
+const alchemy = new Alchemy(settings)
 
 export const host = import.meta.env.VITE_API_HOST
 
@@ -15,6 +21,22 @@ export const createProject = async function (values) {
 }
 export const createNFT = async function (values) {
   return request.Post(`${host}/nft/create`, values)
+}
+
+export const getNFTList = async function (projectId) {
+  const list = await request(`${host}/nft/project/${projectId}`)
+  const res = await Promise.all(
+    list.map(async v => {
+      const res = await alchemy.nft.getNftsForContract(v.contract)
+      // 取第一张图片的url,thumbnail
+      // console.log(res?.nfts?.[0]?.contract?.openSea?.imageUrl)
+      return {
+        ...v,
+        coverUrl: v.coverUrl || res?.nfts?.[0]?.contract?.openSea?.imageUrl
+      }
+    })
+  )
+  return res
 }
 export const getIncentiveList = async function (projectId) {
   try {
