@@ -9,6 +9,7 @@ import { logout } from '@/utils/web3'
 import { NetWork } from '@tbook/ui'
 import { useNavigate } from 'react-router-dom'
 import { createNFT } from '@/api/incentive'
+import { useCurrentProject } from '@tbook/hooks'
 
 const { chains } = conf
 
@@ -45,10 +46,12 @@ export default function () {
   const [NFTtype, setNFTtype] = useState('3')
   const { switchNetwork } = useSwitchNetwork()
   const navigate = useNavigate()
+  const project = useCurrentProject()
   const { address, isConnected, ...others } = useAccount()
   const id = 1
   const [form] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
+  console.log({ project })
   async function handleSwitch (id) {
     // 1 Ethereum
     // 56 BNB
@@ -79,8 +82,14 @@ export default function () {
     form
       .validateFields()
       .then(async values => {
-        const res = await createNFT(values)
-        console.log(values, res)
+        try {
+          const res = await createNFT({
+            ...values,
+            projectId: project.projectId
+          })
+        } catch (err) {
+          navigate(assetsLink)
+        }
         setConfirmLoading(false)
       })
       .catch(err => {
