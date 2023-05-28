@@ -12,10 +12,10 @@ export default function ({ children, ...props }) {
         algorithm:
           userTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
         // theme.defaultAlgorithm,
-        components
-        // token: {
-        //   colorPrimary: userTheme === 'dark' ? '#69D0E5' : '#69D0E5'
-        // }
+        components,
+        token: {
+          colorPrimary: userTheme === 'dark' ? '#fff' : '#69D0E5'
+        }
       }}
       {...props}
     >

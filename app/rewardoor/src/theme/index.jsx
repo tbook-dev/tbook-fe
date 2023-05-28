@@ -9,7 +9,7 @@ export default function ({ children }) {
         algorithm: theme.defaultAlgorithm,
         components,
         token: {
-          colorPrimary: '#69D0E5',
+          colorPrimary: '#4D0BEF',
           fontFamily: "'Red Hat Display', sans-serif;"
         }
       }}
