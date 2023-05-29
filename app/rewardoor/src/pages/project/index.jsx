@@ -20,6 +20,8 @@ const categoryList = [
   'Safety',
   'Others'
 ]
+const dashboardOverView = `/dashboard/overview`
+
 export default function () {
   const [form] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
@@ -41,7 +43,7 @@ export default function () {
               dispatch(setAuthUser(true))
               dispatch(setUser(response?.user || {}))
               dispatch(setProjects(response?.projects || []))
-              navigate('/dashboard')
+              navigate(dashboardOverView)
             })
             .catch(err => {
               dispatch(setAuthUser(false))
