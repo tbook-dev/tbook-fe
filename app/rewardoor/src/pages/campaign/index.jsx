@@ -13,7 +13,7 @@ import uploadIcon from '@/images/icon/upload.svg'
 const dashboardLink = `/dashboard/campaign`
 const textMap = {
   1: {
-    title: 'Set upt',
+    title: 'Set up',
     cancel: 'Cancel',
     next: 'Next'
   },
