@@ -1,5 +1,5 @@
 import { Form, Input, Upload, DatePicker, Select } from 'antd'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import clsx from 'clsx'
 import { PlusOutlined } from '@ant-design/icons'
 import closeIcon from '@tbook/share/images/icon/close4.svg'
@@ -8,9 +8,12 @@ import TagRadio from '@/components/tagRadio'
 import Button from '@/components/button'
 import { useNavigate } from 'react-router-dom'
 import uploadFile from '@/utils/upload'
+import { conf } from '@tbook/utils'
 
 import uploadIcon from '@/images/icon/upload.svg'
 const dashboardLink = `/dashboard/campaign`
+const { dateFormat } = conf
+
 const textMap = {
   1: {
     title: 'Set up',
@@ -71,10 +74,10 @@ export default function () {
 
   const [confirmLoading, setConfirmLoading] = useState(false)
   const navigate = useNavigate()
-  const hanleUpload = file => {
-    uploadFile(file)
-    return false
+  const hanleUpload = ({ onSuccess, onError, file }) => {
+    uploadFile(file).then(onSuccess).catch(onError)
   }
+  const formSavedValues = useRef({})
   const credentialList = [
     {
       label: 'User of GoPlus Security Service',
@@ -112,8 +115,20 @@ export default function () {
     setUpForm
       .validateFields()
       .then(values => {
-        setConfirmLoading(true)
-        console.log(values)
+        const { description, banner, schedule, title } = values
+        const picUrl = banner?.[0].response
+        const [startAt, endAt] = schedule.map(v => {
+          return v.format(dateFormat)
+        })
+        formSavedValues.current = {
+          ...formSavedValues.current,
+          picUrl,
+          startAt,
+          endAt,
+          description,
+          title
+        }
+        setStep('2')
       })
       .catch(err => {
         setConfirmLoading(false)
@@ -209,8 +224,14 @@ export default function () {
                   valuePropName='fileList'
                   getValueFromEvent={normFile}
                   noStyle
+                  name='banner'
                 >
-                  <Upload.Dragger name='banner' beforeUpload={hanleUpload}>
+                  <Upload.Dragger
+                    customRequest={hanleUpload}
+                    multiple={false}
+                    accept='image/*'
+                    maxCount={1}
+                  >
                     <p className='ant-upload-drag-icon flex justify-center'>
                       <img src={uploadIcon} />
                     </p>
