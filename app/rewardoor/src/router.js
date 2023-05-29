@@ -15,8 +15,8 @@ const routes = [
     component: lazy(() => import('@/pages/nft'))
   },
   {
-    path: '/campain',
-    component: lazy(() => import('@/pages/campain'))
+    path: '/campaign',
+    component: lazy(() => import('@/pages/campaign'))
   },
   // dashboard 部分
   {
