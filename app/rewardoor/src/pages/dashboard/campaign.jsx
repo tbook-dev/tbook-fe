@@ -49,7 +49,7 @@ export default function () {
             )
           })}
         </div>
-        <Link to='/campain'>
+        <Link to='/campaign'>
           <Button type='primary'> + New Campaign</Button>
         </Link>
       </section>
