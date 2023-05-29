@@ -9,8 +9,11 @@ import Button from '@/components/button'
 import { useNavigate } from 'react-router-dom'
 import uploadFile from '@/utils/upload'
 import { conf } from '@tbook/utils'
-
+import { useAsyncEffect } from 'ahooks'
+import { useCurrentProject } from '@tbook/hooks'
+import { getNFTList } from '@/api/incentive'
 import uploadIcon from '@/images/icon/upload.svg'
+
 const dashboardLink = `/dashboard/campaign`
 const { dateFormat } = conf
 
@@ -67,7 +70,8 @@ const { RangePicker } = DatePicker
 
 export default function () {
   const [step, setStep] = useState('1')
-
+  const { projectId } = useCurrentProject()
+  const [list, setList] = useState([])
   const [setUpForm] = Form.useForm()
   const [credentialForm] = Form.useForm()
   const [incentiveForm] = Form.useForm()
@@ -80,30 +84,53 @@ export default function () {
   const formSavedValues = useRef({})
   const credentialList = [
     {
-      label: 'User of GoPlus Security Service',
-      value: 1
+      credentialId: 153900040007,
+      name: 'User of GoPlus Security Service',
+      picUrl: '',
+      projectId: 153897380003,
+      creatorId: 153284940002
     },
     {
-      label: 'Ethereum Transactors_10 transactions',
-      value: 2
+      credentialId: 153900040008,
+      name: 'Ethereum Transactors_10 transactions',
+      picUrl: '',
+      projectId: 153897380003,
+      creatorId: 153284940002
     },
     {
-      label: 'USDT Trader-Receive',
-      value: 3
+      credentialId: 153900040009,
+      name: 'USDT Trader-Receive',
+      picUrl: '',
+      projectId: 153897380003,
+      creatorId: 153284940002
     },
     {
-      label: 'Buyer of GoPlus Security Service',
-      value: 4
+      credentialId: 153900040010,
+      name: 'Buyer of GoPlus Security Service',
+      picUrl: '',
+      projectId: 153897380003,
+      creatorId: 153284940002
     },
     {
-      label: 'GoPlus Security - Twitter Followers',
-      value: 5
+      credentialId: 153900040011,
+      name: 'GoPlus Security - Twitter Followers',
+      picUrl: '',
+      projectId: 153897380003,
+      creatorId: 153284940002
     },
     {
-      label: 'GoPlus Security - Twitter Space Participants',
-      value: 6
+      credentialId: 153900040012,
+      name: 'GoPlus Security - Twitter Space Participants',
+      picUrl: '',
+      projectId: 153897380003,
+      creatorId: 153284940002
     }
-  ]
+  ].map(v => ({ label: v.name, value: v.credentialId }))
+  useAsyncEffect(async () => {
+    if (!projectId) return
+    const res = await getNFTList(projectId)
+    setList(res)
+  }, [projectId])
   const normFile = e => {
     console.log('Upload event:', e)
     if (Array.isArray(e)) {
@@ -111,6 +138,7 @@ export default function () {
     }
     return e?.fileList
   }
+  console.log({ list })
   function handleStepUp () {
     setUpForm
       .validateFields()
