@@ -52,7 +52,8 @@ export default function () {
   const id = 1
   const [form] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
-  console.log({ project })
+  // console.log({ project })
+
   const hanleUpload = ({ onSuccess, onError, file }) => {
     uploadFile(file).then(onSuccess).catch(onError)
   }
@@ -87,13 +88,14 @@ export default function () {
       .validateFields()
       .then(async values => {
         try {
-          const { name, contract, coverUrl } = values
+          const { name, contract, symbol, coverUrl } = values
           const chainId = 0
           let fd = {}
           if (NFTtype === '2') {
             fd = {
               name,
               chainId,
+              symbol,
               coverUrl: coverUrl?.[0].response
             }
           } else if (NFTtype === '3') {
@@ -278,6 +280,7 @@ export default function () {
           </Form>
         )}
 
+        {step === '3' && <p>preview not ready, just deploy</p>}
         <div className='flex justify-center py-20'>
           <Button className='mr-6' onClick={handleCancel}>
             {textMap[step]?.cancel}
