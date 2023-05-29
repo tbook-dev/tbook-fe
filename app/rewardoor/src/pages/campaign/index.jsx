@@ -13,6 +13,7 @@ import { useAsyncEffect } from 'ahooks'
 import { useCurrentProject } from '@tbook/hooks'
 import { getNFTList } from '@/api/incentive'
 import uploadIcon from '@/images/icon/upload.svg'
+import ImgSelect from '@/components/imgSelect'
 
 const dashboardLink = `/dashboard/campaign`
 const { dateFormat } = conf
@@ -69,7 +70,7 @@ const incentiveAssetsTypeList = [
 const { RangePicker } = DatePicker
 
 export default function () {
-  const [step, setStep] = useState('1')
+  const [step, setStep] = useState('3')
   const { projectId } = useCurrentProject()
   const [list, setList] = useState([])
   const [setUpForm] = Form.useForm()
@@ -377,6 +378,21 @@ export default function () {
                           </Form.Item>
                           <Form.Item
                             {...restField}
+                            name={[name, 'nft']}
+                            label='Choose the NFT'
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <ImgSelect
+                              slidesPerView={4}
+                              options={list.map(v => ({
+                                img: v.coverUrl,
+                                value: v.nftId
+                              }))}
+                              imgclx='h-[120px]'
+                            />
+                          </Form.Item>
+                          <Form.Item
+                            {...restField}
                             name={[name, 'method']}
                             label='Incentive Method'
                             rules={[{ required: true, message: 'Missing!' }]}
@@ -434,7 +450,6 @@ export default function () {
                             1
                           )
                         }}
-                        block
                         className='!flex items-center justify-center'
                       >
                         <PlusOutlined /> New Reward
