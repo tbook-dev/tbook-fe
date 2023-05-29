@@ -46,7 +46,9 @@ export const getIncentiveList = async function (projectId) {
     return []
   }
 }
-
+export const getPreSignedUrl = async function () {
+  return request(`${host}/signedUploadUrl`)
+}
 export const getIncentiveListWithGrants = async function (projectId) {
   try {
     const res = await request(`${host}/projects/${projectId}/planWithGrants`)

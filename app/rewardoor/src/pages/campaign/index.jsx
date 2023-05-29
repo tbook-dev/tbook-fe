@@ -7,6 +7,7 @@ import TagList from '@/components/tagList'
 import TagRadio from '@/components/tagRadio'
 import Button from '@/components/button'
 import { useNavigate } from 'react-router-dom'
+import uploadFile from '@/utils/upload'
 
 import uploadIcon from '@/images/icon/upload.svg'
 const dashboardLink = `/dashboard/campaign`
@@ -70,7 +71,10 @@ export default function () {
 
   const [confirmLoading, setConfirmLoading] = useState(false)
   const navigate = useNavigate()
-
+  const hanleUpload = file => {
+    uploadFile(file)
+    return false
+  }
   const credentialList = [
     {
       label: 'User of GoPlus Security Service',
@@ -206,7 +210,7 @@ export default function () {
                   getValueFromEvent={normFile}
                   noStyle
                 >
-                  <Upload.Dragger name='banner' action='/upload.do'>
+                  <Upload.Dragger name='banner' beforeUpload={hanleUpload}>
                     <p className='ant-upload-drag-icon flex justify-center'>
                       <img src={uploadIcon} />
                     </p>
