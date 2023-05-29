@@ -10,6 +10,7 @@ import { NetWork } from '@tbook/ui'
 import { useNavigate } from 'react-router-dom'
 import { createNFT } from '@/api/incentive'
 import { useCurrentProject } from '@tbook/hooks'
+import uploadFile from '@/utils/upload'
 
 const { chains } = conf
 
@@ -52,6 +53,9 @@ export default function () {
   const [form] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
   console.log({ project })
+  const hanleUpload = ({ onSuccess, onError, file }) => {
+    uploadFile(file).then(onSuccess).catch(onError)
+  }
   async function handleSwitch (id) {
     // 1 Ethereum
     // 56 BNB
@@ -83,10 +87,26 @@ export default function () {
       .validateFields()
       .then(async values => {
         try {
+          const { name, contract, coverUrl } = values
+          const chainId = 0
+          let fd = {}
+          if (NFTtype === '2') {
+            fd = {
+              name,
+              chainId,
+              coverUrl: coverUrl?.[0].response
+            }
+          } else if (NFTtype === '3') {
+            fd = {
+              contract
+            }
+          }
           const res = await createNFT({
-            ...values,
+            ...fd,
+            chainId,
             projectId: project.projectId
           })
+          console.log({ res })
         } catch (err) {
           navigate(dashboardLink)
         }
@@ -206,14 +226,19 @@ export default function () {
                   <Input placeholder='Token ticker for NFT contract visible on blockchain that serves as an official verification' />
                 </Form.Item>
 
-                <Form.Item label='Dragger'>
+                <Form.Item label='Upload image'>
                   <Form.Item
-                    name='dragger'
+                    name='coverUrl'
                     valuePropName='fileList'
                     getValueFromEvent={normFile}
                     noStyle
                   >
-                    <Upload.Dragger name='files' action='/upload.do'>
+                    <Upload.Dragger
+                      customRequest={hanleUpload}
+                      multiple={false}
+                      accept='image/*'
+                      maxCount={1}
+                    >
                       <p className='ant-upload-drag-icon flex justify-center'>
                         <img src={uploadIcon} />
                       </p>

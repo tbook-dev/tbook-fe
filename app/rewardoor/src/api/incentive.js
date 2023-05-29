@@ -25,17 +25,19 @@ export const createNFT = async function (values) {
 
 export const getNFTList = async function (projectId) {
   const list = await request(`${host}/nft/project/${projectId}`)
-  const res = await Promise.all(
-    list.map(async v => {
-      const res = await alchemy.nft.getNftsForContract(v.contract)
-      // 取第一张图片的url,thumbnail
-      // console.log(res?.nfts?.[0]?.contract?.openSea?.imageUrl)
-      return {
+  const res = []
+  for (let i = 0; i < list.length; i++) {
+    try {
+      const v = list[i]
+      const nftRes = await alchemy.nft.getNftsForContract(v.contract)
+      res.push({
         ...v,
-        coverUrl: v.coverUrl || res?.nfts?.[0]?.contract?.openSea?.imageUrl
-      }
-    })
-  )
+        coverUrl: v.coverUrl || nftRes?.nfts?.[0]?.contract?.openSea?.imageUrl
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
   return res
 }
 export const getIncentiveList = async function (projectId) {
