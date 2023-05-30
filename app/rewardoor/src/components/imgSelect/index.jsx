@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper'
 import 'swiper/css'
@@ -12,11 +12,12 @@ export default function ImgSelect ({
   value,
   imgclx
 }) {
-  const [swiper, setSwiper] = useState(null)
-  console.log({ value })
   useEffect(() => {
-    onChange(options[0].value)
-  }, [])
+    if (options?.[0]?.value) {
+      onChange(options?.[0]?.value)
+    }
+  }, [options.length])
+
   return (
     <div
       className='relative'
@@ -34,29 +35,33 @@ export default function ImgSelect ({
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev'
         }}
+        slideToClickedSlide
+        centeredSlides
         spaceBetween={10}
-        onSwiper={setSwiper}
         slidesPerView={slidesPerView}
         onSlideChange={w => {
-          console.log(w, 'xxx')
+          //   console.log(w, w.realIndex, 'xxx')
+          onChange(options[w.realIndex]?.value)
         }}
       >
         {options.map((v, idx) => {
           return (
-            <SwiperSlide key={v.value}>
-              {({ isActive }) => (
-                <img
-                  src={v.img}
-                  onClick={() => {
-                    // console.log({ isActive, idx: swiper.realIndex })
-                    // swiper.slideTo(idx)
-                  }}
-                  className={clsx(
-                    imgclx,
-                    !isActive && 'opacity-70 cursor-pointer'
-                  )}
-                />
-              )}
+            <SwiperSlide key={v.value + idx}>
+              {({ isActive }) => {
+                return (
+                  <img
+                    src={v.img}
+                    onClick={() => {
+                      // console.log({ isActive, idx: swiper.realIndex })
+                      // swiper.slideTo(idx)
+                    }}
+                    className={clsx(
+                      imgclx,
+                      !isActive && 'opacity-70 cursor-pointer'
+                    )}
+                  />
+                )
+              }}
             </SwiperSlide>
           )
         })}

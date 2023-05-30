@@ -40,6 +40,10 @@ export const getNFTList = async function (projectId) {
   }
   return res
 }
+
+export const createCampaign = async function (values) {
+  return await request.Post(`${host}/credentials/create`, values)
+}
 export const getIncentiveList = async function (projectId) {
   try {
     const res = await request(`${host}/projects/${projectId}/tips`)

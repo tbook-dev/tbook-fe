@@ -1,4 +1,4 @@
-import { Form, Input, Upload, DatePicker, Select } from 'antd'
+import { Form, Input, InputNumber, Upload, DatePicker, Select } from 'antd'
 import { useRef, useState } from 'react'
 import clsx from 'clsx'
 import { PlusOutlined } from '@ant-design/icons'
@@ -14,6 +14,7 @@ import { useCurrentProject } from '@tbook/hooks'
 import { getNFTList } from '@/api/incentive'
 import uploadIcon from '@/images/icon/upload.svg'
 import ImgSelect from '@/components/imgSelect'
+import { createCampaign } from '@/api/incentive'
 
 const dashboardLink = `/dashboard/campaign`
 const { dateFormat } = conf
@@ -70,7 +71,7 @@ const incentiveAssetsTypeList = [
 const { RangePicker } = DatePicker
 
 export default function () {
-  const [step, setStep] = useState('3')
+  const [step, setStep] = useState('1')
   const { projectId } = useCurrentProject()
   const [list, setList] = useState([])
   const [setUpForm] = Form.useForm()
@@ -139,7 +140,7 @@ export default function () {
     }
     return e?.fileList
   }
-  console.log({ list })
+
   function handleStepUp () {
     setUpForm
       .validateFields()
@@ -150,7 +151,6 @@ export default function () {
           return v.format(dateFormat)
         })
         formSavedValues.current = {
-          ...formSavedValues.current,
           picUrl,
           startAt,
           endAt,
@@ -168,21 +168,40 @@ export default function () {
     credentialForm
       .validateFields()
       .then(values => {
-        setConfirmLoading(true)
-        console.log(values)
+        formSavedValues.current = {
+          ...formSavedValues.current,
+          credentials: values.credentials
+        }
+        setStep('3')
+        console.log('current values->', formSavedValues.current)
       })
       .catch(err => {
-        setConfirmLoading(false)
         console.log(err, 'error')
       })
   }
   function handleIncentive () {
-    console.log('xx')
     incentiveForm
       .validateFields()
-      .then(values => {
-        setConfirmLoading(true)
-        console.log(values)
+      .then(async values => {
+        console.log(formSavedValues)
+        const {
+          title: name,
+          picUrl,
+          startAt,
+          endAt,
+          description
+        } = formSavedValues.current
+        const formData = {
+          name,
+          picUrl,
+          startAt,
+          endAt,
+          description,
+          projectId,
+          reward: JSON.stringify(values.incentive)
+        }
+        const res = await createCampaign(formData)
+        console.log(res, formData)
       })
       .catch(err => {
         setConfirmLoading(false)
@@ -299,7 +318,7 @@ export default function () {
           >
             <Form.Item
               label='Choose the Credentials or Define new Credential'
-              name='name'
+              name='credentials'
               rules={[{ required: true, message: 'NFT Name is required' }]}
             >
               <Select
@@ -345,7 +364,6 @@ export default function () {
                 return (
                   <>
                     {fields.map(({ key, name, ...restField }, idx) => {
-                      console.log(idx)
                       return (
                         <div
                           key={key}
@@ -366,7 +384,14 @@ export default function () {
                             label='Choose the Credentials'
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <TagList options={credentialList} />
+                            <TagList
+                              options={credentialList.filter(
+                                v =>
+                                  formSavedValues.current?.credentials?.find(
+                                    i => i === v.value
+                                  ) !== undefined
+                              )}
+                            />
                           </Form.Item>
                           <Form.Item
                             {...restField}
@@ -419,7 +444,12 @@ export default function () {
                               }
                             ]}
                           >
-                            <Input placeholder='Enter the participant amount you would like to incentive' />
+                            <InputNumber
+                              className='w-full'
+                              min={1}
+                              step={1}
+                              placeholder='Enter the participant amount you would like to incentive'
+                            />
                           </Form.Item>
                           <Form.Item
                             {...restField}
