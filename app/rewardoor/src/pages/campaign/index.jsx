@@ -148,7 +148,7 @@ export default function () {
         const { description, banner, schedule, title } = values
         const picUrl = banner?.[0].response
         const [startAt, endAt] = schedule.map(v => {
-          return v.format(dateFormat)
+          return v.valueOf()
         })
         formSavedValues.current = {
           picUrl,
@@ -200,8 +200,13 @@ export default function () {
           projectId,
           reward: JSON.stringify(values.incentive)
         }
-        const res = await createCampaign(formData)
-        console.log(res, formData)
+        try {
+          const res = await createCampaign(formData)
+          console.log(res, formData)
+          navigate(`/dashboard/campaign`)
+        } catch (err) {
+          console.log(err)
+        }
       })
       .catch(err => {
         setConfirmLoading(false)
