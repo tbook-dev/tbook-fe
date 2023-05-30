@@ -29,11 +29,15 @@ export const getNFTList = async function (projectId) {
   for (let i = 0; i < list.length; i++) {
     try {
       const v = list[i]
-      const nftRes = await alchemy.nft.getNftsForContract(v.contract)
-      res.push({
-        ...v,
-        coverUrl: v.coverUrl || nftRes?.nfts?.[0]?.contract?.openSea?.imageUrl
-      })
+      if (v.contract) {
+        const nftRes = await alchemy.nft.getNftsForContract(v.contract)
+        res.push({
+          ...v,
+          coverUrl: v.coverUrl || nftRes?.nfts?.[0]?.media?.[0]?.gateway
+        })
+      } else {
+        res.push(v)
+      }
     } catch (err) {
       console.log(err)
     }

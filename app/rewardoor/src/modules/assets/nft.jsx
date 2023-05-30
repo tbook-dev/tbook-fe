@@ -52,7 +52,7 @@ export default function NFT () {
                   src={v.coverUrl}
                 />
                 <div className='p-6 flex flex-col justify-between flex-auto'>
-                  <h2 className='font-bold text-2xl'>Rewardoor #{v.nftId}</h2>
+                  <h2 className='font-bold text-2xl'>{v.name}</h2>
                   <p className='font-bold text-sm'>
                     {shortAddress(v.contract)}
                   </p>

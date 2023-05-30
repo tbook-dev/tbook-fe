@@ -103,12 +103,17 @@ export default function () {
               contract
             }
           }
-          const res = await createNFT({
-            ...fd,
-            chainId,
-            projectId: project.projectId
-          })
-          console.log({ res })
+          try {
+            const res = await createNFT({
+              ...fd,
+              chainId,
+              projectId: project.projectId
+            })
+            console.log({ res })
+            navigate(dashboardLink)
+          } catch (err) {
+            console.log(err)
+          }
         } catch (err) {
           navigate(dashboardLink)
         }
