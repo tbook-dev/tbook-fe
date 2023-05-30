@@ -8,16 +8,18 @@ import TagRadio from '@/components/tagRadio'
 import Button from '@/components/button'
 import { useNavigate } from 'react-router-dom'
 import uploadFile from '@/utils/upload'
-import { conf } from '@tbook/utils'
 import { useAsyncEffect } from 'ahooks'
 import { useCurrentProject } from '@tbook/hooks'
 import { getNFTList } from '@/api/incentive'
 import uploadIcon from '@/images/icon/upload.svg'
 import ImgSelect from '@/components/imgSelect'
 import { createCampaign } from '@/api/incentive'
-
+import {
+  credentialListDefault,
+  incentiveAssetsTypeList,
+  rewardDistributionMethod
+} from '@/utils/conf'
 const dashboardLink = `/dashboard/campaign`
-const { dateFormat } = conf
 
 const textMap = {
   1: {
@@ -53,21 +55,7 @@ const incentiveMethodList = [
     value: 3
   }
 ]
-const rewardDistributionMethod = [
-  {
-    label: 'Airdrop',
-    value: 1
-  },
-  {
-    label: 'Claim',
-    value: 2
-  }
-]
 
-const incentiveAssetsTypeList = [
-  { label: '🎁 NFT', value: 1 },
-  { label: '💎 POINTS', value: 2 }
-]
 const { RangePicker } = DatePicker
 
 export default function () {
@@ -84,50 +72,10 @@ export default function () {
     uploadFile(file).then(onSuccess).catch(onError)
   }
   const formSavedValues = useRef({})
-  const credentialList = [
-    {
-      credentialId: 153900040007,
-      name: 'User of GoPlus Security Service',
-      picUrl: '',
-      projectId: 153897380003,
-      creatorId: 153284940002
-    },
-    {
-      credentialId: 153900040008,
-      name: 'Ethereum Transactors_10 transactions',
-      picUrl: '',
-      projectId: 153897380003,
-      creatorId: 153284940002
-    },
-    {
-      credentialId: 153900040009,
-      name: 'USDT Trader-Receive',
-      picUrl: '',
-      projectId: 153897380003,
-      creatorId: 153284940002
-    },
-    {
-      credentialId: 153900040010,
-      name: 'Buyer of GoPlus Security Service',
-      picUrl: '',
-      projectId: 153897380003,
-      creatorId: 153284940002
-    },
-    {
-      credentialId: 153900040011,
-      name: 'GoPlus Security - Twitter Followers',
-      picUrl: '',
-      projectId: 153897380003,
-      creatorId: 153284940002
-    },
-    {
-      credentialId: 153900040012,
-      name: 'GoPlus Security - Twitter Space Participants',
-      picUrl: '',
-      projectId: 153897380003,
-      creatorId: 153284940002
-    }
-  ].map(v => ({ label: v.name, value: v.credentialId }))
+  const credentialList = credentialListDefault.map(v => ({
+    label: v.name,
+    value: v.credentialId
+  }))
   useAsyncEffect(async () => {
     if (!projectId) return
     const res = await getNFTList(projectId)
@@ -201,9 +149,11 @@ export default function () {
           reward: JSON.stringify(values.incentive)
         }
         try {
+          setConfirmLoading(true)
           const res = await createCampaign(formData)
           console.log(res, formData)
           navigate(`/dashboard/campaign`)
+          setConfirmLoading(false)
         } catch (err) {
           console.log(err)
         }

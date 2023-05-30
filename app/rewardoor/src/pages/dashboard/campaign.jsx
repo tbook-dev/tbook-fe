@@ -73,7 +73,7 @@ export default function () {
       ) : (
         <section className='grid grid-cols-3 gap-5'>
           {list.map(v => (
-            <Link key={v.nft} to={`/dashboard/campaign/${v.nft}`}>
+            <Link key={v.nft} to={`/dashboard/campaign/${v.campaignId}`}>
               <div className='rounded-button overflow-hidden h-[480px] bg-gray flex flex-col'>
                 <img
                   src={v.picUrl}

@@ -26,7 +26,7 @@ function Header () {
               <Spin />
             ) : authUser ? (
               <LightProvider>
-                <UserMenu />
+                <UserMenu showProject={false} />
               </LightProvider>
             ) : (
               <Connect />

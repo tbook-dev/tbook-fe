@@ -1,9 +1,23 @@
+import { useState } from 'react'
 import Layout from './laylout'
 import clsx from 'clsx'
+import { getCampaignDetail } from '@/api/incentive'
+import { useAsyncEffect } from 'ahooks'
+import { useParams } from 'react-router-dom'
+import dayjs from 'dayjs'
+const dateFormat = `YYYY-MM-DD`
 
-const title = `We're thrilled to announce our very first Community Giveaway on Rewardoor!
-To celebrate the growing success of our community, we're offering a total prize pool of 50 NFT Fragments to be shared among 10 lucky winners!`
 export default function () {
+  const [pageInfo, setPageInfo] = useState({})
+  const [loading, setLoading] = useState(false)
+  const { id } = useParams()
+  useAsyncEffect(async () => {
+    if (!id) return
+    setLoading(true)
+    const res = await getCampaignDetail(id)
+    setPageInfo(res)
+    setLoading(false)
+  }, [id])
   const credentialList = [
     {
       label: 'User of GoPlus Security Service',
@@ -25,14 +39,14 @@ export default function () {
   return (
     <Layout>
       <section className='mb-6'>
-        <h2 className='font-bold text-xl mb-0.5'>
-          TBOOK onboarding campaign 001
-        </h2>
+        <h2 className='font-bold text-xl mb-0.5'>{pageInfo?.campaign?.name}</h2>
 
         <div className='font-bold text-xs flex items-center'>
           <div className='px-4 py-0.5 mr-2 bg-gray rounded-xl'>Scheduled</div>
           <div className='px-4 py-0.5 mr-2 bg-gray rounded-xl'>
-            02/15/2023 08:30 - 06/30/2023 04:00 (UTC+08:00)
+            {`${dayjs(pageInfo?.campaign?.startAt).format(dateFormat)}-${dayjs(
+              pageInfo?.campaign?.endAt
+            ).format(dateFormat)}`}
           </div>
         </div>
       </section>
@@ -41,7 +55,7 @@ export default function () {
         <div className='pt-4 pb-5 pl-8 bg-gray rounded-[20px]'>
           <h2 className='font-bold text-base mb-4'>Credentials</h2>
           <div className='flex flex-wrap'>
-            {credentialList.map(v => {
+            {pageInfo?.credentials?.map(v => {
               return (
                 <div
                   className={clsx(
@@ -49,7 +63,7 @@ export default function () {
                   )}
                   key={v.value}
                 >
-                  {v.label}
+                  {v.name}
                 </div>
               )
             })}
@@ -78,7 +92,9 @@ export default function () {
 
         <div className='pt-4 pb-5 pl-8 bg-gray rounded-[20px]'>
           <h2 className='font-bold text-base mb-4'>Campaign Description</h2>
-          <div className='font-medium text-base'>{title}</div>
+          <div className='font-medium text-base'>
+            {pageInfo?.campaign?.description}
+          </div>
         </div>
       </section>
     </Layout>
