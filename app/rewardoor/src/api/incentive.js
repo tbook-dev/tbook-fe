@@ -31,9 +31,10 @@ export const getNFTList = async function (projectId) {
       const v = list[i]
       if (v.contract) {
         const nftRes = await alchemy.nft.getNftsForContract(v.contract)
+        const selectedRes = nftRes?.nfts?.find(v => v?.media?.[0]?.gateway)
         res.push({
           ...v,
-          coverUrl: v.coverUrl || nftRes?.nfts?.[0]?.media?.[0]?.gateway
+          coverUrl: v.coverUrl || selectedRes.media?.[0]?.gateway
         })
       } else {
         res.push(v)
