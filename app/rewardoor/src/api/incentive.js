@@ -55,6 +55,9 @@ export const getCampaign = async function (projectId) {
 export const getCampaignDetail = async function (id) {
   return await request(`${host}/campaign/stats/${id}`)
 }
+export const getOverview = async function (id) {
+  return await request(`${host}/project/${id}/overview`)
+}
 export const getIncentiveList = async function (projectId) {
   try {
     const res = await request(`${host}/projects/${projectId}/tips`)
