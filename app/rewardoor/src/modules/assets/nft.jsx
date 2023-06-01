@@ -40,26 +40,32 @@ export default function NFT () {
       {loading ? (
         <Loading h='h-40' />
       ) : (
-        <div className='grid grid-cols-3 gap-5 '>
-          {list.map(v => {
-            return (
-              <div
-                key={v.nftId}
-                className='rounded-button overflow-hidden h-[480px] bg-gray flex flex-col'
-              >
-                <img
-                  className='h-[319px] w-full object-contain'
-                  src={v.coverUrl}
-                />
-                <div className='p-6 flex flex-col justify-between flex-auto'>
-                  <h2 className='font-bold text-2xl'>{v.name}</h2>
-                  <p className='font-bold text-sm'>
-                    {shortAddress(v.contract)}
-                  </p>
+        <div className='grid grid-cols-3 gap-5'>
+          {list.length > 0 ? (
+            list.map(v => {
+              return (
+                <div
+                  key={v.nftId}
+                  className='rounded-button overflow-hidden h-[480px] bg-gray flex flex-col'
+                >
+                  <img
+                    className='h-[319px] w-full object-contain'
+                    src={v.coverUrl}
+                  />
+                  <div className='p-6 flex flex-col justify-between flex-auto'>
+                    <h2 className='font-bold text-2xl'>{v.name}</h2>
+                    <p className='font-bold text-sm'>
+                      {shortAddress(v.contract)}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })
+          ) : (
+            <div className='h-[300px] w-full rounded-button bg-gray flex justify-center items-center'>
+              No Data
+            </div>
+          )}
         </div>
       )}
     </div>

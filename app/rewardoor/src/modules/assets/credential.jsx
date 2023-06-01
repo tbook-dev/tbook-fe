@@ -22,21 +22,27 @@ export default function Credential () {
     <Loading h='h-40' />
   ) : (
     <div className='flex flex-wrap'>
-      {list.map(v => {
-        return (
-          <div
-            className={clsx(
-              'flex items-center group justify-center h-8 px-6 rounded-md relative bg-b-1 mr-6 mb-3 text-c-9 '
-            )}
-            key={v.credentialId}
-          >
-            <span className='mr-2 font-medium'>{v.name}</span>
-            <span className='text-colorful1 font-bold'>
-              {formatDollar(v.eligibleCount)}
-            </span>
-          </div>
-        )
-      })}
+      {list.length > 0 ? (
+        list.map(v => {
+          return (
+            <div
+              className={clsx(
+                'flex items-center group justify-center h-8 px-6 rounded-md relative bg-b-1 mr-6 mb-3 text-c-9 '
+              )}
+              key={v.credentialId}
+            >
+              <span className='mr-2 font-medium'>{v.name}</span>
+              <span className='text-colorful1 font-bold'>
+                {formatDollar(v.eligibleCount)}
+              </span>
+            </div>
+          )
+        })
+      ) : (
+        <div className='h-[300px] w-full rounded-button bg-gray flex justify-center items-center'>
+          No Data
+        </div>
+      )}
     </div>
   )
 }
