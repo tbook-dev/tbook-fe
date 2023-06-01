@@ -1,7 +1,7 @@
 import Layout from './laylout'
 import { Tabs } from 'antd'
 import NFT from '@/modules/assets/nft'
-
+import Credential from '@/modules/assets/credential'
 const items = [
   {
     key: '1',
@@ -11,7 +11,7 @@ const items = [
   {
     key: '2',
     label: `Credentials`,
-    children: `not ready`
+    children: <Credential />
   },
   {
     key: '3',
@@ -24,7 +24,7 @@ export default function () {
   return (
     <Layout>
       <section className='mb-6'>
-        <Tabs defaultActiveKey='1' items={items} />
+        <Tabs defaultActiveKey='2' items={items} />
       </section>
     </Layout>
   )

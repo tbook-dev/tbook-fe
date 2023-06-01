@@ -1,0 +1,42 @@
+import { useCurrentProject } from '@tbook/hooks'
+import { useAsyncEffect } from 'ahooks'
+import { getCredential } from '@/api/incentive'
+import { useState } from 'react'
+import { conf } from '@tbook/utils'
+import Loading from '@/components/loading'
+import clsx from 'clsx'
+const { formatDollar } = conf
+export default function Credential () {
+  const { projectId } = useCurrentProject()
+  const [loading, setLoading] = useState(false)
+  const [list, setList] = useState([])
+  useAsyncEffect(async () => {
+    if (!projectId) return
+    setLoading(true)
+    const res = await getCredential(projectId)
+    setList(res)
+    setLoading(false)
+  }, [projectId])
+
+  return loading ? (
+    <Loading h='h-40' />
+  ) : (
+    <div className='flex flex-wrap'>
+      {list.map(v => {
+        return (
+          <div
+            className={clsx(
+              'flex items-center group justify-center h-8 px-6 rounded-md relative bg-b-1 mr-6 mb-3 text-c-9 '
+            )}
+            key={v.credentialId}
+          >
+            <span className='mr-2 font-medium'>{v.name}</span>
+            <span className='text-colorful1 font-bold'>
+              {formatDollar(v.eligibleCount)}
+            </span>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
