@@ -357,31 +357,64 @@ export default function () {
                           >
                             <TagRadio options={incentiveAssetsTypeList} />
                           </Form.Item>
-                          <Form.Item
-                            {...restField}
-                            name={[name, 'nft']}
-                            label={
-                              <div className='flex justify-between items-center w-[568px]'>
-                                <span> Choose the NFT</span>
-                                <Link
-                                  to='/nft'
-                                  className='bg-[rgb(38,38,38)] rounded-full w-6 h-6 text-white hover:text-white flex justify-center items-center'
+                          <Form.Item noStyle shouldUpdate>
+                            {({ getFieldValue }) => {
+                              console.log(
+                                getFieldValue([
+                                  'incentive',
+                                  name,
+                                  'incentiveAsset'
+                                ])
+                              )
+                              return getFieldValue([
+                                'incentive',
+                                name,
+                                'incentiveAsset'
+                              ]) === 1 ? (
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, 'nft']}
+                                  label={
+                                    <div className='flex justify-between items-center w-[568px]'>
+                                      <span> Choose the NFT</span>
+                                      <Link
+                                        to='/nft'
+                                        className='bg-[rgb(38,38,38)] rounded-full w-6 h-6 text-white hover:text-white flex justify-center items-center'
+                                      >
+                                        +
+                                      </Link>
+                                    </div>
+                                  }
+                                  rules={[
+                                    { required: true, message: 'Missing!' }
+                                  ]}
                                 >
-                                  +
-                                </Link>
-                              </div>
-                            }
-                            rules={[{ required: true, message: 'Missing!' }]}
-                          >
-                            <ImgSelect
-                              slidesPerView={4}
-                              options={list.map(v => ({
-                                img: v.coverUrl,
-                                value: v.nftId
-                              }))}
-                              imgclx='h-[120px]'
-                            />
+                                  <ImgSelect
+                                    slidesPerView={4}
+                                    options={list.map(v => ({
+                                      img: v.coverUrl,
+                                      value: v.nftId
+                                    }))}
+                                    imgclx='h-[120px]'
+                                  />
+                                </Form.Item>
+                              ) : (
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, 'pointAmount']}
+                                  label='Point Amount'
+                                >
+                                  <InputNumber
+                                    className='w-full'
+                                    min={1}
+                                    step={1}
+                                    placeholder='Enter the point amount each participant would earn'
+                                  />
+                                </Form.Item>
+                              )
+                            }}
                           </Form.Item>
+
                           <Form.Item
                             {...restField}
                             name={[name, 'method']}
