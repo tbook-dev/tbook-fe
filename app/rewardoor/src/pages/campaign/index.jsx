@@ -19,6 +19,7 @@ import {
   incentiveAssetsTypeList,
   rewardDistributionMethod
 } from '@/utils/conf'
+import { Link } from 'react-router-dom'
 const dashboardLink = `/dashboard/campaign`
 
 const textMap = {
@@ -59,7 +60,7 @@ const incentiveMethodList = [
 const { RangePicker } = DatePicker
 
 export default function () {
-  const [step, setStep] = useState('1')
+  const [step, setStep] = useState('3')
   const { projectId } = useCurrentProject()
   const [list, setList] = useState([])
   const [setUpForm] = Form.useForm()
@@ -359,7 +360,17 @@ export default function () {
                           <Form.Item
                             {...restField}
                             name={[name, 'nft']}
-                            label='Choose the NFT'
+                            label={
+                              <div className='flex justify-between items-center w-[568px]'>
+                                <span> Choose the NFT</span>
+                                <Link
+                                  to='/nft'
+                                  className='bg-[rgb(38,38,38)] rounded-full w-6 h-6 text-white hover:text-white flex justify-center items-center'
+                                >
+                                  +
+                                </Link>
+                              </div>
+                            }
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
                             <ImgSelect
