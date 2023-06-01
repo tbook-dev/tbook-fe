@@ -61,7 +61,12 @@ export default function () {
   return (
     <div className='w-full min-h-screen text-white'>
       <div className='w-[600px] mx-auto pt-20'>
-        <h1 className='text-5xl text-center mb-12 font-bold'>New Project</h1>
+        <div className='mb-12 text-center'>
+          <h1 className='text-5xl font-bold mb-1'>New Project</h1>
+          <p className='font-medium text-base'>
+            Incentivize core communities and builders
+          </p>
+        </div>
 
         <Form
           form={form}
