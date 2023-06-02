@@ -18,6 +18,10 @@ const routes = [
     path: '/campaign',
     component: lazy(() => import('@/pages/campaign'))
   },
+  {
+    path: '/credential',
+    component: lazy(() => import('@/pages/credential'))
+  },
   // dashboard 部分
   {
     path: '/dashboard/overview',

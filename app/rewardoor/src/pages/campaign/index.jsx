@@ -1,4 +1,12 @@
-import { Form, Input, InputNumber, Upload, DatePicker, Select } from 'antd'
+import {
+  Form,
+  Input,
+  InputNumber,
+  Upload,
+  DatePicker,
+  Select,
+  Divider
+} from 'antd'
 import { useRef, useState } from 'react'
 import clsx from 'clsx'
 import { PlusOutlined } from '@ant-design/icons'
@@ -10,15 +18,11 @@ import { useNavigate } from 'react-router-dom'
 import uploadFile from '@/utils/upload'
 import { useAsyncEffect } from 'ahooks'
 import { useCurrentProject } from '@tbook/hooks'
-import { getNFTList } from '@/api/incentive'
+import { getNFTList, getCredentials } from '@/api/incentive'
 import uploadIcon from '@/images/icon/upload.svg'
 import ImgSelect from '@/components/imgSelect'
 import { createCampaign } from '@/api/incentive'
-import {
-  credentialListDefault,
-  incentiveAssetsTypeList,
-  rewardDistributionMethod
-} from '@/utils/conf'
+import { incentiveAssetsTypeList, rewardDistributionMethod } from '@/utils/conf'
 import { Link } from 'react-router-dom'
 const dashboardLink = `/dashboard/campaign`
 
@@ -60,20 +64,20 @@ const incentiveMethodList = [
 const { RangePicker } = DatePicker
 
 export default function () {
-  const [step, setStep] = useState('1')
+  const [step, setStep] = useState('2')
   const { projectId } = useCurrentProject()
   const [list, setList] = useState([])
   const [setUpForm] = Form.useForm()
   const [credentialForm] = Form.useForm()
   const [incentiveForm] = Form.useForm()
-
+  const [credentialRemoteList, setCredentialList] = useState([])
   const [confirmLoading, setConfirmLoading] = useState(false)
   const navigate = useNavigate()
   const hanleUpload = ({ onSuccess, onError, file }) => {
     uploadFile(file).then(onSuccess).catch(onError)
   }
   const formSavedValues = useRef({})
-  const credentialList = credentialListDefault.map(v => ({
+  const credentialList = credentialRemoteList.map(v => ({
     label: v.name,
     value: v.credentialId
   }))
@@ -81,6 +85,11 @@ export default function () {
     if (!projectId) return
     const res = await getNFTList(projectId)
     setList(res)
+  }, [projectId])
+  useAsyncEffect(async () => {
+    if (!projectId) return
+    const res = await getCredentials(projectId)
+    setCredentialList(res)
   }, [projectId])
   const normFile = e => {
     console.log('Upload event:', e)
@@ -281,6 +290,18 @@ export default function () {
                 options={credentialList}
                 className='w-full'
                 mode='multiple'
+                dropdownRender={menu => (
+                  <>
+                    {menu}
+                    <Divider className='my-2' />
+                    <Link
+                      to='/credential'
+                      className='text-c-9 hover:text-white block w-full text-center py-1'
+                    >
+                      + New Credentail
+                    </Link>
+                  </>
+                )}
               />
             </Form.Item>
           </Form>

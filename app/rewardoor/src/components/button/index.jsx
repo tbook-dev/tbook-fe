@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { Spin } from 'antd'
 
 const clsMap = {
   primary: 'bg-cw1 text-white',
@@ -15,11 +16,14 @@ export default function Button ({
     <button
       disabled={loading}
       className={clsx(
-        'h-10 px-10 rounded-button  hover:opacity-70',
+        'h-10 px-10 rounded-button  hover:opacity-70 flex justify-center items-center',
         clsMap[type],
         className
       )}
       {...props}
-    ></button>
+    >
+      {props.children}
+      {loading && <Spin className='ml-2' />}
+    </button>
   )
 }

@@ -65,6 +65,15 @@ export const getCredential = async function (projectId) {
 export const getPoint = async function (projectId) {
   return await request(`${host}/project/stats/${projectId}/points`)
 }
+
+export const createCredential = async function (values) {
+  return await request.Post(`${host}/credentials/create`, values)
+}
+
+export const getCredentials = async function (projectId) {
+  return await request(`${host}/credentials/project/${projectId}`)
+}
+//
 export const getIncentiveList = async function (projectId) {
   try {
     const res = await request(`${host}/projects/${projectId}/tips`)
