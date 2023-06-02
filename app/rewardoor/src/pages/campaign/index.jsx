@@ -64,7 +64,7 @@ const incentiveMethodList = [
 const { RangePicker } = DatePicker
 
 export default function () {
-  const [step, setStep] = useState('2')
+  const [step, setStep] = useState('1')
   const { projectId } = useCurrentProject()
   const [list, setList] = useState([])
   const [setUpForm] = Form.useForm()
