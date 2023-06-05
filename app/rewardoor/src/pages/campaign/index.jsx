@@ -28,17 +28,20 @@ const dashboardLink = `/dashboard/campaign`
 
 const textMap = {
   1: {
-    title: 'Set up',
+    title: 'Set up an Incentive Campaign',
+    subTitle: 'Basic Info',
     cancel: 'Cancel',
     next: 'Next'
   },
   2: {
-    title: 'Credential',
+    title: 'Set up an Incentive Campaign',
+    subTitle: 'Credential',
     cancel: 'Previous',
     next: 'Next'
   },
   3: {
-    title: 'Incentive',
+    title: 'Set up an Incentive Campaign',
+    subTitle: 'Rewards',
     cancel: 'Previous',
     next: 'Create'
   }
@@ -197,7 +200,7 @@ export default function () {
   return (
     <div className='w-full min-h-screen text-white'>
       <div className='w-[600px] mx-auto pt-20'>
-        <h1 className='text-5xl  mb-12 font-bold'>New Campaign</h1>
+        <h1 className='text-4xl  mb-12 font-bold'>{textMap[step]?.title}</h1>
 
         <div className='h-10 grid grid-cols-3 gap-x-10 mb-3'>
           {Object.entries(textMap).map(([n, v]) => {
@@ -205,16 +208,16 @@ export default function () {
               <div
                 key={n}
                 className={clsx(
-                  n === step ? 'text-white' : 'text-c-9',
-                  'font-medium text-sm bg-b-1 flex justify-center items-center',
-                  'rounded-md select-none'
+                  n === step ? 'text-white bg-cw1' : 'text-c-9 bg-b-1',
+                  'font-medium text-sm flex justify-center items-center',
+                  'rounded-button select-none'
                   // 'cursor-pointer'
                 )}
                 // onClick={() => {
                 //   setStep(n)
                 // }}
               >
-                {`${n} ${v.title}`}
+                {`${n}. ${v.subTitle}`}
               </div>
             )
           })}

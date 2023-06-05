@@ -16,8 +16,8 @@ const { chains } = conf
 
 const textMap = {
   1: {
-    title: 'Choose the Wallet',
-    step: 'Choose the Wallet',
+    title: 'Choose the Network',
+    step: 'Choose the Network',
     cancel: 'Cancel',
     next: 'Next'
   },
@@ -148,16 +148,16 @@ export default function () {
               <div
                 key={v.step}
                 className={clsx(
-                  n === step ? 'text-white' : 'text-c-9',
-                  'font-medium text-sm bg-b-1  flex justify-center items-center',
-                  'rounded-md select-none'
+                  n === step ? 'text-white bg-cw1' : 'text-c-9 bg-b-1',
+                  'font-medium text-sm flex justify-center items-center',
+                  'rounded-button select-none'
                   // 'cursor-pointer'
                 )}
                 // onClick={() => {
                 //   setStep(n)
                 // }}
               >
-                {`${n} ${v.step}`}
+                {`${n}. ${v.step}`}
               </div>
             )
           })}
