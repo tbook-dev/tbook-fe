@@ -6,6 +6,7 @@ import { getNFTList } from '@/api/incentive'
 import { useState } from 'react'
 import { conf } from '@tbook/utils'
 import Loading from '@/components/loading'
+import clsx from 'clsx'
 const { shortAddress } = conf
 
 const title = 'Deploy NFT Contracts'
@@ -40,7 +41,12 @@ export default function NFT () {
       {loading ? (
         <Loading h='h-40' />
       ) : (
-        <div className='grid grid-cols-3 gap-5'>
+        <div
+          className={clsx(
+            'grid gap-5',
+            list.length === 0 ? 'grid-cols-1' : 'grid-cols-3'
+          )}
+        >
           {list.length > 0 ? (
             list.map(v => {
               return (
@@ -62,7 +68,7 @@ export default function NFT () {
               )
             })
           ) : (
-            <div className='h-[300px] w-full rounded-button bg-gray flex justify-center items-center'>
+            <div className='h-[300px] text-c-9 w-full rounded-button bg-gray flex justify-center items-center'>
               No Data
             </div>
           )}

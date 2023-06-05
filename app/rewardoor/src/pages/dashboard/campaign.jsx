@@ -68,26 +68,39 @@ export default function () {
         </Link>
       </section>
 
-      {loading ? (
-        <Loading h='h-40' />
-      ) : (
-        <section className='grid grid-cols-3 gap-5'>
-          {list.map(v => (
-            <Link key={v.nft} to={`/dashboard/campaign/${v.campaignId}`}>
-              <div className='rounded-button overflow-hidden h-[480px] bg-gray flex flex-col'>
-                <img
-                  src={v.picUrl}
-                  className='h-[319px] w-full object-contain'
-                />
-                <div className='p-6 flex flex-col justify-between flex-auto'>
-                  <h2 className='font-bold text-2xl'>{v.name}</h2>
-                  <p className='font-bold text-sm'>{v.description}</p>
-                </div>
+      <section className='bg-gray rounded-button px-8 py-4'>
+        {loading ? (
+          <Loading h='h-40' />
+        ) : (
+          <div
+            className={clsx(
+              'grid gap-5',
+              list.length === 0 ? 'grid-cols-1' : 'grid-cols-3'
+            )}
+          >
+            {list.length > 0 ? (
+              list.map(v => (
+                <Link key={v.nft} to={`/dashboard/campaign/${v.campaignId}`}>
+                  <div className='rounded-button overflow-hidden h-[480px] bg-gray flex flex-col'>
+                    <img
+                      src={v.picUrl}
+                      className='h-[319px] w-full object-contain'
+                    />
+                    <div className='p-6 flex flex-col justify-between flex-auto'>
+                      <h2 className='font-bold text-2xl'>{v.name}</h2>
+                      <p className='font-bold text-sm'>{v.description}</p>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div className='text-center text-c-9 text-base py-10'>
+                No Data
               </div>
-            </Link>
-          ))}
-        </section>
-      )}
+            )}
+          </div>
+        )}
+      </section>
     </Layout>
   )
 }

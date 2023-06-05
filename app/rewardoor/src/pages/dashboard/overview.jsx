@@ -86,7 +86,7 @@ export default function () {
           ))}
         </div>
       </section>
-      <section>
+      <section className='bg-gray rounded-button px-8 py-4'>
         <h3 className='text-base text-white text-bold mb-2'>Statistics</h3>
         {loading ? (
           <Loading h='h-40' />
