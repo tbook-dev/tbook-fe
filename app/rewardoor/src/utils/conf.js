@@ -13,3 +13,21 @@ export const rewardDistributionMethod = [
     value: 2
   }
 ]
+
+export const incentiveMethodList = [
+  {
+    title: 'Anyone who get the credentials',
+    desc: 'Anyone who gets the credentials can claim the reward.',
+    value: 1
+  },
+  {
+    title: 'FCFS',
+    desc: 'First come, first served. Whoever gets the credentials first can claim the reward first.',
+    value: 2
+  },
+  {
+    title: 'Lucky Draw',
+    desc: 'A random selection of participants from those who meet the requirements.',
+    value: 3
+  }
+]

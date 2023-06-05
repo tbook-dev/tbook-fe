@@ -22,7 +22,11 @@ import { getNFTList, getCredentials } from '@/api/incentive'
 import uploadIcon from '@/images/icon/upload.svg'
 import ImgSelect from '@/components/imgSelect'
 import { createCampaign } from '@/api/incentive'
-import { incentiveAssetsTypeList, rewardDistributionMethod } from '@/utils/conf'
+import {
+  incentiveAssetsTypeList,
+  rewardDistributionMethod,
+  incentiveMethodList
+} from '@/utils/conf'
 import { Link } from 'react-router-dom'
 const dashboardLink = `/dashboard/campaign`
 
@@ -46,28 +50,11 @@ const textMap = {
     next: 'Create'
   }
 }
-const incentiveMethodList = [
-  {
-    title: 'Anyone who get the credentials',
-    desc: 'Anyone who gets the credentials can claim the reward.',
-    value: 1
-  },
-  {
-    title: 'FCFS',
-    desc: 'First come, first served. Whoever gets the credentials first can claim the reward first.',
-    value: 2
-  },
-  {
-    title: 'Lucky Draw',
-    desc: 'A random selection of participants from those who meet the requirements.',
-    value: 3
-  }
-]
 
 const { RangePicker } = DatePicker
 
 export default function () {
-  const [step, setStep] = useState('1')
+  const [step, setStep] = useState('3')
   const { projectId } = useCurrentProject()
   const [list, setList] = useState([])
   const [setUpForm] = Form.useForm()
@@ -456,24 +443,40 @@ export default function () {
                               })}
                             </Select>
                           </Form.Item>
-                          <Form.Item
-                            {...restField}
-                            name={[name, 'amount']}
-                            label='Amount'
-                            rules={[
-                              {
-                                required: true,
-                                message: 'Missing!'
-                              }
-                            ]}
-                          >
-                            <InputNumber
-                              className='w-full'
-                              min={1}
-                              step={1}
-                              placeholder='Enter the participant amount you would like to incentive'
-                            />
-                          </Form.Item>
+                          {
+                            <Form.Item noStyle shouldUpdate>
+                              {({ getFieldValue }) => {
+                                const method = getFieldValue([
+                                  'incentive',
+                                  name,
+                                  'method'
+                                ])
+                                if (method !== 3) {
+                                  return (
+                                    <Form.Item
+                                      {...restField}
+                                      name={[name, 'amount']}
+                                      label='Amount'
+                                      rules={[
+                                        {
+                                          required: true,
+                                          message: 'Missing!'
+                                        }
+                                      ]}
+                                    >
+                                      <InputNumber
+                                        className='w-full'
+                                        min={1}
+                                        step={1}
+                                        placeholder='Enter the participant amount you would like to incentive'
+                                      />
+                                    </Form.Item>
+                                  )
+                                }
+                              }}
+                            </Form.Item>
+                          }
+
                           <Form.Item
                             {...restField}
                             name={[name, 'distributionMethod']}
