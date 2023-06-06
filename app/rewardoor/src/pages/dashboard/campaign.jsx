@@ -68,7 +68,11 @@ export default function () {
         </Link>
       </section>
 
-      <section className='bg-gray rounded-button px-8 py-4'>
+      <section
+        className={clsx(
+          list.length === 0 && 'bg-gray rounded-button px-8 py-4'
+        )}
+      >
         {loading ? (
           <Loading h='h-40' />
         ) : (
@@ -84,7 +88,7 @@ export default function () {
                   <div className='rounded-button overflow-hidden h-[480px] bg-gray flex flex-col'>
                     <img
                       src={v.picUrl}
-                      className='h-[319px] w-full object-contain'
+                      className='h-[319px] w-full object-cover'
                     />
                     <div className='p-6 flex flex-col justify-between flex-auto'>
                       <h2 className='font-bold text-2xl'>{v.name}</h2>
