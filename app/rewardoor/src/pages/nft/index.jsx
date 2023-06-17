@@ -1,4 +1,4 @@
-import { Form, Input, Upload } from 'antd'
+import { Form, Input, Upload, InputNumber } from 'antd'
 import { useState } from 'react'
 import clsx from 'clsx'
 import uploadIcon from '@/images/icon/upload.svg'
@@ -214,7 +214,59 @@ export default function () {
                 )
               })}
             </div>
-            {NFTtype === '1' && 'not ready'}
+            {NFTtype === '1' && (
+              <>
+                <Form.Item
+                  label='NFT Name'
+                  name='name'
+                  rules={[{ required: true, message: 'NFT Name is required' }]}
+                >
+                  <Input placeholder='Enter an NFT name visible on blockchain that serves as an official verification' />
+                </Form.Item>
+
+                <Form.Item
+                  label='Symbol'
+                  name='symbol'
+                  rules={[{ required: true, message: 'Symbol is required' }]}
+                >
+                  <Input placeholder='Token ticker for NFT contract visible on blockchain that serves as an official verification' />
+                </Form.Item>
+
+                <Form.Item label='Upload image'>
+                  <Form.Item
+                    name='coverUrl'
+                    valuePropName='fileList'
+                    getValueFromEvent={normFile}
+                    noStyle
+                  >
+                    <Upload.Dragger
+                      customRequest={hanleUpload}
+                      multiple={false}
+                      accept='image/*'
+                      maxCount={1}
+                    >
+                      <p className='ant-upload-drag-icon flex justify-center'>
+                        <img src={uploadIcon} />
+                      </p>
+                      <p className='ant-upload-text'>Upload an image</p>
+                      <p className='ant-upload-hint'>
+                        PNG, JPG/JPEG, GIF, WebP. Maximum file size 100 MB.
+                      </p>
+                    </Upload.Dragger>
+                  </Form.Item>
+                </Form.Item>
+
+                <Form.Item
+                  label='Minting Cap'
+                  name='cap'
+                  rules={[
+                    { required: true, message: 'Minting Cap is required' }
+                  ]}
+                >
+                  <InputNumber placeholder='Enter the number of minting cap' min={1} className='w-full'/>
+                </Form.Item>
+              </>
+            )}
             {NFTtype === '2' && (
               <>
                 <Form.Item
@@ -279,7 +331,7 @@ export default function () {
                   { required: true, message: 'NFT Contract is required' }
                 ]}
               >
-                <Input placeholder='Paste your NFT Contract Address here' />
+                <InputNumber placeholder='Paste your NFT Contract Address here' min={1} className='w-full'/>
               </Form.Item>
             )}
           </Form>
