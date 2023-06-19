@@ -91,7 +91,7 @@ export default function () {
           const { name, contract, symbol, coverUrl } = values
           const chainId = 0
           let fd = {}
-          if (NFTtype === '2') {
+          if (NFTtype === '2' || NFTtype === '1') {
             fd = {
               name,
               chainId,
