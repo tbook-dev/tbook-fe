@@ -12,9 +12,11 @@ import { createNFT } from '@/api/incentive'
 import { useCurrentProject } from '@tbook/hooks'
 import uploadFile from '@/utils/upload'
 import { shortAddress } from '@tbook/utils/lib/conf'
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux'
 import { Icon } from '@tbook/ui'
-
+import doneIcon from '@/images/icon/done.svg'
+import { getNFTInfo } from '@/api/incentive'
+import { set } from 'lodash'
 const { chains } = conf
 
 const textMap = {
@@ -44,19 +46,30 @@ const NFTMap = {
   3: 'Import a deployed NFT'
 }
 const dashboardLink = `/dashboard/assets`
-
+const op = {
+  name: 'op',
+  fullName: 'Optimism',
+  evm: true,
+  evmChainId: 10
+}
 export default function () {
-  const [step, setStep] = useState('3')
+  const [step, setStep] = useState('1')
   const [NFTtype, setNFTtype] = useState('3')
+  const [NFTDeployStatus, setNFTDeployStatus] = useState('unDeployed') // deployed,unDeployed
+  // NFT合约地址
+  const [NFTAddress, setNFTAddress] = useState('')
+  // 图片地址
+  const [NTFimgAddress, setNTFimgAddress] = useState('')
+  // NFT name
+  const [NFTName, setNFTName] = useState('')
   const { switchNetwork } = useSwitchNetwork()
   const navigate = useNavigate()
   const project = useCurrentProject()
   const { address, isConnected, ...others } = useAccount()
-  const id = 1
+  const id = 10
   const [form] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
   const deployer = useSelector(state => state.user.deployer)
-  console.log({ deployer })
 
   const hanleUpload = ({ onSuccess, onError, file }) => {
     uploadFile(file).then(onSuccess).catch(onError)
@@ -93,33 +106,58 @@ export default function () {
       .then(async values => {
         try {
           const { name, contract, symbol, coverUrl } = values
-          const chainId = 0
+          const chainId = 10
           let fd = {}
           if (NFTtype === '2' || NFTtype === '1') {
+            const coverUrl0 =  coverUrl?.[0].response
             fd = {
               name,
               chainId,
               symbol,
-              coverUrl: coverUrl?.[0].response
+              coverUrl: coverUrl0
             }
+            setNFTName(name)
+            setNTFimgAddress(coverUrl0)
+            setStep('3')
           } else if (NFTtype === '3') {
             fd = {
               contract
             }
+            const info = await getNFTInfo(contract)
+            fd.name = info.title
+            fd.symbol = info.contractMetadata?.symbol
+            fd.coverUrl = info.media?.[0]?.gateway
+            console.log(info)
+            setNFTName(info.title)
+            setNTFimgAddress(info.media?.[0]?.gateway)
+            setStep('3')
           }
+          //
+          // if (NFTtype === '3') {
+          //   // 通过合约获取相关信息
+          //   const info = await getNFTInfo(contract)
+          //   console.log(info)
+          //   setNFTName(info.title)
+          //   setNTFimgAddress(info.media?.[0]?.gateway)
+          //   setStep('3')
+          // }
           try {
             const res = await createNFT({
               ...fd,
               chainId,
               projectId: project.projectId
             })
+            // setNFTAddress(res.data.contract)
             console.log({ res })
-            navigate(dashboardLink)
+            setNFTAddress(res.contract)
+            setNFTDeployStatus('deployed')
+
+            // navigate(dashboardLink)
           } catch (err) {
             console.log(err)
           }
         } catch (err) {
-          navigate(dashboardLink)
+          // navigate(dashboardLink)
         }
         setConfirmLoading(false)
       })
@@ -134,11 +172,18 @@ export default function () {
       navigate(dashboardLink)
       return
     }
-    if (step !== '3') {
-      setStep(Number(step) - 1 + '')
+    if (step === '2') {
+      setStep('1')
       return
+    }else{
+      setStep('2');
+      setNFTDeployStatus('unDeployed')
+      setNFTAddress('')
+      setNTFimgAddress('')
+      setNFTName('')
     }
   }
+  console.log({ step, deployer, NTFimgAddress, NFTAddress, NFTName })
   return (
     <div className='w-full text-white'>
       <div className='w-[600px] mx-auto pt-20'>
@@ -168,13 +213,14 @@ export default function () {
         </div>
         {step === '1' && (
           <div className='space-y-3 text-sm'>
-            {chains.map(chain => (
+            {[...chains, op].map(chain => (
               <div
                 key={chain.evmChainId}
                 className={clsx(
                   chain.evmChainId === id
                     ? 'text-white font-bold'
-                    : 'font-medium cursor-pointer text-c-9',
+                    : 'font-medium  text-c-9',
+                  // "cursor-pointer", // 不能点
                   'bg-gray rounded-button flex justify-center items-center h-10 hover:opacity-70'
                 )}
                 // onClick={() => {
@@ -339,9 +385,8 @@ export default function () {
                   { required: true, message: 'NFT Contract is required' }
                 ]}
               >
-                <InputNumber
+                <Input
                   placeholder='Paste your NFT Contract Address here'
-                  min={1}
                   className='w-full'
                 />
               </Form.Item>
@@ -350,16 +395,40 @@ export default function () {
         )}
 
         {step === '3' && (
-          <div className='p-8 bg-b-1 rounded-button'>
-            <img
-              src=''
-              className='h-[374px] object-contain mb-6'
-            />
-            <h3 className='mb-2 text-xl font-bold'>Onboarding </h3>
-            <div className='flex items-center text-sm'>
-              <Icon.NetWork id={10} className="mr-1.5"/>
-              <span className='font-medium text-c-9 mr-1'>from</span>
-              <span className='font-bold'>{shortAddress(deployer)}</span>
+          <div
+            className={clsx(
+              'p-8 bg-b-1 rounded-button',
+              NFTDeployStatus === 'deployed' && 'grid grid-cols-2'
+            )}
+          >
+            {NFTDeployStatus === 'deployed' && (
+              <div className='flex flex-col space-y-4 justify-center'>
+                <img src={doneIcon} className='w-32 h-32' />
+                <h3 className='text-xl font-bold'>Successfully Deployed!</h3>
+                <a
+                  className='text-sm font-medium text-c-9 underline'
+                  href={`https://optimistic.etherscan.io/address/${NFTAddress}`}
+                  target='__blank'
+                >
+                  Check on Etherscan
+                </a>
+              </div>
+            )}
+            <div>
+              <img
+                src={NTFimgAddress}
+                className='h-[374px] object-contain mb-6 w-full object-center'
+              />
+              <h3 className='mb-2 text-xl font-bold'>Onboarding {NFTName}</h3>
+              <div className='flex items-center text-sm'>
+                <Icon.NetWork id={10} className='mr-1.5' />
+                <span className='font-medium text-c-9 mr-1'>from</span>
+                <span className='font-bold'>
+                  {shortAddress(
+                    NFTDeployStatus === 'deployed' ? NFTAddress : deployer
+                  )}
+                </span>
+              </div>
             </div>
           </div>
         )}
@@ -367,13 +436,15 @@ export default function () {
           <Button className='mr-6' onClick={handleCancel}>
             {textMap[step]?.cancel}
           </Button>
-          <Button
-            type='primary'
-            onClick={handleCreate}
-            loading={confirmLoading}
-          >
-            {textMap[step]?.next}
-          </Button>
+          {!(step === '3' && NFTDeployStatus === 'deployed') && (
+            <Button
+              type='primary'
+              onClick={handleCreate}
+              loading={confirmLoading}
+            >
+              {textMap[step]?.next}
+            </Button>
+          )}
         </div>
       </div>
     </div>

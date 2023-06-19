@@ -22,28 +22,33 @@ export const createProject = async function (values) {
 export const createNFT = async function (values) {
   return request.Post(`${host}/nft/create`, values)
 }
+export const getNFTInfo = async function (contract) {
+  const nftRes = await alchemy.nft.getNftsForContract(contract)
+  const firstNft = nftRes?.nfts?.find(v => v?.media?.[0]?.gateway)
+  return firstNft
+}
 
 export const getNFTList = async function (projectId) {
   const list = await request(`${host}/nft/project/${projectId}`)
-  const res = []
-  for (let i = 0; i < list.length; i++) {
-    try {
-      const v = list[i]
-      if (v.contract) {
-        const nftRes = await alchemy.nft.getNftsForContract(v.contract)
-        const selectedRes = nftRes?.nfts?.find(v => v?.media?.[0]?.gateway)
-        res.push({
-          ...v,
-          coverUrl: v.coverUrl || selectedRes.media?.[0]?.gateway
-        })
-      } else {
-        res.push(v)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  }
-  return res
+  // const res = []
+  // for (let i = 0; i < list.length; i++) {
+  //   try {
+  //     const v = list[i]
+  //     if (v.contract) {
+  //       const nftRes = await alchemy.nft.getNftsForContract(v.contract)
+  //       const selectedRes = nftRes?.nfts?.find(v => v?.media?.[0]?.gateway)
+  //       res.push({
+  //         ...v,
+  //         coverUrl: v.coverUrl || selectedRes.media?.[0]?.gateway
+  //       })
+  //     } else {
+  //       res.push(v)
+  //     }
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
+  return list.filter(v => !!v.coverUrl)
 }
 
 export const createCampaign = async function (values) {
