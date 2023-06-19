@@ -16,7 +16,6 @@ import { useSelector } from 'react-redux'
 import { Icon } from '@tbook/ui'
 import doneIcon from '@/images/icon/done.svg'
 import { getNFTInfo } from '@/api/incentive'
-import { set } from 'lodash'
 const { chains } = conf
 
 const textMap = {
