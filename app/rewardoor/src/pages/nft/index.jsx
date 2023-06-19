@@ -13,6 +13,7 @@ import { useCurrentProject } from '@tbook/hooks'
 import uploadFile from '@/utils/upload'
 import { shortAddress } from '@tbook/utils/lib/conf'
 import { useSelector } from "react-redux";
+import { Icon } from '@tbook/ui'
 
 const { chains } = conf
 
@@ -30,7 +31,7 @@ const textMap = {
     next: 'Next'
   },
   3: {
-    title: 'Ready to Deploy?',
+    title: 'Deploying',
     step: 'Deploy',
     cancel: 'Previous',
     next: 'Create'
@@ -54,9 +55,8 @@ export default function () {
   const id = 1
   const [form] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
-  const deployyer = useSelector(state => state.user.deployyer)
-  console.log({deployyer})
-  // console.log({ project })
+  const deployer = useSelector(state => state.user.deployer)
+  console.log({ deployer })
 
   const hanleUpload = ({ onSuccess, onError, file }) => {
     uploadFile(file).then(onSuccess).catch(onError)
@@ -352,13 +352,14 @@ export default function () {
         {step === '3' && (
           <div className='p-8 bg-b-1 rounded-button'>
             <img
-              src='https://bookface-images.s3.amazonaws.com/avatars/ff61ee4351d032f02e9dd2df6b9995d3992db023.jpg'
-              className='w-[374px] object-contain mb-6'
+              src=''
+              className='h-[374px] object-contain mb-6'
             />
-            <h3>Onboarding </h3>
-            <div className='flex items-center'>
-              <span>from</span>
-              <span>{shortAddress('xx')}</span>
+            <h3 className='mb-2 text-xl font-bold'>Onboarding </h3>
+            <div className='flex items-center text-sm'>
+              <Icon.NetWork id={10} className="mr-1.5"/>
+              <span className='font-medium text-c-9 mr-1'>from</span>
+              <span className='font-bold'>{shortAddress(deployer)}</span>
             </div>
           </div>
         )}
