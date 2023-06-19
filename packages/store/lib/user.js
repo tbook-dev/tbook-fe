@@ -39,6 +39,7 @@ const initialState = {
     // name: "lake",
     // wallets: [],
   },
+  deployyer:'',
 };
 
 export const fetchUserInfo = createAsyncThunk(`userInfo`, async (showLoading = true, thunkAPI) => {
@@ -52,6 +53,7 @@ export const fetchUserInfo = createAsyncThunk(`userInfo`, async (showLoading = t
         thunkAPI.dispatch(setAuthUser(true));
         thunkAPI.dispatch(setUser(response?.user || {}));
         thunkAPI.dispatch(setProjects(response?.projects || []));
+        thunkAPI.dispatch(set({ deployyer: response?.deployyer || '' }));
       })
       .catch((err) => {
         thunkAPI.dispatch(setAuthUser(false));
@@ -95,6 +97,9 @@ export const userSlice = createSlice({
     },
     setLessNav: (state, action) => {
       state.showLessNav = action.payload;
+    },
+    set: (state, action) => {
+      state = { ...state, ...action.payload };
     },
     reset: (state) => {
       saveCurrentProjectId(null);

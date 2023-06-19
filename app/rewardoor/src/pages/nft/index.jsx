@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom'
 import { createNFT } from '@/api/incentive'
 import { useCurrentProject } from '@tbook/hooks'
 import uploadFile from '@/utils/upload'
+import { shortAddress } from '@tbook/utils/lib/conf'
+import { useSelector } from "react-redux";
 
 const { chains } = conf
 
@@ -43,7 +45,7 @@ const NFTMap = {
 const dashboardLink = `/dashboard/assets`
 
 export default function () {
-  const [step, setStep] = useState('1')
+  const [step, setStep] = useState('3')
   const [NFTtype, setNFTtype] = useState('3')
   const { switchNetwork } = useSwitchNetwork()
   const navigate = useNavigate()
@@ -52,6 +54,8 @@ export default function () {
   const id = 1
   const [form] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
+  const deployyer = useSelector(state => state.user.deployyer)
+  console.log({deployyer})
   // console.log({ project })
 
   const hanleUpload = ({ onSuccess, onError, file }) => {
@@ -263,7 +267,11 @@ export default function () {
                     { required: true, message: 'Minting Cap is required' }
                   ]}
                 >
-                  <InputNumber placeholder='Enter the number of minting cap' min={1} className='w-full'/>
+                  <InputNumber
+                    placeholder='Enter the number of minting cap'
+                    min={1}
+                    className='w-full'
+                  />
                 </Form.Item>
               </>
             )}
@@ -331,13 +339,29 @@ export default function () {
                   { required: true, message: 'NFT Contract is required' }
                 ]}
               >
-                <InputNumber placeholder='Paste your NFT Contract Address here' min={1} className='w-full'/>
+                <InputNumber
+                  placeholder='Paste your NFT Contract Address here'
+                  min={1}
+                  className='w-full'
+                />
               </Form.Item>
             )}
           </Form>
         )}
 
-        {step === '3' && <p>preview not ready, just deploy</p>}
+        {step === '3' && (
+          <div className='p-8 bg-b-1 rounded-button'>
+            <img
+              src='https://bookface-images.s3.amazonaws.com/avatars/ff61ee4351d032f02e9dd2df6b9995d3992db023.jpg'
+              className='w-[374px] object-contain mb-6'
+            />
+            <h3>Onboarding </h3>
+            <div className='flex items-center'>
+              <span>from</span>
+              <span>{shortAddress('xx')}</span>
+            </div>
+          </div>
+        )}
         <div className='flex justify-center py-20'>
           <Button className='mr-6' onClick={handleCancel}>
             {textMap[step]?.cancel}
