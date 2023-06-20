@@ -406,7 +406,7 @@ export default function () {
                 <h3 className='text-xl font-bold'>Successfully Deployed!</h3>
                 <a
                   className='text-sm font-medium text-c-9 underline'
-                  href={`https://optimistic.etherscan.io/address/${NFTAddress}`}
+                  href={`https://goerli-optimism.etherscan.io/address/${NFTAddress}`}
                   target='__blank'
                 >
                   Check on Etherscan
