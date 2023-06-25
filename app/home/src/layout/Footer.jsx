@@ -3,7 +3,7 @@ import tel from "@/images/icon/tel.svg";
 import twitter from "@/images/icon/twitter.svg";
 import { NavLink, Link } from "react-router-dom";
 
-const telLink = `https://t.me/Peter_TBook`;
+const telLink = `https://t.me/peterimpact`;
 const twitterLink = `https://twitter.com/realtbook?s=21&t=ccMMXb68Jav5nnocUz9JLw`;
 
 const list = [
