@@ -21,6 +21,7 @@ import { useCurrentProject } from '@tbook/hooks'
 import { getNFTList, getCredentials } from '@/api/incentive'
 import uploadIcon from '@/images/icon/upload.svg'
 import ImgSelect from '@/components/imgSelect'
+import CredentialItem from '@/components/Credential'
 import { createCampaign } from '@/api/incentive'
 import {
   incentiveAssetsTypeList,
@@ -69,7 +70,7 @@ export default function () {
   const formSavedValues = useRef({})
   const credentialList = credentialRemoteList.map(v => ({
     label: v.name,
-    value: v.credentialId
+    value: v.credentialId + ''
   }))
   useAsyncEffect(async () => {
     if (!projectId) return
@@ -222,12 +223,17 @@ export default function () {
                 <Input placeholder='Enter a campaign title' />
               </Form.Item>
 
-              <Form.Item label='Campaign Card Banner'>
+              <Form.Item
+                label='Campaign Card Banner'
+              >
                 <Form.Item
                   valuePropName='fileList'
                   getValueFromEvent={normFile}
                   noStyle
                   name='banner'
+                  rules={[
+                    { required: true, message: 'Campaign Card Banner is required' }
+                  ]}
                 >
                   <Upload.Dragger
                     customRequest={hanleUpload}
@@ -274,9 +280,10 @@ export default function () {
             <Form.Item
               label='Choose the Credentials or Define new Credential'
               name='credentials'
-              rules={[{ required: true, message: 'NFT Name is required' }]}
+              // rules={[{ required: true, message: 'NFT Name is required' }]}
             >
-              <Select
+              <CredentialItem options={credentialList} />
+              {/* <Select
                 options={credentialList}
                 className='w-full'
                 mode='multiple'
@@ -292,7 +299,7 @@ export default function () {
                     </Link>
                   </>
                 )}
-              />
+              /> */}
             </Form.Item>
           </Form>
         )}
