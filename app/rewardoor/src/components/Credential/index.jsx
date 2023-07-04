@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import closeIcon from '@tbook/share/images/icon/close4.svg'
 
 export default function CredentialItem ({ value, onChange, options }) {
+  console.log({value, options})
   const hasValue = Array.isArray(value) && value.length > 0
   return (
     <div className='text-xs  text-c-9'>

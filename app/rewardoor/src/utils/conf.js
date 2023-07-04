@@ -31,3 +31,14 @@ export const incentiveMethodList = [
     value: 3
   }
 ]
+
+export const campaignStatusList = [
+  {
+    label: 'Draft',
+    cname:'草稿',
+    value: 0
+  },
+  {
+    label: 'Scheduled',
+  }
+]

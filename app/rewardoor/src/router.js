@@ -19,6 +19,10 @@ const routes = [
     component: lazy(() => import('@/pages/campaign'))
   },
   {
+    path: '/draft/:campaignId',
+    component: lazy(() => import('@/pages/campaign'))
+  },
+  {
     path: '/credential',
     component: lazy(() => import('@/pages/credential'))
   },

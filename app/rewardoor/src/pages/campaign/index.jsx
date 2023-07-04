@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom'
 import uploadFile from '@/utils/upload'
 import { useAsyncEffect } from 'ahooks'
 import { useCurrentProject } from '@tbook/hooks'
-import { getNFTList, getCredentials } from '@/api/incentive'
+import { getNFTList, getCredentials, getCampaignDetail } from '@/api/incentive'
 import uploadIcon from '@/images/icon/upload.svg'
 import ImgSelect from '@/components/imgSelect'
 import CredentialItem from '@/components/Credential'
@@ -28,7 +28,8 @@ import {
   rewardDistributionMethod,
   incentiveMethodList
 } from '@/utils/conf'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import dayjs from 'dayjs'
 const dashboardLink = `/dashboard/campaign`
 
 const textMap = {
@@ -63,6 +64,8 @@ export default function () {
   const [incentiveForm] = Form.useForm()
   const [credentialRemoteList, setCredentialList] = useState([])
   const [confirmLoading, setConfirmLoading] = useState(false)
+  const { campaignId } = useParams()
+  const draftData = useRef({})
   const navigate = useNavigate()
   const hanleUpload = ({ onSuccess, onError, file }) => {
     uploadFile(file).then(onSuccess).catch(onError)
@@ -72,6 +75,31 @@ export default function () {
     label: v.name,
     value: v.credentialId + ''
   }))
+  const editMode = !!campaignId
+  useAsyncEffect(async () => {
+    if (editMode) {
+      const { campaign, credentials = [] } = await getCampaignDetail(campaignId)
+      draftData.current = {
+        campaign,
+        credentials
+      }
+      setUpForm.setFieldsValue({
+        description: campaign.description,
+        banner: [
+          {
+            uid: '-1',
+            name: 'img.png',
+            status: 'done',
+            url: campaign.picUrl,
+            response: campaign.picUrl
+          }
+        ],
+        schedule: [campaign.startAt, campaign.endAt].map(dayjs),
+        title: campaign.name
+      })
+    }
+  }, [campaignId])
+
   useAsyncEffect(async () => {
     if (!projectId) return
     const res = await getNFTList(projectId)
@@ -107,6 +135,13 @@ export default function () {
           title
         }
         setStep('2')
+        if (editMode) {
+          credentialForm.setFieldsValue({
+            credentials: draftData.current.credentials.map(
+              v => v.credentialId + ''
+            )
+          })
+        }
       })
       .catch(err => {
         setConfirmLoading(false)
@@ -122,6 +157,13 @@ export default function () {
           credentials: values.credentials
         }
         setStep('3')
+        if (editMode) {
+          credentialForm.setFieldsValue({
+            credentials: draftData.current.credentials.map(
+              v => v.credentialId + ''
+            )
+          })
+        }
         console.log('current values->', formSavedValues.current)
       })
       .catch(err => {
@@ -180,7 +222,7 @@ export default function () {
       navigate(dashboardLink)
       return
     }
-    if (step !== '3') {
+    if (step === '3' || step === '2') {
       setStep(Number(step) - 1 + '')
       return
     }
@@ -223,16 +265,17 @@ export default function () {
                 <Input placeholder='Enter a campaign title' />
               </Form.Item>
 
-              <Form.Item
-                label='Campaign Card Banner'
-              >
+              <Form.Item label='Campaign Card Banner'>
                 <Form.Item
                   valuePropName='fileList'
                   getValueFromEvent={normFile}
                   noStyle
                   name='banner'
                   rules={[
-                    { required: true, message: 'Campaign Card Banner is required' }
+                    {
+                      required: true,
+                      message: 'Campaign Card Banner is required'
+                    }
                   ]}
                 >
                   <Upload.Dragger
@@ -271,16 +314,11 @@ export default function () {
         )}
 
         {step === '2' && (
-          <Form
-            form={credentialForm}
-            layout='vertical'
-            requiredMark={false}
-            // initialValues={{ category: 'DeFi' }}
-          >
+          <Form form={credentialForm} layout='vertical' requiredMark={false}>
             <Form.Item
               label='Choose the Credentials or Define new Credential'
               name='credentials'
-              // rules={[{ required: true, message: 'NFT Name is required' }]}
+              rules={[{ required: true, message: 'credentials required' }]}
             >
               <CredentialItem options={credentialList} />
               {/* <Select
