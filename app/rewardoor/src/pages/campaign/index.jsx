@@ -1,12 +1,4 @@
-import {
-  Form,
-  Input,
-  InputNumber,
-  Upload,
-  DatePicker,
-  Select,
-  Divider
-} from 'antd'
+import { Form, Input, InputNumber, Upload, DatePicker, Select } from 'antd'
 import { useRef, useState } from 'react'
 import clsx from 'clsx'
 import { PlusOutlined } from '@ant-design/icons'
@@ -18,11 +10,16 @@ import { useNavigate } from 'react-router-dom'
 import uploadFile from '@/utils/upload'
 import { useAsyncEffect } from 'ahooks'
 import { useCurrentProject } from '@tbook/hooks'
-import { getNFTList, getCredentials, getCampaignDetail } from '@/api/incentive'
+import {
+  getNFTList,
+  getCredentials,
+  getCampaignDetail,
+  createCampaign,
+  updateCampaign
+} from '@/api/incentive'
 import uploadIcon from '@/images/icon/upload.svg'
 import ImgSelect from '@/components/imgSelect'
 import CredentialItem from '@/components/Credential'
-import { createCampaign } from '@/api/incentive'
 import {
   incentiveAssetsTypeList,
   rewardDistributionMethod,
@@ -190,6 +187,7 @@ export default function () {
   function handleIncentive (status = 1) {
     const confirmLoading =
       status === 1 ? setConfirmDraftLoading : setConfirmLoading
+    const campaignAction = editMode ? updateCampaign : createCampaign
     incentiveForm
       .validateFields()
       .then(async values => {
@@ -214,7 +212,7 @@ export default function () {
         }
         try {
           confirmLoading(true)
-          const res = await createCampaign(formData)
+          const res = await campaignAction(formData)
           console.log(res, formData)
           navigate(`/dashboard/campaign`)
           confirmLoading(false)
