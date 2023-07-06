@@ -8,27 +8,34 @@ import { useAsyncEffect } from 'ahooks'
 import { useCurrentProject } from '@tbook/hooks'
 import Loading from '@/components/loading'
 
+//0: 草稿, 1：进行中, 2：计划中，3: 已完成, 16: 已删除
+
 const campaignStatus = [
   {
     label: 'Ongoing',
-    value: 1
-  },
-  {
-    label: 'Scheduled',
     value: 2
   },
   {
-    label: 'Draft',
+    label: 'Scheduled',
     value: 3
+  },
+  {
+    label: 'Draft',
+    value: 1
   },
   {
     label: 'Completed',
     value: 4
   }
+  // {
+  //   label: 'Deleted',
+  //   value: 16
+  // }
 ]
+const draftId = 1
 
 export default function () {
-  const [selectStatus, setSelectedStatus] = useState(1)
+  const [selectStatus, setSelectedStatus] = useState(campaignStatus[0].value)
   const { projectId } = useCurrentProject()
   const [loading, setLoading] = useState(false)
   const [list, setList] = useState([])
@@ -39,7 +46,7 @@ export default function () {
     setList(res)
     setLoading(false)
   }, [projectId])
-
+  const listFilter = list.filter(v => v.status === selectStatus)
   return (
     <Layout>
       <section className='mb-6 flex justify-between items-center'>
@@ -70,7 +77,7 @@ export default function () {
 
       <section
         className={clsx(
-          list.length === 0 && 'bg-gray rounded-button px-8 py-4'
+          listFilter.length === 0 && 'bg-gray rounded-button px-8 py-4'
         )}
       >
         {loading ? (
@@ -79,12 +86,19 @@ export default function () {
           <div
             className={clsx(
               'grid gap-5',
-              list.length === 0 ? 'grid-cols-1' : 'grid-cols-3'
+              listFilter.length === 0 ? 'grid-cols-1' : 'grid-cols-3'
             )}
           >
-            {list.length > 0 ? (
-              list.map(v => (
-                <Link key={v.nft} to={`/dashboard/campaign/${v.campaignId}`}>
+            {listFilter.length > 0 ? (
+              listFilter.map(v => (
+                <Link
+                  key={v.campaignId}
+                  to={
+                    draftId === v.status
+                      ? `/draft/${v.campaignId}`
+                      : `/dashboard/campaign/${v.campaignId}`
+                  }
+                >
                   <div className='rounded-button overflow-hidden h-[480px] bg-gray flex flex-col'>
                     <img
                       src={v.picUrl}

@@ -30,6 +30,7 @@ import {
 } from '@/utils/conf'
 import { Link, useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
+import { useRequest } from 'ahooks'
 const dashboardLink = `/dashboard/campaign`
 
 const textMap = {
@@ -58,12 +59,12 @@ const { RangePicker } = DatePicker
 export default function () {
   const [step, setStep] = useState('1')
   const { projectId } = useCurrentProject()
-  const [list, setList] = useState([])
   const [setUpForm] = Form.useForm()
   const [credentialForm] = Form.useForm()
   const [incentiveForm] = Form.useForm()
   const [credentialRemoteList, setCredentialList] = useState([])
   const [confirmLoading, setConfirmLoading] = useState(false)
+  const [confirmDraftLoading, setConfirmDraftLoading] = useState(false)
   const { campaignId } = useParams()
   const draftData = useRef({})
   const navigate = useNavigate()
@@ -75,7 +76,19 @@ export default function () {
     label: v.name,
     value: v.credentialId + ''
   }))
+  const defaultIncentive = [
+    {
+      credentials: credentialList.map(v => v.value),
+      incentiveAsset: 1
+    }
+  ]
   const editMode = !!campaignId
+  const { data: list } = useRequest(() => getNFTList(projectId), {
+    refreshOnWindowFocus: true,
+    ready: !!projectId,
+    refreshDeps: [projectId]
+  })
+
   useAsyncEffect(async () => {
     if (editMode) {
       const { campaign, credentials = [] } = await getCampaignDetail(campaignId)
@@ -100,11 +113,11 @@ export default function () {
     }
   }, [campaignId])
 
-  useAsyncEffect(async () => {
-    if (!projectId) return
-    const res = await getNFTList(projectId)
-    setList(res)
-  }, [projectId])
+  // useAsyncEffect(async () => {
+  //   if (!projectId) return
+  //   const res = await getNFTList(projectId)
+  //   setList(res)
+  // }, [projectId])
   useAsyncEffect(async () => {
     if (!projectId) return
     const res = await getCredentials(projectId)
@@ -158,10 +171,14 @@ export default function () {
         }
         setStep('3')
         if (editMode) {
-          credentialForm.setFieldsValue({
-            credentials: draftData.current.credentials.map(
-              v => v.credentialId + ''
-            )
+          let incentive = defaultIncentive
+          try {
+            incentive = JSON.parse(draftData.current.campaign.rewardAction)
+          } catch (e) {
+            console.log(e)
+          }
+          incentiveForm.setFieldsValue({
+            incentive
           })
         }
         console.log('current values->', formSavedValues.current)
@@ -170,7 +187,9 @@ export default function () {
         console.log(err, 'error')
       })
   }
-  function handleIncentive () {
+  function handleIncentive (status = 1) {
+    const confirmLoading =
+      status === 1 ? setConfirmDraftLoading : setConfirmLoading
     incentiveForm
       .validateFields()
       .then(async values => {
@@ -189,24 +208,26 @@ export default function () {
           endAt,
           description,
           projectId,
+          status,
+          campaignId: campaignId,
           reward: JSON.stringify(values.incentive)
         }
         try {
-          setConfirmLoading(true)
+          confirmLoading(true)
           const res = await createCampaign(formData)
           console.log(res, formData)
           navigate(`/dashboard/campaign`)
-          setConfirmLoading(false)
+          confirmLoading(false)
         } catch (err) {
           console.log(err)
         }
       })
       .catch(err => {
-        setConfirmLoading(false)
+        confirmLoading(false)
         console.log(err, 'error')
       })
   }
-  function handleCreate () {
+  function handleCreate (status) {
     if (step === '1') {
       handleStepUp()
     }
@@ -214,7 +235,7 @@ export default function () {
       handleCredential()
     }
     if (step === '3') {
-      handleIncentive()
+      handleIncentive(status)
     }
   }
   function handleCancel () {
@@ -348,12 +369,7 @@ export default function () {
             layout='vertical'
             requiredMark={false}
             initialValues={{
-              incentive: [
-                {
-                  credentials: credentialList.map(v => v.value),
-                  incentiveAsset: 1
-                }
-              ]
+              incentive: defaultIncentive
             }}
           >
             <Form.List
@@ -563,13 +579,20 @@ export default function () {
           </Form>
         )}
 
-        <div className='flex justify-center py-20'>
-          <Button className='mr-6' onClick={handleCancel}>
-            {textMap[step]?.cancel}
-          </Button>
+        <div className='flex justify-center py-20 space-x-6'>
+          <Button onClick={handleCancel}>{textMap[step]?.cancel}</Button>
+          {step === '3' && (
+            <Button
+              type='primary'
+              onClick={() => handleCreate(1)}
+              loading={confirmDraftLoading}
+            >
+              Save As Draft
+            </Button>
+          )}
           <Button
             type='primary'
-            onClick={handleCreate}
+            onClick={() => handleCreate(2)}
             loading={confirmLoading}
           >
             {textMap[step]?.next}
