@@ -34,19 +34,19 @@ const textMap = {
   1: {
     title: 'Set up an Incentive Campaign',
     subTitle: 'Basic Info',
-    cancel: 'Cancel',
+    save: 'Save',
     next: 'Next'
   },
   2: {
     title: 'Set up an Incentive Campaign',
     subTitle: 'Credential',
-    cancel: 'Previous',
+    save: 'Previous',
     next: 'Next'
   },
   3: {
     title: 'Set up an Incentive Campaign',
     subTitle: 'Rewards',
-    cancel: 'Previous',
+    save: 'Save',
     next: 'Create'
   }
 }
@@ -73,19 +73,23 @@ export default function () {
     label: v.name,
     value: v.credentialId + ''
   }))
-  const defaultIncentive = [
-    {
-      credentials: credentialList.map(v => v.value),
-      incentiveAsset: 1
-    }
-  ]
+
   const editMode = !!campaignId
   const { data: list } = useRequest(() => getNFTList(projectId), {
     refreshOnWindowFocus: true,
     ready: !!projectId,
     refreshDeps: [projectId]
   })
-
+  const filterCredentialList = credentialList.filter(
+    v => !!formSavedValues.current?.credentials?.find(i => i === v.value)
+  )
+  const defaultIncentive = [
+    {
+      credentials: filterCredentialList.map(v => v.value),
+      incentiveAsset: 1
+    }
+  ]
+  console.log({ filterCredentialList })
   useAsyncEffect(async () => {
     if (editMode) {
       const { campaign, credentials = [] } = await getCampaignDetail(campaignId)
@@ -128,10 +132,10 @@ export default function () {
     return e?.fileList
   }
 
-  function handleStepUp () {
+  function handleStepUp (saveToDraft = false) {
     setUpForm
       .validateFields()
-      .then(values => {
+      .then(async values => {
         const { description, banner, schedule, title } = values
         const picUrl = banner?.[0].response
         const [startAt, endAt] = schedule.map(v => {
@@ -144,13 +148,37 @@ export default function () {
           description,
           title
         }
-        setStep('2')
-        if (editMode) {
-          credentialForm.setFieldsValue({
-            credentials: draftData.current.credentials.map(
-              v => v.credentialId + ''
-            )
-          })
+        if (saveToDraft) {
+          if (editMode) {
+            try {
+              const res = await updateCampaign({
+                campaignId,
+                ...formSavedValues.current
+              })
+            } catch (e) {
+              console.log(e)
+            }
+          } else {
+            try {
+              const res = await createCampaign({
+                ...formSavedValues.current,
+                projectId
+              })
+              formSavedValues.current.campaignId = res.campaignId
+              // 保存 campaignId到formSavedValues.current
+            } catch (e) {
+              console.log(e)
+            }
+          }
+        } else {
+          setStep('2')
+          if (editMode) {
+            credentialForm.setFieldsValue({
+              credentials: draftData.current.credentials.map(
+                v => v.credentialId + ''
+              )
+            })
+          }
         }
       })
       .catch(err => {
@@ -184,9 +212,10 @@ export default function () {
         console.log(err, 'error')
       })
   }
-  function handleIncentive (status = 1) {
-    const confirmLoading =
-      status === 1 ? setConfirmDraftLoading : setConfirmLoading
+  function handleIncentive (saveToDraft = false) {
+    const confirmLoading = saveToDraft
+      ? setConfirmDraftLoading
+      : setConfirmLoading
     const campaignAction = editMode ? updateCampaign : createCampaign
     incentiveForm
       .validateFields()
@@ -206,8 +235,8 @@ export default function () {
           endAt,
           description,
           projectId,
-          status,
-          campaignId: campaignId,
+          status: saveToDraft ? 1 : 2,
+          campaignId: campaignId ?? formSavedValues.current.campaignId,
           reward: JSON.stringify(values.incentive)
         }
         try {
@@ -218,6 +247,7 @@ export default function () {
           confirmLoading(false)
         } catch (err) {
           console.log(err)
+          confirmLoading(false)
         }
       })
       .catch(err => {
@@ -225,7 +255,7 @@ export default function () {
         console.log(err, 'error')
       })
   }
-  function handleCreate (status) {
+  function handleCreate (saveToDraft) {
     if (step === '1') {
       handleStepUp()
     }
@@ -233,19 +263,21 @@ export default function () {
       handleCredential()
     }
     if (step === '3') {
-      handleIncentive(status)
+      handleIncentive(saveToDraft)
     }
   }
-  function handleCancel () {
+  function handleSave () {
     if (step === '1') {
-      navigate(dashboardLink)
-      return
-    }
-    if (step === '3' || step === '2') {
+      handleStepUp(true)
+    } else if (step === '2') {
+      // 第二步是中间状态，直接为previous, 并不产生草稿
       setStep(Number(step) - 1 + '')
-      return
+    } else if (step === '3') {
+      handleIncentive(true)
     }
   }
+  // console.log(formSavedValues.current, 'formSavedValues.current')
+
   return (
     <div className='w-full min-h-screen text-white'>
       <div className='w-[600px] mx-auto pt-20'>
@@ -259,12 +291,14 @@ export default function () {
                 className={clsx(
                   n === step ? 'text-white bg-cw1' : 'text-c-9 bg-b-1',
                   'font-medium text-sm flex justify-center items-center',
-                  'rounded-button select-none'
-                  // 'cursor-pointer'
+                  'rounded-button select-none',
+                  n < step && 'cursor-pointer' // 单向，只能修改之前对
                 )}
-                // onClick={() => {
-                //   setStep(n)
-                // }}
+                onClick={() => {
+                  if (n < step) {
+                    setStep(n)
+                  }
+                }}
               >
                 {`${n}. ${v.subTitle}`}
               </div>
@@ -340,23 +374,6 @@ export default function () {
               rules={[{ required: true, message: 'credentials required' }]}
             >
               <CredentialItem options={credentialList} />
-              {/* <Select
-                options={credentialList}
-                className='w-full'
-                mode='multiple'
-                dropdownRender={menu => (
-                  <>
-                    {menu}
-                    <Divider className='my-2' />
-                    <Link
-                      to='/credential'
-                      className='text-c-9 hover:text-white block w-full text-center py-1'
-                    >
-                      + New Credentail
-                    </Link>
-                  </>
-                )}
-              /> */}
             </Form.Item>
           </Form>
         )}
@@ -410,14 +427,7 @@ export default function () {
                             label='Choose the Credentials'
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <TagList
-                              options={credentialList.filter(
-                                v =>
-                                  formSavedValues.current?.credentials?.find(
-                                    i => i === v.value
-                                  ) !== undefined
-                              )}
-                            />
+                            <TagList options={filterCredentialList} />
                           </Form.Item>
                           <Form.Item
                             {...restField}
@@ -429,13 +439,13 @@ export default function () {
                           </Form.Item>
                           <Form.Item noStyle shouldUpdate>
                             {({ getFieldValue }) => {
-                              console.log(
-                                getFieldValue([
-                                  'incentive',
-                                  name,
-                                  'incentiveAsset'
-                                ])
-                              )
+                              // console.log(
+                              //   getFieldValue([
+                              //     'incentive',
+                              //     name,
+                              //     'incentiveAsset'
+                              //   ])
+                              // )
                               return getFieldValue([
                                 'incentive',
                                 name,
@@ -560,10 +570,10 @@ export default function () {
                           add()
                           const incentives =
                             incentiveForm.getFieldValue('incentive')
-                          incentiveForm.setFieldValue(
-                            ['incentive', incentives.length - 1, 'assets'],
-                            1
-                          )
+                          incentiveForm.setFieldValue('incentive', [
+                            ...incentives.slice(0, -1),
+                            ...defaultIncentive
+                          ])
                         }}
                         className='!flex items-center justify-center'
                       >
@@ -578,20 +588,13 @@ export default function () {
         )}
 
         <div className='flex justify-center py-20 space-x-6'>
-          {step === '3' ? (
-            <Button
-              type='primary'
-              onClick={() => handleCreate(1)}
-              loading={confirmDraftLoading}
-            >
-              Save As Draft
-            </Button>
-          ) : (
-            <Button onClick={handleCancel}>{textMap[step]?.cancel}</Button>
-          )}
+          <Button onClick={handleSave} loading={confirmDraftLoading}>
+            {textMap[step]?.save}
+          </Button>
+
           <Button
             type='primary'
-            onClick={() => handleCreate(2)}
+            onClick={() => handleCreate(false)}
             loading={confirmLoading}
           >
             {textMap[step]?.next}
