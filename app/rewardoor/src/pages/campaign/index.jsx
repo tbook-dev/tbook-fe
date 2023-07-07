@@ -170,7 +170,7 @@ export default function () {
         if (editMode) {
           let incentive = defaultIncentive
           try {
-            incentive = JSON.parse(draftData.current.campaign.rewardAction)
+            incentive = JSON.parse(draftData.current.campaign.reward)
           } catch (e) {
             console.log(e)
           }
@@ -578,8 +578,7 @@ export default function () {
         )}
 
         <div className='flex justify-center py-20 space-x-6'>
-          <Button onClick={handleCancel}>{textMap[step]?.cancel}</Button>
-          {step === '3' && (
+          {step === '3' ? (
             <Button
               type='primary'
               onClick={() => handleCreate(1)}
@@ -587,6 +586,8 @@ export default function () {
             >
               Save As Draft
             </Button>
+          ) : (
+            <Button onClick={handleCancel}>{textMap[step]?.cancel}</Button>
           )}
           <Button
             type='primary'
