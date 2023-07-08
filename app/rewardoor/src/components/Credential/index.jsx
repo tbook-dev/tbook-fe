@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom'
 import closeIcon from '@tbook/share/images/icon/close4.svg'
 
 export default function CredentialItem ({ value, onChange, options }) {
-  // console.log({value, options})
+  console.log({value, options})
   const hasValue = Array.isArray(value) && value.length > 0
   return (
     <div className='text-xs  text-c-9'>
       <div className='flex items-start bg-[#131313] px-6 py-1 rounded-button'>
         <div className='flex-auto flex flex-wrap'>
           {hasValue ? (
-            value
-              .map(v => options.find(vv => vv.value === v))
+            options
+              .filter(op => value.includes(op.value))
               .map(v => {
                 return (
                   <div

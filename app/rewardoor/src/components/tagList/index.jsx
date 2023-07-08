@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import closeIcon from '@tbook/share/images/icon/close4.svg'
 
 export default function TagList ({ value = [], onChange, options }) {
-  // console.log({ value, options })
+  // console.log({ value, options },'TagList')
   return (
     <div className='flex flex-wrap'>
       {options

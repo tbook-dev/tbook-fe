@@ -12,27 +12,27 @@ import Loading from '@/components/loading'
 
 const campaignStatus = [
   {
-    label: 'Ongoing',
-    value: 2
-  },
-  {
-    label: 'Scheduled',
-    value: 3
-  },
-  {
     label: 'Draft',
+    value: 0
+  },
+  {
+    label: 'Ongoing',
     value: 1
   },
   {
+    label: 'Scheduled',
+    value: 2
+  },
+  {
     label: 'Completed',
-    value: 4
-  }
+    value: 3
+  },
   // {
   //   label: 'Deleted',
   //   value: 16
   // }
 ]
-const draftId = 1
+const draftId = 0
 
 export default function () {
   const [selectStatus, setSelectedStatus] = useState(campaignStatus[0].value)

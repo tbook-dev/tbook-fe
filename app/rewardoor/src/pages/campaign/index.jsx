@@ -1,4 +1,12 @@
-import { Form, Input, InputNumber, Upload, DatePicker, Select } from 'antd'
+import {
+  Form,
+  Input,
+  InputNumber,
+  Upload,
+  DatePicker,
+  Select,
+  message
+} from 'antd'
 import { useRef, useState } from 'react'
 import clsx from 'clsx'
 import { PlusOutlined } from '@ant-design/icons'
@@ -28,6 +36,8 @@ import {
 import { Link, useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
 import { useRequest } from 'ahooks'
+import { conf } from '@tbook/utils'
+
 const dashboardLink = `/dashboard/campaign`
 
 const textMap = {
@@ -50,8 +60,9 @@ const textMap = {
     next: 'Create'
   }
 }
-
+const { defaultErrorMsg } = conf
 const { RangePicker } = DatePicker
+const successMsg = `draft saved successfully`
 
 export default function () {
   const [step, setStep] = useState('1')
@@ -59,7 +70,7 @@ export default function () {
   const [setUpForm] = Form.useForm()
   const [credentialForm] = Form.useForm()
   const [incentiveForm] = Form.useForm()
-  const [credentialRemoteList, setCredentialList] = useState([])
+  // const [credentialRemoteList, setCredentialList] = useState([])
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [confirmDraftLoading, setConfirmDraftLoading] = useState(false)
   const { campaignId } = useParams()
@@ -69,10 +80,6 @@ export default function () {
     uploadFile(file).then(onSuccess).catch(onError)
   }
   const formSavedValues = useRef({})
-  const credentialList = credentialRemoteList.map(v => ({
-    label: v.name,
-    value: v.credentialId + ''
-  }))
 
   const editMode = !!campaignId
   const { data: list } = useRequest(() => getNFTList(projectId), {
@@ -80,6 +87,19 @@ export default function () {
     ready: !!projectId,
     refreshDeps: [projectId]
   })
+  const { data: credentialRemoteList = [] } = useRequest(
+    () => getCredentials(projectId),
+    {
+      refreshOnWindowFocus: true,
+      ready: !!projectId,
+      refreshDeps: [projectId]
+    }
+  )
+  const credentialList = credentialRemoteList.map(v => ({
+    label: v.name,
+    value: v.credentialId + ''
+  }))
+
   const filterCredentialList = credentialList.filter(
     v => !!formSavedValues.current?.credentials?.find(i => i === v.value)
   )
@@ -89,14 +109,31 @@ export default function () {
       incentiveAsset: 1
     }
   ]
-  console.log({ filterCredentialList })
+  console.log(
+    { credentialList, filterCredentialList },
+    formSavedValues.current?.credentials
+  )
   useAsyncEffect(async () => {
     if (editMode) {
-      const { campaign, credentials = [] } = await getCampaignDetail(campaignId)
+      const { campaign } = await getCampaignDetail(campaignId)
+      let credentials = []
+      try {
+        credentials = Array.from(
+          new Set(
+            JSON.parse(campaign.reward)
+              .map(v => v.credentials)
+              .flat(1)
+          )
+        )
+        // console.log({ credentials }, '>>>>>')
+      } catch (error) {
+        console.log(campaign)
+      }
       draftData.current = {
         campaign,
         credentials
       }
+      // console.log({credentials},'>>>>>>useAsyncEffect')
       setUpForm.setFieldsValue({
         description: campaign.description,
         banner: [
@@ -119,11 +156,11 @@ export default function () {
   //   const res = await getNFTList(projectId)
   //   setList(res)
   // }, [projectId])
-  useAsyncEffect(async () => {
-    if (!projectId) return
-    const res = await getCredentials(projectId)
-    setCredentialList(res)
-  }, [projectId])
+  // useAsyncEffect(async () => {
+  //   if (!projectId) return
+  //   const res = await getCredentials(projectId)
+  //   setCredentialList(res)
+  // }, [projectId])
   const normFile = e => {
     console.log('Upload event:', e)
     if (Array.isArray(e)) {
@@ -150,33 +187,39 @@ export default function () {
         }
         if (saveToDraft) {
           if (editMode) {
+            setConfirmDraftLoading(true)
             try {
               const res = await updateCampaign({
                 campaignId,
                 ...formSavedValues.current
               })
+              message.success(successMsg)
             } catch (e) {
+              message.error(defaultErrorMsg)
               console.log(e)
             }
+            setConfirmDraftLoading(false)
           } else {
+            setConfirmDraftLoading(true)
             try {
               const res = await createCampaign({
                 ...formSavedValues.current,
                 projectId
               })
               formSavedValues.current.campaignId = res.campaignId
+              message.success(successMsg)
               // 保存 campaignId到formSavedValues.current
             } catch (e) {
+              message.error(defaultErrorMsg)
               console.log(e)
             }
+            setConfirmDraftLoading(false)
           }
         } else {
           setStep('2')
           if (editMode) {
             credentialForm.setFieldsValue({
-              credentials: draftData.current.credentials.map(
-                v => v.credentialId + ''
-              )
+              credentials: draftData.current.credentials
             })
           }
         }
@@ -190,10 +233,10 @@ export default function () {
     credentialForm
       .validateFields()
       .then(values => {
-        formSavedValues.current = {
-          ...formSavedValues.current,
-          credentials: values.credentials
-        }
+        // formSavedValues.current = {
+        //   ...formSavedValues.current,
+        //   credentials: values.credentials
+        // }
         setStep('3')
         if (editMode) {
           let incentive = defaultIncentive
@@ -205,6 +248,10 @@ export default function () {
           incentiveForm.setFieldsValue({
             incentive
           })
+        }
+        formSavedValues.current = {
+          ...formSavedValues.current,
+          credentials: values.credentials
         }
         console.log('current values->', formSavedValues.current)
       })
@@ -235,7 +282,7 @@ export default function () {
           endAt,
           description,
           projectId,
-          status: saveToDraft ? 1 : 2,
+          status: saveToDraft ? 0 : 1,
           campaignId: campaignId ?? formSavedValues.current.campaignId,
           reward: JSON.stringify(values.incentive)
         }
@@ -243,11 +290,15 @@ export default function () {
           confirmLoading(true)
           const res = await campaignAction(formData)
           console.log(res, formData)
+          if (saveToDraft) {
+            message.success(successMsg)
+          }
           navigate(`/dashboard/campaign`)
           confirmLoading(false)
         } catch (err) {
           console.log(err)
           confirmLoading(false)
+          message.error(defaultErrorMsg)
         }
       })
       .catch(err => {
@@ -427,7 +478,7 @@ export default function () {
                             label='Choose the Credentials'
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <TagList options={filterCredentialList} />
+                            <TagList options={credentialList} />
                           </Form.Item>
                           <Form.Item
                             {...restField}
