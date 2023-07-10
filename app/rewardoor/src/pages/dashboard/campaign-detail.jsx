@@ -42,7 +42,7 @@ export default function () {
       hasNFT = reward.some(v => v.incentiveAsset === 1)
       hasPoint = reward.some(v => v.incentiveAsset === 2)
     } catch (e) {
-      console.log(e)
+      // console.log(e)
     }
     return { hasNFT, hasPoint }
   }, [pageInfo])
