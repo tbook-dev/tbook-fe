@@ -1,41 +1,52 @@
-import { useState } from 'react'
 import Layout from './laylout'
 import clsx from 'clsx'
 import { getCampaignDetail } from '@/api/incentive'
-import { useAsyncEffect } from 'ahooks'
 import { useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
+import { useRequest } from 'ahooks'
+import { useMemo } from 'react'
+import { incentiveAssetsTypeList } from '@/utils/conf'
 const dateFormat = `YYYY-MM-DD`
 
 export default function () {
-  const [pageInfo, setPageInfo] = useState({})
-  const [loading, setLoading] = useState(false)
   const { id } = useParams()
-  useAsyncEffect(async () => {
-    if (!id) return
-    setLoading(true)
-    const res = await getCampaignDetail(id)
-    setPageInfo(res)
-    setLoading(false)
-  }, [id])
-  const credentialList = [
+  const { data: pageInfo = {}, loading } = useRequest(
+    () => getCampaignDetail(id),
     {
-      label: 'User of GoPlus Security Service',
-      value: 1
-    },
-    {
-      label: 'Ethereum Transactors_10 transactions',
-      value: 2
-    },
-    {
-      label: 'USDT Trader-Receive',
-      value: 3
-    },
-    {
-      label: 'Buyer of GoPlus Security Service',
-      value: 4
+      refreshDeps: [id]
     }
-  ]
+  )
+  const credentials = useMemo(() => {
+    let _credentials = []
+    try {
+      _credentials = Array.from(
+        new Set(
+          JSON.parse(pageInfo?.campaign?.reward)
+            .map(v => v.credentials)
+            .flat(1)
+            .map(Number)
+        )
+      )
+    } catch (e) {}
+    // console.log(_credentials, pageInfo.credentials)
+    return pageInfo.credentials
+      ?.filter(op => _credentials.includes(op.credentialId))
+      .map(v => ({ name: v.name, value: v.credentialId }))
+  }, [pageInfo])
+  const rewardOpt = useMemo(() => {
+    let hasNFT = false
+    let hasPoint = false
+    try {
+      const reward = JSON.parse(pageInfo?.campaign?.reward) || []
+      // incentiveAssetsTypeList.NFT =1,2
+      hasNFT = reward.some(v => v.incentiveAsset === 1)
+      hasPoint = reward.some(v => v.incentiveAsset === 2)
+    } catch (e) {
+      console.log(e)
+    }
+    return { hasNFT, hasPoint }
+  }, [pageInfo])
+  console.log({ rewardOpt, credentials, loading })
   return (
     <Layout>
       <section className='mb-6'>
@@ -55,7 +66,7 @@ export default function () {
         <div className='pt-4 pb-5 pl-8 bg-gray rounded-[20px]'>
           <h2 className='font-bold text-base mb-4'>Credentials</h2>
           <div className='flex flex-wrap'>
-            {pageInfo?.credentials?.map(v => {
+            {credentials?.map(v => {
               return (
                 <div
                   className={clsx(
@@ -73,20 +84,25 @@ export default function () {
         <div className='pt-4 pb-5 pl-8 bg-gray rounded-[20px]'>
           <h2 className='font-bold text-base mb-4'>Reward</h2>
           <div className='flex flex-wrap'>
-            <div
-              className={clsx(
-                'flex items-center group justify-center h-8 px-6 rounded-md relative bg-b-1 mr-6 mb-3 text-white'
-              )}
-            >
-              🎁 NFT
-            </div>
-            <div
-              className={clsx(
-                'flex items-center group justify-center h-8 px-6 rounded-md relative bg-b-1 mr-6 mb-3 text-white'
-              )}
-            >
-              💎 POINTS
-            </div>
+            {rewardOpt.hasNFT && (
+              <div
+                className={clsx(
+                  'flex items-center group justify-center h-8 px-6 rounded-md relative bg-b-1 mr-6 mb-3 text-white'
+                )}
+              >
+                🎁 NFT
+              </div>
+            )}
+
+            {rewardOpt.hasPoint && (
+              <div
+                className={clsx(
+                  'flex items-center group justify-center h-8 px-6 rounded-md relative bg-b-1 mr-6 mb-3 text-white'
+                )}
+              >
+                💎 POINTS
+              </div>
+            )}
           </div>
         </div>
 
