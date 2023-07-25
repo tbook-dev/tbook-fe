@@ -13,7 +13,6 @@ export default function LayoutAdmin ({ children }) {
   const isFirstRender = useRef(true)
   useEffect(() => {
     if (!loadingUserStatus && authUser) {
-      console.log({ projects }, 'xx')
       // 登录之后,如果为0，跳转到创建页面
       // 如果project的数量大于1，不做变化
       // 如果创建了新的project，自动跳转到dashboard
@@ -21,7 +20,7 @@ export default function LayoutAdmin ({ children }) {
         navigate(createUrl)
       } else {
         if (!isFirstRender.current) {
-          navigate(`/dashboard/overview`)
+          // navigate(`/dashboard/overview`)
         }
       }
       isFirstRender.current = false

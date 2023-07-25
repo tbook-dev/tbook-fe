@@ -5,6 +5,10 @@ import { createProject } from '@/api/incentive'
 import { user } from '@tbook/store'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import Logo from '@/components/logo'
+import bannerUrl from '@/images/aboard-banner.png'
+import bannerBg from '@/images/aboard-bg.png'
+
 const { setAuthUser, setUser, setProjects, getUserInfo } = user
 
 const categoryList = [
@@ -59,7 +63,18 @@ export default function () {
       })
   }
   return (
-    <div className='w-full min-h-screen text-white'>
+    <div className='w-full min-h-screen text-white flex'>
+      <div className='w-[265px] bg-b-1 rounded-r-4xl relative'>
+        <Logo />
+        <img
+          src={bannerUrl}
+          className='w-[592px] absolute top-1/4 right-[51px] max-w-none'
+        />
+        <img
+          src={bannerBg}
+          className='w-[592px] absolute top-1/4 right-[51px] max-w-none'
+        />
+      </div>
       <div className='w-[600px] mx-auto pt-20'>
         <div className='mb-12 text-center'>
           <h1 className='text-5xl font-bold mb-1'>New Project</h1>
