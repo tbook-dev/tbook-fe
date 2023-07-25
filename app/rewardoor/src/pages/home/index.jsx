@@ -47,7 +47,12 @@ export default function () {
             onClick={handleClick}
             loading={loading}
           >
-            Get Started
+            {isConnected
+              ? projects.length > 0
+                ? 'Dashboard'
+                : 'New Project'
+              : 'Connect Wallet'}
+            {/* Get Started */}
           </Button>
           <Button>Developer Center</Button>
         </div>
