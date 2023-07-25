@@ -17,6 +17,10 @@ module.exports = {
       },
       backgroundImage: {
         cw1: "linear-gradient(283.69deg, #4D0BEF -14.58%, #D645ED 134.55%);",
+        cw2: "linear-gradient(326deg, #4D0BEF 0%, #CF0063 100%)",
+      },
+      boxShadow: {
+        s1: " 0px 0px 6px 0px rgba(0, 0, 0, 0.10)",
       },
       fontFamily: {
         rhd: ["Red Hat Display", "sans-serif"],
@@ -60,6 +64,7 @@ module.exports = {
       },
       borderRadius: {
         button: "20px",
+        "2.5xl": "20px",
         "4xl": "40px",
       },
       minWidth: {

@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { Spin } from 'antd'
 
 const clsMap = {
-  primary: 'bg-cw1 text-white',
+  primary: 'bg-cw2 text-white',
   default: 'bg-gray text-white'
 }
 
