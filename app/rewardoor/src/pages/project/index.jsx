@@ -68,7 +68,7 @@ export default function () {
   }
   return (
     <div className='w-full min-h-screen text-white flex'>
-      <div className='w-[265px] bg-b-1 pb-20 rounded-r-4xl relative flex flex-col justify-end'>
+      <div className='w-[240px] bg-b-1 pb-20 rounded-r-4xl relative flex flex-col justify-end'>
         <Logo />
         <img
           src={bannerUrl}
