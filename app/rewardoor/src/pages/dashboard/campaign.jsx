@@ -8,6 +8,7 @@ import { useAsyncEffect } from 'ahooks'
 import { useCurrentProject } from '@tbook/hooks'
 import Loading from '@/components/loading'
 import { PlusOutlined } from '@ant-design/icons'
+import { Tabs } from 'antd'
 
 //0: 草稿, 1：进行中, 2：计划中，3: 已完成, 16: 已删除
 
@@ -33,6 +34,7 @@ const campaignStatus = [
   //   value: 16
   // }
 ]
+
 const draftId = 0
 const pageTitle = 'Incentive Campaign'
 export default function () {
@@ -68,9 +70,9 @@ export default function () {
                 key={v.value}
                 className={clsx(
                   selectStatus === v.value
-                    ? 'font-black relative before:absolute before:w-full before:h-0.5 before:left-0 before:-bottom-2 before:bg-white'
-                    : 'font-bold',
-                  'text-white  text-xl mr-20'
+                    ? 'text-t-1 font-black relative before:absolute before:w-full before:h-0.5 before:left-0 before:-bottom-2 before:bg-white'
+                    : 'text-t-2 font-bold',
+                  'text-xl mr-20'
                 )}
                 onClick={() => {
                   setSelectedStatus(v.value)
