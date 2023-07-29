@@ -7,6 +7,7 @@ import { getCampaign } from '@/api/incentive'
 import { useAsyncEffect } from 'ahooks'
 import { useCurrentProject } from '@tbook/hooks'
 import Loading from '@/components/loading'
+import { PlusOutlined } from '@ant-design/icons'
 
 //0: 草稿, 1：进行中, 2：计划中，3: 已完成, 16: 已删除
 
@@ -26,14 +27,14 @@ const campaignStatus = [
   {
     label: 'Completed',
     value: 3
-  },
+  }
   // {
   //   label: 'Deleted',
   //   value: 16
   // }
 ]
 const draftId = 0
-
+const pageTitle = 'Incentive Campaign'
 export default function () {
   const [selectStatus, setSelectedStatus] = useState(campaignStatus[0].value)
   const { projectId } = useCurrentProject()
@@ -49,6 +50,14 @@ export default function () {
   const listFilter = list.filter(v => v.status === selectStatus)
   return (
     <Layout>
+      <section className='flex justify-between items-center'>
+        <h2 className='text-3xl font-black text-[#C8C8C8]'>{pageTitle}</h2>
+        <Link to='/campaign'>
+          <Button type='primary' icon={<PlusOutlined />}>
+            New Campaign
+          </Button>
+        </Link>
+      </section>
       <section className='mb-6 flex justify-between items-center'>
         <div>
           {campaignStatus.map(v => {
@@ -70,9 +79,6 @@ export default function () {
             )
           })}
         </div>
-        <Link to='/campaign'>
-          <Button type='primary'> + New Campaign</Button>
-        </Link>
       </section>
 
       <section

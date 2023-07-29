@@ -21,7 +21,7 @@ const sideMenu = [
     }
   },
   {
-    title: 'Incentive Assets',
+    title: 'Incentive Asset',
     link: '/dashboard/assets',
     validator: function (match) {
       return match(this.link)
@@ -71,10 +71,10 @@ export default function Layout ({ children }) {
                   key={v.link}
                   className={clsx(
                     validatorSucessIdx === idx
-                      ? 'pl-4 bg-[#191919]'
+                      ? 'pl-4 bg-[#191919] text-[#C8C8C8]'
                       : v.disabled
-                      ? 'cursor-not-allowed'
-                      : 'cursor-pointer'
+                      ? 'cursor-not-allowed text-c-6'
+                      : 'cursor-pointer text-c-6'
                   )}
                   onClick={() => {
                     if (validatorSucessIdx !== idx && !v.disabled) {
@@ -95,7 +95,7 @@ export default function Layout ({ children }) {
                     )}
                   >
                     {validatorSucessIdx === idx && (
-                      <div className='absolute h-4 w-4 rounded-full left-4 bg-cw1' />
+                      <div className='absolute h-4 w-4 rounded-full left-4 bg-cw1 hidden' />
                     )}
                     {v.title}
                   </div>
