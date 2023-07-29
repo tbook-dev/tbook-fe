@@ -108,7 +108,7 @@ export default function Layout ({ children }) {
         <Account />
       </div>
 
-      <div className='w-[950px] ml-10 p-20'>{children}</div>
+      <div className='w-[1080px] ml-10 py-20'>{children}</div>
     </div>
   )
 }

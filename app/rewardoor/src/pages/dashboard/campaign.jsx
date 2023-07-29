@@ -50,14 +50,16 @@ export default function () {
   const listFilter = list.filter(v => v.status === selectStatus)
   return (
     <Layout>
-      <section className='flex justify-between items-center'>
+      <section className='flex justify-between items-center mb-5'>
         <h2 className='text-3xl font-black text-[#C8C8C8]'>{pageTitle}</h2>
         <Link to='/campaign'>
-          <Button type='primary' icon={<PlusOutlined />}>
-            New Campaign
+          <Button type='primary'>
+            <PlusOutlined className='mr-2' />
+            <span className='font-bold text-base'>New Campaign</span>
           </Button>
         </Link>
       </section>
+
       <section className='mb-6 flex justify-between items-center'>
         <div>
           {campaignStatus.map(v => {
@@ -119,7 +121,13 @@ export default function () {
               ))
             ) : (
               <div className='text-center text-c-9 text-base py-10'>
-                No Data
+                No Data No Ongoing Campaign
+                <Link to='/campaign'>
+                  <Button type='primary'>
+                    <PlusOutlined className='mr-2' />
+                    <span className='font-bold text-base'>New Campaign</span>
+                  </Button>
+                </Link>
               </div>
             )}
           </div>
