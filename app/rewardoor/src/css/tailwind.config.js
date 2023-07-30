@@ -56,7 +56,7 @@ module.exports = {
         // disable
         disable: "rgba(255, 255, 255, 0.2)",
         theme: "#69D0E5",
-        gray: "#191919",
+        gray: "#121212",
         //bg-container
         bg: {
           b: "#000",

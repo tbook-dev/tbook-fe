@@ -8,8 +8,7 @@ import { useRequest } from 'ahooks'
 import { useCurrentProject } from '@tbook/hooks'
 import Loading from '@/components/loading'
 import { PlusOutlined } from '@ant-design/icons'
-import { Tabs } from 'antd'
-
+import Compaign from '@/components/compaign'
 //0: 草稿, 1：进行中, 2：计划中，3: 已完成, 16: 已删除
 
 const campaignStatus = [
@@ -39,7 +38,6 @@ const campaignStatus = [
   }
 ]
 
-const draftId = 0
 const ongoingId = 1
 const pageTitle = 'Incentive Campaign'
 export default function () {
@@ -53,7 +51,7 @@ export default function () {
     }
   )
   const listFilter = list.filter(v => v.status === selectStatus)
-
+  console.log({ listFilter })
   return (
     <Layout>
       <section className='flex justify-between items-center mb-5'>
@@ -99,32 +97,12 @@ export default function () {
         ) : (
           <div
             className={clsx(
-              'grid gap-5',
-              listFilter.length === 0 ? 'grid-cols-1' : 'grid-cols-3'
+              'grid gap-6',
+              listFilter.length === 0 ? 'grid-cols-1' : 'grid-cols-4'
             )}
           >
             {listFilter.length > 0 ? (
-              listFilter.map(v => (
-                <Link
-                  key={v.campaignId}
-                  to={
-                    draftId === v.status
-                      ? `/draft/${v.campaignId}`
-                      : `/dashboard/campaign/${v.campaignId}`
-                  }
-                >
-                  <div className='rounded-button overflow-hidden h-[480px] bg-gray flex flex-col'>
-                    <img
-                      src={v.picUrl}
-                      className='h-[319px] w-full object-cover'
-                    />
-                    <div className='p-6 flex flex-col justify-between flex-auto'>
-                      <h2 className='font-bold text-2xl'>{v.name}</h2>
-                      <p className='font-bold text-sm'>{v.description}</p>
-                    </div>
-                  </div>
-                </Link>
-              ))
+              listFilter.map(v => <Compaign key={v.campaignId} {...v} />)
             ) : (
               <div className='text-center text-c-9 text-base py-10'>
                 {selectStatus === ongoingId ? (
