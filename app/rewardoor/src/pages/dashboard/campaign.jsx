@@ -56,7 +56,7 @@ export default function () {
     <Layout>
       <section className='flex justify-between items-center mb-5'>
         <h2 className='text-3xl font-black text-[#C8C8C8]'>{pageTitle}</h2>
-        <Link to='/campaign'>
+        <Link to='/new-campaign'>
           <Button type='primary'>
             <PlusOutlined className='mr-2' />
             <span className='font-bold text-base'>New Campaign</span>
@@ -108,7 +108,7 @@ export default function () {
                 {selectStatus === ongoingId ? (
                   <div className='flex flex-col items-center'>
                     No Ongoing Campaign
-                    <Link to='/campaign' className='mt-6'>
+                    <Link to='/new-campaign' className='mt-6'>
                       <Button type='primary'>
                         <PlusOutlined className='mr-2' />
                         <span className='font-bold text-base'>

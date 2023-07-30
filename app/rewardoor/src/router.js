@@ -19,10 +19,6 @@ const routes = [
     component: lazy(() => import("@/pages/nft")),
   },
   {
-    path: "/campaign",
-    component: lazy(() => import("@/pages/campaign")),
-  },
-  {
     path: "/draft/:campaignId",
     component: lazy(() => import("@/pages/campaign")),
   },
@@ -34,6 +30,10 @@ const routes = [
   {
     path: "/dashboard/overview",
     component: lazy(() => import("@/pages/dashboard/overview")),
+  },
+  {
+    path: "/new-campaign",
+    component: lazy(() => import("@/pages/dashboard/new-campaign")),
   },
   {
     path: "/dashboard/campaign",

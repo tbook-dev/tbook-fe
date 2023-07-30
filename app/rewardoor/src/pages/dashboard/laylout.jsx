@@ -16,7 +16,11 @@ const sideMenu = [
     title: 'Incentive Campaign',
     link: '/dashboard/campaign',
     validator: function (match) {
-      const links = ['/dashboard/campaign', '/dashboard/campaign/:id']
+      const links = [
+        '/new-campaign',
+        '/dashboard/campaign',
+        '/dashboard/campaign/:id'
+      ]
       return links.filter(match).length > 0
     }
   },

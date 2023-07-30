@@ -7,7 +7,6 @@ import {
   Select,
   message
 } from 'antd'
-import Breadcrumb from '@/components/breadcrumb'
 import { useRef, useState } from 'react'
 import clsx from 'clsx'
 import { PlusOutlined } from '@ant-design/icons'
@@ -331,18 +330,7 @@ export default function () {
   // console.log(formSavedValues.current, 'formSavedValues.current')
 
   return (
-    <div className='text-white'>
-      <Breadcrumb
-        items={[
-          {
-            title: 'Incentive Campaign',
-            href: '/dashboard/campaign'
-          },
-          {
-            title: 'Set up an incentive campaign'
-          }
-        ]}
-      />
+    <div className='w-full min-h-screen text-white'>
       <div className='w-[600px] mx-auto pt-20'>
         <h1 className='text-4xl  mb-12 font-bold'>{textMap[step]?.title}</h1>
 
