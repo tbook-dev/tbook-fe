@@ -8,10 +8,10 @@ function Compaign ({ status, campaignId, picUrl, name, reward, description }) {
     let hasNFT = false
     let hasPoint = false
     try {
-      const reward = JSON.parse(reward) || []
+      const rewardList = JSON.parse(reward) || []
       // incentiveAssetsTypeList.NFT =1,2
-      hasNFT = reward.some(v => v.incentiveAsset === 1)
-      hasPoint = reward.some(v => v.incentiveAsset === 2)
+      hasNFT = rewardList.some(v => v.incentiveAsset === 1)
+      hasPoint = rewardList.some(v => v.incentiveAsset === 2)
     } catch (e) {
       // console.log(e)
     }

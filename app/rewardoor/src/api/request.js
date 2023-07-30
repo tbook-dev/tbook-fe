@@ -40,9 +40,14 @@ export default function request(url, options = {}) {
   const { method, body } = options;
 
   // get请求没有请求体，需要将参数拼接到url上
-  if (method === "GET" && Object.prototype.toString.call(body) === "[object Object]") {
+  if (
+    method === "GET" &&
+    Object.prototype.toString.call(body) === "[object Object]"
+  ) {
     const paramsArray = [];
-    Object.keys(body).forEach((key) => paramsArray.push(key + "=" + encodeURIComponent(body[key])));
+    Object.keys(body).forEach((key) =>
+      paramsArray.push(key + "=" + encodeURIComponent(body[key]))
+    );
     if (url.search(/\?/) === -1) {
       url += "?" + paramsArray.join("&");
     } else {
@@ -78,7 +83,10 @@ export default function request(url, options = {}) {
           }
           store.dispatch(setAuthUser(true));
 
-          const data = options.headers["Content-type"] === ContentType.download ? res.blob() : res.json();
+          const data =
+            options.headers["Content-type"] === ContentType.download
+              ? res.blob()
+              : res.json();
           resolve(data);
         })
         .catch((err) => {
