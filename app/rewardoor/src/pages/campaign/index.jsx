@@ -40,7 +40,7 @@ import { useRequest } from 'ahooks'
 import { conf } from '@tbook/utils'
 
 const dashboardLink = `/dashboard/campaign`
-
+const title = 'Set up an Incentive Campaign'
 const textMap = {
   1: {
     title: 'Set up an Incentive Campaign',
@@ -110,10 +110,7 @@ export default function () {
       incentiveAsset: 1
     }
   ]
-  console.log(
-    { credentialList, filterCredentialList },
-    formSavedValues.current?.credentials
-  )
+
   useAsyncEffect(async () => {
     if (editMode) {
       const { campaign } = await getCampaignDetail(campaignId)
@@ -152,16 +149,6 @@ export default function () {
     }
   }, [campaignId])
 
-  // useAsyncEffect(async () => {
-  //   if (!projectId) return
-  //   const res = await getNFTList(projectId)
-  //   setList(res)
-  // }, [projectId])
-  // useAsyncEffect(async () => {
-  //   if (!projectId) return
-  //   const res = await getCredentials(projectId)
-  //   setCredentialList(res)
-  // }, [projectId])
   const normFile = e => {
     console.log('Upload event:', e)
     if (Array.isArray(e)) {
@@ -343,8 +330,8 @@ export default function () {
           }
         ]}
       />
-      <div className='w-[600px] mx-auto pt-20'>
-        <h1 className='text-4xl  mb-12 font-bold'>{textMap[step]?.title}</h1>
+      <div className='w-[520px] pt-20'>
+        <h1 className='text-4xl  mb-12 font-bold'>{title}</h1>
 
         <div className='h-10 grid grid-cols-3 gap-x-10 mb-3'>
           {Object.entries(textMap).map(([n, v]) => {
@@ -649,20 +636,19 @@ export default function () {
             </Form.List>
           </Form>
         )}
+      </div>
+      <div className='flex justify-center py-20 space-x-6'>
+        <Button onClick={handleSave} loading={confirmDraftLoading}>
+          {textMap[step]?.save}
+        </Button>
 
-        <div className='flex justify-center py-20 space-x-6'>
-          <Button onClick={handleSave} loading={confirmDraftLoading}>
-            {textMap[step]?.save}
-          </Button>
-
-          <Button
-            type='primary'
-            onClick={() => handleCreate(false)}
-            loading={confirmLoading}
-          >
-            {textMap[step]?.next}
-          </Button>
-        </div>
+        <Button
+          type='primary'
+          onClick={() => handleCreate(false)}
+          loading={confirmLoading}
+        >
+          {textMap[step]?.next}
+        </Button>
       </div>
     </div>
   )

@@ -112,7 +112,7 @@ export default function Layout ({ children }) {
         <Account />
       </div>
 
-      <div className='w-[1080px] ml-10 py-20'>{children}</div>
+      <div className='w-[1080px] ml-10 pt-20'>{children}</div>
     </div>
   )
 }
