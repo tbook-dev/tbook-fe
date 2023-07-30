@@ -20,7 +20,7 @@
 
 @layer components { 
     .text-colorful1{
-        background: linear-gradient(283.69deg, #4D0BEF -14.58%, #D645ED 134.55%);
+        background: linear-gradient(323deg, #4D0BEF 0%, #CF0063 100%);;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;

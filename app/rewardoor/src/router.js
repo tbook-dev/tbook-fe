@@ -1,48 +1,52 @@
-import { lazy } from 'react'
+import { lazy } from "react";
 
 // 只有首页不需要登录，其他的都需要登录
 const routes = [
   {
-    path: '/',
-    component: lazy(() => import('@/pages/home'))
+    path: "/",
+    component: lazy(() => import("@/pages/home")),
   },
   {
-    path: '/new-project',
-    component: lazy(() => import('@/pages/project'))
+    path: "/aboard",
+    component: lazy(() => import("@/pages/aboard")),
   },
   {
-    path: '/nft',
-    component: lazy(() => import('@/pages/nft'))
+    path: "/new-project",
+    component: lazy(() => import("@/pages/project")),
   },
   {
-    path: '/campaign',
-    component: lazy(() => import('@/pages/campaign'))
+    path: "/nft",
+    component: lazy(() => import("@/pages/nft")),
   },
   {
-    path: '/draft/:campaignId',
-    component: lazy(() => import('@/pages/campaign'))
+    path: "/campaign",
+    component: lazy(() => import("@/pages/campaign")),
   },
   {
-    path: '/credential',
-    component: lazy(() => import('@/pages/credential'))
+    path: "/draft/:campaignId",
+    component: lazy(() => import("@/pages/campaign")),
+  },
+  {
+    path: "/credential",
+    component: lazy(() => import("@/pages/credential")),
   },
   // dashboard 部分
   {
-    path: '/dashboard/overview',
-    component: lazy(() => import('@/pages/dashboard/overview'))
+    path: "/dashboard/overview",
+    component: lazy(() => import("@/pages/dashboard/overview")),
   },
   {
-    path: '/dashboard/campaign',
-    component: lazy(() => import('@/pages/dashboard/campaign'))
+    path: "/dashboard/campaign",
+    component: lazy(() => import("@/pages/dashboard/campaign")),
   },
   {
-    path: '/dashboard/campaign/:id',
-    component: lazy(() => import('@/pages/dashboard/campaign-detail'))
+    path: "/dashboard/campaign/:id",
+    component: lazy(() => import("@/pages/dashboard/campaign-detail")),
   },
   {
-    path: '/dashboard/assets',
-    component: lazy(() => import('@/pages/dashboard/assets'))
-  }
-]
+    path: "/dashboard/assets",
+    component: lazy(() => import("@/pages/dashboard/assets")),
+  },
+];
 
-export default routes
+export default routes;

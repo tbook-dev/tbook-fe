@@ -5,6 +5,11 @@ import { createProject } from '@/api/incentive'
 import { user } from '@tbook/store'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import Logo from '@/components/logo'
+import bannerUrl from '@/images/aboard-banner.png'
+import bannerBg from '@/images/aboard-bg.png'
+import Account from '@/components/account'
+
 const { setAuthUser, setUser, setProjects, getUserInfo } = user
 
 const categoryList = [
@@ -20,6 +25,9 @@ const categoryList = [
   'Safety',
   'Others'
 ]
+const title = 'Tell us about your project...'
+const desc =
+  'Help TBOOK customize your experience accordingly, and help users understand your project easily.'
 const dashboardOverView = `/dashboard/overview`
 
 export default function () {
@@ -59,13 +67,25 @@ export default function () {
       })
   }
   return (
-    <div className='w-full min-h-screen text-white'>
-      <div className='w-[600px] mx-auto pt-20'>
-        <div className='mb-12 text-center'>
-          <h1 className='text-5xl font-bold mb-1'>New Project</h1>
-          <p className='font-medium text-base'>
-            Incentivize core communities and builders
-          </p>
+    <div className='w-full min-h-screen text-white flex'>
+      <div className='w-[240px] bg-b-1 pb-20 rounded-r-4xl relative flex flex-col justify-end'>
+        <Logo />
+        <img
+          src={bannerUrl}
+          className='w-[592px] absolute top-1/4 right-[51px] max-w-none'
+        />
+        <img
+          src={bannerBg}
+          className='w-[592px] absolute top-1/4 right-[51px] max-w-none'
+        />
+        <div className='relative'>
+          <Account />
+        </div>
+      </div>
+      <div className='w-[630px] ml-[123px] pt-20'>
+        <div className='mb-12'>
+          <h1 className='text-5xl font-bold mb-1'>{title}</h1>
+          <p className='font-medium text-base'>{desc}</p>
         </div>
 
         <Form
@@ -109,13 +129,13 @@ export default function () {
         </Form>
 
         <div className='flex justify-center py-20'>
-          <Button className='mr-6'>Cancel</Button>
           <Button
             type='primary'
             onClick={handleCreate}
             loading={confirmLoading}
+            className='w-full'
           >
-            Create
+            Create Project
           </Button>
         </div>
       </div>

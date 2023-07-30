@@ -7,6 +7,8 @@ import { getCampaign } from '@/api/incentive'
 import { useAsyncEffect } from 'ahooks'
 import { useCurrentProject } from '@tbook/hooks'
 import Loading from '@/components/loading'
+import { PlusOutlined } from '@ant-design/icons'
+import { Tabs } from 'antd'
 
 //0: 草稿, 1：进行中, 2：计划中，3: 已完成, 16: 已删除
 
@@ -26,14 +28,15 @@ const campaignStatus = [
   {
     label: 'Completed',
     value: 3
-  },
+  }
   // {
   //   label: 'Deleted',
   //   value: 16
   // }
 ]
-const draftId = 0
 
+const draftId = 0
+const pageTitle = 'Incentive Campaign'
 export default function () {
   const [selectStatus, setSelectedStatus] = useState(campaignStatus[0].value)
   const { projectId } = useCurrentProject()
@@ -49,6 +52,16 @@ export default function () {
   const listFilter = list.filter(v => v.status === selectStatus)
   return (
     <Layout>
+      <section className='flex justify-between items-center mb-5'>
+        <h2 className='text-3xl font-black text-[#C8C8C8]'>{pageTitle}</h2>
+        <Link to='/campaign'>
+          <Button type='primary'>
+            <PlusOutlined className='mr-2' />
+            <span className='font-bold text-base'>New Campaign</span>
+          </Button>
+        </Link>
+      </section>
+
       <section className='mb-6 flex justify-between items-center'>
         <div>
           {campaignStatus.map(v => {
@@ -57,9 +70,9 @@ export default function () {
                 key={v.value}
                 className={clsx(
                   selectStatus === v.value
-                    ? 'font-black relative before:absolute before:w-full before:h-0.5 before:left-0 before:-bottom-2 before:bg-white'
-                    : 'font-bold',
-                  'text-white  text-xl mr-20'
+                    ? 'text-t-1 font-black relative before:absolute before:w-full before:h-0.5 before:left-0 before:-bottom-2 before:bg-white'
+                    : 'text-t-2 font-bold',
+                  'text-xl mr-20'
                 )}
                 onClick={() => {
                   setSelectedStatus(v.value)
@@ -70,9 +83,6 @@ export default function () {
             )
           })}
         </div>
-        <Link to='/campaign'>
-          <Button type='primary'> + New Campaign</Button>
-        </Link>
       </section>
 
       <section
@@ -113,7 +123,13 @@ export default function () {
               ))
             ) : (
               <div className='text-center text-c-9 text-base py-10'>
-                No Data
+                No Data No Ongoing Campaign
+                <Link to='/campaign'>
+                  <Button type='primary'>
+                    <PlusOutlined className='mr-2' />
+                    <span className='font-bold text-base'>New Campaign</span>
+                  </Button>
+                </Link>
               </div>
             )}
           </div>
