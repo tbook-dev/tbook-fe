@@ -3,7 +3,8 @@ import { Spin } from 'antd'
 
 const clsMap = {
   primary: 'bg-cw2 text-white',
-  default: 'bg-gray text-white'
+  default: 'text-c-9 font-medium text-sm border border-c-9',
+  text: 'text-c-9 text-xs px-0 font-medium'
 }
 
 export default function Button ({
