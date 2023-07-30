@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Button from '@/components/button'
 import { Link } from 'react-router-dom'
 import { getCampaign } from '@/api/incentive'
-import { useAsyncEffect } from 'ahooks'
+import { useRequest } from 'ahooks'
 import { useCurrentProject } from '@tbook/hooks'
 import Loading from '@/components/loading'
 import { PlusOutlined } from '@ant-design/icons'
@@ -14,10 +14,6 @@ import { Tabs } from 'antd'
 
 const campaignStatus = [
   {
-    label: 'Draft',
-    value: 0
-  },
-  {
     label: 'Ongoing',
     value: 1
   },
@@ -26,30 +22,38 @@ const campaignStatus = [
     value: 2
   },
   {
+    label: 'Draft',
+    value: 0
+  },
+  {
     label: 'Completed',
     value: 3
+  },
+  {
+    label: 'Suspended',
+    value: 4
+  },
+  {
+    label: 'Terminated',
+    value: 5
   }
-  // {
-  //   label: 'Deleted',
-  //   value: 16
-  // }
 ]
 
 const draftId = 0
+const ongoingId = 1
 const pageTitle = 'Incentive Campaign'
 export default function () {
   const [selectStatus, setSelectedStatus] = useState(campaignStatus[0].value)
   const { projectId } = useCurrentProject()
-  const [loading, setLoading] = useState(false)
-  const [list, setList] = useState([])
-  useAsyncEffect(async () => {
-    if (!projectId) return
-    setLoading(true)
-    const res = await getCampaign(projectId)
-    setList(res)
-    setLoading(false)
-  }, [projectId])
+  const { loading, data: list = [] } = useRequest(
+    () => getCampaign(projectId),
+    {
+      ready: !!projectId,
+      refreshDeps: [projectId]
+    }
+  )
   const listFilter = list.filter(v => v.status === selectStatus)
+
   return (
     <Layout>
       <section className='flex justify-between items-center mb-5'>
@@ -123,13 +127,21 @@ export default function () {
               ))
             ) : (
               <div className='text-center text-c-9 text-base py-10'>
-                No Data No Ongoing Campaign
-                <Link to='/campaign'>
-                  <Button type='primary'>
-                    <PlusOutlined className='mr-2' />
-                    <span className='font-bold text-base'>New Campaign</span>
-                  </Button>
-                </Link>
+                {selectStatus === ongoingId ? (
+                  <div className='flex flex-col items-center'>
+                    No Ongoing Campaign
+                    <Link to='/campaign' className='mt-6'>
+                      <Button type='primary'>
+                        <PlusOutlined className='mr-2' />
+                        <span className='font-bold text-base'>
+                          New Campaign
+                        </span>
+                      </Button>
+                    </Link>
+                  </div>
+                ) : (
+                  'No Data'
+                )}
               </div>
             )}
           </div>
