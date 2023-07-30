@@ -5,8 +5,8 @@ const draftId = 0
 
 function Compaign ({ status, campaignId, picUrl, name, reward, description }) {
   const rewardOpt = useMemo(() => {
-    let hasNFT = true
-    let hasPoint = true
+    let hasNFT = false
+    let hasPoint = false
     try {
       const reward = JSON.parse(reward) || []
       // incentiveAssetsTypeList.NFT =1,2
@@ -17,6 +17,7 @@ function Compaign ({ status, campaignId, picUrl, name, reward, description }) {
     }
     return { hasNFT, hasPoint }
   }, [reward])
+
   return (
     <Link
       key={campaignId}
