@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import credentialCreatepng from '@/images/campaign-credential.png'
+import editIcon from '@/images/icon/edit.svg'
+import Button from '@/components/button'
+import { PlusOutlined } from '@ant-design/icons'
 
 const textConf = {
   credential: {
@@ -13,6 +16,7 @@ const textConf = {
 }
 const credentialPrompt = 'Set Up Credential Group'
 const rewardPrompt = 'Please set up the Credential Group first.'
+const addText = 'Add Credential Group & Reward'
 
 const defaultCredentialReward = {
   credential: {},
@@ -39,19 +43,30 @@ export default function CredentialReward () {
         {credentialReward.map((item, index) => {
           return (
             <div
-              className='p-5 bg-gray rounded-2.5xl grid grid-cols-2 gap-x-5'
+              className='text-white p-5 bg-gray rounded-2.5xl grid grid-cols-2 gap-x-5'
               key={index}
             >
               <div
                 className='py-[30px] text-center bg-cover'
                 style={{ backgroundImage: `url(${credentialCreatepng})` }}
               >
+                <img
+                  src={editIcon}
+                  className='inline w-3 h-3 mr-3 cursor-pointer'
+                />
                 {credentialPrompt}
               </div>
               <div className='py-[30px] text-center'>{rewardPrompt}</div>
             </div>
           )
         })}
+      </div>
+
+      <div>
+        <Button type='text'>
+          <PlusOutlined className='mr-2' />
+          {addText}
+        </Button>
       </div>
     </div>
   )
