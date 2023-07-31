@@ -3,6 +3,7 @@ import credentialCreatepng from '@/images/campaign-credential.png'
 import editIcon from '@/images/icon/edit.svg'
 import Button from '@/components/button'
 import { PlusOutlined } from '@ant-design/icons'
+import CredentialModal from './CredentialModal'
 
 const textConf = {
   credential: {
@@ -26,6 +27,8 @@ export default function CredentialReward () {
   const [credentialReward, setCredentialReward] = useState([
     defaultCredentialReward
   ])
+  const [showCredentialModal, setShowCredentialModal] = useState(false)
+
   return (
     <div>
       <div className='grid grid-cols-2 space-x-5 mb-5'>
@@ -53,6 +56,7 @@ export default function CredentialReward () {
                 <img
                   src={editIcon}
                   className='inline w-3 h-3 mr-3 cursor-pointer'
+                  onClick={() => setShowCredentialModal(true)}
                 />
                 {credentialPrompt}
               </div>
@@ -61,7 +65,7 @@ export default function CredentialReward () {
           )
         })}
       </div>
-
+      <CredentialModal open={showCredentialModal} />
       <div>
         <Button type='text'>
           <PlusOutlined className='mr-2' />
