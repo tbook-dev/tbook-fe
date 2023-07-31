@@ -1,21 +1,8 @@
-import {
-  Form,
-  Input,
-  InputNumber,
-  Upload,
-  DatePicker,
-  Select,
-  message
-} from 'antd'
+import { Form, InputNumber, DatePicker, Select, message } from 'antd'
 import Breadcrumb from '@/components/breadcrumb'
 import { useRef, useState } from 'react'
-import { PlusOutlined } from '@ant-design/icons'
-import closeIcon from '@tbook/share/images/icon/close4.svg'
-import TagList from '@/components/tagList'
-import TagRadio from '@/components/tagRadio'
 import Button from '@/components/button'
 import { useNavigate } from 'react-router-dom'
-import uploadFile from '@/utils/upload'
 import { useAsyncEffect } from 'ahooks'
 import { useCurrentProject } from '@tbook/hooks'
 import {
@@ -25,19 +12,12 @@ import {
   createCampaign,
   updateCampaign
 } from '@/api/incentive'
-import uploadIcon from '@/images/icon/upload.svg'
-import ImgSelect from '@/components/imgSelect'
-import CredentialItem from '@/components/Credential'
-import {
-  incentiveAssetsTypeList,
-  rewardDistributionMethod,
-  incentiveMethodList
-} from '@/utils/conf'
+import CredentialReward from './modules/CredentialReward'
 import { Link, useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
 import { useRequest } from 'ahooks'
 import { conf } from '@tbook/utils'
-
+import BasicInfo from './modules/BasicInfo'
 const dashboardLink = `/dashboard/campaign`
 const title = 'Set up an Incentive Campaign'
 const textMap = {
@@ -61,11 +41,11 @@ const textMap = {
   }
 }
 const { defaultErrorMsg } = conf
-const { RangePicker } = DatePicker
 const successMsg = `draft saved successfully`
+const defaultStep = '2'
 
 export default function () {
-  const [step, setStep] = useState('1')
+  const [step, setStep] = useState(defaultStep)
   const { projectId } = useCurrentProject()
   const [setUpForm] = Form.useForm()
   const [credentialForm] = Form.useForm()
@@ -76,9 +56,7 @@ export default function () {
   const { campaignId } = useParams()
   const draftData = useRef({})
   const navigate = useNavigate()
-  const hanleUpload = ({ onSuccess, onError, file }) => {
-    uploadFile(file).then(onSuccess).catch(onError)
-  }
+
   const formSavedValues = useRef({})
 
   const editMode = !!campaignId
@@ -147,14 +125,6 @@ export default function () {
       })
     }
   }, [campaignId])
-
-  const normFile = e => {
-    console.log('Upload event:', e)
-    if (Array.isArray(e)) {
-      return e
-    }
-    return e?.fileList
-  }
 
   function handleStepUp (saveToDraft = false) {
     setUpForm
@@ -331,289 +301,9 @@ export default function () {
       />
       <div className='pt-20'>
         <h1 className='text-4xl  mb-10 font-bold'>{title}</h1>
-        <div className='w-[520px]'>
-          {step === '1' && (
-            <>
-              <Form form={setUpForm} layout='vertical' requiredMark={false}>
-                <Form.Item
-                  label='Title'
-                  name='title'
-                  rules={[{ required: true, message: 'Title is required' }]}
-                >
-                  <Input placeholder='Enter a campaign title' />
-                </Form.Item>
-
-                <Form.Item label='Poster'>
-                  <Form.Item
-                    valuePropName='fileList'
-                    getValueFromEvent={normFile}
-                    noStyle
-                    name='banner'
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Poster is required'
-                      }
-                    ]}
-                  >
-                    <Upload.Dragger
-                      customRequest={hanleUpload}
-                      multiple={false}
-                      accept='image/*'
-                      maxCount={1}
-                    >
-                      <p className='ant-upload-drag-icon flex justify-center'>
-                        <img src={uploadIcon} />
-                      </p>
-                      <p className='ant-upload-text'>Upload an image</p>
-                      <p className='ant-upload-hint'>296*312 or higher</p>
-                      <p className='ant-upload-hint'>recommended Max 20MB.</p>
-                    </Upload.Dragger>
-                  </Form.Item>
-                </Form.Item>
-                <Form.Item
-                  label='Description'
-                  name='description'
-                  rules={[
-                    { required: true, message: 'Description Title is required' }
-                  ]}
-                >
-                  <Input placeholder='Enter' />
-                </Form.Item>
-                <Form.Item
-                  label='Schedule'
-                  name='schedule'
-                  rules={[{ required: true, message: 'Schedule is required' }]}
-                >
-                  <RangePicker className='w-full' />
-                </Form.Item>
-              </Form>
-            </>
-          )}
-
-          {step === '2' && (
-            <Form form={credentialForm} layout='vertical' requiredMark={false}>
-              <Form.Item
-                label='Choose the Credentials or Define new Credential'
-                name='credentials'
-                rules={[{ required: true, message: 'credentials required' }]}
-              >
-                <CredentialItem options={credentialList} />
-              </Form.Item>
-            </Form>
-          )}
-
-          {step === '3' && (
-            <Form
-              form={incentiveForm}
-              layout='vertical'
-              requiredMark={false}
-              initialValues={{
-                incentive: defaultIncentive
-              }}
-            >
-              <Form.List
-                name='incentive'
-                rules={[
-                  {
-                    validator: async (x, plans) => {
-                      //   if (!plans || plans.length < 1) {
-                      //     return Promise.reject(new Error("At least 1 Plan"));
-                      //   }
-                      //   const tokenSum = sumBy(plans, "tokenNum");
-                      //   if (tokenSum > tokenTotalAmount) {
-                      //     return Promise.reject(new Error("Total Token exceed the max token supply"));
-                      //   }
-                    }
-                  }
-                ]}
-              >
-                {(fields, { add, remove }, { errors }) => {
-                  return (
-                    <>
-                      {fields.map(({ key, name, ...restField }, idx) => {
-                        return (
-                          <div
-                            key={key}
-                            className='bg-b-1 rounded-md p-4 mb-3 relative'
-                          >
-                            {idx !== 0 && (
-                              <img
-                                src={closeIcon}
-                                onClick={() => {
-                                  remove(name)
-                                }}
-                                className='object-contain w-4 h-4 cursor-pointer absolute top-3 right-3 z-10'
-                              />
-                            )}
-                            <Form.Item
-                              {...restField}
-                              name={[name, 'credentials']}
-                              label='Choose the Credentials'
-                              rules={[{ required: true, message: 'Missing!' }]}
-                            >
-                              <TagList options={credentialList} />
-                            </Form.Item>
-                            <Form.Item
-                              {...restField}
-                              name={[name, 'incentiveAsset']}
-                              label='Choose the Incentive Assets'
-                              rules={[{ required: true, message: 'Missing!' }]}
-                            >
-                              <TagRadio options={incentiveAssetsTypeList} />
-                            </Form.Item>
-                            <Form.Item noStyle shouldUpdate>
-                              {({ getFieldValue }) => {
-                                // console.log(
-                                //   getFieldValue([
-                                //     'incentive',
-                                //     name,
-                                //     'incentiveAsset'
-                                //   ])
-                                // )
-                                return getFieldValue([
-                                  'incentive',
-                                  name,
-                                  'incentiveAsset'
-                                ]) === 1 ? (
-                                  <Form.Item
-                                    {...restField}
-                                    name={[name, 'nft']}
-                                    label={
-                                      <div className='flex justify-between items-center w-[568px]'>
-                                        <span> Choose the NFT</span>
-                                        <Link
-                                          to='/nft'
-                                          className='bg-[rgb(38,38,38)] rounded-full w-6 h-6 text-white hover:text-white flex justify-center items-center'
-                                        >
-                                          +
-                                        </Link>
-                                      </div>
-                                    }
-                                    rules={[
-                                      { required: true, message: 'Missing!' }
-                                    ]}
-                                  >
-                                    <ImgSelect
-                                      slidesPerView={4}
-                                      options={list.map(v => ({
-                                        img: v.coverUrl,
-                                        value: v.nftId
-                                      }))}
-                                      imgclx='h-[120px]'
-                                    />
-                                  </Form.Item>
-                                ) : (
-                                  <Form.Item
-                                    {...restField}
-                                    name={[name, 'pointAmount']}
-                                    label='Point Amount'
-                                  >
-                                    <InputNumber
-                                      className='w-full'
-                                      min={1}
-                                      step={1}
-                                      placeholder='Enter the point amount each participant would earn'
-                                    />
-                                  </Form.Item>
-                                )
-                              }}
-                            </Form.Item>
-
-                            <Form.Item
-                              {...restField}
-                              name={[name, 'method']}
-                              label='Incentive Method'
-                              rules={[{ required: true, message: 'Missing!' }]}
-                            >
-                              <Select placeholder='Select the category'>
-                                {incentiveMethodList.map(v => {
-                                  return (
-                                    <Select.Option
-                                      value={v.value}
-                                      key={v.value}
-                                    >
-                                      <p>{v.title}</p>
-                                      <p>{v.desc}</p>
-                                    </Select.Option>
-                                  )
-                                })}
-                              </Select>
-                            </Form.Item>
-                            {
-                              <Form.Item noStyle shouldUpdate>
-                                {({ getFieldValue }) => {
-                                  const method = getFieldValue([
-                                    'incentive',
-                                    name,
-                                    'method'
-                                  ])
-                                  if (method !== 3) {
-                                    return (
-                                      <Form.Item
-                                        {...restField}
-                                        name={[name, 'amount']}
-                                        label='Amount'
-                                        rules={[
-                                          {
-                                            required: true,
-                                            message: 'Missing!'
-                                          }
-                                        ]}
-                                      >
-                                        <InputNumber
-                                          className='w-full'
-                                          min={1}
-                                          step={1}
-                                          placeholder='Enter the participant amount you would like to incentive'
-                                        />
-                                      </Form.Item>
-                                    )
-                                  }
-                                }}
-                              </Form.Item>
-                            }
-
-                            <Form.Item
-                              {...restField}
-                              name={[name, 'distributionMethod']}
-                              label='Reward Distribution Method'
-                              rules={[{ required: true, message: 'Missing!' }]}
-                            >
-                              <Select
-                                placeholder='Select the Reward Distribution Method'
-                                options={rewardDistributionMethod}
-                              />
-                            </Form.Item>
-                          </div>
-                        )
-                      })}
-                      <p style={{ color: '#dc4446', marginBottom: 12 }}>
-                        {errors}
-                      </p>
-
-                      <div className='mb-4'>
-                        <Button
-                          onClick={() => {
-                            add()
-                            const incentives =
-                              incentiveForm.getFieldValue('incentive')
-                            incentiveForm.setFieldValue('incentive', [
-                              ...incentives.slice(0, -1),
-                              ...defaultIncentive
-                            ])
-                          }}
-                          className='!flex items-center justify-center'
-                        >
-                          <PlusOutlined /> New Reward
-                        </Button>
-                      </div>
-                    </>
-                  )
-                }}
-              </Form.List>
-            </Form>
-          )}
+        <div className=''>
+          {step === '1' && <BasicInfo form={setUpForm} />}
+          {step === '2' && <CredentialReward />}
         </div>
       </div>
 
