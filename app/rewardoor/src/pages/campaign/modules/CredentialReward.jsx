@@ -65,7 +65,10 @@ export default function CredentialReward () {
           )
         })}
       </div>
-      <CredentialModal open={showCredentialModal} />
+      <CredentialModal
+        open={showCredentialModal}
+        setOpen={setShowCredentialModal}
+      />
       <div>
         <Button type='text'>
           <PlusOutlined className='mr-2' />

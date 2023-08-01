@@ -27,6 +27,7 @@ module.exports = {
       },
       fontSize: {
         "6.5xl": "4rem",
+        "4.2xl": "42px",
       },
       colors: {
         t: {

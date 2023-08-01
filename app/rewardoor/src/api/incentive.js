@@ -52,6 +52,32 @@ export const getOverview = async function (id) {
 export const getCredential = async function (projectId) {
   return await request(`${host}/credentials/project/${projectId}`);
 };
+export const getCredentialByGroup = async function (projectId) {
+  return [
+    {
+      name: "Governance",
+      id: "1",
+      list: [
+        {
+          credentialId: 179943370143,
+          name: "Follow on Twitter",
+          picUrl: "",
+          projectId: 154283610009,
+          creatorId: 154283420008,
+          eligibleCount: 0,
+        },
+        {
+          credentialId: 179943370144,
+          name: "Twitter Retweet",
+          picUrl: "",
+          projectId: 154283610009,
+          creatorId: 154283420008,
+          eligibleCount: 0,
+        },
+      ],
+    },
+  ];
+};
 export const getPoint = async function (projectId) {
   return await request(`${host}/project/stats/${projectId}/points`);
 };
