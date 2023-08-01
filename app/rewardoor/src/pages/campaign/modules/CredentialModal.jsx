@@ -5,20 +5,22 @@ import Button from '@/components/button'
 import SearchIcon from '@/images/icon/search.svg'
 import { Input, Tabs, Modal } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
+import x from '@/images/icon/x.svg'
 
 const title = 'Set Up Credential Group'
 const placeholder = 'Enter Credential Title to search for Cred'
+const titleGroup = 'Edit Credential Group'
+const emptyPrompt = 'The selected credential will be displayed here.'
 
 export default function CredentialModal ({ open, setOpen }) {
   const { projectId } = useCurrentProject()
-  const { data: credentialList } = useRequest(
+  const { data: credentialList = [] } = useRequest(
     () => getCredentialByGroup(projectId),
     {
       refreshDeps: [projectId],
       ready: !!projectId
     }
   )
-  console.log({ credentialList })
   return (
     <Modal
       width={1160}
@@ -48,7 +50,7 @@ export default function CredentialModal ({ open, setOpen }) {
 
           <div>
             <Tabs
-              defaultActiveKey={credentialList?.[0].id}
+              defaultActiveKey={credentialList?.[0]?.id}
               items={credentialList.map(v => {
                 return {
                   key: v.id,
@@ -59,8 +61,12 @@ export default function CredentialModal ({ open, setOpen }) {
                         return (
                           <div
                             key={c.credentialId}
-                            className='px-4 py-2.5 rounded-2.5xl bg-gray flex items-center gap-x-2 cursor-pointer'
+                            className='px-4 py-2.5 rounded-2.5xl bg-gray flex items-center gap-x-2 cursor-pointer hover:opacity-70'
                           >
+                            <img
+                              src={v.picUrl ?? x}
+                              className='w-5 h-5 object-contain'
+                            />
                             {c.name}
                             <PlusOutlined />
                           </div>
@@ -73,7 +79,12 @@ export default function CredentialModal ({ open, setOpen }) {
             />
           </div>
         </div>
-        <div>x</div>
+        <div>
+          <h2 className='text-xl font-black text-t-1 mb-5'>{titleGroup}</h2>
+          <div className='h-20 rounded-2.5xl flex items-center justify-center bg-gray text-center'>
+            {emptyPrompt}
+          </div>
+        </div>
       </div>
     </Modal>
   )
