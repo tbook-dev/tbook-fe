@@ -3,16 +3,19 @@ import { useRequest } from 'ahooks'
 import { getCredentialByGroup } from '@/api/incentive'
 import Button from '@/components/button'
 import SearchIcon from '@/images/icon/search.svg'
-import { Input, Tabs, Modal } from 'antd'
+import { Input, Tabs, Modal, Form, Space } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import x from '@/images/icon/x.svg'
+import closeIcon from '@/images/icon/close.svg'
+import { useCallback } from 'react'
 
 const title = 'Set Up Credential Group'
 const placeholder = 'Enter Credential Title to search for Cred'
 const titleGroup = 'Edit Credential Group'
 const emptyPrompt = 'The selected credential will be displayed here.'
 
-export default function CredentialModal ({ open, setOpen }) {
+export default function CredentialModal ({ open, setOpen, handleSave }) {
+  const [form] = Form.useForm()
   const { projectId } = useCurrentProject()
   const { data: credentialList = [] } = useRequest(
     () => getCredentialByGroup(projectId),
@@ -21,16 +24,34 @@ export default function CredentialModal ({ open, setOpen }) {
       ready: !!projectId
     }
   )
+  const credentialSet = credentialList.map(v => v.list).flat()
+  const credentialsFormValues = Form.useWatch('credential', form)
+  console.log({ credentialsFormValues })
+  const handleOk = async () => {
+    form
+      .validateFields()
+      .then(values => {
+        handleSave(values)
+        closeModal()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+  const closeModal = useCallback(() => {
+    setOpen(false)
+    form.resetFields()
+  }, [])
   return (
     <Modal
       width={1160}
       title={<div className='text-4.2xl font-black text-t-1'>{title}</div>}
       open={open}
-      onCancel={() => setOpen(false)}
+      onCancel={closeModal}
       maskStyle={{ backdropFilter: 'blur(7.5px)' }}
       centered
       footer={
-        <div className='flex justify-end'>
+        <div className='flex justify-end' onClick={handleOk}>
           <Button type='primary'>Save</Button>
         </div>
       }
@@ -62,6 +83,16 @@ export default function CredentialModal ({ open, setOpen }) {
                           <div
                             key={c.credentialId}
                             className='px-4 py-2.5 rounded-2.5xl bg-gray flex items-center gap-x-2 cursor-pointer hover:opacity-70'
+                            onClick={() => {
+                              form.setFieldsValue({
+                                credential: [
+                                  ...(form.getFieldValue('credential') ?? []),
+                                  {
+                                    credentialId: c.credentialId
+                                  }
+                                ]
+                              })
+                            }}
                           >
                             <img
                               src={v.picUrl ?? x}
@@ -81,9 +112,71 @@ export default function CredentialModal ({ open, setOpen }) {
         </div>
         <div>
           <h2 className='text-xl font-black text-t-1 mb-5'>{titleGroup}</h2>
-          <div className='h-20 rounded-2.5xl flex items-center justify-center bg-gray text-center'>
-            {emptyPrompt}
-          </div>
+          <Form form={form} layout='vertical'>
+            <Form.List name='credential'>
+              {(fields, { add, remove }) => {
+                return (
+                  <>
+                    {fields.length > 0 ? (
+                      fields.map(({ key, name, ...restField }) => {
+                        const credential = credentialSet.find(
+                          v =>
+                            v.credentialId ===
+                            credentialsFormValues?.[name]?.credentialId
+                        )
+                        return (
+                          <div
+                            key={key}
+                            className='px-4 py-2.5 rounded-2.5xl bg-gray mb-3 relative'
+                          >
+                            <img
+                              src={closeIcon}
+                              className='absolute right-4 top-4 w-2 h-2 object-contain cursor-pointer'
+                              onClick={() => remove(name)}
+                            />
+                            <div>
+                              <div className='flex items-center gap-x-2 mb-3'>
+                                <img
+                                  src={credential.picUrl || x}
+                                  className='w-5 h-5 object-contain'
+                                />
+                                <p className='text-t-1 text-sm font-medium'>
+                                  {credential.name}
+                                </p>
+                              </div>
+                            </div>
+                            <Form.Item
+                              {...restField}
+                              name={[name, 'first']}
+                              label={credential.taskName}
+                              rules={[
+                                {
+                                  required: true,
+                                  message: `Missing ${credential.taskName}`
+                                },
+                                {
+                                  type: 'url',
+                                  message: `Please enter a valid URL`
+                                }
+                              ]}
+                            >
+                              <Input
+                                placeholder={`Please paste ${credential.taskName} here`}
+                              />
+                            </Form.Item>
+                          </div>
+                        )
+                      })
+                    ) : (
+                      <div className='h-20 rounded-2.5xl flex items-center justify-center bg-gray text-center'>
+                        {emptyPrompt}
+                      </div>
+                    )}
+                  </>
+                )
+              }}
+            </Form.List>
+          </Form>
         </div>
       </div>
     </Modal>

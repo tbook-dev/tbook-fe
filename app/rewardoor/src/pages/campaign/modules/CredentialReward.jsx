@@ -20,13 +20,14 @@ const rewardPrompt = 'Please set up the Credential Group first.'
 const addText = 'Add Credential Group & Reward'
 
 const defaultCredentialReward = {
-  credential: {},
-  reward: {}
+  credential: [],
+  reward: []
 }
 export default function CredentialReward () {
   const [credentialReward, setCredentialReward] = useState([
     defaultCredentialReward
   ])
+  const [editCredentialIndex, setEditCredentialIndex] = useState(0)
   const [showCredentialModal, setShowCredentialModal] = useState(false)
 
   return (
@@ -56,7 +57,10 @@ export default function CredentialReward () {
                 <img
                   src={editIcon}
                   className='inline w-3 h-3 mr-3 cursor-pointer'
-                  onClick={() => setShowCredentialModal(true)}
+                  onClick={() => {
+                    setEditCredentialIndex(index)
+                    setShowCredentialModal(true)
+                  }}
                 />
                 {credentialPrompt}
               </div>
@@ -68,6 +72,16 @@ export default function CredentialReward () {
       <CredentialModal
         open={showCredentialModal}
         setOpen={setShowCredentialModal}
+        handleSave={values => {
+          if (values) {
+            setCredentialReward({
+              ...credentialReward,
+              credential: credentialReward.credential.map((item, index) => {
+                index === editCredentialIndex ? values : item
+              })
+            })
+          }
+        }}
       />
       <div>
         <Button type='text'>

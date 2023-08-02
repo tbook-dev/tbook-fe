@@ -53,6 +53,7 @@ export const getCredential = async function (projectId) {
   return await request(`${host}/credentials/project/${projectId}`);
 };
 export const getCredentialByGroup = async function (projectId) {
+  // return await request(`${host}/credentials/project/${projectId}`);
   return [
     {
       name: "Governance",
@@ -61,6 +62,7 @@ export const getCredentialByGroup = async function (projectId) {
         {
           credentialId: 179943370143,
           name: "Follow on Twitter",
+          taskName: "Twitter Profile Link",
           picUrl: "",
           projectId: 154283610009,
           creatorId: 154283420008,
@@ -69,6 +71,7 @@ export const getCredentialByGroup = async function (projectId) {
         {
           credentialId: 179943370144,
           name: "Twitter Retweet",
+          taskName: "Tweet Link",
           picUrl: "",
           projectId: 154283610009,
           creatorId: 154283420008,
