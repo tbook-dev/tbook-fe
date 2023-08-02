@@ -42,3 +42,13 @@ export const campaignStatusList = [
     label: "Scheduled",
   },
 ];
+
+export const twParttern = /https?:\/\/twitter\.com\/([a-zA-Z0-9_]+)/;
+
+export const getTwitterId = (url) => {
+  const match = url.match(twParttern);
+  if (match) {
+    return match[1];
+  }
+  return "";
+};

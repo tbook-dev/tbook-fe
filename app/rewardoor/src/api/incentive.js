@@ -62,6 +62,7 @@ export const getCredentialByGroup = async function (projectId) {
         {
           credentialId: 179943370143,
           name: "Follow on Twitter",
+          nameExp: "Follow {1} on Twitter",
           taskName: "Twitter Profile Link",
           picUrl: "",
           projectId: 154283610009,
@@ -71,6 +72,7 @@ export const getCredentialByGroup = async function (projectId) {
         {
           credentialId: 179943370144,
           name: "Twitter Retweet",
+          nameExp: "Retweet {1} on Twitter",
           taskName: "Tweet Link",
           picUrl: "",
           projectId: 154283610009,

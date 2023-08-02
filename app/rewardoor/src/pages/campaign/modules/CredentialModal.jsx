@@ -1,32 +1,29 @@
-import { useCurrentProject } from '@tbook/hooks'
-import { useRequest } from 'ahooks'
-import { getCredentialByGroup } from '@/api/incentive'
 import Button from '@/components/button'
 import SearchIcon from '@/images/icon/search.svg'
-import { Input, Tabs, Modal, Form, Space } from 'antd'
+import { Input, Tabs, Modal, Form } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import x from '@/images/icon/x.svg'
 import closeIcon from '@/images/icon/close.svg'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
+import { twParttern } from '@/utils/conf'
 
 const title = 'Set Up Credential Group'
 const placeholder = 'Enter Credential Title to search for Cred'
 const titleGroup = 'Edit Credential Group'
 const emptyPrompt = 'The selected credential will be displayed here.'
 
-export default function CredentialModal ({ open, setOpen, handleSave }) {
+export default function CredentialModal ({
+  open,
+  setOpen,
+  handleSave,
+  credentialList,
+  conf
+}) {
   const [form] = Form.useForm()
-  const { projectId } = useCurrentProject()
-  const { data: credentialList = [] } = useRequest(
-    () => getCredentialByGroup(projectId),
-    {
-      refreshDeps: [projectId],
-      ready: !!projectId
-    }
-  )
-  const credentialSet = credentialList.map(v => v.list).flat()
   const credentialsFormValues = Form.useWatch('credential', form)
-  console.log({ credentialsFormValues })
+  const credentialSet = credentialList.map(v => v.list).flat()
+
+  // console.log({ credentialsFormValues, conf })
   const handleOk = async () => {
     form
       .validateFields()
@@ -38,6 +35,11 @@ export default function CredentialModal ({ open, setOpen, handleSave }) {
         console.log(err)
       })
   }
+  useEffect(() => {
+    if (open) {
+      form.setFieldsValue({ credential: conf ?? [] })
+    }
+  }, [open])
   const closeModal = useCallback(() => {
     setOpen(false)
     form.resetFields()
@@ -114,7 +116,7 @@ export default function CredentialModal ({ open, setOpen, handleSave }) {
           <h2 className='text-xl font-black text-t-1 mb-5'>{titleGroup}</h2>
           <Form form={form} layout='vertical'>
             <Form.List name='credential'>
-              {(fields, { add, remove }) => {
+              {(fields, { remove }) => {
                 return (
                   <>
                     {fields.length > 0 ? (
@@ -147,7 +149,7 @@ export default function CredentialModal ({ open, setOpen, handleSave }) {
                             </div>
                             <Form.Item
                               {...restField}
-                              name={[name, 'first']}
+                              name={[name, 'link']}
                               label={credential.taskName}
                               rules={[
                                 {
@@ -155,8 +157,8 @@ export default function CredentialModal ({ open, setOpen, handleSave }) {
                                   message: `Missing ${credential.taskName}`
                                 },
                                 {
-                                  type: 'url',
-                                  message: `Please enter a valid URL`
+                                  pattern: twParttern,
+                                  message: `Please enter a valid twitter URL`
                                 }
                               ]}
                             >
