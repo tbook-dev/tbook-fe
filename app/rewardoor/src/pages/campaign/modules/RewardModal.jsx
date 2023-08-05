@@ -24,6 +24,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
   const [rewardForm] = Form.useForm()
   const reward = Form.useWatch('reward', rewardForm)
   const [showContractModal, setShowContractModal] = useState(false)
+  const [selectOpen, setSelectOpen] = useState(false)
 
   // console.log({ credentialsFormValues, conf })
   const handleOk = async () => {
@@ -150,6 +151,8 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                       >
                         <Select
                           placeholder='Select NFT Contract'
+                          open={selectOpen}
+                          onDropdownVisibleChange={setSelectOpen}
                           dropdownRender={menu => (
                             <div className='px-5 py-2.5'>
                               <div className='mb-5'>
@@ -163,7 +166,10 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                               {menu}
                               <div className='flex justify-center'>
                                 <Button
-                                  onClick={() => setShowContractModal(true)}
+                                  onClick={() => {
+                                    setSelectOpen(false)
+                                    setShowContractModal(true)
+                                  }}
                                   type='text'
                                   className='text-c-9 text-sm'
                                 >

@@ -84,6 +84,7 @@ export const getCredentialByGroup = async function (projectId) {
   ];
 };
 export const getNFTcontracts = async function (projectId) {
+  console.log("get-list----->");
   return [
     {
       contractId: 123,
@@ -91,6 +92,13 @@ export const getNFTcontracts = async function (projectId) {
       chainId: 10,
     },
   ];
+};
+export const handleCreateNFTcontract = async function (projectId, values) {
+  return {
+    contractId: 124,
+    name: "TBOOK NFT Contract Optimism",
+    chainId: 10,
+  };
 };
 export const getPoint = async function (projectId) {
   return await request(`${host}/project/stats/${projectId}/points`);
