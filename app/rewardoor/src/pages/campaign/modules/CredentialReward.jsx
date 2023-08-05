@@ -170,7 +170,6 @@ export default function CredentialReward () {
           credentialReward.find((v, idx) => idx === editRewardIndex).reward ??
           []
         }
-        credentialList={credentialList}
         open={showRewardModal}
         setOpen={setShowRewardModal}
         handleSave={values => {

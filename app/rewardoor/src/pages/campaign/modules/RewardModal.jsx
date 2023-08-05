@@ -2,7 +2,7 @@ import Button from '@/components/button'
 import { InputNumber, Select, Modal, Input, Form } from 'antd'
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
 import closeIcon from '@/images/icon/close.svg'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   rewardDistributionMethod,
   incentiveMethodList,
@@ -11,24 +11,19 @@ import {
 } from '@/utils/conf'
 import { getNFTcontracts } from '@/api/incentive'
 import { useQuery } from 'react-query'
+import NFTModal from './NFTModal'
 
 const title = 'Set Up Reward'
-const defaultIncentive = [{}]
+const defaultIncentive = [{ rewardType: 1 }]
 const nftText = {
   title: 'NFT Contracts List',
   desc: 'You could use the TBOOK contract to mint NFT items for incentive, or deploy your own NFT contract.'
 }
-export default function CredentialModal ({
-  open,
-  setOpen,
-  handleSave,
-  credentialList,
-  conf
-}) {
+export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
   const { data: NFTcontracts } = useQuery('NFTcontracts', getNFTcontracts)
   const [rewardForm] = Form.useForm()
   const reward = Form.useWatch('reward', rewardForm)
-  const credentialSet = credentialList.map(v => v.list).flat()
+  const [showContractModal, setShowContractModal] = useState(false)
 
   // console.log({ credentialsFormValues, conf })
   const handleOk = async () => {
@@ -57,6 +52,7 @@ export default function CredentialModal ({
       open={open}
       onCancel={closeModal}
       maskStyle={{ backdropFilter: 'blur(7.5px)' }}
+      destroyOnClose
       centered
       title={<div className='text-4.2xl font-black text-t-1'>{title}</div>}
       footer={
@@ -69,6 +65,13 @@ export default function CredentialModal ({
         {incentiveAssetsTypeList.map((v, i) => (
           <Button
             key={i}
+            onClick={() => {
+              rewardForm.setFieldsValue({
+                reward: rewardForm
+                  .getFieldValue('reward')
+                  ?.concat({ rewardType: v.value })
+              })
+            }}
             className='flex px-4 py-2.5 gap-x-4 items-center text-sm font-medium text-t-1'
           >
             {v.label}
@@ -80,7 +83,7 @@ export default function CredentialModal ({
       <Form
         form={rewardForm}
         layout='vertical'
-        requiredMark={false}
+        // requiredMark={false}
         initialValues={{
           reward: defaultIncentive
         }}
@@ -101,16 +104,26 @@ export default function CredentialModal ({
             }
           ]}
         >
-          {(fields, { add, remove }, { errors }) => {
+          {(fields, { remove }, { errors }) => {
             return (
               <>
                 {fields.map(({ key, name, ...restField }, idx) => {
+                  const rewardType = rewardForm.getFieldValue([
+                    'reward',
+                    name,
+                    'rewardType'
+                  ])
                   return (
                     <div
                       key={key}
-                      className='bg-b-1 rounded-md p-4 mb-3 relative'
+                      className='bg-b-1 rounded-md p-4 mb-5 relative'
                     >
-                      {idx !== 0 && (
+                      <div className='text-xl text-t-1 mb-5 font-bold relative'>
+                        {
+                          incentiveAssetsTypeList.find(
+                            v => v.value === rewardType
+                          ).label
+                        }
                         <img
                           src={closeIcon}
                           onClick={() => {
@@ -118,62 +131,8 @@ export default function CredentialModal ({
                           }}
                           className='object-contain w-4 h-4 cursor-pointer absolute top-3 right-3 z-10'
                         />
-                      )}
-                      {/* <Form.Item noStyle shouldUpdate>
-                        {({ getFieldValue }) => {
-                          // console.log(
-                          //   getFieldValue([
-                          //     'reward',
-                          //     name,
-                          //     'incentiveAsset'
-                          //   ])
-                          // )
-                          return getFieldValue([
-                            'reward',
-                            name,
-                            'incentiveAsset'
-                          ]) === 1 ? (
-                            <Form.Item
-                              {...restField}
-                              name={[name, 'nft']}
-                              label={
-                                <div className='flex justify-between items-center w-[568px]'>
-                                  <span> Choose the NFT</span>
-                                  <Link
-                                    to='/nft'
-                                    className='bg-[rgb(38,38,38)] rounded-full w-6 h-6 text-white hover:text-white flex justify-center items-center'
-                                  >
-                                    +
-                                  </Link>
-                                </div>
-                              }
-                              rules={[{ required: true, message: 'Missing!' }]}
-                            >
-                              <ImgSelect
-                                slidesPerView={4}
-                                options={list.map(v => ({
-                                  img: v.coverUrl,
-                                  value: v.nftId
-                                }))}
-                                imgclx='h-[120px]'
-                              />
-                            </Form.Item>
-                          ) : (
-                            <Form.Item
-                              {...restField}
-                              name={[name, 'pointAmount']}
-                              label='Point Amount'
-                            >
-                              <InputNumber
-                                className='w-full'
-                                min={1}
-                                step={1}
-                                placeholder='Enter the point amount each participant would earn'
-                              />
-                            </Form.Item>
-                          )
-                        }}
-                      </Form.Item> */}
+                      </div>
+
                       <Form.Item
                         {...restField}
                         name={[name, 'mame']}
@@ -186,7 +145,7 @@ export default function CredentialModal ({
                       <Form.Item
                         {...restField}
                         name={[name, 'contract']}
-                        label='NFT Media File'
+                        label='NFT Contract'
                         rules={[{ required: true, message: 'Missing!' }]}
                       >
                         <Select
@@ -194,11 +153,24 @@ export default function CredentialModal ({
                           dropdownRender={menu => (
                             <div className='px-5 py-2.5'>
                               <div className='mb-5'>
-                                <h2>{nftText.title}</h2>
-                                <p>{nftText.desc}</p>
+                                <h2 className='text-sm font-bold'>
+                                  {nftText.title}
+                                </h2>
+                                <p className='text-sm text-c-9'>
+                                  {nftText.desc}
+                                </p>
                               </div>
                               {menu}
-                              <Button type='text'>Add item</Button>
+                              <div className='flex justify-center'>
+                                <Button
+                                  onClick={() => setShowContractModal(true)}
+                                  type='text'
+                                  className='text-c-9 text-sm'
+                                >
+                                  <PlusOutlined className='mr-3' />
+                                  Deploy New NFT Contract
+                                </Button>
+                              </div>
                             </div>
                           )}
                         >
@@ -225,7 +197,7 @@ export default function CredentialModal ({
                       <Form.Item
                         {...restField}
                         name={[name, 'picUrl']}
-                        label='NFT Contract'
+                        label='NFT Media File'
                         rules={[{ required: true, message: 'Missing!' }]}
                       >
                         <Select placeholder='Select NFT Contract' />
@@ -296,27 +268,13 @@ export default function CredentialModal ({
                   )
                 })}
                 <p style={{ color: '#dc4446', marginBottom: 12 }}>{errors}</p>
-
-                <div className='mb-4'>
-                  <Button
-                    onClick={() => {
-                      add()
-                      const incentives = rewardForm.getFieldValue('reward')
-                      rewardForm.setFieldValue('reward', [
-                        ...incentives.slice(0, -1),
-                        ...defaultIncentive
-                      ])
-                    }}
-                    className='!flex items-center justify-center'
-                  >
-                    <PlusOutlined /> New Reward
-                  </Button>
-                </div>
               </>
             )
           }}
         </Form.List>
       </Form>
+
+      <NFTModal visible={showContractModal} setOpen={setShowContractModal} />
     </Modal>
   )
 }

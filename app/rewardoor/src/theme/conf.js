@@ -15,8 +15,10 @@ export default {
   },
   InputNumber: {
     controlHeight: 40,
+    borderRadius: 24,
   },
   Select: {
     controlHeight: 40,
+    borderRadius: 24,
   },
 };
