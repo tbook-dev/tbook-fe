@@ -1,5 +1,5 @@
 import Button from '@/components/button'
-import { InputNumber, Select, Modal, Input, Form } from 'antd'
+import { InputNumber, Select, Modal, Input, Form, Upload } from 'antd'
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
 import closeIcon from '@/images/icon/close.svg'
 import { useCallback, useEffect, useState } from 'react'
@@ -7,11 +7,14 @@ import {
   rewardDistributionMethod,
   incentiveMethodList,
   incentiveAssetsTypeList,
-  supportChains
+  supportChains,
+  mediaTypes
 } from '@/utils/conf'
 import { getNFTcontracts } from '@/api/incentive'
 import { useQuery } from 'react-query'
 import NFTModal from './NFTModal'
+import uploadFile from '@/utils/upload'
+import uploadIcon from '@/images/icon/upload.svg'
 
 const title = 'Set Up Reward'
 const defaultIncentive = [{ rewardType: 1 }]
@@ -37,6 +40,16 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
       .catch(err => {
         console.log(err)
       })
+  }
+  const hanleUpload = ({ onSuccess, onError, file }) => {
+    uploadFile(file).then(onSuccess).catch(onError)
+  }
+  const normFile = e => {
+    console.log('Upload event:', e)
+    if (Array.isArray(e)) {
+      return e
+    }
+    return e?.fileList
   }
   useEffect(() => {
     if (open) {
@@ -200,13 +213,41 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                         </Select>
                       </Form.Item>
 
-                      <Form.Item
+                      {/* <Form.Item
                         {...restField}
                         name={[name, 'picUrl']}
                         label='NFT Media File'
                         rules={[{ required: true, message: 'Missing!' }]}
                       >
                         <Select placeholder='Select NFT Contract' />
+                      </Form.Item> */}
+                      <Form.Item
+                        valuePropName='fileList'
+                        getValueFromEvent={normFile}
+                        label='NFT Media File'
+                        name={[name, 'picUrl']}
+                        rules={[
+                          {
+                            required: true,
+                            message: 'image is required'
+                          }
+                        ]}
+                      >
+                        <Upload.Dragger
+                          customRequest={hanleUpload}
+                          multiple={false}
+                          accept='image/*'
+                          maxCount={1}
+                        >
+                          <p className='ant-upload-drag-icon flex justify-center'>
+                            <img src={uploadIcon} />
+                          </p>
+                          <p className='ant-upload-text'>Upload an image</p>
+                          <p className='ant-upload-hint'>296*312 or higher</p>
+                          <p className='ant-upload-hint'>
+                            recommended Max 20MB.
+                          </p>
+                        </Upload.Dragger>
                       </Form.Item>
                       <Form.Item
                         {...restField}

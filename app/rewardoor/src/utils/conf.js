@@ -61,3 +61,14 @@ export const supportChains = [
     value: 10,
   },
 ];
+
+export const mediaTypes = [
+  {
+    label: "Use a Template",
+    value: 1,
+  },
+  {
+    label: "Upload",
+    value: 2,
+  },
+];
