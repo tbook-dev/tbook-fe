@@ -1,5 +1,5 @@
 import Button from '@/components/button'
-import { InputNumber, Select, Modal, Form } from 'antd'
+import { InputNumber, Select, Modal, Input, Form } from 'antd'
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
 import closeIcon from '@/images/icon/close.svg'
 import { useCallback, useEffect } from 'react'
@@ -9,9 +9,15 @@ import {
   incentiveAssetsTypeList,
   supportChains
 } from '@/utils/conf'
+import { getNFTcontracts } from '@/api/incentive'
+import { useQuery } from 'react-query'
+
 const title = 'Set Up Reward'
 const defaultIncentive = [{}]
-
+const nftText = {
+  title: 'NFT Contracts List',
+  desc: 'You could use the TBOOK contract to mint NFT items for incentive, or deploy your own NFT contract.'
+}
 export default function CredentialModal ({
   open,
   setOpen,
@@ -19,6 +25,7 @@ export default function CredentialModal ({
   credentialList,
   conf
 }) {
+  const { data: NFTcontracts } = useQuery('NFTcontracts', getNFTcontracts)
   const [rewardForm] = Form.useForm()
   const reward = Form.useWatch('reward', rewardForm)
   const credentialSet = credentialList.map(v => v.list).flat()
@@ -169,11 +176,59 @@ export default function CredentialModal ({
                       </Form.Item> */}
                       <Form.Item
                         {...restField}
-                        name={[name, 'name']}
-                        label='Incentive Method'
+                        name={[name, 'mame']}
+                        label='NFT Name'
                         rules={[{ required: true, message: 'Missing!' }]}
                       >
-                        <Input />
+                        <Input placeholder='Enter NFT Name' />
+                      </Form.Item>
+
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'contract']}
+                        label='NFT Media File'
+                        rules={[{ required: true, message: 'Missing!' }]}
+                      >
+                        <Select
+                          placeholder='Select NFT Contract'
+                          dropdownRender={menu => (
+                            <div className='px-5 py-2.5'>
+                              <div className='mb-5'>
+                                <h2>{nftText.title}</h2>
+                                <p>{nftText.desc}</p>
+                              </div>
+                              {menu}
+                              <Button type='text'>Add item</Button>
+                            </div>
+                          )}
+                        >
+                          {NFTcontracts.map(item => {
+                            const icon = supportChains.find(
+                              v => item.chainId === v.value
+                            ).icon
+                            return (
+                              <Select.Option
+                                key={item.contractId}
+                                value={item.contractId}
+                                label={item.name}
+                              >
+                                <div className='flex items-center gap-x-1'>
+                                  <img src={icon} className='w-4 h-4' />
+                                  <span className='ml-2'>{item.name}</span>
+                                </div>
+                              </Select.Option>
+                            )
+                          })}
+                        </Select>
+                      </Form.Item>
+
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'picUrl']}
+                        label='NFT Contract'
+                        rules={[{ required: true, message: 'Missing!' }]}
+                      >
+                        <Select placeholder='Select NFT Contract' />
                       </Form.Item>
                       <Form.Item
                         {...restField}

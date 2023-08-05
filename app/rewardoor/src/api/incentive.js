@@ -83,6 +83,15 @@ export const getCredentialByGroup = async function (projectId) {
     },
   ];
 };
+export const getNFTcontracts = async function (projectId) {
+  return [
+    {
+      contractId: 123,
+      name: "TBOOK NFT Contract Optimism",
+      chainId: 10,
+    },
+  ];
+};
 export const getPoint = async function (projectId) {
   return await request(`${host}/project/stats/${projectId}/points`);
 };

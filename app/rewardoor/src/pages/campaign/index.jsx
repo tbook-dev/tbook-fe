@@ -10,8 +10,10 @@ import {
   getCredentials,
   getCampaignDetail,
   createCampaign,
-  updateCampaign
+  updateCampaign,
+  getNFTcontracts
 } from '@/api/incentive'
+import { useQuery } from 'react-query'
 import CredentialReward from './modules/CredentialReward'
 import { Link, useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
@@ -45,6 +47,8 @@ const successMsg = `draft saved successfully`
 const defaultStep = '2'
 
 export default function () {
+  const { data: NFTcontracts } = useQuery('NFTcontracts', getNFTcontracts)
+  console.log({ NFTcontracts })
   const [step, setStep] = useState(defaultStep)
   const { projectId } = useCurrentProject()
   const [setUpForm] = Form.useForm()
