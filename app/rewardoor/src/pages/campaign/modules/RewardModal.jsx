@@ -1,17 +1,17 @@
 import Button from '@/components/button'
-import SearchIcon from '@/images/icon/search.svg'
-import { Input, Tabs, Modal, Form } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
-import x from '@/images/icon/x.svg'
+import { InputNumber, Select, Modal, Form } from 'antd'
+import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
 import closeIcon from '@/images/icon/close.svg'
 import { useCallback, useEffect } from 'react'
 import {
   rewardDistributionMethod,
   incentiveMethodList,
-  incentiveAssetsTypeList
+  incentiveAssetsTypeList,
+  supportChains
 } from '@/utils/conf'
 const title = 'Set Up Reward'
 const defaultIncentive = [{}]
+
 export default function CredentialModal ({
   open,
   setOpen,
@@ -47,11 +47,11 @@ export default function CredentialModal ({
   return (
     <Modal
       width={640}
-      title={<div className='text-4.2xl font-black text-t-1'>{title}</div>}
       open={open}
       onCancel={closeModal}
       maskStyle={{ backdropFilter: 'blur(7.5px)' }}
       centered
+      title={<div className='text-4.2xl font-black text-t-1'>{title}</div>}
       footer={
         <div className='flex justify-end' onClick={handleOk}>
           <Button type='primary'>Save</Button>
@@ -112,23 +112,7 @@ export default function CredentialModal ({
                           className='object-contain w-4 h-4 cursor-pointer absolute top-3 right-3 z-10'
                         />
                       )}
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'credentials']}
-                        label='Choose the Credentials'
-                        rules={[{ required: true, message: 'Missing!' }]}
-                      >
-                        <TagList options={credentialList} />
-                      </Form.Item>
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'incentiveAsset']}
-                        label='Choose the Incentive Assets'
-                        rules={[{ required: true, message: 'Missing!' }]}
-                      >
-                        <TagRadio options={incentiveAssetsTypeList} />
-                      </Form.Item>
-                      <Form.Item noStyle shouldUpdate>
+                      {/* <Form.Item noStyle shouldUpdate>
                         {({ getFieldValue }) => {
                           // console.log(
                           //   getFieldValue([
@@ -182,8 +166,15 @@ export default function CredentialModal ({
                             </Form.Item>
                           )
                         }}
+                      </Form.Item> */}
+                      <Form.Item
+                        {...restField}
+                        name={[name, 'name']}
+                        label='Incentive Method'
+                        rules={[{ required: true, message: 'Missing!' }]}
+                      >
+                        <Input />
                       </Form.Item>
-
                       <Form.Item
                         {...restField}
                         name={[name, 'method']}
