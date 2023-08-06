@@ -53,7 +53,7 @@ async function signLogin(addr, signer, chain, pubKey) {
     { credentials: "include" }
   )
   const nonce = await r.text()
-  const sign = await signer.signMessage(nonce)
+  const sign = await signer.signMessage({message: nonce})
   const d = new FormData();
   d.append("address", address);
   d.append("sign", sign);

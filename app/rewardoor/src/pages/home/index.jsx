@@ -4,12 +4,15 @@ import { useProjects } from '@tbook/hooks'
 import { useNavigate } from 'react-router-dom'
 import { useAccount } from 'wagmi'
 import { useSignIn } from '@tbook/hooks'
+import { useWeb3Modal } from '@web3modal/react'
 
 export default function () {
   const navigate = useNavigate()
   const { isConnected } = useAccount()
   const projects = useProjects()
   const { loading, handleSignIn } = useSignIn()
+
+  const { isOpen, open, close, setDefaultChain } = useWeb3Modal()
 
   function handleClick () {
     if (isConnected) {
@@ -23,6 +26,15 @@ export default function () {
       handleSignIn()
     }
   }
+
+  function wcClick() {
+    if (!isConnected) {
+      open()
+    } else {
+      handleSignIn()
+    }
+  }
+
   return (
     <div
       className='w-full  bg-[center_top_1rem]'
@@ -54,6 +66,7 @@ export default function () {
               : 'Connect Wallet'}
             {/* Get Started */}
           </Button>
+          <Button onClick={wcClick}>Wallet Connect</Button>
           <Button>Developer Center</Button>
         </div>
       </div>

@@ -12,7 +12,7 @@ import {
   useDisconnect,
 } from "wagmi";
 import { bsc, mainnet } from "wagmi/chains";
-import { fetchSigner } from "wagmi/actions";
+import { getWalletClient } from '@wagmi/core'
 
 import { useResponsive } from "ahooks";
 const { setAuthUser, fetchUserInfo } = user;
@@ -65,8 +65,8 @@ export default function () {
           //await open("ConnectWallet");
         }
       }
-      const signer = await fetchSigner();
-      await signLoginMetaMask(address, signer);
+      const walletClient = await getWalletClient();
+      await signLoginMetaMask(address, walletClient);
       dispatch(fetchUserInfo());
       dispatch(setAuthUser(true));
     } catch (error) {

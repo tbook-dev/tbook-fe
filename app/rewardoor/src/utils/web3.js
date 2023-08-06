@@ -1,18 +1,24 @@
 import { host, getGrantSignInfo, postGrantSignInfo } from '@/api/incentive'
 
-import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
-import { mainnet, bsc } from 'wagmi/chains'
+import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
+import { configureChains, createConfig, WagmiConfig } from 'wagmi'
+import { arbitrum, mainnet, polygon, optimism } from 'wagmi/chains'
+
+const chains = [arbitrum, mainnet, polygon, optimism]
+const projectId = import.meta.env.VITE_WC_PROJECT_ID
 
 import { user } from '@tbook/store'
 
 const { reset } = user
 
-const chains = [mainnet, bsc]
-
-//const wcProvider = walletConnectProvider({ projectId: import.meta.env.VITE_WC_PROJECT_ID });
-
-const { provider } = configureChains(chains, [publicProvider()])
+const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
+export const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors: w3mConnectors({ projectId, chains }),
+  publicClient
+})
+export const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
 // const connectors = modalConnectors({
 //   appName: "tbook",
@@ -20,11 +26,6 @@ const { provider } = configureChains(chains, [publicProvider()])
 //   chains,
 //   version: '2'
 // });
-
-export const wagmiClient = createClient({
-  autoConnect: true,
-  provider
-})
 
 export async function fetchLoginNonce (address) {
   return fetch(`${host}/nonce?address=${address}`, {
@@ -50,7 +51,7 @@ async function signLogin (addr, signer, chain, pubKey) {
     credentials: 'include'
   })
   const nonce = await r.text()
-  const sign = await signer.signMessage(nonce)
+  const sign = await signer.signMessage({message: nonce})
   const d = new URLSearchParams()
   d.append('address', address)
   d.append('sign', sign)

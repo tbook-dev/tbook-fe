@@ -17,7 +17,7 @@ export default function LayoutAdmin ({ children }) {
       // 如果project的数量大于1，不做变化
       // 如果创建了新的project，自动跳转到dashboard
       if (projects.length === 0) {
-        navigate(createUrl)
+        //navigate(createUrl)
       } else {
         if (!isFirstRender.current) {
           // navigate(`/dashboard/overview`)
