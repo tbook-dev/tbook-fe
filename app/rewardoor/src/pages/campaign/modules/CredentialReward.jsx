@@ -7,9 +7,9 @@ import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
 import CredentialModal from './CredentialModal'
 import RewardModal from './RewardModal'
 import { useCurrentProject } from '@tbook/hooks'
-import { useRequest } from 'ahooks'
 import { getCredentialByGroup } from '@/api/incentive'
 import { getTwitterId, incentiveAssetsTypeList } from '@/utils/conf'
+import { useQuery } from 'react-query'
 import x from '@/images/icon/x.svg'
 
 const textConf = {
@@ -35,13 +35,14 @@ const defaultCredentialReward = {
 }
 export default function CredentialReward () {
   const { projectId } = useCurrentProject()
-  const { data: credentialList = [] } = useRequest(
+  const { data: credentialList = [] } = useQuery(
+    ['credentialList', projectId],
     () => getCredentialByGroup(projectId),
     {
-      refreshDeps: [projectId],
-      ready: !!projectId
+      enabled: !!projectId
     }
   )
+
   const credentialSet = credentialList.map(v => v.list).flat()
   const [credentialReward, setCredentialReward] = useState([
     { ...defaultCredentialReward }

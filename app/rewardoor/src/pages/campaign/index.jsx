@@ -11,7 +11,8 @@ import {
   getCampaignDetail,
   createCampaign,
   updateCampaign,
-  getNFTcontracts
+  getNFTcontracts,
+  getCredentialByGroup
 } from '@/api/incentive'
 import { useQuery } from 'react-query'
 import CredentialReward from './modules/CredentialReward'
@@ -47,10 +48,32 @@ const successMsg = `draft saved successfully`
 const defaultStep = '2'
 
 export default function () {
-  const { data: NFTcontracts } = useQuery('NFTcontracts', getNFTcontracts)
   // console.log({ NFTcontracts })
   const [step, setStep] = useState(defaultStep)
   const { projectId } = useCurrentProject()
+  const { data: NFTcontracts } = useQuery(
+    ['NFTcontracts', projectId],
+    projectId => getNFTcontracts(projectId),
+    {
+      enabled: !!projectId
+    }
+  )
+  // const { data: credentialRemoteList = [] } = useRequest(
+  //   () => getCredentials(projectId),
+  //   {
+  //     refreshOnWindowFocus: true,
+  //     ready: !!projectId,
+  //     refreshDeps: [projectId]
+  //   }
+  // )
+  const { data: credentialRemoteList = [] } = useQuery(
+    ['credentialList', projectId],
+    () => getCredentialByGroup(projectId),
+    {
+      enabled: !!projectId
+    }
+  )
+  console.log({ NFTcontracts })
   const [setUpForm] = Form.useForm()
   const [credentialForm] = Form.useForm()
   const [incentiveForm] = Form.useForm()
@@ -69,14 +92,7 @@ export default function () {
     ready: !!projectId,
     refreshDeps: [projectId]
   })
-  const { data: credentialRemoteList = [] } = useRequest(
-    () => getCredentials(projectId),
-    {
-      refreshOnWindowFocus: true,
-      ready: !!projectId,
-      refreshDeps: [projectId]
-    }
-  )
+
   const credentialList = credentialRemoteList.map(v => ({
     label: v.name,
     value: v.credentialId + ''
