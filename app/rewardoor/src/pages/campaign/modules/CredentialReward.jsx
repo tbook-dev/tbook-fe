@@ -8,7 +8,7 @@ import RewardModal from './RewardModal'
 import { useCurrentProject } from '@tbook/hooks'
 import { useRequest } from 'ahooks'
 import { getCredentialByGroup } from '@/api/incentive'
-import { getTwitterId } from '@/utils/conf'
+import { getTwitterId, incentiveAssetsTypeList } from '@/utils/conf'
 import x from '@/images/icon/x.svg'
 
 const textConf = {
@@ -116,9 +116,35 @@ export default function CredentialReward () {
 
               {cr.reward.length > 0 ? (
                 <div>
-                  {cr.reward.map(v => {
-                    xxx
-                  })}
+                  <div className='space-y-3 mb-1'>
+                    {cr.reward.map((v, idx) => {
+                      const rewardType = v.rewardType
+                      return (
+                        <div
+                          key={idx}
+                          className='px-6 py-2 text-xs font-medium text-t-1 border border-c-6 rounded-2.5xl flex justify-between items-center'
+                        >
+                          <span>
+                            {
+                              incentiveAssetsTypeList.find(
+                                i => i.value === rewardType
+                              )?.label
+                            }
+                          </span>
+                          <span>{rewardType === 1 ? v.mame : v.point}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                  <p
+                    className='text-c-9 underline font-medium text-xs cursor-pointer'
+                    onClick={() => {
+                      setEditRewardIndex(index)
+                      setShowRewardModal(true)
+                    }}
+                  >
+                    Edit Credential Group
+                  </p>
                 </div>
               ) : cr.credential.length === 0 ? (
                 <div className='py-[30px] flex items-center justify-center'>

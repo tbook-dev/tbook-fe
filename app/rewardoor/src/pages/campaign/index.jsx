@@ -33,7 +33,7 @@ const textMap = {
     title: 'Set up an Incentive Campaign',
     subTitle: 'Credential',
     save: 'Previous',
-    next: 'Next'
+    next: 'Release'
   },
   3: {
     title: 'Set up an Incentive Campaign',

@@ -1,14 +1,12 @@
 import Button from '@/components/button'
-import { InputNumber, Select, Modal, Input, Form, Upload } from 'antd'
+import { InputNumber, Select, Modal, Input, Form, Upload, Switch } from 'antd'
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
 import closeIcon from '@/images/icon/close.svg'
 import { useCallback, useEffect, useState } from 'react'
 import {
-  rewardDistributionMethod,
   incentiveMethodList,
   incentiveAssetsTypeList,
-  supportChains,
-  mediaTypes
+  supportChains
 } from '@/utils/conf'
 import { getNFTcontracts } from '@/api/incentive'
 import { useQuery } from 'react-query'
@@ -17,7 +15,7 @@ import uploadFile from '@/utils/upload'
 import uploadIcon from '@/images/icon/upload.svg'
 
 const title = 'Set Up Reward'
-const defaultIncentive = [{ rewardType: 1 }]
+const defaultIncentive = { rewardType: 1, unlimited: true }
 const nftText = {
   title: 'NFT Contracts List',
   desc: 'You could use the TBOOK contract to mint NFT items for incentive, or deploy your own NFT contract.'
@@ -53,7 +51,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
   }
   useEffect(() => {
     if (open) {
-      rewardForm.setFieldsValue({ credential: conf ?? [] })
+      rewardForm.setFieldsValue({ reward: conf ?? [] })
     }
   }, [open])
   const closeModal = useCallback(() => {
@@ -83,7 +81,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
               rewardForm.setFieldsValue({
                 reward: rewardForm
                   .getFieldValue('reward')
-                  ?.concat({ rewardType: v.value })
+                  ?.concat({ ...defaultIncentive, rewardType: v.value })
               })
             }}
             className='flex px-4 py-2.5 gap-x-4 items-center text-sm font-medium text-t-1'
@@ -99,7 +97,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
         layout='vertical'
         // requiredMark={false}
         initialValues={{
-          reward: defaultIncentive
+          reward: [defaultIncentive]
         }}
       >
         <Form.List
@@ -147,108 +145,120 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                         />
                       </div>
 
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'mame']}
-                        label='NFT Name'
-                        rules={[{ required: true, message: 'Missing!' }]}
-                      >
-                        <Input placeholder='Enter NFT Name' />
-                      </Form.Item>
+                      {rewardType === 1 ? (
+                        <>
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'mame']}
+                            label='NFT Name'
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <Input placeholder='Enter NFT Name' />
+                          </Form.Item>
 
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'contract']}
-                        label='NFT Contract'
-                        rules={[{ required: true, message: 'Missing!' }]}
-                      >
-                        <Select
-                          placeholder='Select NFT Contract'
-                          open={selectOpen}
-                          onDropdownVisibleChange={setSelectOpen}
-                          dropdownRender={menu => (
-                            <div className='px-5 py-2.5'>
-                              <div className='mb-5'>
-                                <h2 className='text-sm font-bold'>
-                                  {nftText.title}
-                                </h2>
-                                <p className='text-sm text-c-9'>
-                                  {nftText.desc}
-                                </p>
-                              </div>
-                              {menu}
-                              <div className='flex justify-center'>
-                                <Button
-                                  onClick={() => {
-                                    setSelectOpen(false)
-                                    setShowContractModal(true)
-                                  }}
-                                  type='text'
-                                  className='text-c-9 text-sm'
-                                >
-                                  <PlusOutlined className='mr-3' />
-                                  Deploy New NFT Contract
-                                </Button>
-                              </div>
-                            </div>
-                          )}
-                        >
-                          {NFTcontracts.map(item => {
-                            const icon = supportChains.find(
-                              v => item.chainId === v.value
-                            ).icon
-                            return (
-                              <Select.Option
-                                key={item.contractId}
-                                value={item.contractId}
-                                label={item.name}
-                              >
-                                <div className='flex items-center gap-x-1'>
-                                  <img src={icon} className='w-4 h-4' />
-                                  <span className='ml-2'>{item.name}</span>
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'contract']}
+                            label='NFT Contract'
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <Select
+                              placeholder='Select NFT Contract'
+                              open={selectOpen}
+                              onDropdownVisibleChange={setSelectOpen}
+                              dropdownRender={menu => (
+                                <div className='px-5 py-2.5'>
+                                  <div className='mb-5'>
+                                    <h2 className='text-sm font-bold'>
+                                      {nftText.title}
+                                    </h2>
+                                    <p className='text-sm text-c-9'>
+                                      {nftText.desc}
+                                    </p>
+                                  </div>
+                                  {menu}
+                                  <div className='flex justify-center'>
+                                    <Button
+                                      onClick={() => {
+                                        setSelectOpen(false)
+                                        setShowContractModal(true)
+                                      }}
+                                      type='text'
+                                      className='text-c-9 text-sm'
+                                    >
+                                      <PlusOutlined className='mr-3' />
+                                      Deploy New NFT Contract
+                                    </Button>
+                                  </div>
                                 </div>
-                              </Select.Option>
-                            )
-                          })}
-                        </Select>
-                      </Form.Item>
+                              )}
+                            >
+                              {NFTcontracts.map(item => {
+                                const icon = supportChains.find(
+                                  v => item.chainId === v.value
+                                ).icon
+                                return (
+                                  <Select.Option
+                                    key={item.contractId}
+                                    value={item.contractId}
+                                    label={item.name}
+                                  >
+                                    <div className='flex items-center gap-x-1'>
+                                      <img src={icon} className='w-4 h-4' />
+                                      <span className='ml-2'>{item.name}</span>
+                                    </div>
+                                  </Select.Option>
+                                )
+                              })}
+                            </Select>
+                          </Form.Item>
 
-                      {/* <Form.Item
-                        {...restField}
-                        name={[name, 'picUrl']}
-                        label='NFT Media File'
-                        rules={[{ required: true, message: 'Missing!' }]}
-                      >
-                        <Select placeholder='Select NFT Contract' />
-                      </Form.Item> */}
-                      <Form.Item
-                        valuePropName='fileList'
-                        getValueFromEvent={normFile}
-                        label='NFT Media File'
-                        name={[name, 'picUrl']}
-                        rules={[
-                          {
-                            required: true,
-                            message: 'image is required'
-                          }
-                        ]}
-                      >
-                        <Upload.Dragger
-                          customRequest={hanleUpload}
-                          multiple={false}
-                          accept='image/*'
-                          maxCount={1}
-                        >
-                          <p className='ant-upload-drag-icon flex justify-center'>
-                            <img src={uploadIcon} />
-                          </p>
-                          <p className='ant-upload-text'>Upload an image</p>
-                          <p className='ant-upload-hint'>296*312 or higher</p>
-                          <p className='ant-upload-hint'>
-                            recommended Max 20MB.
-                          </p>
-                        </Upload.Dragger>
-                      </Form.Item>
+                          <Form.Item
+                            valuePropName='fileList'
+                            getValueFromEvent={normFile}
+                            label='NFT Media File'
+                            name={[name, 'picUrl']}
+                            rules={[
+                              {
+                                required: true,
+                                message: 'image is required'
+                              }
+                            ]}
+                          >
+                            <Upload.Dragger
+                              customRequest={hanleUpload}
+                              multiple={false}
+                              accept='image/*'
+                              maxCount={1}
+                            >
+                              <p className='ant-upload-drag-icon flex justify-center'>
+                                <img src={uploadIcon} />
+                              </p>
+                              <p className='ant-upload-text'>Upload an image</p>
+                              <p className='ant-upload-hint'>
+                                296*312 or higher
+                              </p>
+                              <p className='ant-upload-hint'>
+                                recommended Max 20MB.
+                              </p>
+                            </Upload.Dragger>
+                          </Form.Item>
+                        </>
+                      ) : (
+                        <>
+                          <Form.Item
+                            name={[name, 'point']}
+                            label='Number of point for each participant'
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <InputNumber
+                              placeholder='try a number'
+                              className='w-full'
+                              min={0}
+                            />
+                          </Form.Item>
+                        </>
+                      )}
                       <Form.Item
                         {...restField}
                         name={[name, 'method']}
@@ -266,41 +276,8 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                           })}
                         </Select>
                       </Form.Item>
-                      {
-                        <Form.Item noStyle shouldUpdate>
-                          {({ getFieldValue }) => {
-                            const method = getFieldValue([
-                              'reward',
-                              name,
-                              'method'
-                            ])
-                            if (method !== 3) {
-                              return (
-                                <Form.Item
-                                  {...restField}
-                                  name={[name, 'amount']}
-                                  label='Amount'
-                                  rules={[
-                                    {
-                                      required: true,
-                                      message: 'Missing!'
-                                    }
-                                  ]}
-                                >
-                                  <InputNumber
-                                    className='w-full'
-                                    min={1}
-                                    step={1}
-                                    placeholder='Enter the participant amount you would like to reward'
-                                  />
-                                </Form.Item>
-                              )
-                            }
-                          }}
-                        </Form.Item>
-                      }
 
-                      <Form.Item
+                      {/* <Form.Item
                         {...restField}
                         name={[name, 'distributionMethod']}
                         label='Reward Distribution Method'
@@ -310,6 +287,40 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                           placeholder='Select the Reward Distribution Method'
                           options={rewardDistributionMethod}
                         />
+                      </Form.Item> */}
+                      {rewardType === 1 ? (
+                        <Form.Item label='Minting Cap' name={[name, 'mintCap']}>
+                          <InputNumber
+                            placeholder='try a number'
+                            className='w-full'
+                            min={0}
+                          />
+                        </Form.Item>
+                      ) : (
+                        <Form.Item
+                          label='Number of Reward'
+                          name={[name, 'rewardNum']}
+                        >
+                          <InputNumber
+                            placeholder='try a number'
+                            className='w-full'
+                            min={0}
+                          />
+                        </Form.Item>
+                      )}
+
+                      <Form.Item
+                        name={[name, 'unlimited']}
+                        label='Unlimited'
+                        valuePropName='checked'
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Missing!'
+                          }
+                        ]}
+                      >
+                        <Switch checkedChildren='yes' unCheckedChildren='no' />
                       </Form.Item>
                     </div>
                   )
