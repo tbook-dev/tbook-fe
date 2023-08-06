@@ -51,7 +51,10 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
   }
   useEffect(() => {
     if (open) {
-      rewardForm.setFieldsValue({ reward: conf ?? [defaultIncentive] })
+      const useDefaultValue = conf?.length === 0
+      rewardForm.setFieldsValue({
+        reward: useDefaultValue ? [defaultIncentive] : conf
+      })
     }
   }, [open])
   const closeModal = useCallback(() => {

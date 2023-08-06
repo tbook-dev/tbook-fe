@@ -37,7 +37,8 @@ export default function CredentialModal ({
   }
   useEffect(() => {
     if (open) {
-      form.setFieldsValue({ credential: conf ?? [] })
+      const useDefaultValue = conf?.length === 0
+      form.setFieldsValue({ credential: useDefaultValue ? [] : conf })
     }
   }, [open])
   const closeModal = useCallback(() => {

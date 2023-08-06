@@ -48,7 +48,7 @@ const defaultStep = '2'
 
 export default function () {
   const { data: NFTcontracts } = useQuery('NFTcontracts', getNFTcontracts)
-  console.log({ NFTcontracts })
+  // console.log({ NFTcontracts })
   const [step, setStep] = useState(defaultStep)
   const { projectId } = useCurrentProject()
   const [setUpForm] = Form.useForm()
