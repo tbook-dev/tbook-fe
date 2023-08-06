@@ -21,6 +21,8 @@ import dayjs from 'dayjs'
 import { useRequest } from 'ahooks'
 import { conf } from '@tbook/utils'
 import BasicInfo from './modules/BasicInfo'
+import { defaultCredentialReward } from './conf'
+
 const dashboardLink = `/dashboard/campaign`
 const title = 'Set up an Incentive Campaign'
 const textMap = {
@@ -46,6 +48,15 @@ const textMap = {
 const { defaultErrorMsg } = conf
 const successMsg = `draft saved successfully`
 const defaultStep = '2'
+
+const checkFormValidte = conf => {
+  return (
+    conf &&
+    conf?.every(v => {
+      return v?.credential?.length > 0 && v?.reward?.length > 0
+    })
+  )
+}
 
 export default function () {
   // console.log({ NFTcontracts })
@@ -73,7 +84,10 @@ export default function () {
       enabled: !!projectId
     }
   )
-  console.log({ NFTcontracts })
+  const [credentialReward, setCredentialReward] = useState([
+    { ...defaultCredentialReward }
+  ])
+  // console.log({ NFTcontracts })
   const [setUpForm] = Form.useForm()
   const [credentialForm] = Form.useForm()
   const [incentiveForm] = Form.useForm()
@@ -323,7 +337,12 @@ export default function () {
         <h1 className='text-4xl  mb-10 font-bold'>{title}</h1>
         <div className=''>
           {step === '1' && <BasicInfo form={setUpForm} />}
-          {step === '2' && <CredentialReward />}
+          {step === '2' && (
+            <CredentialReward
+              credentialReward={credentialReward}
+              setCredentialReward={setCredentialReward}
+            />
+          )}
         </div>
       </div>
 
@@ -342,6 +361,7 @@ export default function () {
             type='primary'
             onClick={() => handleCreate(false)}
             loading={confirmLoading}
+            disabled={!checkFormValidte(credentialReward)}
           >
             {textMap[step]?.next}
           </Button>

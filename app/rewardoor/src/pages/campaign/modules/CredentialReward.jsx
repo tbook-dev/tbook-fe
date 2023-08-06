@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, forwardRef, useImperativeHandle } from 'react'
 import credentialCreatepng from '@/images/campaign-credential.png'
 import rewardCreatepng from '@/images/campaign-reward.png'
 import editIcon from '@/images/icon/edit.svg'
@@ -11,7 +11,7 @@ import { getCredentialByGroup } from '@/api/incentive'
 import { getTwitterId, incentiveAssetsTypeList } from '@/utils/conf'
 import { useQuery } from 'react-query'
 import x from '@/images/icon/x.svg'
-
+import { defaultCredentialReward } from '../conf'
 const textConf = {
   credential: {
     title: 'Credential Group',
@@ -29,11 +29,7 @@ const addText = 'Add Credential Group & Reward'
 const editCredentialText = 'Edit Credential Group'
 const editRewardText = 'Edit Rewards'
 
-const defaultCredentialReward = {
-  credential: [],
-  reward: []
-}
-export default function CredentialReward () {
+function CredentialReward ({ credentialReward, setCredentialReward }) {
   const { projectId } = useCurrentProject()
   const { data: credentialList = [] } = useQuery(
     ['credentialList', projectId],
@@ -44,9 +40,9 @@ export default function CredentialReward () {
   )
 
   const credentialSet = credentialList.map(v => v.list).flat()
-  const [credentialReward, setCredentialReward] = useState([
-    { ...defaultCredentialReward }
-  ])
+  // const [credentialReward, setCredentialReward] = useState([
+  //   { ...defaultCredentialReward }
+  // ])
   const [editCredentialIndex, setEditCredentialIndex] = useState(0)
   const [showCredentialModal, setShowCredentialModal] = useState(false)
   const [showRewardModal, setShowRewardModal] = useState(false)
@@ -250,3 +246,5 @@ export default function CredentialReward () {
     </div>
   )
 }
+
+export default CredentialReward

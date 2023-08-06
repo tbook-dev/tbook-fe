@@ -6,6 +6,10 @@ const clsMap = {
   default: 'text-c-9 font-medium text-sm border border-c-9',
   text: 'text-c-9 text-xs px-0 font-medium'
 }
+const disabledClsMap = {
+  primary:
+    'disabled:bg-none disabled:text-[#333] disabled:bg-[#1A1A1A] disabled:hover:opacity-100'
+}
 
 export default function Button ({
   type = 'default',
@@ -19,6 +23,7 @@ export default function Button ({
       className={clsx(
         'h-12 px-10 rounded-3xl  hover:opacity-70 flex justify-center items-center',
         clsMap[type],
+        disabledClsMap[type],
         className
       )}
       {...props}
