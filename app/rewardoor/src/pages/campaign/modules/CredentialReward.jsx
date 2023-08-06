@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import credentialCreatepng from '@/images/campaign-credential.png'
+import rewardCreatepng from '@/images/campaign-reward.png'
 import editIcon from '@/images/icon/edit.svg'
 import Button from '@/components/button'
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
@@ -116,7 +117,7 @@ export default function CredentialReward () {
                   </div>
                 ) : (
                   <div
-                    className='py-[30px] w-full	text-center bg-cover'
+                    className='py-[30px] w-full	text-center bg-contain'
                     style={{ backgroundImage: `url(${credentialCreatepng})` }}
                   >
                     <img
@@ -171,8 +172,8 @@ export default function CredentialReward () {
                   </div>
                 ) : (
                   <div
-                    className='py-[30px] w-full flex items-center justify-center bg-cover'
-                    style={{ backgroundImage: `url(${credentialCreatepng})` }}
+                    className='py-[30px] w-full flex items-center justify-center bg-contain'
+                    style={{ backgroundImage: `url(${rewardCreatepng})` }}
                   >
                     <img
                       src={editIcon}
