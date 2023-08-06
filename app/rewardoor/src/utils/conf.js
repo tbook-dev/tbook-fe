@@ -1,6 +1,6 @@
 import opIcon from "@/images/icon/crypto/op.svg";
 export const incentiveAssetsTypeList = [
-  { label: "🎁 NFT", value: 1 },
+  { label: "🎁  NFT", value: 1 },
   { label: "💎 POINTS", value: 2 },
 ];
 
