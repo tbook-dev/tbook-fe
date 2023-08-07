@@ -1,6 +1,6 @@
 import { Form, message } from 'antd'
 import Breadcrumb from '@/components/breadcrumb'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import Button from '@/components/button'
 import { useNavigate } from 'react-router-dom'
 import { useAsyncEffect } from 'ahooks'
@@ -37,17 +37,11 @@ const textMap = {
     subTitle: 'Credential',
     save: 'Previous',
     next: 'Release'
-  },
-  3: {
-    title: 'Set up an Incentive Campaign',
-    subTitle: 'Rewards',
-    save: 'Save',
-    next: 'Create'
   }
 }
 const { defaultErrorMsg } = conf
 const successMsg = `draft saved successfully`
-const defaultStep = '2'
+const defaultStep = '1'
 
 const checkFormValidte = conf => {
   return (
@@ -69,14 +63,7 @@ export default function () {
       enabled: !!projectId
     }
   )
-  // const { data: credentialRemoteList = [] } = useRequest(
-  //   () => getCredentials(projectId),
-  //   {
-  //     refreshOnWindowFocus: true,
-  //     ready: !!projectId,
-  //     refreshDeps: [projectId]
-  //   }
-  // )
+
   const { data: credentialRemoteList = [] } = useQuery(
     ['credentialList', projectId],
     () => getCredentialByGroup(projectId),
@@ -88,6 +75,7 @@ export default function () {
     { ...defaultCredentialReward }
   ])
   // console.log({ NFTcontracts })
+  const [setupSubmittable, setSetUpSubmittable] = useState(false)
   const [setUpForm] = Form.useForm()
   const [credentialForm] = Form.useForm()
   const [incentiveForm] = Form.useForm()
@@ -101,26 +89,23 @@ export default function () {
   const formSavedValues = useRef({})
 
   const editMode = !!campaignId
+  const setUpFormValues = Form.useWatch([], setUpForm)
+
+  useEffect(() => {
+    setUpForm.validateFields({ validateOnly: true }).then(
+      () => {
+        setSetUpSubmittable(true)
+      },
+      () => {
+        setSetUpSubmittable(false)
+      }
+    )
+  }, [setUpFormValues])
   const { data: list } = useRequest(() => getNFTList(projectId), {
     refreshOnWindowFocus: true,
     ready: !!projectId,
     refreshDeps: [projectId]
   })
-
-  const credentialList = credentialRemoteList.map(v => ({
-    label: v.name,
-    value: v.credentialId + ''
-  }))
-
-  const filterCredentialList = credentialList.filter(
-    v => !!formSavedValues.current?.credentials?.find(i => i === v.value)
-  )
-  const defaultIncentive = [
-    {
-      credentials: filterCredentialList.map(v => v.value),
-      incentiveAsset: 1
-    }
-  ]
 
   useAsyncEffect(async () => {
     if (editMode) {
@@ -220,36 +205,7 @@ export default function () {
         console.log(err, 'error')
       })
   }
-  function handleCredential () {
-    credentialForm
-      .validateFields()
-      .then(values => {
-        // formSavedValues.current = {
-        //   ...formSavedValues.current,
-        //   credentials: values.credentials
-        // }
-        setStep('3')
-        if (editMode) {
-          let incentive = defaultIncentive
-          try {
-            incentive = JSON.parse(draftData.current.campaign.reward)
-          } catch (e) {
-            console.log(e)
-          }
-          incentiveForm.setFieldsValue({
-            incentive
-          })
-        }
-        formSavedValues.current = {
-          ...formSavedValues.current,
-          credentials: values.credentials
-        }
-        console.log('current values->', formSavedValues.current)
-      })
-      .catch(err => {
-        console.log(err, 'error')
-      })
-  }
+
   function handleIncentive (saveToDraft = false) {
     const confirmLoading = saveToDraft
       ? setConfirmDraftLoading
@@ -297,17 +253,7 @@ export default function () {
         console.log(err, 'error')
       })
   }
-  function handleCreate (saveToDraft) {
-    if (step === '1') {
-      handleStepUp()
-    }
-    if (step === '2') {
-      handleCredential()
-    }
-    if (step === '3') {
-      handleIncentive(saveToDraft)
-    }
-  }
+
   function handleSave () {
     if (step === '1') {
       navigate(dashboardLink)
@@ -357,14 +303,27 @@ export default function () {
             {textMap[step]?.save}
           </Button>
 
-          <Button
-            type='primary'
-            onClick={() => handleCreate(false)}
-            loading={confirmLoading}
-            disabled={!checkFormValidte(credentialReward)}
-          >
-            {textMap[step]?.next}
-          </Button>
+          {step === '1' && (
+            <Button
+              type='primary'
+              onClick={handleStepUp}
+              loading={confirmLoading}
+              disabled={!setupSubmittable}
+            >
+              {textMap[1]['next']}
+            </Button>
+          )}
+
+          {step === '2' && (
+            <Button
+              type='primary'
+              onClick={handleIncentive}
+              loading={confirmLoading}
+              disabled={!checkFormValidte(credentialReward)}
+            >
+              {textMap[2]['next']}
+            </Button>
+          )}
         </div>
       </div>
     </div>

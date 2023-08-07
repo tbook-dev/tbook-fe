@@ -32,7 +32,9 @@ export default function CredentialModal ({
         name: v.name,
         picUrl: v.picUrl,
         list: v.list.filter(c => {
-          return c.name.toLowerCase().includes(searchVal.toLowerCase().trim())
+          return c?.name
+            .toLowerCase()
+            .includes(searchVal?.toLowerCase()?.trim())
         })
       }
     })
