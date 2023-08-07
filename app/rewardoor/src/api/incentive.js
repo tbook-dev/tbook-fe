@@ -40,7 +40,7 @@ export const updateCampaign = async function (values) {
   return await request.Post(`${host}/campaign/update`, values);
 };
 export const getCampaign = async function (projectId) {
-  return await request(`${host}/campaign/project/${projectId}`);
+  return await request(`${host}/campaignNew/project/${projectId}`);
 };
 export const getCampaignDetail = async function (id) {
   return await request(`${host}/campaign/stats/${id}`);
@@ -72,6 +72,32 @@ export const getCredentialByGroup = async function (projectId) {
         {
           credentialId: 179943370144,
           name: "Twitter Retweet",
+          nameExp: "Retweet {1} on Twitter",
+          taskName: "Tweet Link",
+          picUrl: "",
+          projectId: 154283610009,
+          creatorId: 154283420008,
+          eligibleCount: 0,
+        },
+      ],
+    },
+    {
+      name: "tw",
+      id: "2",
+      list: [
+        {
+          credentialId: 179943370149,
+          name: "Follow on Twitter1",
+          nameExp: "Follow {1} on Twitter",
+          taskName: "Twitter Profile Link",
+          picUrl: "",
+          projectId: 154283610009,
+          creatorId: 154283420008,
+          eligibleCount: 0,
+        },
+        {
+          credentialId: 179943370119,
+          name: "no Retweet2",
           nameExp: "Retweet {1} on Twitter",
           taskName: "Tweet Link",
           picUrl: "",

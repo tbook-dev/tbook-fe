@@ -1,4 +1,5 @@
 import Button from '@/components/button'
+import { useState } from 'react'
 import SearchIcon from '@/images/icon/search.svg'
 import { Input, Tabs, Modal, Form } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
@@ -20,10 +21,23 @@ export default function CredentialModal ({
   conf
 }) {
   const [form] = Form.useForm()
+  const [searchVal, setSearchVal] = useState('')
   const credentialsFormValues = Form.useWatch('credential', form)
   const credentialSet = credentialList.map(v => v.list).flat()
 
-  // console.log({ credentialsFormValues, conf })
+  const formatCredential = credentialList
+    .map(v => {
+      return {
+        id: v.id,
+        name: v.name,
+        picUrl: v.picUrl,
+        list: v.list.filter(c => {
+          return c.name.toLowerCase().includes(searchVal.toLowerCase().trim())
+        })
+      }
+    })
+    .filter(v => v.list.length > 0)
+
   const handleOk = async () => {
     form
       .validateFields()
@@ -66,6 +80,8 @@ export default function CredentialModal ({
               type='text'
               placeholder={placeholder}
               className='pr-8 pl-4'
+              value={searchVal}
+              onChange={e => setSearchVal(e.target.value)}
             />
             <div className='absolute inset-y-0 right-1 flex items-center cursor-pointer'>
               <img src={SearchIcon} />
@@ -75,7 +91,7 @@ export default function CredentialModal ({
           <div>
             <Tabs
               defaultActiveKey={credentialList?.[0]?.id}
-              items={credentialList.map(v => {
+              items={formatCredential.map(v => {
                 return {
                   key: v.id,
                   label: v.name,

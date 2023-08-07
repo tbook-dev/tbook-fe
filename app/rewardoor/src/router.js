@@ -48,9 +48,9 @@ const routes = [
     component: lazy(() => import("@/pages/dashboard/assets")),
   },
   {
-    path: '/twitter/callback',
+    path: "/twitter/callback",
     component: lazy(() => import("@/pages/twitter/callback")),
-  }
+  },
 ];
 
 export default routes;
