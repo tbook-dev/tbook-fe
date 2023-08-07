@@ -33,24 +33,14 @@ export default function NFT () {
 
   console.log({ list })
   return (
-    <div>
-      <div className='px-8 py-7 rounded-button bg-gray flex justify-between items-center mb-4'>
-        <div>
-          <h4 className='text-white font-bold text-base'>{title}</h4>
-          <p className='text-c-9 font-medium text-sm'>{desc}</p>
-        </div>
-        <Link to='/nft'>
-          <Button type='primary'>+ New NFT</Button>
-        </Link>
-      </div>
-
+    <div className='pt-4'>
       {loading ? (
         <Loading h='h-40' />
       ) : (
         <div
           className={clsx(
             'grid gap-5',
-            list.length === 0 ? 'grid-cols-1' : 'grid-cols-3'
+            list.length === 0 ? 'grid-cols-1' : 'grid-cols-4'
           )}
         >
           {list.length > 0 ? (
@@ -58,16 +48,23 @@ export default function NFT () {
               return (
                 <div
                   key={v.nftId}
-                  className='rounded-button overflow-hidden h-[480px] bg-gray flex flex-col'
+                  className='rounded-button overflow-hidden  bg-gray flex flex-col'
                 >
-                  <img
-                    className='h-[319px] w-full object-cover hover:translate-y-2 hover:scale-105 transition-all transition-1000'
-                    src={v.coverUrl}
-                  />
+                  <div className='h-[180px] bg-[#1A1A1A] flex justify-center items-center'>
+                    <img
+                      className='w-[140px] h-[140px] object-cover rounded-full hover:translate-y-2 hover:scale-105 transition-all transition-1000'
+                      src={v.coverUrl}
+                    />
+                  </div>
+
                   <div className='p-6 flex flex-col justify-between flex-auto'>
-                    <h2 className='font-bold text-2xl'>{v.name}</h2>
+                    <h2 className='font-black text-xl mb-3 line-clamp-2'>
+                      {v.name}
+                      {v.name}
+                    </h2>
                     <Paragraph
                       className='flex items-center'
+                      style={{ marginBottom: 0 }}
                       copyable={{
                         text: v.contract,
                         icon: (
@@ -80,7 +77,7 @@ export default function NFT () {
                       }}
                     >
                       <NetWork id={v.chainId || 1} className='mr-2' />
-                      <span className='font-bold text-sm mr-2'>
+                      <span className='font-bold text-sm mr-2 text-[#C8C8C8]'>
                         {shortAddress(v.contract)}
                       </span>
                     </Paragraph>
