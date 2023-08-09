@@ -3,11 +3,11 @@ import { lazy } from "react";
 // 只有首页不需要登录，其他的都需要登录
 const routes = [
   {
-    path: "/",
+    path: "/old-login",
     component: lazy(() => import("@/pages/home")),
   },
   {
-    path: "/aboard",
+    path: "/",
     component: lazy(() => import("@/pages/aboard")),
   },
   {

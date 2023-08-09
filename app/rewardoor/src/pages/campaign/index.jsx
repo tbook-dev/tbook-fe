@@ -29,13 +29,13 @@ const textMap = {
   1: {
     title: 'Set up an Incentive Campaign',
     subTitle: 'Basic Info',
-    save: 'Cancel',
+    back: 'Cancel',
     next: 'Next'
   },
   2: {
     title: 'Set up an Incentive Campaign',
     subTitle: 'Credential',
-    save: 'Previous',
+    back: 'Previous',
     next: 'Release'
   }
 }
@@ -53,7 +53,6 @@ const checkFormValidte = conf => {
 }
 
 export default function () {
-  // console.log({ NFTcontracts })
   const [step, setStep] = useState(defaultStep)
   const { projectId } = useCurrentProject()
   const { data: NFTcontracts } = useQuery(
@@ -77,16 +76,9 @@ export default function () {
   // console.log({ NFTcontracts })
   const [setupSubmittable, setSetUpSubmittable] = useState(false)
   const [setUpForm] = Form.useForm()
-  const [credentialForm] = Form.useForm()
-  const [incentiveForm] = Form.useForm()
-  // const [credentialRemoteList, setCredentialList] = useState([])
-  const [confirmLoading, setConfirmLoading] = useState(false)
-  const [confirmDraftLoading, setConfirmDraftLoading] = useState(false)
   const { campaignId } = useParams()
   const draftData = useRef({})
   const navigate = useNavigate()
-
-  const formSavedValues = useRef({})
 
   const editMode = !!campaignId
   const setUpFormValues = Form.useWatch([], setUpForm)
@@ -107,165 +99,10 @@ export default function () {
     refreshDeps: [projectId]
   })
 
-  useAsyncEffect(async () => {
-    if (editMode) {
-      const { campaign } = await getCampaignDetail(campaignId)
-      let credentials = []
-      try {
-        credentials = Array.from(
-          new Set(
-            JSON.parse(campaign.reward)
-              .map(v => v.credentials)
-              .flat(1)
-          )
-        )
-        // console.log({ credentials }, '>>>>>')
-      } catch (error) {
-        console.log(campaign)
-      }
-      draftData.current = {
-        campaign,
-        credentials
-      }
-      // console.log({credentials},'>>>>>>useAsyncEffect')
-      setUpForm.setFieldsValue({
-        description: campaign.description,
-        banner: [
-          {
-            uid: '-1',
-            name: 'img.png',
-            status: 'done',
-            url: campaign.picUrl,
-            response: campaign.picUrl
-          }
-        ],
-        schedule: [campaign.startAt, campaign.endAt].map(dayjs),
-        title: campaign.name
-      })
-    }
-  }, [campaignId])
-
-  function handleStepUp (saveToDraft = false) {
-    setUpForm
-      .validateFields()
-      .then(async values => {
-        const { description, banner, schedule, title } = values
-        const picUrl = banner?.[0].response
-        const [startAt, endAt] = schedule.map(v => {
-          return v.valueOf()
-        })
-        formSavedValues.current = {
-          picUrl,
-          startAt,
-          endAt,
-          description,
-          title
-        }
-        if (saveToDraft) {
-          if (editMode) {
-            setConfirmDraftLoading(true)
-            try {
-              const res = await updateCampaign({
-                campaignId,
-                ...formSavedValues.current
-              })
-              message.success(successMsg)
-            } catch (e) {
-              message.error(defaultErrorMsg)
-              console.log(e)
-            }
-            setConfirmDraftLoading(false)
-          } else {
-            setConfirmDraftLoading(true)
-            try {
-              const res = await createCampaign({
-                ...formSavedValues.current,
-                projectId
-              })
-              formSavedValues.current.campaignId = res.campaignId
-              message.success(successMsg)
-              // 保存 campaignId到formSavedValues.current
-            } catch (e) {
-              message.error(defaultErrorMsg)
-              console.log(e)
-            }
-            setConfirmDraftLoading(false)
-          }
-        } else {
-          setStep('2')
-          if (editMode) {
-            credentialForm.setFieldsValue({
-              credentials: draftData.current.credentials
-            })
-          }
-        }
-      })
-      .catch(err => {
-        setConfirmLoading(false)
-        console.log(err, 'error')
-      })
+  const handleStepUp = async values => {
+    console.log({ values })
   }
-
-  function handleIncentive (saveToDraft = false) {
-    const confirmLoading = saveToDraft
-      ? setConfirmDraftLoading
-      : setConfirmLoading
-    const campaignAction = editMode ? updateCampaign : createCampaign
-    incentiveForm
-      .validateFields()
-      .then(async values => {
-        console.log(formSavedValues)
-        const {
-          title: name,
-          picUrl,
-          startAt,
-          endAt,
-          description
-        } = formSavedValues.current
-        const formData = {
-          name,
-          picUrl,
-          startAt,
-          endAt,
-          description,
-          projectId,
-          status: saveToDraft ? 0 : 1,
-          campaignId: campaignId ?? formSavedValues.current.campaignId,
-          reward: JSON.stringify(values.incentive)
-        }
-        try {
-          confirmLoading(true)
-          const res = await campaignAction(formData)
-          console.log(res, formData)
-          if (saveToDraft) {
-            message.success(successMsg)
-          }
-          navigate(`/dashboard/campaign`)
-          confirmLoading(false)
-        } catch (err) {
-          console.log(err)
-          confirmLoading(false)
-          message.error(defaultErrorMsg)
-        }
-      })
-      .catch(err => {
-        confirmLoading(false)
-        console.log(err, 'error')
-      })
-  }
-
-  function handleSave () {
-    if (step === '1') {
-      navigate(dashboardLink)
-    } else if (step === '2') {
-      // 第二步是中间状态，直接为previous, 并不产生草稿
-      setStep(Number(step) - 1 + '')
-    } else if (step === '3') {
-      handleIncentive(true)
-    }
-  }
-  // console.log(formSavedValues.current, 'formSavedValues.current')
-
+  const handleCreate = async () => {}
   return (
     <div className='text-white'>
       <Breadcrumb
@@ -299,30 +136,44 @@ export default function () {
         </div>
 
         <div className='flex justify-center space-x-6'>
-          <Button onClick={handleSave} loading={confirmDraftLoading}>
-            {textMap[step]?.save}
-          </Button>
-
           {step === '1' && (
-            <Button
-              type='primary'
-              onClick={handleStepUp}
-              loading={confirmLoading}
-              disabled={!setupSubmittable}
-            >
-              {textMap[1]['next']}
-            </Button>
+            <>
+              <Button
+                onClick={() => {
+                  navigate(-1)
+                }}
+              >
+                {textMap[1]?.back}
+              </Button>
+
+              <Button
+                type='primary'
+                onClick={handleStepUp}
+                disabled={!setupSubmittable}
+              >
+                {textMap[1]['next']}
+              </Button>
+            </>
           )}
 
           {step === '2' && (
-            <Button
-              type='primary'
-              onClick={handleIncentive}
-              loading={confirmLoading}
-              disabled={!checkFormValidte(credentialReward)}
-            >
-              {textMap[2]['next']}
-            </Button>
+            <>
+              <Button
+                onClick={() => {
+                  setStep('1')
+                }}
+              >
+                {textMap[2]?.back}
+              </Button>
+              <Button
+                type='primary'
+                onClick={handleCreate}
+                loading={confirmLoading}
+                disabled={!checkFormValidte(credentialReward)}
+              >
+                {textMap[2]['next']}
+              </Button>
+            </>
           )}
         </div>
       </div>

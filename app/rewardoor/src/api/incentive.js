@@ -53,7 +53,9 @@ export const getCredential = async function (projectId) {
   return await request(`${host}/credentials/project/${projectId}`);
 };
 export const getCredentialByGroup = async function (projectId) {
-  // return await request(`${host}/credentials/project/${projectId}`);
+  // return await request(`${host}/campaignNew/actionList/${projectId}`);
+  // /credentials/creator/{creatorId}
+
   return [
     {
       name: "Governance",
