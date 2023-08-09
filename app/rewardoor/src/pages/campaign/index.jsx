@@ -101,6 +101,7 @@ export default function () {
 
   const handleStepUp = async values => {
     console.log({ values })
+    setStep('2')
   }
   const handleCreate = async () => {}
   return (
@@ -168,7 +169,7 @@ export default function () {
               <Button
                 type='primary'
                 onClick={handleCreate}
-                loading={confirmLoading}
+                // loading={confirmLoading}
                 disabled={!checkFormValidte(credentialReward)}
               >
                 {textMap[2]['next']}
