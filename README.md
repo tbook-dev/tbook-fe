@@ -9,3 +9,16 @@ https://www.embla-carousel.com/examples/static/#opacity
 
 
 https://rewardoor-api.fly.dev/swagger-ui/index.html
+
+op
+https://community.optimism.io/docs/useful-tools/networks/#
+
+op testnet :
+https://chainlist.org/chain/420
+
+op faucet
+https://faucet.quicknode.com/optimism/goerli
+
+
+如果是获取project对应的groups的话是 /campaignNew/project/{projectId}，
+如果是获取campaign对应的那个大json的话是/campaignNew/{id}

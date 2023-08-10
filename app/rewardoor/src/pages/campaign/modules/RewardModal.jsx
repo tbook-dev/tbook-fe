@@ -8,7 +8,6 @@ import {
   incentiveAssetsTypeList,
   supportChains
 } from '@/utils/conf'
-import { getNFTcontracts } from '@/api/incentive'
 import { useQuery } from 'react-query'
 import NFTModal from './NFTModal'
 import uploadFile from '@/utils/upload'
@@ -20,8 +19,13 @@ const nftText = {
   title: 'NFT Contracts List',
   desc: 'You could use the TBOOK contract to mint NFT items for incentive, or deploy your own NFT contract.'
 }
-export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
-  const { data: NFTcontracts } = useQuery('NFTcontracts', getNFTcontracts)
+export default function CredentialModal ({
+  open,
+  setOpen,
+  handleSave,
+  conf,
+  NFTcontracts
+}) {
   const [rewardForm] = Form.useForm()
   const reward = Form.useWatch('reward', rewardForm)
   const [showContractModal, setShowContractModal] = useState(false)
@@ -61,6 +65,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
     setOpen(false)
     rewardForm.resetFields()
   }, [])
+  console.log({ NFTcontracts })
   return (
     <Modal
       width={640}
@@ -202,8 +207,8 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                                 ).icon
                                 return (
                                   <Select.Option
-                                    key={item.contractId}
-                                    value={item.contractId}
+                                    key={item.contract}
+                                    value={item.contract}
                                     label={item.name}
                                   >
                                     <div className='flex items-center gap-x-1'>

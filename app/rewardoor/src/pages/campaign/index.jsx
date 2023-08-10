@@ -57,7 +57,7 @@ export default function () {
   const { projectId } = useCurrentProject()
   const { data: NFTcontracts } = useQuery(
     ['NFTcontracts', projectId],
-    projectId => getNFTcontracts(projectId),
+    () => getNFTcontracts(projectId),
     {
       enabled: !!projectId
     }
@@ -93,11 +93,6 @@ export default function () {
       }
     )
   }, [setUpFormValues])
-  const { data: list } = useRequest(() => getNFTList(projectId), {
-    refreshOnWindowFocus: true,
-    ready: !!projectId,
-    refreshDeps: [projectId]
-  })
 
   const handleStepUp = async values => {
     console.log({ values })
@@ -125,6 +120,7 @@ export default function () {
             <CredentialReward
               credentialReward={credentialReward}
               setCredentialReward={setCredentialReward}
+              NFTcontracts={NFTcontracts}
             />
           )}
         </div>

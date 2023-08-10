@@ -7,7 +7,7 @@ import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
 import CredentialModal from './CredentialModal'
 import RewardModal from './RewardModal'
 import { useCurrentProject } from '@tbook/hooks'
-import { getCredentialByGroup } from '@/api/incentive'
+import { getCredentials } from '@/api/incentive'
 import { getTwitterId, incentiveAssetsTypeList } from '@/utils/conf'
 import { useQuery } from 'react-query'
 import x from '@/images/icon/x.svg'
@@ -29,18 +29,22 @@ const addText = 'Add Credential Group & Reward'
 const editCredentialText = 'Edit Credential Group'
 const editRewardText = 'Edit Rewards'
 
-function CredentialReward ({ credentialReward, setCredentialReward }) {
+function CredentialReward ({
+  credentialReward,
+  setCredentialReward,
+  NFTcontracts
+}) {
   const { projectId } = useCurrentProject()
   const { data: credentialList = [] } = useQuery(
     ['credentialList', projectId],
-    () => getCredentialByGroup(projectId),
+    () => getCredentials(projectId),
     {
       enabled: !!projectId
     }
   )
-
+  console.log({ credentialReward })
   const credentialSet = credentialList.map(v => v.list).flat()
-  // const [credentialReward, setCredentialReward] = useState([
+  // const [credentialReward, setCredentialReward] = useState([getNFTcontracts
   //   { ...defaultCredentialReward }
   // ])
   const [editCredentialIndex, setEditCredentialIndex] = useState(0)
@@ -214,6 +218,7 @@ function CredentialReward ({ credentialReward, setCredentialReward }) {
           credentialReward.find((v, idx) => idx === editRewardIndex).reward ??
           []
         }
+        NFTcontracts={NFTcontracts}
         open={showRewardModal}
         setOpen={setShowRewardModal}
         handleSave={values => {

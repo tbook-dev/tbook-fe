@@ -52,74 +52,73 @@ export const getOverview = async function (id) {
 export const getCredential = async function (projectId) {
   return await request(`${host}/credentials/project/${projectId}`);
 };
-export const getCredentialByGroup = async function (projectId) {
+export const getCredentialByGroup = async function (projectId) {};
+export const getCredentials = async function (projectId) {
+  const groups = await request(`${host}/campaignNew/project/${projectId}`);
+  console.log("groups--->", groups);
+  const list = await Promise.all(groups.map((v) => getCredential(v.id)));
+  return list;
   // return await request(`${host}/campaignNew/actionList/${projectId}`);
   // /credentials/creator/{creatorId}
-
-  return [
-    {
-      name: "Governance",
-      id: "1",
-      list: [
-        {
-          credentialId: 179943370143,
-          name: "Follow on Twitter",
-          nameExp: "Follow {1} on Twitter",
-          taskName: "Twitter Profile Link",
-          picUrl: "",
-          projectId: 154283610009,
-          creatorId: 154283420008,
-          eligibleCount: 0,
-        },
-        {
-          credentialId: 179943370144,
-          name: "Twitter Retweet",
-          nameExp: "Retweet {1} on Twitter",
-          taskName: "Tweet Link",
-          picUrl: "",
-          projectId: 154283610009,
-          creatorId: 154283420008,
-          eligibleCount: 0,
-        },
-      ],
-    },
-    {
-      name: "tw",
-      id: "2",
-      list: [
-        {
-          credentialId: 179943370149,
-          name: "Follow on Twitter1",
-          nameExp: "Follow {1} on Twitter",
-          taskName: "Twitter Profile Link",
-          picUrl: "",
-          projectId: 154283610009,
-          creatorId: 154283420008,
-          eligibleCount: 0,
-        },
-        {
-          credentialId: 179943370119,
-          name: "no Retweet2",
-          nameExp: "Retweet {1} on Twitter",
-          taskName: "Tweet Link",
-          picUrl: "",
-          projectId: 154283610009,
-          creatorId: 154283420008,
-          eligibleCount: 0,
-        },
-      ],
-    },
-  ];
+  // return [
+  //   {
+  //     name: "Governance",
+  //     id: "1",
+  //     list: [
+  //       {
+  //         credentialId: 179943370143,
+  //         name: "Follow on Twitter",
+  //         nameExp: "Follow {1} on Twitter",
+  //         taskName: "Twitter Profile Link",
+  //         picUrl: "",
+  //         projectId: 154283610009,
+  //         creatorId: 154283420008,
+  //         eligibleCount: 0,
+  //       },
+  //       {
+  //         credentialId: 179943370144,
+  //         name: "Twitter Retweet",
+  //         nameExp: "Retweet {1} on Twitter",
+  //         taskName: "Tweet Link",
+  //         picUrl: "",
+  //         projectId: 154283610009,
+  //         creatorId: 154283420008,
+  //         eligibleCount: 0,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     name: "tw",
+  //     id: "2",
+  //     list: [
+  //       {
+  //         credentialId: 179943370149,
+  //         name: "Follow on Twitter1",
+  //         nameExp: "Follow {1} on Twitter",
+  //         taskName: "Twitter Profile Link",
+  //         picUrl: "",
+  //         projectId: 154283610009,
+  //         creatorId: 154283420008,
+  //         eligibleCount: 0,
+  //       },
+  //       {
+  //         credentialId: 179943370119,
+  //         name: "no Retweet2",
+  //         nameExp: "Retweet {1} on Twitter",
+  //         taskName: "Tweet Link",
+  //         picUrl: "",
+  //         projectId: 154283610009,
+  //         creatorId: 154283420008,
+  //         eligibleCount: 0,
+  //       },
+  //     ],
+  //   },
+  // ];
 };
 export const getNFTcontracts = async function (projectId) {
-  console.log("get-list----->");
-  return [
-    {
-      contractId: 123,
-      name: "TBOOK NFT Contract Optimism",
-      chainId: 10,
-    },
-  ];
+  // console.log("get-list----->", projectId);
+  const list = await request(`${host}/nft/project/${projectId}`);
+  return list.filter((v) => !!v.coverUrl && v.contract);
 };
 export const handleCreateNFTcontract = async function (projectId, values) {
   return {
@@ -136,9 +135,9 @@ export const createCredential = async function (values) {
   return await request.Post(`${host}/credentials/create`, values);
 };
 
-export const getCredentials = async function (projectId) {
-  return await request(`${host}/credentials/project/${projectId}`);
-};
+// export const getCredentials = async function (projectId) {
+//   return await request(`${host}/credentials/project/${projectId}`);
+// };
 //
 export const getIncentiveList = async function (projectId) {
   try {
