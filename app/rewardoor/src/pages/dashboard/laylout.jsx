@@ -7,26 +7,22 @@ import Logo from '@/components/logo'
 const sideMenu = [
   {
     title: 'Overview',
-    link: '/dashboard/overview',
+    link: '/overview',
     validator: function (match) {
       return match(this.link)
     }
   },
   {
     title: 'Incentive Campaign',
-    link: '/dashboard/campaign',
+    link: '/campaign',
     validator: function (match) {
-      const links = [
-        '/new-campaign',
-        '/dashboard/campaign',
-        '/dashboard/campaign/:id'
-      ]
+      const links = ['/new-campaign', '/campaign', '/campaign/:id']
       return links.filter(match).length > 0
     }
   },
   {
     title: 'Incentive Asset',
-    link: '/dashboard/assets',
+    link: '/assets',
     validator: function (match) {
       return match(this.link)
     }
