@@ -3,9 +3,9 @@ import { host, getGrantSignInfo, postGrantSignInfo } from '@/api/incentive'
 import { publicProvider } from 'wagmi/providers/public'
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { configureChains, createConfig, WagmiConfig } from 'wagmi'
-import { arbitrum, mainnet, polygon, optimism } from 'wagmi/chains'
+import { arbitrum, mainnet, polygon, optimism, optimismGoerli, localhost } from 'wagmi/chains'
 
-const chains = [arbitrum, mainnet, polygon, optimism]
+const chains = [arbitrum, mainnet, polygon, optimism, optimismGoerli, localhost]
 const projectId = import.meta.env.VITE_WC_PROJECT_ID
 
 import { user } from '@tbook/store'

@@ -51,6 +51,10 @@ const routes = [
     path: "/twitter/callback",
     component: lazy(() => import("@/pages/twitter/callback")),
   },
+  {
+    path: "/nft/deploy",
+    component: lazy(() => import("@/pages/nft/deploy")),
+  },
 ];
 
 export default routes;
