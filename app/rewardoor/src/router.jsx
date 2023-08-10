@@ -25,7 +25,7 @@ const routes = [
         path: 'new-campaign',
         async lazy () {
           const { default: Component } = await import(
-            '@/pages/dashboard/campaign'
+            '@/pages/dashboard/new-campaign'
           )
           return { Component }
         }
