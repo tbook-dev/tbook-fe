@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter as Router } from 'react-router-dom'
 import App from './App'
 import Theme from './theme/ThemeProvider'
 import { store } from './store/store'
@@ -11,11 +10,9 @@ const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <QueryClientProvider client={queryClient}>
-      <Router>
-        <Theme>
-          <App />
-        </Theme>
-      </Router>
+      <Theme>
+        <App />
+      </Theme>
     </QueryClientProvider>
   </Provider>
 )

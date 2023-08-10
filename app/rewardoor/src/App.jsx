@@ -1,13 +1,11 @@
-import React, { Suspense, useLayoutEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import React, { useLayoutEffect } from 'react'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { useAsyncEffect } from 'ahooks'
 import { useDispatch } from 'react-redux'
 import { user } from '@tbook/store'
 import '@/css/style.css'
 import { useTheme } from '@tbook/hooks'
 
-// import PageNotFound from "./pages/utility/PageNotFound";
-import Layout from './layout/Layout'
 import { configResponsive } from 'ahooks'
 import routes from './router'
 import { Spin } from 'antd'
@@ -22,8 +20,6 @@ import {
   logout
 } from '@/utils/web3'
 import { Web3Modal } from '@web3modal/react'
-import useLoginRedirect from '@/hooks/useLoginRedirect'
-
 const { fetchUserInfo } = user
 
 configResponsive({
@@ -50,7 +46,6 @@ watchAccount(async acc => {
 function App () {
   const dispatch = useDispatch()
   const theme = useTheme()
-  useLoginRedirect()
   useLayoutEffect(() => {
     if (theme === 'dark') {
       document.documentElement.classList.add('dark')
@@ -66,31 +61,14 @@ function App () {
   return (
     <>
       <WagmiConfig config={wagmiConfig}>
-        <Layout>
-          <Routes>
-            {routes.map(route => {
-              return (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={
-                    <Suspense
-                      fallback={
-                        <div className='flex flex-col items-center justify-center h-[300px]'>
-                          <Spin />
-                        </div>
-                      }
-                    >
-                      <route.component />
-                    </Suspense>
-                  }
-                />
-              )
-            })}
-
-            {/* <Route path="*" element={<PageNotFound />} /> */}
-          </Routes>
-        </Layout>
+        <RouterProvider
+          router={createBrowserRouter(routes)}
+          fallbackElement={
+            <div className='flex flex-col items-center justify-center h-[300px]'>
+              <Spin />
+            </div>
+          }
+        />
       </WagmiConfig>
       <Web3Modal
         projectId={import.meta.env.VITE_WC_PROJECT_ID}
