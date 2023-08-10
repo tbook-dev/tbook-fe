@@ -2,8 +2,6 @@
 // 只有首页不需要登录，其他的都需要登录
 import LayoutAdmin from './layout/Layout'
 import Home from '@/pages/dashboard/overview'
-import NewCompaign from '@/pages/dashboard/new-campaign'
-import Aboard from '@/pages/aboard'
 
 const routes = [
   {
@@ -17,63 +15,104 @@ const routes = [
       {
         path: 'campaign',
         async lazy () {
-          const { default: Campaign } = await import(
+          const { default: Component } = await import(
             '@/pages/dashboard/campaign'
           )
-          console.log({ Campaign }, '....')
-          return { Component: Campaign }
+          return { Component }
         }
       },
       {
         path: 'new-campaign',
-        element: <NewCompaign />
-        // lazy: () => import('@/pages/dashboard/new-campaign')
+        async lazy () {
+          const { default: Component } = await import(
+            '@/pages/dashboard/campaign'
+          )
+          return { Component }
+        }
       },
       {
         path: '/campaign/:id',
-        lazy: () => import('@/pages/dashboard/campaign-detail')
+        // lazy: () => import('@/pages/dashboard/campaign-detail')
+        async lazy () {
+          const { default: Component } = await import(
+            '@/pages/dashboard/campaign-detail'
+          )
+          return { Component }
+        }
       },
       {
         path: '/assets',
-        lazy: () => import('@/pages/dashboard/assets')
+        // lazy: () => import('@/pages/dashboard/assets')
+        async lazy () {
+          const { default: Component } = await import(
+            '@/pages/dashboard/assets'
+          )
+          return { Component }
+        }
       },
       {
         path: '/twitter/callback',
-        lazy: () => import('@/pages/twitter/callback')
+        // lazy: () => import('@/pages/twitter/callback'),
+        async lazy () {
+          const { default: Component } = await import(
+            '@/pages/twitter/callback'
+          )
+          return { Component }
+        }
       },
       {
         path: '/nft/deploy',
-        lazy: () => import('@/pages/nft/deploy')
+        // lazy: () => import('@/pages/nft/deploy'),
+        async lazy () {
+          const { default: Component } = await import('@/pages/nft/deploy')
+          return { Component }
+        }
       },
       {
         path: '/old-login',
-        lazy: () => import('@/pages/home')
+        // lazy: () => import('@/pages/home'),
+        async lazy () {
+          const { default: Component } = await import('@/pages/home')
+          return { Component }
+        }
       },
       {
         path: '/new-project',
-        lazy: () => import('@/pages/project')
+        // lazy: () => import('@/pages/project'),
+        async lazy () {
+          const { default: Component } = await import('@/pages/project')
+          return { Component }
+        }
       },
       {
         path: '/nft',
-        lazy: () => import('@/pages/nft')
+        // lazy: () => import('@/pages/nft'),
+        async lazy () {
+          const { default: Component } = await import('@/pages/nft')
+          return { Component }
+        }
       },
       {
         path: '/draft/:campaignId',
-        lazy: () => import('@/pages/campaign')
+        // lazy: () => import('@/pages/campaign'),
+        async lazy () {
+          const { default: Component } = await import('@/pages/campaign')
+          return { Component }
+        }
       },
       {
         path: 'credential',
-        lazy: () => import('@/pages/credential')
+        async lazy () {
+          const { default: Component } = await import('@/pages/credential')
+          return { Component }
+        }
       },
       {
         path: 'aboard',
-        element: <Aboard />
-        // lazy: () => import('@/pages/aboard')
-        // async lazy () {
-        //   const { default: Aboard } = await import('@/pages/aboard')
-        //   console.log({ Aboard }, '....')
-        //   return { Component: Aboard }
-        // }
+        async lazy () {
+          const { default: Component } = await import('@/pages/aboard')
+          return { Component }
+        }
       }
     ]
   }
