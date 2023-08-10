@@ -1,25 +1,25 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { ls } from '@tbook/utils'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { ls } from "@tbook/utils";
 const {
   getCurrentProjectId,
   saveCurrentProjectId,
   setCurrentTheme,
-  getCurrentTheme
-} = ls
+  getCurrentTheme,
+} = ls;
 
-const host = import.meta.env.VITE_API_HOST
+const host = import.meta.env.VITE_API_HOST;
 
 export const getUserInfo = async function () {
-  return fetch(`${host}/info`, { credentials: 'include' }).then(res =>
+  return fetch(`${host}/info`, { credentials: "include" }).then((res) =>
     res.json()
-  )
-}
+  );
+};
 
 const initialState = {
   value: 0,
-  authUser: false,
+  authUser: true, // 默认登录
   showLessNav: false, // 默认导航都展示
-  authHeader: '',
+  authHeader: "",
   loadingUserStatus: false,
   currentProjectId: getCurrentProjectId(),
   theme: getCurrentTheme(),
@@ -46,77 +46,77 @@ const initialState = {
     // name: "lake",
     // wallets: [],
   },
-  deployer: ''
-}
+  deployer: "",
+};
 
 export const fetchUserInfo = createAsyncThunk(
   `userInfo`,
   async (showLoading = true, thunkAPI) => {
     if (showLoading) {
-      thunkAPI.dispatch(setLoadingUserStatus(true))
+      thunkAPI.dispatch(setLoadingUserStatus(true));
     }
     try {
       return getUserInfo()
-        .then(response => {
-          console.log('response', response)
-          thunkAPI.dispatch(setAuthUser(true))
-          thunkAPI.dispatch(setUser(response?.user || {}))
-          thunkAPI.dispatch(setProjects(response?.projects || []))
-          thunkAPI.dispatch(setDeployer(response?.deployer || ''))
+        .then((response) => {
+          console.log("response", response);
+          thunkAPI.dispatch(setAuthUser(true));
+          thunkAPI.dispatch(setUser(response?.user || {}));
+          thunkAPI.dispatch(setProjects(response?.projects || []));
+          thunkAPI.dispatch(setDeployer(response?.deployer || ""));
         })
-        .catch(err => {
-          thunkAPI.dispatch(setAuthUser(false))
-          console.log(err, 'xxx')
+        .catch((err) => {
+          thunkAPI.dispatch(setAuthUser(false));
+          console.log(err, "xxx");
         })
         .finally(() => {
-          thunkAPI.dispatch(setLoadingUserStatus(false))
-        })
+          thunkAPI.dispatch(setLoadingUserStatus(false));
+        });
     } catch (error) {
-      console.log('error getUserInfo', err)
+      console.log("error getUserInfo", err);
     }
   }
-)
+);
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     updateAuthHeader: (_, action) => {
-      state.authHeader = action.payload
+      state.authHeader = action.payload;
     },
     setCurrentProjectId: (state, action) => {
-      state.currentProjectId = action.payload
-      saveCurrentProjectId(action.payload)
+      state.currentProjectId = action.payload;
+      saveCurrentProjectId(action.payload);
     },
     setUser: (state, action) => {
-      state.user = action.payload
+      state.user = action.payload;
     },
     setProjects: (state, action) => {
-      state.projects = action.payload
+      state.projects = action.payload;
     },
     setAuthUser: (state, action) => {
-      state.authUser = action.payload
+      state.authUser = action.payload;
       // console.log(action);
     },
     setLoadingUserStatus: (state, action) => {
-      state.loadingUserStatus = action.payload
+      state.loadingUserStatus = action.payload;
     },
     setTheme: (state, action) => {
-      state.theme = action.payload
-      setCurrentTheme(action.payload)
+      state.theme = action.payload;
+      setCurrentTheme(action.payload);
     },
     setLessNav: (state, action) => {
-      state.showLessNav = action.payload
+      state.showLessNav = action.payload;
     },
     setDeployer: (state, action) => {
-      state.deployer = action.payload 
+      state.deployer = action.payload;
     },
-    reset: state => {
-      saveCurrentProjectId(null)
-      state = { ...initialState, currentProjectId: null }
-    }
-  }
-})
+    reset: (state) => {
+      saveCurrentProjectId(null);
+      state = { ...initialState, currentProjectId: null };
+    },
+  },
+});
 
 // Action creators are generated for each case reducer function
 export const {
@@ -129,7 +129,7 @@ export const {
   setLoadingUserStatus,
   setLessNav,
   setTheme,
-  setDeployer
-} = userSlice.actions
+  setDeployer,
+} = userSlice.actions;
 
-export default userSlice.reducer
+export default userSlice.reducer;

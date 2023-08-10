@@ -15,8 +15,14 @@ import { Spin } from 'antd'
 import { WagmiConfig } from 'wagmi'
 import { watchAccount, getAccount } from 'wagmi/actions'
 import { getWalletClient } from '@wagmi/core'
-import { wagmiConfig, ethereumClient , changeAccountSignIn, logout } from '@/utils/web3'
+import {
+  wagmiConfig,
+  ethereumClient,
+  changeAccountSignIn,
+  logout
+} from '@/utils/web3'
 import { Web3Modal } from '@web3modal/react'
+import useLoginRedirect from '@/hooks/useLoginRedirect'
 
 const { fetchUserInfo } = user
 
@@ -44,7 +50,7 @@ watchAccount(async acc => {
 function App () {
   const dispatch = useDispatch()
   const theme = useTheme()
-
+  useLoginRedirect()
   useLayoutEffect(() => {
     if (theme === 'dark') {
       document.documentElement.classList.add('dark')
@@ -86,7 +92,10 @@ function App () {
           </Routes>
         </Layout>
       </WagmiConfig>
-      <Web3Modal projectId={import.meta.env.VITE_WC_PROJECT_ID} ethereumClient={ethereumClient} />
+      <Web3Modal
+        projectId={import.meta.env.VITE_WC_PROJECT_ID}
+        ethereumClient={ethereumClient}
+      />
     </>
   )
 }
