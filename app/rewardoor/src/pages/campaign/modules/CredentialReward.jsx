@@ -12,6 +12,7 @@ import { getTwitterId, incentiveAssetsTypeList } from '@/utils/conf'
 import { useQuery } from 'react-query'
 import x from '@/images/icon/x.svg'
 import { defaultCredentialReward } from '../conf'
+import { template } from 'lodash'
 const textConf = {
   credential: {
     title: 'Credential Group',
@@ -95,10 +96,10 @@ function CredentialReward ({
                             className='w-5 h-5 object-contain'
                           />
                           <p className='text-sm font-medium text-t-1'>
-                            {m.nameExp.replace(
-                              /\{[1-9]\}/,
-                              getTwitterId(v.link)
-                            )}
+                            {template(m.nameExp)({
+                              test_user: getTwitterId(v.link),
+                              re_user: getTwitterId(v.link)
+                            })}
                           </p>
                         </div>
                       )

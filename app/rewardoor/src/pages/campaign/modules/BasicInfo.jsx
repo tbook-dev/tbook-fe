@@ -34,7 +34,7 @@ export default function BasicInfo ({ form: setUpForm }) {
           valuePropName='fileList'
           getValueFromEvent={normFile}
           noStyle
-          name='banner'
+          name='picUrl'
           rules={[
             {
               required: true,

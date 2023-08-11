@@ -40,7 +40,7 @@ const textMap = {
 }
 const { defaultErrorMsg } = conf
 const successMsg = `draft saved successfully`
-const defaultStep = '1'
+const defaultStep = '2'
 
 const checkFormValidte = conf => {
   return (
@@ -77,7 +77,7 @@ export default function () {
   const [setupSubmittable, setSetUpSubmittable] = useState(false)
   const [setUpForm] = Form.useForm()
   const { campaignId } = useParams()
-  const draftData = useRef({})
+  const fd = useRef({})
   const navigate = useNavigate()
 
   const editMode = !!campaignId
@@ -94,11 +94,25 @@ export default function () {
     )
   }, [setUpFormValues])
 
-  const handleStepUp = async values => {
-    console.log({ values })
+  const handleStepUp = async () => {
+    const values = await setUpForm.validateFields()
+    fd.current = {
+      title: values.title,
+      picUrl: values.picUrl?.[0]?.response,
+      description: values.description,
+      startAt: dayjs(values.schedule[0]).format('YYYY-MM-DD HH:mm:ss'),
+      endAt: dayjs(values.schedule[1]).format('YYYY-MM-DD HH:mm:ss'),
+      projectId
+    }
     setStep('2')
   }
-  const handleCreate = async () => {}
+  const handleCreate = async () => {
+    // 一个是表单的内容，一个是credentialReward的内容
+    console.log({
+      form: fd.current,
+      groups: credentialReward
+    })
+  }
   return (
     <div className='text-white'>
       <Breadcrumb
