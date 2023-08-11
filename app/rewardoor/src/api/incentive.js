@@ -52,12 +52,18 @@ export const getOverview = async function (id) {
 export const getCredential = async function (projectId) {
   return await request(`${host}/credentials/project/${projectId}`);
 };
-export const getCredentialByGroup = async function (projectId) {};
 export const getCredentials = async function (projectId) {
   const groups = await request(`${host}/campaignNew/project/${projectId}`);
-  console.log("groups--->", groups);
-  const list = await Promise.all(groups.map((v) => getCredential(v.id)));
-  return list;
+  return groups.map((v) => {
+    let credentialList = [];
+    try {
+      credentialList = JSON.parse(v.credentialList);
+    } catch (error) {}
+    return {
+      ...v,
+      credentialList,
+    };
+  });
   // return await request(`${host}/campaignNew/actionList/${projectId}`);
   // /credentials/creator/{creatorId}
   // return [

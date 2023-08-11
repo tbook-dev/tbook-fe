@@ -42,11 +42,8 @@ function CredentialReward ({
       enabled: !!projectId
     }
   )
-  console.log({ credentialReward })
-  const credentialSet = credentialList.map(v => v.list).flat()
-  // const [credentialReward, setCredentialReward] = useState([getNFTcontracts
-  //   { ...defaultCredentialReward }
-  // ])
+  const credentialSet = credentialList.map(v => v.credentialList).flat()
+
   const [editCredentialIndex, setEditCredentialIndex] = useState(0)
   const [showCredentialModal, setShowCredentialModal] = useState(false)
   const [showRewardModal, setShowRewardModal] = useState(false)

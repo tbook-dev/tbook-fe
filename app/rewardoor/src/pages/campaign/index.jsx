@@ -11,8 +11,7 @@ import {
   getCampaignDetail,
   createCampaign,
   updateCampaign,
-  getNFTcontracts,
-  getCredentialByGroup
+  getNFTcontracts
 } from '@/api/incentive'
 import { useQuery } from 'react-query'
 import CredentialReward from './modules/CredentialReward'
@@ -65,11 +64,12 @@ export default function () {
 
   const { data: credentialRemoteList = [] } = useQuery(
     ['credentialList', projectId],
-    () => getCredentialByGroup(projectId),
+    () => getCredentials(projectId),
     {
       enabled: !!projectId
     }
   )
+  console.log({ credentialRemoteList })
   const [credentialReward, setCredentialReward] = useState([
     { ...defaultCredentialReward }
   ])
@@ -105,7 +105,7 @@ export default function () {
         items={[
           {
             title: 'Incentive Campaign',
-            href: '/dashboard/campaign'
+            href: '/campaign'
           },
           {
             title: 'Set up an incentive campaign'

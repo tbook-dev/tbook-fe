@@ -6,7 +6,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import x from '@/images/icon/x.svg'
 import closeIcon from '@/images/icon/close.svg'
 import { useCallback, useEffect } from 'react'
-import { twParttern } from '@/utils/conf'
+import { twParttern, groupTypeMap } from '@/utils/conf'
 
 const title = 'Set Up Credential Group'
 const placeholder = 'Enter Credential Title to search for Cred'
@@ -23,22 +23,21 @@ export default function CredentialModal ({
   const [form] = Form.useForm()
   const [searchVal, setSearchVal] = useState('')
   const credentialsFormValues = Form.useWatch('credential', form)
-  const credentialSet = credentialList.map(v => v.list).flat()
+  const credentialSet = credentialList.map(v => v.credentialList).flat()
 
   const formatCredential = credentialList
     .map(v => {
       return {
         id: v.id,
-        name: v.name,
-        picUrl: v.picUrl,
-        list: v.list.filter(c => {
+        name: groupTypeMap[v.groupType],
+        credentialList: v.credentialList.filter(c => {
           return c?.name
             .toLowerCase()
             .includes(searchVal?.toLowerCase()?.trim())
         })
       }
     })
-    .filter(v => v.list.length > 0)
+    .filter(v => v.credentialList.length > 0)
 
   const handleOk = async () => {
     form
@@ -96,10 +95,10 @@ export default function CredentialModal ({
               items={formatCredential.map(v => {
                 return {
                   key: v.id,
-                  label: v.name,
+                  label: <span className='capitalize'>{v.name}</span>,
                   children: (
                     <div className='flex flex-wrap gap-x-4 select-none'>
-                      {v.list?.map(c => {
+                      {v.credentialList?.map(c => {
                         return (
                           <div
                             key={c.credentialId}
@@ -116,7 +115,7 @@ export default function CredentialModal ({
                             }}
                           >
                             <img
-                              src={v.picUrl ?? x}
+                              src={c.picUrl || x}
                               className='w-5 h-5 object-contain'
                             />
                             {c.name}

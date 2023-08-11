@@ -72,3 +72,13 @@ export const mediaTypes = [
     value: 2,
   },
 ];
+
+//我现在是用groupType这个来区分下面的tag的，var groupType: Int, // 0 - default，1 - Governance，2 - community, 3 - Trade , 4 - ProductTest, 5 -My
+export const groupTypeMap = {
+  // 0: "default",
+  1: "Governance",
+  2: "community",
+  3: "Trade",
+  4: "ProductTest",
+  5: "My",
+};

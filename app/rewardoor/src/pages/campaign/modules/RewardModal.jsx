@@ -65,7 +65,7 @@ export default function CredentialModal ({
     setOpen(false)
     rewardForm.resetFields()
   }, [])
-  console.log({ NFTcontracts })
+  // console.log({ NFTcontracts })
   return (
     <Modal
       width={640}
