@@ -10,7 +10,9 @@ export default function LayoutAdmin () {
   useEffect(() => {
     if (!authUser && location.pathname !== aboardPath) {
       navigate(
-        `${aboardPath}?redirect=${encodeURIComponent(location.pathname)}`
+        `${aboardPath}?redirect=${encodeURIComponent(
+          location.pathname + location.search
+        )}`
       )
     }
   }, [authUser])
