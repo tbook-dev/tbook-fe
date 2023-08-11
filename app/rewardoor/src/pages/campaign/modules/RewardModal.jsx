@@ -272,7 +272,7 @@ export default function CredentialModal ({
                       ) : (
                         <>
                           <Form.Item
-                            name={[name, 'point']}
+                            name={[name, 'number']}
                             label='Number of point for each participant'
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
@@ -286,7 +286,7 @@ export default function CredentialModal ({
                       )}
                       <Form.Item
                         {...restField}
-                        name={[name, 'method']}
+                        name={[name, 'methodType']}
                         label='Incentive Method'
                         rules={[{ required: true, message: 'Missing!' }]}
                       >

@@ -118,22 +118,19 @@ export default function () {
       projectId: 153900040006
     }
     console.log({ credentialReward })
-    const credentialList = credentialReward.map(v => v.credential).flat(1)
-    const pointList = credentialReward
-      .map(v => v.reward)
-      .flat(1)
-      .filter(v => v.rewardType === 2)
-    const nftList = credentialReward
-      .map(v => v.reward)
-      .flat(1)
-      .filter(v => v.rewardType === 1)
     const data = {
       campaign: fd.current,
-      groups: {
-        credentialList: JSON.stringify(credentialList),
-        pointList: pointList.length === 0 ? '' : JSON.stringify(pointList),
-        nftList: nftList.length === 0 ? '' : JSON.stringify(nftList)
-      }
+      groups: credentialReward.map(v => {
+        const credentialList = v.credential
+        const pointList = v.reward.filter(v => v.rewardType === 2)
+        const nftList = v.reward.filter(v => v.rewardType === 1)
+        return {
+          projectId,
+          credentialList: JSON.stringify(credentialList),
+          pointList: pointList.length === 0 ? '' : JSON.stringify(pointList),
+          nftList: nftList.length === 0 ? '' : JSON.stringify(nftList)
+        }
+      })
     }
     console.log(credentialReward, data)
     const res = await createCampaign(data)
