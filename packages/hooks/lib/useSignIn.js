@@ -12,17 +12,18 @@ import {
   useDisconnect,
 } from "wagmi";
 import { bsc, mainnet } from "wagmi/chains";
-import { getWalletClient } from '@wagmi/core'
-
-import { useResponsive } from "ahooks";
+import { getWalletClient } from "@wagmi/core";
+import { useNavigate, useSearchParams } from "react-router-dom";
+// import { useResponsive } from "ahooks";
 const { setAuthUser, fetchUserInfo } = user;
 
 export default function () {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { pc } = useResponsive();
-  const [openLay, setOpenLay] = useState(false);
-
+  // const { pc } = useResponsive();
+  // const [openLay, setOpenLay] = useState(false);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { address, isDisconnected } = useAccount();
   // const { open } = useWeb3Modal();
   const { connectAsync, connectors } = useConnect();
@@ -40,10 +41,10 @@ export default function () {
   //   setDefaultChain(chain)
   // } else if (localStorage.getItem('chainId') == '56') { // bsc
   //   setDefaultChain(bsc)
-  // } 
+  // }
 
   function getChain() {
-    if (localStorage.getItem('chainId') == '56') return bsc;
+    if (localStorage.getItem("chainId") == "56") return bsc;
     return mainnet;
   }
 
@@ -54,13 +55,13 @@ export default function () {
         if (window.ethereum) {
           await connectAsync({
             connector: connectors.find((c) => c.id == "injected"),
-            chainId: getChain().id
+            chainId: getChain().id,
           });
         } else if (isMobileDevice) {
           const host = new URL(window.location).host;
           window.open(`https://metamask.app.link/dapp/${host}`);
           setLoading(false);
-          return
+          return;
         } else {
           //await open("ConnectWallet");
         }
@@ -69,6 +70,10 @@ export default function () {
       await signLoginMetaMask(address, walletClient);
       dispatch(fetchUserInfo());
       dispatch(setAuthUser(true));
+      const target = searchParams.get("redirect");
+      if (target) {
+        navigate(target);
+      }
     } catch (error) {
       console.log(error);
     }
