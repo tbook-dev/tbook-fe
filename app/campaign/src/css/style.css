@@ -1,0 +1,36 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+
+/* Additional styles */
+/* @import 'additional-styles/utility-patterns.css';
+@import 'additional-styles/range-slider.css';
+@import 'additional-styles/toggle-switch.css';
+@import 'additional-styles/flatpickr.css';
+@import 'additional-styles/theme.css'; */
+
+@import 'tailwindcss/utilities';
+@import '@tbook/share/font/rhd.css';
+
+:root {
+    font-family: 'Red Hat Display', sans-serif;;
+}
+.swiper-wrapper{
+    align-items: center;
+}
+
+@layer components { 
+    .text-colorful1{
+        background: linear-gradient(323deg, #4D0BEF 0%, #CF0063 100%);;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+    }
+    .bx{
+        @apply px-4 lg:px-0 lg:w-[936px] mx-auto;
+    }
+    .rect-border{
+        @apply shadow-d10 rounded lg:rounded-lg; 
+    }
+}
+
