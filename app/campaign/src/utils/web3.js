@@ -1,4 +1,4 @@
-import { host, getGrantSignInfo, postGrantSignInfo } from '@/api/incentive'
+import { host } from '@/api/incentive'
 
 import { publicProvider } from 'wagmi/providers/public'
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
