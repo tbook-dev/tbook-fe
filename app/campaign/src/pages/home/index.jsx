@@ -44,6 +44,8 @@ export default function () {
                   className={clsx(
                     'text-c-9',
                     !showMore &&
+                      !pc &&
+                      index === 0 &&
                       'text-clip overflow-hidden w-full whitespace-nowrap'
                   )}
                 >
