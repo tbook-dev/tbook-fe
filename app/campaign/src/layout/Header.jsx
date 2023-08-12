@@ -5,18 +5,19 @@ import { useSelector } from 'react-redux'
 import logo from '@/images/icon/logo.svg'
 import Button from '@/components/button'
 import Profile from '@/components/profile'
-
+import { useSignIn } from '@tbook/hooks'
 function Header () {
   const authUser = useSelector(state => state.user.authUser)
   const loadingUserStatus = useSelector(state => state.user.loadingUserStatus)
+  const { loading, handleSignIn } = useSignIn()
 
   return (
     <header className='sticky top-0 z-30 bg-white dark:bg-black shadow-d2'>
-      <div className='px-4 lg:px-20'>
+      <div className='px-4 py-2 lg:px-20 lg:py-5'>
         <div className='flex items-center justify-between h-14 lg:h-16'>
           <div className='flex items-center'>
             <Link to='/' className='mr-1 lg:mr-16'>
-              <img src={logo} className='h-4' />
+              <img src={logo} className='h-10' />
             </Link>
           </div>
 
@@ -26,7 +27,14 @@ function Header () {
             ) : authUser ? (
               <Profile />
             ) : (
-              <Button type='primary'>Connect Wallet</Button>
+              <Button
+                className='px-4 font-bold text-sm h-10 lg:px-10'
+                type='primary'
+                loading={loading}
+                onClick={handleSignIn}
+              >
+                Connect Wallet
+              </Button>
             )}
           </div>
         </div>
