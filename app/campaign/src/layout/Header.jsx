@@ -1,12 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Spin } from 'antd'
-import { UserMenu } from '@tbook/ui'
-import Connect from '@/components/Connect'
 import { useSelector } from 'react-redux'
 import logo from '@/images/icon/logo.svg'
-
-import LightProvider from '@/theme/LightProvider'
+import Button from '@/components/button'
+import Profile from '@/components/profile'
 
 function Header () {
   const authUser = useSelector(state => state.user.authUser)
@@ -14,7 +12,7 @@ function Header () {
 
   return (
     <header className='sticky top-0 z-30 bg-white dark:bg-black shadow-d2'>
-      <div className='px-4 lg:px-8'>
+      <div className='px-4 lg:px-20'>
         <div className='flex items-center justify-between h-14 lg:h-16'>
           <div className='flex items-center'>
             <Link to='/' className='mr-1 lg:mr-16'>
@@ -26,11 +24,9 @@ function Header () {
             {loadingUserStatus ? (
               <Spin />
             ) : authUser ? (
-              <LightProvider>
-                <UserMenu showProject={false} />
-              </LightProvider>
+              <Profile />
             ) : (
-              <Connect />
+              <Button type='primary'>Connect Wallet</Button>
             )}
           </div>
         </div>
