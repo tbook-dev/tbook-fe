@@ -69,7 +69,7 @@ export default function () {
       enabled: !!projectId
     }
   )
-  console.log({ credentialRemoteList })
+  // console.log({ credentialRemoteList })
   const [credentialReward, setCredentialReward] = useState([
     { ...defaultCredentialReward }
   ])
@@ -108,10 +108,33 @@ export default function () {
   }
   const handleCreate = async () => {
     // 一个是表单的内容，一个是credentialReward的内容
-    console.log({
-      form: fd.current,
-      groups: credentialReward
-    })
+    fd.current = {
+      title: 'tbook 666',
+      picUrl:
+        'https://rd-worker.xgamma.workers.dev/img/c761d3f0ac734a398999636e2e516512',
+      description: 'abc is abc',
+      startAt: '2023-08-18 21:59:31',
+      endAt: '2023-09-20 21:59:31',
+      projectId: 153900040006
+    }
+    console.log({ credentialReward })
+    const data = {
+      campaign: fd.current,
+      groups: credentialReward.map(v => {
+        const credentialList = v.credential
+        const pointList = v.reward.filter(v => v.rewardType === 2)
+        const nftList = v.reward.filter(v => v.rewardType === 1)
+        return {
+          projectId,
+          credentialList: JSON.stringify(credentialList),
+          pointList: pointList.length === 0 ? '' : JSON.stringify(pointList),
+          nftList: nftList.length === 0 ? '' : JSON.stringify(nftList)
+        }
+      })
+    }
+    console.log(credentialReward, data)
+    const res = await createCampaign(data)
+    console.log(res)
   }
   return (
     <div className='text-white'>

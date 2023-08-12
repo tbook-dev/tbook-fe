@@ -34,7 +34,7 @@ export const getNFTList = async function (projectId) {
 };
 
 export const createCampaign = async function (values) {
-  return await request.Post(`${host}/campaign/create`, values);
+  return await request.Post(`${host}/campaignNew/createCampaign`, values);
 };
 export const updateCampaign = async function (values) {
   return await request.Post(`${host}/campaign/update`, values);
@@ -52,6 +52,7 @@ export const getOverview = async function (id) {
 export const getCredential = async function (projectId) {
   return await request(`${host}/credentials/project/${projectId}`);
 };
+
 export const getCredentials = async function (projectId) {
   const groups = await request(`${host}/campaignNew/project/${projectId}`);
   return groups.map((v) => {

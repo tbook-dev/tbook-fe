@@ -24,7 +24,7 @@ export default function CredentialModal ({
   const [searchVal, setSearchVal] = useState('')
   const credentialsFormValues = Form.useWatch('credential', form)
   const credentialSet = credentialList.map(v => v.credentialList).flat()
-
+  console.log({ credentialSet })
   const formatCredential = credentialList
     .map(v => {
       return {

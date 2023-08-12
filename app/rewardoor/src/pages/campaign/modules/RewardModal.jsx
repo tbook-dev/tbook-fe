@@ -12,6 +12,7 @@ import { useQuery } from 'react-query'
 import NFTModal from './NFTModal'
 import uploadFile from '@/utils/upload'
 import uploadIcon from '@/images/icon/upload.svg'
+import clsx from 'clsx'
 
 const title = 'Set Up Reward'
 const defaultIncentive = { rewardType: 1, unlimited: true }
@@ -82,22 +83,38 @@ export default function CredentialModal ({
       }
     >
       <div className='flex items-center gap-x-6 mb-5'>
-        {incentiveAssetsTypeList.map((v, i) => (
-          <Button
-            key={i}
-            onClick={() => {
-              rewardForm.setFieldsValue({
-                reward: rewardForm
-                  .getFieldValue('reward')
-                  ?.concat({ ...defaultIncentive, rewardType: v.value })
-              })
-            }}
-            className='flex px-4 py-2.5 gap-x-4 items-center text-sm font-medium text-t-1'
-          >
-            {v.label}
-            <PlusOutlined />
-          </Button>
-        ))}
+        {open &&
+          incentiveAssetsTypeList.map((v, i) => {
+            const rewards = rewardForm?.getFieldValue('reward') || []
+            console.log({ rewards })
+            const disabled =
+              v.value === 2 &&
+              rewards?.filter(v => v.rewardType === 2).length > 0
+
+            return (
+              <Button
+                key={i}
+                disabled={disabled}
+                onClick={() => {
+                  console.log({ disabled })
+                  if (!disabled) {
+                    rewardForm.setFieldsValue({
+                      reward: rewardForm
+                        .getFieldValue('reward')
+                        ?.concat({ ...defaultIncentive, rewardType: v.value })
+                    })
+                  }
+                }}
+                className={clsx(
+                  'flex px-4 py-2.5 gap-x-4 items-center text-sm font-medium text-t-1',
+                  disabled && 'cursor-not-allowed'
+                )}
+              >
+                {v.label}
+                <PlusOutlined />
+              </Button>
+            )
+          })}
       </div>
 
       <Form
@@ -255,7 +272,7 @@ export default function CredentialModal ({
                       ) : (
                         <>
                           <Form.Item
-                            name={[name, 'point']}
+                            name={[name, 'number']}
                             label='Number of point for each participant'
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
@@ -269,7 +286,7 @@ export default function CredentialModal ({
                       )}
                       <Form.Item
                         {...restField}
-                        name={[name, 'method']}
+                        name={[name, 'methodType']}
                         label='Incentive Method'
                         rules={[{ required: true, message: 'Missing!' }]}
                       >
