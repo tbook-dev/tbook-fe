@@ -54,73 +54,7 @@ export const getCredential = async function (projectId) {
 };
 
 export const getCredentials = async function (projectId) {
-  const groups = await request(`${host}/campaignNew/project/${projectId}`);
-  return groups.map((v) => {
-    let credentialList = [];
-    try {
-      credentialList = JSON.parse(v.credentialList);
-    } catch (error) {}
-    return {
-      ...v,
-      credentialList,
-    };
-  });
-  // return await request(`${host}/campaignNew/actionList/${projectId}`);
-  // /credentials/creator/{creatorId}
-  // return [
-  //   {
-  //     name: "Governance",
-  //     id: "1",
-  //     list: [
-  //       {
-  //         credentialId: 179943370143,
-  //         name: "Follow on Twitter",
-  //         nameExp: "Follow {1} on Twitter",
-  //         taskName: "Twitter Profile Link",
-  //         picUrl: "",
-  //         projectId: 154283610009,
-  //         creatorId: 154283420008,
-  //         eligibleCount: 0,
-  //       },
-  //       {
-  //         credentialId: 179943370144,
-  //         name: "Twitter Retweet",
-  //         nameExp: "Retweet {1} on Twitter",
-  //         taskName: "Tweet Link",
-  //         picUrl: "",
-  //         projectId: 154283610009,
-  //         creatorId: 154283420008,
-  //         eligibleCount: 0,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: "tw",
-  //     id: "2",
-  //     list: [
-  //       {
-  //         credentialId: 179943370149,
-  //         name: "Follow on Twitter1",
-  //         nameExp: "Follow {1} on Twitter",
-  //         taskName: "Twitter Profile Link",
-  //         picUrl: "",
-  //         projectId: 154283610009,
-  //         creatorId: 154283420008,
-  //         eligibleCount: 0,
-  //       },
-  //       {
-  //         credentialId: 179943370119,
-  //         name: "no Retweet2",
-  //         nameExp: "Retweet {1} on Twitter",
-  //         taskName: "Tweet Link",
-  //         picUrl: "",
-  //         projectId: 154283610009,
-  //         creatorId: 154283420008,
-  //         eligibleCount: 0,
-  //       },
-  //     ],
-  //   },
-  // ];
+  return await request(`${host}/campaignNew/project/${projectId}`);
 };
 export const getNFTcontracts = async function (projectId) {
   // console.log("get-list----->", projectId);

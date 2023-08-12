@@ -62,14 +62,14 @@ export default function () {
     }
   )
 
-  const { data: credentialRemoteList = [] } = useQuery(
+  const { data: credentialList = [] } = useQuery(
     ['credentialList', projectId],
     () => getCredentials(projectId),
     {
       enabled: !!projectId
     }
   )
-  // console.log({ credentialRemoteList })
+  console.log({ credentialList })
   const [credentialReward, setCredentialReward] = useState([
     { ...defaultCredentialReward }
   ])
@@ -102,7 +102,8 @@ export default function () {
       description: values.description,
       startAt: dayjs(values.schedule[0]).format('YYYY-MM-DD HH:mm:ss'),
       endAt: dayjs(values.schedule[1]).format('YYYY-MM-DD HH:mm:ss'),
-      projectId
+      projectId,
+      status: 0
     }
     setStep('2')
   }
@@ -115,7 +116,8 @@ export default function () {
       description: 'abc is abc',
       startAt: '2023-08-18 21:59:31',
       endAt: '2023-09-20 21:59:31',
-      projectId: 153900040006
+      projectId: 153900040006,
+      status: 0
     }
     console.log({ credentialReward })
     const data = {
@@ -125,10 +127,11 @@ export default function () {
         const pointList = v.reward.filter(v => v.rewardType === 2)
         const nftList = v.reward.filter(v => v.rewardType === 1)
         return {
+          status: 0,
           projectId,
-          credentialList: JSON.stringify(credentialList),
-          pointList: pointList.length === 0 ? '' : JSON.stringify(pointList),
-          nftList: nftList.length === 0 ? '' : JSON.stringify(nftList)
+          credentialList,
+          pointList,
+          nftList
         }
       })
     }
@@ -158,6 +161,7 @@ export default function () {
               credentialReward={credentialReward}
               setCredentialReward={setCredentialReward}
               NFTcontracts={NFTcontracts}
+              credentialList={credentialList}
             />
           )}
         </div>

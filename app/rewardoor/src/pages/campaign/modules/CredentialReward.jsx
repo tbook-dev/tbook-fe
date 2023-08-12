@@ -33,16 +33,17 @@ const editRewardText = 'Edit Rewards'
 function CredentialReward ({
   credentialReward,
   setCredentialReward,
-  NFTcontracts
+  NFTcontracts,
+  credentialList
 }) {
   const { projectId } = useCurrentProject()
-  const { data: credentialList = [] } = useQuery(
-    ['credentialList', projectId],
-    () => getCredentials(projectId),
-    {
-      enabled: !!projectId
-    }
-  )
+  // const { data: credentialList = [] } = useQuery(
+  //   ['credentialList', projectId],
+  //   () => getCredentials(projectId),
+  //   {
+  //     enabled: !!projectId
+  //   }
+  // )
   const credentialSet = credentialList.map(v => v.credentialList).flat()
 
   const [editCredentialIndex, setEditCredentialIndex] = useState(0)

@@ -1,0 +1,51 @@
+{
+	"campaign": {
+		"campaignId": 0,
+		"title": "tbook 666",
+		"name": "",
+		"picUrl": "https://rd-worker.xgamma.workers.dev/img/c761d3f0ac734a398999636e2e516512",
+		"description": "abc is abc",
+		"startAt": null,
+		"endAt": null,
+		"status": 0,
+		"reward": "",
+		"rewardAction": "",
+		"projectId": 153900040006,
+		"creatorId": 0,
+		"points": null,
+		"credentialId": null,
+		"nft": null,
+		"credentials": [],
+		"uniName": "tbook 666"
+	},
+	"groups": [{
+		"groupType": 2,
+		"name": "Twitter",
+		"id": 0,
+		"credentialList": [{
+			"credentialId": 0,
+			"name": "Follow on Twitter",
+			"nameExp": "Follow <%= test_user %> on Twitter",
+			"picUrl": "https://rd-worker.xgamma.workers.dev/img/328d2ceabec948999d82c24888877b72",
+			"projectId": 153900040006,
+			"creatorId": 153900040007,
+			"groupId": 0,
+			"eligibleCount": 0
+		}, {
+			"credentialId": 1,
+			"name": "Twitter Retweet",
+			"nameExp": "Retweet <%= re_user %> on Twitter",
+			"picUrl": "https://rd-worker.xgamma.workers.dev/img/328d2ceabec948999d82c24888877b72",
+			"projectId": 153900040006,
+			"creatorId": 153900040007,
+			"groupId": 0,
+			"eligibleCount": 0
+		}],
+		"projectId": 0,
+		"creatorId": 153900040007,
+		"campaignId": 0,
+		"status": 0,
+		"nftList": [],
+		"pointList": []
+	}]
+}
