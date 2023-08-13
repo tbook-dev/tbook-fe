@@ -100,8 +100,8 @@ export default function () {
       title: values.title,
       picUrl: values.picUrl?.[0]?.response,
       description: values.description,
-      startAt: dayjs(values.schedule[0]).format('YYYY-MM-DD HH:mm:ss'),
-      endAt: dayjs(values.schedule[1]).format('YYYY-MM-DD HH:mm:ss'),
+      startAt: dayjs(values.schedule[0]).valueOf(),
+      endAt: dayjs(values.schedule[1]).valueOf(),
       projectId,
       status: 0
     }
@@ -114,8 +114,8 @@ export default function () {
       picUrl:
         'https://rd-worker.xgamma.workers.dev/img/c761d3f0ac734a398999636e2e516512',
       description: 'abc is abc',
-      startAt: '2023-08-18 21:59:31',
-      endAt: '2023-09-20 21:59:31',
+      startAt: 1691570370705,
+      endAt: 1695112770705,
       projectId: 153900040006,
       status: 0
     }
