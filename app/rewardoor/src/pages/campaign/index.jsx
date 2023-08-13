@@ -125,7 +125,9 @@ export default function () {
       groups: credentialReward.map(v => {
         const credentialList = v.credential
         const pointList = v.reward.filter(v => v.rewardType === 2)
-        const nftList = v.reward.filter(v => v.rewardType === 1)
+        const nftList = v.reward
+          .filter(v => v.rewardType === 1)
+          .map(v => ({ ...v, picUrl: v.picUrl?.[0]?.response }))
         return {
           status: 0,
           projectId,
@@ -135,7 +137,7 @@ export default function () {
         }
       })
     }
-    console.log(credentialReward, data)
+    // console.log(credentialReward, data)
     const res = await createCampaign(data)
     console.log(res)
   }
