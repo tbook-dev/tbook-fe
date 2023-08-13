@@ -50,8 +50,7 @@ export default function () {
       refreshDeps: [projectId]
     }
   )
-  const listFilter = list.filter(v => v.status === selectStatus)
-  console.log({ listFilter })
+  const listFilter = list.filter(v => v.campaign?.status === selectStatus)
   return (
     <Layout>
       <section className='flex justify-between items-center mb-5'>
@@ -102,7 +101,9 @@ export default function () {
             )}
           >
             {listFilter.length > 0 ? (
-              listFilter.map(v => <Compaign key={v.campaignId} {...v} />)
+              listFilter.map(v => (
+                <Compaign key={v.campaign?.campaignId} {...v} />
+              ))
             ) : (
               <div className='text-center text-c-9 text-base py-10'>
                 {selectStatus === ongoingId ? (

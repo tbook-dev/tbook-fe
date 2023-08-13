@@ -3,20 +3,13 @@ import { memo, useMemo } from 'react'
 
 const draftId = 0
 
-function Compaign ({ status, campaignId, picUrl, name, reward, description }) {
+function Compaign ({ campaign = {}, groups }) {
+  const { status, campaignId, picUrl, name, reward, description } = campaign
   const rewardOpt = useMemo(() => {
-    let hasNFT = false
-    let hasPoint = false
-    try {
-      const rewardList = JSON.parse(reward) || []
-      // incentiveAssetsTypeList.NFT =1,2
-      hasNFT = rewardList.some(v => v.incentiveAsset === 1)
-      hasPoint = rewardList.some(v => v.incentiveAsset === 2)
-    } catch (e) {
-      // console.log(e)
-    }
+    const hasNFT = groups.some(v => v.nftList.length > 0)
+    const hasPoint = groups.some(v => v.pointList.length > 0)
     return { hasNFT, hasPoint }
-  }, [reward])
+  }, [groups])
 
   return (
     <Link
