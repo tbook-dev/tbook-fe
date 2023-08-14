@@ -3,7 +3,6 @@ import Breadcrumb from '@/components/breadcrumb'
 import { useRef, useState, useEffect } from 'react'
 import Button from '@/components/button'
 import { useNavigate } from 'react-router-dom'
-import { useAsyncEffect } from 'ahooks'
 import { useCurrentProject } from '@tbook/hooks'
 import {
   getNFTList,
@@ -17,12 +16,11 @@ import { useQuery } from 'react-query'
 import CredentialReward from './modules/CredentialReward'
 import { useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
-import { useRequest } from 'ahooks'
 import { conf } from '@tbook/utils'
 import BasicInfo from './modules/BasicInfo'
 import { defaultCredentialReward } from './conf'
 
-const dashboardLink = `/dashboard/campaign`
+const listLink = `/campaign`
 const title = 'Set up an Incentive Campaign'
 const textMap = {
   1: {
@@ -40,7 +38,7 @@ const textMap = {
 }
 const { defaultErrorMsg } = conf
 const successMsg = `draft saved successfully`
-const defaultStep = '2'
+const defaultStep = '1'
 
 const checkFormValidte = conf => {
   return (
@@ -109,17 +107,16 @@ export default function () {
   }
   const handleCreate = async () => {
     // 一个是表单的内容，一个是credentialReward的内容
-    fd.current = {
-      title: 'tbook 666',
-      picUrl:
-        'https://rd-worker.xgamma.workers.dev/img/c761d3f0ac734a398999636e2e516512',
-      description: 'abc is abc',
-      startAt: 1691570370705,
-      endAt: 1695112770705,
-      projectId: 153900040006,
-      status: 0
-    }
-    console.log({ credentialReward })
+    // fd.current = {
+    //   title: 'tbook 666',
+    //   picUrl:
+    //     'https://rd-worker.xgamma.workers.dev/img/c761d3f0ac734a398999636e2e516512',
+    //   description: 'abc is abc',
+    //   startAt: 1691570370705,
+    //   endAt: 1695112770705,
+    //   projectId: 153900040006,
+    //   status: 0
+    // }
     const data = {
       campaign: fd.current,
       groups: credentialReward.map(v => {
@@ -139,6 +136,7 @@ export default function () {
     }
     // console.log(credentialReward, data)
     const res = await createCampaign(data)
+    navigate(listLink)
     console.log(res)
   }
   return (

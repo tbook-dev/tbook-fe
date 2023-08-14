@@ -8,11 +8,11 @@ import {
   incentiveAssetsTypeList,
   supportChains
 } from '@/utils/conf'
-import { useQuery } from 'react-query'
 import NFTModal from './NFTModal'
 import uploadFile from '@/utils/upload'
 import uploadIcon from '@/images/icon/upload.svg'
 import clsx from 'clsx'
+import SelectNFT from '@/components/SelectNFT'
 
 const title = 'Set Up Reward'
 const defaultIncentive = { rewardType: 1, unlimited: true }
@@ -187,36 +187,37 @@ export default function CredentialModal ({
                             label='NFT Contract'
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <Select
+                            <SelectNFT
                               placeholder='Select NFT Contract'
-                              open={selectOpen}
-                              onDropdownVisibleChange={setSelectOpen}
-                              dropdownRender={menu => (
-                                <div className='px-5 py-2.5'>
-                                  <div className='mb-5'>
-                                    <h2 className='text-sm font-bold'>
-                                      {nftText.title}
-                                    </h2>
-                                    <p className='text-sm text-c-9'>
-                                      {nftText.desc}
-                                    </p>
+                              // open={selectOpen}
+                              // onDropdownVisibleChange={setSelectOpen}
+                              dropdownRender={setSelectOpen => menu =>
+                                (
+                                  <div className='px-5 py-2.5'>
+                                    <div className='mb-5'>
+                                      <h2 className='text-sm font-bold'>
+                                        {nftText.title}
+                                      </h2>
+                                      <p className='text-sm text-c-9'>
+                                        {nftText.desc}
+                                      </p>
+                                    </div>
+                                    {menu}
+                                    <div className='flex justify-center'>
+                                      <Button
+                                        onClick={() => {
+                                          setSelectOpen(false)
+                                          setShowContractModal(true)
+                                        }}
+                                        type='text'
+                                        className='text-c-9 text-sm'
+                                      >
+                                        <PlusOutlined className='mr-3' />
+                                        Deploy New NFT Contract
+                                      </Button>
+                                    </div>
                                   </div>
-                                  {menu}
-                                  <div className='flex justify-center'>
-                                    <Button
-                                      onClick={() => {
-                                        setSelectOpen(false)
-                                        setShowContractModal(true)
-                                      }}
-                                      type='text'
-                                      className='text-c-9 text-sm'
-                                    >
-                                      <PlusOutlined className='mr-3' />
-                                      Deploy New NFT Contract
-                                    </Button>
-                                  </div>
-                                </div>
-                              )}
+                                )}
                             >
                               {NFTcontracts.map(item => {
                                 const icon = supportChains.find(
@@ -235,7 +236,7 @@ export default function CredentialModal ({
                                   </Select.Option>
                                 )
                               })}
-                            </Select>
+                            </SelectNFT>
                           </Form.Item>
 
                           <Form.Item
@@ -302,17 +303,6 @@ export default function CredentialModal ({
                         </Select>
                       </Form.Item>
 
-                      {/* <Form.Item
-                        {...restField}
-                        name={[name, 'distributionMethod']}
-                        label='Reward Distribution Method'
-                        rules={[{ required: true, message: 'Missing!' }]}
-                      >
-                        <Select
-                          placeholder='Select the Reward Distribution Method'
-                          options={rewardDistributionMethod}
-                        />
-                      </Form.Item> */}
                       {rewardType === 1 ? (
                         <Form.Item label='Minting Cap' name={[name, 'mintCap']}>
                           <InputNumber

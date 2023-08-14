@@ -36,7 +36,6 @@ function CredentialReward ({
   NFTcontracts,
   credentialList
 }) {
-  const { projectId } = useCurrentProject()
   // const { data: credentialList = [] } = useQuery(
   //   ['credentialList', projectId],
   //   () => getCredentials(projectId),

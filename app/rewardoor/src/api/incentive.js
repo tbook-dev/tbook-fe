@@ -54,7 +54,8 @@ export const getCredential = async function (projectId) {
 };
 
 export const getCredentials = async function (projectId) {
-  return await request(`${host}/campaignNew/project/${projectId}`);
+  // return await request(`${host}/campaignNew/project/${projectId}`);
+  return await request(`${host}/campaignNew/credential/${projectId}`);
 };
 export const getNFTcontracts = async function (projectId) {
   // console.log("get-list----->", projectId);
