@@ -7,7 +7,8 @@ import { useMemo } from 'react'
 import Breadcrumb from '@/components/breadcrumb'
 import { campaignStatus } from '@/utils/conf'
 import { incentiveAssetsTypeList } from '@/utils/conf'
-const dateFormat = `YYYY-MM-DD`
+
+const dateFormat = `YYYY-MM-DD HH:mm:ss`
 
 export default function () {
   const { id } = useParams()
@@ -46,6 +47,11 @@ export default function () {
     return { hasNFT, hasPoint }
   }, [pageInfo])
   console.log({ rewardOpt, credentials, loading })
+  const groups = useMemo(() => {
+    return pageInfo?.groups?.map(v => {
+      return []
+    })
+  }, [pageInfo])
   return (
     <>
       <Breadcrumb
@@ -80,47 +86,8 @@ export default function () {
       </section>
 
       <section className='space-y-5'>
-        <div className='pt-4 pb-5 pl-8 bg-gray rounded-[20px]'>
-          <h2 className='font-bold text-base mb-4'>Credentials</h2>
-          <div className='flex flex-wrap'>
-            {credentials?.map(v => {
-              return (
-                <div
-                  className={clsx(
-                    'flex items-center group justify-center h-8 px-6 rounded-md relative bg-b-1 mr-6 mb-3 text-white'
-                  )}
-                  key={v.value}
-                >
-                  {v.name}
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        <div className='pt-4 pb-5 pl-8 bg-gray rounded-[20px]'>
-          <h2 className='font-bold text-base mb-4'>Reward</h2>
-          <div className='flex flex-wrap'>
-            {rewardOpt.hasNFT && (
-              <div
-                className={clsx(
-                  'flex items-center group justify-center h-8 px-6 rounded-md relative bg-b-1 mr-6 mb-3 text-white'
-                )}
-              >
-                🎁 NFT
-              </div>
-            )}
-
-            {rewardOpt.hasPoint && (
-              <div
-                className={clsx(
-                  'flex items-center group justify-center h-8 px-6 rounded-md relative bg-b-1 mr-6 mb-3 text-white'
-                )}
-              >
-                💎 POINTS
-              </div>
-            )}
-          </div>
+        <div className='space-y-3'>
+          <h2 className='font-bold text-base '>Credential Group & Reward</h2>
         </div>
 
         <div className='pt-4 pb-5 pl-8 bg-gray rounded-[20px]'>

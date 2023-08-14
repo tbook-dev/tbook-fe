@@ -1,4 +1,4 @@
-import { useState, forwardRef, useImperativeHandle } from 'react'
+import { useState } from 'react'
 import credentialCreatepng from '@/images/campaign-credential.png'
 import rewardCreatepng from '@/images/campaign-reward.png'
 import editIcon from '@/images/icon/edit.svg'
@@ -6,10 +6,7 @@ import Button from '@/components/button'
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
 import CredentialModal from './CredentialModal'
 import RewardModal from './RewardModal'
-import { useCurrentProject } from '@tbook/hooks'
-import { getCredentials } from '@/api/incentive'
 import { getTwitterId, incentiveAssetsTypeList } from '@/utils/conf'
-import { useQuery } from 'react-query'
 import x from '@/images/icon/x.svg'
 import { defaultCredentialReward } from '../conf'
 import { template } from 'lodash'
@@ -36,13 +33,6 @@ function CredentialReward ({
   NFTcontracts,
   credentialList
 }) {
-  // const { data: credentialList = [] } = useQuery(
-  //   ['credentialList', projectId],
-  //   () => getCredentials(projectId),
-  //   {
-  //     enabled: !!projectId
-  //   }
-  // )
   const credentialSet = credentialList.map(v => v.credentialList).flat()
 
   const [editCredentialIndex, setEditCredentialIndex] = useState(0)
