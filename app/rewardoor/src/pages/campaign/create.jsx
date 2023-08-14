@@ -152,7 +152,7 @@ export default function () {
           }
         ]}
       />
-      <div className='pt-20'>
+      <div className='pt-0.5'>
         <h1 className='text-4xl  mb-10 font-bold'>{title}</h1>
         <div className=''>
           {step === '1' && <BasicInfo form={setUpForm} />}

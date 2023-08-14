@@ -43,7 +43,7 @@ export const getCampaign = async function (projectId) {
   return await request(`${host}/campaignNew/project/${projectId}`);
 };
 export const getCampaignDetail = async function (id) {
-  return await request(`${host}/campaign/stats/${id}`);
+  return await request(`${host}/campaignNew/${id}`);
 };
 export const getOverview = async function (id) {
   return await request(`${host}/project/${id}/overview`);

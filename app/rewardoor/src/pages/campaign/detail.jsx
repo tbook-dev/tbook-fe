@@ -1,9 +1,8 @@
-import Layout from './laylout'
 import clsx from 'clsx'
 import { getCampaignDetail } from '@/api/incentive'
 import { useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
-import { useRequest } from 'ahooks'
+import { useQuery } from 'react-query'
 import { useMemo } from 'react'
 import Breadcrumb from '@/components/breadcrumb'
 
@@ -12,11 +11,9 @@ const dateFormat = `YYYY-MM-DD`
 
 export default function () {
   const { id } = useParams()
-  const { data: pageInfo = {}, loading } = useRequest(
-    () => getCampaignDetail(id),
-    {
-      refreshDeps: [id]
-    }
+  const { data: pageInfo = {}, loading } = useQuery(
+    ['campaignDetail', id],
+    () => getCampaignDetail(id)
   )
   const credentials = useMemo(() => {
     let _credentials = []
@@ -51,8 +48,21 @@ export default function () {
   console.log({ rewardOpt, credentials, loading })
   return (
     <>
-      <section className='mb-6'>
-        <h2 className='font-bold text-xl mb-0.5'>{pageInfo?.campaign?.name}</h2>
+      <Breadcrumb
+        items={[
+          {
+            title: 'Incentive Campaign',
+            href: '/campaign'
+          },
+          {
+            title: pageInfo?.campaign?.name
+          }
+        ]}
+      />
+      <section className='mb-6 pt-0.5'>
+        <h2 className='font-bold text-5xl mb-0.5 text-t-1'>
+          {pageInfo?.campaign?.name}
+        </h2>
 
         <div className='font-bold text-xs flex items-center'>
           <div className='px-4 py-0.5 mr-2 bg-gray rounded-xl'>Scheduled</div>
