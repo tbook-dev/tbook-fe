@@ -3,40 +3,13 @@ import { useState } from 'react'
 import Button from '@/components/button'
 import { Link } from 'react-router-dom'
 import { getCampaign } from '@/api/incentive'
-import { useRequest } from 'ahooks'
 import { useQuery } from 'react-query'
 import { useCurrentProject } from '@tbook/hooks'
 import Loading from '@/components/loading'
 import { PlusOutlined } from '@ant-design/icons'
 import Compaign from '@/components/compaign'
 //0: 草稿, 1：进行中, 2：计划中，3: 已完成, 16: 已删除
-
-const campaignStatus = [
-  {
-    label: 'Ongoing',
-    value: 1
-  },
-  {
-    label: 'Scheduled',
-    value: 2
-  },
-  {
-    label: 'Draft',
-    value: 0
-  },
-  {
-    label: 'Completed',
-    value: 3
-  },
-  {
-    label: 'Suspended',
-    value: 4
-  },
-  {
-    label: 'Terminated',
-    value: 5
-  }
-]
+import { campaignStatus } from '@/utils/conf'
 
 const ongoingId = 1
 const pageTitle = 'Incentive Campaign'

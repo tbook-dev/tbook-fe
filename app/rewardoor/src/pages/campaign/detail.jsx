@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { useQuery } from 'react-query'
 import { useMemo } from 'react'
 import Breadcrumb from '@/components/breadcrumb'
-
+import { campaignStatus } from '@/utils/conf'
 import { incentiveAssetsTypeList } from '@/utils/conf'
 const dateFormat = `YYYY-MM-DD`
 
@@ -59,14 +59,19 @@ export default function () {
           }
         ]}
       />
-      <section className='mb-6 pt-0.5'>
+      <section className='mb-10 pt-0.5'>
         <h2 className='font-bold text-5xl mb-0.5 text-t-1'>
           {pageInfo?.campaign?.name}
         </h2>
 
-        <div className='font-bold text-xs flex items-center'>
-          <div className='px-4 py-0.5 mr-2 bg-gray rounded-xl'>Scheduled</div>
-          <div className='px-4 py-0.5 mr-2 bg-gray rounded-xl'>
+        <div className='font-bold text-xs flex gap-x-2 items-center'>
+          <div className='px-4 py-0.5 bg-[#1A1A1A] rounded-xl'>
+            {
+              campaignStatus.find(v => v.value === pageInfo?.campaign?.status)
+                ?.label
+            }
+          </div>
+          <div className='px-4 py-0.5 bg-[#1A1A1A] rounded-xl'>
             {`${dayjs(pageInfo?.campaign?.startAt).format(dateFormat)}-${dayjs(
               pageInfo?.campaign?.endAt
             ).format(dateFormat)}`}

@@ -82,3 +82,30 @@ export const groupTypeMap = {
   4: "ProductTest",
   5: "My",
 };
+
+export const campaignStatus = [
+  {
+    label: "Ongoing",
+    value: 1,
+  },
+  {
+    label: "Scheduled",
+    value: 2,
+  },
+  {
+    label: "Draft",
+    value: 0,
+  },
+  {
+    label: "Completed",
+    value: 3,
+  },
+  {
+    label: "Suspended",
+    value: 4,
+  },
+  {
+    label: "Terminated",
+    value: 5,
+  },
+];
