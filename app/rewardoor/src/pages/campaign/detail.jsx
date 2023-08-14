@@ -50,7 +50,7 @@ export default function () {
   }, [pageInfo])
   console.log({ rewardOpt, credentials, loading })
   return (
-    <Layout>
+    <>
       <section className='mb-6'>
         <h2 className='font-bold text-xl mb-0.5'>{pageInfo?.campaign?.name}</h2>
 
@@ -115,6 +115,6 @@ export default function () {
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   )
 }

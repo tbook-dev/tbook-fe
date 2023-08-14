@@ -1,4 +1,3 @@
-import Layout from './laylout'
 import { Tabs } from 'antd'
 import NFT from '@/modules/assets/nft'
 import Credential from '@/modules/assets/credential'
@@ -24,10 +23,8 @@ const items = [
 
 export default function () {
   return (
-    <Layout>
-      <section className='mb-6'>
-        <Tabs defaultActiveKey='1' items={items} />
-      </section>
-    </Layout>
+    <section className='mb-6'>
+      <Tabs defaultActiveKey='1' items={items} />
+    </section>
   )
 }

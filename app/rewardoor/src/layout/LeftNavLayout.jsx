@@ -7,7 +7,7 @@ import Logo from '@/components/logo'
 const sideMenu = [
   {
     title: 'Overview',
-    link: '/overview',
+    link: '/',
     validator: function (match) {
       return match(this.link)
     }
@@ -78,6 +78,7 @@ export default function Layout ({ children }) {
                   )}
                   onClick={() => {
                     if (validatorSucessIdx !== idx && !v.disabled) {
+                      console.log(v.link)
                       navigate(v.link)
                     }
                   }}
@@ -109,6 +110,7 @@ export default function Layout ({ children }) {
       </div>
 
       <div className='w-[1080px] ml-10 pt-20'>
+        {children}
         <Outlet />
       </div>
     </div>

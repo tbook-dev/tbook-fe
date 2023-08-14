@@ -16,8 +16,8 @@ function Compaign ({ campaign = {}, groups }) {
       key={campaignId}
       to={
         draftId === status
-          ? `/draft/${campaignId}`
-          : `/dashboard/campaign/${campaignId}`
+          ? `/campaign/${campaignId}/edit`
+          : `/campaign/${campaignId}/detail`
       }
       className='rounded-3xl overflow-hidden h-[300px] bg-gray flex flex-col'
     >

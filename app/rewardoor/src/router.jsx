@@ -9,7 +9,11 @@ const routes = [
     children: [
       {
         index: true,
-        element: <Home />
+        element: (
+          <LeftNavLayout>
+            <Home />
+          </LeftNavLayout>
+        )
       },
       {
         path: 'campaign',
@@ -19,7 +23,7 @@ const routes = [
             index: true,
             async lazy () {
               const { default: Component } = await import(
-                '@/pages/dashboard/campaign'
+                '@/pages/campaign/list'
               )
               return { Component }
             }
@@ -28,17 +32,16 @@ const routes = [
             path: 'new',
             async lazy () {
               const { default: Component } = await import(
-                '@/pages/dashboard/new-campaign'
+                '@/pages/campaign/create'
               )
               return { Component }
             }
           },
           {
-            path: ':id',
-            // lazy: () => import('@/pages/dashboard/campaign-detail')
+            path: ':id/detail',
             async lazy () {
               const { default: Component } = await import(
-                '@/pages/dashboard/campaign-detail'
+                '@/pages/campaign/detail'
               )
               return { Component }
             }
@@ -47,7 +50,7 @@ const routes = [
             path: ':id/edit',
             async lazy () {
               const { default: Component } = await import(
-                '@/pages/dashboard/new-campaign'
+                '@/pages/campaign/create'
               )
               return { Component }
             }
@@ -88,7 +91,6 @@ const routes = [
 
       {
         path: '/twitter/callback',
-        // lazy: () => import('@/pages/twitter/callback'),
         async lazy () {
           const { default: Component } = await import(
             '@/pages/twitter/callback'
@@ -98,7 +100,6 @@ const routes = [
       },
       {
         path: '/nft/deploy',
-        // lazy: () => import('@/pages/nft/deploy'),
         async lazy () {
           const { default: Component } = await import('@/pages/nft/deploy')
           return { Component }
@@ -106,7 +107,6 @@ const routes = [
       },
       {
         path: '/old-login',
-        // lazy: () => import('@/pages/home'),
         async lazy () {
           const { default: Component } = await import('@/pages/home')
           return { Component }
@@ -114,7 +114,6 @@ const routes = [
       },
       {
         path: '/nft',
-        // lazy: () => import('@/pages/nft'),
         async lazy () {
           const { default: Component } = await import('@/pages/nft')
           return { Component }

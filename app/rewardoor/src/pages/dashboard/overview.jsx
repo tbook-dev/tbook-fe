@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Layout from './laylout'
 import { conf } from '@tbook/utils'
 import { incentiveAssetsTypeList } from '@/utils/conf'
 import { getOverview } from '@/api/incentive'
@@ -72,7 +71,7 @@ export default function () {
     }
   ]
   return (
-    <Layout>
+    <>
       <section className='mb-5'>
         <h2 className='font-bold text-xl mb-5'>Overview</h2>
         <div className='grid grid-cols-4 gap-x-4'>
@@ -140,6 +139,6 @@ export default function () {
           </table>
         )}
       </section>
-    </Layout>
+    </>
   )
 }

@@ -1,10 +1,10 @@
 import clsx from 'clsx'
-import Layout from './laylout'
 import { useState } from 'react'
 import Button from '@/components/button'
 import { Link } from 'react-router-dom'
 import { getCampaign } from '@/api/incentive'
 import { useRequest } from 'ahooks'
+import { useQuery } from 'react-query'
 import { useCurrentProject } from '@tbook/hooks'
 import Loading from '@/components/loading'
 import { PlusOutlined } from '@ant-design/icons'
@@ -43,19 +43,20 @@ const pageTitle = 'Incentive Campaign'
 export default function () {
   const [selectStatus, setSelectedStatus] = useState(campaignStatus[0].value)
   const { projectId } = useCurrentProject()
-  const { loading, data: list = [] } = useRequest(
+
+  const { data: list = [], loading } = useQuery(
+    ['campaignList', projectId],
     () => getCampaign(projectId),
     {
-      ready: !!projectId,
-      refreshDeps: [projectId]
+      enabled: !!projectId
     }
   )
   const listFilter = list.filter(v => v.campaign?.status === selectStatus)
   return (
-    <Layout>
+    <>
       <section className='flex justify-between items-center mb-5'>
         <h2 className='text-3xl font-black text-[#C8C8C8]'>{pageTitle}</h2>
-        <Link to='/new-campaign'>
+        <Link to='/campaign/new'>
           <Button type='primary'>
             <PlusOutlined className='mr-2' />
             <span className='font-bold text-base'>New Campaign</span>
@@ -109,7 +110,7 @@ export default function () {
                 {selectStatus === ongoingId ? (
                   <div className='flex flex-col items-center'>
                     No Ongoing Campaign
-                    <Link to='/new-campaign' className='mt-6'>
+                    <Link to='/campaign/new' className='mt-6'>
                       <Button type='primary'>
                         <PlusOutlined className='mr-2' />
                         <span className='font-bold text-base'>
@@ -126,6 +127,6 @@ export default function () {
           </div>
         )}
       </section>
-    </Layout>
+    </>
   )
 }
