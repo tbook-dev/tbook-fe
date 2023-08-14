@@ -1,53 +1,39 @@
 import clsx from 'clsx'
 import { useCurrentProject } from '@tbook/hooks'
-import { useNavigate, useMatch, Outlet } from 'react-router-dom'
+import { useNavigate, Outlet, NavLink } from 'react-router-dom'
 import Account from '@/components/account'
 import Logo from '@/components/logo'
 
 const sideMenu = [
   {
     title: 'Overview',
-    link: '/',
-    validator: function (match) {
-      return match(this.link)
-    }
+    link: '/'
   },
   {
     title: 'Incentive Campaign',
-    link: '/campaign',
-    validator: function (match) {
-      const links = ['/new-campaign', '/campaign', '/campaign/:id']
-      return links.filter(match).length > 0
-    }
+    link: '/campaign'
   },
   {
     title: 'Incentive Asset',
-    link: '/assets',
-    validator: function (match) {
-      return match(this.link)
-    }
+    link: '/assets'
   },
   {
     title: 'User Profiling',
-    link: '/profile',
-    disabled: true,
-    validator: function (match) {
-      return match(this.link)
-    }
+    // link: '/profile',
+    link: 'jvascript:void(0)',
+    disabled: true
   },
   {
     title: 'Settings',
-    link: '/settings',
-    disabled: true,
-    validator: function (match) {
-      return match(this.link)
-    }
+    // link: '/settings',
+    link: 'jvascript:void(0)',
+    disabled: true
   }
 ]
 
 export default function Layout ({ children }) {
   const project = useCurrentProject()
-  const validatorSucessIdx = sideMenu.findIndex(v => v.validator(useMatch))
+  // const validatorSucessIdx = sideMenu.findIndex(v => v.validator(useMatch))
   const navigate = useNavigate()
 
   return (
@@ -57,8 +43,8 @@ export default function Layout ({ children }) {
           <Logo />
           <div
             className={clsx(
-              'pt-[133px] pb-[38px] pl-8 uppercase text-base leading-none font-bold bg-b-1',
-              validatorSucessIdx === 0 && 'rounded-br-2xl'
+              'pt-[133px] pb-[38px] pl-8 uppercase text-base leading-none font-bold bg-b-1'
+              // validatorSucessIdx === 0 && 'rounded-br-2xl'
             )}
           >
             {project?.projectName}
@@ -67,40 +53,40 @@ export default function Layout ({ children }) {
           <div className='bg-black'>
             {sideMenu.map((v, idx) => {
               return (
-                <div
-                  key={v.link}
-                  className={clsx(
-                    validatorSucessIdx === idx
-                      ? 'pl-4 bg-[#191919] text-[#C8C8C8]'
-                      : v.disabled
-                      ? 'cursor-not-allowed text-c-6'
-                      : 'cursor-pointer text-c-6'
-                  )}
-                  onClick={() => {
-                    if (validatorSucessIdx !== idx && !v.disabled) {
-                      console.log(v.link)
-                      navigate(v.link)
-                    }
+                <NavLink to={v.link}>
+                  {({ isActive }) => {
+                    return (
+                      <div
+                        key={`${v.title}-${idx}`}
+                        className={clsx(
+                          isActive
+                            ? 'pl-4 bg-[#191919] text-[#C8C8C8]'
+                            : v.disabled
+                            ? 'cursor-not-allowed pointer-events-none text-c-6'
+                            : 'cursor-pointer text-c-6'
+                        )}
+                      >
+                        <div
+                          className={clsx(
+                            'text-base pl-8 font-bold flex items-center relative',
+                            isActive
+                              ? 'bg-black h-10 rounded-l-2xl'
+                              : 'h-14 bg-[#191919]'
+                            // 下一个
+                            // idx + 1 === validatorSucessIdx && 'rounded-br-2xl',
+                            // 上一个
+                            // idx - 1 === validatorSucessIdx && 'rounded-tr-2xl'
+                          )}
+                        >
+                          {isActive && (
+                            <div className='absolute h-4 w-4 rounded-full left-4 bg-cw1 hidden' />
+                          )}
+                          {v.title}
+                        </div>
+                      </div>
+                    )
                   }}
-                >
-                  <div
-                    className={clsx(
-                      'text-base pl-8 font-bold flex items-center relative',
-                      validatorSucessIdx === idx
-                        ? 'bg-black h-10 rounded-l-2xl'
-                        : 'h-14 bg-[#191919]',
-                      // 下一个
-                      idx + 1 === validatorSucessIdx && 'rounded-br-2xl',
-                      // 上一个
-                      idx - 1 === validatorSucessIdx && 'rounded-tr-2xl'
-                    )}
-                  >
-                    {validatorSucessIdx === idx && (
-                      <div className='absolute h-4 w-4 rounded-full left-4 bg-cw1 hidden' />
-                    )}
-                    {v.title}
-                  </div>
-                </div>
+                </NavLink>
               )
             })}
           </div>
