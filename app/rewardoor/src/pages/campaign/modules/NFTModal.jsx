@@ -18,7 +18,7 @@ export default function NFTModal ({ visible, setOpen }) {
   const handleOk = () => {
     form.validateFields().then(values => {
       handleCreateNFTcontract(projectId, values).then(res => {
-        queryClient.invalidateQueries('NFTcontracts')
+        queryClient.refetchQueries('NFTcontracts')
         setOpen(false)
       })
     })

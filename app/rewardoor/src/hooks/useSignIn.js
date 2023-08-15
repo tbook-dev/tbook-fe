@@ -73,7 +73,7 @@ export default function (cb) {
       } catch (error) {
         console.log(error)
       }
-      queryClient.invalidateQueries('userInfo')
+      queryClient.refetchQueries('userInfo')
     } catch (error) {
       console.log(error);
     }
