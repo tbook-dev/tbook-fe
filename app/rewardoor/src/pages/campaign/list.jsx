@@ -22,6 +22,7 @@ export default function () {
     ['campaignList', projectId],
     () => getCampaign(projectId),
     {
+      staleTime: 1000 * 60 * 10,
       enabled: !!projectId
     }
   )

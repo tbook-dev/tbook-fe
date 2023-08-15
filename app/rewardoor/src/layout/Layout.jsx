@@ -7,8 +7,7 @@ const aboardPath = "/aboard"
 export default function LayoutAdmin() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { data, isLoading, error ,isFetchedAfterMount } = useUserInfo();
-  console.log({data, isLoading, error, isFetchedAfterMount})
+  const { error } = useUserInfo();
 
   useEffect(() => {
     if (error && error.code === 401 && location.pathname !== aboardPath) {

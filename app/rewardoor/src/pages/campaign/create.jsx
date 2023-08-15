@@ -57,7 +57,8 @@ export default function () {
     ['NFTcontracts', projectId],
     () => getNFTcontracts(projectId),
     {
-      enabled: !!projectId
+      enabled: !!projectId,
+      staleTime: 60 * 1000 * 60
     }
   )
 
@@ -65,7 +66,8 @@ export default function () {
     ['credentialList', projectId],
     () => getCredentials(projectId),
     {
-      enabled: !!projectId
+      enabled: !!projectId,
+      staleTime: 60 * 1000 * 60
     }
   )
   console.log({ credentialList })
