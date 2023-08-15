@@ -3,6 +3,7 @@ import { useNavigate, useLocation, Outlet } from 'react-router-dom'
 import { useEffect } from 'react'
 
 const aboardPath = '/aboard'
+
 export default function LayoutAdmin () {
   const authUser = useSelector(state => state.user.authUser)
   const location = useLocation()

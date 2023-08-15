@@ -7,27 +7,32 @@ import Logo from '@/components/logo'
 const sideMenu = [
   {
     title: 'Overview',
-    link: '/'
+    link: '/',
+    key: 'overview'
   },
   {
     title: 'Incentive Campaign',
-    link: '/campaign'
+    link: '/campaign',
+    key: 'campaign'
   },
   {
     title: 'Incentive Asset',
-    link: '/assets'
+    link: '/assets',
+    key: 'assets'
   },
   {
     title: 'User Profiling',
     // link: '/profile',
     link: 'jvascript:void(0)',
-    disabled: true
+    disabled: true,
+    key: 'profile'
   },
   {
     title: 'Settings',
     // link: '/settings',
     link: 'jvascript:void(0)',
-    disabled: true
+    disabled: true,
+    key: 'settings'
   }
 ]
 
@@ -53,7 +58,7 @@ export default function Layout ({ children }) {
           <div className='bg-black'>
             {sideMenu.map((v, idx) => {
               return (
-                <NavLink to={v.link}>
+                <NavLink to={v.link} key={v.key}>
                   {({ isActive }) => {
                     return (
                       <div
