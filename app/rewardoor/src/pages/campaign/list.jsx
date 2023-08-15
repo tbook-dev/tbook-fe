@@ -4,10 +4,11 @@ import Button from '@/components/button'
 import { Link } from 'react-router-dom'
 import { getCampaign } from '@/api/incentive'
 import { useQuery } from 'react-query'
-import { useCurrentProject } from '@tbook/hooks'
 import Loading from '@/components/loading'
 import { PlusOutlined } from '@ant-design/icons'
 import Compaign from '@/components/compaign'
+import useUserInfo from "@/hooks/useUserInfoQuery"
+
 //0: 草稿, 1：进行中, 2：计划中，3: 已完成, 16: 已删除
 import { campaignStatus } from '@/utils/conf'
 
@@ -15,7 +16,7 @@ const ongoingId = 1
 const pageTitle = 'Incentive Campaign'
 export default function () {
   const [selectStatus, setSelectedStatus] = useState(campaignStatus[0].value)
-  const { projectId } = useCurrentProject()
+  const { projectId } = useUserInfo()
 
   const { data: list = [], loading } = useQuery(
     ['campaignList', projectId],

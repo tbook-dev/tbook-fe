@@ -1,27 +1,31 @@
-import { useSelector } from 'react-redux'
-import { useNavigate, useLocation, Outlet } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useNavigate, useLocation, Outlet } from "react-router-dom"
+import { useEffect } from "react"
+import useUserInfo from "@/hooks/useUserInfoQuery"
 
-const aboardPath = '/aboard'
+const aboardPath = "/aboard"
 
-export default function LayoutAdmin () {
-  const authUser = useSelector(state => state.user.authUser)
-  const location = useLocation()
-  const navigate = useNavigate()
+export default function LayoutAdmin() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { data, isLoading, error ,isFetchedAfterMount } = useUserInfo();
+  console.log({data, isLoading, error, isFetchedAfterMount})
+
   useEffect(() => {
-    if (!authUser && location.pathname !== aboardPath) {
+    if (error && error.code === 401 && location.pathname !== aboardPath) {
       navigate(
         `${aboardPath}?redirect=${encodeURIComponent(
           location.pathname + location.search
         )}`
-      )
+      );
     }
-  }, [authUser])
+  }, [error]);
+
+
   return (
-    <div className='flex flex-col min-h-screen dark:bg-black dark:text-white bg-[#FBFDFF]'>
-      <div className='relative flex-auto overflow-x-hidden overflow-y-auto'>
+    <div className="flex flex-col min-h-screen dark:bg-black dark:text-white bg-[#FBFDFF]">
+      <div className="relative flex-auto overflow-x-hidden overflow-y-auto">
         <Outlet />
       </div>
     </div>
-  )
+  );
 }

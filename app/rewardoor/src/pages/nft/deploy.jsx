@@ -6,14 +6,14 @@ import Button from '@/components/button'
 import { conf } from '@tbook/utils'
 import { useAccount, useSwitchNetwork } from 'wagmi'
 import { logout } from '@/utils/web3'
-import { NetWork } from '@tbook/ui'
+// import { NetWork } from '@tbook/ui'
 import { useNavigate } from 'react-router-dom'
 import { createNFT } from '@/api/incentive'
-import { useCurrentProject } from '@tbook/hooks'
+import useUserInfo from "@/hooks/useUserInfoQuery"
 import uploadFile from '@/utils/upload'
 import { shortAddress } from '@tbook/utils/lib/conf'
 import { useSelector } from 'react-redux'
-import { Icon } from '@tbook/ui'
+// import { Icon } from '@tbook/ui'
 import doneIcon from '@/images/icon/done.svg'
 import { getNFTInfo } from '@/api/incentive'
 import { optimismGoerli } from 'wagmi/chains'
@@ -70,7 +70,7 @@ export default function () {
   const [NFTTransferable, setNFTTransferable] = useState(true)
   const { switchNetwork } = useSwitchNetwork()
   const navigate = useNavigate()
-  const project = useCurrentProject()
+  const {project} = useUserInfo()
   const { address, isConnected, ...others } = useAccount()
   const id = optimismGoerli.id
   const [form] = Form.useForm()
@@ -278,7 +278,8 @@ export default function () {
                 // }}
               >
                 <div className='flex items-center justify-center w-6 h-6'>
-                  <NetWork id={chain.evmChainId} />
+                  {chain.evmChainId}
+                  {/* <NetWork id={chain.evmChainId} /> */}
                 </div>
                 <span className={clsx('ml-2 ')}>{chain.name}</span>
               </div>
@@ -469,7 +470,7 @@ export default function () {
               />
               <h3 className='mb-2 text-xl font-bold'>Onboarding {NFTName}</h3>
               <div className='flex items-center text-sm'>
-                <Icon.NetWork id={10} className='mr-1.5' />
+                {/* <Icon.NetWork id={10} className='mr-1.5' /> */}
                 <span className='font-medium text-c-9 mr-1'>from</span>
                 <span className='font-bold'>
                   {shortAddress(

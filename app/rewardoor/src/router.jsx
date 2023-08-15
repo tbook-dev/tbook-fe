@@ -6,6 +6,9 @@ const routes = [
   {
     path: '/',
     element: <LayoutAdmin />,
+    // loader: async () => {
+    //   return null
+    // },
     children: [
       {
         index: true,

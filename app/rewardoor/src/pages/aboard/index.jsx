@@ -3,7 +3,7 @@ import bannerUrl from '@/images/aboard-banner.png'
 import bannerBg from '@/images/aboard-bg.png'
 import metaMask from '@/images/icon/metamask.svg'
 import walletconnect from '@/images/icon/walletconnect.svg'
-import { useSignIn } from '@tbook/hooks'
+import useSignIn  from '@/hooks/useSignIn'
 import Button from '@/components/button'
 
 const titleList = ['Incentivize core', 'communities', 'and builders']

@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useCurrentProject } from '@tbook/hooks'
+import useUserInfo from "@/hooks/useUserInfoQuery"
 import { useNavigate, Outlet, NavLink } from 'react-router-dom'
 import Account from '@/components/account'
 import Logo from '@/components/logo'
@@ -37,7 +37,8 @@ const sideMenu = [
 ]
 
 export default function Layout ({ children }) {
-  const project = useCurrentProject()
+  const {project} = useUserInfo()
+  
   // const validatorSucessIdx = sideMenu.findIndex(v => v.validator(useMatch))
   const navigate = useNavigate()
 

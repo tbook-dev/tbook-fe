@@ -8,10 +8,6 @@ import { arbitrum, mainnet, polygon, optimism, optimismGoerli, localhost } from 
 const chains = [arbitrum, mainnet, polygon, optimism, optimismGoerli, localhost]
 const projectId = import.meta.env.VITE_WC_PROJECT_ID
 
-import { user } from '@tbook/store'
-
-const { reset } = user
-
 const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
 export const wagmiConfig = createConfig({
   autoConnect: true,
@@ -71,7 +67,6 @@ async function signLogin (addr, signer, chain, pubKey) {
 }
 
 export function logout () {
-  reset()
   return fetch(`${host}/signout`, { credentials: 'include' })
 }
 

@@ -1,10 +1,6 @@
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { useAsyncEffect } from 'ahooks'
-import { useDispatch } from 'react-redux'
-import { user } from '@tbook/store'
 import '@/css/style.css'
-import { useTheme } from '@tbook/hooks'
 
 import { configResponsive } from 'ahooks'
 import routes from './router'
@@ -20,7 +16,6 @@ import {
   logout
 } from '@/utils/web3'
 import { Web3Modal } from '@web3modal/react'
-const { fetchUserInfo } = user
 
 configResponsive({
   pc: 1120
@@ -44,19 +39,6 @@ watchAccount(async acc => {
 })
 
 function App () {
-  const dispatch = useDispatch()
-  const theme = useTheme()
-  useLayoutEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [theme])
-
-  useAsyncEffect(async () => {
-    dispatch(fetchUserInfo())
-  }, [])
 
   return (
     <>
