@@ -118,7 +118,7 @@ const routes = [
       {
         path: '/nft',
         async lazy () {
-          const { default: Component } = await import('@/pages/nft')
+          const { default: Component } = await import('@/pages/nft/deploy')
           return { Component }
         }
       }
