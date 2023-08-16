@@ -1,18 +1,18 @@
 import clsx from 'clsx'
-import useUserInfo from "@/hooks/useUserInfoQuery"
+import useUserInfo from '@/hooks/useUserInfoQuery'
 import { useNavigate, Outlet, NavLink } from 'react-router-dom'
 import Account from '@/components/account'
 import Logo from '@/components/logo'
 
 const sideMenu = [
-  {
-    title: 'Overview',
-    link: '/',
-    key: 'overview'
-  },
+  // {
+  //   title: 'Overview',
+  //   link: '/',
+  //   key: 'overview'
+  // },
   {
     title: 'Incentive Campaign',
-    link: '/campaign',
+    link: '/',
     key: 'campaign'
   },
   {
@@ -20,13 +20,13 @@ const sideMenu = [
     link: '/assets',
     key: 'assets'
   },
-  {
-    title: 'User Profiling',
-    // link: '/profile',
-    link: 'jvascript:void(0)',
-    disabled: true,
-    key: 'profile'
-  },
+  // {
+  //   title: 'User Profiling',
+  //   // link: '/profile',
+  //   link: 'jvascript:void(0)',
+  //   disabled: true,
+  //   key: 'profile'
+  // },
   {
     title: 'Settings',
     // link: '/settings',
@@ -37,8 +37,8 @@ const sideMenu = [
 ]
 
 export default function Layout ({ children }) {
-  const {project} = useUserInfo()
-  
+  const { project } = useUserInfo()
+
   // const validatorSucessIdx = sideMenu.findIndex(v => v.validator(useMatch))
   const navigate = useNavigate()
 

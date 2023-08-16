@@ -85,16 +85,16 @@ export const groupTypeMap = {
 
 export const campaignStatus = [
   {
-    label: "Draft",
-    value: 0,
-  },
-  {
     label: "Ongoing",
     value: 1,
   },
   {
     label: "Scheduled",
     value: 2,
+  },
+  {
+    label: "Draft",
+    value: 0,
   },
   {
     label: "Completed",

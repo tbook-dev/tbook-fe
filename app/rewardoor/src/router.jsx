@@ -1,6 +1,7 @@
 import LayoutAdmin from './layout/Layout'
 import LeftNavLayout from './layout/LeftNavLayout'
-import Home from '@/pages/dashboard/overview'
+// import Home from '@/pages/dashboard/overview'
+import Home from '@/pages/campaign/list'
 
 const routes = [
   {
@@ -22,15 +23,15 @@ const routes = [
         path: 'campaign',
         element: <LeftNavLayout />,
         children: [
-          {
-            index: true,
-            async lazy () {
-              const { default: Component } = await import(
-                '@/pages/campaign/list'
-              )
-              return { Component }
-            }
-          },
+          // {
+          //   index: true,
+          //   async lazy () {
+          //     const { default: Component } = await import(
+          //       '@/pages/campaign/list'
+          //     )
+          //     return { Component }
+          //   }
+          // },
           {
             path: 'new',
             async lazy () {
