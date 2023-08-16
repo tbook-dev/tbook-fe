@@ -176,7 +176,7 @@ export default function () {
         </div>
       </div>
 
-      <div className='absolute bottom-0 left-0 right-0 flex justify-between py-20'>
+      <div className='absolute bottom-0 left-0 right-0 flex justify-between pb-20'>
         <div className='flex justify-center space-x-6'>
           <Button type='text'>Save Draft</Button>
           <Button type='text'>Preview</Button>
