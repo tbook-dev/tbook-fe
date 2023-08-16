@@ -1,6 +1,6 @@
 import Button from '@/components/button'
 import { Link } from 'react-router-dom'
-import useUserInfo from "@/hooks/useUserInfoQuery"
+import useUserInfo from '@/hooks/useUserInfoQuery'
 import { useAsyncEffect } from 'ahooks'
 import { getNFTList } from '@/api/incentive'
 import { useState } from 'react'
@@ -10,7 +10,7 @@ import clsx from 'clsx'
 import { Typography } from 'antd'
 import copyIcon from '@/images/icon/copy.svg'
 // import { Icon } from '@tbook/ui'
-const { NetWork } = Icon
+// const { NetWork } = Icon
 
 const { shortAddress } = conf
 const { Paragraph } = Typography
@@ -76,7 +76,7 @@ export default function NFT () {
                         )
                       }}
                     >
-                      <NetWork id={v.chainId || 1} className='mr-2' />
+                      {/* <NetWork id={v.chainId || 1} className='mr-2' /> */}
                       <span className='font-bold text-sm mr-2 text-[#C8C8C8]'>
                         {shortAddress(v.contract)}
                       </span>

@@ -66,7 +66,7 @@ export default function Layout ({ children }) {
                         key={`${v.title}-${idx}`}
                         className={clsx(
                           isActive
-                            ? 'pl-4 bg-[#191919] text-[#C8C8C8]'
+                            ? 'bg-[#191919] text-[#C8C8C8]'
                             : v.disabled
                             ? 'cursor-not-allowed pointer-events-none text-c-6'
                             : 'cursor-pointer text-c-6'
