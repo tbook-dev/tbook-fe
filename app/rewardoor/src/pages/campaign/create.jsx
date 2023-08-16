@@ -18,7 +18,7 @@ import dayjs from 'dayjs'
 import { conf } from '@tbook/utils'
 import BasicInfo from './modules/BasicInfo'
 import { defaultCredentialReward } from './conf'
-import useUserInfo from "@/hooks/useUserInfoQuery"
+import useUserInfo from '@/hooks/useUserInfoQuery'
 
 const listLink = `/campaign`
 const title = 'Set up an Incentive Campaign'
@@ -143,7 +143,7 @@ export default function () {
     console.log(res)
   }
   return (
-    <div className='text-white'>
+    <div className='text-white relative min-h-full'>
       <Breadcrumb
         items={[
           {
@@ -170,7 +170,7 @@ export default function () {
         </div>
       </div>
 
-      <div className='flex justify-between py-20'>
+      <div className='absolute bottom-0 left-0 right-0 flex justify-between py-20'>
         <div className='flex justify-center space-x-6'>
           <Button type='text'>Save Draft</Button>
           <Button type='text'>Preview</Button>

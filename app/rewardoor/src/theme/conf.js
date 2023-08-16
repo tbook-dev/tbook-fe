@@ -8,6 +8,7 @@ export default {
   },
   DatePicker: {
     controlHeight: 40,
+    borderRadius: 24,
   },
   Input: {
     controlHeight: 40,

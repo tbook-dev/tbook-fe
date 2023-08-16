@@ -101,7 +101,7 @@ export default function Layout ({ children }) {
         <Account />
       </div>
 
-      <div className='w-[1080px] ml-10 pt-20'>
+      <div className='w-[1080px] ml-10 pt-20 flex flex-col'>
         {children}
         <Outlet />
       </div>
