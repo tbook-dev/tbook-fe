@@ -3,7 +3,6 @@ import Breadcrumb from '@/components/breadcrumb'
 import { useRef, useState, useEffect } from 'react'
 import Button from '@/components/button'
 import { useNavigate } from 'react-router-dom'
-import { useCurrentProject } from '@tbook/hooks'
 import {
   getNFTList,
   getCredentials,
@@ -19,6 +18,7 @@ import dayjs from 'dayjs'
 import { conf } from '@tbook/utils'
 import BasicInfo from './modules/BasicInfo'
 import { defaultCredentialReward } from './conf'
+import useUserInfo from "@/hooks/useUserInfoQuery"
 
 const listLink = `/campaign`
 const title = 'Set up an Incentive Campaign'
@@ -51,12 +51,14 @@ const checkFormValidte = conf => {
 
 export default function () {
   const [step, setStep] = useState(defaultStep)
-  const { projectId } = useCurrentProject()
+  const { projectId } = useUserInfo()
+
   const { data: NFTcontracts } = useQuery(
     ['NFTcontracts', projectId],
     () => getNFTcontracts(projectId),
     {
-      enabled: !!projectId
+      enabled: !!projectId,
+      staleTime: 60 * 1000 * 60
     }
   )
 
@@ -64,7 +66,8 @@ export default function () {
     ['credentialList', projectId],
     () => getCredentials(projectId),
     {
-      enabled: !!projectId
+      enabled: !!projectId,
+      staleTime: 60 * 1000 * 60
     }
   )
   console.log({ credentialList })

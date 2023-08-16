@@ -6,6 +6,9 @@ const routes = [
   {
     path: '/',
     element: <LayoutAdmin />,
+    // loader: async () => {
+    //   return null
+    // },
     children: [
       {
         index: true,
@@ -115,7 +118,7 @@ const routes = [
       {
         path: '/nft',
         async lazy () {
-          const { default: Component } = await import('@/pages/nft')
+          const { default: Component } = await import('@/pages/nft/deploy')
           return { Component }
         }
       }

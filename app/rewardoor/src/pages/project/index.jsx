@@ -2,15 +2,14 @@ import { Form, Input, Select } from 'antd'
 import Button from '@/components/button'
 import { useState } from 'react'
 import { createProject } from '@/api/incentive'
-import { user } from '@tbook/store'
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Logo from '@/components/logo'
 import bannerUrl from '@/images/aboard-banner.png'
 import bannerBg from '@/images/aboard-bg.png'
 import Account from '@/components/account'
+import { useQueryClient } from 'react-query'
 
-const { setAuthUser, setUser, setProjects, getUserInfo } = user
+// const { setAuthUser, setUser, setProjects, getUserInfo } = user
 
 const categoryList = [
   'DeFi',
@@ -33,8 +32,8 @@ const dashboardOverView = `/dashboard/overview`
 export default function () {
   const [form] = Form.useForm()
   const [confirmLoading, setConfirmLoading] = useState(false)
-  const dispatch = useDispatch()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   function handleCreate () {
     setConfirmLoading(true)
@@ -45,18 +44,8 @@ export default function () {
           const res = await createProject(values)
           setConfirmLoading(false)
           console.log(res)
-          getUserInfo()
-            .then(response => {
-              // console.log("response", response);
-              dispatch(setAuthUser(true))
-              dispatch(setUser(response?.user || {}))
-              dispatch(setProjects(response?.projects || []))
-              navigate(dashboardOverView)
-            })
-            .catch(err => {
-              dispatch(setAuthUser(false))
-              console.log(err, 'xxx')
-            })
+          queryClient.refetchQueries('userInfo')
+          navigate(dashboardOverView)
         } catch (err) {
           console.log(err)
         }

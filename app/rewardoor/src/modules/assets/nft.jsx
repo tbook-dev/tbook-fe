@@ -1,6 +1,6 @@
 import Button from '@/components/button'
 import { Link } from 'react-router-dom'
-import { useCurrentProject } from '@tbook/hooks'
+import useUserInfo from "@/hooks/useUserInfoQuery"
 import { useAsyncEffect } from 'ahooks'
 import { getNFTList } from '@/api/incentive'
 import { useState } from 'react'
@@ -9,7 +9,7 @@ import Loading from '@/components/loading'
 import clsx from 'clsx'
 import { Typography } from 'antd'
 import copyIcon from '@/images/icon/copy.svg'
-import { Icon } from '@tbook/ui'
+// import { Icon } from '@tbook/ui'
 const { NetWork } = Icon
 
 const { shortAddress } = conf
@@ -20,7 +20,7 @@ const desc =
   'Deploy NFT contracts to incentivize the eligible participation of the campaign.'
 
 export default function NFT () {
-  const { projectId } = useCurrentProject()
+  const { projectId } = useUserInfo()
   const [loading, setLoading] = useState(false)
   const [list, setList] = useState([])
   useAsyncEffect(async () => {

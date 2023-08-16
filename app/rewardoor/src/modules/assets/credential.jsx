@@ -1,4 +1,4 @@
-import { useCurrentProject } from '@tbook/hooks'
+import useUserInfo from "@/hooks/useUserInfoQuery"
 import { useAsyncEffect } from 'ahooks'
 import { getCredential } from '@/api/incentive'
 import { useState } from 'react'
@@ -7,7 +7,7 @@ import Loading from '@/components/loading'
 import clsx from 'clsx'
 const { formatDollar } = conf
 export default function Credential () {
-  const { projectId } = useCurrentProject()
+  const { projectId } = useUserInfo()
   const [loading, setLoading] = useState(false)
   const [list, setList] = useState([])
   useAsyncEffect(async () => {

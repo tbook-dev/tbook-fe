@@ -17,7 +17,7 @@ import Button from '@/components/button'
 import { useNavigate } from 'react-router-dom'
 import uploadFile from '@/utils/upload'
 import { useAsyncEffect } from 'ahooks'
-import { useCurrentProject } from '@tbook/hooks'
+import useUserInfo from "@/hooks/useUserInfoQuery"
 import {
   getNFTList,
   getCredentials,
@@ -66,7 +66,7 @@ const successMsg = `draft saved successfully`
 
 export default function () {
   const [step, setStep] = useState('1')
-  const { projectId } = useCurrentProject()
+  const { projectId } = useUserInfo()
   const [setUpForm] = Form.useForm()
   const [credentialForm] = Form.useForm()
   const [incentiveForm] = Form.useForm()

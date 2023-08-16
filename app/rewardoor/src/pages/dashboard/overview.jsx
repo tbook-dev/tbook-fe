@@ -3,14 +3,14 @@ import { conf } from '@tbook/utils'
 import { incentiveAssetsTypeList } from '@/utils/conf'
 import { getOverview } from '@/api/incentive'
 import { useAsyncEffect } from 'ahooks'
-import { useCurrentProject } from '@tbook/hooks'
+import useUserInfo from "@/hooks/useUserInfoQuery"
 import Loading from '@/components/loading'
 const { formatDollar } = conf
 
 export default function () {
   const [info, setInfo] = useState({})
   const [loading, setLoading] = useState(false)
-  const { projectId } = useCurrentProject()
+  const { projectId } = useUserInfo()
 
   useAsyncEffect(async () => {
     if (!projectId) return

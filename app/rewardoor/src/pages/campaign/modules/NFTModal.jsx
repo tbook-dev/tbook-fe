@@ -2,7 +2,7 @@ import Button from '@/components/button'
 import { Modal, Form, Input, Select, Switch } from 'antd'
 import { supportChains } from '@/utils/conf'
 import { handleCreateNFTcontract } from '@/api/incentive'
-import { useCurrentProject } from '@tbook/hooks'
+import useUserInfo from "@/hooks/useUserInfoQuery"
 import { useQueryClient } from 'react-query'
 const nftPlaceholder =
   'Enter the name that will be visible on blockchain as official verification'
@@ -13,12 +13,12 @@ const title = 'Deploy NFT Contract'
 
 export default function NFTModal ({ visible, setOpen }) {
   const [form] = Form.useForm()
-  const { projectId } = useCurrentProject()
+  const { projectId } = useUserInfo()
   const queryClient = useQueryClient()
   const handleOk = () => {
     form.validateFields().then(values => {
       handleCreateNFTcontract(projectId, values).then(res => {
-        queryClient.invalidateQueries('NFTcontracts')
+        queryClient.refetchQueries('NFTcontracts')
         setOpen(false)
       })
     })

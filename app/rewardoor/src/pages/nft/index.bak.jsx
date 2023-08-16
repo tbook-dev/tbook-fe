@@ -9,7 +9,7 @@ import { logout } from '@/utils/web3'
 import { NetWork } from '@tbook/ui'
 import { useNavigate } from 'react-router-dom'
 import { createNFT } from '@/api/incentive'
-import { useCurrentProject } from '@tbook/hooks'
+import useUserInfo from "@/hooks/useUserInfoQuery"
 import uploadFile from '@/utils/upload'
 import { shortAddress } from '@tbook/utils/lib/conf'
 import { useSelector } from 'react-redux'
@@ -63,7 +63,7 @@ export default function () {
   const [NFTName, setNFTName] = useState('')
   const { switchNetwork } = useSwitchNetwork()
   const navigate = useNavigate()
-  const project = useCurrentProject()
+  const {project} = useUserInfo()
   const { address, isConnected, ...others } = useAccount()
   const id = 10
   const [form] = Form.useForm()

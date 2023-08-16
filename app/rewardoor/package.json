@@ -8,10 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tbook/hooks": "workspace:*",
     "@tbook/share": "workspace:*",
-    "@tbook/store": "workspace:*",
-    "@tbook/ui": "workspace:*",
     "@tbook/utils": "workspace:*",
     "alchemy-sdk": "^2.8.3"
   }

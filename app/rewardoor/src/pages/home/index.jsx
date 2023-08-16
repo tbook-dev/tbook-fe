@@ -1,15 +1,15 @@
 import Button from '@/components/button'
 import bg from '@/images/home-bg.png'
-import { useProjects } from '@tbook/hooks'
+import useUserInfo from '@/hooks/useUserInfoQuery'
 import { useNavigate } from 'react-router-dom'
 import { useAccount } from 'wagmi'
-import { useSignIn } from '@tbook/hooks'
+import  useSignIn from '@/hooks/useSignIn'
 import { useWeb3Modal } from '@web3modal/react'
 
 export default function () {
   const navigate = useNavigate()
   const { isConnected } = useAccount()
-  const projects = useProjects()
+  const {projects} = useUserInfo()
   const { loading, handleSignIn } = useSignIn()
 
   const { isOpen, open, close, setDefaultChain } = useWeb3Modal()
