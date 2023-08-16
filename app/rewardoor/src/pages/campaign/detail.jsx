@@ -6,16 +6,38 @@ import { useQuery } from 'react-query'
 import { useMemo } from 'react'
 import Breadcrumb from '@/components/breadcrumb'
 import { campaignStatus } from '@/utils/conf'
-import { incentiveAssetsTypeList } from '@/utils/conf'
-
+import { useState } from 'react'
+import { Spin } from 'antd'
 const dateFormat = `YYYY-MM-DD HH:mm:ss`
 
 export default function () {
   const { id } = useParams()
   const { data: pageInfo = {}, loading } = useQuery(
     ['campaignDetail', id],
-    () => getCampaignDetail(id)
+    () => getCampaignDetail(id),
+    {
+      staleTime: Infinity
+    }
   )
+  if (loading) {
+    return <Spin />
+  }
+  const [selectStatus, setSelectedStatus] = useState(0)
+  const tabList = useMemo(() => {
+    const baseInfo = {
+      label: 'Campaign Info',
+      value: 0
+    }
+    const participationInfo = {
+      label: 'Participation',
+      value: 0
+    }
+    const hasParticipationList = [1, 4, 5]
+    return hasParticipationList.includes(pageInfo.campaign?.status)
+      ? [participationInfo, baseInfo]
+      : [baseInfo]
+  }, [pageInfo])
+
   const credentials = useMemo(() => {
     let _credentials = []
     try {
@@ -65,7 +87,7 @@ export default function () {
           }
         ]}
       />
-      <section className='mb-10 pt-0.5'>
+      <section className='mb-5 pt-0.5'>
         <h2 className='font-bold text-5xl mb-0.5 text-t-1'>
           {pageInfo?.campaign?.name}
         </h2>
@@ -85,17 +107,25 @@ export default function () {
         </div>
       </section>
 
-      <section className='space-y-5'>
-        <div className='space-y-3'>
-          <h2 className='font-bold text-base '>Credential Group & Reward</h2>
-        </div>
-
-        <div className='pt-4 pb-5 pl-8 bg-gray rounded-[20px]'>
-          <h2 className='font-bold text-base mb-4'>Campaign Description</h2>
-          <div className='font-medium text-base'>
-            {pageInfo?.campaign?.description}
-          </div>
-        </div>
+      <section>
+        {tabList.map(v => {
+          return (
+            <button
+              key={v.value}
+              className={clsx(
+                selectStatus === v.value
+                  ? 'text-t-1 font-black relative before:absolute before:w-full before:h-0.5 before:left-0 before:-bottom-2 before:bg-white'
+                  : 'text-t-2 font-bold',
+                'text-xl mr-20'
+              )}
+              onClick={() => {
+                setSelectedStatus(v.value)
+              }}
+            >
+              {v.label}
+            </button>
+          )
+        })}
       </section>
     </>
   )
