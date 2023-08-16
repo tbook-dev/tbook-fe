@@ -8,6 +8,7 @@ import bannerUrl from '@/images/aboard-banner.png'
 import bannerBg from '@/images/aboard-bg.png'
 import Account from '@/components/account'
 import { useQueryClient } from 'react-query'
+import { useEffect } from 'react'
 
 // const { setAuthUser, setUser, setProjects, getUserInfo } = user
 
@@ -34,6 +35,11 @@ export default function () {
   const [confirmLoading, setConfirmLoading] = useState(false)
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const projectName = Form.useWatch('projectName', form)
+
+  useEffect(() => {
+    form.setFieldsValue({ projectUrl: projectName })
+  }, [projectName])
 
   function handleCreate () {
     setConfirmLoading(true)

@@ -38,7 +38,7 @@ const textMap = {
 }
 const { defaultErrorMsg } = conf
 const successMsg = `draft saved successfully`
-const defaultStep = '2'
+const defaultStep = '1'
 
 const checkFormValidte = conf => {
   return (
@@ -51,6 +51,7 @@ const checkFormValidte = conf => {
 
 export default function () {
   const [step, setStep] = useState(defaultStep)
+  const [confirmCreateLoading, setConfirmCreateLoading] = useState(false)
   const { projectId } = useUserInfo()
 
   const { data: NFTcontracts } = useQuery(
@@ -120,6 +121,7 @@ export default function () {
     //   projectId: 153900040006,
     //   status: 0
     // }
+    setConfirmCreateLoading(true)
     const data = {
       campaign: fd.current,
       groups: credentialReward.map(v => {
@@ -139,6 +141,7 @@ export default function () {
     }
     // console.log(credentialReward, data)
     const res = await createCampaign(data)
+    setConfirmCreateLoading(false)
     navigate(listLink)
     console.log(res)
   }
@@ -209,7 +212,7 @@ export default function () {
               <Button
                 type='primary'
                 onClick={handleCreate}
-                // loading={confirmLoading}
+                loading={confirmCreateLoading}
                 disabled={!checkFormValidte(credentialReward)}
               >
                 {textMap[2]['next']}

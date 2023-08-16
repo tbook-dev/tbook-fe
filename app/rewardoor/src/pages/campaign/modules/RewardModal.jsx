@@ -15,7 +15,7 @@ import clsx from 'clsx'
 import SelectNFT from '@/components/SelectNFT'
 
 const title = 'Set Up Reward'
-const defaultIncentive = { rewardType: 1, unlimited: true }
+const defaultIncentive = { rewardType: 1, unlimited: false }
 const nftText = {
   title: 'NFT Contracts List',
   desc: 'You could use the TBOOK contract to mint NFT items for incentive, or deploy your own NFT contract.'
@@ -86,7 +86,7 @@ export default function CredentialModal ({
         {open &&
           incentiveAssetsTypeList.map((v, i) => {
             const rewards = rewardForm?.getFieldValue('reward') || []
-            console.log({ rewards })
+            // console.log({ rewards })
             const disabled =
               v.value === 2 &&
               rewards?.filter(v => v.rewardType === 2).length > 0
@@ -149,6 +149,11 @@ export default function CredentialModal ({
                     'reward',
                     name,
                     'rewardType'
+                  ])
+                  const unlimited = rewardForm.getFieldValue([
+                    'reward',
+                    name,
+                    'unlimited'
                   ])
                   return (
                     <div
@@ -303,27 +308,6 @@ export default function CredentialModal ({
                         </Select>
                       </Form.Item>
 
-                      {rewardType === 1 ? (
-                        <Form.Item label='Minting Cap' name={[name, 'mintCap']}>
-                          <InputNumber
-                            placeholder='try a number'
-                            className='w-full'
-                            min={0}
-                          />
-                        </Form.Item>
-                      ) : (
-                        <Form.Item
-                          label='Number of Reward'
-                          name={[name, 'rewardNum']}
-                        >
-                          <InputNumber
-                            placeholder='try a number'
-                            className='w-full'
-                            min={0}
-                          />
-                        </Form.Item>
-                      )}
-
                       <Form.Item
                         name={[name, 'unlimited']}
                         label='Unlimited'
@@ -337,6 +321,33 @@ export default function CredentialModal ({
                       >
                         <Switch checkedChildren='yes' unCheckedChildren='no' />
                       </Form.Item>
+                      {unlimited && (
+                        <>
+                          {rewardType === 1 ? (
+                            <Form.Item
+                              label='Minting Cap'
+                              name={[name, 'mintCap']}
+                            >
+                              <InputNumber
+                                placeholder='try a number'
+                                className='w-full'
+                                min={0}
+                              />
+                            </Form.Item>
+                          ) : (
+                            <Form.Item
+                              label='Number of Reward'
+                              name={[name, 'rewardNum']}
+                            >
+                              <InputNumber
+                                placeholder='try a number'
+                                className='w-full'
+                                min={0}
+                              />
+                            </Form.Item>
+                          )}
+                        </>
+                      )}
                     </div>
                   )
                 })}

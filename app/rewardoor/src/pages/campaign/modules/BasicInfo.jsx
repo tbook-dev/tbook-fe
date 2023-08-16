@@ -60,9 +60,9 @@ export default function BasicInfo ({ form: setUpForm }) {
       <Form.Item
         label='Description'
         name='description'
-        rules={[{ required: true, message: 'Description Title is required' }]}
+        rules={[{ required: true, message: 'Description is required' }]}
       >
-        <Input placeholder='Enter' />
+        <Input.TextArea autoSize placeholder='Enter' />
       </Form.Item>
       <Form.Item
         label='Schedule'
