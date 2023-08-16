@@ -16,11 +16,11 @@ export const rewardDistributionMethod = [
 ];
 
 export const incentiveMethodList = [
-  {
-    title: "Anyone who get the credentials",
-    desc: "Anyone who gets the credentials can claim the reward.",
-    value: 1,
-  },
+  // {
+  //   title: "Anyone who get the credentials",
+  //   desc: "Anyone who gets the credentials can claim the reward.",
+  //   value: 1,
+  // },
   {
     title: "FCFS",
     desc: "First come, first served. Whoever gets the credentials first can claim the reward first.",

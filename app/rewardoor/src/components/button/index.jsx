@@ -21,7 +21,7 @@ export default function Button ({
     <button
       disabled={loading}
       className={clsx(
-        'h-12 px-10 rounded-3xl  text-base hover:opacity-70 flex justify-center items-center',
+        'h-10 px-10 rounded-3xl  text-base hover:opacity-70 flex justify-center items-center',
         clsMap[type],
         disabledClsMap[type],
         className
