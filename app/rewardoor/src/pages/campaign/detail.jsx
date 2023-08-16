@@ -8,8 +8,13 @@ import Breadcrumb from '@/components/breadcrumb'
 import { campaignStatus } from '@/utils/conf'
 import { useState } from 'react'
 import { Spin } from 'antd'
+import CampaignInfo from './info/campaign'
+import ParticipationInfo from './info/participation'
 const dateFormat = `YYYY-MM-DD HH:mm:ss`
-
+const moduleMap = {
+  0: <CampaignInfo />,
+  1: <ParticipationInfo />
+}
 export default function () {
   const { id } = useParams()
   const { data: pageInfo = {}, loading } = useQuery(
@@ -108,24 +113,27 @@ export default function () {
       </section>
 
       <section>
-        {tabList.map(v => {
-          return (
-            <button
-              key={v.value}
-              className={clsx(
-                selectStatus === v.value
-                  ? 'text-t-1 font-black relative before:absolute before:w-full before:h-0.5 before:left-0 before:-bottom-2 before:bg-white'
-                  : 'text-t-2 font-bold',
-                'text-xl mr-20'
-              )}
-              onClick={() => {
-                setSelectedStatus(v.value)
-              }}
-            >
-              {v.label}
-            </button>
-          )
-        })}
+        <div className='mb-5 flex gap-x-20'>
+          {tabList.map(v => {
+            return (
+              <button
+                key={v.value}
+                className={clsx(
+                  selectStatus === v.value
+                    ? 'text-t-1 font-black relative before:absolute before:w-full before:h-0.5 before:left-0 before:-bottom-2 before:bg-white'
+                    : 'text-t-2 font-bold',
+                  'text-xl '
+                )}
+                onClick={() => {
+                  setSelectedStatus(v.value)
+                }}
+              >
+                {v.label}
+              </button>
+            )
+          })}
+        </div>
+        {moduleMap[selectStatus]}
       </section>
     </>
   )
