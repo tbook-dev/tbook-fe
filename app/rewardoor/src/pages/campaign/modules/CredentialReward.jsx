@@ -50,7 +50,7 @@ function CredentialReward ({
           return (
             <div key={index} className='font-medium'>
               <h3 className='text-base font-bold text-t-1'>{item.title}</h3>
-              <p className='mt-0.5 text-c-9'>{item.desc}</p>
+              <p className='mt-0.5 text-c-9 text-xs'>{item.desc}</p>
             </div>
           )
         })}
@@ -60,7 +60,7 @@ function CredentialReward ({
         {credentialReward.map((cr, index, list) => {
           return (
             <div
-              className='text-white py-5 px-12 bg-gray rounded-2.5xl grid grid-cols-2 gap-x-10 relative before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-x-1/2 before:-translate-y-1/2 before:w-[1px] before:h-[calc(100%-40px)] before:bg-c-6'
+              className='text-white py-5 px-12 bg-gray rounded-2.5xl grid grid-cols-2 gap-x-10 relative before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-x-1/2 before:-translate-y-1/2 before:w-[1px] before:h-10 before:bg-c-6'
               key={index}
             >
               {list.length > 1 && (
@@ -106,16 +106,16 @@ function CredentialReward ({
                   </div>
                 ) : (
                   <div
-                    className='py-[30px] w-full	text-center bg-contain'
+                    className='py-[30px] w-full	text-center bg-cover bg-no-repeat bg-center cursor-pointer'
                     style={{ backgroundImage: `url(${credentialCreatepng})` }}
+                    onClick={() => {
+                      setEditCredentialIndex(index)
+                      setShowCredentialModal(true)
+                    }}
                   >
                     <img
                       src={editIcon}
                       className='inline w-3 h-3 mr-3 cursor-pointer'
-                      onClick={() => {
-                        setEditCredentialIndex(index)
-                        setShowCredentialModal(true)
-                      }}
                     />
                     {credentialPrompt}
                   </div>
@@ -156,22 +156,19 @@ function CredentialReward ({
                     </p>
                   </div>
                 ) : cr.credential.length === 0 ? (
-                  <div className='py-[30px] w-full flex items-center justify-center'>
+                  <div className='py-[30px] text-c-6 w-full flex items-center justify-center'>
                     {rewardPrompt}
                   </div>
                 ) : (
                   <div
-                    className='py-[30px] w-full flex items-center justify-center bg-contain'
+                    className='py-[30px] w-full flex items-center justify-center bg-cover bg-no-repeat bg-center cursor-pointer'
                     style={{ backgroundImage: `url(${rewardCreatepng})` }}
+                    onClick={() => {
+                      setEditRewardIndex(index)
+                      setShowRewardModal(true)
+                    }}
                   >
-                    <img
-                      src={editIcon}
-                      className='inline w-3 h-3 mr-3 cursor-pointer'
-                      onClick={() => {
-                        setEditRewardIndex(index)
-                        setShowRewardModal(true)
-                      }}
-                    />
+                    <img src={editIcon} className='inline w-3 h-3 mr-3' />
                     {rewardReadyPrompt}
                   </div>
                 )}
@@ -222,9 +219,10 @@ function CredentialReward ({
           }
         }}
       />
-      <div>
+      <div className='pt-5'>
         <Button
           type='text'
+          className='px-0 -ml-10'
           onClick={() => {
             setCredentialReward([
               ...credentialReward,
