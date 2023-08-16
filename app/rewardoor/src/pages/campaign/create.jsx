@@ -1,4 +1,4 @@
-import { Form, message } from 'antd'
+import { Form } from 'antd'
 import Breadcrumb from '@/components/breadcrumb'
 import { useRef, useState, useEffect } from 'react'
 import Button from '@/components/button'
@@ -19,6 +19,7 @@ import { conf } from '@tbook/utils'
 import BasicInfo from './modules/BasicInfo'
 import { defaultCredentialReward } from './conf'
 import useUserInfo from '@/hooks/useUserInfoQuery'
+import SucessModal from './modules/SucessModal'
 
 const listLink = `/campaign`
 const title = 'Set up an Incentive Campaign'
@@ -53,6 +54,7 @@ export default function () {
   const [step, setStep] = useState(defaultStep)
   const [confirmCreateLoading, setConfirmCreateLoading] = useState(false)
   const { projectId } = useUserInfo()
+  const [sucessData, setSucessData] = useState(false)
 
   const { data: NFTcontracts } = useQuery(
     ['NFTcontracts', projectId],
@@ -142,7 +144,8 @@ export default function () {
     // console.log(credentialReward, data)
     const res = await createCampaign(data)
     setConfirmCreateLoading(false)
-    navigate(listLink)
+    // navigate(listLink)
+    setSucessData(res)
     console.log(res)
   }
   return (
@@ -151,7 +154,7 @@ export default function () {
         items={[
           {
             title: 'Incentive Campaign',
-            href: '/campaign'
+            href: '/'
           },
           {
             title: 'Set up an incentive campaign'
@@ -221,6 +224,7 @@ export default function () {
           )}
         </div>
       </div>
+      <SucessModal open={!!sucessData} setOpen={setSucessData} />
     </div>
   )
 }
