@@ -18,7 +18,7 @@ export default function () {
   const [selectStatus, setSelectedStatus] = useState(campaignStatus[0].value)
   const { projectId } = useUserInfo()
 
-  const { data: list = [], loading } = useQuery(
+  const { data: list = [], isLoading } = useQuery(
     ['campaignList', projectId],
     () => getCampaign(projectId),
     {
@@ -67,7 +67,7 @@ export default function () {
           listFilter.length === 0 && 'bg-gray rounded-button px-8 py-4'
         )}
       >
-        {loading ? (
+        {isLoading ? (
           <Loading h='h-40' />
         ) : (
           <div

@@ -21,13 +21,15 @@ export default function () {
     ['campaignDetail', id],
     () => getCampaignDetail(id),
     {
-      staleTime: Infinity
+      staleTime: Infinity,
+      refetchOnWindowFocus: true
     }
   )
   if (loading) {
     return <Spin />
   }
   const [selectStatus, setSelectedStatus] = useState(0)
+
   const tabList = useMemo(() => {
     const baseInfo = {
       label: 'Campaign Info',
@@ -35,7 +37,7 @@ export default function () {
     }
     const participationInfo = {
       label: 'Participation',
-      value: 0
+      value: 1
     }
     const hasParticipationList = [1, 4, 5]
     return hasParticipationList.includes(pageInfo.campaign?.status)
@@ -43,49 +45,13 @@ export default function () {
       : [baseInfo]
   }, [pageInfo])
 
-  const credentials = useMemo(() => {
-    let _credentials = []
-    try {
-      _credentials = Array.from(
-        new Set(
-          JSON.parse(pageInfo?.campaign?.reward)
-            .map(v => v.credentials)
-            .flat(1)
-            .map(Number)
-        )
-      )
-    } catch (e) {}
-    // console.log(_credentials, pageInfo.credentials)
-    return pageInfo.credentials
-      ?.filter(op => _credentials.includes(op.credentialId))
-      .map(v => ({ name: v.name, value: v.credentialId }))
-  }, [pageInfo])
-  const rewardOpt = useMemo(() => {
-    let hasNFT = false
-    let hasPoint = false
-    try {
-      const reward = JSON.parse(pageInfo?.campaign?.reward) || []
-      // incentiveAssetsTypeList.NFT =1,2
-      hasNFT = reward.some(v => v.incentiveAsset === 1)
-      hasPoint = reward.some(v => v.incentiveAsset === 2)
-    } catch (e) {
-      // console.log(e)
-    }
-    return { hasNFT, hasPoint }
-  }, [pageInfo])
-  console.log({ rewardOpt, credentials, loading })
-  const groups = useMemo(() => {
-    return pageInfo?.groups?.map(v => {
-      return []
-    })
-  }, [pageInfo])
   return (
     <>
       <Breadcrumb
         items={[
           {
             title: 'Incentive Campaign',
-            href: '/campaign'
+            href: '/'
           },
           {
             title: pageInfo?.campaign?.name

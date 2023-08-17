@@ -11,7 +11,7 @@ import {
   updateCampaign,
   getNFTcontracts
 } from '@/api/incentive'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import CredentialReward from './modules/CredentialReward'
 import { useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
@@ -55,7 +55,7 @@ export default function () {
   const [confirmCreateLoading, setConfirmCreateLoading] = useState(false)
   const { projectId } = useUserInfo()
   const [sucessData, setSucessData] = useState(false)
-
+  const queryClient = useQueryClient()
   const { data: NFTcontracts } = useQuery(
     ['NFTcontracts', projectId],
     () => getNFTcontracts(projectId),
@@ -146,6 +146,7 @@ export default function () {
     setConfirmCreateLoading(false)
     // navigate(listLink)
     setSucessData(res)
+    queryClient.refetch(['campaignList',projectId])
     console.log(res)
   }
   return (
