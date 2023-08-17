@@ -63,7 +63,7 @@ export default function () {
           {pageInfo?.campaign?.name}
         </h2>
 
-        <div className='font-bold text-xs flex gap-x-2 items-center'>
+        <div className='font-bold text-xs flex gap-x-2 items-center text-c-9'>
           <div className='px-4 py-0.5 bg-[#1A1A1A] rounded-xl'>
             {
               campaignStatus.find(v => v.value === pageInfo?.campaign?.status)
