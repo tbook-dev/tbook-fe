@@ -146,7 +146,7 @@ export default function () {
     setConfirmCreateLoading(false)
     // navigate(listLink)
     setSucessData(res)
-    queryClient.refetch(['campaignList',projectId])
+    queryClient.refetchQueries(['campaignList',projectId])
     console.log(res)
   }
   return (
