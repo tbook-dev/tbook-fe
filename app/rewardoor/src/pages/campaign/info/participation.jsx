@@ -73,19 +73,19 @@ export default function Participation () {
     return [
       {
         title: 'Participants',
-        value: formatDollar(mockGiveInfo.participants),
+        value: formatDollar(pageInfo.participantNum || 0),
       },
       {
         title: 'GiveAway Credentials',
-        value: formatDollar(mockGiveInfo.credentials),
+        value: formatDollar(pageInfo.credentialNum || 0),
       },
       {
         title: 'GiveAway Points',
-        value: formatDollar(mockGiveInfo.points),
+        value: formatDollar(pageInfo.pointNum || 0),
       },
       {
         title: 'GiveAway NFTs',
-        value: formatDollar(mockGiveInfo.nfts),
+        value: formatDollar(pageInfo.nftNum || 0),
       }
 
   ]}, [pageInfo])
@@ -130,7 +130,7 @@ export default function Participation () {
               <div>{v.name}</div>
             </div>
             <div className='text-c-9 text-xs border border-[#666] rounded-2.5xl px-4 py-2'>
-              {formatDollar(v.num)}
+              Giveaway: {formatDollar(v.num)}
             </div>
           </div>))
         }
