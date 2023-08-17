@@ -43,6 +43,7 @@ function CredentialReward ({
   const handleDelete = c => {
     setCredentialReward(credentialReward.filter((_, idx) => idx !== c))
   }
+  console.log({credentialReward})
   return (
     <div>
       <div className='grid grid-cols-2 space-x-5 mb-5'>

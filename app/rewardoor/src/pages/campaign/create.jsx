@@ -73,7 +73,7 @@ export default function () {
       staleTime: 60 * 1000 * 60
     }
   )
-  console.log({ credentialList })
+  // console.log({ credentialList })
   const [credentialReward, setCredentialReward] = useState([
     { ...defaultCredentialReward }
   ])
