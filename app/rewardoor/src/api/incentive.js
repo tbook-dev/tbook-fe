@@ -69,6 +69,10 @@ export const handleCreateNFTcontract = async function (projectId, values) {
     chainId: 10,
   };
 };
+
+export const getCampaignParticipation = async function (campaignId) {
+  return await request(`${host}/campaignNew/participation/${campaignId}`);
+};
 export const getPoint = async function (projectId) {
   return await request(`${host}/project/stats/${projectId}/points`);
 };

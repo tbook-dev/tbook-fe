@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
-import { getCampaignDetail } from '@/api/incentive'
+import { getCampaignParticipation } from '@/api/incentive'
 import { useMemo } from 'react'
 import { conf } from '@tbook/utils'
 import { incentiveAssetsTypeList } from '@/utils/conf'
@@ -63,10 +63,10 @@ const mockParticipants = [
 export default function Participation () {
   const { id } = useParams()
   const { data: pageInfo = {}, loading } = useQuery(
-    ['campaignDetail', id],
-    () => getCampaignDetail(id),
+    ['participation', id],
+    () => getCampaignParticipation(id),
     {
-      staleTime: Infinity
+      staleTime: 60 * 1000 * 5,
     }
   )
   const participantConf = useMemo(() => {
