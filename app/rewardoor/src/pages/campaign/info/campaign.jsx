@@ -16,14 +16,20 @@ export default function Campaign () {
     return pageInfo?.groups?.filter(v => {
       // 脏数据
       return v.nftList?.length > 0 && v.nftList?.pointList > 0
+    }).map(v => {
+      return {
+        credential: [],
+        reward: [],
+      }
     })
   }, [pageInfo])
+  console.log({groups,pageInfo})
   return (
     <div className='space-y-5'>
       <div className='space-y-3'>
-        <h2 className='font-bold text-base '>Credential Group & Reward</h2>
+        <h2 className='font-bold text-base text-t-1'>Credential Group & Reward</h2>
       </div>
-      <h2 className='font-bold text-base mb-4'>Campaign Description</h2>
+      <h2 className='font-bold text-base mb-4 text-t-1'>Campaign Description</h2>
       <div className='font-medium text-base'>
         {pageInfo?.campaign?.description}
       </div>

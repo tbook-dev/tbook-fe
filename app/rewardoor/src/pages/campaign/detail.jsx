@@ -79,7 +79,7 @@ export default function () {
       </section>
 
       <section>
-        <div className='mb-5 flex gap-x-20'>
+        <div className='mb-8 flex gap-x-20'>
           {tabList.map(v => {
             return (
               <button
