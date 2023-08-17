@@ -6,11 +6,11 @@ import TwitterCallback from '@/pages/twitter/callback'
 
 const routes = [
   {
-    path: '/',
+    path: 'app',
     element: <Layout />,
     children: [
       {
-        index: true,
+        path: ":campaignId",
         element: <Home />
       }
     ]

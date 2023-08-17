@@ -6,12 +6,6 @@ import { conf } from '@tbook/utils'
 import { incentiveAssetsTypeList } from '@/utils/conf'
 const { formatDollar} = conf
 
-const mockGiveInfo = {
-  participants: 1000,
-  credentials: 200,
-  points: 10,
-  nfts: 20
-}
 
 const mockReward  = [
   {
