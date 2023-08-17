@@ -5,6 +5,11 @@ import metaMask from '@/images/icon/metamask.svg'
 import walletconnect from '@/images/icon/walletconnect.svg'
 import useSignIn  from '@/hooks/useSignIn'
 import Button from '@/components/button'
+import { useNavigate } from 'react-router-dom'
+import { useAccount } from 'wagmi'
+import { Web3Button } from '@web3modal/react'
+import { useEffect } from 'react'
+import { host } from '@/api/incentive'
 
 const titleList = ['Incentivize core', 'communities', 'and builders']
 const p = 'grant easily and optimize continuously '
@@ -14,7 +19,24 @@ const h1Text =
   'TBOOK is your one-stop for branding, marketing, growth and analysis for Web3. Connect your wallet now and start setting up Campaigns.'
 
 export default function Aboard () {
+  const { isConnected } = useAccount()
+  const navigate = useNavigate()
   const { loading, handleSignIn } = useSignIn()
+
+  useEffect(() => {
+    if (isConnected) {
+      fetch(`${host}/info`, {
+        method: 'GET',
+        credentials: 'include'
+      }).then(r => {
+        if (r.status === 401) {
+          handleSignIn()
+        } else {
+          navigate('/')
+        }
+      })
+    }
+  }, [isConnected])
 
   return (
     <div className='flex h-screen'>
@@ -42,6 +64,10 @@ export default function Aboard () {
           <h1 className='text-5xl font-extrabold'>{h1}</h1>
           <p className='text-base font-medium'>{h1Text}</p>
           <div className='mt-10 space-y-6'>
+            {isConnected ? <div className='flex items-center space-x-4'>
+              <Web3Button/>
+              Loading……
+            </div> :<>
             <Button
               className='w-full text-base font-bold text-white'
               onClick={handleSignIn}
@@ -50,13 +76,14 @@ export default function Aboard () {
               <img src={metaMask} className='mr-3 w-5 h-5 object-contain' />
               MetaMask
             </Button>
-            <Button className='w-full text-base font-bold text-white' disabled>
+            <Button className='w-full text-base font-bold text-white' onClick={() => handleSignIn(true)}>
               <img
                 src={walletconnect}
                 className='mr-3 w-5 h-5 object-contain'
               />
               WalletConnect
             </Button>
+            </>}
           </div>
         </div>
       </div>

@@ -1,3 +1,18 @@
+import { host } from "@/api/incentive"
+
 export default function Profile () {
-  return <button>xx</button>
+
+  const twLogin = () => {
+    fetch(`${host}/twitter/auth`, {
+      method: 'GET',
+      credentials: 'include'
+    }).then(r => r.json()).then(d => {
+      window.location = d['url']
+    })
+  }
+
+  return <>
+  <button>xx</button>
+  <button onClick={twLogin}>Connect Twitter</button>
+  </>
 }

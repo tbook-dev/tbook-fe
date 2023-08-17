@@ -1,7 +1,7 @@
 import  { useState } from "react";
 import { signLoginMetaMask, logout } from "@/utils/web3";
 import { getUserInfo } from "@/api/incentive";
-//import { useWeb3Modal } from "@web3modal/react";
+import { useWeb3Modal } from "@web3modal/react";
 import {
   useAccount,
   useConnect,
@@ -24,9 +24,9 @@ export default function (cb) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { address, isDisconnected } = useAccount();
-  // const { open } = useWeb3Modal();
+  const { open } = useWeb3Modal();
   const { connectAsync, connectors } = useConnect();
-  const { disconnect } = useDisconnect();
+  const { disconnectAsync } = useDisconnect();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
   //const { setDefaultChain } = useWeb3Modal()
@@ -47,11 +47,13 @@ export default function (cb) {
     return mainnet;
   }
 
-  async function handleSignIn() {
+  async function handleSignIn(wc) {
     setLoading(true);
     try {
       if (isDisconnected) {
-        if (window.ethereum) {
+        if (wc) {
+          await open("ConnectWallet");
+        } else if (window.ethereum) {
           await connectAsync({
             connector: connectors.find((c) => c.id == "injected"),
             chainId: getChain().id,
@@ -62,7 +64,7 @@ export default function (cb) {
           setLoading(false);
           return;
         } else {
-          //await open("ConnectWallet");
+          await open("ConnectWallet");
         }
       }
       const walletClient = await getWalletClient();

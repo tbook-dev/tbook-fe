@@ -6,6 +6,8 @@ import logo from '@/images/icon/logo.svg'
 import Button from '@/components/button'
 import Profile from '@/components/profile'
 import { useSignIn } from '@tbook/hooks'
+import { Web3Button } from '@web3modal/react'
+
 function Header () {
   const authUser = useSelector(state => state.user.authUser)
   const loadingUserStatus = useSelector(state => state.user.loadingUserStatus)
@@ -22,20 +24,12 @@ function Header () {
           </div>
 
           <div className='flex items-center space-x-3'>
+            <Web3Button />
             {loadingUserStatus ? (
               <Spin />
             ) : authUser ? (
               <Profile />
-            ) : (
-              <Button
-                className='px-4 font-bold text-sm h-10 lg:px-10'
-                type='primary'
-                loading={loading}
-                onClick={handleSignIn}
-              >
-                Connect Wallet
-              </Button>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
