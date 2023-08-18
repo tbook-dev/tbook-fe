@@ -5,7 +5,9 @@ import { useResponsive } from 'ahooks'
 import downIcon from '@/images/icon/down.svg'
 import { useState } from 'react'
 import clsx from 'clsx'
-
+import { useQuery } from 'react-query'
+import { getCampaignDetail } from '@/api/incentive'
+import { useParams } from 'react-router-dom'
 const textConf = {
   title: 'TBOOK Twitter Campaign',
   officalName: 'TBOOK',
@@ -17,7 +19,12 @@ const textConf = {
 }
 export default function () {
   const { pc } = useResponsive()
+  const { campaignId } = useParams()
   const [showMore, setShowMore] = useState(false)
+  const { data: page } = useQuery(['campaignDetail', campaignId], () =>
+    getCampaignDetail(campaignId)
+  )
+  console.log(page, page?.campaign?.picUrl)
   return (
     <div className='space-y-8 px-4 lg:px-0 lg:w-[880px] mx-auto pt-8 pb-16 lg:pt-10 lg:pb-20 h-[300px] text-t-1'>
       <section className='space-y-5 lg:space-y-10'>
@@ -31,8 +38,8 @@ export default function () {
         </div>
 
         <img
-          src={pc ? bannerlg : banner}
-          className='w-full rounded-2.5xl h-[130px] lg:h-[294px] lg: object-contain'
+          src={page?.campaign?.picUrl ?? (pc ? bannerlg : banner)}
+          className='w-full rounded-2.5xl h-[130px] lg:h-[294px] lg: object-cover object-center'
         />
 
         <div className='text-xs font-medium'>
@@ -65,6 +72,15 @@ export default function () {
             }}
           />
         </div>
+      </section>
+
+      <section className='space-y-5'>
+        {page.groups.map((group, index) => (
+          <div key={index}>
+            <h3 className='text-lg font-bold'>Reward Group {index}</h3>
+            <div className='space-y-2'>x</div>
+          </div>
+        ))}
       </section>
     </div>
   )

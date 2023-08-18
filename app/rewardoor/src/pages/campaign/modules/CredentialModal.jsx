@@ -23,8 +23,15 @@ export default function CredentialModal ({
   const [form] = Form.useForm()
   const [searchVal, setSearchVal] = useState('')
   const credentialsFormValues = Form.useWatch('credential', form)
-  const credentialSet = credentialList.map(v => v.credentialList).flat()
-  console.log({ credentialSet })
+  const credentialSet = credentialList
+    .map(v =>
+      v.credentialList.map(m => ({
+        ...m,
+        groupType: v.groupType,
+        name: v.name
+      }))
+    )
+    .flat()
   const formatCredential = credentialList
     .map(v => {
       return {
@@ -43,6 +50,16 @@ export default function CredentialModal ({
     form
       .validateFields()
       .then(values => {
+        values.credential = values.credential.map(v => {
+          const credential = credentialSet.find(
+            n => n.credentialId === v.credentialId
+          )
+          return {
+            ...v,
+            groupType: credential.groupType,
+            name: credential.name
+          }
+        })
         handleSave(values)
         closeModal()
       })

@@ -43,7 +43,7 @@ function CredentialReward ({
   const handleDelete = c => {
     setCredentialReward(credentialReward.filter((_, idx) => idx !== c))
   }
-  console.log({credentialReward})
+  console.log({ credentialReward })
   return (
     <div>
       <div className='grid grid-cols-2 space-x-5 mb-5'>
@@ -88,8 +88,7 @@ function CredentialReward ({
                           />
                           <p className='text-sm font-medium text-t-1'>
                             {template(m.nameExp)({
-                              test_user: getTwitterId(v.link),
-                              re_user: getTwitterId(v.link)
+                              link: getTwitterId(v.link)
                             })}
                           </p>
                         </div>
