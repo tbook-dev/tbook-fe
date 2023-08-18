@@ -8,6 +8,9 @@ import clsx from 'clsx'
 import { useQuery } from 'react-query'
 import { getCampaignDetail } from '@/api/incentive'
 import { useParams } from 'react-router-dom'
+import { template } from 'lodash'
+import { getTwitterId } from '@/utils/conf'
+
 const textConf = {
   title: 'TBOOK Twitter Campaign',
   officalName: 'TBOOK',
@@ -24,7 +27,7 @@ export default function () {
   const { data: page } = useQuery(['campaignDetail', campaignId], () =>
     getCampaignDetail(campaignId)
   )
-  console.log(page, page?.campaign?.picUrl)
+
   return (
     <div className='space-y-8 px-4 lg:px-0 lg:w-[880px] mx-auto pt-8 pb-16 lg:pt-10 lg:pb-20 h-[300px] text-t-1'>
       <section className='space-y-5 lg:space-y-10'>
@@ -74,11 +77,34 @@ export default function () {
         </div>
       </section>
 
-      <section className='space-y-5'>
+      <section className='space-y-5 tetx-t-1'>
         {page?.groups?.map((group, index) => (
           <div key={index}>
-            <h3 className='text-lg font-bold'>Reward Group {index}</h3>
-            <div className='space-y-2'>x</div>
+            <h3 className='text-base lg:text-[20px] lg:font-bold font-semibold mb-2.5'>
+              Reward Group {index + 1}
+            </h3>
+            <div className='space-y-2'>
+              {group.credentialList?.map((redential, index) => (
+                <div key={index} className='flex items-center justify-between'>
+                  <div className='flex items-center gap-x-2'>
+                    <img
+                      src={redential.picUrl}
+                      className='w-8 h-8 object-contain mr-2'
+                    />
+                    <a href='xxx'>
+                      {template(redential.nameExp)({
+                        link: getTwitterId(redential.link)
+                      })}
+                      Retweet
+                    </a>
+                  </div>
+
+                  <button className='text-sm font-medium text-[#1D9BF0] underline'>
+                    Verify
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </section>
