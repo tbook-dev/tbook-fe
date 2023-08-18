@@ -138,7 +138,9 @@ export default function () {
           projectId,
           credentialList,
           pointList,
-          nftList
+          nftList,
+          groupType: credentialList[0]?.groupType,
+          name: credentialList[0]?.name
         }
       })
     }

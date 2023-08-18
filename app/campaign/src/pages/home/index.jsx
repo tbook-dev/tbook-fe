@@ -86,10 +86,10 @@ export default function () {
             <div className='space-y-2'>
               {group.credentialList?.map((redential, index) => (
                 <div key={index} className='flex items-center justify-between'>
-                  <div className='flex items-center gap-x-2'>
+                  <div className='flex items-center gap-x-1.5'>
                     <img
                       src={redential.picUrl}
-                      className='w-8 h-8 object-contain mr-2'
+                      className='w-6 h-6 object-contain'
                     />
                     <a href='xxx'>
                       {template(redential.nameExp)({
