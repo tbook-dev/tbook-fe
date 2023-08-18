@@ -109,3 +109,13 @@ export const campaignStatus = [
     value: 5,
   },
 ];
+
+const urlMap = {
+  staging: "https://campaign-staging.tbook.com",
+  online: "https://campaign.tbook.com",
+};
+
+export const getUrl = () => {
+  const isStaging = location.host.includes("staging");
+  return isStaging ? urlMap.staging : urlMap.online;
+};

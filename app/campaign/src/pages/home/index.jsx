@@ -75,7 +75,7 @@ export default function () {
       </section>
 
       <section className='space-y-5'>
-        {page.groups.map((group, index) => (
+        {page?.groups?.map((group, index) => (
           <div key={index}>
             <h3 className='text-lg font-bold'>Reward Group {index}</h3>
             <div className='space-y-2'>x</div>

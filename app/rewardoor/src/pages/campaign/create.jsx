@@ -20,7 +20,8 @@ import BasicInfo from './modules/BasicInfo'
 import { defaultCredentialReward } from './conf'
 import useUserInfo from '@/hooks/useUserInfoQuery'
 import SucessModal from './modules/SucessModal'
-
+import { get } from 'lodash'
+import { getUrl } from '@/utils/conf'
 const listLink = `/campaign`
 const title = 'Set up an Incentive Campaign'
 const textMap = {
@@ -146,9 +147,10 @@ export default function () {
     setConfirmCreateLoading(false)
     // navigate(listLink)
     setSucessData(res)
-    queryClient.refetchQueries(['campaignList',projectId])
+    queryClient.refetchQueries(['campaignList', projectId])
     console.log(res)
   }
+  console.log({ sucessData })
   return (
     <div className='text-white relative min-h-full'>
       <Breadcrumb
@@ -225,7 +227,11 @@ export default function () {
           )}
         </div>
       </div>
-      <SucessModal open={!!sucessData} setOpen={setSucessData} />
+      <SucessModal
+        open={!!sucessData}
+        shareLink={`${getUrl()}/app/${get(sucessData, 'campaign.campaignId')}`}
+        setOpen={setSucessData}
+      />
     </div>
   )
 }

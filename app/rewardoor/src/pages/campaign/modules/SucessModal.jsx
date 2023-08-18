@@ -5,7 +5,7 @@ import twIcon from '@/images/icon/tw.svg'
 const { Paragraph } = Typography
 
 const sucessText = 'The Campaign is successfully released!'
-export default function sucessModal ({ open, setOpen }) {
+export default function sucessModal ({ open, setOpen, shareLink }) {
   return (
     <Modal
       centered
@@ -22,7 +22,7 @@ export default function sucessModal ({ open, setOpen }) {
             style={{ marginBottom: 0, width: 40, height: 40 }}
             className='flex justify-center items-center'
             copyable={{
-              text: 'xxxx',
+              text: shareLink,
               icon: (
                 <img
                   src={linkIcon}
@@ -31,11 +31,11 @@ export default function sucessModal ({ open, setOpen }) {
               )
             }}
           />
-          <Paragraph
+          {/* <Paragraph
             style={{ marginBottom: 0, width: 40, height: 40 }}
             className='flex justify-center items-center'
             copyable={{
-              text: 'xxxx',
+              text: shareLink,
               icon: (
                 <img
                   src={twIcon}
@@ -43,7 +43,7 @@ export default function sucessModal ({ open, setOpen }) {
                 />
               )
             }}
-          />
+          /> */}
         </div>
       </div>
     </Modal>
