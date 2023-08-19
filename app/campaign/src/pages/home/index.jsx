@@ -6,7 +6,7 @@ import downIcon from '@/images/icon/down.svg'
 import { useState } from 'react'
 import clsx from 'clsx'
 import { useQuery } from 'react-query'
-import { getCampaignDetail } from '@/api/incentive'
+import { getCampaignDetail, twLogin } from '@/api/incentive'
 import { useParams } from 'react-router-dom'
 import { template } from 'lodash'
 import { getTwitterId } from '@/utils/conf'
@@ -24,7 +24,7 @@ export default function () {
   const { pc } = useResponsive()
   const { campaignId } = useParams()
   const [showMore, setShowMore] = useState(false)
-  const { data: page } = useQuery(['campaignDetail', campaignId], () =>
+  const { data: page, twitterConnected } = useQuery(['campaignDetail', campaignId], () =>
     getCampaignDetail(campaignId)
   )
 
@@ -91,17 +91,46 @@ export default function () {
                       src={redential.picUrl}
                       className='w-6 h-6 object-contain'
                     />
-                    <a href='xxx'>
-                      {template(redential.nameExp)({
-                        link: getTwitterId(redential.link)
-                      })}
-                      Retweet
-                    </a>
+                    <p className='text-sm lg:text-base font-medium '>
+                      <a className='text-[#1D9BF0] underline'>
+                       Retweet
+                      </a>
+                      @realtbook 
+                    </p>
                   </div>
-
-                  <button className='text-sm font-medium text-[#1D9BF0] underline'>
+                  {
+                    twitterConnected ? <button className='text-sm font-medium text-[#1D9BF0] underline'>
                     Verify
                   </button>
+                  : <button className='text-sm lg:text-base font-medium text-[#1D9BF0] underline' onClick={twLogin}>
+                    Connect Twitter
+                  </button>
+                  }
+                </div>
+              ))}
+
+            {group.credentialList?.map((redential, index) => (
+                <div key={index} className='flex items-center justify-between'>
+                  <div className='flex items-center gap-x-1.5'>
+                    <img
+                      src={redential.picUrl}
+                      className='w-6 h-6 object-contain'
+                    />
+                    <p className='text-sm lg:text-base font-medium '>
+                      <a className='text-[#1D9BF0] underline'>
+                       Retweet
+                      </a>
+                      @realtbook 
+                    </p>
+                  </div>
+                  {
+                    twitterConnected ? <button className='text-sm font-medium text-[#1D9BF0] underline'>
+                    Verify
+                  </button>
+                  : <button className='text-sm lg:text-base font-medium text-[#1D9BF0] underline' onClick={twLogin}>
+                    Connect Twitter
+                  </button>
+                  }
                 </div>
               ))}
             </div>

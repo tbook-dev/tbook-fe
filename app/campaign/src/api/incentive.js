@@ -9,3 +9,14 @@ export const getUserInfo = async function () {
 export const getCampaignDetail = async function (id) {
   return await request(`${host}/campaignNew/${id}`);
 };
+
+export const twLogin = async function () {
+  fetch(`${host}/twitter/auth`, {
+    method: "GET",
+    credentials: "include",
+  })
+    .then((r) => r.json())
+    .then((d) => {
+      window.location = d["url"];
+    });
+};

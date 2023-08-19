@@ -12,5 +12,15 @@ export default function useUserInfo() {
   const projects = data?.projects;
   const project = data?.projects?.[data?.projects?.length - 1];
   const projectId = project?.projectId;
-  return { data, isLoading, error, project, projectId, projects, ...props };
+  const twitterConnected = !!data?.userTwitter?.connected;
+  return {
+    data,
+    isLoading,
+    error,
+    project,
+    projectId,
+    projects,
+    twitterConnected,
+    ...props,
+  };
 }
