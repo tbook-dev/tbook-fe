@@ -6,50 +6,21 @@ import { conf } from "@tbook/utils";
 import { incentiveAssetsTypeList } from "@/utils/conf";
 const { formatDollar } = conf;
 
-const mockReward = [
-  {
-    name: "TBOOK Observer NFT",
-    type: 1,
-    giveNum: 10,
-    num: 100,
-  },
-  {
-    name: "Points",
-    type: 2,
-    giveNum: 3,
-    num: 200,
-  },
-];
-
-const mockCredential = [
-  {
-    name: "follow the @TBOOK on twitter",
-    picUrl: "",
-    credentialId: 1,
-    credentialName: "Twitter",
-    num: 10000,
-  },
-  {
-    name: "follow the @TBOOK on twitter",
-    picUrl: "",
-    credentialId: 1,
-    credentialName: "Twitter",
-    num: 2000,
-  },
-];
-
 const mockParticipants = [
   {
     address: "0x1234567890",
     date: "16/05/2023",
+    credential: [226665690620],
   },
   {
     address: "0x1234567890",
     date: "16/05/2023",
+    credential: [],
   },
   {
     address: "0x1234567890",
     date: "16/05/2023",
+    credential: [],
   },
 ];
 export default function Participation() {
@@ -82,9 +53,6 @@ export default function Participation() {
     ];
   }, [pageInfo]);
 
-  const rewardConf = useMemo(() => {
-    return mockReward;
-  }, [pageInfo]);
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-4 gap-x-5">
@@ -99,22 +67,32 @@ export default function Participation() {
       <div className="bg-gray px-5 pt-5 pb-7 rounded-2.5xl">
         <h2 className="mb-4 text-base font-bold text-t-1">Reward</h2>
         <div className="flex items-center gap-x-5 gap-y-4 text-xs">
-          {rewardConf.map((v, idx) => (
+          {pageInfo?.nftList?.map((v, idx) => (
             <div
               key={idx}
               className="flex items-center justify-between gap-x-5 px-5 py-2 border border-[#666] rounded-2.5xl"
             >
               <div className="flex items-center gap-x-1 text-t-1">
                 <div>
-                  {
-                    incentiveAssetsTypeList.find((m) => m.value === v.type)
-                      ?.icon
-                  }
+                  {incentiveAssetsTypeList.find((m) => m.value === 1)?.icon}
                 </div>
                 <div>{v.name}</div>
               </div>
               <div className="text-c-9">
                 {formatDollar(v.giveNum)}/{formatDollar(v.num)}
+              </div>
+            </div>
+          ))}
+          {pageInfo?.pointList?.map((_, idx) => (
+            <div
+              key={idx}
+              className="flex items-center justify-between gap-x-5 px-5 py-2 border border-[#666] rounded-2.5xl"
+            >
+              <div className="flex items-center gap-x-1 text-t-1">
+                <div>
+                  {incentiveAssetsTypeList.find((m) => m.value === 2)?.icon}
+                </div>
+                <div>Points</div>
               </div>
             </div>
           ))}
@@ -156,6 +134,29 @@ export default function Participation() {
               >
                 Wallet Address
               </th>
+              {pageInfo?.pointList?.map((v, idx) => (
+                <th
+                  key={idx}
+                  scope="col"
+                  align="center"
+                  className="pb-4 text-sm text-c-9 font-medium"
+                >
+                  Points
+                </th>
+              ))}
+              {pageInfo?.credentialList?.map((v, idx) => (
+                <th key={idx} align="center" className="pb-4">
+                  <div className="inline-flex items-center justify-between gap-x-5 px-5 py-2">
+                    <div className="flex items-center gap-x-1">
+                      <img src={v.picUrl} className="w-5 h-5" />
+                      <div
+                        className="text-t-1 w-max"
+                        dangerouslySetInnerHTML={{ __html: v.display }}
+                      />
+                    </div>
+                  </div>
+                </th>
+              ))}
               <th
                 scope="col"
                 align="right"
@@ -171,6 +172,21 @@ export default function Participation() {
                 <td align="left" className="pb-4 text-sm text-t-1 font-medium">
                   {v.address}
                 </td>
+                {pageInfo?.pointList?.map((v, idx) => (
+                  <td
+                    key={idx}
+                    scope="col"
+                    align="center"
+                    className="pb-4 text-sm text-c-9 font-medium"
+                  >
+                    +{formatDollar(v.number)}
+                  </td>
+                ))}
+                {pageInfo?.credentialList?.map((v, idx) => (
+                  <td key={idx} align="center" className="pb-4">
+                    {v.isVerified === 0 ? "--" : "✓"}
+                  </td>
+                ))}
                 <td align="right" className="text-sm text-t-1 font-medium">
                   {v.date}
                 </td>
