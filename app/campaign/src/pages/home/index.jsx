@@ -156,7 +156,7 @@ export default function () {
                             : twLogin
                         }
                       >
-                        Verify
+                        {twitterConnected ? 'Verify' : 'Connect Twitter'}
                       </button>
                     )}
                   </div>
