@@ -3,13 +3,17 @@ import banner from '@/images/banner.png'
 import bannerlg from '@/images/banner-lg.png'
 import { useResponsive } from 'ahooks'
 import downIcon from '@/images/icon/down.svg'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import clsx from 'clsx'
 import { useQuery } from 'react-query'
 import { getCampaignDetail, twLogin } from '@/api/incentive'
 import { useParams } from 'react-router-dom'
 import { template } from 'lodash'
 import { getTwitterId } from '@/utils/conf'
+import Accordion from '@/components/accordion'
+import giftIcon from '@/images/icon/gift.svg'
+import pointIcon from '@/images/icon/point.svg'
+import { Modal } from 'antd'
 
 const textConf = {
   title: 'TBOOK Twitter Campaign',
@@ -24,10 +28,15 @@ export default function () {
   const { pc } = useResponsive()
   const { campaignId } = useParams()
   const [showMore, setShowMore] = useState(false)
-  const { data: page, twitterConnected } = useQuery(['campaignDetail', campaignId], () =>
-    getCampaignDetail(campaignId)
+  const { data: page, twitterConnected } = useQuery(
+    ['campaignDetail', campaignId],
+    () => getCampaignDetail(campaignId)
   )
-
+  const [rewardModalIdx, setRewardModalIdx] = useState(-1)
+  const handleCancel = useCallback(() => {
+    setRewardModalIdx(-1)
+  }, [])
+  console.log({ rewardModalIdx })
   return (
     <div className='space-y-8 px-4 lg:px-0 lg:w-[880px] mx-auto pt-8 pb-16 lg:pt-10 lg:pb-20 h-[300px] text-t-1'>
       <section className='space-y-5 lg:space-y-10'>
@@ -78,65 +87,97 @@ export default function () {
       </section>
 
       <section className='space-y-5 tetx-t-1'>
-        {page?.groups?.map((group, index) => (
-          <div key={index}>
-            <h3 className='text-base lg:text-[20px] lg:font-bold font-semibold mb-2.5'>
-              Reward Group {index + 1}
-            </h3>
-            <div className='space-y-2'>
-              {group.credentialList?.map((redential, index) => (
-                <div key={index} className='flex items-center justify-between'>
-                  <div className='flex items-center gap-x-1.5'>
-                    <img
-                      src={redential.picUrl}
-                      className='w-6 h-6 object-contain'
-                    />
-                    <p className='text-sm lg:text-base font-medium '>
-                      <a className='text-[#1D9BF0] underline'>
-                       Retweet
-                      </a>
-                      @realtbook 
-                    </p>
+        {page?.groups?.map((group, index) => {
+          const hasPoit = group.pointList?.length > 0
+          return (
+            <Accordion
+              key={index}
+              title={
+                <h3 className='text-base lg:text-[20px] lg:font-bold font-semibold'>
+                  Reward Group {index + 1}
+                </h3>
+              }
+              fixedAreo={
+                <div className='flex items-center justify-between'>
+                  <div className='flex items-center gap-x-2 text-base text-t-1'>
+                    {hasPoit && (
+                      <div className='flex items-center gap-x-1'>
+                        <img src={pointIcon} className='w-[14px] h-[14px]' />
+                        Points
+                      </div>
+                    )}
                   </div>
-                  {
-                    twitterConnected ? <button className='text-sm font-medium text-[#1D9BF0] underline'>
-                    Verify
-                  </button>
-                  : <button className='text-sm lg:text-base font-medium text-[#1D9BF0] underline' onClick={twLogin}>
-                    Connect Twitter
-                  </button>
-                  }
+                  <img
+                    src={giftIcon}
+                    className='w-4 h-4'
+                    onClick={() => {
+                      setRewardModalIdx(index)
+                    }}
+                  />
                 </div>
-              ))}
-
-            {group.credentialList?.map((redential, index) => (
-                <div key={index} className='flex items-center justify-between'>
-                  <div className='flex items-center gap-x-1.5'>
-                    <img
-                      src={redential.picUrl}
-                      className='w-6 h-6 object-contain'
-                    />
-                    <p className='text-sm lg:text-base font-medium '>
-                      <a className='text-[#1D9BF0] underline'>
-                       Retweet
-                      </a>
-                      @realtbook 
-                    </p>
+              }
+            >
+              <div className='space-y-2'>
+                {group.credentialList?.map((redential, index) => (
+                  <div
+                    key={index}
+                    className='flex items-center justify-between'
+                  >
+                    <div className='flex items-center gap-x-1.5 pr-2 flex-auto'>
+                      <img
+                        src={redential.picUrl}
+                        className='w-6 h-6 object-contain'
+                      />
+                      <div
+                        className='truncate'
+                        dangerouslySetInnerHTML={{
+                          __html: redential.displayExp
+                        }}
+                      />
+                    </div>
+                    {twitterConnected ? (
+                      <button className='text-sm font-medium text-[#1D9BF0] underline whitespace-nowrap'>
+                        Verify
+                      </button>
+                    ) : (
+                      <button
+                        className='text-sm lg:text-base font-medium text-[#1D9BF0] underline whitespace-nowrap'
+                        onClick={twLogin}
+                      >
+                        Verify
+                      </button>
+                    )}
                   </div>
-                  {
-                    twitterConnected ? <button className='text-sm font-medium text-[#1D9BF0] underline'>
-                    Verify
-                  </button>
-                  : <button className='text-sm lg:text-base font-medium text-[#1D9BF0] underline' onClick={twLogin}>
-                    Connect Twitter
-                  </button>
-                  }
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
+                ))}
+              </div>
+            </Accordion>
+          )
+        })}
       </section>
+
+      <Modal
+        footer={null}
+        title={null}
+        open={rewardModalIdx >= 0}
+        onCancel={handleCancel}
+      >
+        <div className='text-t-1 p-5'>
+          <h2 className='text-4xl mb-2 font-bold'>
+            Reward Group {rewardModalIdx + 1}
+          </h2>
+          <p className='text-base font-medium mb-10'>
+            You may get these rewards once all tasks done！
+          </p>
+          <div>
+            {page.groups?.[rewardModalIdx] && (
+              <div className='flex items-center gap-x-1'>
+                <img src={pointIcon} className='w-[14px] h-[14px]' />
+                Points
+              </div>
+            )}
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }

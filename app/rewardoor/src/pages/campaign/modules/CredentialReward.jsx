@@ -6,7 +6,7 @@ import Button from '@/components/button'
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
 import CredentialModal from './CredentialModal'
 import RewardModal from './RewardModal'
-import { getTwitterId, incentiveAssetsTypeList } from '@/utils/conf'
+import { incentiveAssetsTypeList } from '@/utils/conf'
 import x from '@/images/icon/x.svg'
 import { defaultCredentialReward } from '../conf'
 import { template } from 'lodash'
@@ -89,7 +89,7 @@ function CredentialReward ({
                           />
                           <div
                             dangerouslySetInnerHTML={{
-                              __html: template(m.displayExp)(v.options)
+                              __html: template(m.templateExp)(v.options)
                             }}
                           />
                         </div>

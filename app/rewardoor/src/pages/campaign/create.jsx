@@ -40,7 +40,7 @@ const textMap = {
 }
 const { defaultErrorMsg } = conf
 const successMsg = `draft saved successfully`
-const defaultStep = '2'
+const defaultStep = '1'
 
 const checkFormValidte = conf => {
   return (
@@ -134,7 +134,7 @@ export default function () {
           .filter(v => v.rewardType === 1)
           .map(v => ({ ...v, picUrl: v.picUrl?.[0]?.response }))
         return {
-          status: 0,
+          status: 1,
           projectId,
           credentialList,
           pointList,
