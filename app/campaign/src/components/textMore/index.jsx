@@ -15,7 +15,7 @@ export default function TextMore({ text }) {
       }
     }
   }, [text]);
-  console.log({ text });
+
   return (
     <>
       <div className="space-y-2 lg:space-y-0">

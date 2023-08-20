@@ -15,9 +15,11 @@ import useProjectQuery from "@/hooks/useProjectQuery";
 import useCampaignQuery from "@/hooks/useCampaignQuery";
 import TextMore from "@/components/textMore";
 import { Spin } from "antd";
+import endCampaign from "@/images/end-campaign.png";
 
 const notStartList = [2, 0];
 const endList = [3, 4, 5];
+const endText = "This campaign has ended.";
 
 export default function () {
   const { pc } = useResponsive();
@@ -48,7 +50,7 @@ export default function () {
   }
   const campaignNotStart = notStartList.includes(page?.campaign?.status);
   const campaignEnd = endList.includes(page?.campaign?.status);
-  console.log({ campaignNotStart, campaignEnd }, page?.campaign?.status);
+
   return (
     <div className="space-y-8 px-4 lg:px-0 lg:w-[880px] mx-auto pt-8 pb-16 lg:pt-10 lg:pb-20 h-[300px] text-t-1">
       <section className="space-y-5 lg:space-y-10">
@@ -74,76 +76,85 @@ export default function () {
         </div>
       </section>
 
-      <section className="space-y-5 tetx-t-1">
-        {page?.groups?.map((group, index) => {
-          const hasPoit = group.pointList?.length > 0;
-          return (
-            <Accordion
-              key={index}
-              title={
-                <h3 className="text-base lg:text-[20px] lg:font-bold font-semibold">
-                  Reward Group {index + 1}
-                </h3>
-              }
-              fixedAreo={
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-x-2 text-base text-t-1">
-                    {hasPoit && (
-                      <div className="flex items-center gap-x-1">
-                        <img src={pointIcon} className="w-[14px] h-[14px]" />
-                        Points
-                      </div>
-                    )}
-                  </div>
-                  <img
-                    src={giftIcon}
-                    className="w-8 h-8 cursor-pointer"
-                    onClick={() => {
-                      setRewardModalIdx(index);
-                    }}
-                  />
-                </div>
-              }
-            >
-              <div className="space-y-2">
-                {group.credentialList?.map((redential, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-x-1.5 pr-2 flex-auto">
-                      <img
-                        src={redential.picUrl}
-                        className="w-6 h-6 object-contain"
-                      />
-                      <div
-                        className="truncate"
-                        dangerouslySetInnerHTML={{
-                          __html: redential.displayExp,
-                        }}
-                      />
+      {campaignEnd ? (
+        <div className="flex justify-center items-center">
+          <div>
+            <img src={endCampaign} className="w-[150px] mx-auto" />
+            <p className="text-c-9 text-2xl">{endText}</p>
+          </div>
+        </div>
+      ) : (
+        <section className="space-y-5 tetx-t-1">
+          {page?.groups?.map((group, index) => {
+            const hasPoit = group.pointList?.length > 0;
+            return (
+              <Accordion
+                key={index}
+                title={
+                  <h3 className="text-base lg:text-[20px] lg:font-bold font-semibold">
+                    Reward Group {index + 1}
+                  </h3>
+                }
+                fixedAreo={
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-x-2 text-base text-t-1">
+                      {hasPoit && (
+                        <div className="flex items-center gap-x-1">
+                          <img src={pointIcon} className="w-[14px] h-[14px]" />
+                          Points
+                        </div>
+                      )}
                     </div>
-                    {notStartList ? null : redential.isVerified ? (
-                      <img src={verifiedIcon} className="w-8 h-8" />
-                    ) : (
-                      <button
-                        className="text-sm lg:text-base font-medium text-[#1D9BF0] underline whitespace-nowrap"
-                        onClick={
-                          twitterConnected
-                            ? () => handleVerify(redential)
-                            : twLogin
-                        }
-                      >
-                        {twitterConnected ? "Verify" : "Connect Twitter"}
-                      </button>
-                    )}
+                    <img
+                      src={giftIcon}
+                      className="w-8 h-8 cursor-pointer"
+                      onClick={() => {
+                        setRewardModalIdx(index);
+                      }}
+                    />
                   </div>
-                ))}
-              </div>
-            </Accordion>
-          );
-        })}
-      </section>
+                }
+              >
+                <div className="space-y-2">
+                  {group.credentialList?.map((redential, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-x-1.5 pr-2 flex-auto">
+                        <img
+                          src={redential.picUrl}
+                          className="w-6 h-6 object-contain"
+                        />
+                        <div
+                          className="truncate"
+                          dangerouslySetInnerHTML={{
+                            __html: redential.displayExp,
+                          }}
+                        />
+                      </div>
+                      {campaignNotStart ? null : redential.isVerified ? (
+                        <img src={verifiedIcon} className="w-8 h-8" />
+                      ) : (
+                        <button
+                          className="text-sm lg:text-base font-medium text-[#1D9BF0] underline whitespace-nowrap"
+                          onClick={
+                            twitterConnected
+                              ? () => handleVerify(redential)
+                              : twLogin
+                          }
+                        >
+                          {twitterConnected ? "Verify" : "Connect Twitter"}
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </Accordion>
+            );
+          })}
+        </section>
+      )}
 
       <Modal open={rewardModalIdx >= 0} onCancel={handleCancel}>
         <div className="text-t-1 p-5 mb-5 lg:mb-0">
