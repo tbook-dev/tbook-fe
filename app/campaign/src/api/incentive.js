@@ -22,6 +22,7 @@ export const twLogin = async function () {
   })
     .then((r) => r.json())
     .then((d) => {
+      localStorage.setItem("redirect_url", location.href);
       window.location = d["url"];
     });
 };

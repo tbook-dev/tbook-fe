@@ -13,6 +13,7 @@ import giftIcon from '@/images/icon/gift.svg'
 import pointIcon from '@/images/icon/point.svg'
 import verifiedIcon from '@/images/icon/verified.svg'
 import Modal from '@/components/modal'
+import useUserInfo from '@/hooks/useUserInfoQuery'
 
 const textConf = {
   title: 'TBOOK Twitter Campaign',
@@ -28,10 +29,11 @@ export default function () {
   const { campaignId } = useParams()
   const [showMore, setShowMore] = useState(false)
   const queryClient = useQueryClient()
-  const { data: page, twitterConnected } = useQuery(
+  const { data: page } = useQuery(
     ['campaignDetail', campaignId],
     () => getCampaignDetail(campaignId)
   )
+  const { twitterConnected } = useUserInfo()
   const [rewardModalIdx, setRewardModalIdx] = useState(-1)
   const handleCancel = useCallback(() => {
     setRewardModalIdx(-1)

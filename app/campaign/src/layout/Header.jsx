@@ -1,10 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Spin } from 'antd'
 import { useSelector } from 'react-redux'
 import logo from '@/images/icon/logo.svg'
-import Button from '@/components/button'
-import Profile from '@/components/profile'
+// import Button from '@/components/button'
+// import Profile from '@/components/profile'
 import { useSignIn } from '@tbook/hooks'
 import { Web3Button } from '@web3modal/react'
 
@@ -25,11 +24,11 @@ function Header () {
 
           <div className='flex items-center space-x-3'>
             <Web3Button />
-            {loadingUserStatus ? (
+            {/* {loadingUserStatus ? (
               <Spin />
             ) : authUser ? (
               <Profile />
-            ) : null}
+            ) : null} */}
           </div>
         </div>
       </div>
