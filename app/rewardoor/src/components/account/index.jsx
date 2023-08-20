@@ -1,19 +1,9 @@
 import { useAccount } from 'wagmi'
 import { shortAddress } from '@tbook/utils/lib/conf'
 import eth from '@/images/icon/eth.svg'
-import { host } from '@/api/incentive'
 
 export default function Account () {
   const { address } = useAccount()
-
-  function connectTwitter() {
-    fetch(`${host}/twitter/auth`, {
-      method: 'GET',
-      credentials: 'include'
-    }).then(r => r.json()).then(d => {
-      window.location = d['url']
-    })
-  }
 
   return (
     <div className='w-[200px] h-10 p-1 rounded-2.5xl bg-black shadow-s1 ml-6 mr-2'>
@@ -28,9 +18,9 @@ export default function Account () {
           ···
         </button>
       </div>
-      <div className='flex'>
+      {/* <div className='flex'>
         <button onClick={connectTwitter}>Connect Twitter</button>
-      </div>
+      </div> */}
     </div>
   )
 }
