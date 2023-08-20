@@ -7,6 +7,7 @@ export default function Profile () {
       method: 'GET',
       credentials: 'include'
     }).then(r => r.json()).then(d => {
+      localStorage.setItem('redirect_url', location.href)
       window.location = d['url']
     })
   }
