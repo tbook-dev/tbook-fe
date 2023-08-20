@@ -4,26 +4,31 @@ import { getCampaignParticipation } from "@/api/incentive";
 import { useMemo } from "react";
 import { conf } from "@tbook/utils";
 import { incentiveAssetsTypeList } from "@/utils/conf";
+import { Pagination } from "antd";
+import { useState } from "react";
+
 const { formatDollar } = conf;
 
-const mockParticipants = [
-  {
-    address: "0x1234567890",
-    date: "16/05/2023",
-    credential: [226665690620],
-  },
-  {
-    address: "0x1234567890",
-    date: "16/05/2023",
-    credential: [],
-  },
-  {
-    address: "0x1234567890",
-    date: "16/05/2023",
-    credential: [],
-  },
-];
+// const mockParticipants = [
+//   {
+//     address: "0x1234567890",
+//     date: "16/05/2023",
+//     credential: [226665690620],
+//   },
+//   {
+//     address: "0x1234567890",
+//     date: "16/05/2023",
+//     credential: [],
+//   },
+//   {
+//     address: "0x1234567890",
+//     date: "16/05/2023",
+//     credential: [],
+//   },
+// ];
+const pageSize = 10;
 export default function Participation() {
+  const [current, setCurrent] = useState(1);
   const { id } = useParams();
   const { data: pageInfo = {} } = useQuery(
     ["participation", id],
@@ -54,7 +59,7 @@ export default function Participation() {
   }, [pageInfo]);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 mb-10">
       <div className="grid grid-cols-4 gap-x-5">
         {participantConf.map((v, idx) => (
           <div key={idx} className="rounded-2.5xl bg-gray p-5">
@@ -167,33 +172,64 @@ export default function Participation() {
             </tr>
           </thead>
           <tbody>
-            {mockParticipants.map((v, idx) => (
-              <tr key={idx}>
-                <td align="left" className="pb-4 text-sm text-t-1 font-medium">
-                  {v.address}
-                </td>
-                {pageInfo?.pointList?.map((v, idx) => (
-                  <td
-                    key={idx}
-                    scope="col"
-                    align="center"
-                    className="pb-4 text-sm text-c-9 font-medium"
-                  >
-                    +{formatDollar(v.number)}
-                  </td>
-                ))}
-                {pageInfo?.credentialList?.map((v, idx) => (
-                  <td key={idx} align="center" className="pb-4">
-                    {v.isVerified === 0 ? "--" : "✓"}
-                  </td>
-                ))}
-                <td align="right" className="text-sm text-t-1 font-medium">
-                  {v.date}
+            {pageInfo?.participantList?.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={
+                    pageInfo?.pointList?.length +
+                    pageInfo?.credentialList?.length +
+                    2
+                  }
+                  className="text-center py-2 text-c-9"
+                >
+                  No data
                 </td>
               </tr>
-            ))}
+            ) : (
+              pageInfo?.participantList
+                ?.slice((current - 1) * pageSize, current * pageSize)
+                .map((v, idx) => (
+                  <tr key={idx}>
+                    <td
+                      align="left"
+                      className="pb-4 text-sm text-t-1 font-medium"
+                    >
+                      {v.address}
+                    </td>
+                    {pageInfo?.pointList?.map((v, idx) => (
+                      <td
+                        key={idx}
+                        scope="col"
+                        align="center"
+                        className="pb-4 text-sm text-c-9 font-medium"
+                      >
+                        +{formatDollar(v.number)}
+                      </td>
+                    ))}
+                    {pageInfo?.credentialList?.map((v, idx) => (
+                      <td key={idx} align="center" className="pb-4">
+                        {v.isVerified === 0 ? "--" : "✓"}
+                      </td>
+                    ))}
+                    <td align="right" className="text-sm text-t-1 font-medium">
+                      {v.date}
+                    </td>
+                  </tr>
+                ))
+            )}
           </tbody>
         </table>
+        <div className="flex justify-end">
+          <Pagination
+            hideOnSinglePage
+            responsive
+            showSizeChanger={false}
+            current={current}
+            pageSize={pageSize}
+            total={pageInfo?.participantList?.length}
+            onChange={setCurrent}
+          />
+        </div>
       </div>
     </div>
   );
