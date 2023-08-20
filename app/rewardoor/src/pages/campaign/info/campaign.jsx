@@ -87,7 +87,7 @@ export default function Campaign () {
       <div className='space-y-3'>
         <h2 className='font-bold text-base text-t-1'>Credential Group & Reward</h2>
         <div className='space-y-5'>
-        {groupsMock.map((cr, index) => {
+        {pageInfo?.groups?.map((cr, index) => {
           return (
             <div
               className='text-white py-5 px-12 bg-gray rounded-2.5xl grid grid-cols-2 gap-x-10 relative before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-x-1/2 before:-translate-y-1/2 before:w-[1px] before:h-10 before:bg-c-6'
@@ -95,24 +95,19 @@ export default function Campaign () {
             >
               <div className='flex items-center w-full'>
                   <div className='space-y-6 w-max'>
-                    {cr.credential.map((v, idx) => {
+                    {cr.credentialList.map((v, idx) => {
                       const m = credentialSet.find(
                         item => item.credentialId === v.credentialId
                       )
 
-                      console.log({ m ,credentialSet,v})
+                      // console.log({ m ,credentialSet,v})
                       return (
                         <div key={idx} className='flex gap-x-2.5 items-center'>
                           <img
                             src={m?.icon || x}
                             className='w-5 h-5 object-contain'
                           />
-                          <p className='text-sm font-medium text-t-1'>
-                            {template(m?.nameExp)({
-                              test_user: getTwitterId(v.link),
-                              re_user: getTwitterId(v.link)
-                            })}
-                          </p>
+                         <div dangerouslySetInnerHTML={{__html: v.display}}/>
                         </div>
                       )
                     })}
@@ -122,7 +117,7 @@ export default function Campaign () {
               <div className='flex items-center'>
                   <div className='space-y-6 w-full'>
                     <div className='space-y-6'>
-                      {cr.reward.map((v, idx) => {
+                    {cr.nftList.map((v, idx) => {
                         const rewardType = v.rewardType
                         return (
                           <div
@@ -132,11 +127,29 @@ export default function Campaign () {
                             <span>
                               {
                                 incentiveAssetsTypeList.find(
-                                  i => i.value === rewardType
+                                  i => i.value === 1
                                 )?.label
                               }
                             </span>
-                            <span>{rewardType === 1 ? v.mame : v.point}</span>
+                            <span>{v.mame}</span>
+                          </div>
+                        )
+                      })}
+                      {cr.pointList.map((v, idx) => {
+                        const rewardType = v.rewardType
+                        return (
+                          <div
+                            key={idx}
+                            className='px-6 py-2 text-xs font-medium text-t-1 border border-c-6 rounded-2.5xl flex justify-between items-center'
+                          >
+                            <span>
+                              {
+                                incentiveAssetsTypeList.find(
+                                  i => i.value === 2
+                                )?.label
+                              } 
+                            </span>
+                            <span>{v.number}</span>
                           </div>
                         )
                       })}

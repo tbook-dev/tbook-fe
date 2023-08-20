@@ -158,6 +158,7 @@ export default function () {
       <Modal
         footer={null}
         title={null}
+        centered
         open={rewardModalIdx >= 0}
         onCancel={handleCancel}
       >
@@ -169,7 +170,7 @@ export default function () {
             You may get these rewards once all tasks done！
           </p>
           <div>
-            {page.groups?.[rewardModalIdx] && (
+            {page?.groups?.[rewardModalIdx] && (
               <div className='flex items-center gap-x-1'>
                 <img src={pointIcon} className='w-[14px] h-[14px]' />
                 Points
