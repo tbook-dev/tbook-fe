@@ -5,7 +5,8 @@ import { Empty } from "@tbook/ui";
 import { useAsyncEffect, useResponsive } from "ahooks";
 import { useCurrentProjectId, useUserInfoLoading } from "@tbook/hooks";
 import _ from "lodash";
-import { useSelector } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import GrantCard from "./grantCard";
 import GrantCardV2 from "./grantCard/v2";

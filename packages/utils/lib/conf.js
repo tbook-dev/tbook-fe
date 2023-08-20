@@ -70,7 +70,7 @@ export const vestingOccursOptions = [
 ];
 
 export const dateFormat = "YYYY-MM-DD";
-
+export const timeFormat = "YYYY-MM-DD HH:mm:ss";
 // grant状态：0-default/unknown，1-draft草稿，2-signing签约中，3-effective生效，4-completed完成，5-suspended暂停，6-terminated终止
 // 0,1,已经取消 completed也属于effective了
 //
@@ -190,7 +190,11 @@ export const formatDollar = (value) => {
 };
 
 export const shortAddress = (address) => {
-  return `${address}`.slice(0, 6) + "..." + `${address}`.slice(`${address}`.length - 4);
+  return (
+    `${address}`.slice(0, 6) +
+    "..." +
+    `${address}`.slice(`${address}`.length - 4)
+  );
 };
 
 export const chains = [
@@ -293,7 +297,8 @@ export const timeLengthList = [
   },
 ];
 
-export const findTimeType = (v) => timeLengthList.find((t) => t.value === v)?.label;
+export const findTimeType = (v) =>
+  timeLengthList.find((t) => t.value === v)?.label;
 
 export const defaultErrorMsg = "An error happens, plase try it later!";
 

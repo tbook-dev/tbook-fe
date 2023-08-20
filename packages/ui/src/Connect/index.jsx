@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Button from "../Button";
-import { useWallet, ConnectModal } from "@suiet/wallet-kit";
 import Switch from "./switch";
 import SwitchV0 from "./switchV0";
 import { useSignIn } from "@tbook/hooks";
@@ -17,7 +16,7 @@ function Connect() {
   // console.log({ authUser });
 
   // sui
-  const suiWallet = useWallet();
+  //const suiWallet = useWallet();
   // console.log("chain", chain);
 
   const [showSuiModal, setShowSuiModal] = useState(false);
@@ -34,7 +33,6 @@ function Connect() {
       >
         Connect
       </Button>
-      <ConnectModal open={showSuiModal} onOpenChange={(open) => setShowSuiModal(open)}></ConnectModal>
     </>
   );
 }

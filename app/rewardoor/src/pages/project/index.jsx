@@ -1,0 +1,139 @@
+import { Form, Input, Select } from 'antd'
+import Button from '@/components/button'
+import { useState } from 'react'
+import { createProject } from '@/api/incentive'
+import { useNavigate } from 'react-router-dom'
+import Logo from '@/components/logo'
+import bannerUrl from '@/images/aboard-banner.png'
+import bannerBg from '@/images/aboard-bg.png'
+import Account from '@/components/account'
+import { useQueryClient } from 'react-query'
+import { useEffect } from 'react'
+
+// const { setAuthUser, setUser, setProjects, getUserInfo } = user
+
+const categoryList = [
+  'DeFi',
+  'DAO',
+  'SocialFi',
+  'GameFi',
+  'NFT',
+  'Metaverse',
+  'Tools',
+  'Ecosystem',
+  'Infra',
+  'Safety',
+  'Others'
+]
+const title = 'Tell us about your project...'
+const desc =
+  'Help TBOOK customize your experience accordingly, and help users understand your project easily.'
+const dashboardOverView = `/dashboard/overview`
+
+export default function () {
+  const [form] = Form.useForm()
+  const [confirmLoading, setConfirmLoading] = useState(false)
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+  const projectName = Form.useWatch('projectName', form)
+
+  useEffect(() => {
+    form.setFieldsValue({ projectUrl: projectName })
+  }, [projectName])
+
+  function handleCreate () {
+    setConfirmLoading(true)
+    form
+      .validateFields()
+      .then(async values => {
+        try {
+          const res = await createProject(values)
+          setConfirmLoading(false)
+          console.log(res)
+          queryClient.refetchQueries('userInfo')
+          navigate(dashboardOverView)
+        } catch (err) {
+          console.log(err)
+        }
+      })
+      .catch(err => {
+        setConfirmLoading(false)
+        console.log(err, 'error')
+      })
+  }
+  return (
+    <div className='w-full min-h-screen text-white flex'>
+      <div className='w-[240px] bg-b-1 pb-20 rounded-r-4xl relative flex flex-col justify-end'>
+        <Logo />
+        <img
+          src={bannerUrl}
+          className='w-[592px] absolute top-1/4 right-[51px] max-w-none'
+        />
+        <img
+          src={bannerBg}
+          className='w-[592px] absolute top-1/4 right-[51px] max-w-none'
+        />
+        <div className='relative'>
+          <Account />
+        </div>
+      </div>
+      <div className='w-[630px] ml-[123px] pt-20'>
+        <div className='mb-12'>
+          <h1 className='text-5xl font-bold mb-1'>{title}</h1>
+          <p className='font-medium text-base'>{desc}</p>
+        </div>
+
+        <Form
+          form={form}
+          layout='vertical'
+          requiredMark={false}
+          // initialValues={{ category: 'DeFi' }}
+        >
+          <Form.Item
+            label='Project Name'
+            name='projectName'
+            rules={[{ required: true, message: 'Project Name is required' }]}
+          >
+            <Input placeholder='Enter a Project Name' />
+          </Form.Item>
+
+          <Form.Item
+            label='Project URL'
+            name='projectUrl'
+            rules={[{ required: true, message: 'Project URL is required' }]}
+          >
+            <Input
+              placeholder='Enter a Project URL'
+              prefix={location.origin + '/'}
+            />
+          </Form.Item>
+          <Form.Item
+            name='tags'
+            label='Project Category'
+            rules={[
+              { required: true, message: 'Project Category is required' }
+            ]}
+          >
+            <Select
+              placeholder='Select the category'
+              mode='multiple'
+              allowClear
+              options={categoryList.map(v => ({ value: v, label: v }))}
+            />
+          </Form.Item>
+        </Form>
+
+        <div className='flex justify-center py-20'>
+          <Button
+            type='primary'
+            onClick={handleCreate}
+            loading={confirmLoading}
+            className='w-full'
+          >
+            Create Project
+          </Button>
+        </div>
+      </div>
+    </div>
+  )
+}

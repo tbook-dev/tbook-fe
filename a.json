@@ -1,0 +1,100 @@
+{
+    "campaign": {
+        "campaignId": 224351150542,
+        "title": "title",
+        "name": "title",
+        "picUrl": "https://rd-worker.xgamma.workers.dev/img/4f3890014fd7414b936306d08a6eac25",
+        "description": "desc",
+        "startAt": 1692627930000,
+        "endAt": 1694442330000,
+        "status": 0,
+        "reward": "",
+        "rewardAction": "",
+        "projectId": 188024620199,
+        "creatorId": 188024250198,
+        "points": 0,
+        "credentialId": 0,
+        "nft": 0,
+        "credentials": [],
+        "spaceId": 0,
+        "uniName": "title"
+    },
+    "groups": [
+        {
+            "groupType": 2,
+            "name": "Community",
+            "id": 1,
+            "credentialList": [
+                {
+                    "credentialId": 0,
+                    "name": "Follow on Twitter",
+                    "nameExp": "Follow <%= test_user %> on Twitter",
+                    "labelType": 1,
+                    "link": "",
+                    "picUrl": "https://rd-worker.xgamma.workers.dev/img/328d2ceabec948999d82c24888877b72",
+                    "projectId": 188024620199,
+                    "creatorId": 188024250198,
+                    "groupId": 0,
+                    "groupType": 2,
+                    "eligibleCount": 0
+                },
+                {
+                    "credentialId": 1,
+                    "name": "Twitter Retweet",
+                    "nameExp": "Retweet <%= re_user %> on Twitter",
+                    "labelType": 1,
+                    "link": "",
+                    "picUrl": "https://rd-worker.xgamma.workers.dev/img/328d2ceabec948999d82c24888877b72",
+                    "projectId": 188024620199,
+                    "creatorId": 188024250198,
+                    "groupId": 0,
+                    "groupType": 2,
+                    "eligibleCount": 0
+                }
+            ],
+            "projectId": 0,
+            "creatorId": 188024250198,
+            "campaignId": 0,
+            "status": 0,
+            "nftList": [],
+            "pointList": []
+        },
+        {
+            "groupType": 0,
+            "name": "",
+            "id": 224351150543,
+            "credentialList": [
+                {
+                    "credentialId": 224351150544,
+                    "name": "",
+                    "nameExp": "",
+                    "labelType": 0,
+                    "link": "https://twitter.com/jamesm/status/1686731419416989697sss",
+                    "picUrl": "",
+                    "projectId": 188024620199,
+                    "creatorId": 0,
+                    "groupId": 224351150543,
+                    "groupType": 0,
+                    "eligibleCount": 0
+                }
+            ],
+            "projectId": 188024620199,
+            "creatorId": 0,
+            "campaignId": 224351150542,
+            "status": 1,
+            "nftList": [],
+            "pointList": [
+                {
+                    "pointId": 224351150545,
+                    "number": 100,
+                    "methodType": 2,
+                    "unlimited": false,
+                    "rewardNum": 0,
+                    "projectId": 188024620199,
+                    "creatorId": 0,
+                    "groupId": 224351150543
+                }
+            ]
+        }
+    ]
+}
