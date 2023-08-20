@@ -6,8 +6,8 @@ import { conf } from "@tbook/utils";
 import { incentiveAssetsTypeList } from "@/utils/conf";
 import { Pagination } from "antd";
 import { useState } from "react";
-
-const { formatDollar } = conf;
+import dayjs from "dayjs";
+const { formatDollar, shortAddress, timeFormat } = conf;
 
 // const mockParticipants = [
 //   {
@@ -194,7 +194,7 @@ export default function Participation() {
                       align="left"
                       className="pb-4 text-sm text-t-1 font-medium"
                     >
-                      {v.address}
+                      {shortAddress(v.address)}
                     </td>
                     {pageInfo?.pointList?.map((v, idx) => (
                       <td
@@ -206,13 +206,15 @@ export default function Participation() {
                         +{formatDollar(v.number)}
                       </td>
                     ))}
-                    {pageInfo?.credentialList?.map((v, idx) => (
+                    {pageInfo?.credentialList?.map((iv, idx) => (
                       <td key={idx} align="center" className="pb-4">
-                        {v.isVerified === 0 ? "--" : "✓"}
+                        {v?.verifiedCredentials?.includes(iv.credentialId)
+                          ? "✓"
+                          : "--"}
                       </td>
                     ))}
                     <td align="right" className="text-sm text-t-1 font-medium">
-                      {v.date}
+                      {dayjs(v.participantDate).format(timeFormat)}
                     </td>
                   </tr>
                 ))
