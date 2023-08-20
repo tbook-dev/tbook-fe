@@ -40,7 +40,7 @@ const textMap = {
 }
 const { defaultErrorMsg } = conf
 const successMsg = `draft saved successfully`
-const defaultStep = '1'
+const defaultStep = '2'
 
 const checkFormValidte = conf => {
   return (

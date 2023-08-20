@@ -20,6 +20,7 @@ export default function CredentialModal ({
   credentialList,
   conf
 }) {
+  const [confirmaLoading, setConfirmaLoading] = useState(false)
   const [form] = Form.useForm()
   const [searchVal, setSearchVal] = useState('')
   const credentialsFormValues = Form.useWatch('credential', form)
@@ -28,7 +29,7 @@ export default function CredentialModal ({
       v.credentialList.map(m => ({
         ...m,
         groupType: v.groupType,
-        name: v.name
+        groupName: v.name
       }))
     )
     .flat()
@@ -50,6 +51,10 @@ export default function CredentialModal ({
     form
       .validateFields()
       .then(values => {
+        setConfirmaLoading(true)
+        // parse
+
+        // format
         values.credential = values.credential.map(v => {
           const credential = credentialSet.find(
             n => n.credentialId === v.credentialId
@@ -61,10 +66,12 @@ export default function CredentialModal ({
           }
         })
         handleSave(values)
+        setConfirmaLoading(false)
         closeModal()
       })
       .catch(err => {
         console.log(err)
+        setConfirmaLoading(false)
       })
   }
   useEffect(() => {
@@ -87,7 +94,7 @@ export default function CredentialModal ({
       centered
       footer={
         <div className='flex justify-end' onClick={handleOk}>
-          <Button type='primary'>Save</Button>
+          <Button type='primary' loading={confirmaLoading}>Save</Button>
         </div>
       }
     >
@@ -185,20 +192,20 @@ export default function CredentialModal ({
                             <Form.Item
                               {...restField}
                               name={[name, 'link']}
-                              label={credential.taskName}
+                              label={credential.tipText}
                               rules={[
                                 {
                                   required: true,
-                                  message: `Missing ${credential.taskName}`
+                                  message: `Missing ${credential.tipText}`
                                 },
-                                {
-                                  pattern: twParttern,
-                                  message: `Please enter a valid twitter URL`
-                                }
+                                // {
+                                //   pattern: twParttern,
+                                //   message: `Please enter a valid twitter URL`
+                                // }
                               ]}
                             >
                               <Input
-                                placeholder={`Please paste ${credential.taskName} here`}
+                                placeholder={`${credential.placeHolder}`}
                               />
                             </Form.Item>
                           </div>
