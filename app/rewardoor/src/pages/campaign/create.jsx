@@ -173,9 +173,10 @@ export default function () {
           },
         ]}
       />
-      <div className="pt-0.5">
+
+      <div className="pt-1">
         <h1 className="text-4xl  mb-10 font-bold">{title}</h1>
-        <div className="">
+        <div className="relative">
           {step === "1" && <BasicInfo form={setUpForm} />}
           {step === "2" && (
             <CredentialReward
@@ -188,7 +189,7 @@ export default function () {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 flex justify-between pb-20">
+      <div className="flex justify-between py-20">
         <div className="flex justify-center space-x-6">
           {/* <Button type='text'>Save Draft</Button>
           <Button type='text'>Preview</Button> */}
