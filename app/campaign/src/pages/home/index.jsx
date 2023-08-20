@@ -8,12 +8,10 @@ import clsx from 'clsx'
 import { useQuery } from 'react-query'
 import { getCampaignDetail, twLogin } from '@/api/incentive'
 import { useParams } from 'react-router-dom'
-import { template } from 'lodash'
-import { getTwitterId } from '@/utils/conf'
 import Accordion from '@/components/accordion'
 import giftIcon from '@/images/icon/gift.svg'
 import pointIcon from '@/images/icon/point.svg'
-import { Modal } from 'antd'
+import Modal from '@/components/modal'
 
 const textConf = {
   title: 'TBOOK Twitter Campaign',
@@ -109,7 +107,7 @@ export default function () {
                   </div>
                   <img
                     src={giftIcon}
-                    className='w-4 h-4'
+                    className='w-8 h-8 cursor-pointer'
                     onClick={() => {
                       setRewardModalIdx(index)
                     }}
@@ -155,25 +153,22 @@ export default function () {
         })}
       </section>
 
-      <Modal
-        footer={null}
-        title={null}
-        centered
-        open={rewardModalIdx >= 0}
-        onCancel={handleCancel}
-      >
-        <div className='text-t-1 p-5'>
-          <h2 className='text-4xl mb-2 font-bold'>
+      <Modal open={rewardModalIdx >= 0} onCancel={handleCancel}>
+        <div className='text-t-1 p-5 mb-5 lg:mb-0'>
+          <h2 className='text-xl lg:text-4xl mb-2 font-bold'>
             Reward Group {rewardModalIdx + 1}
           </h2>
-          <p className='text-base font-medium mb-10'>
+          <p className='text-xs font-medium mb-10'>
             You may get these rewards once all tasks done！
           </p>
-          <div>
+          <div className='text-base'>
             {page?.groups?.[rewardModalIdx] && (
-              <div className='flex items-center gap-x-1'>
-                <img src={pointIcon} className='w-[14px] h-[14px]' />
-                Points
+              <div className='flex items-center gap-x-5'>
+                <img src={pointIcon} className='w-[46px] h-[46px]' />
+                <span>
+                  {page?.groups?.[rewardModalIdx]?.pointList?.[0]?.number}{' '}
+                  Points
+                </span>
               </div>
             )}
           </div>
