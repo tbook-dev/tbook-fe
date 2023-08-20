@@ -149,7 +149,7 @@ export default function () {
                       <button
                         className='text-sm lg:text-base font-medium text-[#1D9BF0] underline whitespace-nowrap'
                         onClick={
-                          !twitterConnected
+                          twitterConnected
                             ? () => handleVerify(redential)
                             : twLogin
                         }

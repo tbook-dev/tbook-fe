@@ -141,7 +141,7 @@ function CredentialReward ({
                                 )?.label
                               }
                             </span>
-                            <span>{rewardType === 1 ? v.mame : v.point}</span>
+                            <span>{rewardType === 1 ? v.mame : v.number}</span>
                           </div>
                         )
                       })}

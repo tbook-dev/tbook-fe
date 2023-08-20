@@ -1,4 +1,4 @@
-import { Form } from 'antd'
+import { Form, message } from 'antd'
 import Breadcrumb from '@/components/breadcrumb'
 import { useRef, useState, useEffect } from 'react'
 import Button from '@/components/button'
@@ -22,6 +22,7 @@ import useUserInfo from '@/hooks/useUserInfoQuery'
 import SucessModal from './modules/SucessModal'
 import { get } from 'lodash'
 import { getUrl } from '@/utils/conf'
+
 const listLink = `/campaign`
 const title = 'Set up an Incentive Campaign'
 const textMap = {
@@ -52,6 +53,7 @@ const checkFormValidte = conf => {
 }
 
 export default function () {
+  const [messageApi, contextHolder] = message.useMessage()
   const [step, setStep] = useState(defaultStep)
   const [confirmCreateLoading, setConfirmCreateLoading] = useState(false)
   const { projectId } = useUserInfo()
@@ -145,14 +147,19 @@ export default function () {
       })
     }
     // console.log(credentialReward, data)
-    const res = await createCampaign(data)
-    setConfirmCreateLoading(false)
-    // navigate(listLink)
-    setSucessData(res)
-    queryClient.refetchQueries(['campaignList', projectId])
-    console.log(res)
+    try {
+      const res = await createCampaign(data)
+      setConfirmCreateLoading(false)
+      // navigate(listLink)
+      setSucessData(res)
+      queryClient.refetchQueries(['campaignList', projectId])
+    } catch (error) {
+      setConfirmCreateLoading(false)
+      messageApi.error(error?.msg || defaultErrorMsg)
+      console.log(error)
+    }
   }
-  console.log({ sucessData })
+
   return (
     <div className='text-white relative min-h-full'>
       <Breadcrumb
@@ -234,6 +241,7 @@ export default function () {
         shareLink={`${getUrl()}/app/${get(sucessData, 'campaign.campaignId')}`}
         setOpen={setSucessData}
       />
+      {contextHolder}
     </div>
   )
 }
