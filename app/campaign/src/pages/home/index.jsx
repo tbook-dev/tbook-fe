@@ -5,12 +5,13 @@ import { useResponsive } from 'ahooks'
 import downIcon from '@/images/icon/down.svg'
 import { useState, useCallback } from 'react'
 import clsx from 'clsx'
-import { useQuery } from 'react-query'
-import { getCampaignDetail, twLogin } from '@/api/incentive'
+import { useQuery, useQueryClient } from 'react-query'
+import { getCampaignDetail, twLogin, verifyCredential } from '@/api/incentive'
 import { useParams } from 'react-router-dom'
 import Accordion from '@/components/accordion'
 import giftIcon from '@/images/icon/gift.svg'
 import pointIcon from '@/images/icon/point.svg'
+import verifiedIcon from '@/images/icon/verified.svg'
 import Modal from '@/components/modal'
 
 const textConf = {
@@ -26,6 +27,7 @@ export default function () {
   const { pc } = useResponsive()
   const { campaignId } = useParams()
   const [showMore, setShowMore] = useState(false)
+  const queryClient = useQueryClient()
   const { data: page, twitterConnected } = useQuery(
     ['campaignDetail', campaignId],
     () => getCampaignDetail(campaignId)
@@ -34,7 +36,15 @@ export default function () {
   const handleCancel = useCallback(() => {
     setRewardModalIdx(-1)
   }, [])
-  console.log({ rewardModalIdx })
+  const handleVerify = useCallback(async redential => {
+    try {
+      await verifyCredential(redential.campaignId)
+    } catch (error) {
+      console.log(error)
+    }
+    queryClient.refetchQueries(['campaignDetail', campaignId])
+  }, [])
+
   return (
     <div className='space-y-8 px-4 lg:px-0 lg:w-[880px] mx-auto pt-8 pb-16 lg:pt-10 lg:pb-20 h-[300px] text-t-1'>
       <section className='space-y-5 lg:space-y-10'>
@@ -133,14 +143,16 @@ export default function () {
                         }}
                       />
                     </div>
-                    {twitterConnected ? (
-                      <button className='text-sm font-medium text-[#1D9BF0] underline whitespace-nowrap'>
-                        Verify
-                      </button>
+                    {redential.isVerified ? (
+                      <img src={verifiedIcon} className='w-8 h-8' />
                     ) : (
                       <button
                         className='text-sm lg:text-base font-medium text-[#1D9BF0] underline whitespace-nowrap'
-                        onClick={twLogin}
+                        onClick={
+                          !twitterConnected
+                            ? () => handleVerify(redential)
+                            : twLogin
+                        }
                       >
                         Verify
                       </button>

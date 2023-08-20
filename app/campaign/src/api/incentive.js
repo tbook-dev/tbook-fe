@@ -10,6 +10,11 @@ export const getCampaignDetail = async function (id) {
   return await request(`${host}/campaignNew/${id}`);
 };
 
+export const verifyCredential = async function (credentialId) {
+  return await request.Post(
+    `${host}/campaignNew/credential/${credentialId}/verify`
+  );
+};
 export const twLogin = async function () {
   fetch(`${host}/twitter/auth`, {
     method: "GET",
