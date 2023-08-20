@@ -194,7 +194,7 @@ export default function Participation() {
                       align="left"
                       className="pb-4 text-sm text-t-1 font-medium"
                     >
-                      {shortAddress(v.address)}
+                      {shortAddress(v.wallet)}
                     </td>
                     {pageInfo?.pointList?.map((v, idx) => (
                       <td
@@ -208,7 +208,9 @@ export default function Participation() {
                     ))}
                     {pageInfo?.credentialList?.map((iv, idx) => (
                       <td key={idx} align="center" className="pb-4">
-                        {v?.verifiedCredentials?.includes(iv.credentialId)
+                        {v?.verifiedCredentials?.some(
+                          (m) => m.credentialId === iv.credentialId
+                        )
                           ? "✓"
                           : "--"}
                       </td>

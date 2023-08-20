@@ -16,12 +16,15 @@ import useCampaignQuery from "@/hooks/useCampaignQuery";
 import TextMore from "@/components/textMore";
 import { Spin } from "antd";
 import endCampaign from "@/images/end-campaign.png";
+import { message } from "antd";
 
 const notStartList = [2, 0];
 const endList = [3, 4, 5];
 const endText = "This campaign has ended.";
-
+const errorMsg =
+  "Please click the link and finish the task first. If you have fulfilled the requirement, please try again in 30s.";
 export default function () {
+  const [messageApi, contextHolder] = message.useMessage();
   const { pc } = useResponsive();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
@@ -34,11 +37,15 @@ export default function () {
   }, []);
   const handleVerify = useCallback(async (redential) => {
     try {
-      await verifyCredential(redential.credentialId);
+      const res = await verifyCredential(redential.credentialId);
+      if (res.isVerified) {
+        queryClient.refetchQueries(["campaignDetail", campaignId]);
+      } else {
+        messageApi.error(errorMsg);
+      }
     } catch (error) {
       console.log(error);
     }
-    queryClient.refetchQueries(["campaignDetail", campaignId]);
   }, []);
 
   if (!firstLoad) {
@@ -177,6 +184,7 @@ export default function () {
           </div>
         </div>
       </Modal>
+      {contextHolder}
     </div>
   );
 }
