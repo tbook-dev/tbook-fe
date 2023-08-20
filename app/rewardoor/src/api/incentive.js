@@ -69,7 +69,9 @@ export const handleCreateNFTcontract = async function (projectId, values) {
     chainId: 10,
   };
 };
-
+export const parseLinkParams = function (values) {
+  return request.Post(`${host}/twitter/getInfo`, values);
+};
 export const getCampaignParticipation = async function (campaignId) {
   return await request(`${host}/campaignNew/participation/${campaignId}`);
 };

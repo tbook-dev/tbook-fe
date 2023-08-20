@@ -7,6 +7,7 @@ import x from '@/images/icon/x.svg'
 import closeIcon from '@/images/icon/close.svg'
 import { useCallback, useEffect } from 'react'
 import { twParttern, groupTypeMap } from '@/utils/conf'
+import { parseLinkParams } from '@/api/incentive'
 
 const title = 'Set Up Credential Group'
 const placeholder = 'Enter Credential Title to search for Cred'
@@ -50,19 +51,30 @@ export default function CredentialModal ({
   const handleOk = async () => {
     form
       .validateFields()
-      .then(values => {
+      .then(async values => {
         setConfirmaLoading(true)
         // parse
-
+        const parseResult = await Promise.all(
+          values.credential.map(async c => {
+            const res = await parseLinkParams({
+              url: c.link,
+              credentialId: c.credentialId
+            })
+            return {
+              ...c,
+              options: res
+            }
+          })
+        )
         // format
-        values.credential = values.credential.map(v => {
+        values.credential = parseResult.map(v => {
           const credential = credentialSet.find(
             n => n.credentialId === v.credentialId
           )
           return {
             ...v,
             groupType: credential.groupType,
-            name: credential.name
+            groupName: credential.groupName
           }
         })
         handleSave(values)
@@ -94,7 +106,9 @@ export default function CredentialModal ({
       centered
       footer={
         <div className='flex justify-end' onClick={handleOk}>
-          <Button type='primary' loading={confirmaLoading}>Save</Button>
+          <Button type='primary' loading={confirmaLoading}>
+            Save
+          </Button>
         </div>
       }
     >
@@ -197,7 +211,7 @@ export default function CredentialModal ({
                                 {
                                   required: true,
                                   message: `Missing ${credential.tipText}`
-                                },
+                                }
                                 // {
                                 //   pattern: twParttern,
                                 //   message: `Please enter a valid twitter URL`

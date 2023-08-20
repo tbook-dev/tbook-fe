@@ -10,6 +10,7 @@ import { getTwitterId, incentiveAssetsTypeList } from '@/utils/conf'
 import x from '@/images/icon/x.svg'
 import { defaultCredentialReward } from '../conf'
 import { template } from 'lodash'
+
 const textConf = {
   credential: {
     title: 'Credential Group',
@@ -86,11 +87,11 @@ function CredentialReward ({
                             src={m?.icon || x}
                             className='w-5 h-5 object-contain'
                           />
-                          <p className='text-sm font-medium text-t-1'>
-                            {template(m.nameExp)({
-                              link: getTwitterId(v.link)
-                            })}
-                          </p>
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: template(m.displayExp)(v.options)
+                            }}
+                          />
                         </div>
                       )
                     })}
