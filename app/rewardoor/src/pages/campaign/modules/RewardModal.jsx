@@ -310,7 +310,7 @@ export default function CredentialModal ({
 
                       <Form.Item
                         name={[name, 'unlimited']}
-                        label='Unlimited'
+                        label='Limited Number of Reward'
                         valuePropName='checked'
                         rules={[
                           {
@@ -319,7 +319,7 @@ export default function CredentialModal ({
                           }
                         ]}
                       >
-                        <Switch checkedChildren='yes' unCheckedChildren='no' />
+                        <Switch />
                       </Form.Item>
                       {unlimited && (
                         <>
