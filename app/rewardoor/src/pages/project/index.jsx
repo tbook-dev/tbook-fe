@@ -1,4 +1,4 @@
-import { Form, Input, Select } from 'antd'
+import { Form, Input, Select, Upload, message } from 'antd'
 import Button from '@/components/button'
 import { useState } from 'react'
 import { createProject } from '@/api/incentive'
@@ -9,6 +9,8 @@ import bannerBg from '@/images/aboard-bg.png'
 import Account from '@/components/account'
 import { useQueryClient } from 'react-query'
 import { useEffect } from 'react'
+import uploadIcon from '@/images/icon/upload.svg'
+import uploadFile from '@/utils/upload'
 
 // const { setAuthUser, setUser, setProjects, getUserInfo } = user
 
@@ -28,7 +30,7 @@ const categoryList = [
 const title = 'Tell us about your project...'
 const desc =
   'Help TBOOK customize your experience accordingly, and help users understand your project easily.'
-const dashboardOverView = `/dashboard/overview`
+const dashboardOverView = `/`
 
 export default function () {
   const [form] = Form.useForm()
@@ -36,10 +38,22 @@ export default function () {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const projectName = Form.useWatch('projectName', form)
+  const [messageApi, contextHolder] = message.useMessage()
 
   useEffect(() => {
     form.setFieldsValue({ projectUrl: projectName })
   }, [projectName])
+
+  const hanleUpload = ({ onSuccess, onError, file }) => {
+    uploadFile(file).then(onSuccess).catch(onError)
+  }
+  const normFile = e => {
+    console.log('Upload event:', e)
+    if (Array.isArray(e)) {
+      return e
+    }
+    return e?.fileList
+  }
 
   function handleCreate () {
     setConfirmLoading(true)
@@ -47,12 +61,15 @@ export default function () {
       .validateFields()
       .then(async values => {
         try {
+          values.avatarUrl = values.avatarUrl?.[0]?.response
           const res = await createProject(values)
           setConfirmLoading(false)
           console.log(res)
           queryClient.refetchQueries('userInfo')
           navigate(dashboardOverView)
         } catch (err) {
+          messageApi.error(err?.data?.message || 'Create project failed')
+          setConfirmLoading(false)
           console.log(err)
         }
       })
@@ -97,6 +114,35 @@ export default function () {
             <Input placeholder='Enter a Project Name' />
           </Form.Item>
 
+          <Form.Item label='Project Logo'>
+            <Form.Item
+              valuePropName='fileList'
+              getValueFromEvent={normFile}
+              noStyle
+              name='avatarUrl'
+              rules={[
+                {
+                  required: true,
+                  message: 'Project Logo is required'
+                }
+              ]}
+            >
+              <Upload.Dragger
+                customRequest={hanleUpload}
+                multiple={false}
+                accept='image/*'
+                maxCount={1}
+              >
+                <p className='ant-upload-drag-icon flex justify-center'>
+                  <img src={uploadIcon} />
+                </p>
+                <p className='ant-upload-text'>Upload an image</p>
+                <p className='ant-upload-hint'>296*312 or higher</p>
+                <p className='ant-upload-hint'>recommended Max 20MB.</p>
+              </Upload.Dragger>
+            </Form.Item>
+          </Form.Item>
+
           <Form.Item
             label='Project URL'
             name='projectUrl'
@@ -134,6 +180,7 @@ export default function () {
           </Button>
         </div>
       </div>
+      {contextHolder}
     </div>
   )
 }
