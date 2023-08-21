@@ -5,9 +5,9 @@ import clsx from 'clsx'
 export default function Accordion ({ title, children, fixedAreo }) {
   const [open, setOpen] = useState(true)
   return (
-    <>
+    <div>
       <div
-        className='flex items-center cursor-pointer gap-x-2 mb-2.5 select-none'
+        className='flex items-center cursor-pointer gap-x-2 mb-1 select-none'
         onClick={() => setOpen(!open)}
       >
         <div className='w-4 h-4 flex items-center justify-center'>
@@ -21,8 +21,10 @@ export default function Accordion ({ title, children, fixedAreo }) {
         </div>
         {title}
       </div>
-      <div className='mb-2.5'>{fixedAreo}</div>
-      {open && children}
-    </>
+      <div className='pl-6 mb-1.5'>
+        {fixedAreo}
+        {open && children}
+      </div>
+    </div>
   )
 }
