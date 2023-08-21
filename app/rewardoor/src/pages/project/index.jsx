@@ -31,6 +31,7 @@ const title = 'Tell us about your project...'
 const desc =
   'Help TBOOK customize your experience accordingly, and help users understand your project easily.'
 const dashboardOverView = `/`
+const defaultErrorMsg = 'Create project failed'
 
 export default function () {
   const [form] = Form.useForm()
@@ -64,11 +65,15 @@ export default function () {
           values.avatarUrl = values.avatarUrl?.[0]?.response
           const res = await createProject(values)
           setConfirmLoading(false)
+          if (!res.success) {
+            messageApi.error(res?.msg || defaultErrorMsg)
+            return
+          }
           console.log(res)
           queryClient.refetchQueries('userInfo')
           navigate(dashboardOverView)
         } catch (err) {
-          messageApi.error(err?.data?.message || 'Create project failed')
+          messageApi.error(err?.data?.message || defaultErrorMsg)
           setConfirmLoading(false)
           console.log(err)
         }
