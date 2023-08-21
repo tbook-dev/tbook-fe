@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { host } from '@/api/incentive'
 
 export default function () {
     const navigate = useNavigate()
+    const [errorMessage, setErrorMessage] = useState(null)
 
     useEffect(() => {
         const url = new URL(window.location.href)
@@ -19,7 +20,12 @@ export default function () {
             },
             credentials: 'include',
             body: data
-        }).then(d => {
+        }).then(r => r.json())
+        .then(d => {
+            if (d.code != 200) {
+                setErrorMessage(d.message)
+                return 
+            }
             const redirect = localStorage.getItem('redirect_url')
             if (redirect != null) {
                 localStorage.removeItem('redirect_url')
@@ -30,5 +36,8 @@ export default function () {
         })
     }, [])
 
-    return (<div>Redirecting...</div>)
+    return (<>
+    <div>Redirecting...</div>
+    {errorMessage && <div>{errorMessage}</div>}
+    </>)
 }
