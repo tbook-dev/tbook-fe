@@ -70,7 +70,7 @@ export default function Aboard () {
             </div> :<>
             <Button
               className='w-full text-base font-bold text-white'
-              onClick={handleSignIn}
+              onClick={() => handleSignIn(false)}
               loading={loading}
             >
               <img src={metaMask} className='mr-3 w-5 h-5 object-contain' />
