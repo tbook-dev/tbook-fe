@@ -43,8 +43,8 @@ export default function Layout ({ children }) {
   const navigate = useNavigate()
 
   return (
-    <div className='w-full min-h-screen text-white flex'>
-      <div className='w-[240px] bg-b-1 pl-2 pb-20 rounded-r-4xl relative select-none overflow-hidden flex flex-col justify-between'>
+    <div className='w-full min-h-screen text-white flex pl-[280px]'>
+      <div className='w-[240px] bg-b-1 pl-2 pb-20 rounded-r-4xl fixed left-0 inset-y-0 select-none overflow-hidden flex flex-col justify-between'>
         <div className='bg-black'>
           <Logo />
           <div
@@ -101,7 +101,7 @@ export default function Layout ({ children }) {
         <Account />
       </div>
 
-      <div className='w-[1080px] ml-10 pt-20 flex flex-col'>
+      <div className='w-[1080px] mx-auto pt-20 flex flex-col'>
         {children}
         <Outlet />
       </div>
