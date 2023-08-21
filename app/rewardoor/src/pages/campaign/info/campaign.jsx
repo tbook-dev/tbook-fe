@@ -1,50 +1,10 @@
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
-import { useMemo } from 'react'
 import { getCampaignDetail, getCredentials } from '@/api/incentive'
 import x from '@/images/icon/x.svg'
-import { template } from 'lodash'
-import { getTwitterId, incentiveAssetsTypeList } from '@/utils/conf'
+import { incentiveAssetsTypeList } from '@/utils/conf'
 import useUserInfo from '@/hooks/useUserInfoQuery'
 
-const groupsMock = [
-  {
-    credential: [
-      {
-        credentialId: 0,
-        link: 'https://twitter.com/jamesm/status/1686731419416989697'
-      },
-      {
-        credentialId: 1,
-        link: 'https://twitter.com/jamesm/status/1686731419416989697'
-      }
-    ],
-    reward: [
-      {
-        rewardType: 2,
-        unlimited: false,
-        number: 100,
-        methodType: 2
-      }
-    ]
-  },
-  {
-    credential: [
-      {
-        credentialId: 1,
-        link: 'https://twitter.com/jamesm/status/1686731419416989697'
-      }
-    ],
-    reward: [
-      {
-        rewardType: 2,
-        unlimited: false,
-        number: 100,
-        methodType: 2
-      }
-    ]
-  }
-]
 export default function Campaign () {
   const { id } = useParams()
   const { projectId } = useUserInfo()
@@ -109,7 +69,7 @@ export default function Campaign () {
                             className='w-5 h-5 object-contain'
                           />
                           <div
-                            dangerouslySetInnerHTML={{ __html: v.display }}
+                            dangerouslySetInnerHTML={{ __html: v.displayExp }}
                           />
                         </div>
                       )
