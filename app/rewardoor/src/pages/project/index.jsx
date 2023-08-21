@@ -62,8 +62,8 @@ export default function () {
       })
   }
   return (
-    <div className='w-full min-h-screen text-white flex'>
-      <div className='w-[240px] bg-b-1 pb-20 rounded-r-4xl relative flex flex-col justify-end'>
+    <div className='w-full min-h-screen text-white flex pl-[280px]'>
+      <div className='fixed left-0 inset-y-0 w-[240px] bg-b-1 pb-20 rounded-r-4xl  flex flex-col justify-end'>
         <Logo />
         <img
           src={bannerUrl}
@@ -77,7 +77,7 @@ export default function () {
           <Account />
         </div>
       </div>
-      <div className='w-[630px] ml-[123px] pt-20'>
+      <div className='w-[630px] mx-auto pt-20'>
         <div className='mb-12'>
           <h1 className='text-5xl font-bold mb-1'>{title}</h1>
           <p className='font-medium text-base'>{desc}</p>

@@ -32,7 +32,13 @@ export default function Aboard () {
         if (r.status === 401) {
           handleSignIn()
         } else {
-          navigate('/')
+          r.json().then(res => {
+            if (res?.project?.length === 0) {
+              navigate('/new-project')
+            } else {
+              navigate('/')
+            }
+          })
         }
       })
     }
