@@ -135,7 +135,7 @@ export default function CredentialModal ({
                   key: v.id,
                   label: <span className='capitalize'>{v.name}</span>,
                   children: (
-                    <div className='flex flex-wrap gap-x-4 select-none'>
+                    <div className='flex flex-wrap gap-x-4 gap-y-5 select-none'>
                       {v.credentialList?.map(c => {
                         return (
                           <div
