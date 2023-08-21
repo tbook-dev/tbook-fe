@@ -66,7 +66,7 @@ export default function () {
           const res = await createProject(values)
           setConfirmLoading(false)
           if (!res.success) {
-            messageApi.error(res?.msg || defaultErrorMsg)
+            messageApi.error(res?.message || defaultErrorMsg)
             return
           }
           console.log(res)
