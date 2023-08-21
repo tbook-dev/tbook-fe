@@ -6,12 +6,12 @@ export default function ({ children, ...props }) {
   return (
     <ConfigProvider
       theme={{
-        algorithm:
-           theme.darkAlgorithm,
+        algorithm: theme.darkAlgorithm,
         // theme.defaultAlgorithm,
         components,
         token: {
-          colorPrimary: '#fff' 
+          colorPrimary: '#fff',
+          fontFamily: "'Red Hat Display', sans-serif;"
         }
       }}
       {...props}

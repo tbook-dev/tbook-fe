@@ -14,7 +14,8 @@ export default function ({ children, ...props }) {
         // theme.defaultAlgorithm,
         components,
         token: {
-          colorPrimary: userTheme === 'dark' ? '#fff' : '#69D0E5'
+          colorPrimary: userTheme === 'dark' ? '#fff' : '#69D0E5',
+          fontFamily: "'Red Hat Display', sans-serif;"
         }
       }}
       {...props}
