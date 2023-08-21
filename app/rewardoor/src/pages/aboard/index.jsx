@@ -33,7 +33,7 @@ export default function Aboard () {
           handleSignIn()
         } else {
           r.json().then(res => {
-            if (res?.project?.length === 0) {
+            if (res?.projects?.length === 0) {
               navigate('/new-project')
             } else {
               navigate('/')
