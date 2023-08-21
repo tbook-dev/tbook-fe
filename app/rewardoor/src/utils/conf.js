@@ -1,7 +1,8 @@
 import opIcon from "@/images/icon/crypto/op.svg";
+import pointIcon from "@/images/icon/point.svg";
 export const incentiveAssetsTypeList = [
-  { label: "🎁  NFT", icon: "🎁", value: 1 },
-  { label: "💎 POINTS", icon: "💎", value: 2 },
+  { label: "🎁  NFT", icon: "🎁", text: "NFT", value: 1 },
+  { label: "💎 POINTS", icon: pointIcon, text: "POINTS", value: 2 },
 ];
 
 export const rewardDistributionMethod = [

@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import { getCampaignDetail } from '@/api/incentive'
 import { useParams } from 'react-router-dom'
-import dayjs from 'dayjs'
 import { useQuery } from 'react-query'
 import { useMemo } from 'react'
 import Breadcrumb from '@/components/breadcrumb'
@@ -10,7 +9,7 @@ import { useState } from 'react'
 import { Spin } from 'antd'
 import CampaignInfo from './info/campaign'
 import ParticipationInfo from './info/participation'
-const dateFormat = `YYYY-MM-DD HH:mm:ss`
+
 const moduleMap = {
   0: <CampaignInfo />,
   1: <ParticipationInfo />
@@ -58,23 +57,15 @@ export default function () {
           }
         ]}
       />
-      <section className='mb-5 pt-0.5'>
+      <section className='mb-10 pt-0.5 flex items-center'>
         <h2 className='font-bold text-5xl mb-0.5 text-t-1'>
           {pageInfo?.campaign?.name}
         </h2>
-
-        <div className='font-bold text-xs flex gap-x-2 items-center text-c-9'>
-          <div className='px-4 py-0.5 bg-[#1A1A1A] rounded-xl'>
-            {
-              campaignStatus.find(v => v.value === pageInfo?.campaign?.status)
-                ?.label
-            }
-          </div>
-          <div className='px-4 py-0.5 bg-[#1A1A1A] rounded-xl'>
-            {`${dayjs(pageInfo?.campaign?.startAt).format(dateFormat)}-${dayjs(
-              pageInfo?.campaign?.endAt
-            ).format(dateFormat)}`}
-          </div>
+        <div className='px-4 py-0.5 rounded-xl'>
+          {
+            campaignStatus.find(v => v.value === pageInfo?.campaign?.status)
+              ?.label
+          }
         </div>
       </section>
 

@@ -89,7 +89,7 @@ export default function Participation () {
 
       <div className='bg-gray px-5 pt-5 pb-7 rounded-2.5xl'>
         <h2 className='mb-4 text-base font-bold text-t-1'>Credential</h2>
-        <div className='flex items-center gap-x-5 gap-y-4 text-xs'>
+        <div className='flex items-center gap-x-5 gap-y-4 text-xs flex-wrap'>
           {pageInfo?.credentialList?.map((v, idx) => (
             <div
               key={idx}
