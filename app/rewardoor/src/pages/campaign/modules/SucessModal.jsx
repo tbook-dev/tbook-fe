@@ -1,17 +1,22 @@
 import { Modal, Typography } from 'antd'
 import sucessIcon from '@/images/icon/sucess.svg'
 import linkIcon from '@/images/icon/link.svg'
-import twIcon from '@/images/icon/tw.svg'
+import { useNavigate } from 'react-router-dom'
 const { Paragraph } = Typography
 
 const sucessText = 'The Campaign is successfully released!'
-export default function sucessModal ({ open, setOpen, shareLink }) {
+export default function sucessModal ({ open, setOpen, shareLink, jumpLink }) {
+  const navigate = useNavigate()
   return (
     <Modal
       centered
       footer={null}
       open={open}
-      onCancel={() => setOpen(null)}
+      maskClosable={false}
+      onCancel={() => {
+        setOpen(null)
+        navigate(jumpLink)
+      }}
       width={580}
     >
       <div className='flex flex-col gap-y-6 my-6 mx-1'>
