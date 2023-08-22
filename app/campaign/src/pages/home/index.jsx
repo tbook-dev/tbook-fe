@@ -20,6 +20,7 @@ import { message } from 'antd'
 import { useWeb3Modal } from '@web3modal/react'
 import { useAccount } from 'wagmi'
 import useSignIn from '@/hooks/useSignIn'
+import WithVerify from '@/components/withVerify'
 
 const notStartList = [2, 0]
 const endList = [3, 4, 5]
@@ -150,9 +151,9 @@ export default function () {
                       {campaignNotStart ? null : redential.isVerified ? (
                         <img src={verifiedIcon} className='w-8 h-8' />
                       ) : (
-                        <button
+                        <WithVerify
                           className='text-sm lg:text-base font-medium text-[#1D9BF0] underline whitespace-nowrap'
-                          onClick={
+                          handleFn={
                             isConnected
                               ? userLogined
                                 ? twitterConnected
@@ -161,10 +162,7 @@ export default function () {
                                 : handleSignIn
                               : open
                           }
-                        >
-                          {/* {twitterConnected ? "Verify" : "Connect Twitter"} */}
-                          Verify
-                        </button>
+                        />
                       )}
                     </div>
                   ))}
