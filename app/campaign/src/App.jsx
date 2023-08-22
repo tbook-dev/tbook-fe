@@ -26,21 +26,22 @@ configResponsive({
   pc: 1120
 })
 
-const currentAccount = getAccount()
+let currentAddress = getAccount().address
 watchAccount(async acc => {
   console.log('account changed:', acc)
-  if (currentAccount.address == acc.address) return
-  if (!acc.address) {
+  if (currentAddress == acc.address) return
+  if (!currentAddress) {
     // disconnect
     logout().then(r => {
       location.href = location
     })
-  } else if (currentAccount.address) {
+  } else if (currentAddress) {
     const signer = await getWalletClient()
     changeAccountSignIn(acc.address, signer).then(r => {
       location.href = location
     })
   }
+  currentAddress = acc.address
 })
 
 function App () {
