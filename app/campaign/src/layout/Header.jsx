@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import logo from '@/images/icon/logo.svg'
 // import Button from '@/components/button'
 // import Profile from '@/components/profile'
-import { useSignIn } from '@tbook/hooks'
+// import { useSignIn } from '@tbook/hooks'
 import { Web3Button } from '@web3modal/react'
 
 function Header () {
@@ -23,7 +23,7 @@ function Header () {
           </div>
 
           <div className='flex items-center space-x-3'>
-            <Web3Button />
+            <Web3Button icon='show' balance='hide' avatar='hide' />
             {/* {loadingUserStatus ? (
               <Spin />
             ) : authUser ? (

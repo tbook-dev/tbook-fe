@@ -73,6 +73,12 @@ function App () {
       <Web3Modal
         projectId={import.meta.env.VITE_WC_PROJECT_ID}
         ethereumClient={ethereumClient}
+        themeVariables={{
+          '--w3m-text-big-bold-font-family': 'Red Hat Display, sans-serif',
+          '--w3m-font-family': 'Red Hat Display, sans-serif',
+          '--w3m-accent-color': '#121212',
+          '--w3m-button-border-radius': '20px'
+        }}
       />
     </>
   )
