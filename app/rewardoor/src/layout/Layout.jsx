@@ -1,17 +1,17 @@
-import { useNavigate, useLocation, Outlet } from "react-router-dom"
-import { useEffect } from "react"
-import useUserInfo from "@/hooks/useUserInfoQuery"
-import { Spin } from "antd"
-import { useState } from "react"
+import { useNavigate, useLocation, Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import useUserInfo from "@/hooks/useUserInfoQuery";
+import { Spin } from "antd";
+import { useState } from "react";
 
-const aboardPath = "/aboard"
-
+const aboardPath = "/aboard";
+const newProjectPath = "/new-project";
 export default function LayoutAdmin() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { error, data, isLoading } = useUserInfo();
+  const { error, projects, isLoading } = useUserInfo();
   const [firstLoad, setFirstLoad] = useState(false);
-  
+
   useEffect(() => {
     if (error && error.code === 401 && location.pathname !== aboardPath) {
       navigate(
@@ -22,24 +22,30 @@ export default function LayoutAdmin() {
     }
   }, [error]);
 
+  useEffect(() => {
+    if (Array.isArray(projects) && projects.length === 0) {
+      navigate(newProjectPath);
+    }
+  }, [projects]);
 
   useEffect(() => {
-    if(!firstLoad && !isLoading){
-      setFirstLoad(true)
-      return
+    if (!firstLoad && !isLoading) {
+      setFirstLoad(true);
+      return;
     }
-  },[isLoading])
+  }, [isLoading]);
 
   // console.log({firstLoad, isLoading})
   return (
     <div className="flex flex-col min-h-screen dark:bg-black dark:text-white bg-[#FBFDFF]">
       <div className="relative flex-auto overflow-x-hidden overflow-y-auto">
-        {
-          !firstLoad ? <div className="flex pt-40 justify-center">
+        {!firstLoad ? (
+          <div className="flex pt-40 justify-center">
             <Spin spinning />
-          </div> : <Outlet />
-        }
-        
+          </div>
+        ) : (
+          <Outlet />
+        )}
       </div>
     </div>
   );
