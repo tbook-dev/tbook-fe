@@ -17,6 +17,9 @@ import TextMore from '@/components/textMore'
 import { Spin } from 'antd'
 import endCampaign from '@/images/end-campaign.png'
 import { message } from 'antd'
+import { useWeb3Modal } from '@web3modal/react'
+import { useAccount } from 'wagmi'
+import useSignIn from '@/hooks/useSignIn'
 
 const notStartList = [2, 0]
 const endList = [3, 4, 5]
@@ -27,11 +30,14 @@ const errorMsg =
 export default function () {
   const [messageApi, contextHolder] = message.useMessage()
   const { pc } = useResponsive()
+  const { open } = useWeb3Modal()
+  const { handleSignIn } = useSignIn()
+  const { isConnected } = useAccount()
   const { campaignId } = useParams()
   const queryClient = useQueryClient()
   const { data: page, firstLoad } = useCampaignQuery(campaignId)
   const { data: project } = useProjectQuery(page?.campaign?.projectId)
-  const { twitterConnected } = useUserInfo()
+  const { twitterConnected, userLogined } = useUserInfo()
   const [rewardModalIdx, setRewardModalIdx] = useState(-1)
   const handleCancel = useCallback(() => {
     setRewardModalIdx(-1)
@@ -147,9 +153,13 @@ export default function () {
                         <button
                           className='text-sm lg:text-base font-medium text-[#1D9BF0] underline whitespace-nowrap'
                           onClick={
-                            twitterConnected
-                              ? () => handleVerify(redential)
-                              : twLogin
+                            isConnected
+                              ? userLogined
+                                ? twitterConnected
+                                  ? () => handleVerify(redential)
+                                  : twLogin
+                                : handleSignIn
+                              : open
                           }
                         >
                           {/* {twitterConnected ? "Verify" : "Connect Twitter"} */}

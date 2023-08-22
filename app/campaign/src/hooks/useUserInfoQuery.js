@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function useUserInfo() {
   const [firstLoad, setFirstLoad] = useState(false);
-  const { data, isLoading, error, ...props } = useQuery(
+  const { data, isLoading, error, isSuccess, ...props } = useQuery(
     "userInfo",
     getUserInfo,
     {
@@ -22,6 +22,7 @@ export default function useUserInfo() {
   const project = data?.projects?.[data?.projects?.length - 1];
   const projectId = project?.projectId;
   const twitterConnected = !!data?.userTwitter?.connected;
+  const userLogined = isSuccess;
   return {
     data,
     isLoading,
@@ -31,6 +32,7 @@ export default function useUserInfo() {
     projects,
     twitterConnected,
     firstLoad,
+    userLogined,
     ...props,
   };
 }
