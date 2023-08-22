@@ -174,7 +174,7 @@ export default function () {
         ]}
       />
 
-      <div className='pt-1'>
+      <div className='pt-1 mb-40'>
         <h1 className='text-4xl  mb-10 font-bold'>{title}</h1>
         <div className='relative'>
           {step === '1' && <BasicInfo form={setUpForm} />}
@@ -189,52 +189,54 @@ export default function () {
         </div>
       </div>
 
-      <div className='flex justify-between py-20'>
-        <div className='flex justify-center space-x-6'>
-          {/* <Button type='text'>Save Draft</Button>
+      <div className='fixed bottom-10 inset-x-0 pl-[280px]'>
+        <div className='flex justify-between w-[1080px] mx-auto'>
+          <div className='flex justify-center space-x-6'>
+            {/* <Button type='text'>Save Draft</Button>
           <Button type='text'>Preview</Button> */}
-        </div>
+          </div>
 
-        <div className='flex justify-center space-x-6'>
-          {step === '1' && (
-            <>
-              <Button
-                onClick={() => {
-                  navigate(-1)
-                }}
-              >
-                {textMap[1]?.back}
-              </Button>
+          <div className='flex justify-center space-x-6'>
+            {step === '1' && (
+              <>
+                <Button
+                  onClick={() => {
+                    navigate(-1)
+                  }}
+                >
+                  {textMap[1]?.back}
+                </Button>
 
-              <Button
-                type='primary'
-                onClick={handleStepUp}
-                disabled={!setupSubmittable}
-              >
-                {textMap[1]['next']}
-              </Button>
-            </>
-          )}
+                <Button
+                  type='primary'
+                  onClick={handleStepUp}
+                  disabled={!setupSubmittable}
+                >
+                  {textMap[1]['next']}
+                </Button>
+              </>
+            )}
 
-          {step === '2' && (
-            <>
-              <Button
-                onClick={() => {
-                  setStep('1')
-                }}
-              >
-                {textMap[2]?.back}
-              </Button>
-              <Button
-                type='primary'
-                onClick={handleCreate}
-                loading={confirmCreateLoading}
-                disabled={!checkFormValidte(credentialReward)}
-              >
-                {textMap[2]['next']}
-              </Button>
-            </>
-          )}
+            {step === '2' && (
+              <>
+                <Button
+                  onClick={() => {
+                    setStep('1')
+                  }}
+                >
+                  {textMap[2]?.back}
+                </Button>
+                <Button
+                  type='primary'
+                  onClick={handleCreate}
+                  loading={confirmCreateLoading}
+                  disabled={!checkFormValidte(credentialReward)}
+                >
+                  {textMap[2]['next']}
+                </Button>
+              </>
+            )}
+          </div>
         </div>
       </div>
       <SucessModal
