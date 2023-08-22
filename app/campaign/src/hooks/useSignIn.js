@@ -68,8 +68,8 @@ export default function (cb) {
         else {
           await open("ConnectWallet");
         }
+        if (isMobileDevice) return;
       }
-      if (isMobileDevice) return;
 
       const walletClient = await getWalletClient();
       await signLoginMetaMask(address, walletClient);
