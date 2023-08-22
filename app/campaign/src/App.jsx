@@ -35,7 +35,7 @@ watchAccount(async acc => {
     logout().then(r => {
       location.href = location
     })
-  } else {
+  } else if (currentAccount.address) {
     const signer = await getWalletClient()
     changeAccountSignIn(acc.address, signer).then(r => {
       location.href = location
