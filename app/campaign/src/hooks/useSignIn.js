@@ -58,23 +58,21 @@ export default function (cb) {
             connector: connectors.find((c) => c.id == "injected"),
             chainId: getChain().id,
           });
-        } else if (isMobileDevice) {
+        } 
+        /* else if (isMobileDevice) {
           const host = new URL(window.location).host;
           window.open(`https://metamask.app.link/dapp/${host}`);
           setLoading(false);
           return;
-        } else {
+        } */
+        else {
           await open("ConnectWallet");
         }
+        if (isMobileDevice) return;
       }
+
       const walletClient = await getWalletClient();
       await signLoginMetaMask(address, walletClient);
-      try {
-        // await getUserInfo();
-        // navigate(searchParams.get("redirect") || "/");
-      } catch (error) {
-        console.log(error);
-      }
       await queryClient.refetchQueries("userInfo");
     } catch (error) {
       console.log(error);
