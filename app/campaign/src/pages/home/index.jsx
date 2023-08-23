@@ -67,7 +67,7 @@ export default function () {
   const campaignEnd = endList.includes(page?.campaign?.status)
 
   return (
-    <div className='space-y-8 px-4 lg:px-0 lg:w-[880px] mx-auto pt-8 pb-16 lg:pt-10 lg:pb-20 h-[300px] text-t-1'>
+    <div className='space-y-8 px-4 lg:px-0 lg:w-[880px] mx-auto pt-5 pb-16 lg:pt-10 lg:pb-20  text-t-1'>
       <section className='space-y-5 lg:space-y-10'>
         <div>
           <h2 className='text-2xl font-bold mb-3'>{page?.campaign?.name}</h2>
