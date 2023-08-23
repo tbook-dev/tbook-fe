@@ -74,14 +74,10 @@ export default function Layout ({ children }) {
                       >
                         <div
                           className={clsx(
-                            'text-base pl-8 font-bold flex items-center relative',
+                            'text-base pl-8 h-14 font-bold flex items-center relative',
                             isActive
-                              ? 'bg-black h-10 rounded-l-2xl'
-                              : 'h-14 bg-[#191919]'
-                            // 下一个
-                            // idx + 1 === validatorSucessIdx && 'rounded-br-2xl',
-                            // 上一个
-                            // idx - 1 === validatorSucessIdx && 'rounded-tr-2xl'
+                              ? 'bg-black py-2 rounded-l-2xl'
+                              : 'bg-[#191919]'
                           )}
                         >
                           {isActive && (
