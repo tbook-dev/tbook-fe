@@ -18,7 +18,7 @@ function Header () {
         <div className='flex items-center justify-between h-14 lg:h-16'>
           <div className='flex items-center'>
             <Link to='/' className='mr-1 lg:mr-16'>
-              <img src={logo} className='h-10' />
+              <img src={logo} className='w-5 h-8 object-contain' />
             </Link>
           </div>
 

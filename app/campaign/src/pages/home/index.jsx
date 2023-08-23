@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom'
 import Accordion from '@/components/accordion'
 import giftIcon from '@/images/icon/gift.svg'
 import pointIcon from '@/images/icon/point.svg'
-import verifiedIcon from '@/images/icon/verified.svg'
+// import verifiedIcon from '@/images/icon/verified.svg'
 import Modal from '@/components/modal'
 import useUserInfo from '@/hooks/useUserInfoQuery'
 import useProjectQuery from '@/hooks/useProjectQuery'
@@ -74,7 +74,7 @@ export default function () {
           <h4 className='flex items-center gap-x-1 text-sm font-semibold'>
             <img
               src={project?.avatarUrl}
-              className='w-8 h-8 object-contain mr-2 rounded-full'
+              className='w-6 h-6 object-contain mr-2 rounded-full'
             />
             <span className='text-c-6'>by</span>
             <span>{project?.projectName}</span>
@@ -149,7 +149,9 @@ export default function () {
                         />
                       </div>
                       {campaignNotStart ? null : redential.isVerified ? (
-                        <img src={verifiedIcon} className='w-8 h-8' />
+                        <span className='text-sm lg:text-base font-medium whitespace-nowrap text-[#84A878]'>
+                          Verified
+                        </span>
                       ) : (
                         <WithVerify
                           className='text-sm lg:text-base font-medium text-[#1D9BF0] underline whitespace-nowrap'
