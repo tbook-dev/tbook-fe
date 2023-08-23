@@ -125,16 +125,15 @@ export default function Participation () {
               >
                 Wallet Address
               </th>
-              {pageInfo?.pointList?.map((v, idx) => (
+              {pageInfo?.pointList?.length > 0 &&(
                 <th
-                  key={idx}
                   scope='col'
                   align='center'
                   className='pb-4 text-sm text-c-9 font-medium'
                 >
                   Points
                 </th>
-              ))}
+              )}
               {pageInfo?.credentialList?.map((v, idx) => (
                 <th key={idx} align='center' className='pb-4'>
                   <div className='inline-flex items-center justify-between gap-x-5 px-5 py-2'>
@@ -182,16 +181,16 @@ export default function Participation () {
                     >
                       {shortAddress(v.wallet)}
                     </td>
-                    {pageInfo?.pointList?.map((v, idx) => (
+                    {pageInfo?.pointList?.length > 0 && (
                       <td
                         key={idx}
                         scope='col'
                         align='center'
                         className='pb-4 text-sm text-c-9 font-medium'
                       >
-                        +{formatDollar(v.number)}
+                        +{formatDollar(v.pointNum)}
                       </td>
-                    ))}
+                    )}
                     {pageInfo?.credentialList?.map((iv, idx) => (
                       <td key={idx} align='center' className='pb-4 text-base'>
                         {!v?.verifiedCredentials?.some(
