@@ -44,13 +44,32 @@ export async function loginWithSign (address, sign) {
   })
 }
 
-async function signLogin (addr, signer, chain, pubKey) {
-  if (!addr) return
-  const address = addr.toLowerCase()
+async function getNonce(address) {
   const r = await fetch(`${host}/nonce?address=${address}`, {
     credentials: 'include'
   })
-  const nonce = await r.text()
+  return await r.text()
+}
+
+export function preGetNonce(address) {
+  if (isIOS) {
+    getNonce(address).then(nonce => {
+      localStorage.setItem('nonce', nonce)
+    })
+  }
+}
+
+async function signLogin (addr, signer, chain, pubKey) {
+  if (!addr) return
+  const address = addr.toLowerCase()
+  let nonce
+  if (isIOS) {
+    nonce = localStorage.getItem('nonce')
+    localStorage.removeItem('nonce')
+  } else {
+    nonce = await getNonce(address)
+  }
+
   const sign = await signer.signMessage({message: nonce})
   const d = new URLSearchParams()
   d.append('address', address)
@@ -97,3 +116,6 @@ export async function loginSui (wallet) {
     wallet.account.publicKey.toString('hex')
   )
 }
+
+const platform = window.navigator?.userAgentData?.platform || window.navigator.platform
+export const isIOS = ['iPhone', 'iPad', 'iPod'].indexOf(platform) != -1

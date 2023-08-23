@@ -17,7 +17,10 @@ import {
   wagmiConfig,
   ethereumClient,
   changeAccountSignIn,
-  logout
+  logout,
+  preGetNonce,
+  signLoginMetaMask,
+  isIOS
 } from '@/utils/web3'
 import { Web3Modal } from '@web3modal/react'
 const { fetchUserInfo } = user
@@ -30,16 +33,25 @@ let currentAddress = getAccount().address
 watchAccount(async acc => {
   console.log('account changed:', acc)
   if (currentAddress == acc.address) return
-  if (!currentAddress) {
+  if (!acc.address) {
     // disconnect
     logout().then(r => {
       location.href = location
     })
   } else if (currentAddress) {
+    // account change
     const signer = await getWalletClient()
     changeAccountSignIn(acc.address, signer).then(r => {
       location.href = location
     })
+  } else {
+    // new account connect
+    if (isIOS) {
+      preGetNonce(acc.address)
+    } else {
+      const signer = await getWalletClient()
+      signLoginMetaMask(acc.address, signer)
+    }
   }
   currentAddress = acc.address
 })
