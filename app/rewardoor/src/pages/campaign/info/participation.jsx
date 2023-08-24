@@ -125,7 +125,7 @@ export default function Participation () {
               >
                 Wallet Address
               </th>
-              {pageInfo?.pointList?.length > 0 &&(
+              {pageInfo?.pointList?.length > 0 && (
                 <th
                   scope='col'
                   align='center'
@@ -193,7 +193,7 @@ export default function Participation () {
                     )}
                     {pageInfo?.credentialList?.map((iv, idx) => (
                       <td key={idx} align='center' className='pb-4 text-base'>
-                        {!v?.verifiedCredentials?.some(
+                        {v?.verifiedCredentials?.some(
                           m => m.credentialId === iv.credentialId
                         )
                           ? '✓'
