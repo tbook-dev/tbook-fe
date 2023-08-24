@@ -44,7 +44,7 @@ export async function loginWithSign (address, sign) {
   })
 }
 
-async function getNonce(address) {
+export async function getNonce(address) {
   const r = await fetch(`${host}/nonce?address=${address}`, {
     credentials: 'include'
   })

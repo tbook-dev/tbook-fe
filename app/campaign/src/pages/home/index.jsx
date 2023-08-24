@@ -1,7 +1,7 @@
 import banner from '@/images/banner.png'
 import bannerlg from '@/images/banner-lg.png'
 import { useResponsive } from 'ahooks'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import { twLogin, verifyCredential } from '@/api/incentive'
 import { useParams } from 'react-router-dom'
@@ -18,9 +18,11 @@ import { Spin } from 'antd'
 import endCampaign from '@/images/end-campaign.png'
 import { message } from 'antd'
 import { useWeb3Modal } from '@web3modal/react'
-import { useAccount } from 'wagmi'
+import { useAccount, useWalletClient, useSignMessage } from 'wagmi'
 import useSignIn from '@/hooks/useSignIn'
 import WithVerify from '@/components/withVerify'
+import { getNonce } from '@/utils/web3'
+import { host } from '@/api/incentive'
 
 const notStartList = [2, 0]
 const endList = [3, 4, 5]
@@ -33,13 +35,44 @@ export default function () {
   const { pc } = useResponsive()
   const { open } = useWeb3Modal()
   const { handleSignIn } = useSignIn()
-  const { isConnected } = useAccount()
   const { campaignId } = useParams()
   const queryClient = useQueryClient()
   const { data: page, firstLoad } = useCampaignQuery(campaignId)
   const { data: project } = useProjectQuery(page?.campaign?.projectId)
   const { twitterConnected, userLogined } = useUserInfo()
   const [rewardModalIdx, setRewardModalIdx] = useState(-1)
+  const { signMessageAsync } = useSignMessage()
+
+  const [nonce, setNonce] = useState('')
+
+  const { data: walletClient, isError, isLoading } = useWalletClient()  
+
+  const { address, isConnected, isDisconnected } = useAccount()
+
+  useEffect(() => {
+    if (isConnected) {
+      getNonce(address).then(r => {
+        setNonce(() => r)
+      })
+    }
+  }, [isConnected, address])
+
+  const signIn = async () => {
+    const sign = await signMessageAsync({message: nonce})
+    const d = new URLSearchParams()
+    d.append('address', address)
+    d.append('sign', sign)
+    await fetch(`${host}/authenticate`, {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      },
+      body: d
+    })
+    await queryClient.refetchQueries("userInfo");
+  }
+
   const handleCancel = useCallback(() => {
     setRewardModalIdx(-1)
   }, [])
@@ -161,7 +194,7 @@ export default function () {
                                 ? twitterConnected
                                   ? () => handleVerify(redential)
                                   : twLogin
-                                : handleSignIn
+                                : signIn
                               : open
                           }
                         />
