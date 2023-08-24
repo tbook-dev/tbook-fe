@@ -62,9 +62,10 @@ export default function Participation () {
               className='flex items-center justify-between gap-x-5 px-5 py-2 border border-[#666] rounded-2.5xl'
             >
               <div className='flex items-center gap-x-1 text-t-1'>
-                <div>
-                  {incentiveAssetsTypeList.find(m => m.value === 1)?.icon}
-                </div>
+                <img
+                  src={incentiveAssetsTypeList.find(m => m.value === 1)?.icon}
+                  className='w-5 h-5'
+                />
                 <div>{v.name}</div>
               </div>
               <div className='text-c-9'>

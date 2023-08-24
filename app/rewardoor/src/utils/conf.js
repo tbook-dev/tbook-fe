@@ -1,7 +1,9 @@
 import opIcon from "@/images/icon/crypto/op.svg";
 import pointIcon from "@/images/icon/point.svg";
+import nftIcon from "@/images/icon/nft.svg";
+
 export const incentiveAssetsTypeList = [
-  { label: "🎁  NFT", icon: "🎁", text: "NFT", value: 1 },
+  { label: "🎁  NFT", icon: nftIcon, text: "NFT", value: 1 },
   { label: "💎 POINTS", icon: pointIcon, text: "POINTS", value: 2 },
 ];
 
@@ -93,22 +95,22 @@ export const campaignStatus = [
     label: "Scheduled",
     value: 2,
   },
-  {
-    label: "Draft",
-    value: 0,
-  },
+  // {
+  //   label: "Draft",
+  //   value: 0,
+  // },
   {
     label: "Completed",
     value: 3,
   },
-  {
-    label: "Suspended",
-    value: 4,
-  },
-  {
-    label: "Terminated",
-    value: 5,
-  },
+  // {
+  //   label: "Suspended",
+  //   value: 4,
+  // },
+  // {
+  //   label: "Terminated",
+  //   value: 5,
+  // },
 ];
 
 const urlMap = {

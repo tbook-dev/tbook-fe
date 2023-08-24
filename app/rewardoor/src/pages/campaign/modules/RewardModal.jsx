@@ -110,7 +110,10 @@ export default function CredentialModal ({
                   disabled && 'cursor-not-allowed'
                 )}
               >
-                {v.label}
+                <div className='flex items-center gap-x-2'>
+                  <img src={v.icon} className='w-5 h-5' />
+                  {v.text}
+                </div>
                 <PlusOutlined />
               </Button>
             )
@@ -155,17 +158,19 @@ export default function CredentialModal ({
                     name,
                     'unlimited'
                   ])
+                  const asset = incentiveAssetsTypeList.find(
+                    v => v.value === rewardType
+                  )
                   return (
                     <div
                       key={key}
                       className='bg-b-1 rounded-md p-4 mb-5 relative'
                     >
                       <div className='text-xl text-t-1 mb-5 font-bold relative'>
-                        {
-                          incentiveAssetsTypeList.find(
-                            v => v.value === rewardType
-                          ).label
-                        }
+                        <div className='flex items-center gap-x-2'>
+                          <img src={asset.icon} className='w-5 h-5' />
+                          <span>{asset.text}</span>
+                        </div>
                         <img
                           src={closeIcon}
                           onClick={() => {
