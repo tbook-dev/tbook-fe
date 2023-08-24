@@ -48,7 +48,7 @@ watchAccount(async acc => {
     // new account connect
     if (isIOS) {
       preGetNonce(acc.address)
-    } else {
+    } else if (!/Mobi/i.test(window.navigator.userAgent)) {
       const signer = await getWalletClient()
       signLoginMetaMask(acc.address, signer)
     }
