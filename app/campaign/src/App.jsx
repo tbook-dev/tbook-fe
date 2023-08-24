@@ -31,7 +31,7 @@ configResponsive({
 
 let currentAddress = getAccount().address
 watchAccount(async acc => {
-  console.log('account changed:', acc)
+  console.log(`account changed, original: ${currentAddress}, new account: ${acc.address}`)
   if (currentAddress == acc.address) return
   if (!acc.address) {
     // disconnect

@@ -52,6 +52,7 @@ async function getNonce(address) {
 }
 
 export function preGetNonce(address) {
+  console.log('preGetNonce, isIOS: ', isIOS)
   if (isIOS) {
     getNonce(address).then(nonce => {
       localStorage.setItem('nonce', nonce)
@@ -63,6 +64,7 @@ async function signLogin (addr, signer, chain, pubKey) {
   if (!addr) return
   const address = addr.toLowerCase()
   let nonce
+  console.log('begin get nonce, isIOS: ', isIOS)
   if (isIOS) {
     nonce = localStorage.getItem('nonce')
     localStorage.removeItem('nonce')
@@ -117,5 +119,4 @@ export async function loginSui (wallet) {
   )
 }
 
-const platform = window.navigator?.userAgentData?.platform || window.navigator.platform
-export const isIOS = ['iPhone', 'iPad', 'iPod'].indexOf(platform) != -1
+export const isIOS = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream
