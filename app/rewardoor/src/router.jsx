@@ -69,7 +69,7 @@ const routes = [
             index: true,
             async lazy () {
               const { default: Component } = await import(
-                '@/pages/dashboard/assets'
+                '@/pages/assets'
               )
               return { Component }
             }

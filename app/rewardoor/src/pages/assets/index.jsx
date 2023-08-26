@@ -1,7 +1,7 @@
 import { Tabs } from 'antd'
-import NFT from '@/modules/assets/nft'
-import Credential from '@/modules/assets/credential'
-import Point from '@/modules/assets/point'
+import NFT from './modules/nft'
+import Credential from './modules/credential'
+import Point from './modules/point'
 
 const items = [
   {
