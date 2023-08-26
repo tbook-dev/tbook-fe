@@ -76,7 +76,7 @@ export default function Participation () {
           {pageInfo?.pointList?.slice(0, 1)?.map((_, idx) => (
             <div
               key={idx}
-              className='flex items-center justify-between gap-x-5 px-5 py-2 border border-[#666] rounded-2.5xl'
+              className='flex items-center justify-between gap-x-5 px-5 py-2'
             >
               <div className='flex items-center gap-x-1 text-t-1'>
                 <img

@@ -55,6 +55,7 @@ export default function () {
   if (isLoading) {
     return <Spin />;
   }
+  const campaignCurrentStatus = campaignStatus.find((v) => v.value === pageInfo?.campaign?.status)
 
   return (
     <>
@@ -69,15 +70,12 @@ export default function () {
           },
         ]}
       />
-      <section className="mb-10 pt-0.5 flex items-center">
+      <section className="mb-10 pt-0.5 flex items-center gap-x-4">
         <h2 className="font-bold text-5xl mb-0.5 text-t-1">
           {pageInfo?.campaign?.name}
         </h2>
-        <div className="px-4 py-0.5 rounded-xl">
-          {
-            campaignStatus.find((v) => v.value === pageInfo?.campaign?.status)
-              ?.label
-          }
+        <div className="px-4 py-0.5 rounded-xl border" style={{ color: campaignCurrentStatus.color, borderColor:  campaignCurrentStatus.color}}>
+          {campaignCurrentStatus?.label}
         </div>
       </section>
 
