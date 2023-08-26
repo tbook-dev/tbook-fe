@@ -33,7 +33,7 @@ export default function NFT () {
 
   console.log({ list })
   return (
-    <div className='pt-4'>
+    <>
       {loading ? (
         <Loading h='h-40' />
       ) : (
@@ -92,6 +92,6 @@ export default function NFT () {
           )}
         </div>
       )}
-    </div>
+    </>
   )
 }

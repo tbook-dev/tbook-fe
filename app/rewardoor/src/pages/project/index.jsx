@@ -108,7 +108,6 @@ export default function () {
         <Form
           form={form}
           layout='vertical'
-          requiredMark={false}
           // initialValues={{ category: 'DeFi' }}
         >
           <Form.Item
@@ -119,11 +118,10 @@ export default function () {
             <Input placeholder='Enter a Project Name' />
           </Form.Item>
 
-          <Form.Item label='Project Logo'>
             <Form.Item
               valuePropName='fileList'
               getValueFromEvent={normFile}
-              noStyle
+              label='Project Logo'
               name='avatarUrl'
               rules={[
                 {
@@ -145,7 +143,6 @@ export default function () {
                 <p className='ant-upload-hint'>296*312 or higher</p>
                 <p className='ant-upload-hint'>recommended Max 20MB.</p>
               </Upload.Dragger>
-            </Form.Item>
           </Form.Item>
 
           <Form.Item
