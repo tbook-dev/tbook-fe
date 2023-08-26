@@ -1,6 +1,6 @@
 import Button from '@/components/button'
 import bg from '@/images/home-bg.png'
-import useUserInfo from '@/hooks/useUserInfoQuery'
+import useUserInfo from '@/hooks/queries/useUserInfo'
 import { useNavigate } from 'react-router-dom'
 import { useAccount } from 'wagmi'
 import  useSignIn from '@/hooks/useSignIn'

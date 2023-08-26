@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import useUserInfo from '@/hooks/useUserInfoQuery'
+import useUserInfo from '@/hooks/queries/useUserInfo'
 import { useNavigate, Outlet, NavLink } from 'react-router-dom'
 import Account from '@/components/account'
 import Logo from '@/components/logo'

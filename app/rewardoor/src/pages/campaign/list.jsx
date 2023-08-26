@@ -7,7 +7,7 @@ import { useQuery } from 'react-query'
 import Loading from '@/components/loading'
 import { PlusOutlined } from '@ant-design/icons'
 import Compaign from '@/components/compaign'
-import useUserInfo from '@/hooks/useUserInfoQuery'
+import useUserInfo from '@/hooks/queries/useUserInfo'
 
 //0: 草稿, 1：进行中, 2：计划中，3: 已完成, 16: 已删除
 import { campaignStatus } from '@/utils/conf'

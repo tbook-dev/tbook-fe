@@ -1,6 +1,6 @@
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { useEffect } from "react";
-import useUserInfo from "@/hooks/useUserInfoQuery";
+import useUserInfo from "@/hooks/queries/useUserInfo";
 import { Spin } from "antd";
 import { useState } from "react";
 

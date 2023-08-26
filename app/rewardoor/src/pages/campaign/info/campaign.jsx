@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 import { getCampaignDetail, getCredentials } from '@/api/incentive'
 import x from '@/images/icon/x.svg'
 import { incentiveAssetsTypeList, getUrl } from '@/utils/conf'
-import useUserInfo from '@/hooks/useUserInfoQuery'
+import useUserInfo from '@/hooks/queries/useUserInfo'
 import { Typography } from 'antd'
 import dayjs from 'dayjs'
 

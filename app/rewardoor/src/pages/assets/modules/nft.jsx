@@ -1,6 +1,6 @@
 import Button from '@/components/button'
 import { Link } from 'react-router-dom'
-import useUserInfo from '@/hooks/useUserInfoQuery'
+import useUserInfo from '@/hooks/queries/useUserInfo'
 import { useAsyncEffect } from 'ahooks'
 import { getNFTList } from '@/api/incentive'
 import { useState } from 'react'

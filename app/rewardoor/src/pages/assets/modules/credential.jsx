@@ -1,29 +1,19 @@
-import useUserInfo from "@/hooks/useUserInfoQuery"
-import { useAsyncEffect } from 'ahooks'
-import { getCredential } from '@/api/incentive'
-import { useState } from 'react'
+import useCredential from "@/hooks/queries/useCredential"
 import { conf } from '@tbook/utils'
 import Loading from '@/components/loading'
 import clsx from 'clsx'
 const { formatDollar } = conf
+
+
 export default function Credential () {
-  const { projectId } = useUserInfo()
-  const [loading, setLoading] = useState(false)
-  const [list, setList] = useState([])
-  useAsyncEffect(async () => {
-    if (!projectId) return
-    setLoading(true)
-    const res = await getCredential(projectId)
-    setList(res)
-    setLoading(false)
-  }, [projectId])
+  const { data: credentialList = [], loading } = useCredential()
 
   return loading ? (
     <Loading h='h-40' />
   ) : (
     <div className='flex flex-wrap'>
-      {list.length > 0 ? (
-        list.map(v => {
+      {credentialList.length > 0 ? (
+        credentialList.map(v => {
           return (
             <div
               className={clsx(

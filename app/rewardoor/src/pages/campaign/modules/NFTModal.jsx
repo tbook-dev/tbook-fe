@@ -2,7 +2,7 @@ import Button from '@/components/button'
 import { Modal, Form, Input, Select, Switch } from 'antd'
 import { supportChains } from '@/utils/conf'
 import { handleCreateNFTcontract } from '@/api/incentive'
-import useUserInfo from "@/hooks/useUserInfoQuery"
+import useUserInfo from "@/hooks/queries/useUserInfo"
 import { useQueryClient } from 'react-query'
 const nftPlaceholder =
   'Enter the name that will be visible on blockchain as official verification'

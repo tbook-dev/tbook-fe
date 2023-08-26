@@ -1,4 +1,4 @@
-import useUserInfo from "@/hooks/useUserInfoQuery"
+import useUserInfo from "@/hooks/queries/useUserInfo"
 import { useAsyncEffect } from 'ahooks'
 import { getPoint } from '@/api/incentive'
 import { useState } from 'react'
