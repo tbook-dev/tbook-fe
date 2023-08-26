@@ -24,7 +24,7 @@ function Compaign ({ campaign = {}, groups }) {
     >
       <img
         src={picUrl}
-        className='w-full object-cover  hover:translate-y-2 hover:scale-105 transition-all transition-2000'
+        className='w-full h-[140px] object-cover  hover:translate-y-2 hover:scale-105 transition-all transition-2000'
       />
       <div className='p-5 text-t-1 flex flex-col justify-between'>
         <div className='mb-3'>
