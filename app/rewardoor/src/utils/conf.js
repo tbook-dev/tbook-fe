@@ -97,11 +97,11 @@ export const campaignStatus = [
     value: 2,
     color: '#3A82F7'
   },
-  {
-    label: "Draft",
-    value: 0,
-    color: '#999999'
-  },
+  // {
+  //   label: "Draft",
+  //   value: 0,
+  //   color: '#999999'
+  // },
   {
     label: "Completed",
     value: 3,
