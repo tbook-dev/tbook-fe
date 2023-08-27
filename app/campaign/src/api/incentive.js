@@ -28,3 +28,11 @@ export const twLogin = async function () {
       window.location = d["url"];
     });
 };
+
+export const getTwLoginUrl = async function () {
+  const res =  await fetch(`${host}/twitter/auth`, {
+    method: "GET",
+    credentials: "include",
+  })
+  return await res.json()
+};

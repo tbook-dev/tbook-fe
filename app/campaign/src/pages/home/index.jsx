@@ -1,9 +1,9 @@
 import banner from '@/images/banner.png'
 import bannerlg from '@/images/banner-lg.png'
 import { useResponsive } from 'ahooks'
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { useQueryClient } from 'react-query'
-import { twLogin, verifyCredential } from '@/api/incentive'
+import { twLogin, getTwLoginUrl, verifyCredential } from '@/api/incentive'
 import { useParams } from 'react-router-dom'
 import Accordion from '@/components/accordion'
 import giftIcon from '@/images/icon/gift.svg'
@@ -42,6 +42,8 @@ export default function () {
   const { twitterConnected, userLogined } = useUserInfo()
   const [rewardModalIdx, setRewardModalIdx] = useState(-1)
   const { signMessageAsync } = useSignMessage()
+  const twLinkRef = useRef(null)
+  const [twLink, setTwLink] = useState('')
 
   const [nonce, setNonce] = useState('')
 
@@ -56,6 +58,18 @@ export default function () {
       })
     }
   }, [isConnected, address])
+
+  const twLoginCurrent = async () => {
+    const res = await getTwLoginUrl()
+    localStorage.setItem("redirect_url", location.href);
+    setTwLink(() => res["url"]);
+  }
+
+  useEffect(() => {
+    if (twLink) {
+      twLinkRef.current.click()
+    }
+  }, [twLink])
 
   const signIn = async () => {
     const sign = await signMessageAsync({message: nonce})
@@ -199,11 +213,7 @@ export default function () {
                               ? userLogined
                                 ? twitterConnected
                                   ? () => handleVerify(redential)
-                                  : (evt) => { 
-                                      evt.preventDefault(); 
-                                      twLogin(); 
-                                      return false; 
-                                    }
+                                  : twLoginCurrent
                                 : signIn
                               : open
                           }
@@ -242,6 +252,7 @@ export default function () {
         )}
       </Modal>
       {contextHolder}
+      <a href={twLink} ref={twLinkRef} mc-deep-link='false' style={{visibility: 'hidden'}}></a>
     </div>
   )
 }
