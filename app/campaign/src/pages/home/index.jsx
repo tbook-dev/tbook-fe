@@ -199,7 +199,11 @@ export default function () {
                               ? userLogined
                                 ? twitterConnected
                                   ? () => handleVerify(redential)
-                                  : twLogin
+                                  : (evt) => { 
+                                      evt.preventDefault(); 
+                                      twLogin(); 
+                                      return false; 
+                                    }
                                 : signIn
                               : open
                           }

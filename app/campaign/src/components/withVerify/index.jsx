@@ -4,10 +4,10 @@ import { Spin } from "antd";
 
 export default function WithVerify({ handleFn, className }) {
   const [verifyLoading, setVefiryLoading] = useState(false);
-  const handleClick = async () => {
+  const handleClick = async (evt) => {
     setVefiryLoading(true);
     try {
-      await handleFn();
+      await handleFn(evt);
       setVefiryLoading(false);
     } catch (e) {
       console.log(e);
