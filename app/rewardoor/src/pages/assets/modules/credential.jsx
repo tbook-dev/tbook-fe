@@ -1,31 +1,34 @@
-import useCredential from "@/hooks/queries/useCredential"
+import useAsset from "@/hooks/queries/useAsset"
 import { conf } from '@tbook/utils'
 import Loading from '@/components/loading'
-import clsx from 'clsx'
 const { formatDollar } = conf
 
 
 export default function Credential () {
-  const { data: credentialList = [], loading } = useCredential()
-
+  const { data: info, isLoading: loading } = useAsset()
+  const credentialList = info?.credentials || []
   return loading ? (
     <Loading h='h-40' />
   ) : (
-    <div className='flex flex-wrap'>
+    <div className='flex items-center gap-x-5 gap-y-4 text-xs flex-wrap'>
       {credentialList.length > 0 ? (
-        credentialList.map(v => {
+        credentialList.map((v,idx) => {
           return (
             <div
-              className={clsx(
-                'flex items-center group justify-center h-8 px-6 rounded-md relative bg-b-1 mr-6 mb-3 text-c-9 '
-              )}
-              key={v.credentialId}
-            >
-              <span className='mr-2 font-medium'>{v.name}</span>
-              <span className='text-colorful1 font-bold'>
-                {formatDollar(v.eligibleCount)}
-              </span>
+            key={idx}
+            className='flex items-center justify-between gap-x-5 px-5 py-2'
+          >
+            <div className='flex items-center gap-x-1'>
+              <img src={v.picUrl} className='w-5 h-5' />
+              <div
+                className='text-t-1'
+                dangerouslySetInnerHTML={{ __html: v.displayExp }}
+              />
             </div>
+            <div className='text-c-9 text-xs border border-[#666] rounded-2.5xl px-4 py-2'>
+              Giveaway: {formatDollar(v.giveAway)}
+            </div>
+          </div>
           )
         })
       ) : (

@@ -75,10 +75,12 @@ export const parseLinkParams = function (values) {
 export const getCampaignParticipation = async function (campaignId) {
   return await request(`${host}/campaignNew/participation/${campaignId}`);
 };
-export const getPoint = async function (projectId) {
-  return await request(`${host}/project/stats/${projectId}/points`);
-};
-
+// export const getPoint = async function (projectId) {
+//   return await request(`${host}/project/stats/${projectId}/points`);
+// };
+export const getAsset = async function (projectId) {
+  return await request(`${host}/asset/asset/${projectId}`);
+}
 export const createCredential = async function (values) {
   return await request.Post(`${host}/credentials/create`, values);
 };

@@ -1,10 +1,10 @@
 import { useQuery } from "react-query";
-import { getPoint } from "@/api/incentive";
+import { getAsset } from "@/api/incentive";
 import useUserInfo from "./useUserInfo";
 
 export default function usePonit() {
   const { projectId } = useUserInfo();
-  return useQuery(["point", projectId], () => getPoint(projectId), {
+  return useQuery(["asset", projectId], () => getAsset(projectId), {
     enabled: !!projectId,
     staleTime: 60 * 1000 * 60,
   });

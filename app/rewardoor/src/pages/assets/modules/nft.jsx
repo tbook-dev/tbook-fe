@@ -1,37 +1,16 @@
-import Button from '@/components/button'
-import { Link } from 'react-router-dom'
-import useUserInfo from '@/hooks/queries/useUserInfo'
-import { useAsyncEffect } from 'ahooks'
-import { getNFTList } from '@/api/incentive'
-import { useState } from 'react'
 import { conf } from '@tbook/utils'
 import Loading from '@/components/loading'
 import clsx from 'clsx'
 import { Typography } from 'antd'
 import copyIcon from '@/images/icon/copy.svg'
-// import { Icon } from '@tbook/ui'
-// const { NetWork } = Icon
-
+import useAsset from "@/hooks/queries/useAsset"
 const { shortAddress } = conf
 const { Paragraph } = Typography
 
-const title = 'Deploy NFT Contracts'
-const desc =
-  'Deploy NFT contracts to incentivize the eligible participation of the campaign.'
-
 export default function NFT () {
-  const { projectId } = useUserInfo()
-  const [loading, setLoading] = useState(false)
-  const [list, setList] = useState([])
-  useAsyncEffect(async () => {
-    if (!projectId) return
-    setLoading(true)
-    const res = await getNFTList(projectId)
-    setList(res)
-    setLoading(false)
-  }, [projectId])
+  const { data: info, isLoading: loading } = useAsset()
+  const list = info?.nfts || []
 
-  console.log({ list })
   return (
     <>
       {loading ? (
@@ -76,7 +55,6 @@ export default function NFT () {
                         )
                       }}
                     >
-                      {/* <NetWork id={v.chainId || 1} className='mr-2' /> */}
                       <span className='font-bold text-sm mr-2 text-[#C8C8C8]'>
                         {shortAddress(v.contract)}
                       </span>
