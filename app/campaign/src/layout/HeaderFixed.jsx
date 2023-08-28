@@ -6,7 +6,7 @@ import { Web3Button } from '@web3modal/react'
 function Header () {
 
   return (
-    <header className='bg-white dark:bg-black shadow-d2'>
+    <header className='sticky top-0 z-30 bg-white dark:bg-black shadow-d2'>
       <div className='px-4 py-2 lg:px-20 lg:py-5'>
         <div className='flex items-center justify-between h-14 lg:h-16'>
           <div className='flex items-center'>

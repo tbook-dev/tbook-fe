@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import Header from './Header'
+import Header from './HeaderFixed'
 import Footer from './Footer'
 
 export default function Layout () {
