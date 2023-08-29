@@ -90,12 +90,12 @@ export const campaignStatus = [
   {
     label: "Ongoing",
     value: 1,
-    color: '#65C467'
+    color: "#65C467",
   },
   {
     label: "Scheduled",
     value: 2,
-    color: '#3A82F7'
+    color: "#3A82F7",
   },
   // {
   //   label: "Draft",
@@ -105,6 +105,7 @@ export const campaignStatus = [
   {
     label: "Completed",
     value: 3,
+    color: "#666",
   },
   // {
   //   label: "Suspended",

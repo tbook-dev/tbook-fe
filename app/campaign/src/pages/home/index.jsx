@@ -1,3 +1,9 @@
-export default function Home() {
-    return <h1>Home</h1>;
+import Banner from './modules/banner'
+
+export default function Home () {
+  return (
+    <main>
+      <Banner />
+    </main>
+  )
 }

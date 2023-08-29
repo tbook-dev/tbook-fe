@@ -72,6 +72,9 @@ module.exports = {
         "2.5xl": "20px",
         "4xl": "40px",
       },
+      spacing: {
+        bx: "1280px",
+      },
       minWidth: {
         36: "9rem",
         44: "11rem",

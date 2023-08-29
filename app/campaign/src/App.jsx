@@ -31,7 +31,9 @@ configResponsive({
 
 let currentAddress = getAccount().address
 watchAccount(async acc => {
-  console.log(`account changed, original: ${currentAddress}, new account: ${acc.address}`)
+  console.log(
+    `account changed, original: ${currentAddress}, new account: ${acc.address}`
+  )
   if (currentAddress == acc.address) return
   if (!acc.address) {
     // disconnect
@@ -60,7 +62,7 @@ function App () {
   const dispatch = useDispatch()
   const theme = useTheme()
   useLayoutEffect(() => {
-    if (theme === 'dark') {
+    if (theme !== 'dark') {
       document.documentElement.classList.add('dark')
     } else {
       document.documentElement.classList.remove('dark')
