@@ -1,8 +1,9 @@
 import pageConf from '../pageConf'
 
+// 745 + 110 = 855
 export default function Banner () {
   return (
-    <div className='relative lg:min-h-[645px] flex flex-col justify-center'>
+    <div className='relative lg:min-h-[855px] py-20 lg:py-0 flex flex-col justify-center '>
       <div className='absolute inset-0'>
         <img
           src={pageConf.picMask}
