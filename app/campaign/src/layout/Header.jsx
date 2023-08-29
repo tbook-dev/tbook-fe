@@ -4,7 +4,6 @@ import logo from '@/images/icon/logo.svg'
 import { Web3Button } from '@web3modal/react'
 
 function Header () {
-
   return (
     <header className='bg-white dark:bg-black shadow-d2'>
       <div className='px-4 py-2 lg:px-20 lg:py-5'>

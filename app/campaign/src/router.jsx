@@ -1,5 +1,6 @@
 import ShareLayout from './layout/ShareLayout'
 import Layout from './layout/Layout'
+import HomeLayout from './layout/HomeLayout'
 import Home from '@/pages/home'
 import App from '@/pages/app'
 import TwitterCallback from '@/pages/twitter/callback'
@@ -10,14 +11,14 @@ const routes = [
     element: <ShareLayout />,
     children: [
       {
-        path: ":campaignId",
+        path: ':campaignId',
         element: <App />
       }
     ]
   },
   {
     path: '/',
-    element: <Layout />,
+    element: <HomeLayout />,
     children: [
       {
         index: true,
@@ -36,9 +37,9 @@ const routes = [
     ]
   },
   {
-    path: "*",
-    element: <div className='w-full h-screen bg-black text-t-1'>404</div>,
-  },
+    path: '*',
+    element: <div className='w-full h-screen bg-black text-t-1'>404</div>
+  }
 ]
 
 export default routes
