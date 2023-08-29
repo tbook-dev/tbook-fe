@@ -42,8 +42,13 @@ export default function sucessModal ({ open, setOpen, shareLink, jumpLink }) {
               Copy link to share campaign
             </p>
           </Paragraph>
-          
-          <img src={xIcon} className='w-4 h-4 cursor-pointer' />
+
+          <a
+            href={`https://twitter.com/intent/tweet?text=${shareLink}`}
+            target='__blank'
+          >
+            <img src={xIcon} className='w-4 h-4 cursor-pointer' />
+          </a>
         </div>
       </div>
     </Modal>
