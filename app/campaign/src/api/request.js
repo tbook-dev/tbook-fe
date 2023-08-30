@@ -1,9 +1,9 @@
 // import { setAuthUser } from "../store/user";
-import { user } from "@tbook/store";
+// import { user } from "@tbook/store";
 // import { message } from "antd";
-let store;
+// let store;
 
-const { setAuthUser } = user;
+// const { setAuthUser } = user;
 
 export const injectStore = (_store) => {
   store = _store;
@@ -81,7 +81,7 @@ export default function request(url, options = {}) {
             }
             return Promise.reject(res);
           }
-          store.dispatch(setAuthUser(true));
+          // store.dispatch(setAuthUser(true));
 
           const data =
             options.headers["Content-type"] === ContentType.download

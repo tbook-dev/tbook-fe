@@ -4,7 +4,7 @@ import { useAsyncEffect } from 'ahooks'
 import { useDispatch } from 'react-redux'
 import { user } from '@tbook/store'
 import '@/css/style.css'
-import { useTheme } from '@tbook/hooks'
+// import useTheme from '@/hooks/useTheme'
 
 import { configResponsive } from 'ahooks'
 import routes from './router'
@@ -60,14 +60,14 @@ watchAccount(async acc => {
 
 function App () {
   const dispatch = useDispatch()
-  const theme = useTheme()
-  useLayoutEffect(() => {
-    if (theme !== 'dark') {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [theme])
+  // const theme = useTheme()
+  // useLayoutEffect(() => {
+  //   if (theme !== 'dark') {
+  //     document.documentElement.classList.add('dark')
+  //   } else {
+  //     document.documentElement.classList.remove('dark')
+  //   }
+  // }, [theme])
 
   useAsyncEffect(async () => {
     dispatch(fetchUserInfo())

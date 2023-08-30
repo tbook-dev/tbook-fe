@@ -2,7 +2,7 @@
 import { ConfigProvider, theme } from "antd";
 import componentsDefault from "./conf";
 import _ from "lodash";
-import { useTheme } from "@tbook/hooks";
+import useTheme from "@/hooks/useTheme";
 
 export default function ({ children, conf = { token: {} } }) {
   const userTheme = useTheme();

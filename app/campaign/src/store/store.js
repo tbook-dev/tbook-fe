@@ -1,10 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { user } from "@tbook/store";
-import { injectStore } from '../api/request'
-
+import global from "./global";
 export const store = configureStore({
   reducer: {
-    user: user.default,
+    global,
   },
 });
-injectStore(store);

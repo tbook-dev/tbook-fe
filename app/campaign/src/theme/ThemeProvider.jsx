@@ -1,7 +1,7 @@
 // 跟随暗黑亮色调整antd
 import { ConfigProvider, theme } from 'antd'
 import components from '@/theme/conf'
-import { useTheme } from '@tbook/hooks'
+import useTheme from "@/hooks/useTheme";
 // 可能revise
 export default function ({ children, ...props }) {
   const userTheme = useTheme()
