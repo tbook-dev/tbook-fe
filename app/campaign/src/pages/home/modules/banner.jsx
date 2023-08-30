@@ -5,10 +5,24 @@ export default function Banner () {
   return (
     <div className='relative lg:min-h-[855px] py-20 lg:py-0 flex flex-col justify-center '>
       <div className='absolute inset-0'>
-        <img
-          src={pageConf.picMask}
-          className='absolute inset-0 w-full h-full object-center object-cover'
-        />
+        <picture>
+          <source
+            media='(min-width: 1120px)'
+            srcSet={pageConf.picMask}
+            className='absolute inset-0 w-full h-full object-center object-cover'
+          />
+          <source
+            media='(max-width: 1120px)'
+            srcSet={pageConf.picMaskMoble}
+            className='absolute inset-0 w-full h-full object-center object-cover'
+          />
+
+          <img
+            src={pageConf.picMask}
+            className='absolute inset-0 w-full h-full object-center object-cover'
+          />
+        </picture>
+
         <div className='hidden lg:bx lg:flex h-full justify-end items-center relative'>
           <img
             src={pageConf.pic}

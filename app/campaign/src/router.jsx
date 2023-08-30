@@ -4,8 +4,19 @@ import HomeLayout from './layout/HomeLayout'
 import Home from '@/pages/home'
 import App from '@/pages/app'
 import TwitterCallback from '@/pages/twitter/callback'
+import Expore from '@/pages/expore'
 
 const routes = [
+  {
+    path: '/',
+    element: <HomeLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />
+      }
+    ]
+  },
   {
     path: 'app',
     element: <ShareLayout />,
@@ -17,15 +28,16 @@ const routes = [
     ]
   },
   {
-    path: '/',
-    element: <HomeLayout />,
+    path: '/expore',
+    element: <Layout />,
     children: [
       {
         index: true,
-        element: <Home />
+        element: <Expore />
       }
     ]
   },
+
   {
     path: '/twitter/callback',
     element: <ShareLayout />,

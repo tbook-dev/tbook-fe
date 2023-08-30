@@ -30,9 +30,13 @@ export const twLogin = async function () {
 };
 
 export const getTwLoginUrl = async function () {
-  const res =  await fetch(`${host}/twitter/auth`, {
+  const res = await fetch(`${host}/twitter/auth`, {
     method: "GET",
     credentials: "include",
-  })
-  return await res.json()
+  });
+  return await res.json();
+};
+
+export const getExporeCampain = async function () {
+  return await request(`${host}/project/explore`);
 };
