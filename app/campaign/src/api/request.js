@@ -5,9 +5,9 @@
 
 // const { setAuthUser } = user;
 
-export const injectStore = (_store) => {
-  store = _store;
-};
+// export const injectStore = (_store) => {
+//   store = _store;
+// };
 
 const TIME_OUT = 600000; // 超时时间
 const ContentType = {
@@ -72,7 +72,7 @@ export default function request(url, options = {}) {
             switch (res.status) {
               case 401:
                 console.log("401");
-                store.dispatch(setAuthUser(false));
+                // store.dispatch(setAuthUser(false));
                 break;
               case 403:
                 break;
