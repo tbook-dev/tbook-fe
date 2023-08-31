@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import logo from '@/images/icon/logo.svg'
 import { Web3Button } from '@web3modal/react'
 import clsx from 'clsx'
+import { links } from './conf'
 
 function Header () {
   return (
@@ -12,12 +13,24 @@ function Header () {
         'sticky bg-white dark:bg-black'
       )}
     >
-      <div className='px-4 py-2 lg:px-20 lg:py-5'>
+      <div className='px-4 py-2 lg:px-20 lg:py-2.5'>
         <div className='flex items-center justify-between h-14 lg:h-16'>
           <div className='flex items-center'>
             <Link to='/' className='mr-1 lg:mr-16'>
-              <img src={logo} className='w-5 h-8 object-contain' />
+              <img src={logo} className='h-10 object-contain' />
             </Link>
+          </div>
+
+          <div className='text-lg font-bold  flex gap-x-10'>
+            {links.map(v => (
+              <NavLink key={v.text} to={v.link}>
+                {({ isActive }) => (
+                  <span className={isActive ? 'text-black' : 'text-c-6'}>
+                    {v.text}
+                  </span>
+                )}
+              </NavLink>
+            ))}
           </div>
 
           <div className='flex items-center space-x-3'>
