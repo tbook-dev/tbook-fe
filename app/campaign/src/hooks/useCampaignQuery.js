@@ -10,6 +10,7 @@ export default function useUserInfo(campaignId) {
     {
       cacheTime: 0,
       enabled: !!campaignId,
+      retry: false
     }
   );
   useEffect(() => {
