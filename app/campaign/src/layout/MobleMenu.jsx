@@ -8,7 +8,7 @@ import Links from "./Links";
 import { useCallback } from "react";
 import { Web3Button } from "@web3modal/react";
 
-export default function MobleMenu() {
+export default function MobleMenu({ hideLink = false}) {
   const [open, setOpen] = useState(false);
   const handleCancel = useCallback(() => {
     setOpen(false);
@@ -27,7 +27,7 @@ export default function MobleMenu() {
           <CloseOutlined className="text-2xl" onClick={handleCancel} />
         </div>
 
-        <Links inDrawer />
+        <Links inDrawer hidden={hideLink}/>
       </div>
 
       <div className="pb-[100px] flex justify-center">

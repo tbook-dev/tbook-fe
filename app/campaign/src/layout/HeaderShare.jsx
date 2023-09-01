@@ -21,7 +21,7 @@ function Header () {
           <div className='hidden lg:flex items-center space-x-3'>
             <Web3Button icon='show' balance='hide' avatar='hide' />
           </div>
-          <MobleMenu />
+          <MobleMenu hideLink/>
         </div>
       </div>
     </header>
