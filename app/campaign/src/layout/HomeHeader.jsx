@@ -1,49 +1,42 @@
-import { Link, NavLink } from 'react-router-dom'
-import logo from '@/images/icon/logo.svg'
-import { Web3Button } from '@web3modal/react'
-import clsx from 'clsx'
-import { useResponsive } from 'ahooks'
-import { useSelector } from 'react-redux'
-import { links } from './conf'
+import { Link, NavLink } from "react-router-dom";
+import logo from "@/images/icon/logo.svg";
+import { Web3Button } from "@web3modal/react";
+import clsx from "clsx";
+import { useResponsive } from "ahooks";
+import { useSelector } from "react-redux";
+import Links from "./Links";
+import MobleMenu from "./MobleMenu";
 
-function Header () {
-  const { pc } = useResponsive()
-  const headerTransparent = useSelector(s => s.global.headerTransparent)
+function Header() {
+  const { pc } = useResponsive();
+  const headerTransparent = useSelector((s) => s.global.headerTransparent);
   return (
     <header
       className={clsx(
-        'top-0 z-30 fixed inset-x-0 text-black dark:text-white shadow-d2',
-        'transition duration-300 ease-in-out',
-        pc && headerTransparent ? 'bg-transpant ' : 'bg-white dark:bg-black'
+        "top-0 z-30 fixed inset-x-0 text-black dark:text-white shadow-d2",
+        "transition duration-300 ease-in-out",
+        pc && headerTransparent ? "bg-transpant " : "bg-white dark:bg-black"
       )}
     >
-      <div className='px-4 py-2 lg:px-20 lg:py-2.5'>
-        <div className='flex items-center justify-between h-14 lg:h-16'>
-          <div className='flex items-center'>
-            <Link to='/' className='mr-1 lg:mr-16'>
-              <img src={logo} className='h-10 object-contain' />
+      <div className="px-4 py-2 lg:px-20 lg:py-2.5">
+        <div className="flex items-center justify-between h-14 lg:h-16">
+          <div className="flex items-center">
+            <Link to="/" className="mr-1 lg:mr-16">
+              <img src={logo} className="h-10 object-contain" />
             </Link>
           </div>
 
-          <div className='text-lg font-bold  flex gap-x-10'>
-            {links.map(v => (
-              <NavLink key={v.text} to={v.link}>
-                {({ isActive }) => (
-                  <span className={isActive ? 'text-black' : 'text-c-3'}>
-                    {v.text}
-                  </span>
-                )}
-              </NavLink>
-            ))}
+          <Links />
+
+          <div className="hidden lg:flex items-center space-x-3">
+            <Web3Button icon="show" balance="hide" avatar="hide" />
           </div>
 
-          <div className='flex items-center space-x-3'>
-            <Web3Button icon='show' balance='hide' avatar='hide' />
-          </div>
+          <MobleMenu />
         </div>
       </div>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;

@@ -1,8 +1,9 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import logo from '@/images/icon/logo.svg'
 import { Web3Button } from '@web3modal/react'
 import clsx from 'clsx'
-import { links } from './conf'
+import Links from './Links'
+import MobleMenu from './MobleMenu'
 
 function Header () {
   return (
@@ -21,21 +22,12 @@ function Header () {
             </Link>
           </div>
 
-          <div className='text-lg font-bold  flex gap-x-10'>
-            {links.map(v => (
-              <NavLink key={v.text} to={v.link}>
-                {({ isActive }) => (
-                  <span className={isActive ? 'text-black' : 'text-c-6'}>
-                    {v.text}
-                  </span>
-                )}
-              </NavLink>
-            ))}
-          </div>
+          <Links />
 
-          <div className='flex items-center space-x-3'>
+          <div className='hidden lg:flex items-center space-x-3'>
             <Web3Button icon='show' balance='hide' avatar='hide' />
           </div>
+          <MobleMenu />
         </div>
       </div>
     </header>

@@ -1,10 +1,9 @@
 import React from 'react'
-// import { Link } from "react-router-dom";
 import { Web3Button } from '@web3modal/react'
 import { useParams } from 'react-router-dom'
 import useProjectQuery from '@/hooks/useProjectQuery'
 import useCampaignQuery from '@/hooks/useCampaignQuery'
-// import { links } from './conf'
+import MobleMenu from './MobleMenu'
 
 function Header () {
   const { campaignId } = useParams()
@@ -19,9 +18,10 @@ function Header () {
             <img src={project?.avatarUrl} className='h-10 object-contain rounded-full' />
           </div>
 
-          <div className='flex items-center space-x-3'>
+          <div className='hidden lg:flex items-center space-x-3'>
             <Web3Button icon='show' balance='hide' avatar='hide' />
           </div>
+          <MobleMenu />
         </div>
       </div>
     </header>
