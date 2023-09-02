@@ -10,7 +10,7 @@ function Compaign({ campaignId, picUrl, name, project, users, points }) {
     >
       <img
         src={picUrl}
-        className="w-full h-[140px] object-cover object-center  hover:translate-y-2 hover:scale-105 transition-all transition-2000"
+        className="w-full h-[160px] lg:h-[140px] object-cover object-center  hover:translate-y-2 hover:scale-105 transition-all transition-2000"
       />
       <div className="p-5 text-lt-1 flex flex-col">
         <div className="flex items-center gap-x-2">
