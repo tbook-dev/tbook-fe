@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "@/images/icon/logo.svg";
 import { Web3Button } from "@web3modal/react";
 import clsx from "clsx";
@@ -26,7 +26,7 @@ function Header() {
             </Link>
           </div>
 
-          <Links />
+          <Links hidden={!pc}/>
 
           <div className="hidden lg:flex items-center space-x-3">
             <Web3Button icon="show" balance="hide" avatar="hide" />

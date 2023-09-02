@@ -5,7 +5,13 @@ import { useMemo } from "react";
 
 export default function Links({ inDrawer = false, hidden = false }) {
   const displayNone = useMemo(() => {
-    return hidden ? true : inDrawer ? false : true;
+    if (hidden) {
+      return true;
+    }
+    if (inDrawer) {
+      return false;
+    }
+    return false;
   }, [inDrawer, hidden]);
 
   return (
