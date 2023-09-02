@@ -18,7 +18,7 @@ export default function Banner () {
   return (
     <div
       ref={ref}
-      className='relative lg:min-h-[855px] py-20 lg:py-0 flex flex-col justify-center'
+      className='relative lg:min-h-[855px] pt-[180px] pb-[100px] lg:py-0 flex flex-col justify-center'
     >
       <div className='absolute inset-0'>
         <picture>
@@ -46,7 +46,7 @@ export default function Banner () {
           />
         </div>
       </div>
-      <div className='lg:w-bx mx-auto text-center lg:text-left relative'>
+      <div className='lg:w-bx mx-auto w-3/4 text-center lg:text-left relative'>
         <h1 className='text-[32px] lg:text-[40px] font-black lg:w-[602px] mb-5 lg:mb-4'>
           {pc
             ? pageConf.titleList.map(v => (

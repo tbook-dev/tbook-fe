@@ -47,8 +47,9 @@ export default function MobleMenu({ hideLink = false}) {
         onClose={() => setOpen(false)}
         open={open}
         closable={false}
-        placement="top"
+        placement="right"
         height="100vh"
+        width="100vw"
         contentWrapperStyle={{
           overflow: "hidden",
         }}

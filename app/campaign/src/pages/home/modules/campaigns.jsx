@@ -3,6 +3,7 @@ import useExporeCampainQuery from "@/hooks/useExporeCampainQuery";
 import ListCampaign from "@/components/campain/campaignList";
 import Loading from "@/components/loading";
 import { useMemo } from "react";
+import CampaignSwiper from "./swiper";
 
 export default function Campaigns() {
   const { pc } = useResponsive();
@@ -38,11 +39,18 @@ export default function Campaigns() {
                 </h1>
 
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                  {v.list.slice(0, 4).map((campaign) => {
-                    return (
-                      <ListCampaign key={campaign.campaignId} {...campaign} />
-                    );
-                  })}
+                  {pc ? (
+                    v.list.slice(0, 4).map((campaign) => {
+                      return (
+                        <ListCampaign key={campaign.campaignId} {...campaign} />
+                      );
+                    })
+                  ) : (
+                    <CampaignSwiper
+                      listData={v.list.slice(0, 4)}
+                      ItemComponent={ListCampaign}
+                    />
+                  )}
                 </div>
               </div>
             </section>
