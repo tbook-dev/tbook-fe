@@ -1,7 +1,20 @@
 import Button from '@/components/button'
-import { useState } from 'react'
+import { useState, createElement } from 'react'
 import SearchIcon from '@/images/icon/search.svg'
-import { Input, Tabs, Modal, Form } from 'antd'
+import {
+  Modal,
+  Checkbox,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  Radio,
+  Select,
+  Slider,
+  Switch,
+  TimePicker,
+  Tabs
+} from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import x from '@/images/icon/x.svg'
 import closeIcon from '@/images/icon/close.svg'
@@ -13,7 +26,19 @@ const title = 'Set Up Credential Group'
 const placeholder = 'Enter Credential Title to search for Cred'
 const titleGroup = 'Edit Credential Group'
 const emptyPrompt = 'The selected credential will be displayed here.'
-
+const ComponentMap = {
+  Button,
+  Checkbox,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  Radio,
+  Select,
+  Slider,
+  Switch,
+  TimePicker
+}
 export default function CredentialModal ({
   open,
   setOpen,
@@ -25,6 +50,7 @@ export default function CredentialModal ({
   const [form] = Form.useForm()
   const [searchVal, setSearchVal] = useState('')
   const credentialsFormValues = Form.useWatch('credential', form)
+  console.log({ credentialsFormValues })
   const credentialSet = credentialList
     .map(v =>
       v.credentialList.map(m => ({
@@ -56,6 +82,7 @@ export default function CredentialModal ({
         // parse
         const parseResult = await Promise.all(
           values.credential.map(async c => {
+            console.log(c)
             const res = await parseLinkParams({
               url: c.link,
               credentialId: c.credentialId
@@ -203,7 +230,8 @@ export default function CredentialModal ({
                                 </p>
                               </div>
                             </div>
-                            <Form.Item
+
+                            {/* <Form.Item
                               {...restField}
                               name={[name, 'link']}
                               label={credential.tipText}
@@ -212,16 +240,34 @@ export default function CredentialModal ({
                                   required: true,
                                   message: `Missing ${credential.tipText}`
                                 }
-                                // {
-                                //   pattern: twParttern,
-                                //   message: `Please enter a valid twitter URL`
-                                // }
                               ]}
                             >
                               <Input
                                 placeholder={`${credential.placeHolder}`}
                               />
-                            </Form.Item>
+                            </Form.Item> */}
+                            {credential.list.map((v, idx) => {
+                              return v.component === 'HTML' ? (
+                                <div
+                                  key={name + v.name + idx}
+                                  className='text-sm font-medium text-c-9 mb-3'
+                                  dangerouslySetInnerHTML={{ __html: v.html }}
+                                />
+                              ) : (
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, v.name]}
+                                  label={v.label}
+                                  rules={v.rules}
+                                  key={name + v.name + idx}
+                                >
+                                  {createElement(
+                                    ComponentMap[v.component],
+                                    v.componentProps
+                                  )}
+                                </Form.Item>
+                              )
+                            })}
                           </div>
                         )
                       })

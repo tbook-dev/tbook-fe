@@ -41,7 +41,7 @@ const textMap = {
 }
 const { defaultErrorMsg } = conf
 const successMsg = `draft saved successfully`
-const defaultStep = '1'
+const defaultStep = '2'
 
 const checkFormValidte = conf => {
   return (
@@ -80,7 +80,7 @@ export default function () {
   const [credentialReward, setCredentialReward] = useState([
     { ...defaultCredentialReward }
   ])
-  // console.log({ NFTcontracts })
+  console.log({ credentialReward })
   const [setupSubmittable, setSetUpSubmittable] = useState(false)
   const [setUpForm] = Form.useForm()
   const { campaignId } = useParams()
