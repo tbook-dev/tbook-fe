@@ -20,7 +20,7 @@ export default function MobleMenu({ hideLink = false}) {
         <div className="flex items-center justify-between h-10 mb-10">
           <div className="flex items-center">
             <Link to="/" className="mr-1 lg:mr-16">
-              <img src={logo} className="h-10 object-contain" />
+              <img src={logo} className="h-6 object-contain" />
             </Link>
           </div>
 

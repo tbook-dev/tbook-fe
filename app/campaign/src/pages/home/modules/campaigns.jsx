@@ -32,9 +32,9 @@ export default function Campaigns() {
       ) : (
         sectionList.map((v) => {
           return (
-            <section className="bg-[#FAFAFA] pb-20" key={v.title}>
+            <section className="pb-20" key={v.title}>
               <div className="lg:w-bx mx-auto px-7 lg:px-0">
-                <h1 className="py-5 lg:py-10 text-black text-2xl font-bold lg:text-[32px] leading-tight lg:font-black">
+                <h1 className="relative py-5 lg:py-10 text-black text-2xl font-bold lg:text-[32px] leading-tight lg:font-black">
                   {v.title}
                 </h1>
 
