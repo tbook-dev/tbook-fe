@@ -97,7 +97,7 @@
         "picUrl": "https://rd-worker.xgamma.workers.dev/img/b131909663804355a5ae1ffbdcbbc099",
         "list": [
           {
-            "name": "serverName",
+            "name": "link",
             "label": "Discord Server URL",
             "component": "Input",
             "componentProps": {
@@ -122,7 +122,7 @@
         "credentialId": 4,
         "name": "Verify Discord Role",
         "picUrl": "https://rd-worker.xgamma.workers.dev/img/b131909663804355a5ae1ffbdcbbc099",
-        "templateExp": "<p class='text-sm lg:text-base font-medium '> <a href='' style='color:#1D9BF0' class='underline' target='_blank'> Have </a > <%= roleName %> in <%= serverName %> Discord Server </p>",
+        "templateExp": "<p class='text-sm lg:text-base font-medium '> <a href='<%= link %>' style='color:#1D9BF0' class='underline' target='_blank'> Have </a > <%= roleName %> in <%= serverName %> Discord Server </p>",
         "displayExp": "",
         "list": [
           {
@@ -130,7 +130,7 @@
             "html": "<a style='color:#1D9BF0' class='underline' href='https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord' target='_blank'>How to get Role ID in Discord</a>"
           },
           {
-            "name": "serverName",
+            "name": "link",
             "label": "Discord Server URL",
             "component": "Input",
             "componentProps": {

@@ -89,7 +89,10 @@ function CredentialReward ({
                           />
                           <div
                             dangerouslySetInnerHTML={{
-                              __html: template(m.templateExp)(v.options)
+                              __html: template(m.templateExp)({
+                                ...v,
+                                ...v.options
+                              })
                             }}
                           />
                         </div>
