@@ -29,8 +29,7 @@ const sideMenu = [
   // },
   {
     title: 'Settings',
-    // link: '/settings',
-    link: 'jvascript:void(0)',
+    link: '/settings',
     disabled: true,
     key: 'settings'
   }

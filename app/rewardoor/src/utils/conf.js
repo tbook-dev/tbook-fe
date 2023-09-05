@@ -17,7 +17,7 @@ export const rewardDistributionMethod = [
     value: 2,
   },
 ];
-
+export const projectUrlPrefix = "https://app.tbook.com" + "/";
 export const incentiveMethodList = [
   // {
   //   title: "Anyone who get the credentials",

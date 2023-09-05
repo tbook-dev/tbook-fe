@@ -68,9 +68,7 @@ const routes = [
           {
             index: true,
             async lazy () {
-              const { default: Component } = await import(
-                '@/pages/assets'
-              )
+              const { default: Component } = await import('@/pages/assets')
               return { Component }
             }
           }
@@ -90,7 +88,19 @@ const routes = [
           return { Component }
         }
       },
-
+      {
+        path: 'settings',
+        element: <LeftNavLayout />,
+        children: [
+          {
+            index: true,
+            async lazy () {
+              const { default: Component } = await import('@/pages/settings')
+              return { Component }
+            }
+          }
+        ]
+      },
       /*------------------------------------------------------------------------------------------*/
 
       {

@@ -1,0 +1,99 @@
+import { Form, Input, Typography } from 'antd'
+import useUserInfo from '@/hooks/queries/useUserInfo'
+import { projectUrlPrefix } from '@/utils/conf'
+import copyIcon from '@/images/icon/copy.svg'
+import Button from '@/components/button'
+import { useState } from 'react'
+
+const pageTitle = 'Settings'
+const { Paragraph } = Typography
+const FormSection = ({ title, children }) => (
+  <div className='space-y-2'>
+    <h3 className='text-xl font-bold text-c-9'>{title}</h3>
+    {children}
+  </div>
+)
+export default function Settings () {
+  const [form] = Form.useForm()
+  const { project } = useUserInfo()
+  const [confirmLoading, setConfirmLoading] = useState(false)
+  const handleUpdate = () => {
+    form
+      .validateFields()
+      .then(async values => {
+        console.log(values)
+      })
+      .catch(e => {
+        console.log(e)
+      })
+  }
+  console.log({ project })
+  return (
+    <div className='text-white relative flex flex-col justify-between min-h-full w-[520px]'>
+      <div>
+        <h2 className='text-3xl font-black text-[#C8C8C8] mb-10'>
+          {pageTitle}
+        </h2>
+
+        <Form
+          form={form}
+          layout='vertical'
+          initialValues={{
+            projectName: project.projectName
+          }}
+        >
+          <div className='space-y-5'>
+            <div className='flex items-center gap-x-6'>
+              <img
+                src={project.avatarUrl}
+                className='w-20 h-20 object-center object-cover rounded-full'
+              />
+              <button className='px-6 py-2 bg-b-1 text-c-9 text-sm rounded-2.5xl shadow-s2'>
+                Upload
+              </button>
+            </div>
+
+            <Form.Item
+              name='projectName'
+              label={
+                <h3 className='text-xl font-bold text-c-9'>Project Name</h3>
+              }
+            >
+              <Input />
+            </Form.Item>
+
+            <FormSection title='Project URL'>
+              <Paragraph
+                style={{
+                  marginBottom: 0,
+                  color: '#C8C8C8',
+                  fontWeight: 500,
+                  fontSize: 14,
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+                copyable={{
+                  text: project?.projectUrl,
+                  icon: <img src={copyIcon} className='w-4 h-4' />
+                }}
+              >
+                {projectUrlPrefix + project?.projectUrl}
+              </Paragraph>
+            </FormSection>
+          </div>
+        </Form>
+      </div>
+
+      <div className='flex justify-center py-20'>
+        <Button
+          type='primary'
+          onClick={handleUpdate}
+          loading={confirmLoading}
+          className='w-full'
+        >
+          Save
+        </Button>
+      </div>
+    </div>
+  )
+}
