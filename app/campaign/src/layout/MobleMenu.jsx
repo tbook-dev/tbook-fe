@@ -17,7 +17,7 @@ export default function MobleMenu({ hideLink = false}) {
   const Content = () => (
     <div className="h-full flex flex-col justify-between">
       <div>
-        <div className="flex items-center justify-between h-14 mb-10">
+        <div className="flex items-center justify-between h-10 mb-10">
           <div className="flex items-center">
             <Link to="/" className="mr-1 lg:mr-16">
               <img src={logo} className="h-10 object-contain" />
@@ -39,7 +39,7 @@ export default function MobleMenu({ hideLink = false}) {
     <div className="lg:hidden">
       <img
         src={menuIcon}
-        className="w-10 h-10 object-center object-contain"
+        className="w-9 h-9 object-center object-contain"
         onClick={() => setOpen(true)}
       />
       <Drawer
