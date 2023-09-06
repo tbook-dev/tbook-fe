@@ -1,4 +1,4 @@
-import { Form, Input, Typography } from 'antd'
+import { Form, Input, Typography, Upload } from 'antd'
 import useUserInfo from '@/hooks/queries/useUserInfo'
 import { projectUrlPrefix } from '@/utils/conf'
 import copyIcon from '@/images/icon/copy.svg'
@@ -7,6 +7,8 @@ import { useState } from 'react'
 import xGray from '@/images/icon/x-gray.svg'
 import dcGray from '@/images/icon/dc-gray.svg'
 import tgGray from '@/images/icon/tg-gray.svg'
+import uploadFile from '@/utils/upload'
+import { LoadingOutlined } from '@ant-design/icons'
 
 const pageTitle = 'Settings'
 const { Paragraph } = Typography
@@ -20,6 +22,18 @@ export default function Settings () {
   const [form] = Form.useForm()
   const { project, userDc, userTg, userTwitter } = useUserInfo()
   const [confirmLoading, setConfirmLoading] = useState(false)
+  const [uplading, setUploading] = useState(false)
+  const avatarUrl = Form.useWatch('avatarUrl', { form, preserve: true })
+  const hanleUpload = ({ onSuccess, onError, file }) => {
+    setUploading(true)
+    uploadFile(file)
+      .then(res => {
+        form.setFieldValue('avatarUrl', res)
+        onSuccess(res)
+      })
+      .catch(onError)
+      .finally(() => setUploading(false))
+  }
   const handleUpdate = () => {
     form
       .validateFields()
@@ -30,7 +44,7 @@ export default function Settings () {
         console.log(e)
       })
   }
-  console.log({ project })
+
   return (
     <div className='text-white relative flex flex-col justify-between min-h-full w-[520px]'>
       <div>
@@ -42,6 +56,7 @@ export default function Settings () {
           form={form}
           layout='vertical'
           initialValues={{
+            avatarUrl: project.avatarUrl,
             projectName: project.projectName,
             projectDescription: project.projectDescription,
             websiteUrl: project?.websiteUrl,
@@ -51,12 +66,19 @@ export default function Settings () {
           <div className='space-y-5'>
             <div className='flex items-center gap-x-6'>
               <img
-                src={project.avatarUrl}
+                src={avatarUrl || project.avatarUrl}
                 className='w-20 h-20 object-center object-cover rounded-full'
               />
-              <button className='px-6 py-2 bg-b-1 text-c-9 text-sm rounded-2.5xl shadow-s2'>
-                Upload
-              </button>
+              <Upload
+                maxCount={1}
+                customRequest={hanleUpload}
+                showUploadList={false}
+              >
+                <button className='px-6 py-2 bg-b-1 text-c-9 text-sm rounded-2.5xl shadow-s2'>
+                  Upload
+                  {uplading && <LoadingOutlined className='ml-1' />}
+                </button>
+              </Upload>
             </div>
 
             <Form.Item
