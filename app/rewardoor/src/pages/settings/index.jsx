@@ -4,6 +4,9 @@ import { projectUrlPrefix } from '@/utils/conf'
 import copyIcon from '@/images/icon/copy.svg'
 import Button from '@/components/button'
 import { useState } from 'react'
+import xGray from '@/images/icon/x-gray.svg'
+import dcGray from '@/images/icon/dc-gray.svg'
+import tgGray from '@/images/icon/tg-gray.svg'
 
 const pageTitle = 'Settings'
 const { Paragraph } = Typography
@@ -15,7 +18,7 @@ const FormSection = ({ title, children }) => (
 )
 export default function Settings () {
   const [form] = Form.useForm()
-  const { project } = useUserInfo()
+  const { project, userDc, userTg, userTwitter } = useUserInfo()
   const [confirmLoading, setConfirmLoading] = useState(false)
   const handleUpdate = () => {
     form
@@ -40,7 +43,9 @@ export default function Settings () {
           layout='vertical'
           initialValues={{
             projectName: project.projectName,
-            projectDescription: project.projectDescription
+            projectDescription: project.projectDescription,
+            websiteUrl: project?.websiteUrl,
+            tgUserName: userTg?.username
           }}
         >
           <div className='space-y-5'>
@@ -112,6 +117,47 @@ export default function Settings () {
             >
               <Input />
             </Form.Item>
+
+            <FormSection title='Official Links'>
+              <div className='grid grid-cols-2 gap-x-5 gap-y-3'>
+                {userTwitter?.connected ? (
+                  <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#1DA1F2] text-white'>
+                    <img src={xGray} className='w-[18px] h-[18px]' />
+                    {userTwitter?.twitterName}
+                  </button>
+                ) : (
+                  <a
+                    href=''
+                    target='_blank'
+                    className='h-10 rounded-2.5xl flex items-center px-5 bg-[#121212] text-[#C8C8C8] hover:text-[#C8C8C8] gap-x-2'
+                  >
+                    <img src={xGray} className='w-[18px] h-[18px]' />
+                    Connect with Twitter
+                  </a>
+                )}
+                {userDc?.connected ? (
+                  <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#1DA1F2] text-white'>
+                    <img src={dcGray} className='w-[18px] h-[18px]' />
+                    {userDc?.username}
+                  </button>
+                ) : (
+                  <a
+                    href=''
+                    target='_blank'
+                    className='h-10 rounded-2.5xl flex items-center px-5 bg-[#121212] text-[#C8C8C8] hover:text-[#C8C8C8] gap-x-2'
+                  >
+                    <img src={dcGray} className='w-[18px] h-[18px]' />
+                    Connect with Discord
+                  </a>
+                )}
+                <Form.Item name='tgUserName'>
+                  <Input
+                    placeholder='Enter Telegram URL'
+                    prefix={<img src={tgGray} className='mr-1' />}
+                  />
+                </Form.Item>
+              </div>
+            </FormSection>
           </div>
         </Form>
       </div>
