@@ -136,7 +136,7 @@ export default function Settings () {
                   </a>
                 )}
                 {userDc?.connected ? (
-                  <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#1DA1F2] text-white'>
+                  <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#5865F2] text-white'>
                     <img src={dcGray} className='w-[18px] h-[18px]' />
                     {userDc?.username}
                   </button>
