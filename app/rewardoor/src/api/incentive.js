@@ -476,7 +476,7 @@ export const addProjectUser = async function (projectId, values) {
   return request.PostFormV1(`${host}/projects/${projectId}/userAdd`, values);
 };
 export const updateProject = async function (values) {
-  return request.PostFormV1(`${host}/project/update`, values);
+  return request.Post(`${host}/project/update`, values);
 };
 export const updateProjectValuation = async function (projectId, values) {
   return request.PostFormV1(

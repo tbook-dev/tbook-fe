@@ -68,7 +68,7 @@ export default function Settings() {
             projectName: project.projectName,
             projectDescription: project.projectDescription,
             websiteUrl: project?.websiteUrl,
-            tgUserName: userTg?.username,
+            telegramUrl: project?.telegramUrl,
           }}
         >
           <div className="space-y-5">
@@ -180,7 +180,7 @@ export default function Settings() {
                     Connect with Discord
                   </a>
                 )}
-                <Form.Item name="tgUserName">
+                <Form.Item name="telegramUrl">
                   <Input
                     placeholder="Enter Telegram URL"
                     prefix={<img src={tgGray} className="mr-1" />}
