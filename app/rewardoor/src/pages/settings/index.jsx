@@ -22,7 +22,7 @@ const FormSection = ({ title, children }) => (
 export default function Settings() {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
-  const { project, userDc, userTg, userTwitter } = useUserInfo();
+  const { project, userDc, userTwitter } = useUserInfo();
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [uplading, setUploading] = useState(false);
   const avatarUrl = Form.useWatch("avatarUrl", { form, preserve: true });
@@ -41,7 +41,7 @@ export default function Settings() {
     form
       .validateFields()
       .then(async (values) => {
-        const fd = { ...project, ...values };
+        const fd = { ...project, ...values, avatarUrl };
         await updateProject(fd);
         api.success({ message: "Successfully Saved！" });
       })
@@ -74,7 +74,7 @@ export default function Settings() {
           <div className="space-y-5">
             <div className="flex items-center gap-x-6">
               <img
-                src={avatarUrl || project.avatarUrl}
+                src={avatarUrl}
                 className="w-20 h-20 object-center object-cover rounded-full"
               />
               <Upload
