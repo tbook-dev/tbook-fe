@@ -39,7 +39,8 @@ export default function Settings () {
           form={form}
           layout='vertical'
           initialValues={{
-            projectName: project.projectName
+            projectName: project.projectName,
+            projectDescription: project.projectDescription
           }}
         >
           <div className='space-y-5'>
@@ -80,6 +81,37 @@ export default function Settings () {
                 {projectUrlPrefix + project?.projectUrl}
               </Paragraph>
             </FormSection>
+
+            <FormSection title='Website'>
+              <div className='flex items-center gap-2'>
+                {project.tags.map((tag, index) => (
+                  <div
+                    key={index}
+                    className='px-4 py-0.5 rounded-xl border border-[#C752E7]'
+                  >
+                    {tag}
+                  </div>
+                ))}
+              </div>
+            </FormSection>
+
+            <Form.Item
+              name='projectDescription'
+              label={
+                <h3 className='text-xl font-bold text-c-9'>
+                  Project Introduction
+                </h3>
+              }
+            >
+              <Input.TextArea />
+            </Form.Item>
+
+            <Form.Item
+              name='websiteUrl'
+              label={<h3 className='text-xl font-bold text-c-9'>Website</h3>}
+            >
+              <Input />
+            </Form.Item>
           </div>
         </Form>
       </div>
