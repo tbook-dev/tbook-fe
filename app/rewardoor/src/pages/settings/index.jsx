@@ -172,7 +172,7 @@ export default function Settings () {
                   </button>
                 ) : (
                   <a
-                    href=''
+                    href='https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2Frewardoor-staging.tbook.com%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read'
                     target='_blank'
                     className='h-10 rounded-2.5xl flex items-center px-5 bg-[#121212] text-[#C8C8C8] hover:text-[#C8C8C8] gap-x-2'
                   >
