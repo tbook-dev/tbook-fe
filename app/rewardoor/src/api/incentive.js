@@ -53,9 +53,8 @@ export const getCredential = async function (projectId) {
   return await request(`${host}/credentials/project/${projectId}`);
 };
 
-export const getCredentials = async function (campaignId) {
-  // return await request(`${host}/campaignNew/project/${projectId}`);
-  return await request(`${host}/campaignNew/project/${campaignId}`);
+export const getCredentials = async function (projectId) {
+  return await request(`${host}/campaignNew/groups/${projectId}`);
   // return [
   //   {
   //     // credentialList: [
