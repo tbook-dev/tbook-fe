@@ -15,6 +15,7 @@ export default function useUserInfo() {
   const userDc = data?.userDc;
   const userTg = data?.userTg;
   const userTwitter = data?.userTwitter;
+  const user = data?.user;
   return {
     data,
     isLoading,
@@ -25,6 +26,7 @@ export default function useUserInfo() {
     userDc,
     userTg,
     userTwitter,
+    user,
     ...props,
   };
 }
