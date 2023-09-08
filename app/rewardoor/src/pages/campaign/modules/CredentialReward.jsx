@@ -84,7 +84,7 @@ function CredentialReward ({
                       return (
                         <div key={idx} className='flex gap-x-2.5 items-center'>
                           <img
-                            src={m?.icon || x}
+                            src={m?.picUrl || x}
                             className='w-5 h-5 object-contain'
                           />
                           <div
