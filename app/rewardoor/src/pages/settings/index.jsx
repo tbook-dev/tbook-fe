@@ -15,7 +15,7 @@ const pageTitle = 'Settings'
 const { Paragraph } = Typography
 const FormSection = ({ title, children }) => (
   <div className='space-y-2'>
-    <h3 className='text-xl font-bold text-c-9'>{title}</h3>
+    <h3 className='text-xl font-medium text-c-9'>{title}</h3>
     {children}
   </div>
 )
@@ -56,9 +56,7 @@ export default function Settings () {
   return (
     <div className='text-white relative flex flex-col justify-between min-h-full w-[520px]'>
       <div>
-        <h2 className='text-3xl font-black text-[#C8C8C8] mb-10'>
-          {pageTitle}
-        </h2>
+        <h2 className='text-3xl font-bold text-[#C8C8C8] mb-10'>{pageTitle}</h2>
 
         <Form
           form={form}
