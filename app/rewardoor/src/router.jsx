@@ -132,6 +132,20 @@ const routes = [
           const { default: Component } = await import('@/pages/nft/deploy')
           return { Component }
         }
+      },
+      {
+        path: '/dc_callback',
+        async lazy () {
+          const { default: Component } = await import('@/pages/social/dc')
+          return { Component }
+        }
+      },
+      {
+        path: '/tg_callback',
+        async lazy () {
+          const { default: Component } = await import('@/pages/social/tg')
+          return { Component }
+        }
       }
     ]
   }

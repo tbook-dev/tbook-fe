@@ -22,7 +22,7 @@ const FormSection = ({ title, children }) => (
 export default function Settings () {
   const [form] = Form.useForm()
   const [api, contextHolder] = notification.useNotification()
-  const { project, userDc, userTwitter } = useUserInfo()
+  const { project, userDc, userTwitter, userTg } = useUserInfo()
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [uplading, setUploading] = useState(false)
   const avatarUrl = Form.useWatch('avatarUrl', { form, preserve: true })
@@ -178,12 +178,21 @@ export default function Settings () {
                     Connect with Discord
                   </a>
                 )}
-                <Form.Item name='telegramUrl'>
-                  <Input
-                    placeholder='Enter Telegram URL'
-                    prefix={<img src={tgGray} className='mr-1' />}
-                  />
-                </Form.Item>
+                {userTg?.connected ? (
+                  <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#5865F2] text-white'>
+                    <img src={tgGray} className='w-[18px] h-[18px]' />
+                    @{userTg?.username}
+                  </button>
+                ) : (
+                  <a
+                    href='https://oauth.telegram.org/auth?bot_id=6610421175&origin=https%3A%2F%2Frewardoor-staging.tbook.com%2Fapp%2F227740620764&return_to=https%3A%2F%2Frewardoor-staging.tbook.com%2Ftg_callback'
+                    target='_blank'
+                    className='h-10 rounded-2.5xl flex items-center px-5 bg-[#121212] text-[#C8C8C8] hover:text-[#C8C8C8] gap-x-2'
+                  >
+                    <img src={tgGray} className='w-[18px] h-[18px]' />
+                    Connect with Telegram
+                  </a>
+                )}
               </div>
             </FormSection>
           </div>
