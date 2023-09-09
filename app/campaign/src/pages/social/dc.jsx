@@ -26,9 +26,9 @@ export default function () {
             const redirect = localStorage.getItem('redirect_url')
             if (redirect != null) {
                 localStorage.removeItem('redirect_url')
-                //location.href = redirect
+                location.href = redirect
             } else {
-                //navigate('/dashboard/overview')
+                navigate('/')
             }
         })
     }, [])
