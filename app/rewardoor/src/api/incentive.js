@@ -596,3 +596,11 @@ export const getTemplateDetail = async function (templateId) {
     (res) => res.json()
   );
 };
+
+export const getTwLoginUrl = async function () {
+  const res = await fetch(`${host}/twitter/auth`, {
+    method: "GET",
+    credentials: "include",
+  });
+  return await res.json();
+};

@@ -9,7 +9,8 @@ import dcGray from '@/images/icon/dc-gray.svg'
 import tgGray from '@/images/icon/tg-gray.svg'
 import uploadFile from '@/utils/upload'
 import { LoadingOutlined } from '@ant-design/icons'
-import { updateProject } from '@/api/incentive'
+import { updateProject, getTwLoginUrl } from '@/api/incentive'
+import { useRef } from 'react'
 
 const pageTitle = 'Settings'
 const { Paragraph } = Typography
@@ -26,6 +27,15 @@ export default function Settings () {
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [uplading, setUploading] = useState(false)
   const avatarUrl = Form.useWatch('avatarUrl', { form, preserve: true })
+  const [twCallbackUrl, setTwCallbackUrl] = useState('')
+  const twLinkRef = useRef()
+
+  const curHost = new URL(window.location.href).host
+  const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`
+
+  const tgCallbackHost = import.meta.env.VITE_TG_CALLBACK_HOST
+  const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=6610421175&origin=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback`
+
   const hanleUpload = ({ onSuccess, onError, file }) => {
     setUploading(true)
     uploadFile(file)
@@ -51,6 +61,13 @@ export default function Settings () {
       .finally(() => {
         setConfirmLoading(false)
       })
+  }
+
+  const twAuth = async (evt) => {
+    evt.preventDefault()
+    const res = await getTwLoginUrl()
+    setTwCallbackUrl(() => res['url'])
+    location.href = res['url']
   }
 
   return (
@@ -155,9 +172,11 @@ export default function Settings () {
                   </button>
                 ) : (
                   <a
-                    href=''
+                    href={twCallbackUrl}
                     target='_blank'
+                    ref={twLinkRef}
                     className='h-10 rounded-2.5xl flex items-center px-5 bg-[#121212] text-[#C8C8C8] hover:text-[#C8C8C8] gap-x-2'
+                    onClick={twAuth}
                   >
                     <img src={xGray} className='w-[18px] h-[18px]' />
                     Connect with Twitter
@@ -170,8 +189,7 @@ export default function Settings () {
                   </button>
                 ) : (
                   <a
-                    href='https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2Frewardoor-staging.tbook.com%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read'
-                    target='_blank'
+                    href={dcCallbackUrl}
                     className='h-10 rounded-2.5xl flex items-center px-5 bg-[#121212] text-[#C8C8C8] hover:text-[#C8C8C8] gap-x-2'
                   >
                     <img src={dcGray} className='w-[18px] h-[18px]' />
@@ -185,7 +203,7 @@ export default function Settings () {
                   </button>
                 ) : (
                   <a
-                    href='https://oauth.telegram.org/auth?bot_id=6610421175&origin=https%3A%2F%2Frewardoor-staging.tbook.com%2Fapp%2F227740620764&return_to=https%3A%2F%2Frewardoor-staging.tbook.com%2Ftg_callback'
+                    href={tgCallbackUrl}
                     target='_blank'
                     className='h-10 rounded-2.5xl flex items-center px-5 bg-[#121212] text-[#C8C8C8] hover:text-[#C8C8C8] gap-x-2'
                   >

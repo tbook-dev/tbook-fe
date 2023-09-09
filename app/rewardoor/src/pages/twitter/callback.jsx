@@ -20,7 +20,7 @@ export default function () {
             credentials: 'include',
             body: data
         }).then(d => {
-            navigate('/dashboard/overview')
+            navigate('/settings')
         })
     }, [])
 
