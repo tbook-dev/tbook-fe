@@ -129,7 +129,7 @@ export default function () {
   const campaignEnd = endList.includes(page?.campaign?.status)
 
   return (
-    <div className='space-y-2.5 px-2.5 lg:px-0 lg:w-[880px] mx-auto pb-16 lg:pt-10 lg:pb-20  text-t-1'>
+    <div className='space-y-2.5 px-2.5 lg:px-0 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1'>
       <section className='rounded-lg overflow-hidden bg-white lg:rounded-2xl lg:space-y-10'>
         <img
           src={page?.campaign?.picUrl}
@@ -164,7 +164,7 @@ export default function () {
           </div>
         </div>
       ) : (
-        <section className='space-y-2.5 tetx-t-1'>
+        <section className='space-y-2.5 lg:space-y-5 tetx-t-1'>
           {page?.groups?.map((group, index) => {
             const hasPoit = group.pointList?.length > 0
             const hasNFT = group.nftList?.length > 0
