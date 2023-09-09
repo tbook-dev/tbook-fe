@@ -31,6 +31,12 @@ const endText = 'This campaign has ended.'
 const errorMsg =
   'Please click the link and finish the task first. If you have fulfilled the requirement, please try again in 30s.'
 
+const tgCallbackHost = import.meta.env.VITE_TG_CALLBACK_HOST
+const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=6610421175&origin=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback`
+
+const curHost = new URL(window.location.href).host
+const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`
+
 export default function () {
   const [messageApi, contextHolder] = message.useMessage()
   const { pc } = useResponsive()
@@ -184,10 +190,12 @@ export default function () {
                     const sycLoginFnMap = {
                       twitter: twLoginCurrent,
                       discord: () => {
-                        console.log('todo')
+                        localStorage.setItem('redirect_url', location.href)
+                        location.href = dcCallbackUrl
                       },
                       telegram: () => {
-                        console.log('todo')
+                        localStorage.setItem('redirect_url', location.href)
+                        location.href = tgCallbackUrl
                       }
                     }
 
