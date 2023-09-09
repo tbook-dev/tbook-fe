@@ -202,15 +202,15 @@ export default function () {
                     return (
                       <div
                         key={index}
-                        className='flex items-center justify-between h-10'
+                        className='flex items-center justify-between h-10 w-full'
                       >
-                        <div className='flex items-center gap-x-1 flex-auto'>
+                        <div className='flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]'>
                           <img
                             src={redential.picUrl}
                             className='w-5 h-5 object-contain'
                           />
                           <div
-                            className='truncate text-base text-c-6'
+                            className='truncate text-base text-c-6 max-w-[calc(100%_-_30px)]'
                             dangerouslySetInnerHTML={{
                               __html: redential.displayExp
                             }}
