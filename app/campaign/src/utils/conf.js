@@ -3,8 +3,8 @@ import pointIcon from "@/images/icon/point.svg";
 import nftIcon from "@/images/icon/nft.svg";
 
 export const incentiveAssetsTypeList = [
-  {  icon: nftIcon, text: "NFT", value: 1 },
-  {  icon: pointIcon, text: "POINTS", value: 2 },
+  { icon: nftIcon, text: "NFT", value: 1 },
+  { icon: pointIcon, text: "POINTS", value: 2 },
 ];
 
 export const rewardDistributionMethod = [
@@ -84,4 +84,51 @@ export const groupTypeMap = {
   3: "Trade",
   4: "ProductTest",
   5: "My",
+};
+
+const labelTypeMap = {
+  twitter: [
+    {
+      label: "Twitter Like",
+      value: 1,
+    },
+    {
+      label: "ReTweet Link",
+      value: 2,
+    },
+    {
+      label: "Twitter Spaces",
+      value: 3,
+    },
+  ],
+  discord: [
+    {
+      label: "Join Discord Service",
+      value: 4,
+    },
+    {
+      label: "Verify Discord role",
+      value: 5,
+    },
+  ],
+  telegram: [
+    {
+      label: "Join Telegram Group",
+      value: 6,
+    },
+    {
+      label: "Join Telegram Channel",
+      value: 7,
+    },
+  ],
+};
+
+export const getCrenditialType = (labelType) => {
+  // map to groups
+  const arraryType = [];
+  for (let k in labelTypeMap) {
+    const sublist = labelTypeMap[k].map((v) => ({ ...v, group: k }));
+    arraryType.push(...sublist);
+  }
+  return arraryType.find((v) => v.value === labelType)?.group;
 };

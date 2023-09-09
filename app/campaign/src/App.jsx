@@ -91,8 +91,8 @@ function App () {
         themeVariables={{
           '--w3m-text-big-bold-font-family': 'Red Hat Display, sans-serif',
           '--w3m-font-family': 'Red Hat Display, sans-serif',
-          '--w3m-accent-color': '#f4f4f4',
-          '--w3m-accent-fill-color': "#191919",
+          '--w3m-accent-color': '#fff',
+          '--w3m-accent-fill-color': '#191919',
           '--w3m-button-border-radius': '20px'
         }}
       />
