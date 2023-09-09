@@ -132,3 +132,57 @@ export const getCrenditialType = (labelType) => {
   }
   return arraryType.find((v) => v.value === labelType)?.group;
 };
+
+export const credentialStatus = [
+  {
+    label: "Ineligible",
+    name: "Ineligible",
+    value: 0,
+    bgColor: "#f7f7f7",
+    color: "#999",
+    desc: "Some tasks remain uncomplished or unverified.",
+    disabled: true,
+  },
+  {
+    label: "Eligible",
+    name: "Eligible",
+    value: 1,
+    bgColor: "#f7f7f7",
+    color: "#999",
+    desc: "You will know if you could claim this reward after the campaign is closed.",
+    disabled: true,
+  },
+  {
+    label: "Claim",
+    name: "Claim不可点击",
+    value: 2,
+    bgColor: "#f7f7f7",
+    color: "#999",
+    desc: "You will know if you could claim this reward after the campaign is closed.",
+    disabled: true,
+  },
+  {
+    label: "Claim",
+    name: "Claim可点击",
+    value: 3,
+    bgColor: "#f0f5ff",
+    color: "#3a82f7",
+    disabled: false,
+  },
+  {
+    label: "Claimed",
+    name: "Claimed",
+    value: 4,
+    bgColor: "#f7f7f7",
+    color: "#999",
+    disabled: true,
+  },
+  {
+    label: "Missed",
+    name: "Missed",
+    value: 5,
+    bgColor: "#f7f7f7",
+    color: "#999",
+    disabled: true,
+  },
+];

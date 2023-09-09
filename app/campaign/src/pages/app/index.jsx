@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import giftIcon from '@/images/icon/gift.svg'
 import pointIcon from '@/images/icon/point.svg'
 import nftIcon from '@/images/icon/nft.svg'
+import rewardIcon from '@/images/icon/reward.svg'
 // import verifiedIcon from '@/images/icon/verified.svg'
 import Modal from '@/components/modal'
 import useUserInfo from '@/hooks/useUserInfoQuery'
@@ -22,6 +23,7 @@ import WithVerify from '@/components/withVerify'
 import { getNonce } from '@/utils/web3'
 import { host } from '@/api/incentive'
 import { getCrenditialType } from '@/utils/conf'
+import RewardClaim from './rewardClaim'
 
 const notStartList = [2, 0]
 const endList = [3, 4, 5]
@@ -260,23 +262,18 @@ export default function () {
 
       <Modal open={rewardModalIdx >= 0} onCancel={handleCancel}>
         {rewardModalIdx >= 0 && (
-          <div className='text-t-1 -mx-2'>
-            <h2 className='text-xl lg:text-4xl mb-2 font-bold'>
-              Reward Group {rewardModalIdx + 1}
-            </h2>
-            <p className='text-xs font-medium mb-10'>
-              You may get these rewards once all tasks done！
+          <div className='text-t-1 -mx-2 relative'>
+            <img
+              src={rewardIcon}
+              className='w-[60px] h-[60px] absolute left-1/2 -translate-x-1/2 top-[-50px]'
+            />
+            <h2 className='text-lg lg:text-4xl mb-1.5 font-medium'>Reward</h2>
+            <p className='text-sm text-c-6 mb-8'>
+              You may get following rewards once you have accomplished all tasks
+              in the group!
             </p>
             <div className='text-base'>
-              {page?.groups?.[rewardModalIdx] && (
-                <div className='flex items-center gap-x-2.5'>
-                  <img src={pointIcon} className='w-8 h-8' />
-                  <span className='font-semibold'>
-                    {page?.groups?.[rewardModalIdx]?.pointList?.[0]?.number}{' '}
-                    Points
-                  </span>
-                </div>
-              )}
+              <RewardClaim group={page?.groups?.[rewardModalIdx]} />
             </div>
           </div>
         )}
