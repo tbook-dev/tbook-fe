@@ -1,6 +1,9 @@
 import opIcon from "@/images/icon/crypto/op.svg";
 import pointIcon from "@/images/icon/point.svg";
 import nftIcon from "@/images/icon/nft.svg";
+import fcfsIcon from "@/images/icon/fcfs.svg";
+import ldIcon from "@/images/icon/ld.svg";
+
 
 export const incentiveAssetsTypeList = [
   { icon: nftIcon, text: "NFT", value: 1 },
@@ -19,20 +22,22 @@ export const rewardDistributionMethod = [
 ];
 
 export const incentiveMethodList = [
-  {
-    title: "Anyone who get the credentials",
-    desc: "Anyone who gets the credentials can claim the reward.",
-    value: 1,
-  },
+  // {
+  //   title: "Anyone who get the credentials",
+  //   desc: "Anyone who gets the credentials can claim the reward.",
+  //   value: 1,
+  // },
   {
     title: "FCFS",
     desc: "First come, first served. Whoever gets the credentials first can claim the reward first.",
     value: 2,
+    icon: fcfsIcon
   },
   {
     title: "Lucky Draw",
     desc: "A random selection of participants from those who meet the requirements.",
     value: 3,
+    icon: ldIcon
   },
 ];
 
