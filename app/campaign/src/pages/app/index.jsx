@@ -277,7 +277,7 @@ export default function () {
               src={rewardIcon}
               className='w-[60px] h-[60px] absolute left-1/2 -translate-x-1/2 top-[-30px]'
             />
-            <h2 className='text-lg lg:text-4xl mb-1.5 font-medium'>Reward</h2>
+            <h2 className='text-lg lg:text-4xl mb-1.5 font-medium'>Rewards</h2>
             <p className='text-sm text-c-6 mb-8'>
               You may get following rewards once you have accomplished all tasks
               in the group!
