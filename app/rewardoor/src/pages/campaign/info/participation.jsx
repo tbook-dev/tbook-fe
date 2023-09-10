@@ -174,6 +174,7 @@ export default function Participation () {
                 <tr>
                   <td
                     colSpan={
+                      pageInfo?.nftList?.length +
                       pageInfo?.pointList?.length +
                       pageInfo?.credentialList?.length +
                       2
