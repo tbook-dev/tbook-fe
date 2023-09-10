@@ -2,12 +2,16 @@ import { useParams } from 'react-router-dom'
 import NftCard from './modules/NftCard'
 import useNft from '@/hooks/queries/useNft'
 import Breadcrumb from '@/components/breadcrumb'
+import Loading from '@/components/loading'
+import NftGiveAway from './modules/NftGiveAway'
 
 const NftDetail = () => {
   const { nftId } = useParams()
-  const { data } = useNft(nftId)
-  console.log({ data })
-  return (
+  const { data, isLoading } = useNft(nftId)
+
+  return isLoading ? (
+    <Loading h='h-40' />
+  ) : (
     <div>
       <Breadcrumb
         items={[
@@ -16,16 +20,18 @@ const NftDetail = () => {
             href: '/assets'
           },
           {
-            title: data?.name
+            title: data?.nft?.name
           }
         ]}
       />
-      <h2 className='font-bold text-5xl mb-10 text-t-1'>{data?.name}</h2>
-      <div className='flex justify-between gap-x-10'>
-        <div>table</div>
-        <div className='w-[252px]'>NftCard</div>
 
-        {/* <NftCard /> */}
+      <h2 className='font-bold text-5xl mb-10 text-t-1'>{data?.nft?.name}</h2>
+
+      <div className='flex justify-between gap-x-10'>
+        <NftGiveAway list={data.giveaways} />
+        <div className='w-[252px]'>
+          <NftCard v={data.nft} />
+        </div>
       </div>
     </div>
   )

@@ -18,7 +18,7 @@ export default function NftCard ({ v }) {
       </div>
 
       <div className='p-6 flex flex-col justify-between flex-auto'>
-        <h2 className='font-black text-xl mb-3 line-clamp-2'>{v.name}</h2>
+        <h2 className='font-black text-xl mb-3 line-clamp-2 h-14'>{v.name}</h2>
         <Paragraph
           className='flex items-center'
           style={{ marginBottom: 0 }}
