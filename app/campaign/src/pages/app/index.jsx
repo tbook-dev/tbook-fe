@@ -254,13 +254,13 @@ export default function () {
                   {hasPoit && (
                     <div className='text-c-9 flex items-center gap-px'>
                       <img src={pointIcon} className='w-4 h-4' />
-                      Points
+                      point
                     </div>
                   )}
                   {hasNFT && (
                     <div className='text-c-9 flex items-center gap-px'>
                       <img src={nftIcon} className='w-4 h-4' />
-                      Points
+                      nft
                     </div>
                   )}
                 </div>
@@ -272,10 +272,10 @@ export default function () {
 
       <Modal open={rewardModalIdx >= 0} onCancel={handleCancel}>
         {rewardModalIdx >= 0 && (
-          <div className='text-t-1 -mx-2 relative'>
+          <div className='text-t-1 -mx-2 max-h-[calc(100vh_-_200px)] overflow-y-auto'>
             <img
               src={rewardIcon}
-              className='w-[60px] h-[60px] absolute left-1/2 -translate-x-1/2 top-[-50px]'
+              className='w-[60px] h-[60px] absolute left-1/2 -translate-x-1/2 top-[-30px]'
             />
             <h2 className='text-lg lg:text-4xl mb-1.5 font-medium'>Reward</h2>
             <p className='text-sm text-c-6 mb-8'>
