@@ -71,6 +71,15 @@ const routes = [
               const { default: Component } = await import('@/pages/assets')
               return { Component }
             }
+          },
+          {
+            path: 'nft/:nftId',
+            async lazy () {
+              const { default: Component } = await import(
+                '@/pages/assets/nftDetail'
+              )
+              return { Component }
+            }
           }
         ]
       },

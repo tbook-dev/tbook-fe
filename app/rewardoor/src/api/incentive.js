@@ -430,7 +430,10 @@ export const getCampaignParticipation = async function (campaignId) {
 //   return await request(`${host}/project/stats/${projectId}/points`);
 // };
 export const getAsset = async function (projectId) {
-  return await request(`${host}/asset/asset/${projectId}`);
+  return await request(`${host}/project/${projectId}/assets`);
+};
+export const getNft = async function (nftId) {
+  return await request(`${host}/nft/${nftId}/giveaways`);
 };
 export const createCredential = async function (values) {
   return await request.Post(`${host}/credentials/create`, values);

@@ -1,11 +1,9 @@
-import { conf } from '@tbook/utils'
 import Loading from '@/components/loading'
 import clsx from 'clsx'
-import { Typography } from 'antd'
-import copyIcon from '@/images/icon/copy.svg'
-import useAsset from "@/hooks/queries/useAsset"
-const { shortAddress } = conf
-const { Paragraph } = Typography
+import useAsset from '@/hooks/queries/useAsset'
+import { Link } from 'react-router-dom'
+
+import NftCard from './NftCard'
 
 export default function NFT () {
   const { data: info, isLoading: loading } = useAsset()
@@ -25,42 +23,9 @@ export default function NFT () {
           {list.length > 0 ? (
             list.map(v => {
               return (
-                <div
-                  key={v.nftId}
-                  className='rounded-button overflow-hidden  bg-gray flex flex-col'
-                >
-                  <div className='h-[180px] bg-[#1A1A1A] flex justify-center items-center'>
-                    <img
-                      className='w-[140px] h-[140px] object-cover rounded-full hover:translate-y-2 hover:scale-105 transition-all transition-1000'
-                      src={v.coverUrl}
-                    />
-                  </div>
-
-                  <div className='p-6 flex flex-col justify-between flex-auto'>
-                    <h2 className='font-black text-xl mb-3 line-clamp-2'>
-                      {v.name}
-                      {v.name}
-                    </h2>
-                    <Paragraph
-                      className='flex items-center'
-                      style={{ marginBottom: 0 }}
-                      copyable={{
-                        text: v.contract,
-                        icon: (
-                          <img
-                            src={copyIcon}
-                            alt='copy icon'
-                            className='w-5 h-5 object-cover'
-                          />
-                        )
-                      }}
-                    >
-                      <span className='font-bold text-sm mr-2 text-[#C8C8C8]'>
-                        {shortAddress(v.contract)}
-                      </span>
-                    </Paragraph>
-                  </div>
-                </div>
+                <Link to={`/assets/nft/${v.nftId}`} key={v.nftId}>
+                  <NftCard v={v} />
+                </Link>
               )
             })
           ) : (

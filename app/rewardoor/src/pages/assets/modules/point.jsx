@@ -23,18 +23,20 @@ export default function Point () {
         <h3 className='text-xl font-black text-t-1'>
           {formatDollar(totalNum ?? 0)}
         </h3>
-        <p2 className="text-c-9">GiveAway Points</p2>
+        <p className='text-c-9'>GiveAway Points</p>
       </div>
 
       <div className='w-[520px] px-8 py-4 bg-gray rounded-2.5xl'>
-        <h2 className='font-bold text-base mb-2 text-t-1'>Points Leaderboard</h2>
+        <h2 className='font-bold text-base mb-2 text-t-1'>
+          Points Leaderboard
+        </h2>
         <div className='flex justify-between text-sm text-c-6'>
           <span>Top10 Holder Address</span>
           <span>Points</span>
         </div>
         <div className='space-y-2 text-sm font-medium text-t-1'>
           {info?.userPoints?.length > 0 ? (
-            info?.userPoints?.slice(0,10).map((v, idx) => {
+            info?.userPoints?.slice(0, 10).map((v, idx) => {
               return (
                 <div
                   className={clsx('flex items-center justify-between h-6')}
