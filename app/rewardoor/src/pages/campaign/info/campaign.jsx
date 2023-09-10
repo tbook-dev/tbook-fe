@@ -28,6 +28,7 @@ export default function Campaign () {
       staleTime: Infinity
     }
   )
+  console.log({ pageInfo })
   const credentialSet = credentialList.map(v => v.credentialList).flat()
   const link = `${getUrl()}/app/${id}`
   return (
@@ -93,7 +94,7 @@ export default function Campaign () {
                               <img src={m?.icon} className='w-5 h-5' />
                               {m?.text}
                             </div>
-                            <span>{v.mame}</span>
+                            <span>{v.name}</span>
                           </div>
                         )
                       })}

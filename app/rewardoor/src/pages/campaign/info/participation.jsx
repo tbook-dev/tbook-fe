@@ -41,7 +41,7 @@ export default function Participation () {
       }
     ]
   }, [pageInfo])
-
+  const veriedNftList = pageInfo.veriedNftList ?? []
   return (
     <div className='space-y-5 mb-10'>
       <div className='grid grid-cols-4 gap-x-5'>
@@ -69,7 +69,7 @@ export default function Participation () {
                 <div>{v.name}</div>
               </div>
               <div className='text-c-9'>
-                {formatDollar(v.giveNum)}/{formatDollar(v.num)}
+                {formatDollar(v.claimedCount)}/{formatDollar(v.mintCap)}
               </div>
             </div>
           ))}
@@ -116,102 +116,124 @@ export default function Participation () {
 
       <div className='bg-gray px-5 pt-5 pb-7 rounded-2.5xl'>
         <h2 className='mb-4 text-base font-bold text-t-1'>Participants</h2>
-        <table className='min-w-full'>
-          <thead>
-            <tr>
-              <th
-                scope='col'
-                align='left'
-                className='pb-4 text-sm text-c-9 font-medium'
-              >
-                Wallet Address
-              </th>
-              {pageInfo?.pointList?.length > 0 && (
+        <div className='relative overflow-x-auto'>
+          <table className='min-w-full w-max table-fixed'>
+            <thead>
+              <tr>
                 <th
                   scope='col'
-                  align='center'
+                  align='left'
                   className='pb-4 text-sm text-c-9 font-medium'
                 >
-                  Points
+                  Wallet Address
                 </th>
-              )}
-              {pageInfo?.credentialList?.map((v, idx) => (
-                <th key={idx} align='center' className='pb-4'>
-                  <div className='inline-flex items-center justify-between gap-x-5 px-5 py-2'>
-                    <div className='flex items-center gap-x-1'>
+                {pageInfo?.nftList?.map((v, idx) => (
+                  <th
+                    key={idx}
+                    scope='col'
+                    align='center'
+                    className='pb-4 text-sm text-c-9 font-medium'
+                  >
+                    <div className='inline-flex items-center justify-between gap-x-1 px-5 py-2'>
+                      <img src={v.coverUrl} className='w-5 h-5' />
+                      {v.name}
+                    </div>
+                  </th>
+                ))}
+                {pageInfo?.pointList?.length > 0 && (
+                  <th
+                    scope='col'
+                    align='center'
+                    className='pb-4 text-sm text-c-9 font-medium'
+                  >
+                    Points
+                  </th>
+                )}
+                {pageInfo?.credentialList?.map((v, idx) => (
+                  <th key={idx} align='center' className='pb-4'>
+                    <div className='inline-flex items-center justify-between gap-x-1 px-5 py-2'>
                       <img src={v.picUrl} className='w-5 h-5' />
                       <div
                         className='text-t-1 w-max'
                         dangerouslySetInnerHTML={{ __html: v.display }}
                       />
                     </div>
-                  </div>
-                </th>
-              ))}
-              <th
-                scope='col'
-                align='right'
-                className='pb-4 text-sm text-c-9 font-medium'
-              >
-                Participation Date
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {pageInfo?.participantList?.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={
-                    pageInfo?.pointList?.length +
-                    pageInfo?.credentialList?.length +
-                    2
-                  }
-                  className='text-center py-2 text-c-9'
+                  </th>
+                ))}
+                <th
+                  scope='col'
+                  align='right'
+                  className='pb-4 text-sm text-c-9 font-medium'
                 >
-                  No data
-                </td>
+                  Participation Date
+                </th>
               </tr>
-            ) : (
-              pageInfo?.participantList
-                ?.slice((current - 1) * pageSize, current * pageSize)
-                .map((v, idx) => (
-                  <tr key={idx}>
-                    <td
-                      align='left'
-                      className='pb-4 text-sm text-t-1 font-medium'
-                    >
-                      {shortAddress(v.wallet)}
-                    </td>
-                    {pageInfo?.pointList?.length > 0 && (
+            </thead>
+            <tbody>
+              {pageInfo?.participantList?.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={
+                      pageInfo?.pointList?.length +
+                      pageInfo?.credentialList?.length +
+                      2
+                    }
+                    className='text-center py-2 text-c-9'
+                  >
+                    No data
+                  </td>
+                </tr>
+              ) : (
+                pageInfo?.participantList
+                  ?.slice((current - 1) * pageSize, current * pageSize)
+                  .map((v, idx) => (
+                    <tr key={idx}>
                       <td
-                        key={idx}
-                        scope='col'
-                        align='center'
-                        className='pb-4 text-sm text-c-9 font-medium'
+                        align='left'
+                        className='pb-4 text-sm text-t-1 font-medium'
                       >
-                        +{formatDollar(v.pointNum)}
+                        {shortAddress(v.wallet)}
                       </td>
-                    )}
-                    {pageInfo?.credentialList?.map((iv, idx) => (
-                      <td key={idx} align='center' className='pb-4 text-base'>
-                        {v?.verifiedCredentials?.some(
-                          m => m.credentialId === iv.credentialId
-                        )
-                          ? '✓'
-                          : '×'}
+                      {pageInfo?.nftList?.map((iv, idx) => (
+                        <td key={idx} align='center' className='pb-4 text-base'>
+                          {v.nfts?.some(v => v === iv.nftId) ? '✓' : '×'}
+                        </td>
+                      ))}
+
+                      {pageInfo?.pointList?.length > 0 && (
+                        <td
+                          key={idx}
+                          scope='col'
+                          align='center'
+                          className='pb-4 text-base'
+                        >
+                          {v.points?.length > 0
+                            ? `+${formatDollar(v.pointNum)}`
+                            : '×'}
+                        </td>
+                      )}
+                      {pageInfo?.credentialList?.map((iv, idx) => (
+                        <td key={idx} align='center' className='pb-4 text-base'>
+                          {v?.verifiedCredentials?.some(
+                            m => m.credentialId === iv.credentialId
+                          )
+                            ? '✓'
+                            : '×'}
+                        </td>
+                      ))}
+                      <td
+                        align='right'
+                        className='pb-4 text-sm text-t-1 font-medium'
+                      >
+                        {dayjs(v.participantDate).format(timeFormat)}
                       </td>
-                    ))}
-                    <td
-                      align='right'
-                      className='pb-4 text-sm text-t-1 font-medium'
-                    >
-                      {dayjs(v.participantDate).format(timeFormat)}
-                    </td>
-                  </tr>
-                ))
-            )}
-          </tbody>
-        </table>
+                    </tr>
+                  ))
+              )}
+            </tbody>
+          </table>
+        </div>
+
         <div className='flex justify-end'>
           <Pagination
             hideOnSinglePage

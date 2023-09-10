@@ -54,9 +54,7 @@ export default function () {
         </div>
       </section>
 
-      <section>
-        {items.find(v => v.key === selectStatus)?.children}
-      </section>
+      <section>{items.find(v => v.key === selectStatus)?.children}</section>
     </div>
   )
 }

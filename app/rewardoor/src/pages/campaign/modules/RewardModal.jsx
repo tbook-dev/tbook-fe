@@ -184,7 +184,7 @@ export default function CredentialModal ({
                         <>
                           <Form.Item
                             {...restField}
-                            name={[name, 'mame']}
+                            name={[name, 'name']}
                             label='NFT Name'
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
