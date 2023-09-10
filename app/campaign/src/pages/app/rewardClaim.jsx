@@ -1,80 +1,84 @@
-import pointIcon from "@/images/icon/point.svg";
-import nftIcon from "@/images/icon/nft.svg";
-import { credentialStatus, incentiveMethodList } from "@/utils/conf";
+import pointIcon from '@/images/icon/point.svg'
+import nftIcon from '@/images/icon/nft.svg'
+import { credentialStatus, incentiveMethodList } from '@/utils/conf'
 
-export default function RewardClaim({ group }) {
-
+export default function RewardClaim ({ group }) {
+  const handleClaim = credential => {
+    console.log({ credential })
+  }
   return (
     <div>
-      {group.nftList?.map((nft) => {
-         const itemStatus = credentialStatus.find(
-          (v) => v.value === point.claimedType
-        );
+      {group.nftList?.map(nft => {
+        const itemStatus = credentialStatus.find(
+          v => v.value === point.claimedType
+        )
         const incentiveMethodItem = incentiveMethodList.find(
-          (v) => v.value === point.methodType
-        );
+          v => v.value === point.methodType
+        )
         return (
           <div key={nft.nftId}>
-            <div className="flex items-center gap-x-0.5 mb-2">
-              <img src={nftIcon} className="w-4 h-4" />
-              <span className="text-c-6 text-sm">nft</span>
+            <div className='flex items-center gap-x-0.5 mb-2'>
+              <img src={nftIcon} className='w-4 h-4' />
+              <span className='text-c-6 text-sm'>nft</span>
             </div>
-            <div className="flex flex-col gap-y-1.5 text-c-9 text-sm mb-2.5">
+            <div className='flex flex-col gap-y-1.5 text-c-9 text-sm mb-2.5'>
               <p>{nft.name}</p>
-              <div className="flex items-center gap-x-0.5 lowercase">
-                <img src={incentiveMethodItem.icon} className="w-3 h-4"/>
+              <div className='flex items-center gap-x-0.5 lowercase'>
+                <img src={incentiveMethodItem.icon} className='w-3 h-4' />
                 {incentiveMethodItem.title}
               </div>
             </div>
             <button
-              className="w-full py-2.5 mb-1"
+              className='w-full py-2.5 mb-1'
               style={{
                 color: itemStatus.color,
-                backgroundColor: itemStatus.bgColor,
+                backgroundColor: itemStatus.bgColor
               }}
+              onClick={() => handleClaim(nft)}
               disabled={itemStatus.disabled}
             >
               {itemStatus.label}
             </button>
-            <p className="text-xs text-c-9">{itemStatus.desc}</p>
+            <p className='text-xs text-c-9'>{itemStatus.desc}</p>
           </div>
-        );
+        )
       })}
 
-      {group.pointList?.map((point) => {
+      {group.pointList?.map(point => {
         const itemStatus = credentialStatus.find(
-          (v) => v.value === point.claimedType
-        );
+          v => v.value === point.claimedType
+        )
         const incentiveMethodItem = incentiveMethodList.find(
-          (v) => v.value === point.methodType
-        );
+          v => v.value === point.methodType
+        )
         return (
           <div key={point.pointId}>
-            <div className="flex items-center gap-x-0.5 mb-2">
-              <img src={pointIcon} className="w-4 h-4" />
-              <span className="text-c-6 text-sm">point</span>
+            <div className='flex items-center gap-x-0.5 mb-2'>
+              <img src={pointIcon} className='w-4 h-4' />
+              <span className='text-c-6 text-sm'>point</span>
             </div>
-            <div className="flex flex-col gap-y-1.5 text-c-9 text-sm mb-2.5">
+            <div className='flex flex-col gap-y-1.5 text-c-9 text-sm mb-2.5'>
               <p>{point.number} points</p>
-              <div className="flex items-center gap-x-0.5 lowercase">
-                <img src={incentiveMethodItem.icon} className="w-3 h-4"/>
+              <div className='flex items-center gap-x-0.5 lowercase'>
+                <img src={incentiveMethodItem.icon} className='w-3 h-4' />
                 {incentiveMethodItem.title}
               </div>
             </div>
             <button
-              className="w-full py-2.5 mb-1"
+              className='w-full py-2.5 mb-1'
               style={{
                 color: itemStatus.color,
-                backgroundColor: itemStatus.bgColor,
+                backgroundColor: itemStatus.bgColor
               }}
+              onClick={() => handleClaim(point)}
               disabled={itemStatus.disabled}
             >
               {itemStatus.label}
             </button>
-            <p className="text-xs text-c-9">{itemStatus.desc}</p>
+            <p className='text-xs text-c-9'>{itemStatus.desc}</p>
           </div>
-        );
+        )
       })}
     </div>
-  );
+  )
 }

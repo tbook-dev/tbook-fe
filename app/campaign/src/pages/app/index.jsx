@@ -130,7 +130,7 @@ export default function () {
 
   return (
     <div className='space-y-2.5 px-2.5 lg:px-0 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1'>
-      <section className='rounded-lg overflow-hidden bg-white lg:rounded-2xl lg:space-y-10'>
+      <section className='rounded-lg overflow-hidden bg-white lg:rounded-2xl'>
         <img
           src={page?.campaign?.picUrl}
           className='w-full  h-[120px] lg:h-[294px] object-cover object-center'
@@ -138,15 +138,17 @@ export default function () {
 
         <div className='p-2.5'>
           <div className='mb-2.5'>
-            <h2 className='text-base font-bold text-lt-1 mb-1.5'>
+            <h2 className='text-base  leading-5 font-bold text-lt-1 mb-1.5'>
               {page?.campaign?.name}
             </h2>
-            <h4 className='flex items-center gap-x-1.5 text-sm font-semibold'>
+            <h4 className='flex items-center gap-x-1.5 font-semibold'>
               <img
                 src={project?.avatarUrl}
                 className='w-3.5 h-3.5 object-contain mr-2 rounded-full'
               />
-              <span className='text-c-9'>by {project?.projectName}</span>
+              <span className='text-c-9 text-xs'>
+                by {project?.projectName}
+              </span>
             </h4>
           </div>
 
