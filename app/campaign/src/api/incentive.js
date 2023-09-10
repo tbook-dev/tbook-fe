@@ -11,7 +11,9 @@ export const getProjectInfo = async function (projectId) {
 export const getCampaignDetail = async function (id) {
   return await request(`${host}/campaignNew/${id}`);
 };
-
+export const claimCampaign = async function(campaignId){
+  return await request(`${host}/campaignNew/claim/${campaignId}`)
+}
 export const verifyCredential = async function (credentialId) {
   return await request.Post(
     `${host}/campaignNew/credential/${credentialId}/verify`

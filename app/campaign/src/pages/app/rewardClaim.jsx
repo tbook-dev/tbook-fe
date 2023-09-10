@@ -1,10 +1,25 @@
 import pointIcon from '@/images/icon/point.svg'
 import nftIcon from '@/images/icon/nft.svg'
 import { credentialStatus, incentiveMethodList } from '@/utils/conf'
+import { claimCampaign } from '@/api/incentive' 
+import { useState } from 'react'
+import { useQueryClient } from 'react-query'
+import { useParams } from 'react-router-dom'
 
 export default function RewardClaim ({ group }) {
-  const handleClaim = credential => {
-    console.log({ credential ,group})
+  const [loading, setLoading] = useState(false)
+  const queryClient = useQueryClient()
+  const { campaignId } = useParams()
+  const handleClaim = async () => {
+    if(loading) return
+    setLoading(true)
+    try {
+      await claimCampaign(group.id)
+    } catch (error) {
+      console.log(error)
+    }
+    queryClient.refetchQueries(['campaignDetail', campaignId])
+    setLoading(false)
   }
 
   return (
