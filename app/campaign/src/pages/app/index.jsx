@@ -283,7 +283,7 @@ export default function () {
               in the group!
             </p>
             <div className='text-base'>
-              <RewardClaim group={page?.groups?.[rewardModalIdx]} />
+              <RewardClaim group={page?.groups?.[rewardModalIdx]} cb={handleCancel}/>
             </div>
           </div>
         )}

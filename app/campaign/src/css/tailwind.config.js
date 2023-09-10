@@ -22,6 +22,7 @@ module.exports = {
       boxShadow: {
         s1: " 0px 0px 6px 0px rgba(0, 0, 0, 0.10)",
         s2: "0px 0px 8px 0px rgba(0, 0, 0, 0.08)",
+        s3: "0px 0px 4px 0px rgba(0, 0, 0, 0.08)",
       },
       fontFamily: {
         rhd: ["Red Hat Display", "sans-serif"],
