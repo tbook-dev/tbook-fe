@@ -328,12 +328,12 @@ export default function () {
       )}
 
       <Modal open={rewardModalIdx >= 0} onCancel={handleCancel}>
+        <img
+          src={rewardIcon}
+          className="w-[60px] h-[60px] absolute left-1/2 -translate-x-1/2 top-[-30px]"
+        />
         {rewardModalIdx >= 0 && (
-          <div className="text-t-1 -mx-2 max-h-[calc(100vh_-_200px)] overflow-y-auto">
-            <img
-              src={rewardIcon}
-              className="w-[60px] h-[60px] absolute left-1/2 -translate-x-1/2 top-[-30px]"
-            />
+          <div className="text-t-1 -mx-2 max-h-[calc(100vh_-_280px)] overflow-y-scroll">
             <h2 className="text-lg lg:text-4xl mb-1.5 font-medium">Rewards</h2>
             <p className="text-sm text-c-6 mb-8">
               You may get following rewards once you have accomplished all tasks
