@@ -59,6 +59,8 @@ export default function () {
 
   const { address, isConnected, isDisconnected } = useAccount()
 
+  const [rawDatas, setRawDatas] = useState({})
+
   useEffect(() => {
     if (isConnected) {
       getNonce(address).then(r => {
@@ -118,6 +120,26 @@ export default function () {
     }
   }, [])
 
+
+  useEffect(() => {
+    const gs = page?.groups
+    if (gs && gs.length > 0) {
+      const signs = gs.flatMap(g => g.credentialList).filter(c => c.labelType == 10)
+      signs.forEach(c => {
+        fetch(`${host}/campaignSign/${c.credentialId}`, {
+          method: 'GET',
+          credentials: 'include'
+        }).then(r => r.json()).then(d => {
+          setRawDatas(() => {
+            const nd = {}
+            nd[c.credentialId] = d['data']
+            return {...rawDatas, ...nd}
+          })
+        })
+      })
+    }
+  }, [page])
+
   if (!firstLoad) {
     return (
       <div className='flex h-[50vh] items-center justify-center'>
@@ -127,6 +149,24 @@ export default function () {
   }
   const campaignNotStart = notStartList.includes(page?.campaign?.status)
   const campaignEnd = endList.includes(page?.campaign?.status)
+
+  const signCredential = async (credential) => {
+    const m = rawDatas[credential.credentialId]
+    const sign = await signMessageAsync({ message: m })
+    const d = new URLSearchParams()
+    d.append('sign', sign)
+    fetch(`${host}/campaignSign/${credential.credentialId}/verify`, {
+      method: 'POST',
+      'content-type': 'application/x-www-form-urlencoded',
+      body: d,
+      credentials: 'include'
+    }).then(r => r.json()).then(d => {
+      if (!d['success']) {
+        alert(d['error'])
+      }
+    })
+  }
+
 
   return (
     <div className='space-y-2.5 px-2.5 lg:px-0 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1'>
@@ -187,7 +227,8 @@ export default function () {
                     const sysConnectedMap = {
                       twitter: twitterConnected,
                       discord: discordConnected,
-                      telegram: telegramConnected
+                      telegram: telegramConnected,
+                      tbook: true
                     }
                     const sycLoginFnMap = {
                       twitter: twLoginCurrent,
@@ -211,7 +252,7 @@ export default function () {
                             src={redential.picUrl}
                             className='w-5 h-5 object-contain'
                           />
-                          <div
+                          <div onClick={redential.labelType == 10 ? () => signCredential(redential) : null}
                             className='truncate text-base text-c-6 max-w-[calc(100%_-_30px)]'
                             dangerouslySetInnerHTML={{
                               __html: redential.displayExp

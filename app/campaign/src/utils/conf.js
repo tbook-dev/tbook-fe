@@ -126,6 +126,12 @@ const labelTypeMap = {
       value: 7,
     },
   ],
+  tbook:[
+    {
+      label: '',
+      value: 10
+    }
+  ]
 };
 
 export const getCrenditialType = (labelType) => {
