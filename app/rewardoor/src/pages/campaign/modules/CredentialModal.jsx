@@ -64,7 +64,7 @@ export default function CredentialModal ({
     .map(v => {
       return {
         id: v.id,
-        name: groupTypeMap[v.groupType],
+        name: v.name,
         credentialList: v.credentialList.filter(c => {
           return c?.name
             .toLowerCase()
