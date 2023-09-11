@@ -128,8 +128,8 @@ const labelTypeMap = {
   ],
   tbook:[
     {
-      label: '',
-      value: 10
+      label: 'Visit a Page or Site',
+      value: 8
     }
   ]
 };

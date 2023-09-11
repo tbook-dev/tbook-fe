@@ -15,7 +15,7 @@ export default function WithVerify({ handleFn, className }) {
     }
   };
   return (
-    <button className={className} onClick={handleClick}>
+    <button disabled={verifyLoading} className={className} onClick={handleClick}>
       {verifyLoading ? <Spin size="small"/> : "Verify"}
     </button>
   );

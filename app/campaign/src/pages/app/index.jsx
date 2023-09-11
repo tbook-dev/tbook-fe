@@ -21,7 +21,7 @@ import { useAccount, useWalletClient, useSignMessage } from 'wagmi'
 import useSignIn from '@/hooks/useSignIn'
 import WithVerify from '@/components/withVerify'
 import { getNonce } from '@/utils/web3'
-import { host } from '@/api/incentive'
+import { host, verifyTbook } from '@/api/incentive'
 import { getCrenditialType } from '@/utils/conf'
 import RewardClaim from './rewardClaim'
 
@@ -239,6 +239,9 @@ export default function () {
                       telegram: () => {
                         localStorage.setItem('redirect_url', location.href)
                         location.href = tgCallbackUrl
+                      },
+                      tbook: () => {
+                        verifyTbook(redential.credentialId)
                       }
                     }
 
