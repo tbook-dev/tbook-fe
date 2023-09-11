@@ -120,6 +120,27 @@ export default function () {
     }
   }, [])
 
+
+  useEffect(() => {
+    if (!page) return
+    const gs = page?.campaign?.groups
+    if (gs && gs.length > 0) {
+      const signs = gs.flat().filter(g => g.status === 1).forEach(g => { g.labelType == 10 })
+      if (signs.length > 0) {
+        signs.forEach(c => {
+          fetch(`${host}/campaignSign/${c.credentialId}`, {
+            method: 'GET',
+            credentials: 'include'
+          }).then(r => r.json()).then(d => {
+            setRawDatas(rawDatas => {
+              rawDatas[c.credentialId] = d['data']
+            })
+          })
+        })
+      }
+    }
+  }, [page])
+
   if (!firstLoad) {
     return (
       <div className='flex h-[50vh] items-center justify-center'>
@@ -147,25 +168,6 @@ export default function () {
     })
   }
 
-  useEffect(() => {
-    if (!page) return
-    const gs = page?.campaign?.groups
-    if (gs && gs.length > 0) {
-      const signs = gs.flat().filter(g => g.status === 1).forEach(g => { g.labelType == 10 })
-      if (signs.length > 0) {
-        signs.forEach(c => {
-          fetch(`${host}/campaignSign/${c.credentialId}`, {
-            method: 'GET',
-            credentials: 'include'
-          }).then(r => r.json()).then(d => {
-            setRawDatas(rawDatas => {
-              rawDatas[c.credentialId] = d['data']
-            })
-          })
-        })
-      }
-    }
-  }, [page])
 
   return (
     <div className='space-y-2.5 px-2.5 lg:px-0 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1'>
