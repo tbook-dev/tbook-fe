@@ -28,8 +28,12 @@ import RewardClaim from "./rewardClaim";
 const notStartList = [2, 0];
 const endList = [3, 4, 5];
 const endText = "The campaign has expired.";
-const errorMsg =
-  "Please click the link and finish the task first. If you have fulfilled the requirement, please try again in 30s.";
+const errorMsg = (
+  <>
+    Please click the link and finish the task first.
+    <br /> If you have fulfilled the requirement, please try again in 30s.
+  </>
+);
 
 const tgCallbackHost = import.meta.env.VITE_TG_CALLBACK_HOST;
 const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=6610421175&origin=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback`;
@@ -60,7 +64,7 @@ export default function () {
   const { address, isConnected, isDisconnected } = useAccount();
 
   const [rawDatas, setRawDatas] = useState({});
-  const [signed, setSigned] = useState({})
+  const [signed, setSigned] = useState({});
 
   useEffect(() => {
     if (isConnected) {
@@ -134,7 +138,7 @@ export default function () {
         })
           .then((r) => r.json())
           .then((d) => {
-            if (d['code'] == 0) {
+            if (d["code"] == 0) {
               setRawDatas(() => {
                 const nd = {};
                 nd[c.credentialId] = d["data"];
@@ -142,8 +146,8 @@ export default function () {
               });
             } else {
               setSigned(() => {
-                return {...signed, [c.credentialId]: true}
-              })
+                return { ...signed, [c.credentialId]: true };
+              });
             }
           });
       });
@@ -277,7 +281,7 @@ export default function () {
                           <div
                             onClick={
                               typeof taskMap[redential.labelType] === "function"
-                                ? userLogined 
+                                ? userLogined
                                   ? taskMap[redential.labelType]
                                   : signIn
                                 : null
