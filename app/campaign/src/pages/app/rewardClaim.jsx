@@ -18,7 +18,7 @@ export default function RewardClaim({ group, cb }) {
     } catch (error) {
       console.log(error);
     }
-    queryClient.refetchQueries(["campaignDetail", campaignId]);
+    await queryClient.refetchQueries(["campaignDetail", campaignId]);
     cb && cb();
     setLoading(false);
   };
