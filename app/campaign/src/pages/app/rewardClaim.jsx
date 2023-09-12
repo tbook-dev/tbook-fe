@@ -24,7 +24,7 @@ export default function RewardClaim({ group, cb }) {
   };
 
   return (
-    <div>
+    <div className="space-y-4">
       {group.nftList?.map((nft) => {
         const itemStatus = credentialStatus.find(
           (v) => v.value === nft.claimedType

@@ -346,7 +346,7 @@ export default function () {
           className="w-[60px] h-[60px] absolute left-1/2 -translate-x-1/2 top-[-30px]"
         />
         {rewardModalIdx >= 0 && (
-          <div className="text-t-1 -mx-2 max-h-[365px] lg:max-h-[375px] overflow-y-scroll">
+          <div className="text-t-1 -mx-2 max-h-[380px] lg:max-h-[390px] overflow-y-scroll">
             <h2 className="text-lg lg:text-4xl mb-1.5 font-medium">Rewards</h2>
             <p className="text-sm text-c-6 mb-8">
               You may get following rewards once you have accomplished all tasks
