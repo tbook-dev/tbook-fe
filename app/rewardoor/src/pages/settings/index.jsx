@@ -16,7 +16,7 @@ const pageTitle = 'Settings'
 const { Paragraph } = Typography
 const FormSection = ({ title, children }) => (
   <div className='space-y-2'>
-    <h3 className='text-xl font-medium text-c-9'>{title}</h3>
+    <h3 className='text-base font-medium text-c-9'>{title}</h3>
     {children}
   </div>
 )
@@ -107,7 +107,7 @@ export default function Settings () {
             <Form.Item
               name='projectName'
               label={
-                <h3 className='text-xl font-bold text-c-9'>Project Name</h3>
+                <h3 className='text-base font-medium text-c-9'>Project Name</h3>
               }
             >
               <Input />
@@ -148,7 +148,7 @@ export default function Settings () {
             <Form.Item
               name='projectDescription'
               label={
-                <h3 className='text-xl font-bold text-c-9'>
+                <h3 className='text-base font-medium text-c-9'>
                   Project Introduction
                 </h3>
               }
@@ -158,7 +158,7 @@ export default function Settings () {
 
             <Form.Item
               name='websiteUrl'
-              label={<h3 className='text-xl font-bold text-c-9'>Website</h3>}
+              label={<h3 className='text-base font-medium text-c-9'>Website</h3>}
             >
               <Input placeholder='Enter website URL' />
             </Form.Item>
