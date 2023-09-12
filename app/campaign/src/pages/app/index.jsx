@@ -196,12 +196,12 @@ export default function () {
             <h2 className="text-base  leading-5 font-bold text-lt-1 mb-1.5">
               {page?.campaign?.name}
             </h2>
-            <h4 className="flex items-center gap-x-1.5 font-semibold">
+            <h4 className="flex items-center gap-x-1.5">
               <img
                 src={project?.avatarUrl}
                 className="w-3.5 h-3.5 object-contain mr-2 rounded-full"
               />
-              <span className="text-c-9 text-xs">
+              <span className="text-c-9 text-xs font-normal">
                 by {project?.projectName}
               </span>
             </h4>
