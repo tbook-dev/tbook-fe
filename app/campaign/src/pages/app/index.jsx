@@ -60,6 +60,7 @@ export default function () {
   const { address, isConnected, isDisconnected } = useAccount();
 
   const [rawDatas, setRawDatas] = useState({});
+  const [signed, setSigned] = useState({})
 
   useEffect(() => {
     if (isConnected) {
@@ -133,11 +134,17 @@ export default function () {
         })
           .then((r) => r.json())
           .then((d) => {
-            setRawDatas(() => {
-              const nd = {};
-              nd[c.credentialId] = d["data"];
-              return { ...rawDatas, ...nd };
-            });
+            if (d['code'] == 0) {
+              setRawDatas(() => {
+                const nd = {};
+                nd[c.credentialId] = d["data"];
+                return { ...rawDatas, ...nd };
+              });
+            } else {
+              setSigned(() => {
+                return {...signed, [c.credentialId]: true}
+              })
+            }
           });
       });
     }
@@ -154,6 +161,10 @@ export default function () {
   const campaignEnd = endList.includes(page?.campaign?.status);
 
   const signCredential = async (credential) => {
+    if (signed[credential.credentialId]) {
+      messageApi.warning("Already signed, verify please");
+      return;
+    }
     const m = rawDatas[credential.credentialId];
     const sign = await signMessageAsync({ message: m });
     const d = new URLSearchParams();
@@ -266,7 +277,9 @@ export default function () {
                           <div
                             onClick={
                               typeof taskMap[redential.labelType] === "function"
-                                ? taskMap[redential.labelType]
+                                ? userLogined 
+                                  ? taskMap[redential.labelType]
+                                  : signIn
                                 : null
                             }
                             className="truncate text-base text-c-6 max-w-[calc(100%_-_30px)]"
