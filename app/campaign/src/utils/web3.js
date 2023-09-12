@@ -44,13 +44,34 @@ export async function loginWithSign (address, sign) {
   })
 }
 
-async function signLogin (addr, signer, chain, pubKey) {
-  if (!addr) return
-  const address = addr.toLowerCase()
+export async function getNonce(address) {
   const r = await fetch(`${host}/nonce?address=${address}`, {
     credentials: 'include'
   })
-  const nonce = await r.text()
+  return await r.text()
+}
+
+export function preGetNonce(address) {
+  console.log('preGetNonce, isIOS: ', isIOS)
+  if (isIOS) {
+    getNonce(address).then(nonce => {
+      localStorage.setItem('nonce', nonce)
+    })
+  }
+}
+
+async function signLogin (addr, signer, chain, pubKey) {
+  if (!addr) return
+  const address = addr.toLowerCase()
+  let nonce
+  console.log('begin get nonce, isIOS: ', isIOS)
+  if (isIOS) {
+    nonce = localStorage.getItem('nonce')
+    localStorage.removeItem('nonce')
+  } else {
+    nonce = await getNonce(address)
+  }
+
   const sign = await signer.signMessage({message: nonce})
   const d = new URLSearchParams()
   d.append('address', address)
@@ -97,3 +118,5 @@ export async function loginSui (wallet) {
     wallet.account.publicKey.toString('hex')
   )
 }
+
+export const isIOS = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream

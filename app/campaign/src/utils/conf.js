@@ -1,7 +1,13 @@
 import opIcon from "@/images/icon/crypto/op.svg";
+import pointIcon from "@/images/icon/point.svg";
+import nftIcon from "@/images/icon/nft.svg";
+import fcfsIcon from "@/images/icon/fcfs.svg";
+import ldIcon from "@/images/icon/ld.svg";
+
+
 export const incentiveAssetsTypeList = [
-  { label: "🎁  NFT", value: 1 },
-  { label: "💎 POINTS", value: 2 },
+  { icon: nftIcon, text: "NFT", value: 1 },
+  { icon: pointIcon, text: "POINTS", value: 2 },
 ];
 
 export const rewardDistributionMethod = [
@@ -16,20 +22,22 @@ export const rewardDistributionMethod = [
 ];
 
 export const incentiveMethodList = [
-  {
-    title: "Anyone who get the credentials",
-    desc: "Anyone who gets the credentials can claim the reward.",
-    value: 1,
-  },
+  // {
+  //   title: "Anyone who get the credentials",
+  //   desc: "Anyone who gets the credentials can claim the reward.",
+  //   value: 1,
+  // },
   {
     title: "FCFS",
     desc: "First come, first served. Whoever gets the credentials first can claim the reward first.",
     value: 2,
+    icon: fcfsIcon
   },
   {
     title: "Lucky Draw",
     desc: "A random selection of participants from those who meet the requirements.",
     value: 3,
+    icon: ldIcon
   },
 ];
 
@@ -82,3 +90,114 @@ export const groupTypeMap = {
   4: "ProductTest",
   5: "My",
 };
+
+const labelTypeMap = {
+  twitter: [
+    {
+      label: "Twitter Like",
+      value: 1,
+    },
+    {
+      label: "ReTweet Link",
+      value: 2,
+    },
+    {
+      label: "Twitter Spaces",
+      value: 3,
+    },
+  ],
+  discord: [
+    {
+      label: "Join Discord Service",
+      value: 4,
+    },
+    {
+      label: "Verify Discord role",
+      value: 5,
+    },
+  ],
+  telegram: [
+    {
+      label: "Join Telegram Group",
+      value: 6,
+    },
+    {
+      label: "Join Telegram Channel",
+      value: 7,
+    },
+  ],
+  tbook:[
+    {
+      label: 'Visit a Page or Site',
+      value: 8
+    },
+    {
+      label: 'Sign Message',
+      value: 10
+    }
+  ]
+};
+
+export const getCrenditialType = (labelType) => {
+  // map to groups
+  const arraryType = [];
+  for (let k in labelTypeMap) {
+    const sublist = labelTypeMap[k].map((v) => ({ ...v, group: k }));
+    arraryType.push(...sublist);
+  }
+  return arraryType.find((v) => v.value === labelType)?.group;
+};
+
+export const credentialStatus = [
+  {
+    label: "Ineligible",
+    name: "Ineligible",
+    value: 0,
+    bgColor: "#f7f7f7",
+    color: "#999",
+    desc: "Some tasks remain uncomplished or unverified.",
+    disabled: true,
+  },
+  {
+    label: "Eligible",
+    name: "Eligible",
+    value: 1,
+    bgColor: "#f7f7f7",
+    color: "#999",
+    desc: "You will know if you could claim this reward after the campaign is closed.",
+    disabled: true,
+  },
+  {
+    label: "Claim",
+    name: "Claim不可点击",
+    value: 2,
+    bgColor: "#f7f7f7",
+    color: "#999",
+    desc: "You will know if you could claim this reward after the campaign is closed.",
+    disabled: true,
+  },
+  {
+    label: "Claim",
+    name: "Claim可点击",
+    value: 3,
+    bgColor: "#f0f5ff",
+    color: "#3a82f7",
+    disabled: false,
+  },
+  {
+    label: "Claimed",
+    name: "Claimed",
+    value: 4,
+    bgColor: "#f7f7f7",
+    color: "#999",
+    disabled: true,
+  },
+  {
+    label: "Missed",
+    name: "Missed",
+    value: 5,
+    bgColor: "#f7f7f7",
+    color: "#999",
+    disabled: true,
+  },
+];

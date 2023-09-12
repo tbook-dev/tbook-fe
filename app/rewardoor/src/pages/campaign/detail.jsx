@@ -9,14 +9,17 @@ import { useState } from 'react'
 import { Spin } from 'antd'
 import CampaignInfo from './info/campaign'
 import ParticipationInfo from './info/participation'
+import { useLayoutEffect } from 'react'
 
 const moduleMap = {
   0: <CampaignInfo />,
   1: <ParticipationInfo />
 }
+const hasParticipationList = [1, 3, 4, 5]
+
 export default function () {
   const { id } = useParams()
-  const { data: pageInfo = {}, loading } = useQuery(
+  const { data: pageInfo = {}, isLoading } = useQuery(
     ['campaignDetail', id],
     () => getCampaignDetail(id),
     {
@@ -24,10 +27,8 @@ export default function () {
       refetchOnWindowFocus: true
     }
   )
-  if (loading) {
-    return <Spin />
-  }
-  const [selectStatus, setSelectedStatus] = useState(0)
+
+  const [selectStatus, setSelectedStatus] = useState(1)
 
   const tabList = useMemo(() => {
     const baseInfo = {
@@ -38,11 +39,25 @@ export default function () {
       label: 'Participation',
       value: 1
     }
-    const hasParticipationList = [1, 4, 5]
     return hasParticipationList.includes(pageInfo.campaign?.status)
       ? [participationInfo, baseInfo]
       : [baseInfo]
   }, [pageInfo])
+
+  useLayoutEffect(() => {
+    if (tabList.length === 1) {
+      setSelectedStatus(0)
+    } else {
+      setSelectedStatus(1)
+    }
+  }, [tabList.length])
+
+  if (isLoading) {
+    return <Spin />
+  }
+  const campaignCurrentStatus = campaignStatus.find(
+    v => v.value === pageInfo?.campaign?.status
+  )
 
   return (
     <>
@@ -57,15 +72,18 @@ export default function () {
           }
         ]}
       />
-      <section className='mb-10 pt-0.5 flex items-center'>
+      <section className='mb-10 pt-0.5 flex items-center gap-x-4'>
         <h2 className='font-bold text-5xl mb-0.5 text-t-1'>
           {pageInfo?.campaign?.name}
         </h2>
-        <div className='px-4 py-0.5 rounded-xl'>
-          {
-            campaignStatus.find(v => v.value === pageInfo?.campaign?.status)
-              ?.label
-          }
+        <div
+          className='px-4 py-0.5 rounded-xl border'
+          style={{
+            color: campaignCurrentStatus.color,
+            borderColor: campaignCurrentStatus.color
+          }}
+        >
+          {campaignCurrentStatus?.label}
         </div>
       </section>
 

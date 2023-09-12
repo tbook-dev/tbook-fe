@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 import { getCampaignDetail, getCredentials } from '@/api/incentive'
 import x from '@/images/icon/x.svg'
 import { incentiveAssetsTypeList, getUrl } from '@/utils/conf'
-import useUserInfo from '@/hooks/useUserInfoQuery'
+import useUserInfo from '@/hooks/queries/useUserInfo'
 import { Typography } from 'antd'
 import dayjs from 'dayjs'
 
@@ -28,6 +28,7 @@ export default function Campaign () {
       staleTime: Infinity
     }
   )
+  console.log({ pageInfo })
   const credentialSet = credentialList.map(v => v.credentialList).flat()
   const link = `${getUrl()}/app/${id}`
   return (
@@ -93,7 +94,7 @@ export default function Campaign () {
                               <img src={m?.icon} className='w-5 h-5' />
                               {m?.text}
                             </div>
-                            <span>{v.mame}</span>
+                            <span>{v.name}</span>
                           </div>
                         )
                       })}

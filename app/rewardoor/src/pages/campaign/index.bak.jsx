@@ -17,7 +17,7 @@ import Button from '@/components/button'
 import { useNavigate } from 'react-router-dom'
 import uploadFile from '@/utils/upload'
 import { useAsyncEffect } from 'ahooks'
-import useUserInfo from '@/hooks/useUserInfoQuery'
+import useUserInfo from '@/hooks/queries/useUserInfo'
 import {
   getNFTList,
   getCredentials,

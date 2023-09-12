@@ -21,6 +21,8 @@ module.exports = {
       },
       boxShadow: {
         s1: " 0px 0px 6px 0px rgba(0, 0, 0, 0.10)",
+        s2: "0px 0px 8px 0px rgba(0, 0, 0, 0.08)",
+        s3: "0px 0px 4px 0px rgba(0, 0, 0, 0.08)",
       },
       fontFamily: {
         rhd: ["Red Hat Display", "sans-serif"],
@@ -30,8 +32,9 @@ module.exports = {
         "4.2xl": "42px",
       },
       colors: {
-        t: {
-          1: "#C8C8C8",
+        // light text num
+        lt: {
+          1: "#191919",
           2: "#666",
         },
         c: {
@@ -39,6 +42,9 @@ module.exports = {
           3: "#333",
           6: "#666",
           9: "#999",
+        },
+        blue: {
+          1: "#3A82F7",
         },
         // black
         b: {
@@ -71,6 +77,9 @@ module.exports = {
         button: "20px",
         "2.5xl": "20px",
         "4xl": "40px",
+      },
+      spacing: {
+        bx: "1280px",
       },
       minWidth: {
         36: "9rem",

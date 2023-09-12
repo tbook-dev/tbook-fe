@@ -9,7 +9,7 @@ import { logout } from '@/utils/web3'
 // import { NetWork } from '@tbook/ui'
 import { useNavigate } from 'react-router-dom'
 import { createNFT } from '@/api/incentive'
-import useUserInfo from "@/hooks/useUserInfoQuery"
+import useUserInfo from "@/hooks/queries/useUserInfo"
 import uploadFile from '@/utils/upload'
 import { shortAddress } from '@tbook/utils/lib/conf'
 import { useSelector } from 'react-redux'

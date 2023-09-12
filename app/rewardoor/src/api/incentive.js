@@ -1,5 +1,6 @@
 import request from "./request";
 import { Network, Alchemy } from "alchemy-sdk";
+// import mockData from './a'
 const settings = {
   apiKey: "8s2Swo7n62XYd3ApkcnentYuEi5BI1Yj",
   network: Network.ETH_MAINNET,
@@ -54,8 +55,8 @@ export const getCredential = async function (projectId) {
 };
 
 export const getCredentials = async function (projectId) {
-  // return await request(`${host}/campaignNew/project/${projectId}`);
-  return await request(`${host}/campaignNew/credential/${projectId}`);
+  return await request(`${host}/campaignNew/groups/${projectId}`);
+  // return mockData
 };
 export const getNFTcontracts = async function (projectId) {
   // console.log("get-list----->", projectId);
@@ -70,15 +71,20 @@ export const handleCreateNFTcontract = async function (projectId, values) {
   };
 };
 export const parseLinkParams = function (values) {
-  return request.Post(`${host}/twitter/getInfo`, values);
+  return request.Post(`${host}/social/getInfo`, values);
 };
 export const getCampaignParticipation = async function (campaignId) {
   return await request(`${host}/campaignNew/participation/${campaignId}`);
 };
-export const getPoint = async function (projectId) {
-  return await request(`${host}/project/stats/${projectId}/points`);
+// export const getPoint = async function (projectId) {
+//   return await request(`${host}/project/stats/${projectId}/points`);
+// };
+export const getAsset = async function (projectId) {
+  return await request(`${host}/project/${projectId}/assets`);
 };
-
+export const getNft = async function (nftId) {
+  return await request(`${host}/nft/${nftId}/giveaways`);
+};
 export const createCredential = async function (values) {
   return await request.Post(`${host}/credentials/create`, values);
 };
@@ -121,8 +127,8 @@ export const getProjectUsers = async function (projectId) {
 export const addProjectUser = async function (projectId, values) {
   return request.PostFormV1(`${host}/projects/${projectId}/userAdd`, values);
 };
-export const updateProjectName = async function (projectId, values) {
-  return request.PostFormV1(`${host}/projects/${projectId}/nameUpdate`, values);
+export const updateProject = async function (values) {
+  return request.Post(`${host}/project/update`, values);
 };
 export const updateProjectValuation = async function (projectId, values) {
   return request.PostFormV1(
@@ -242,4 +248,12 @@ export const getTemplateDetail = async function (templateId) {
   return fetch(`${host}/projects/template?templateId=${templateId}`).then(
     (res) => res.json()
   );
+};
+
+export const getTwLoginUrl = async function () {
+  const res = await fetch(`${host}/twitter/auth`, {
+    method: "GET",
+    credentials: "include",
+  });
+  return await res.json();
 };

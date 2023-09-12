@@ -84,12 +84,15 @@ function CredentialReward ({
                       return (
                         <div key={idx} className='flex gap-x-2.5 items-center'>
                           <img
-                            src={m?.icon || x}
+                            src={m?.picUrl || x}
                             className='w-5 h-5 object-contain'
                           />
                           <div
                             dangerouslySetInnerHTML={{
-                              __html: template(m.templateExp)(v.options)
+                              __html: template(m.templateExp)({
+                                ...v,
+                                ...v.options
+                              })
                             }}
                           />
                         </div>
@@ -141,7 +144,7 @@ function CredentialReward ({
                                 )?.label
                               }
                             </span>
-                            <span>{rewardType === 1 ? v.mame : v.number}</span>
+                            <span>{rewardType === 1 ? v.name : v.number}</span>
                           </div>
                         )
                       })}

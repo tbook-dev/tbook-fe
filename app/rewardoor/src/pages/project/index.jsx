@@ -11,6 +11,7 @@ import { useQueryClient } from 'react-query'
 import { useEffect } from 'react'
 import uploadIcon from '@/images/icon/upload.svg'
 import uploadFile from '@/utils/upload'
+import { projectUrlPrefix } from '@/utils/conf'
 
 // const { setAuthUser, setUser, setProjects, getUserInfo } = user
 
@@ -108,7 +109,6 @@ export default function () {
         <Form
           form={form}
           layout='vertical'
-          requiredMark={false}
           // initialValues={{ category: 'DeFi' }}
         >
           <Form.Item
@@ -119,33 +119,31 @@ export default function () {
             <Input placeholder='Enter a Project Name' />
           </Form.Item>
 
-          <Form.Item label='Project Logo'>
-            <Form.Item
-              valuePropName='fileList'
-              getValueFromEvent={normFile}
-              noStyle
-              name='avatarUrl'
-              rules={[
-                {
-                  required: true,
-                  message: 'Project Logo is required'
-                }
-              ]}
+          <Form.Item
+            valuePropName='fileList'
+            getValueFromEvent={normFile}
+            label='Project Logo'
+            name='avatarUrl'
+            rules={[
+              {
+                required: true,
+                message: 'Project Logo is required'
+              }
+            ]}
+          >
+            <Upload.Dragger
+              customRequest={hanleUpload}
+              multiple={false}
+              accept='image/*'
+              maxCount={1}
             >
-              <Upload.Dragger
-                customRequest={hanleUpload}
-                multiple={false}
-                accept='image/*'
-                maxCount={1}
-              >
-                <p className='ant-upload-drag-icon flex justify-center'>
-                  <img src={uploadIcon} />
-                </p>
-                <p className='ant-upload-text'>Upload an image</p>
-                <p className='ant-upload-hint'>296*312 or higher</p>
-                <p className='ant-upload-hint'>recommended Max 20MB.</p>
-              </Upload.Dragger>
-            </Form.Item>
+              <p className='ant-upload-drag-icon flex justify-center'>
+                <img src={uploadIcon} />
+              </p>
+              <p className='ant-upload-text'>Upload an image</p>
+              <p className='ant-upload-hint'>296*312 or higher</p>
+              <p className='ant-upload-hint'>recommended Max 20MB.</p>
+            </Upload.Dragger>
           </Form.Item>
 
           <Form.Item
@@ -155,7 +153,7 @@ export default function () {
           >
             <Input
               placeholder='Enter a Project URL'
-              prefix={location.origin + '/'}
+              prefix={projectUrlPrefix}
             />
           </Form.Item>
           <Form.Item

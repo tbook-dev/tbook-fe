@@ -3,7 +3,7 @@ import { conf } from '@tbook/utils'
 import { incentiveAssetsTypeList } from '@/utils/conf'
 import { getOverview } from '@/api/incentive'
 import { useAsyncEffect } from 'ahooks'
-import useUserInfo from "@/hooks/useUserInfoQuery"
+import useUserInfo from "@/hooks/queries/useUserInfo"
 import Loading from '@/components/loading'
 const { formatDollar } = conf
 

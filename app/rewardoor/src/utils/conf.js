@@ -1,7 +1,9 @@
 import opIcon from "@/images/icon/crypto/op.svg";
 import pointIcon from "@/images/icon/point.svg";
+import nftIcon from "@/images/icon/nft.svg";
+
 export const incentiveAssetsTypeList = [
-  { label: "🎁  NFT", icon: "🎁", text: "NFT", value: 1 },
+  { label: "🎁  NFT", icon: nftIcon, text: "NFT", value: 1 },
   { label: "💎 POINTS", icon: pointIcon, text: "POINTS", value: 2 },
 ];
 
@@ -15,7 +17,7 @@ export const rewardDistributionMethod = [
     value: 2,
   },
 ];
-
+export const projectUrlPrefix = "https://app.tbook.com" + "/";
 export const incentiveMethodList = [
   // {
   //   title: "Anyone who get the credentials",
@@ -88,27 +90,31 @@ export const campaignStatus = [
   {
     label: "Ongoing",
     value: 1,
+    color: "#65C467",
   },
   {
     label: "Scheduled",
     value: 2,
+    color: "#3A82F7",
   },
-  {
-    label: "Draft",
-    value: 0,
-  },
+  // {
+  //   label: "Draft",
+  //   value: 0,
+  //   color: '#999999'
+  // },
   {
     label: "Completed",
     value: 3,
+    color: "#666",
   },
-  {
-    label: "Suspended",
-    value: 4,
-  },
-  {
-    label: "Terminated",
-    value: 5,
-  },
+  // {
+  //   label: "Suspended",
+  //   value: 4,
+  // },
+  // {
+  //   label: "Terminated",
+  //   value: 5,
+  // },
 ];
 
 const urlMap = {

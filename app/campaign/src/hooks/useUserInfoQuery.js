@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 
 export default function useUserInfo() {
   const [firstLoad, setFirstLoad] = useState(false);
-  const { data, isLoading, error, ...props } = useQuery(
+  const { data, isLoading, error, isSuccess, ...props } = useQuery(
     "userInfo",
     getUserInfo,
     {
       staleTime: 1000 * 60 * 10,
+      retry: false,
     }
   );
   useEffect(() => {
@@ -22,6 +23,10 @@ export default function useUserInfo() {
   const project = data?.projects?.[data?.projects?.length - 1];
   const projectId = project?.projectId;
   const twitterConnected = !!data?.userTwitter?.connected;
+  const discordConnected = !!data?.userDc?.connected;
+  const telegramConnected = !!data?.userTg?.connected;
+
+  const userLogined = isSuccess;
   return {
     data,
     isLoading,
@@ -30,7 +35,10 @@ export default function useUserInfo() {
     projectId,
     projects,
     twitterConnected,
+    discordConnected,
+    telegramConnected,
     firstLoad,
+    userLogined,
     ...props,
   };
 }

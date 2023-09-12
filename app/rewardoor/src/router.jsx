@@ -68,8 +68,15 @@ const routes = [
           {
             index: true,
             async lazy () {
+              const { default: Component } = await import('@/pages/assets')
+              return { Component }
+            }
+          },
+          {
+            path: 'nft/:nftId',
+            async lazy () {
               const { default: Component } = await import(
-                '@/pages/dashboard/assets'
+                '@/pages/assets/nftDetail'
               )
               return { Component }
             }
@@ -90,7 +97,19 @@ const routes = [
           return { Component }
         }
       },
-
+      {
+        path: 'settings',
+        element: <LeftNavLayout />,
+        children: [
+          {
+            index: true,
+            async lazy () {
+              const { default: Component } = await import('@/pages/settings')
+              return { Component }
+            }
+          }
+        ]
+      },
       /*------------------------------------------------------------------------------------------*/
 
       {
@@ -120,6 +139,20 @@ const routes = [
         path: '/nft',
         async lazy () {
           const { default: Component } = await import('@/pages/nft/deploy')
+          return { Component }
+        }
+      },
+      {
+        path: '/dc_callback',
+        async lazy () {
+          const { default: Component } = await import('@/pages/social/dc')
+          return { Component }
+        }
+      },
+      {
+        path: '/tg_callback',
+        async lazy () {
+          const { default: Component } = await import('@/pages/social/tg')
           return { Component }
         }
       }

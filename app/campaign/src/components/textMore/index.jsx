@@ -17,28 +17,22 @@ export default function TextMore({ text }) {
   }, [text]);
 
   return (
-    <>
-      <div className="space-y-2 lg:space-y-0">
-        <div
-          className={clsx("text-c-9", !showMore && "truncate")}
-          ref={textRef}
-        >
-          {text}
-        </div>
+    <div className="flex gap-x-5">
+      <div className={clsx("text-c-9", !showMore && "truncate")} ref={textRef}>
+        {text}
       </div>
-
       {hasMore && (
         <img
           src={downIcon}
           className={clsx(
-            "w-4 h-4 mx-auto mt-2 lg:hidden",
-            showMore && "rotate-180"
+            "w-4 h-4 mx-auto cursor-pointer",
+            showMore && "rotate-90"
           )}
           onClick={() => {
             setShowMore((v) => !v);
           }}
         />
       )}
-    </>
+    </div>
   );
 }

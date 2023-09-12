@@ -1,8 +1,8 @@
-import { useResponsive } from "ahooks";
-import { Modal, Drawer } from "antd";
+import { useResponsive } from 'ahooks'
+import { Modal, Drawer } from 'antd'
 
-export default function AutoModal({ open, onCancel, onOk, children }) {
-  const { pc } = useResponsive();
+export default function AutoModal ({ open, onCancel, onOk, children }) {
+  const { pc } = useResponsive()
 
   if (pc) {
     return (
@@ -13,33 +13,30 @@ export default function AutoModal({ open, onCancel, onOk, children }) {
         open={open}
         onCancel={onCancel}
         maskStyle={{
-          backdropFilter: "blur(6px)",
-          backgroundColor: "rgba(0,0,0,0.6)",
+          backdropFilter: 'blur(6px)',
+          backgroundColor: 'rgba(0,0,0,0.8)'
         }}
       >
         {children}
       </Modal>
-    );
+    )
   } else {
     return (
-      <Drawer
+      <Modal
+        footer={null}
         title={null}
-        onClose={onCancel}
+        centered
         open={open}
-        closable={false}
-        placement="bottom"
-        // height='max-content'
-        contentWrapperStyle={{
-          overflow: "hidden",
-          borderRadius: "20px 20px 0px 0px",
-        }}
+        onCancel={onCancel}
+        width='calc(100% - 40px)'
+        closeIcon={false}
         maskStyle={{
-          backdropFilter: "blur(6px)",
-          backgroundColor: "rgba(0,0,0,0.6)",
+          backdropFilter: 'blur(6px)',
+          backgroundColor: 'rgba(0,0,0,0.8)'
         }}
       >
         {children}
-      </Drawer>
-    );
+      </Modal>
+    )
   }
 }

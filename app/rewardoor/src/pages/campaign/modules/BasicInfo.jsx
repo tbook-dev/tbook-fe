@@ -19,7 +19,6 @@ export default function BasicInfo ({ form: setUpForm }) {
       className='w-[520px]'
       form={setUpForm}
       layout='vertical'
-      requiredMark={false}
     >
       <Form.Item
         label='Title'
@@ -29,33 +28,31 @@ export default function BasicInfo ({ form: setUpForm }) {
         <Input placeholder='Enter a campaign title' />
       </Form.Item>
 
-      <Form.Item label='Poster'>
-        <Form.Item
-          valuePropName='fileList'
-          getValueFromEvent={normFile}
-          noStyle
-          name='picUrl'
-          rules={[
-            {
-              required: true,
-              message: 'Poster is required'
-            }
-          ]}
+      <Form.Item
+        valuePropName='fileList'
+        getValueFromEvent={normFile}
+        label='Poster'
+        name='picUrl'
+        rules={[
+          {
+            required: true,
+            message: 'Poster is required'
+          }
+        ]}
+      >
+        <Upload.Dragger
+          customRequest={hanleUpload}
+          multiple={false}
+          accept='image/*'
+          maxCount={1}
         >
-          <Upload.Dragger
-            customRequest={hanleUpload}
-            multiple={false}
-            accept='image/*'
-            maxCount={1}
-          >
-            <p className='ant-upload-drag-icon flex justify-center'>
-              <img src={uploadIcon} />
-            </p>
-            <p className='ant-upload-text'>Upload an image</p>
-            <p className='ant-upload-hint'>296*312 or higher</p>
-            <p className='ant-upload-hint'>recommended Max 20MB.</p>
-          </Upload.Dragger>
-        </Form.Item>
+          <p className='ant-upload-drag-icon flex justify-center'>
+            <img src={uploadIcon} />
+          </p>
+          <p className='ant-upload-text'>Upload an image</p>
+          <p className='ant-upload-hint'>296*312 or higher</p>
+          <p className='ant-upload-hint'>recommended Max 20MB.</p>
+        </Upload.Dragger>
       </Form.Item>
       <Form.Item
         label='Description'
