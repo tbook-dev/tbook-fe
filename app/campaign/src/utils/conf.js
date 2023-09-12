@@ -130,6 +130,10 @@ const labelTypeMap = {
     {
       label: 'Visit a Page or Site',
       value: 8
+    },
+    {
+      label: 'Sign Message',
+      value: 10
     }
   ]
 };
