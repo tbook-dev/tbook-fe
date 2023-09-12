@@ -213,7 +213,7 @@ export default function () {
         </div>
       </section>
 
-      {!campaignEnd ? (
+      {campaignEnd ? (
         <div className="flex justify-center items-center">
           <div className="pt-14">
             <img src={endCampaign} className="w-[150px] mx-auto mb-2" />
