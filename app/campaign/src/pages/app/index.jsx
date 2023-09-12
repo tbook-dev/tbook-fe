@@ -112,7 +112,7 @@ export default function () {
     try {
       const res = await verifyCredential(redential.credentialId);
       if (res.isVerified) {
-        queryClient.refetchQueries(["campaignDetail", campaignId]);
+        await queryClient.refetchQueries(["campaignDetail", campaignId]);
       } else {
         messageApi.error(errorMsg);
       }
