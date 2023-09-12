@@ -52,7 +52,7 @@ export default function RewardClaim({ group, cb }) {
               </div>
             </div>
             <button
-              className="w-full py-2.5 mb-1"
+              className="w-full py-2.5 mb-1 rounded"
               style={{
                 color: itemStatus.color,
                 backgroundColor: itemStatus.bgColor,
