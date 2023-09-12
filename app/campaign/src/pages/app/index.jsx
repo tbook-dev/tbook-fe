@@ -27,7 +27,7 @@ import RewardClaim from "./rewardClaim";
 
 const notStartList = [2, 0];
 const endList = [3, 4, 5];
-const endText = "This campaign has ended.";
+const endText = "The campaign has expired.";
 const errorMsg =
   "Please click the link and finish the task first. If you have fulfilled the requirement, please try again in 30s.";
 
@@ -213,11 +213,11 @@ export default function () {
         </div>
       </section>
 
-      {campaignEnd ? (
+      {!campaignEnd ? (
         <div className="flex justify-center items-center">
-          <div>
-            <img src={endCampaign} className="w-[150px] mx-auto" />
-            <p className="text-c-9 text-2xl">{endText}</p>
+          <div className="pt-14">
+            <img src={endCampaign} className="w-[150px] mx-auto mb-2" />
+            <p className="text-c-9 text-base">{endText}</p>
           </div>
         </div>
       ) : (
