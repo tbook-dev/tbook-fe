@@ -119,7 +119,7 @@ export const campaignStatus = [
 
 const urlMap = {
   staging: "https://campaign-staging.tbook.com",
-  online: "https://campaign.tbook.com",
+  online: "https://i.tbook.com",
 };
 
 export const getUrl = () => {
