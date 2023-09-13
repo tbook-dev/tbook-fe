@@ -17,7 +17,12 @@ export default function TextMore({ text }) {
   }, [text]);
 
   return (
-    <div className="flex gap-x-5">
+    <div
+      className="flex gap-x-5 cursor-pointer"
+      onClick={() => {
+        setShowMore((v) => !v);
+      }}
+    >
       <div className={clsx("text-c-9", !showMore && "truncate")} ref={textRef}>
         {text}
       </div>
@@ -28,9 +33,6 @@ export default function TextMore({ text }) {
             "w-4 h-4 mx-auto cursor-pointer",
             showMore && "rotate-90"
           )}
-          onClick={() => {
-            setShowMore((v) => !v);
-          }}
         />
       )}
     </div>
