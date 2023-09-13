@@ -347,7 +347,7 @@ export default function () {
       <Modal open={rewardModalIdx >= 0} onCancel={handleCancel}>
         <img
           src={rewardIcon}
-          className="w-[60px] h-[60px] absolute left-1/2 -translate-x-1/2 top-[-30px]"
+          className="w-[60px] h-[60px] absolute left-1/2 -translate-x-1/2 top-[-30px] z-10"
         />
         {rewardModalIdx >= 0 && (
           <div className="text-t-1 -mx-2 max-h-[380px] lg:max-h-[390px] overflow-y-scroll">
