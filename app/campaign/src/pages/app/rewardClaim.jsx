@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 
-export default function RewardClaim({ group, cb }) {
+export default function RewardClaim({ group }) {
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const { campaignId } = useParams();
@@ -19,7 +19,6 @@ export default function RewardClaim({ group, cb }) {
       console.log(error);
     }
     await queryClient.refetchQueries(["campaignDetail", campaignId]);
-    cb && cb();
     setLoading(false);
   };
 
