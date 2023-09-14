@@ -73,7 +73,7 @@ export default function RewardClaim({ group, cb }) {
         );
         const incentiveMethodItem = incentiveMethodList.find(
           (v) => v.value === point.methodType
-        );
+        ) || incentiveMethodList[0];
         return (
           <div key={point.pointId}>
             <div className="flex items-center gap-x-0.5 mb-2">
@@ -83,8 +83,8 @@ export default function RewardClaim({ group, cb }) {
             <div className="flex flex-col gap-y-1.5 text-c-9 text-sm mb-2.5">
               <p>{point.number} points</p>
               <div className="flex items-center gap-x-0.5 lowercase">
-                <img src={incentiveMethodItem.icon} className="w-3 h-4" />
-                {incentiveMethodItem.title}
+                <img src={incentiveMethodItem?.icon} className="w-3 h-4" />
+                {incentiveMethodItem?.title}
               </div>
             </div>
             <button
