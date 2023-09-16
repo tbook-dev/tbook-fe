@@ -129,10 +129,12 @@ export const rewardMap = {
   done: {
     text: 'done',
     color: '#65C467',
+    text: 'The winners list has been generated! Tell your participants to claim the reward!'
   },
   ongoing: {
     text: 'In progress',
-    color: '#3A82F7'
+    color: '#3A82F7',
+    text: 'The campaign is fully swing. Please wait for the winners list to be generated.'
   }
 }
 export const credentialStatus = [
