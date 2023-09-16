@@ -23,15 +23,15 @@ export const projectUrlPrefix = "https://app.tbook.com" + "/";
 export const incentiveMethodList = [
   {
     title: "FCFS",
-    desc: "First come, first served. Whoever gets the credentials first can claim the reward first.",
+    desc: `FCFS is one of the reward distribution methods which stands for "First come, first served". It means that whoever gets the credentials first can claim the reward first.`,
     value: 2,
-    icon: fcfsIcon
+    icon: fcfsIcon,
   },
   {
     title: "Lucky Draw",
-    desc: "A random selection of participants from those who meet the requirements.",
+    desc: `Lucky draw is one of the reward distribution methods which means that a random selection of participants from those who meet the requirements.`,
     value: 3,
-    icon: ldIcon
+    icon: ldIcon,
   },
 ];
 
@@ -127,16 +127,16 @@ export const getUrl = () => {
 };
 export const rewardMap = {
   done: {
-    text: 'done',
-    color: '#65C467',
-    text: 'The winners list has been generated! Tell your participants to claim the reward!'
+    btn: "done",
+    color: "#65C467",
+    text: "The winners list has been generated. Please update the whitelist so that the winners could claim  their nfts.",
   },
   ongoing: {
-    text: 'In progress',
-    color: '#3A82F7',
-    text: 'The campaign is fully swing. Please wait for the winners list to be generated.'
-  }
-}
+    btn: "In progress",
+    color: "#3A82F7",
+    text: "The campaign is fully swing. Please wait for the winners list to be generated.",
+  },
+};
 export const credentialStatus = [
   {
     label: "Ineligible",

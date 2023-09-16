@@ -1,110 +1,172 @@
-import { getCampaignDetail } from "@/api/incentive";
-import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
-import { credentialStatus, incentiveMethodList } from "@/utils/conf";
-import pointIcon from "@/images/icon/point.svg";
-import nftIcon from "@/images/icon/nft.svg";
+import { getCampaignDetail } from '@/api/incentive'
+import { useQuery } from 'react-query'
+import { useParams } from 'react-router-dom'
+import { credentialStatus, incentiveMethodList, rewardMap } from '@/utils/conf'
+import pointIcon from '@/images/icon/point.svg'
+import nftIcon from '@/images/icon/nft.svg'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { Tooltip } from 'antd'
+import { conf as tbookConf } from '@tbook/utils'
+import clsx from 'clsx'
 
-export default function Reward() {
-  const { id } = useParams();
+const { formatDollar } = tbookConf
+export default function Reward () {
+  const { id } = useParams()
   const { data: pageInfo = {} } = useQuery(
-    ["campaignDetail", id],
+    ['campaignDetail', id],
     () => getCampaignDetail(id),
     {
-      staleTime: Infinity,
+      staleTime: Infinity
     }
-  );
+  )
 
-  console.log({ pageInfo });
+  console.log({ pageInfo })
   return (
-    <div className="w-[520px]">
-      {pageInfo.groups?.map((group) => {
+    <div className='w-[520px]'>
+      {pageInfo.groups?.map(group => {
         return (
-          <div className="space-y-4" key={group.id}>
-            {group.nftList?.map((nft) => {
-              const itemStatus = credentialStatus.find(
-                (v) => v.value === nft.claimedType
-              );
+          <div className='space-y-4' key={group.id}>
+            {group.nftList?.map((nft, idx) => {
+              const isDone = idx % 2 === 0
+              const itemStatus = isDone ? rewardMap.done : rewardMap.ongoing
               const incentiveMethodItem =
-                incentiveMethodList.find((v) => v.value === nft.methodType) ||
-                incentiveMethodList[0];
-
+                incentiveMethodList.find(v => v.value === nft.methodType) ||
+                incentiveMethodList[0]
+              const whiteList = [
+                {
+                  address: '0xe15135ed7fc000788fdbcef9b3efc1d7e194f763'
+                }
+              ]
+              const hasToUpdateWhiteList = whiteList.length > 0
+              const winners = [
+                {
+                  address: '0xe15135ed7fc000788fdbcef9b3efc1d7e194f763'
+                },
+                {
+                  address: '0xe15135ed7fc000788fdbcef9b3efc1d7e194f763'
+                }
+              ]
+              const claimNum = 10000
               return (
-                <div key={nft.nftId} className="bg-[#161616] rounded-xl">
-                  <div className="flex items-center gap-x-1 mb-2 px-5 py-4 border-b border-[rgb(30,30,30)]">
-                    <img src={nftIcon} className="w-6 h-6" />
-                    <span className="text-white text-lg font-medium">nft</span>
+                <div key={nft.nftId} className='bg-[#161616] rounded-xl'>
+                  <div className='flex items-center gap-x-1 mb-2 px-5 py-4 border-b border-[#1f1f1f]'>
+                    <img src={nftIcon} className='w-6 h-6' />
+                    <span className='text-white text-lg font-medium'>nft</span>
                   </div>
-                  <div className="px-5 py-4">
-                    <div className="space-y-3 mb-6">
+                  <div className='px-5 py-6'>
+                    <div className='space-y-6 pb-6 border-b border-[#1f1f1f]'>
                       <h2>{nft.name}</h2>
-                      <div className="w-16 h-16 bg-[#272727] p-2 rounded-lg border border-[rgb(50,50,50)] shadow-[0px_0px_12px_0px_rgba(0,0,0,0.08)]">
-                        <img src={nft.coverUrl} className="w-full h-full object-contain object-center" />
+                      <div className='w-16 h-16 bg-[#272727] p-2 rounded-lg border border-[rgb(50,50,50)] shadow-[0px_0px_12px_0px_rgba(0,0,0,0.08)]'>
+                        <img
+                          src={nft.coverUrl}
+                          className='w-full h-full object-contain object-center'
+                        />
                       </div>
-                      <div className="flex items-center gap-x-0.5 lowercase text-base">
+                      <div className='flex items-center gap-x-1 lowercase text-base'>
                         <img
                           src={incentiveMethodItem?.icon}
-                          className="w-6 h-6 object-contain object-center"
+                          className='w-6 h-6 object-contain object-center'
                         />
                         {incentiveMethodItem?.title}
+                        <Tooltip title={incentiveMethodItem.desc}>
+                          <span className='text-c-6 hover:text-white ml-1 cursor-pointer'>
+                            <InfoCircleOutlined />
+                          </span>
+                        </Tooltip>
                       </div>
                       <button
-                        className="py-1 px-2 text-xs rounded-xl bg-[rgb(28,33,27)]"
+                        className='py-1 px-2 text-xs rounded-xl bg-[rgb(28,33,27)] block'
                         style={{
-                          color: 'green',
+                          color: itemStatus.color
                         }}
-                        disabled={itemStatus.disabled}
                       >
-                        done
+                        {itemStatus.btn}
                       </button>
+
+                      {hasToUpdateWhiteList && (
+                        <div>
+                          <button className='text-white text-sm font-medium py-1.5 px-3 bg-[#3A82F7] hover:opacity-80 block rounded-md mb-3'>
+                            Update the whitelist
+                          </button>
+                          <p className='text-xs text-t-3'>{itemStatus.text}</p>
+                        </div>
+                      )}
                     </div>
 
-                    <p className="text-xs text-c-9">{itemStatus.desc}</p>
+                    <div className='space-y-3'>
+                      <div className='text-t-1 text-sm font-medium'>
+                        {formatDollar(winners.length)} winners
+                      </div>
+                      <div className='flex -space-x-3'>
+                        {new Array(30)
+                          .fill(0)
+                          .slice(0, 6)
+                          .map((_, idx) => {
+                            return (
+                              <div
+                                className='w-6 h-6 rounded-full border-0.5 border-[#161616]'
+                                style={{
+                                  backgroundColor:
+                                    idx % 2 === 0 ? 'red' : 'green'
+                                }}
+                              />
+                            )
+                          })}
+                      </div>
+                      <div
+                        className={clsx(
+                          whiteList.length === 0 ? 'text-white' : 'text-c-3',
+                          'text-sm'
+                        )}
+                      >
+                        {formatDollar(claimNum)} nft claimed by participants
+                      </div>
+                    </div>
                   </div>
                 </div>
-              );
+              )
             })}
 
-            {group.pointList?.map((point) => {
+            {group.pointList?.map(point => {
               const itemStatus = credentialStatus.find(
-                (v) => v.value === point.claimedType
-              );
+                v => v.value === point.claimedType
+              )
               const incentiveMethodItem =
-                incentiveMethodList.find((v) => v.value === point.methodType) ||
-                incentiveMethodList[0];
+                incentiveMethodList.find(v => v.value === point.methodType) ||
+                incentiveMethodList[0]
               return (
                 <div key={point.pointId}>
-                  <div className="flex items-center gap-x-0.5 mb-2">
-                    <img src={pointIcon} className="w-4 h-4" />
-                    <span className="text-c-6 text-sm">point</span>
+                  <div className='flex items-center gap-x-0.5 mb-2'>
+                    <img src={pointIcon} className='w-4 h-4' />
+                    <span className='text-c-6 text-sm'>point</span>
                   </div>
-                  <div className="flex flex-col gap-y-1.5 text-c-9 text-sm mb-2.5">
+                  <div className='flex flex-col gap-y-1.5 text-c-9 text-sm mb-2.5'>
                     <p>{point.number} points</p>
-                    <div className="flex items-center gap-x-0.5 lowercase">
+                    <div className='flex items-center gap-x-0.5 lowercase'>
                       <img
                         src={incentiveMethodItem?.icon}
-                        className="w-3 h-4"
+                        className='w-3 h-4'
                       />
                       {incentiveMethodItem?.title}
                     </div>
                   </div>
                   <button
-                    className="w-full py-2.5 mb-1"
+                    className='w-full py-2.5 mb-1'
                     style={{
                       color: itemStatus.color,
-                      backgroundColor: itemStatus.bgColor,
+                      backgroundColor: itemStatus.bgColor
                     }}
                     disabled={itemStatus.disabled}
                   >
                     {itemStatus.label}
                   </button>
-                  <p className="text-xs text-c-9">{itemStatus.desc}</p>
+                  <p className='text-xs text-c-9'>{itemStatus.desc}</p>
                 </div>
-              );
+              )
             })}
           </div>
-        );
+        )
       })}
     </div>
-  );
+  )
 }
