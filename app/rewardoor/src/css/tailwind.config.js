@@ -62,6 +62,7 @@ module.exports = {
         bg: {
           b: "#000",
           l: "#FBFDFF",
+          "b-1": "#161616"
         },
       },
       borderWidth: {
