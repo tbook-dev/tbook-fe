@@ -121,3 +121,5 @@ export const getUrl = () => {
   const isStaging = location.host.includes("staging");
   return isStaging ? urlMap.staging : urlMap.online;
 };
+
+export const factoryContract = import.meta.env.VITE_FACTORY_CONTRACT;
