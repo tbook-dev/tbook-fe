@@ -1,17 +1,21 @@
 import { getCampaignDetail } from '@/api/incentive'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { credentialStatus, incentiveMethodList, rewardMap } from '@/utils/conf'
+import { incentiveMethodList, rewardMap } from '@/utils/conf'
 import pointIcon from '@/images/icon/point.svg'
 import nftIcon from '@/images/icon/nft.svg'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Tooltip } from 'antd'
 import { conf as tbookConf } from '@tbook/utils'
 import clsx from 'clsx'
+import { useState, useCallback } from 'react'
+import WhiteListModal from './whiteListModal'
 
 const { formatDollar } = tbookConf
 export default function Reward () {
   const { id } = useParams()
+  const [whiteListData, setWhiteListData] = useState(null)
+  const [open, setOpen] = useState(false)
   const { data: pageInfo = {} } = useQuery(
     ['campaignDetail', id],
     () => getCampaignDetail(id),
@@ -19,10 +23,17 @@ export default function Reward () {
       staleTime: Infinity
     }
   )
+  const closeModal = useCallback(() => {
+    setOpen(false)
+    setWhiteListData(null)
+  }, [])
+  const setModalData = useCallback(data => {
+    setWhiteListData(data)
+    setOpen(true)
+  }, [])
 
-  console.log({ pageInfo })
   return (
-    <div className='w-[520px]'>
+    <div className='w-[520px] mb-20'>
       {pageInfo.groups?.map(group => {
         return (
           <div className='space-y-4' key={group.id}>
@@ -43,7 +54,7 @@ export default function Reward () {
                   address: '0xe15135ed7fc000788fdbcef9b3efc1d7e194f763'
                 },
                 {
-                  address: '0xe15135ed7fc000788fdbcef9b3efc1d7e194f763'
+                  address: '0xe15135ed7fc000788fdbcef9b3efc1d7e194f764'
                 }
               ]
               const claimNum = 10000
@@ -85,7 +96,12 @@ export default function Reward () {
 
                       {hasToUpdateWhiteList && (
                         <div>
-                          <button className='text-white text-sm font-medium py-1.5 px-3 bg-[#3A82F7] hover:opacity-80 block rounded-md mb-3'>
+                          <button
+                            className='text-white text-sm font-medium py-1.5 px-3 bg-[#3A82F7] hover:opacity-80 block rounded-md mb-3'
+                            onClick={() => {
+                              setModalData(winners)
+                            }}
+                          >
                             Update the whitelist
                           </button>
                           <p className='text-xs text-t-3'>{itemStatus.text}</p>
@@ -104,6 +120,7 @@ export default function Reward () {
                           .map((_, idx) => {
                             return (
                               <div
+                                key={idx}
                                 className='w-6 h-6 rounded-full border-0.5 border-[#161616]'
                                 style={{
                                   backgroundColor:
@@ -127,46 +144,100 @@ export default function Reward () {
               )
             })}
 
-            {group.pointList?.map(point => {
-              const itemStatus = credentialStatus.find(
-                v => v.value === point.claimedType
-              )
+            {group.pointList?.map((point, idx) => {
+              const isDone = idx % 2 === 0
+              const itemStatus = isDone ? rewardMap.done : rewardMap.ongoing
               const incentiveMethodItem =
                 incentiveMethodList.find(v => v.value === point.methodType) ||
                 incentiveMethodList[0]
+              const whiteList = [
+                {
+                  address: '0xe15135ed7fc000788fdbcef9b3efc1d7e194f763'
+                }
+              ]
+              const winners = [
+                {
+                  address: '0xe15135ed7fc000788fdbcef9b3efc1d7e194f763'
+                },
+                {
+                  address: '0xe15135ed7fc000788fdbcef9b3efc1d7e194f763'
+                }
+              ]
+              const claimNum = 10000
               return (
-                <div key={point.pointId}>
-                  <div className='flex items-center gap-x-0.5 mb-2'>
-                    <img src={pointIcon} className='w-4 h-4' />
-                    <span className='text-c-6 text-sm'>point</span>
+                <div key={point.pointId} className='bg-[#161616] rounded-xl'>
+                  <div className='flex items-center gap-x-1 mb-2 px-5 py-4 border-b border-[#1f1f1f]'>
+                    <img src={pointIcon} className='w-6 h-6' />
+                    <span className='text-white text-lg font-medium'>
+                      points
+                    </span>
                   </div>
-                  <div className='flex flex-col gap-y-1.5 text-c-9 text-sm mb-2.5'>
-                    <p>{point.number} points</p>
-                    <div className='flex items-center gap-x-0.5 lowercase'>
-                      <img
-                        src={incentiveMethodItem?.icon}
-                        className='w-3 h-4'
-                      />
-                      {incentiveMethodItem?.title}
+                  <div className='px-5 py-6'>
+                    <div className='space-y-6 pb-6 border-b border-[#1f1f1f]'>
+                      <div className='flex items-center gap-x-1 lowercase text-base'>
+                        <img
+                          src={incentiveMethodItem?.icon}
+                          className='w-6 h-6 object-contain object-center'
+                        />
+                        {incentiveMethodItem?.title}
+                        <Tooltip title={incentiveMethodItem.desc}>
+                          <span className='text-c-6 hover:text-white ml-1 cursor-pointer'>
+                            <InfoCircleOutlined />
+                          </span>
+                        </Tooltip>
+                      </div>
+                      <button
+                        className='py-1 px-2 text-xs rounded-xl bg-[rgb(28,33,27)] block'
+                        style={{
+                          color: itemStatus.color
+                        }}
+                      >
+                        {itemStatus.btn}
+                      </button>
+                    </div>
+
+                    <div className='space-y-3'>
+                      <div className='text-t-1 text-sm font-medium'>
+                        {formatDollar(winners.length)} winners
+                      </div>
+                      <div className='flex -space-x-3'>
+                        {new Array(30)
+                          .fill(0)
+                          .slice(0, 6)
+                          .map((_, idx) => {
+                            return (
+                              <div
+                                key={idx}
+                                className='w-6 h-6 rounded-full border-0.5 border-[#161616]'
+                                style={{
+                                  backgroundColor:
+                                    idx % 2 === 0 ? 'red' : 'green'
+                                }}
+                              />
+                            )
+                          })}
+                      </div>
+                      <div
+                        className={clsx(
+                          whiteList.length === 0 ? 'text-white' : 'text-c-3',
+                          'text-sm'
+                        )}
+                      >
+                        {formatDollar(claimNum)} nft claimed by participants
+                      </div>
                     </div>
                   </div>
-                  <button
-                    className='w-full py-2.5 mb-1'
-                    style={{
-                      color: itemStatus.color,
-                      backgroundColor: itemStatus.bgColor
-                    }}
-                    disabled={itemStatus.disabled}
-                  >
-                    {itemStatus.label}
-                  </button>
-                  <p className='text-xs text-c-9'>{itemStatus.desc}</p>
                 </div>
               )
             })}
           </div>
         )
       })}
+      <WhiteListModal
+        data={whiteListData}
+        open={open}
+        closeModal={closeModal}
+      />
     </div>
   )
 }
