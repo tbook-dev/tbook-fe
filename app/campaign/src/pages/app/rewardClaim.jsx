@@ -46,7 +46,7 @@ export default function RewardClaim({ group }) {
                   {incentiveMethodItem?.title}
                 </div>
               </div>
-              <div className="w-[60px] h-[60px] p-1.5 rounded bg-white shadow-s3">
+              <div className="w-12 h-12 p-1.5 rounded">
                 <img src={nft.coverUrl} className="w-full h-full"/>
               </div>
             </div>

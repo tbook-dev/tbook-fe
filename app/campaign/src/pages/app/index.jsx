@@ -252,9 +252,9 @@ export default function () {
             return (
               <div
                 key={index}
-                className="lg:px-5 lg:py-4 rounded-lg lg:rounded-2xl flex flex-col bg-white"
+                className="rounded-lg lg:rounded-2xl flex flex-col bg-white"
               >
-                <h3 className="text-base text-[#131517] lg:text-[20px] font-medium px-5 py-3 border border-[rgb(236,236,236)]">
+                <h3 className="text-base text-[#131517] lg:text-[20px] font-medium px-5 py-3 border-b border-[rgb(236,236,236)]">
                   Tasks and Rewards
                 </h3>
                 <div className="px-5 py-3">
@@ -367,7 +367,7 @@ export default function () {
                                 {incentiveMethodItem?.title}
                               </div>
                             </div>
-                            <div className="w-[60px] h-[60px] p-1.5 rounded bg-white shadow-s3">
+                            <div className="w-12 h-12 p-1.5 rounded">
                               <img
                                 src={nft.coverUrl}
                                 className="w-full h-full"
@@ -426,8 +426,8 @@ export default function () {
         />
         {rewardModalIdx >= 0 && (
           <div className="text-t-1 -mx-2 max-h-[380px] lg:max-h-[390px] overflow-y-scroll">
-            <h2 className="text-lg lg:text-4xl mb-1.5 font-medium">Rewards</h2>
-            <p className="text-sm text-c-6 mb-8">
+            <h2 className="text-base lg:text-4xl mb-1.5 font-medium text-[#131517]">Rewards</h2>
+            <p className="text-xs text-[#131517] mb-8">
               You may get following rewards once you have accomplished all tasks
               in the group!
             </p>
