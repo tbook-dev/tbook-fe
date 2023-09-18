@@ -8,21 +8,26 @@ import CampaignSwiper from "./swiper";
 export default function Campaigns() {
   const { pc } = useResponsive();
   const { data: list = [], isLoading } = useExporeCampainQuery();
+  
   const sectionList = useMemo(() => {
     return [
       {
         title: "SocialFi Campaigns",
-        list: list.slice(0, 4),
+        list: list.filter(v=> v.campaignCategory === 1),
       },
       {
         title: "Infra Campaigns",
-        list: list.slice(4, 8),
+        list: list.filter(v=> v.campaignCategory === 2),
       },
       {
         title: "Security Campaigns",
-        list: list.slice(8, 12),
+        list: list.filter(v=> v.campaignCategory === 3),
       },
-    ];
+      {
+        title: "GameFi Campaigns",
+        list: list.filter(v=> v.campaignCategory === 4),
+      },
+    ].filter(v => v.list.length > 0);
   }, [list]);
 
   return (

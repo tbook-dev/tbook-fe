@@ -226,7 +226,7 @@ export default function () {
             <div className='flex items-center gap-x-1'>
               <div className='text-sm text-[#68696B]'>End in</div>
               <Countdown
-                value={page.campaign?.endAt}
+                value={page?.campaign?.endAt}
                 format='D[d] H[h] m[m] s[s]'
                 valueStyle={{
                   color: '#131517',
