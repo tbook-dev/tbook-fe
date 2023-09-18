@@ -1,20 +1,72 @@
+import { useEffect } from 'react';
 import pointIcon from "@/images/icon/point.svg";
 import nftIcon from "@/images/icon/nft.svg";
 import { credentialStatus, incentiveMethodList } from "@/utils/conf";
-import { claimCampaign } from "@/api/incentive";
+import { claimCampaign, getNftClaimInfo } from "@/api/incentive";
 import { useState } from "react";
 import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
+import { useAccount, useSwitchNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
+import { optimismGoerli, optimism } from 'wagmi/chains'
+import abi from "@/abi/st";
+
+//TODO: use chainId from NFT
+const chainId = import.meta.env.VITE_CHAIN_ID
+const stContract = import.meta.env.VITE_SPACESTATION_CONTRACT
 
 export default function RewardClaim({ group }) {
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const { campaignId } = useParams();
+  const { address, isConnected, ...others } = useAccount()
+  const { switchNetwork, data: currentChain } = useSwitchNetwork()
+
+  useEffect(() => {
+    if (currentChain?.id != chainId) {
+      switchNetwork(chainId)
+    }
+  },[currentChain])
+
+  const { config } = usePrepareContractWrite({
+    address: stContract,
+    abi: abi,
+    functionName: 'claim',
+    args: [1, address, 1, 1, address, ""],
+    enabled: true
+  })
+
+  const { data, isLoading, isSuccess,  writeAsync } = useContractWrite(config)
+
+  const waitForTransaction = useWaitForTransaction({
+    hash: data?.hash,
+    onSuccess(data) {
+      console.log("transaction log: ", data)
+    }
+  })
+
   const handleClaim = async () => {
     if (loading) return;
     setLoading(true);
     try {
       await claimCampaign(group.id);
+    } catch (error) {
+      console.log(error);
+    }
+    await queryClient.refetchQueries(["campaignDetail", campaignId]);
+    setLoading(false);
+  };
+
+  const handleClaimNFT = async (nft) => {
+    if (loading) return;
+    setLoading(true);
+    try {
+      // TODO use real campaignId and nft id
+      const info = await getNftClaimInfo(251694151087, 249198571024);
+      const r = await writeAsync?.({
+        args: [info.cid, info.nftAddress, info.dummyId, info.powah, info.account, info.sign],
+        from: address
+      })
+      console.log(r)
     } catch (error) {
       console.log(error);
     }
@@ -56,8 +108,8 @@ export default function RewardClaim({ group }) {
                 color: itemStatus.color,
                 backgroundColor: itemStatus.bgColor,
               }}
-              onClick={() => handleClaim(nft)}
-              disabled={itemStatus.disabled}
+              onClick={() => handleClaimNFT(nft)}
+              //disabled={itemStatus.disabled}
             >
               {itemStatus.label}
             </button>

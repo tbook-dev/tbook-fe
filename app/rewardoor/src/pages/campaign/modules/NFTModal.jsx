@@ -1,26 +1,99 @@
+import { useState, useEffect } from 'react'
 import Button from '@/components/button'
 import { Modal, Form, Input, Select, Switch } from 'antd'
-import { supportChains } from '@/utils/conf'
-import { handleCreateNFTcontract } from '@/api/incentive'
+import { supportChains, factoryContract } from '@/utils/conf'
+import { handleCreateNFTcontract, createNFT } from '@/api/incentive'
 import useUserInfo from "@/hooks/queries/useUserInfo"
 import { useQueryClient } from 'react-query'
+import { useAccount, useSwitchNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
+import { optimismGoerli, optimism } from 'wagmi/chains'
+import abi from "@/abi/nft";
+
 const nftPlaceholder =
   'Enter the name that will be visible on blockchain as official verification'
 const symbolPlaceholder =
   'Enter the Token Symbol that will be visible on the blockchain'
 
 const title = 'Deploy NFT Contract'
+const chainId = import.meta.env.VITE_CHAIN_ID
 
 export default function NFTModal ({ visible, setOpen }) {
   const [form] = Form.useForm()
   const { projectId } = useUserInfo()
   const queryClient = useQueryClient()
-  const handleOk = () => {
-    form.validateFields().then(values => {
-      handleCreateNFTcontract(projectId, values).then(res => {
-        queryClient.refetchQueries('NFTcontracts')
-        setOpen(false)
+
+  const [NFTtype, setNFTtype] = useState('1')
+  const [NFTDeployStatus, setNFTDeployStatus] = useState('unDeployed') // deployed,unDeployed
+  // NFT合约地址
+  const [NFTAddress, setNFTAddress] = useState('')
+  // 图片地址
+  const [NTFimgAddress, setNTFimgAddress] = useState('')
+  // NFT name
+  const [NFTName, setNFTName] = useState('tbook')
+  const [NFTSymbol, setNFTSymbol] = useState('tbook')
+  const [NFTTransferable, setNFTTransferable] = useState(true)
+  const { switchNetwork, data: currentChain } = useSwitchNetwork()
+  const { address, isConnected, ...others } = useAccount()
+  const id = optimismGoerli.id
+  const [confirmLoading, setConfirmLoading] = useState(false)
+  const [deployedAddress, setDeployedAddress] = useState('')
+  const [fdInfo, setFdInfo] = useState(null)
+
+  const { config } = usePrepareContractWrite({
+    address: factoryContract,
+    abi: abi,
+    functionName: 'createStarNFT',
+    args: [address, address, NFTName, NFTSymbol, NFTTransferable],
+    enabled: true
+  })
+  
+  const { data, isLoading, isSuccess,  writeAsync } = useContractWrite(config)
+
+  const waitForTransaction = useWaitForTransaction({
+    hash: data?.hash,
+    onSuccess(data) {
+      console.log("transaction log: ", data)
+      setDeployedAddress(data.logs[0].address)
+    }
+  })
+
+  useEffect(() => {
+    if (currentChain?.id != chainId) {
+      switchNetwork(chainId)
+    }
+  },[currentChain])
+
+  useEffect(() => {
+    if (deployedAddress.length > 0) {
+        createNFT({
+            ...fdInfo,
+            chainId: chainId,
+            contract: deployedAddress,
+        })
+        .then(r => r.json())
+        .then(d => { 
+          console.log(d)
+          queryClient.refetchQueries('NFTcontracts')
+          setOpen(false)
+        })
+    }
+  }, [deployedAddress, fdInfo])
+
+  const handleOk = async () => {
+    form.validateFields().then(async values => {
+      console.log(values)
+      const { name, network, symbol, transferable } = values
+
+      const r = await writeAsync?.({
+          args: [address, address, name, symbol, !!transferable],
+          from: address
       })
+      console.log(r)
+      setFdInfo(() => ({ name: name, symbol: symbol, chainId: network, projectId: projectId}))
+      // handleCreateNFTcontract(projectId, values).then(res => {
+      //   queryClient.refetchQueries('NFTcontracts')
+      //   setOpen(false)
+      // })
     })
   }
   return (

@@ -190,3 +190,5 @@ export const credentialStatus = [
     disabled: true,
   },
 ];
+
+export const factoryContract = import.meta.env.VITE_FACTORY_CONTRACT;
