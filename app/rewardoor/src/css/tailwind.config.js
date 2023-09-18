@@ -33,6 +33,7 @@ module.exports = {
         t: {
           1: "#C8C8C8",
           2: "#666",
+          3: "#FCFCFC",
         },
         c: {
           0: "#000",
@@ -62,6 +63,7 @@ module.exports = {
         bg: {
           b: "#000",
           l: "#FBFDFF",
+          "b-1": "#161616",
         },
       },
       borderWidth: {
