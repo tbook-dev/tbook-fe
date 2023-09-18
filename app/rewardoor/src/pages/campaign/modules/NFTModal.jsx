@@ -6,7 +6,7 @@ import { handleCreateNFTcontract, createNFT } from '@/api/incentive'
 import useUserInfo from "@/hooks/queries/useUserInfo"
 import { useQueryClient } from 'react-query'
 import { useAccount, useSwitchNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
-import { optimismGoerli } from 'wagmi/chains'
+import { optimismGoerli, optimism } from 'wagmi/chains'
 import abi from "@/abi/nft";
 
 const nftPlaceholder =
@@ -15,6 +15,7 @@ const symbolPlaceholder =
   'Enter the Token Symbol that will be visible on the blockchain'
 
 const title = 'Deploy NFT Contract'
+const chainId = import.meta.env.VITE_CHAIN_ID
 
 export default function NFTModal ({ visible, setOpen }) {
   const [form] = Form.useForm()
@@ -31,7 +32,7 @@ export default function NFTModal ({ visible, setOpen }) {
   const [NFTName, setNFTName] = useState('tbook')
   const [NFTSymbol, setNFTSymbol] = useState('tbook')
   const [NFTTransferable, setNFTTransferable] = useState(true)
-  const { switchNetwork } = useSwitchNetwork()
+  const { switchNetwork, data: currentChain } = useSwitchNetwork()
   const { address, isConnected, ...others } = useAccount()
   const id = optimismGoerli.id
   const [confirmLoading, setConfirmLoading] = useState(false)
@@ -57,9 +58,16 @@ export default function NFTModal ({ visible, setOpen }) {
   })
 
   useEffect(() => {
+    if (currentChain.id != chainId) {
+      switchNetwork(chainId)
+    }
+  },[currentChain])
+
+  useEffect(() => {
     if (deployedAddress.length > 0) {
         createNFT({
             ...fdInfo,
+            chainId: chainId,
             contract: deployedAddress,
         })
         .then(r => r.json())

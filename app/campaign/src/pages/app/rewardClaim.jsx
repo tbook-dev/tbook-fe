@@ -5,11 +5,33 @@ import { claimCampaign } from "@/api/incentive";
 import { useState } from "react";
 import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
+import { useAccount, useSwitchNetwork, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
+import { optimismGoerli, optimism } from 'wagmi/chains'
+import abi from "@/abi/st";
 
 export default function RewardClaim({ group }) {
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
   const { campaignId } = useParams();
+  const { address, isConnected, ...others } = useAccount()
+
+  const { config } = usePrepareContractWrite({
+    address: factoryContract,
+    abi: abi,
+    functionName: 'mint',
+    args: [address, address, NFTName, NFTSymbol, NFTTransferable],
+    enabled: true
+  })
+
+  const { data, isLoading, isSuccess,  writeAsync } = useContractWrite(config)
+
+  const waitForTransaction = useWaitForTransaction({
+    hash: data?.hash,
+    onSuccess(data) {
+      console.log("transaction log: ", data)
+    }
+  })
+
   const handleClaim = async () => {
     if (loading) return;
     setLoading(true);
@@ -20,6 +42,10 @@ export default function RewardClaim({ group }) {
     }
     await queryClient.refetchQueries(["campaignDetail", campaignId]);
     setLoading(false);
+  };
+
+  const handleClaimNFT = async (nft) => {
+
   };
 
   return (
