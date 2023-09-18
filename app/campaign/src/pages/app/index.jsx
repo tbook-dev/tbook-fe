@@ -37,11 +37,8 @@ const errorMsg = (
   </>
 )
 
-const tgCallbackHost = import.meta.env.VITE_TG_CALLBACK_HOST
 const tgBotId = import.meta.env.VITE_TG_BOT_ID
-const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=https%3A%2F%2F${tgCallbackHost}&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback.html`
 const tgCallbackHost = import.meta.env.VITE_TG_CALLBACK_HOST
-const tgBotId = import.meta.env.VITE_TG_BOT_ID
 const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=https%3A%2F%2F${tgCallbackHost}&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback.html`
 
 const curHost = new URL(window.location.href).host
