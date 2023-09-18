@@ -47,3 +47,12 @@ export const getTwLoginUrl = async function () {
 export const getExporeCampain = async function () {
   return await request(`${host}/project/explore`);
 };
+
+export const getNftClaimInfo = async function (nftId, campaignId) {
+  return await request(
+    `${host}/nft/claim/${nftId}/campaign/${campaignId}`, {
+      method: 'POST', 
+      credentials: 'include'
+    }
+  );
+};
