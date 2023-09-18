@@ -58,7 +58,7 @@ export default function NFTModal ({ visible, setOpen }) {
   })
 
   useEffect(() => {
-    if (currentChain.id != chainId) {
+    if (currentChain?.id != chainId) {
       switchNetwork(chainId)
     }
   },[currentChain])
