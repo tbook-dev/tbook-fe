@@ -23,7 +23,7 @@ export default function RewardClaim({ group }) {
 
   useEffect(() => {
     if (currentChain?.id != chainId) {
-      switchNetwork(chainId)
+      switchNetwork && switchNetwork(chainId)
     }
   },[currentChain])
 
