@@ -36,7 +36,7 @@ export default function RewardClaim({ group }) {
           <div key={nft.nftId}>
             <div className="flex items-center gap-x-0.5 mb-2">
               <img src={nftIcon} className="w-4 h-4" />
-              <span className="text-c-6 text-sm">nft</span>
+              <span className="text-[#131517] text-sm">nft</span>
             </div>
             <div className="flex mb-2.5">
               <div className="flex flex-col gap-y-1.5 text-c-9 text-sm flex-auto">
