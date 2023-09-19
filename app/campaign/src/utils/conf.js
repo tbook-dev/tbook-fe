@@ -184,11 +184,11 @@ export const credentialStatus = [
     disabled: false,
   },
   {
-    label: "Claimed",
+    label: "Claimed 🎉",
     name: "Claimed",
     value: 4,
     bgColor: "#f7f7f7",
-    color: "#999",
+    color: "#65C467",
     disabled: true,
   },
   {
