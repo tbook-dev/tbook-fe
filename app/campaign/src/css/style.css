@@ -17,6 +17,11 @@
 .swiper-wrapper{
     align-items: center;
 }
+@layer base {
+    svg {
+        shape-rendering: auto;
+    }
+}
 
 @layer components { 
     .text-colorful1{
