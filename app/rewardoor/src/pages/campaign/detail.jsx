@@ -56,7 +56,7 @@ export default function () {
     if (tabList.length === 1) {
       setSelectedStatus(0);
     } else {
-      setSelectedStatus(1);
+      setSelectedStatus(2);
     }
   }, [tabList.length]);
 
