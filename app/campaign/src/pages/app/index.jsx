@@ -198,7 +198,7 @@ export default function () {
           className="w-full  h-[172px] lg:h-[294px] object-cover object-center"
         />
 
-        <div className="p-2.5">
+        <div className="px-5 pb-5 pt-3">
           <div className="mb-3">
             <h2 className="text-2xl  leading-7 font-bold text-[#131517] mb-1.5 truncate">
               {page?.campaign?.name}
