@@ -24,13 +24,13 @@ export const incentiveMethodList = [
   {
     title: "FCFS",
     desc: `FCFS is one of the reward distribution methods which stands for "First come, first served". It means that whoever gets the credentials first can claim the reward first.`,
-    value: 2,
+    value: 1,
     icon: fcfsIcon,
   },
   {
     title: "Lucky Draw",
     desc: `Lucky draw is one of the reward distribution methods which means that a random selection of participants from those who meet the requirements.`,
-    value: 3,
+    value: 2,
     icon: ldIcon,
   },
 ];
