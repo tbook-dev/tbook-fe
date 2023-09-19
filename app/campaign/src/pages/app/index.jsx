@@ -199,7 +199,7 @@ export default function () {
         />
 
         <div className="p-2.5">
-          <div className="mb-2.5">
+          <div className="mb-3">
             <h2 className="text-2xl  leading-7 font-bold text-[#131517] mb-1.5 truncate">
               {page?.campaign?.name}
             </h2>
@@ -343,7 +343,7 @@ export default function () {
                     You may get following rewards once you have accomplished all
                     tasks in the group!
                   </p>
-                  <div className="space-y-6">
+                  <div className="space-y-6 mb-6">
                     {group.nftList?.map((nft) => {
                       const incentiveMethodItem =
                         incentiveMethodList.find(
@@ -367,7 +367,7 @@ export default function () {
                                 {incentiveMethodItem?.title}
                               </div>
                             </div>
-                            <div className="w-12 h-12 p-1.5 rounded">
+                            <div className="w-12 h-12 rounded">
                               <img
                                 src={nft.coverUrl}
                                 className="w-full h-full"
@@ -388,7 +388,7 @@ export default function () {
                             <img src={pointIcon} className="w-4 h-4" />
                             <span className="text-[#131517] text-sm">point</span>
                           </div>
-                          <div className="flex flex-col gap-y-1.5 text-[#717374] text-sm mb-2.5">
+                          <div className="flex flex-col gap-y-1.5 text-[#717374] text-sm">
                             <p>{point.number} points</p>
                             <div className="flex items-center gap-x-0.5 lowercase">
                               <img
