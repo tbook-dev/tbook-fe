@@ -10,7 +10,7 @@ import { conf as tbookConf } from "@tbook/utils";
 import clsx from "clsx";
 import { useState, useCallback } from "react";
 import WhiteListModal from "./whiteListModal";
-import mockAvatorIcon from '@/images/icon/mockAvator.svg';
+import mockAvatorIcon from "@/images/icon/mockAvator.svg";
 
 const { formatDollar } = tbookConf;
 export default function Reward() {
@@ -124,7 +124,10 @@ export default function Reward() {
                                 key={idx}
                                 className="w-6 h-6 overflow-hidden rounded-full border-0.5 border-[#161616]"
                               >
-                                <img src={mockAvatorIcon} className="w-full h-full object-contain object-center"/>
+                                <img
+                                  src={mockAvatorIcon}
+                                  className="w-full h-full object-contain object-center"
+                                />
                               </div>
                             );
                           })}
@@ -207,12 +210,13 @@ export default function Reward() {
                             return (
                               <div
                                 key={idx}
-                                className="w-6 h-6 rounded-full border-0.5 border-[#161616]"
-                                style={{
-                                  backgroundColor:
-                                    idx % 2 === 0 ? "red" : "green",
-                                }}
-                              />
+                                className="w-6 h-6 rounded-full overflow-hidden border-0.5 border-[#161616]"
+                              >
+                                <img
+                                  src={mockAvatorIcon}
+                                  className="w-full h-full object-contain object-center"
+                                />
+                              </div>
                             );
                           })}
                       </div>
