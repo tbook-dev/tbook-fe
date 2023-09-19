@@ -117,7 +117,7 @@ export default function Reward() {
                       <div className="flex -space-x-3">
                         {new Array(30)
                           .fill(0)
-                          .slice(0, 6)
+                          .slice(0, 2)
                           .map((_, idx) => {
                             return (
                               <div
