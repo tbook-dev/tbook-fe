@@ -44,7 +44,7 @@ export default function NFTModal({ visible, setOpen }) {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [deployedAddress, setDeployedAddress] = useState("");
   const [fdInfo, setFdInfo] = useState(null);
-
+  const [createNFTLoading, setCreateNFTLoading] = useState(false)
   const { config } = usePrepareContractWrite({
     address: factoryContract,
     abi: abi,
@@ -71,17 +71,21 @@ export default function NFTModal({ visible, setOpen }) {
 
   useEffect(() => {
     if (deployedAddress.length > 0) {
+      console.log('deployedAddress->',createNFTLoading)
+      setCreateNFTLoading(true);
       createNFT({
         ...fdInfo,
         chainId: chainId,
         contract: deployedAddress,
       })
-        .then((r) => r.json())
         .then((d) => {
           console.log(d);
           queryClient.refetchQueries("NFTcontracts");
           setOpen(false);
-        });
+        })
+        .finally(() => {
+          setCreateNFTLoading(false);
+        })
     }
   }, [deployedAddress, fdInfo]);
 
@@ -89,6 +93,7 @@ export default function NFTModal({ visible, setOpen }) {
     form.validateFields().then(async (values) => {
       console.log(values);
       const { name, network, symbol, transferable } = values;
+      setCreateNFTLoading(true);
 
       const r = await writeAsync?.({
         args: [address, address, name, symbol, !!transferable],
@@ -118,7 +123,7 @@ export default function NFTModal({ visible, setOpen }) {
       title={<div className="text-4.2xl font-black text-t-1">{title}</div>}
       footer={
         <div className="flex justify-end" onClick={handleOk}>
-          <Button type="primary">Save</Button>
+          <Button type="primary" loading={createNFTLoading}>Save</Button>
         </div>
       }
     >
