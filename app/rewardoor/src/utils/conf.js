@@ -62,6 +62,11 @@ export const supportChains = [
     label: "Optimism",
     value: 10,
   },
+  {
+    icon: opIcon,
+    label: "Optimism Testnet",
+    value: 420,
+  },
 ];
 
 export const mediaTypes = [

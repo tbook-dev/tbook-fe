@@ -61,7 +61,7 @@ export const getCredentials = async function (projectId) {
 export const getNFTcontracts = async function (projectId) {
   // console.log("get-list----->", projectId);
   const list = await request(`${host}/nft/project/${projectId}`);
-  return list.filter((v) => !!v.coverUrl && v.contract);
+  return list.filter((v) => v.picUrl && v.contract);
 };
 export const handleCreateNFTcontract = async function (projectId, values) {
   return {

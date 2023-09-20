@@ -193,7 +193,7 @@ export default function CredentialModal ({
 
                           <Form.Item
                             {...restField}
-                            name={[name, 'contract']}
+                            name={[name, 'nftId']}
                             label='NFT Contract'
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
@@ -232,11 +232,11 @@ export default function CredentialModal ({
                               {NFTcontracts.map(item => {
                                 const icon = supportChains.find(
                                   v => item.chainId === v.value
-                                ).icon
+                                )?.icon
                                 return (
                                   <Select.Option
-                                    key={item.contract}
-                                    value={item.contract}
+                                    key={item.nftId}
+                                    value={item.nftId}
                                     label={item.name}
                                   >
                                     <div className='flex items-center gap-x-1'>

@@ -59,7 +59,7 @@ export default function () {
   const { projectId } = useUserInfo()
   const [sucessData, setSucessData] = useState(false)
   const queryClient = useQueryClient()
-  const { data: NFTcontracts } = useQuery(
+  const { data: NFTcontracts = [] } = useQuery(
     ['NFTcontracts', projectId],
     () => getNFTcontracts(projectId),
     {
@@ -67,6 +67,7 @@ export default function () {
       staleTime: 60 * 1000 * 60
     }
   )
+  console.log({NFTcontracts})
 
   const { data: credentialList = [] } = useQuery(
     ['credentialList', projectId],
