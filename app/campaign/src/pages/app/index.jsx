@@ -200,7 +200,7 @@ export default function () {
 
         <div className="px-5 pb-5 pt-3">
           <div className="mb-3">
-            <h2 className="text-2xl  leading-7 font-bold text-[#131517] mb-1.5 truncate">
+            <h2 className="text-2xl  leading-7 font-bold text-[#131517] mb-1.5">
               {page?.campaign?.name}
             </h2>
             <h4 className="flex items-center gap-x-1.5">
