@@ -79,9 +79,9 @@ export default function NFTModal({ visible, setOpen }) {
         chainId: chainId,
         contract: deployedAddress,
       })
-        .then((d) => {
+        .then(async (d) => {
           console.log(d);
-          queryClient.refetchQueries("NFTcontracts");
+          await queryClient.refetchQueries("NFTcontracts");
           setOpen(false);
         })
         .finally(() => {
