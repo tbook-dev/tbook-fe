@@ -22,6 +22,7 @@ const symbolPlaceholder =
 
 const title = "Deploy NFT Contract";
 const chainId = import.meta.env.VITE_CHAIN_ID;
+const stationContract = import.meta.env.VITE_SPACESTATION_CONTRACT;
 
 export default function NFTModal({ visible, setOpen }) {
   const [form] = Form.useForm();
@@ -49,7 +50,7 @@ export default function NFTModal({ visible, setOpen }) {
     address: factoryContract,
     abi: abi,
     functionName: "createStarNFT",
-    args: [address, address, NFTName, NFTSymbol, NFTTransferable],
+    args: [stationContract, address, NFTName, NFTSymbol, NFTTransferable],
     enabled: true,
   });
 
@@ -76,7 +77,6 @@ export default function NFTModal({ visible, setOpen }) {
         chainId: chainId,
         contract: deployedAddress,
       })
-        .then((r) => r.json())
         .then((d) => {
           console.log(d);
           queryClient.refetchQueries("NFTcontracts");
