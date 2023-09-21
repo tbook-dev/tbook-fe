@@ -147,6 +147,7 @@ export const getCrenditialType = (labelType) => {
   return arraryType.find((v) => v.value === labelType)?.group;
 };
 
+// 结束点为活动结束时间
 export const credentialStatus = [
   {
     label: "Ineligible",
@@ -154,8 +155,11 @@ export const credentialStatus = [
     value: 0,
     bgColor: "#f7f7f7",
     color: "#999",
-    desc: "Some tasks remain uncomplished or unverified.",
+    desc: "You will know if you are selected when the campaign closes.",
     disabled: true,
+    showTimeClock: true,
+    comment: "任务未完成认证",
+    showBtn: false,
   },
   {
     label: "Eligible",
@@ -165,6 +169,9 @@ export const credentialStatus = [
     color: "#999",
     desc: "You will know if you could claim this reward after the campaign is closed.",
     disabled: true,
+    showTimeClock: true,
+    comment: "已完成等待抽奖",
+    showBtn: false,
   },
   {
     label: "Claim",
@@ -172,8 +179,11 @@ export const credentialStatus = [
     value: 2,
     bgColor: "#f7f7f7",
     color: "#999",
-    desc: "You will know if you could claim this reward after the campaign is closed.",
+    desc: "You could claim your reward after whitelist updated.",
     disabled: true,
+    showTimeClock: false,
+    comment: "waiting",
+    showBtn: true,
   },
   {
     label: "Claim",
@@ -182,14 +192,22 @@ export const credentialStatus = [
     bgColor: "#f0f5ff",
     color: "#3a82f7",
     disabled: false,
+    showTimeClock: false,
+    comment: "claimable",
+    loadingBtn: "Claiming...",
+    loadingText: "We are checking your claiming status.",
+    showBtn: true,
   },
   {
-    label: "Claimed 🎉",
+    label: "You have claimed this reward 🎉",
     name: "Claimed",
     value: 4,
-    bgColor: "#f7f7f7",
+    bgColor: "transparent",
     color: "#65C467",
     disabled: true,
+    showTimeClock: false,
+    comment: "Claimed",
+    showBtn: true,
   },
   {
     label: "Missed",
@@ -198,5 +216,9 @@ export const credentialStatus = [
     bgColor: "#f7f7f7",
     color: "#999",
     disabled: true,
+    showTimeClock: false,
+    comment: "missed未获取",
+    showBtn: false,
+    // nft置灰
   },
 ];
