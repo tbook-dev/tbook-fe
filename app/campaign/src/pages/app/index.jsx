@@ -37,9 +37,9 @@ const errorMsg = (
   </>
 );
 
-const tgBotId = import.meta.env.VITE_TG_BOT_ID
-const tgCallbackHost = import.meta.env.VITE_TG_CALLBACK_HOST
-const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=https%3A%2F%2F${tgCallbackHost}&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback.html`
+const tgBotId = import.meta.env.VITE_TG_BOT_ID;
+const tgCallbackHost = import.meta.env.VITE_TG_CALLBACK_HOST;
+const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=https%3A%2F%2F${tgCallbackHost}&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback.html`;
 
 const curHost = new URL(window.location.href).host;
 const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`;
@@ -223,173 +223,152 @@ export default function () {
               src={dateIcon}
               className="w-6 h-6 object-contain object-center"
             />
-            <div className="flex items-center gap-x-1">
-              <div className="text-sm text-[#68696B]">End in</div>
-              <Countdown
-                value={page?.campaign?.endAt}
-                format='D[d] H[h] m[m] s[s]'
-                valueStyle={{
-                  color: "#131517",
-                  fontSize: "14px",
-                  lineHeight: "20px",
-                }}
-              />
+            <div className="flex items-center gap-x-1 text-sm text-[#68696B]">
+              {campaignEnd ? (
+                <div>This campaign has ended.</div>
+              ) : campaignNotStart ? (
+                <>
+                  <div>start in</div>
+                  <Countdown
+                    value={page?.campaign?.startAt}
+                    format="D[d] H[h] m[m] s[s]"
+                    valueStyle={{
+                      color: "#131517",
+                      fontSize: "14px",
+                      lineHeight: "20px",
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  <div>End in</div>
+                  <Countdown
+                    value={page?.campaign?.endAt}
+                    format="D[d] H[h] m[m] s[s]"
+                    valueStyle={{
+                      color: "#131517",
+                      fontSize: "14px",
+                      lineHeight: "20px",
+                    }}
+                  />
+                </>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      {campaignEnd ? (
-        <div className="flex justify-center items-center">
-          <div className="pt-14">
-            <img src={endCampaign} className="w-[150px] mx-auto mb-2" />
-            <p className="text-c-9 text-base">{endText}</p>
-          </div>
-        </div>
-      ) : (
-        <section className="space-y-2.5 lg:space-y-5 tetx-t-1">
-          {page?.groups?.map((group, index) => {
-            return (
-              <div
-                key={index}
-                className="rounded-lg lg:rounded-2xl flex flex-col bg-white"
-              >
-                <h3 className="text-base text-[#131517] lg:text-[20px] font-medium px-5 py-3 border-b border-[rgb(236,236,236)]">
-                  Tasks and Rewards
-                </h3>
-                <div className="px-5 py-3">
-                  {group.credentialList?.map((redential, index) => {
-                    const credentialType = getCrenditialType(
-                      redential.labelType
-                    );
-                    const sysConnectedMap = {
-                      twitter: twitterConnected,
-                      discord: discordConnected,
-                      telegram: telegramConnected,
-                      tbook: true,
-                    };
-                    const sycLoginFnMap = {
-                      twitter: twLoginCurrent,
-                      discord: () => {
-                        localStorage.setItem("redirect_url", location.href);
-                        location.href = dcCallbackUrl;
-                      },
-                      telegram: () => {
-                        localStorage.setItem("redirect_url", location.href);
-                        location.href = tgCallbackUrl;
-                      },
-                    };
-                    const taskMap = {
-                      8: async () => {
-                        await verifyTbook(redential.credentialId);
-                        await handleVerify(redential);
-                      },
-                      10: () => signCredential(redential),
-                    };
+      <section className="space-y-2.5 lg:space-y-5 tetx-t-1">
+        {page?.groups?.map((group, index) => {
+          return (
+            <div
+              key={index}
+              className="rounded-lg lg:rounded-2xl flex flex-col bg-white"
+            >
+              <h3 className="text-base text-[#131517] lg:text-[20px] font-medium px-5 py-3 border-b border-[rgb(236,236,236)]">
+                Tasks and Rewards
+              </h3>
+              <div className="px-5 py-3">
+                {group.credentialList?.map((redential, index) => {
+                  const credentialType = getCrenditialType(redential.labelType);
+                  const sysConnectedMap = {
+                    twitter: twitterConnected,
+                    discord: discordConnected,
+                    telegram: telegramConnected,
+                    tbook: true,
+                  };
+                  const sycLoginFnMap = {
+                    twitter: twLoginCurrent,
+                    discord: () => {
+                      localStorage.setItem("redirect_url", location.href);
+                      location.href = dcCallbackUrl;
+                    },
+                    telegram: () => {
+                      localStorage.setItem("redirect_url", location.href);
+                      location.href = tgCallbackUrl;
+                    },
+                  };
+                  const taskMap = {
+                    8: async () => {
+                      await verifyTbook(redential.credentialId);
+                      await handleVerify(redential);
+                    },
+                    10: () => signCredential(redential),
+                  };
+
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between h-10 w-full"
+                    >
+                      <div className="flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]">
+                        <img
+                          src={redential.picUrl}
+                          className="w-5 h-5 object-contain"
+                        />
+                        <div
+                          onClick={
+                            typeof taskMap[redential.labelType] === "function"
+                              ? userLogined
+                                ? taskMap[redential.labelType]
+                                : signIn
+                              : null
+                          }
+                          className="truncate text-sm text-[#131517] max-w-[calc(100%_-_30px)]"
+                          dangerouslySetInnerHTML={{
+                            __html: redential.displayExp,
+                          }}
+                        />
+                      </div>
+                      {campaignNotStart ||
+                      campaignEnd ? null : redential.isVerified ? (
+                        <span className="text-base whitespace-nowrap text-c-9">
+                          Verified
+                        </span>
+                      ) : (
+                        <WithVerify
+                          className="text-base text-blue-1 whitespace-nowrap"
+                          handleFn={
+                            isConnected
+                              ? userLogined
+                                ? sysConnectedMap[credentialType]
+                                  ? () => handleVerify(redential)
+                                  : sycLoginFnMap[credentialType]
+                                : signIn
+                              : open
+                          }
+                        />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="h-px bg-[rgb(236,236,236)] mx-5 mb-4" />
+              <div className="px-5 pb-4">
+                <img
+                  src={rewardIcon}
+                  className="w-[64px] h-[64px] object-center object-contain mb-2"
+                />
+                <p className="text-xs text-[#131517] mb-6">
+                  You may get following rewards once you have accomplished all
+                  tasks in the group!
+                </p>
+                <div className="space-y-6 mb-6">
+                  {group.nftList?.map((nft) => {
+                    const incentiveMethodItem =
+                      incentiveMethodList.find(
+                        (v) => v.value === nft.methodType
+                      ) || incentiveMethodList[0];
 
                     return (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between h-10 w-full"
-                      >
-                        <div className="flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]">
-                          <img
-                            src={redential.picUrl}
-                            className="w-5 h-5 object-contain"
-                          />
-                          <div
-                            onClick={
-                              typeof taskMap[redential.labelType] === "function"
-                                ? userLogined
-                                  ? taskMap[redential.labelType]
-                                  : signIn
-                                : null
-                            }
-                            className="truncate text-sm text-[#131517] max-w-[calc(100%_-_30px)]"
-                            dangerouslySetInnerHTML={{
-                              __html: redential.displayExp,
-                            }}
-                          />
+                      <div key={nft.nftId}>
+                        <div className="flex items-center gap-x-0.5 mb-2">
+                          <img src={nftIcon} className="w-4 h-4" />
+                          <span className="text-[#131517] text-sm">nft</span>
                         </div>
-                        {campaignNotStart ? null : redential.isVerified ? (
-                          <span className="text-base whitespace-nowrap text-c-9">
-                            Verified
-                          </span>
-                        ) : (
-                          <WithVerify
-                            className="text-base text-blue-1 whitespace-nowrap"
-                            handleFn={
-                              isConnected
-                                ? userLogined
-                                  ? sysConnectedMap[credentialType]
-                                    ? () => handleVerify(redential)
-                                    : sycLoginFnMap[credentialType]
-                                  : signIn
-                                : open
-                            }
-                          />
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-                <div className="h-px bg-[rgb(236,236,236)] mx-5 mb-4" />
-                <div className="px-5 pb-4">
-                  <img
-                    src={rewardIcon}
-                    className="w-[64px] h-[64px] object-center object-contain mb-2"
-                  />
-                  <p className="text-xs text-[#131517] mb-6">
-                    You may get following rewards once you have accomplished all
-                    tasks in the group!
-                  </p>
-                  <div className="space-y-6 mb-6">
-                    {group.nftList?.map((nft) => {
-                      const incentiveMethodItem =
-                        incentiveMethodList.find(
-                          (v) => v.value === nft.methodType
-                        ) || incentiveMethodList[0];
-
-                      return (
-                        <div key={nft.nftId}>
-                          <div className="flex items-center gap-x-0.5 mb-2">
-                            <img src={nftIcon} className="w-4 h-4" />
-                            <span className="text-[#131517] text-sm">nft</span>
-                          </div>
-                          <div className="flex mb-2.5">
-                            <div className="flex flex-col gap-y-1.5 text-[#717374] text-sm flex-auto">
-                              <p>{nft.name}</p>
-                              <div className="flex items-center gap-x-0.5 lowercase">
-                                <img
-                                  src={incentiveMethodItem?.icon}
-                                  className="w-3 h-4"
-                                />
-                                {incentiveMethodItem?.title}
-                              </div>
-                            </div>
-                            <div className="w-12 h-12 rounded">
-                              <img
-                                src={nft.coverUrl}
-                                className="w-full h-full"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                    {group.pointList?.map((point) => {
-                      const incentiveMethodItem =
-                        incentiveMethodList.find(
-                          (v) => v.value === point.methodType
-                        ) || incentiveMethodList[0];
-                      return (
-                        <div key={point.pointId}>
-                          <div className="flex items-center gap-x-0.5 mb-2">
-                            <img src={pointIcon} className="w-4 h-4" />
-                            <span className="text-[#131517] text-sm">point</span>
-                          </div>
-                          <div className="flex flex-col gap-y-1.5 text-[#717374] text-sm">
-                            <p>{point.number} points</p>
+                        <div className="flex mb-2.5">
+                          <div className="flex flex-col gap-y-1.5 text-[#717374] text-sm flex-auto">
+                            <p>{nft.name}</p>
                             <div className="flex items-center gap-x-0.5 lowercase">
                               <img
                                 src={incentiveMethodItem?.icon}
@@ -398,26 +377,53 @@ export default function () {
                               {incentiveMethodItem?.title}
                             </div>
                           </div>
+                          <div className="w-12 h-12 rounded">
+                            <img src={nft.coverUrl} className="w-full h-full" />
+                          </div>
                         </div>
-                      );
-                    })}
-                  </div>
-                  <div className="flex items-center gap-x-2.5 text-sm">
-                    <div
-                      className="text-blue-1 bg-[#f5f8fd] px-2.5 py-1 cursor-pointer rounded"
-                      onClick={() => {
-                        setRewardModalIdx(index);
-                      }}
-                    >
-                      View Rewards
-                    </div>
+                      </div>
+                    );
+                  })}
+                  {group.pointList?.map((point) => {
+                    const incentiveMethodItem =
+                      incentiveMethodList.find(
+                        (v) => v.value === point.methodType
+                      ) || incentiveMethodList[0];
+                    return (
+                      <div key={point.pointId}>
+                        <div className="flex items-center gap-x-0.5 mb-2">
+                          <img src={pointIcon} className="w-4 h-4" />
+                          <span className="text-[#131517] text-sm">point</span>
+                        </div>
+                        <div className="flex flex-col gap-y-1.5 text-[#717374] text-sm">
+                          <p>{point.number} points</p>
+                          <div className="flex items-center gap-x-0.5 lowercase">
+                            <img
+                              src={incentiveMethodItem?.icon}
+                              className="w-3 h-4"
+                            />
+                            {incentiveMethodItem?.title}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="flex items-center gap-x-2.5 text-sm">
+                  <div
+                    className="text-blue-1 bg-[#f5f8fd] px-2.5 py-1 cursor-pointer rounded"
+                    onClick={() => {
+                      setRewardModalIdx(index);
+                    }}
+                  >
+                    View Rewards
                   </div>
                 </div>
               </div>
-            );
-          })}
-        </section>
-      )}
+            </div>
+          );
+        })}
+      </section>
 
       <Modal open={rewardModalIdx >= 0} onCancel={handleCancel}>
         <img
@@ -426,7 +432,9 @@ export default function () {
         />
         {rewardModalIdx >= 0 && (
           <div className="text-t-1 -mx-2 max-h-[345px] overflow-y-scroll">
-            <h2 className="text-base lg:text-4xl mb-1.5 font-medium text-[#131517]">Rewards</h2>
+            <h2 className="text-base lg:text-4xl mb-1.5 font-medium text-[#131517]">
+              Rewards
+            </h2>
             <p className="text-xs text-[#131517] mb-8">
               You may get following rewards once you have accomplished all tasks
               in the group!
