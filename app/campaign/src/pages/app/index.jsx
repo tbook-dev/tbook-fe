@@ -27,9 +27,7 @@ import RewardClaim from "./rewardClaim";
 import dateIcon from "@/images/icon/date.svg";
 
 const { Countdown } = Statistic;
-const notStartList = [2, 0];
-const endList = [3, 4, 5];
-const endText = "The campaign has expired.";
+
 const errorMsg = (
   <>
     Please click the link and finish the task first.
@@ -51,7 +49,12 @@ export default function () {
   const { handleSignIn } = useSignIn();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
-  const { data: page, firstLoad } = useCampaignQuery(campaignId);
+  const {
+    data: page,
+    firstLoad,
+    campaignNotStart,
+    campaignEnd,
+  } = useCampaignQuery(campaignId);
   const { data: project } = useProjectQuery(page?.campaign?.projectId);
   const { twitterConnected, userLogined, discordConnected, telegramConnected } =
     useUserInfo();
@@ -164,8 +167,8 @@ export default function () {
       </div>
     );
   }
-  const campaignNotStart = notStartList.includes(page?.campaign?.status);
-  const campaignEnd = endList.includes(page?.campaign?.status);
+  // const campaignNotStart = notStartList.includes(page?.campaign?.status);
+  // const campaignEnd = endList.includes(page?.campaign?.status);
 
   const signCredential = async (credential) => {
     if (signed[credential.credentialId]) {
@@ -320,12 +323,11 @@ export default function () {
                           }}
                         />
                       </div>
-                      {campaignNotStart ||
-                      campaignEnd ? null : redential.isVerified ? (
+                      {redential.isVerified ? (
                         <span className="text-base whitespace-nowrap text-c-9">
                           Verified
                         </span>
-                      ) : (
+                      ) : campaignNotStart || campaignEnd ? null : (
                         <WithVerify
                           className="text-base text-blue-1 whitespace-nowrap"
                           handleFn={

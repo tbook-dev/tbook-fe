@@ -2,9 +2,12 @@ import { useQuery } from "react-query";
 import { getCampaignDetail } from "@/api/incentive";
 import { useEffect, useState } from "react";
 
+const notStartList = [2, 0];
+const endList = [3, 4, 5];
+
 export default function useUserInfo(campaignId) {
   const [firstLoad, setFirstLoad] = useState(false);
-  const { isLoading, ...props } = useQuery(
+  const { isLoading, data: page, ...props } = useQuery(
     ["campaignDetail", campaignId],
     () => getCampaignDetail(campaignId),
     {
@@ -13,6 +16,8 @@ export default function useUserInfo(campaignId) {
       retry: false
     }
   );
+  const campaignNotStart = notStartList.includes(page?.campaign?.status);
+  const campaignEnd = endList.includes(page?.campaign?.status);
   useEffect(() => {
     if (!firstLoad && !isLoading) {
       setFirstLoad(true);
@@ -22,6 +27,9 @@ export default function useUserInfo(campaignId) {
 
   return {
     ...props,
+    data: page,
     firstLoad,
+    campaignNotStart,
+    campaignEnd
   };
 }
