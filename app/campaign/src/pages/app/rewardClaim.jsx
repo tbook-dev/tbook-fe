@@ -114,7 +114,7 @@ export default function RewardClaim ({ group }) {
               </div>
               <div className='w-12 h-12 p-1.5 rounded'>
                 <img
-                  src={nft.coverUrl}
+                  src={nft.picUrl}
                   className={clsx(
                     'w-full h-full',
                     itemStatus.value === 5 && 'grayscale'
