@@ -312,9 +312,11 @@ export default function () {
                         <div
                           onClick={
                             typeof taskMap[redential.labelType] === 'function'
-                              ? userLogined
-                                ? taskMap[redential.labelType]
-                                : signIn
+                              ? isConnected
+                                ? userLogined
+                                  ? taskMap[redential.labelType]
+                                  : signIn
+                                : open
                               : null
                           }
                           className='truncate text-sm text-[#131517] max-w-[calc(100%_-_30px)]'
@@ -415,7 +417,13 @@ export default function () {
                   <div
                     className='text-blue-1 bg-[#f5f8fd] px-2.5 py-1 cursor-pointer rounded'
                     onClick={() => {
-                      setRewardModalIdx(index)
+                      const fn = () => setRewardModalIdx(index)
+                      const handler = isConnected
+                        ? userLogined
+                          ? fn
+                          : signIn
+                        : open
+                      handler()
                     }}
                   >
                     View Rewards
@@ -433,7 +441,7 @@ export default function () {
           className='w-[88px] h-[88px] absolute left-1/2 -translate-x-1/2 top-[-50px] z-10'
         />
         {rewardModalIdx >= 0 && (
-          <div className='text-t-1 -mx-2 max-h-[345px] overflow-y-scroll'>
+          <div className='text-t-1 -mx-2 max-h-[345px] overflow-y-auto'>
             <h2 className='text-base lg:text-4xl mb-1.5 font-medium text-[#131517]'>
               Rewards
             </h2>
