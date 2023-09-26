@@ -136,6 +136,14 @@ export default function () {
         const nftList = v.reward
           .filter(v => v.rewardType === 1)
           .map(v => ({ ...v, picUrl: v.picUrl?.[0]?.response }))
+          .map(v => {
+            const nft = NFTcontracts.find(n => n.nftId === v.nftId)
+            return {
+              ...v,
+              contract: nft.contract,
+              creatorId: nft.creatorId
+            }
+          })
         return {
           status: 1,
           projectId,
