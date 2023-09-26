@@ -48,11 +48,9 @@ export const getExporeCampain = async function () {
   return await request(`${host}/project/explore`);
 };
 
-export const getNftClaimInfo = async function (nftId, campaignId) {
-  return await request(
-    `${host}/nft/claim/${nftId}/campaign/${campaignId}`, {
-      method: 'POST', 
-      credentials: 'include'
-    }
-  );
+export const getNftClaimInfo = async function (nftId, groupId) {
+  return await request(`${host}/nft/claim/${nftId}/group/${groupId}`, {
+    method: "POST",
+    credentials: "include",
+  });
 };

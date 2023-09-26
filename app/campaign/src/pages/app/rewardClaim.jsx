@@ -64,8 +64,7 @@ export default function RewardClaim ({ group }) {
 
   const handleClaimNFT = async nft => {
     try {
-      // TODO use real campaignId and nft id
-      const info = await getNftClaimInfo(251694151087, 249198571024)
+      const info = await getNftClaimInfo(nft.nftId, nft.groupId)
       const r = await writeAsync?.({
         args: [
           info.cid,
