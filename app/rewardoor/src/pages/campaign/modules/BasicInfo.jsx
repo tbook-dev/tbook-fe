@@ -1,5 +1,5 @@
 import { Form, Input, Upload, DatePicker } from 'antd'
-import uploadFile from '@/utils/upload'
+import uploadFile, { fileValidator } from '@/utils/upload'
 import uploadIcon from '@/images/icon/upload.svg'
 
 const { RangePicker } = DatePicker
@@ -34,9 +34,12 @@ export default function BasicInfo ({ form: setUpForm }) {
         label='Poster'
         name='picUrl'
         rules={[
+          // {
+          //   required: true,
+          //   message: 'Poster is required'
+          // },
           {
-            required: true,
-            message: 'Poster is required'
+            validator: fileValidator
           }
         ]}
       >

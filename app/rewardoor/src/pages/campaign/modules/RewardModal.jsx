@@ -9,7 +9,7 @@ import {
   supportChains
 } from '@/utils/conf'
 import NFTModal from './NFTModal'
-import uploadFile from '@/utils/upload'
+import uploadFile,{fileValidator} from '@/utils/upload'
 import uploadIcon from '@/images/icon/upload.svg'
 import clsx from 'clsx'
 import SelectNFT from '@/components/SelectNFT'
@@ -255,9 +255,12 @@ export default function CredentialModal ({
                             label='NFT Media File'
                             name={[name, 'picUrl']}
                             rules={[
+                              // {
+                              //   required: true,
+                              //   message: 'image is required'
+                              // },
                               {
-                                required: true,
-                                message: 'image is required'
+                                validator: fileValidator
                               }
                             ]}
                           >
