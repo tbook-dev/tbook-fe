@@ -3,6 +3,7 @@ import Layout from './layout/Layout'
 import HomeLayout from './layout/HomeLayout'
 import Home from '@/pages/home'
 import App from '@/pages/app'
+import My from '@/pages/my'
 import Explore from '@/pages/explore'
 
 import TwitterCallback from '@/pages/twitter/callback'
@@ -28,6 +29,16 @@ const routes = [
       {
         path: ':campaignId',
         element: <App />
+      }
+    ]
+  },
+  {
+    path: 'my',
+    element: <ShareLayout />,
+    children: [
+      {
+        path: ':campaignId',
+        element: <My />
       }
     ]
   },
