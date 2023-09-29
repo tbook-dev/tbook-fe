@@ -198,7 +198,7 @@ export default function Settings () {
                   </a>
                 )}
                 {userTg?.connected ? (
-                  <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#5865F2] text-white'>
+                  <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#00A2F3] text-white'>
                     <img src={tgGray} className='w-[18px] h-[18px]' />
                     @{userTg?.username}
                   </button>
