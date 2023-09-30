@@ -4,6 +4,7 @@ import HomeLayout from './layout/HomeLayout'
 import Home from '@/pages/home'
 import App from '@/pages/app'
 import My from '@/pages/my'
+import NFT from '@/pages/my/nft'
 import Explore from '@/pages/explore'
 
 import TwitterCallback from '@/pages/twitter/callback'
@@ -39,6 +40,10 @@ const routes = [
       {
         path: ':campaignId',
         element: <My />
+      },
+      {
+        path: ':campaignId/nft/:nftId',
+        element: <NFT />
       }
     ]
   },
