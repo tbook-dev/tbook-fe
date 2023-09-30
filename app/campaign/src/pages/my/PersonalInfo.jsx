@@ -81,13 +81,14 @@ export default function PersonalInfo() {
             />
           );
           return v.connected ? (
-            <button key={v.name}>{logo}</button>
+            <span key={v.name}>{logo}</span>
           ) : (
             <a
               key={v.name}
               href={v.callbackUrl}
               onClick={v.handle}
               target="_blank"
+              rel='nofollow noopener noreferrer'
             >
               {logo}
             </a>

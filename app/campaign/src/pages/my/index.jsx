@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import PersonalInfo from "./PersonalInfo";
 import { Spin } from "antd";
 import useUserInfoQuery from "@/hooks/useUserInfoQuery";
+import Asset from "./Asset";
 
 export default function My() {
   const { campaignId } = useParams();
@@ -16,8 +17,9 @@ export default function My() {
     );
   }
   return (
-    <div>
+    <div className="space-y-10 w-page-content px-2 lg:px-0 mx-auto">
       <PersonalInfo />
+      <Asset />
     </div>
   );
 }
