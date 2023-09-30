@@ -45,10 +45,10 @@ export default function NFT() {
             return (
               <div
                 key={v.title}
-                // className={clsx({
-                //   "col-span-2": v.col === 2,
-                //   "col-span-1": v.col === 1,
-                // })}
+                className={clsx({
+                  "col-span-2": v.col === 2,
+                  "col-span-1": v.col === 1,
+                })}
               >
                 <div>{v.title}</div>
                 <div>{v.com}</div>
