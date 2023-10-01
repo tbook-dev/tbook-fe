@@ -7,6 +7,7 @@ import { Spin } from "antd";
 export default function NFT() {
   const { data: assets, isLoading } = useAssetQuery();
   const data = assets?.nfts || [];
+  console.log({assets})
   return (
     <div className={clsx("space-y-2", isLoading && "flex justify-center pt-10")}>
       {isLoading ? (
@@ -14,20 +15,20 @@ export default function NFT() {
       ) : data.length > 0 ? (
         data.map((v) => {
           return (
-            <div className="bg-white rounded-xl p-5 flex gap-x-6" key={v.id}>
+            <div className="bg-white rounded-xl p-5 flex gap-x-6" key={v.nftId}>
               <img
-                src={v.avator}
+                src={v.picUrl}
                 alt="nft"
                 className="w-[84px] h-[84px] rounded-lg object-contain object-center flex-none"
               />
               <div className="flex flex-col justify-between">
                 <div>
                   <h2 className="text-black text-base font-medium mb-1">
-                    {v.nftName}
+                    {v.name}
                   </h2>
                   <p className="text-sm text-black">
                     <span className="mr-1 text-[#717374]">by</span>
-                    {shortAddress(v.creatorAddress)}
+                    {shortAddress(v.contract)}
                   </p>
                 </div>
 
