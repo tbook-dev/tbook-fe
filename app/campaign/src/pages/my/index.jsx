@@ -6,9 +6,9 @@ import Asset from "./Asset";
 
 export default function My() {
   const { campaignId } = useParams();
-  const { firstLoad } = useUserInfoQuery();
+  const { firstLoad, userLogined } = useUserInfoQuery();
 
-  console.log({ campaignId });
+  console.log({ campaignId, userLogined });
   if (!firstLoad) {
     return (
       <div className="flex h-[50vh] items-center justify-center">

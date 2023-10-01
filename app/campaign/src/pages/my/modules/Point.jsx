@@ -24,7 +24,7 @@ export default function Point() {
       {data.list.map((v) => {
         return (
           <div className="flex items-center justify-between py-3 px-5 bg-white rounded-xl">
-            <span>{formatDollar(v.num)}</span>
+            <span>+{formatDollar(v.num)}</span>
             <span>{v.date}</span>
           </div>
         );

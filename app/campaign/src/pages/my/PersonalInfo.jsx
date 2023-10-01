@@ -19,10 +19,15 @@ const tgBotId = import.meta.env.VITE_TG_BOT_ID;
 const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback.html&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback.html`;
 
 export default function PersonalInfo() {
-  const { data, twitterConnected, discordConnected, telegramConnected } =
-    useUserInfoQuery();
+  const {
+    data,
+    userLogined,
+    twitterConnected,
+    discordConnected,
+    telegramConnected,
+  } = useUserInfoQuery();
   const [twCallbackUrl, setTwCallbackUrl] = useState("");
-  const [mainColor, setMainColor] = useState(null)
+  const [mainColor, setMainColor] = useState(null);
 
   const twAuth = async (evt) => {
     evt.preventDefault();
@@ -30,7 +35,6 @@ export default function PersonalInfo() {
     setTwCallbackUrl(() => res["url"]);
     location.href = res["url"];
   };
-
 
   const socialList = useMemo(() => {
     return [
@@ -61,7 +65,6 @@ export default function PersonalInfo() {
     ];
   }, [twitterConnected, discordConnected, telegramConnected, twCallbackUrl]);
 
-
   return (
     <div className="pt-4 flex flex-col items-center gap-y-4">
       <img
@@ -69,15 +72,19 @@ export default function PersonalInfo() {
         alt="user avatar"
         className="w-20 h-20 rounded-full"
       />
-      <p className="text-[#131517] text-base font-medium">
-        {shortAddress(data?.user?.wallet)}
-      </p>
+      
+      {userLogined && (
+        <p className="text-[#131517] text-base font-medium">
+          {shortAddress(data?.user?.wallet)}
+        </p>
+      )}
+
       <div className="flex items-center gap-x-3">
         {socialList.map((v) => {
           const logo = (
             <img
               src={v.connected ? v.activePic : v.picUrl}
-              className="w-4 h-4"
+              className="w-4 h-4 object-contain object-center"
             />
           );
           return v.connected ? (
@@ -88,7 +95,7 @@ export default function PersonalInfo() {
               href={v.callbackUrl}
               onClick={v.handle}
               target="_blank"
-              rel='nofollow noopener noreferrer'
+              rel="nofollow noopener noreferrer"
             >
               {logo}
             </a>

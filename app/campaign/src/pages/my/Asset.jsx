@@ -3,6 +3,8 @@ import Credentials from "./modules/Credential";
 import NFT from "./modules/NFT";
 import Point from "./modules/Point";
 import clsx from "clsx";
+import NotConnect from "./modules/NotConnect";
+import useUserInfoQuery from "@/hooks/useUserInfoQuery";
 
 const tabModule = [
   {
@@ -19,6 +21,7 @@ const tabModule = [
   },
 ];
 export default function Asset() {
+  const { userLogined } = useUserInfoQuery();
   const [select, setSelect] = useState(tabModule[0].name);
 
   return (
@@ -28,6 +31,7 @@ export default function Asset() {
           return (
             <button
               key={m.name}
+              disabled={!userLogined}
               className={clsx(
                 m.name === select && "text-black font-bold border-b-[2px]",
                 "hover:opacity-80 pb-2 border-black min-w-[70px]"
@@ -42,7 +46,11 @@ export default function Asset() {
         })}
       </div>
 
-      <div>{tabModule.find((v) => v.name === select).com}</div>
+      {userLogined ? (
+        <div>{tabModule.find((v) => v.name === select).com}</div>
+      ) : (
+        <NotConnect />
+      )}
     </div>
   );
 }
