@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import pointIcon from '@/images/icon/point.svg'
 import nftIcon from '@/images/icon/nft.svg'
 import { credentialStatus, incentiveMethodList } from '@/utils/conf'
-import { claimCampaign, getNftClaimInfo } from '@/api/incentive'
+import { claimCampaign, getNftClaimInfo, updateClaimed } from '@/api/incentive'
 import { useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { useParams } from 'react-router-dom'
@@ -18,6 +18,7 @@ import abi from '@/abi/st'
 import clsx from 'clsx'
 import WithClaim from './withClaim'
 import RewardStatus from './rewardStatus'
+import { message } from "antd";
 
 //TODO: use chainId from NFT
 const chainId = import.meta.env.VITE_CHAIN_ID
@@ -28,6 +29,8 @@ export default function RewardClaim ({ group }) {
   const { campaignId } = useParams()
   const { address, isConnected, ...others } = useAccount()
   const { switchNetwork, data: currentChain } = useSwitchNetwork()
+  const [curNft, setCurNft] = useState()
+  const [dummyId, setDummyId] = useState()
 
   useEffect(() => {
     if (currentChain?.id != chainId) {
@@ -39,15 +42,20 @@ export default function RewardClaim ({ group }) {
     address: stContract,
     abi: abi,
     functionName: 'claim',
-    args: [1, address, 1, 1, address, ''],
-    enabled: true
+    args: [1, address, 1, 1, address, '0xc48df9f57bab11c2b85d57d53602d000cc19e6341d55fabc1e9ad632c8d050d034c5b7bcb1c9e6ccbadfc34894ad00d72d4f6d5d9823f92ef343aad0bb96ef171c'],
+    enabled: false
   })
 
-  const { data, isLoading, isSuccess, writeAsync } = useContractWrite(config)
+  const { data, isLoading, isSuccess, writeAsync } = useContractWrite({
+    address: stContract,
+    abi: abi,
+    functionName: 'claim'
+  })
 
   const waitForTransaction = useWaitForTransaction({
     hash: data?.hash,
     onSuccess (data) {
+      updateClaimed(curNft.nftId, curNft.groupId, data.transactionHash, dummyId)
       console.log('transaction log: ', data)
     }
   })
@@ -64,7 +72,9 @@ export default function RewardClaim ({ group }) {
 
   const handleClaimNFT = async nft => {
     try {
+      setCurNft(nft)
       const info = await getNftClaimInfo(nft.nftId, nft.groupId)
+      setDummyId(info.dummyId)
       const r = await writeAsync?.({
         args: [
           info.cid,
@@ -76,8 +86,12 @@ export default function RewardClaim ({ group }) {
         ],
         from: address
       })
-      console.log(r)
     } catch (error) {
+      if (error.shortMessage.indexOf('Already minted') >= 0) {
+        message.error('Claim failed: Already minted')
+      } else {
+        message.error('Claim failed')
+      }
       console.log(error)
     }
     await queryClient.refetchQueries(['campaignDetail', campaignId])

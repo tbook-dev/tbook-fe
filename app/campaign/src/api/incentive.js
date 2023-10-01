@@ -61,3 +61,17 @@ export const getUserAsset = async function(projectId){
 export const getNft = async function(groupId, nftId){
   return await request(`${host}/user/${groupId}/nftInfo/${nftId}`)
 }
+export const updateClaimed = async function(nftId, groupId, tx, dummyId) {
+  const data = new URLSearchParams()
+  data.append('tx', tx)
+  data.append('dummyId', dummyId)
+  const res = await fetch(`${host}/nft/claimed/${nftId}/group/${groupId}`, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    credentials: "include",
+    body: data
+  })
+  return await res.json()
+}
