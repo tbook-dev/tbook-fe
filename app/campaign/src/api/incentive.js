@@ -54,3 +54,7 @@ export const getNftClaimInfo = async function (nftId, groupId) {
     credentials: "include",
   });
 };
+
+export const getUserAsset = async function(projectId){
+  return await request(`${host}/project/${projectId}/assets`)
+}

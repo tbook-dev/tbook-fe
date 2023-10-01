@@ -1,30 +1,18 @@
 import { shortAddress } from "@tbook/utils/lib/conf";
 import Empty from "./Empty";
-
-const list = [
-  {
-    id: 1,
-    avator:
-      "https://pic.quanjing.com/hs/rc/QJ6174266377.jpg?x-oss-process=style/794wsy",
-    nftName: "lake-abcxx",
-    creatorAddress: "0x63xc8...bf9b",
-    createTime: "xxx",
-  },
-  {
-    id: 2,
-    avator:
-      "https://pic.quanjing.com/hs/rc/QJ6174266377.jpg?x-oss-process=style/794wsy",
-    nftName: "lake-abcxx",
-    creatorAddress: "0x63xc8...bf9b",
-    createTime: "xxx",
-  },
-];
+import useAssetQuery from "@/hooks/useAssetQuery";
+import clsx from "clsx";
+import { Spin } from "antd";
 
 export default function NFT() {
+  const { data: assets, isLoading } = useAssetQuery();
+  const data = assets?.nfts || [];
   return (
-    <div className="space-y-2">
-      {list.length > 0 ? (
-        list.map((v) => {
+    <div className={clsx("space-y-2", isLoading && "flex justify-center pt-10")}>
+      {isLoading ? (
+        <Spin spinning />
+      ) : data.length > 0 ? (
+        data.map((v) => {
           return (
             <div className="bg-white rounded-xl p-5 flex gap-x-6" key={v.id}>
               <img
