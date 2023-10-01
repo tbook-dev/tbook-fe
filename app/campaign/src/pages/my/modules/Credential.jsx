@@ -1,3 +1,5 @@
+import Empty from "./Empty";
+
 const data = [
   {
     credentialId: 251862450560,
@@ -109,17 +111,25 @@ const data = [
   },
 ];
 export default function Credentials() {
+  const data = []
   return (
     <div className="flex flex-col gap-y-2 items-center">
-      {data.map((v) => (
-        <div className="flex items-center gap-x-1 bg-white rounded-xl py-1 px-3 w-max">
-          <img src={v.picUrl} className="w-5 h-5 object-contain object-center"/>
-          <div
-            key={v.credentialId}
-            dangerouslySetInnerHTML={{ __html: v.displayExp }}
-          />
-        </div>
-      ))}
+      {data.length > 0 ? (
+        data.map((v) => (
+          <div className="flex items-center gap-x-1 bg-white rounded-xl py-1 px-3 w-max">
+            <img
+              src={v.picUrl}
+              className="w-5 h-5 object-contain object-center"
+            />
+            <div
+              key={v.credentialId}
+              dangerouslySetInnerHTML={{ __html: v.displayExp }}
+            />
+          </div>
+        ))
+      ) : (
+        <Empty text="There's no credential yet." />
+      )}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { shortAddress } from "@tbook/utils/lib/conf";
 import clsx from "clsx";
 import linkIcon from "@/images/icon/link.svg";
 import { supportChains } from "@/utils/conf";
+import backIcon from "@/images/icon/back.svg";
 
 const data = {
   picUrl:
@@ -20,9 +21,9 @@ export default function NFT() {
   const { campaignId, nftId } = useParams();
   const list = useMemo(() => {
     const chain = supportChains.find(
-      (v) => (v.value === data.chainId || v.value === 420)
+      (v) => v.value === data.chainId || v.value === 420
     );
-    
+
     return [
       {
         title: "Contract",
@@ -34,7 +35,7 @@ export default function NFT() {
         com: (
           <div className="flex items-center gap-x-1">
             <img
-              sr={chain?.icon}
+              src={chain.icon}
               alt="network"
               className="w-4 h-4 object-center object-contain"
             />
@@ -59,6 +60,7 @@ export default function NFT() {
             <img
               src={linkIcon}
               className="w-4 h-4 object-center object-contain"
+              alt="link"
             />
           </Link>
         ),
@@ -75,7 +77,11 @@ export default function NFT() {
   console.log({ campaignId, nftId });
 
   return (
-    <div>
+    <div className="relative">
+      <Link className="absolute left-2 top-3" to={`/app/${campaignId}`}>
+        <img src={backIcon} alt="back" />
+      </Link>
+
       <div className="w-page-content mx-auto mb-5">
         <img src={data.picUrl} className="w-full" />
       </div>
