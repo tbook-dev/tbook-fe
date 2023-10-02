@@ -1,5 +1,5 @@
 import { useResponsive } from 'ahooks'
-import { Modal, Drawer } from 'antd'
+import { Modal } from 'antd'
 
 export default function AutoModal ({ open, onCancel, onOk, children }) {
   const { pc } = useResponsive()

@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { useAsyncEffect } from 'ahooks'
 import { useDispatch } from 'react-redux'
 import { user } from '@tbook/store'
-import '@/css/style.css'
+import ConnectWalletModal from '@/components/connectWallet'
 // import useTheme from '@/hooks/useTheme'
 
 import { configResponsive } from 'ahooks'
@@ -84,6 +84,7 @@ function App () {
             </div>
           }
         />
+        <ConnectWalletModal />
       </WagmiConfig>
       <Web3Modal
         projectId={import.meta.env.VITE_WC_PROJECT_ID}

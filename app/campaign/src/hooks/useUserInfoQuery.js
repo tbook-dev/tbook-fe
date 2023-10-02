@@ -25,7 +25,7 @@ export default function useUserInfo() {
   const twitterConnected = !!data?.userTwitter?.connected;
   const discordConnected = !!data?.userDc?.connected;
   const telegramConnected = !!data?.userTg?.connected;
-
+  const user = data?.user ?? {};
   const userLogined = isSuccess;
   return {
     data,
@@ -39,6 +39,7 @@ export default function useUserInfo() {
     telegramConnected,
     firstLoad,
     userLogined,
+    user,
     ...props,
   };
 }
