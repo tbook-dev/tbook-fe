@@ -332,6 +332,9 @@ export default function () {
                       ) : campaignNotStart || campaignEnd ? null : (
                         <WithVerify
                           className='text-base text-blue-1 whitespace-nowrap'
+                          sysConnectedMap={sysConnectedMap}
+                          sycLoginFnMap={sycLoginFnMap}
+                          credentialType={credentialType}
                           handleFn={
                             isConnected
                               ? userLogined
