@@ -5,20 +5,22 @@ import clsx from "clsx";
 import linkIcon from "@/images/icon/link.svg";
 import { supportChains } from "@/utils/conf";
 import backIcon from "@/images/icon/back.svg";
+import useNftQuery from "@/hooks/useNftQuery";
 
-const data = {
-  picUrl:
-    "https://pic.quanjing.com/hs/rc/QJ6174266377.jpg?x-oss-process=style/794wsy",
-  contract: "0x330...8b7c",
-  chainId: 420,
-  id: "12",
-  campaignId: "251862450558",
-  campaignName: "Firefly pass membership recruiting",
-  mintTime: "Sep 3, 2023",
-};
+// const data = {
+//   picUrl:
+//     "https://pic.quanjing.com/hs/rc/QJ6174266377.jpg?x-oss-process=style/794wsy",
+//   contract: "0x330...8b7c",
+//   chainId: 420,
+//   id: "12",
+//   campaignId: "251862450558",
+//   campaignName: "Firefly pass membership recruiting",
+//   mintTime: "Sep 3, 2023",
+// };
 
 export default function NFT() {
-  const { campaignId, nftId } = useParams();
+  const { groupId, nftId } = useParams();
+  const { data = {} } = useNftQuery(groupId, nftId);
   const list = useMemo(() => {
     const chain = supportChains.find(
       (v) => v.value === data.chainId || v.value === 420
@@ -46,14 +48,14 @@ export default function NFT() {
       },
       {
         title: "ID",
-        com: `#${data.id}`,
+        com: `#${data.nftId}`,
         col: 2,
       },
       {
         title: "Campaign",
         com: (
           <Link
-            to={`/app/${campaignId}`}
+            to={`/app/${data.campaignId}`}
             className="flex items-center flex-wrap gap-x-1"
           >
             {data.campaignName}
@@ -74,11 +76,10 @@ export default function NFT() {
     ];
   }, [data]);
 
-  console.log({ campaignId, nftId });
 
   return (
     <div className="relative">
-      <Link className="absolute left-2 top-3" to={`/app/${campaignId}`}>
+      <Link className="absolute left-2 top-3" to={`/app/${data.campaignId}`}>
         <img src={backIcon} alt="back" />
       </Link>
 

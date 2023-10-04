@@ -3,19 +3,26 @@ import Empty from "./Empty";
 import useAssetQuery from "@/hooks/useAssetQuery";
 import clsx from "clsx";
 import { Spin } from "antd";
+import { Link } from "react-router-dom";
 
 export default function NFT() {
   const { data: assets, isLoading } = useAssetQuery();
   const data = assets?.nfts || [];
-  console.log({assets})
+  console.log({ assets });
   return (
-    <div className={clsx("space-y-2", isLoading && "flex justify-center pt-10")}>
+    <div
+      className={clsx("space-y-2", isLoading && "flex justify-center pt-10")}
+    >
       {isLoading ? (
         <Spin spinning />
       ) : data.length > 0 ? (
         data.map((v) => {
           return (
-            <div className="bg-white rounded-xl p-5 flex gap-x-6" key={v.nftId}>
+            <Link
+              to={`/my/nft/${v.groupId}/${v.nftId}`}
+              className="bg-white rounded-xl p-5 flex gap-x-6"
+              key={v.nftId}
+            >
               <img
                 src={v.picUrl}
                 alt="nft"
@@ -34,7 +41,7 @@ export default function NFT() {
 
                 <p className="text-[#717374] text-sm">{v.createTime}</p>
               </div>
-            </div>
+            </Link>
           );
         })
       ) : (

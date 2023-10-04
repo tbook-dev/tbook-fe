@@ -42,7 +42,7 @@ const routes = [
         element: <My />
       },
       {
-        path: ':campaignId/nft/:nftId',
+        path: 'nft/:groupId/:nftId',
         element: <NFT />
       }
     ]
