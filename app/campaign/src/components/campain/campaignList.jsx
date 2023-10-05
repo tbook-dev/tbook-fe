@@ -2,7 +2,16 @@ import { Link } from "react-router-dom";
 import { memo } from "react";
 import { incentiveAssetsTypeList } from "@/utils/conf";
 
-function Compaign({ campaignId, picUrl, name, project, users, points , projectId}) {
+function Compaign({
+  campaignId,
+  picUrl,
+  name,
+  project,
+  users,
+  nfts = [],
+  points,
+  projectId,
+}) {
   return (
     <Link
       to={`/app/${projectId}/campaign/${campaignId}`}
@@ -36,6 +45,15 @@ function Compaign({ campaignId, picUrl, name, project, users, points , projectId
         </div>
 
         <div className="flex flex-wrap text-xs font-medium space-x-3 text-lt-1">
+          {nfts.length > 0 && (
+            <div className="py-0.5 flex items-center gap-x-2  text-t-1">
+              <img
+                src={incentiveAssetsTypeList.find((v) => v.value === 2)?.icon}
+                className="w-4 h-4"
+              />
+              NFT
+            </div>
+          )}
           {points.length > 0 && (
             <div className="py-0.5 flex items-center gap-x-2  text-t-1">
               <img

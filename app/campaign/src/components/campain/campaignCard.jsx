@@ -7,11 +7,15 @@ export default function CampaignCard({
   name,
   project,
   users,
+  nfts = [],
   points,
-  projectId
+  projectId,
 }) {
   return (
-    <Link to={`/app/${projectId}/campaign/${campaignId}`} className="flex items-center gap-x-3">
+    <Link
+      to={`/app/${projectId}/campaign/${campaignId}`}
+      className="flex items-center gap-x-3"
+    >
       <img
         src={picUrl}
         className="rounded-2.5xl w-[100px] h-[100px] object-center object-cover"
@@ -29,6 +33,15 @@ export default function CampaignCard({
         </div>
         <div>
           <div className="flex flex-wrap font-medium space-x-3 text-lt-1 text-sm">
+            {nfts.length > 0 && (
+              <div className="py-0.5 flex items-center gap-x-2  text-t-1">
+                <img
+                  src={incentiveAssetsTypeList.find((v) => v.value === 1)?.icon}
+                  className="w-5 h-5"
+                />
+                NFT
+              </div>
+            )}
             {points.length > 0 && (
               <div className="py-0.5 flex items-center gap-x-2  text-t-1">
                 <img
