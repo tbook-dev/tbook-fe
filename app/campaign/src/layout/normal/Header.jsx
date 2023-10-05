@@ -4,7 +4,7 @@ import { Web3Button } from "@web3modal/react";
 import clsx from "clsx";
 import { useResponsive } from "ahooks";
 import { useSelector } from "react-redux";
-import Links from "./Links";
+import Links from "../common/Links";
 import MobleMenu from "./MobleMenu";
 
 function Header() {

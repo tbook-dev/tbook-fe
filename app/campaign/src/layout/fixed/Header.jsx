@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import logo from "@/images/icon/logo.svg";
 import { Web3Button } from "@web3modal/react";
 import clsx from "clsx";
-import Links from "./Links";
-import MobleMenu from "./MobleMenu";
+import Links from "../common/Links";
+import MobleMenu from "../normal/MobleMenu";
 import { useResponsive } from "ahooks";
 
 function Header() {
