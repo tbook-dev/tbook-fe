@@ -250,7 +250,7 @@ export default function () {
       </div>
       <SucessModal
         open={!!sucessData}
-        shareLink={`${getUrl()}/app/${projectId}/${get(sucessData, 'campaign.campaignId')}`}
+        shareLink={`${getUrl()}/app/${projectId}/campaign/${get(sucessData, 'campaign.campaignId')}`}
         setOpen={setSucessData}
         jumpLink={`/campaign/${get(sucessData, 'campaign.campaignId')}/detail`}
       />

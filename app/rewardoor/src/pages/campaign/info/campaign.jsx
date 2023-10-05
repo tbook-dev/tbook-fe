@@ -30,7 +30,7 @@ export default function Campaign () {
   )
   // console.log({ pageInfo })
   const credentialSet = credentialList.map(v => v.credentialList).flat()
-  const link = `${getUrl()}/app/${projectId}/${id}`
+  const link = `${getUrl()}/app/${projectId}/campaign/${id}`
   return (
     <div className='space-y-10 mb-10'>
       <div>

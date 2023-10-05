@@ -8,9 +8,10 @@ export default function CampaignCard({
   project,
   users,
   points,
+  projectId
 }) {
   return (
-    <Link to={`/app/${campaignId}`} className="flex items-center gap-x-3">
+    <Link to={`/app/${projectId}/campaign/${campaignId}`} className="flex items-center gap-x-3">
       <img
         src={picUrl}
         className="rounded-2.5xl w-[100px] h-[100px] object-center object-cover"

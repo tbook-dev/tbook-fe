@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 import { memo } from "react";
 import { incentiveAssetsTypeList } from "@/utils/conf";
 
-function Compaign({ campaignId, picUrl, name, project, users, points }) {
+function Compaign({ campaignId, picUrl, name, project, users, points , projectId}) {
   return (
     <Link
-      to={`/app/${campaignId}`}
+      to={`/app/${projectId}/campaign/${campaignId}`}
       className="rounded-3xl overflow-hidden bg-white flex flex-col shadow-s2"
     >
       <img

@@ -4,6 +4,7 @@ import HomeLayout from './layout/HomeLayout'
 import Home from '@/pages/home'
 import App from '@/pages/app'
 import My from '@/pages/my'
+import Campaign from '@/pages/my/campaign'
 import NFT from '@/pages/my/nft'
 import Explore from '@/pages/explore'
 
@@ -24,30 +25,34 @@ const routes = [
     ]
   },
   {
-    path: 'app',
-    element: <MyLayout />,
-    children: [
-      {
-        path: ':projectId',
-        element: <My />
-      },
-      {
-        path: ':projectId/:campaignId',
-        element: <App />
-      },
-      {
-        path: ':projectId/nft/:groupId/:nftId',
-        element: <NFT />
-      }
-    ]
-  },
-  {
     path: '/explore',
     element: <Layout />,
     children: [
       {
         index: true,
         element: <Explore />
+      }
+    ]
+  },
+  {
+    path: 'app',
+    element: <MyLayout />,
+    children: [
+      {
+        path: ':projectId/asset',
+        element: <My />
+      },
+      {
+        path: ':projectId/campaign',
+        element: <Campaign />
+      },
+      {
+        path: ':projectId/campaign/:campaignId',
+        element: <App />
+      },
+      {
+        path: ':projectId/nft/:groupId/:nftId',
+        element: <NFT />
       }
     ]
   },

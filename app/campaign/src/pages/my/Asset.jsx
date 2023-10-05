@@ -1,53 +1,43 @@
-import { useState } from "react";
+import TabList from "./TabList";
 import Credentials from "./modules/Credential";
 import NFT from "./modules/NFT";
 import Point from "./modules/Point";
-import clsx from "clsx";
 import NotConnect from "./modules/NotConnect";
 import useUserInfoQuery from "@/hooks/useUserInfoQuery";
+import { useState } from "react";
 
 const tabModule = [
   {
     name: "credentials",
+    value: 1,
     com: <Credentials />,
   },
   {
     name: "nfts",
+    value: 2,
     com: <NFT />,
   },
   {
     name: "points",
+    value: 3,
     com: <Point />,
   },
 ];
 export default function Asset() {
   const { userLogined } = useUserInfoQuery();
-  const [select, setSelect] = useState(tabModule[0].name);
+  const [value, setValue] = useState(tabModule[0].value);
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-center gap-x-6 text-sm font-medium text-[#717374]">
-        {tabModule.map((m) => {
-          return (
-            <button
-              key={m.name}
-              disabled={!userLogined}
-              className={clsx(
-                m.name === select && "text-black font-bold border-b-[2px]",
-                "hover:opacity-80 pb-2 border-black min-w-[70px]"
-              )}
-              onClick={() => {
-                setSelect(m.name);
-              }}
-            >
-              {m.name}
-            </button>
-          );
-        })}
-      </div>
+      <TabList
+        disabled={!userLogined}
+        tabs={tabModule}
+        value={value}
+        onSelect={setValue}
+      />
 
       {userLogined ? (
-        <div>{tabModule.find((v) => v.name === select).com}</div>
+        <div>{tabModule.find((v) => v.value === value).com}</div>
       ) : (
         <NotConnect />
       )}
