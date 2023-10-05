@@ -7,10 +7,12 @@ import { supportChains } from "@/utils/conf";
 import backIcon from "@/images/icon/back.svg";
 import useNftQuery from "@/hooks/useNftQuery";
 import dayjs from "dayjs";
+import { Spin } from "antd";
+
 
 export default function NFT() {
   const { projectId, groupId, nftId } = useParams();
-  const { data = {} } = useNftQuery(groupId, nftId);
+  const { data = {}, isLoading } = useNftQuery(groupId, nftId);
   const list = useMemo(() => {
     const chain = supportChains.find(
       (v) => v.value === data.chainId || v.value === 420
@@ -65,7 +67,13 @@ export default function NFT() {
       },
     ];
   }, [data]);
-
+  if (isLoading) {
+    return (
+      <div className="flex h-[50vh] items-center justify-center">
+        <Spin spinning />
+      </div>
+    );
+  }
   return (
     <div className="relative">
       <Link className="lg:hidden absolute left-2 top-3" to={`/app/${data.campaignId}`}>
