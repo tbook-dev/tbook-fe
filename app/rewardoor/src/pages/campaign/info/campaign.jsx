@@ -28,11 +28,11 @@ export default function Campaign () {
       staleTime: Infinity
     }
   )
-  console.log({ pageInfo })
+  // console.log({ pageInfo })
   const credentialSet = credentialList.map(v => v.credentialList).flat()
-  const link = `${getUrl()}/app/${id}`
+  const link = `${getUrl()}/app/${projectId}/${id}`
   return (
-    <div className='space-y-10'>
+    <div className='space-y-10 mb-10'>
       <div>
         <h2 className='font-bold text-base mb-4 text-t-1'>Campaign Sharing</h2>
         <Paragraph
