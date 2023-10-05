@@ -4,11 +4,14 @@ import useAssetQuery from "@/hooks/useAssetQuery";
 import clsx from "clsx";
 import { Spin } from "antd";
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
+import { useParams } from "react-router-dom";
 
 export default function NFT() {
   const { data: assets, isLoading } = useAssetQuery();
+  const { projectId } = useParams();
   const data = assets?.nfts || [];
-  console.log({ assets });
+  
   return (
     <div
       className={clsx("space-y-2", isLoading && "flex justify-center pt-10")}
@@ -19,7 +22,7 @@ export default function NFT() {
         data.map((v) => {
           return (
             <Link
-              to={`/my/nft/${v.groupId}/${v.nftId}`}
+              to={`/app/${projectId}/nft/${v.groupId}/${v.nftId}`}
               className="bg-white rounded-xl p-5 flex gap-x-6"
               key={v.nftId}
             >
@@ -39,7 +42,7 @@ export default function NFT() {
                   </p>
                 </div>
 
-                <p className="text-[#717374] text-sm">{v.createTime}</p>
+                <p className="text-[#717374] text-sm">{dayjs(v.claimedDate).format("MMM D, YYYY")}</p>
               </div>
             </Link>
           );

@@ -1,4 +1,4 @@
-import ShareLayout from './layout/ShareLayout'
+import MyLayout from './layout/MyLayout'
 import Layout from './layout/Layout'
 import HomeLayout from './layout/HomeLayout'
 import Home from '@/pages/home'
@@ -25,24 +25,18 @@ const routes = [
   },
   {
     path: 'app',
-    element: <ShareLayout />,
+    element: <MyLayout />,
     children: [
       {
-        path: ':campaignId',
-        element: <App />
-      }
-    ]
-  },
-  {
-    path: 'my',
-    element: <ShareLayout />,
-    children: [
-      {
-        path: ':campaignId',
+        path: ':projectId',
         element: <My />
       },
       {
-        path: 'nft/:groupId/:nftId',
+        path: ':projectId/:campaignId',
+        element: <App />
+      },
+      {
+        path: ':projectId/nft/:groupId/:nftId',
         element: <NFT />
       }
     ]
@@ -57,10 +51,9 @@ const routes = [
       }
     ]
   },
-
   {
     path: '/twitter/callback',
-    element: <ShareLayout />,
+    element: <MyLayout />,
     children: [
       {
         index: true,
@@ -70,7 +63,7 @@ const routes = [
   },
   {
     path: '/tg_callback',
-    element: <ShareLayout />,
+    element: <MyLayout />,
     children: [
       {
         index: true,
@@ -80,7 +73,7 @@ const routes = [
   },
   {
     path: '/dc_callback',
-    element: <ShareLayout />,
+    element: <MyLayout />,
     children: [
       {
         index: true,

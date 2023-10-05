@@ -6,20 +6,10 @@ import linkIcon from "@/images/icon/link.svg";
 import { supportChains } from "@/utils/conf";
 import backIcon from "@/images/icon/back.svg";
 import useNftQuery from "@/hooks/useNftQuery";
-
-// const data = {
-//   picUrl:
-//     "https://pic.quanjing.com/hs/rc/QJ6174266377.jpg?x-oss-process=style/794wsy",
-//   contract: "0x330...8b7c",
-//   chainId: 420,
-//   id: "12",
-//   campaignId: "251862450558",
-//   campaignName: "Firefly pass membership recruiting",
-//   mintTime: "Sep 3, 2023",
-// };
+import dayjs from "dayjs";
 
 export default function NFT() {
-  const { groupId, nftId } = useParams();
+  const { projectId, groupId, nftId } = useParams();
   const { data = {} } = useNftQuery(groupId, nftId);
   const list = useMemo(() => {
     const chain = supportChains.find(
@@ -55,7 +45,7 @@ export default function NFT() {
         title: "Campaign",
         com: (
           <Link
-            to={`/app/${data.campaignId}`}
+            to={`/app/${projectId}/${data.campaignId}`}
             className="flex items-center flex-wrap gap-x-1"
           >
             {data.campaignName}
@@ -70,16 +60,15 @@ export default function NFT() {
       },
       {
         title: "Mint Time",
-        com: data.mintTime,
+        com: dayjs(data.claimedDate).format("MMM D, YYYY"),
         col: 2,
       },
     ];
   }, [data]);
 
-
   return (
     <div className="relative">
-      <Link className="absolute left-2 top-3" to={`/app/${data.campaignId}`}>
+      <Link className="lg:hidden absolute left-2 top-3" to={`/app/${data.campaignId}`}>
         <img src={backIcon} alt="back" />
       </Link>
 
