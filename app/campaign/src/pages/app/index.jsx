@@ -17,13 +17,16 @@ import { Spin, Statistic } from "antd";
 import { message } from "antd";
 import { useWeb3Modal } from "@web3modal/react";
 import { useAccount, useWalletClient, useSignMessage } from "wagmi";
-import useSignIn from "@/hooks/useSignIn";
+// import useSignIn from "@/hooks/useSignIn";
 import WithVerify from "@/components/withVerify";
-import { getNonce } from "@/utils/web3";
+// import { getNonce } from "@/utils/web3";
 import { host, verifyTbook } from "@/api/incentive";
 import { getCrenditialType } from "@/utils/conf";
 import RewardClaim from "./rewardClaim";
 import dateIcon from "@/images/icon/date.svg";
+import { useDispatch } from "react-redux";
+import { setConnectWalletModal } from "@/store/global";
+
 
 const { Countdown } = Statistic;
 
@@ -44,8 +47,9 @@ const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=114641
 export default function () {
   const [messageApi, contextHolder] = message.useMessage();
   const { pc } = useResponsive();
+  const dispath = useDispatch();
   const { open } = useWeb3Modal();
-  const { handleSignIn } = useSignIn();
+  // const { handleSignIn } = useSignIn();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
   const {
@@ -62,22 +66,22 @@ export default function () {
   const twLinkRef = useRef(null);
   const [twLink, setTwLink] = useState("");
 
-  const [nonce, setNonce] = useState("");
+  // const [nonce, setNonce] = useState("");
 
-  const { data: walletClient, isError, isLoading } = useWalletClient();
+  // const { data: walletClient, isError, isLoading } = useWalletClient();
 
   const { address, isConnected, isDisconnected } = useAccount();
 
   const [rawDatas, setRawDatas] = useState({});
   const [signed, setSigned] = useState({});
 
-  useEffect(() => {
-    if (isConnected) {
-      getNonce(address).then((r) => {
-        setNonce(() => r);
-      });
-    }
-  }, [isConnected, address]);
+  // useEffect(() => {
+  //   if (isConnected) {
+  //     getNonce(address).then((r) => {
+  //       setNonce(() => r);
+  //     });
+  //   }
+  // }, [isConnected, address]);
 
   const twLoginCurrent = async () => {
     const res = await getTwLoginUrl();
@@ -92,27 +96,30 @@ export default function () {
     }
   }, [twLink]);
 
-  const signIn = async () => {
-    const sign = await signMessageAsync({ message: nonce });
-    const d = new URLSearchParams();
-    d.append("address", address);
-    d.append("sign", sign);
-    const response = await fetch(`${host}/authenticate`, {
-      credentials: "include",
-      method: "POST",
-      headers: {
-        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-      },
-      body: d,
-    });
-    console.log("status:", response.status);
-    response.text().then((b) => console.log("body", b));
-    response.headers.forEach((value, key) => {
-      console.log(key, value);
-    });
-    console.log(document.cookie);
-    await queryClient.refetchQueries("userInfo");
-  };
+  // const signIn = async () => {
+  //   const sign = await signMessageAsync({ message: nonce });
+  //   const d = new URLSearchParams();
+  //   d.append("address", address);
+  //   d.append("sign", sign);
+  //   const response = await fetch(`${host}/authenticate`, {
+  //     credentials: "include",
+  //     method: "POST",
+  //     headers: {
+  //       "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+  //     },
+  //     body: d,
+  //   });
+  //   console.log("status:", response.status);
+  //   response.text().then((b) => console.log("body", b));
+  //   response.headers.forEach((value, key) => {
+  //     console.log(key, value);
+  //   });
+  //   console.log(document.cookie);
+  //   await queryClient.refetchQueries("userInfo");
+  // };
+  const signIn = useCallback(() => {
+    dispath(setConnectWalletModal(true));
+  }, []);
 
   const handleCancel = useCallback(() => {
     setRewardModalIdx(-1);

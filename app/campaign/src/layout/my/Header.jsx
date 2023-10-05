@@ -40,12 +40,13 @@ function Header() {
 
           <Links hidden={!pc} />
 
-          <div className="hidden lg:flex items-center space-x-3">
-            <Web3Button icon="show" balance="hide" avatar="hide" />
-          </div>
-
           {userLogined ? (
-            <MobleMenu />
+            <>
+              <div className="hidden lg:flex items-center space-x-3">
+                <Web3Button icon="show" balance="hide" avatar="hide" />
+              </div>
+              <MobleMenu />
+            </>
           ) : (
             <button className="px-2 py-1 text-sm" onClick={handleClick}>
               Connect Wallet

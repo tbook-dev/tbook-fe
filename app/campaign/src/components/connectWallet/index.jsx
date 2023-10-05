@@ -1,15 +1,18 @@
-import { Modal, Typography } from "antd";
+import { Modal, Typography, Spin } from "antd";
 import { useSelector } from "react-redux";
 import { useResponsive } from "ahooks";
 import clsx from "clsx";
 import { conf } from "@tbook/utils";
 import copyIcon from "@/images/icon/copy.svg";
 import { CheckOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { setConnectWalletModal } from "@/store/global";
 import { useWeb3Modal } from "@web3modal/react";
-import { useAccount } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
+import { getNonce } from "@/utils/web3";
+import { useQueryClient } from "react-query";
+import { host } from "@/api/incentive";
 
 const { shortAddress } = conf;
 const { Paragraph } = Typography;
@@ -34,11 +37,55 @@ const ConnectWalletModal = () => {
   const showConnectWalletModal = useSelector(
     (s) => s.global.showConnectWalletModal
   );
+  const queryClient = useQueryClient();
   const dispath = useDispatch();
-  const { isConnected, address } = useAccount()
+  const { isConnected, address } = useAccount();
   const { pc } = useResponsive();
-  const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
+  const { open } = useWeb3Modal();
   const [nonce, setNonce] = useState("");
+  const { signMessageAsync } = useSignMessage();
+  const [loading, setLoading] = useState(false);
+
+  const signIn = async () => {
+    setLoading(true);
+    try {
+      const sign = await signMessageAsync({ message: nonce });
+      const d = new URLSearchParams();
+      d.append("address", address);
+      d.append("sign", sign);
+      const response = await fetch(`${host}/authenticate`, {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+        body: d,
+      });
+      console.log("status:", response.status);
+      response.text().then((b) => console.log("body", b));
+      response.headers.forEach((value, key) => {
+        console.log(key, value);
+      });
+      console.log(document.cookie);
+      await queryClient.refetchQueries("userInfo");
+      handleCloseModal();
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (isConnected) {
+      getNonce(address).then((r) => {
+        setNonce(() => r);
+      });
+    }
+  }, [isConnected, address]);
+
+  const handleCloseModal = useCallback(() => {
+    dispath(setConnectWalletModal(false));
+  }, []);
 
   return (
     <Modal
@@ -47,9 +94,7 @@ const ConnectWalletModal = () => {
       centered
       open={showConnectWalletModal}
       closable={pc ? true : false}
-      onCancel={() => {
-        dispath(setConnectWalletModal(false));
-      }}
+      onCancel={handleCloseModal}
     >
       <div className="text-black -mx-6">
         <h1 className="text-base font-medium border-b px-5 pb-3 border-[#ececec]">
@@ -115,8 +160,12 @@ const ConnectWalletModal = () => {
             <p className={clsx("text-[#717374] text-xs mb-6")}>
               {pageConf.step2.desc}
             </p>
-            <button className="px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md">
-              {pageConf.step2.button}
+            <button
+              onClick={signIn}
+              className="px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md"
+            >
+              {pageConf.step2.button}{" "}
+              {loading && <Spin spinning size="small" className="ml-1" />}
             </button>
           </div>
         </div>

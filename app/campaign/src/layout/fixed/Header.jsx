@@ -6,10 +6,18 @@ import { useResponsive } from "ahooks";
 import { useSelector } from "react-redux";
 import Links from "../common/Links";
 import MobleMenu from "../common/MobleMenu";
+import useUserInfo from "@/hooks/useUserInfoQuery";
+import { useDispatch } from "react-redux";
+import { setConnectWalletModal } from "@/store/global";
 
 function Header() {
   const { pc } = useResponsive();
   const headerTransparent = useSelector((s) => s.global.headerTransparent);
+  const { userLogined } = useUserInfo();
+  const dispath = useDispatch();
+  const handleClick = () => {
+    dispath(setConnectWalletModal(true));
+  };
   return (
     <header
       className={clsx(
@@ -26,13 +34,20 @@ function Header() {
             </Link>
           </div>
 
-          <Links hidden={!pc}/>
+          <Links hidden={!pc} />
 
-          <div className="hidden lg:flex items-center space-x-3">
-            <Web3Button icon="show" balance="hide" avatar="hide" />
-          </div>
-
-          <MobleMenu />
+          {userLogined ? (
+            <>
+              <div className="hidden lg:flex items-center space-x-3">
+                <Web3Button icon="show" balance="hide" avatar="hide" />
+              </div>
+              <MobleMenu />
+            </>
+          ) : (
+            <button className="px-2 py-1 text-sm" onClick={handleClick}>
+              Connect Wallet
+            </button>
+          )}
         </div>
       </div>
     </header>
