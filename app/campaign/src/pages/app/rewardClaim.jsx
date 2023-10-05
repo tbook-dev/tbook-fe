@@ -54,9 +54,10 @@ export default function RewardClaim ({ group }) {
 
   const waitForTransaction = useWaitForTransaction({
     hash: data?.hash,
-    onSuccess (data) {
-      updateClaimed(curNft.nftId, curNft.groupId, data.transactionHash, dummyId)
+    async onSuccess (data) {
       console.log('transaction log: ', data)
+      await updateClaimed(curNft.nftId, curNft.groupId, data.transactionHash, dummyId)
+      queryClient.refetchQueries(['campaignDetail', campaignId])
     }
   })
 
@@ -94,7 +95,7 @@ export default function RewardClaim ({ group }) {
       }
       console.log(error)
     }
-    await queryClient.refetchQueries(['campaignDetail', campaignId])
+    // await queryClient.refetchQueries(['campaignDetail', campaignId])
   }
 
   return (
