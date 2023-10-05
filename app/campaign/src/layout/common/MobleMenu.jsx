@@ -4,7 +4,7 @@ import { Drawer } from "antd";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { CloseOutlined } from "@ant-design/icons";
-import Links from "../common/Links";
+import Links from "./Links";
 import { useCallback } from "react";
 import { Web3Button } from "@web3modal/react";
 

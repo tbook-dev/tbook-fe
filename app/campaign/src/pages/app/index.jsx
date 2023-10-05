@@ -194,7 +194,7 @@ export default function () {
   }
 
   return (
-    <div className='space-y-2.5 px-2.5 lg:px-0 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1'>
+    <div className='space-y-2.5 px-2.5 pt-3 lg:pt-5 lg:px-0 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1'>
       <section className='rounded-lg overflow-hidden bg-white lg:rounded-2xl'>
         <img
           src={page?.campaign?.picUrl}

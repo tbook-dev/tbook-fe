@@ -3,7 +3,7 @@ import { getProjectInfo } from "@/api/incentive";
 
 export default function useProjectQuery(projectId) {
   return useQuery(["project", projectId], () => getProjectInfo(projectId), {
-    cacheTime: 0,
+    staleTime: 5000,
     enabled: !!projectId,
   });
 }

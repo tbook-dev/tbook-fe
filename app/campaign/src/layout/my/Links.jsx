@@ -1,9 +1,10 @@
-import { links } from "./conf";
 import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import { useMemo } from "react";
+import { useNavLink } from "./conf";
 
 export default function Links({ inDrawer = false, hidden = false }) {
+  const links = useNavLink();
   const displayNone = useMemo(() => {
     if (hidden) {
       return true;
