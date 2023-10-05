@@ -1,7 +1,6 @@
 import { Modal, Typography } from "antd";
 import { useSelector } from "react-redux";
 import { useResponsive } from "ahooks";
-import useUserInfoQuery from "@/hooks/useUserInfoQuery";
 import clsx from "clsx";
 import { conf } from "@tbook/utils";
 import copyIcon from "@/images/icon/copy.svg";
@@ -9,6 +8,8 @@ import { CheckOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setConnectWalletModal } from "@/store/global";
+import { useWeb3Modal } from "@web3modal/react";
+import { useAccount } from "wagmi";
 
 const { shortAddress } = conf;
 const { Paragraph } = Typography;
@@ -34,8 +35,9 @@ const ConnectWalletModal = () => {
     (s) => s.global.showConnectWalletModal
   );
   const dispath = useDispatch();
-  const { userLogined, user } = useUserInfoQuery();
+  const { isConnected, address } = useAccount()
   const { pc } = useResponsive();
+  const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
   const [nonce, setNonce] = useState("");
 
   return (
@@ -58,7 +60,7 @@ const ConnectWalletModal = () => {
             <div
               className={clsx(
                 "text-base font-medium",
-                userLogined && "text-[#A1A1A2]"
+                isConnected && "text-[#A1A1A2]"
               )}
             >
               <h2>{pageConf.step1.name}</h2>
@@ -67,18 +69,18 @@ const ConnectWalletModal = () => {
             <p
               className={clsx(
                 "text-[#717374] text-xs mb-6",
-                userLogined && "text-[#A1A1A2]"
+                isConnected && "text-[#A1A1A2]"
               )}
             >
               {pageConf.step1.desc}
             </p>
-            {userLogined ? (
+            {isConnected ? (
               <div className="px-4 bg-[#f8f9fa] rounded w-max h-8 flex items-center">
                 <Paragraph
                   className="flex items-center"
                   style={{ marginBottom: 0 }}
                   copyable={{
-                    text: user.wallet,
+                    text: address,
                     icon: (
                       <img
                         src={copyIcon}
@@ -90,12 +92,15 @@ const ConnectWalletModal = () => {
                 >
                   <CheckOutlined style={{ color: "green" }} />
                   <span className="font-medium text-sm ml-2 mr-1 text-[#A1A1A2]">
-                    {shortAddress(user.wallet)}
+                    {shortAddress(address)}
                   </span>
                 </Paragraph>
               </div>
             ) : (
-              <button className="px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md">
+              <button
+                onClick={open}
+                className="px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md"
+              >
                 {pageConf.step1.button}
               </button>
             )}

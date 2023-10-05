@@ -94,7 +94,8 @@ function App () {
           '--w3m-font-family': 'Red Hat Display, sans-serif',
           '--w3m-accent-color': '#fff',
           '--w3m-accent-fill-color': '#666',
-          '--w3m-button-border-radius': '20px'
+          '--w3m-button-border-radius': '20px',
+          '--w3m-z-index': 10001
         }}
       />
     </>
