@@ -6,12 +6,19 @@ import Links from "./Links";
 import MobleMenu from "./MobleMenu";
 import { useParams } from "react-router-dom";
 import useProjectQuery from "@/hooks/useProjectQuery";
+import useUserInfo from "@/hooks/useUserInfoQuery";
+import { useDispatch } from "react-redux";
+import { setConnectWalletModal } from "@/store/global";
 
 function Header() {
   const { pc } = useResponsive();
   const { projectId } = useParams();
   const { data: project } = useProjectQuery(projectId);
-
+  const { userLogined } = useUserInfo();
+  const dispath = useDispatch();
+  const handleClick = () => {
+    dispath(setConnectWalletModal(true));
+  };
   return (
     <header
       className={clsx(
@@ -37,7 +44,13 @@ function Header() {
             <Web3Button icon="show" balance="hide" avatar="hide" />
           </div>
 
-          <MobleMenu />
+          {userLogined ? (
+            <MobleMenu />
+          ) : (
+            <button className="px-2 py-1 text-sm" onClick={handleClick}>
+              Connect Wallet
+            </button>
+          )}
         </div>
       </div>
     </header>

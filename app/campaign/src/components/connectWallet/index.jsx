@@ -7,6 +7,8 @@ import { conf } from "@tbook/utils";
 import copyIcon from "@/images/icon/copy.svg";
 import { CheckOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setConnectWalletModal } from "@/store/global";
 
 const { shortAddress } = conf;
 const { Paragraph } = Typography;
@@ -31,6 +33,7 @@ const ConnectWalletModal = () => {
   const showConnectWalletModal = useSelector(
     (s) => s.global.showConnectWalletModal
   );
+  const dispath = useDispatch();
   const { userLogined, user } = useUserInfoQuery();
   const { pc } = useResponsive();
   const [nonce, setNonce] = useState("");
@@ -42,6 +45,9 @@ const ConnectWalletModal = () => {
       centered
       open={showConnectWalletModal}
       closable={pc ? true : false}
+      onCancel={() => {
+        dispath(setConnectWalletModal(false));
+      }}
     >
       <div className="text-black -mx-6">
         <h1 className="text-base font-medium border-b px-5 pb-3 border-[#ececec]">
