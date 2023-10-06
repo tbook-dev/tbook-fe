@@ -2,21 +2,21 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useCampaignQuery from "@/hooks/useCampaignQuery";
 
-export default function WithClaim({ handleFn, item }) {
+export default function WithClaim({ handleFn, item, loading }) {
   const { campaignId } = useParams();
   const { campaignNotStart } = useCampaignQuery(campaignId);
-  const [loading, updateLoading] = useState(false);
+  //const [loading, updateLoading] = useState(false);
   const handleClick = async function () {
     if (item.disabled) return;
-    updateLoading(true);
+    //updateLoading(true);
     try {
       // await new Promise((resolve) =>{
       //   setTimeout(resolve, 10000)
       // })
       await handleFn();
-      updateLoading(false);
+      //updateLoading(false);
     } catch (e) {
-      updateLoading(false);
+      //updateLoading(false);
       console.log(e);
     }
   };

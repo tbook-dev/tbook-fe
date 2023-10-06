@@ -73,5 +73,5 @@ export const updateClaimed = async function(nftId, groupId, tx, dummyId) {
     credentials: "include",
     body: data
   })
-  return await res.json()
+  return await res.text()
 }

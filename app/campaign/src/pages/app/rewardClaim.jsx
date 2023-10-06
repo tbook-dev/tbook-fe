@@ -31,6 +31,7 @@ export default function RewardClaim ({ group }) {
   const { switchNetwork, data: currentChain } = useSwitchNetwork()
   const [curNft, setCurNft] = useState()
   const [dummyId, setDummyId] = useState()
+  const [loading, updateLoading] = useState(false);
 
   useEffect(() => {
     if (currentChain?.id != chainId) {
@@ -57,11 +58,13 @@ export default function RewardClaim ({ group }) {
     async onSuccess (data) {
       console.log('transaction log: ', data)
       await updateClaimed(curNft.nftId, curNft.groupId, data.transactionHash, dummyId)
-      queryClient.refetchQueries(['campaignDetail', campaignId])
+      await queryClient.refetchQueries(['campaignDetail', campaignId])
+      updateLoading(false)
     }
   })
 
   const handleClaim = async () => {
+    updateLoading(true)
     try {
       console.log('handleClaimPoint')
       await claimCampaign(group.id)
@@ -69,10 +72,12 @@ export default function RewardClaim ({ group }) {
       console.log(error)
     }
     await queryClient.refetchQueries(['campaignDetail', campaignId])
+    updateLoading(false)
   }
 
   const handleClaimNFT = async nft => {
     try {
+      updateLoading(true)
       setCurNft(nft)
       const info = await getNftClaimInfo(nft.nftId, nft.groupId)
       setDummyId(info.dummyId)
@@ -94,6 +99,7 @@ export default function RewardClaim ({ group }) {
         message.error('Claim failed')
       }
       console.log(error)
+      updateLoading(false)
     }
     // await queryClient.refetchQueries(['campaignDetail', campaignId])
   }
@@ -156,6 +162,7 @@ export default function RewardClaim ({ group }) {
                 await handleClaimNFT(nft)
               }}
               item={itemStatus}
+              loading={loading}
             />
           </div>
         )
@@ -198,6 +205,7 @@ export default function RewardClaim ({ group }) {
                 handleClaim(point)
               }}
               item={itemStatus}
+              loading={loading}
             />
           </div>
         )
