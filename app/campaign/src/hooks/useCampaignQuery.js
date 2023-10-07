@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 const notStartList = [2, 0];
 const endList = [3, 4, 5];
 
-export default function useUserInfo(campaignId) {
+export default function useCampaignQuery(campaignId) {
   const [firstLoad, setFirstLoad] = useState(false);
   const { isLoading, data: page, ...props } = useQuery(
     ["campaignDetail", campaignId],
     () => getCampaignDetail(campaignId),
     {
-      cacheTime: 0,
+      staleTime: 50000,
       enabled: !!campaignId,
       retry: false
     }
