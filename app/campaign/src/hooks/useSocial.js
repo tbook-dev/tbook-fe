@@ -23,6 +23,7 @@ export default function useSocial() {
   const twAuth = async (evt) => {
     evt?.preventDefault();
     const res = await getTwLoginUrl();
+    localStorage.setItem("redirect_url", location.href);
     setTwCallbackUrl(() => res["url"]);
     location.href = res["url"];
   };
@@ -35,8 +36,6 @@ export default function useSocial() {
         picUrl: dcGray,
         activePic: dc,
         activeColor: "#5865F2",
-        callbackUrl: dcCallbackUrl,
-        handle: noop,
         loginFn: () => {
           localStorage.setItem("redirect_url", location.href);
           location.href = dcCallbackUrl;
@@ -51,14 +50,7 @@ export default function useSocial() {
         picUrl: xGray,
         activePic: x,
         activeColor: "#1DA1F2",
-        callbackUrl: twCallbackUrl,
-        handle: twAuth,
-        loginFn: async () => {
-          const res = await getTwLoginUrl();
-          localStorage.setItem("redirect_url", location.href);
-          // setTwLink(() => res["url"]);
-          location.href = res["url"];
-        },
+        loginFn: twAuth,
         userName: data?.userTwitter?.twitterUserName ?? "",
         occupied: data?.userTwitter?.occupied || false,
         occupiedText: `This Twitter @${data?.userTwitter?.twitterUserName} has been connected to another address. Please switch to another Twitter account and try again.`,
@@ -69,8 +61,6 @@ export default function useSocial() {
         picUrl: tgGray,
         activePic: tg,
         activeColor: "#2AABEE",
-        callbackUrl: tgCallbackUrl,
-        handle: noop,
         loginFn: () => {
           localStorage.setItem("redirect_url", location.href);
           location.href = tgCallbackUrl;

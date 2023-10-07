@@ -5,12 +5,9 @@ import { useState } from "react";
 import useSocial from "@/hooks/useSocial";
 
 export default function PersonalInfo() {
-  const {
-    data,
-    userLogined,
-  } = useUserInfoQuery();
+  const { data, userLogined } = useUserInfoQuery();
   const [mainColor, setMainColor] = useState(null);
-  const { socialList} =useSocial()
+  const { socialList } = useSocial();
 
   return (
     <div className="pt-4 flex flex-col items-center gap-y-4">
@@ -19,7 +16,7 @@ export default function PersonalInfo() {
         alt="user avatar"
         className="w-20 h-20 rounded-full"
       />
-      
+
       {userLogined && (
         <p className="text-[#131517] text-base font-medium">
           {shortAddress(data?.user?.wallet)}
@@ -37,15 +34,14 @@ export default function PersonalInfo() {
           return v.connected ? (
             <span key={v.name}>{logo}</span>
           ) : (
-            <a
+            <button
               key={v.name}
-              href={v.callbackUrl}
-              onClick={v.handle}
+              onClick={userLogined ? v.loginFn : null}
               target="_blank"
               rel="nofollow noopener noreferrer"
             >
               {logo}
-            </a>
+            </button>
           );
         })}
       </div>
