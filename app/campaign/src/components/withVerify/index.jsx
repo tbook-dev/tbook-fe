@@ -4,7 +4,7 @@ import { useResponsive } from "ahooks";
 import clsx from "clsx";
 import useSocial from "@/hooks/useSocial";
 import { useCallback } from "react";
-import occupIcon from '@/images/icon/occup.svg'
+import occupIcon from "@/images/icon/occup.svg";
 
 const modalConf = {
   title: "Verify",
@@ -33,6 +33,7 @@ export default function WithVerify({
   const [verifyLoading, setVefiryLoading] = useState(false);
   const { pc } = useResponsive();
   const { getSocialByName } = useSocial();
+  const [loading, setLoading] = useState(false);
 
   const userLogined = sysConnectedMap[credentialType];
   const social = getSocialByName(credentialType);
@@ -51,6 +52,7 @@ export default function WithVerify({
   const handleCancel = useCallback(() => {
     setOpen(false);
   }, []);
+  // console.log({social})
 
   return (
     <>
@@ -80,9 +82,11 @@ export default function WithVerify({
           <div className="text-black -mx-6">
             {social.occupied ? (
               <div className="px-5 flex flex-col items-start gap-y-3">
-                <img src={occupIcon} alt="occup" className="h-10"/>
+                <img src={occupIcon} alt="occup" className="h-10" />
                 <h1 className="text-base font-medium">Account occupied</h1>
-                <p className="text-[#717374] font-medium text-sm">{social.occupiedText}</p>
+                <p className="text-[#717374] font-medium text-sm">
+                  {social.occupiedText}
+                </p>
               </div>
             ) : (
               <>
@@ -119,11 +123,21 @@ export default function WithVerify({
                       </div>
                     ) : (
                       <button
-                        onClick={social.handle}
+                        onClick={() => {
+                          setLoading(true);
+                          social.loginFn().finally(() => setLoading(false));
+                        }}
                         className="px-4 py-1 text-sm text-white rounded-md"
                         style={{ backgroundColor: social.activeColor }}
                       >
                         Connect {credentialType}
+                        {loading && (
+                          <Spin
+                            spinning
+                            size="small"
+                            style={{ marginLeft: 4 }}
+                          />
+                        )}
                       </button>
                     )}
                   </div>

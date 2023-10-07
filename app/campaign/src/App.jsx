@@ -1,8 +1,8 @@
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { useAsyncEffect } from 'ahooks'
-import { useDispatch } from 'react-redux'
-import { user } from '@tbook/store'
+// import { useAsyncEffect } from 'ahooks'
+// import { useDispatch } from 'react-redux'
+// import { user } from '@tbook/store'
 import ConnectWalletModal from '@/components/connectWallet'
 // import useTheme from '@/hooks/useTheme'
 
@@ -23,7 +23,7 @@ import {
   isIOS
 } from '@/utils/web3'
 import { Web3Modal } from '@web3modal/react'
-const { fetchUserInfo } = user
+// const { fetchUserInfo } = user
 
 configResponsive({
   pc: 1120
@@ -59,7 +59,7 @@ watchAccount(async acc => {
 })
 
 function App () {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   // const theme = useTheme()
   // useLayoutEffect(() => {
   //   if (theme !== 'dark') {
@@ -69,9 +69,9 @@ function App () {
   //   }
   // }, [theme])
 
-  useAsyncEffect(async () => {
-    dispatch(fetchUserInfo())
-  }, [])
+  // useAsyncEffect(async () => {
+  //   dispatch(fetchUserInfo())
+  // }, [])
 
   return (
     <>

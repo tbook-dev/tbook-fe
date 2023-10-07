@@ -13,7 +13,6 @@ export default function useCampaignQuery(campaignId) {
     {
       staleTime: 50000,
       enabled: !!campaignId,
-      retry: false
     }
   );
   const campaignNotStart = notStartList.includes(page?.campaign?.status);

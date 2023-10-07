@@ -1,7 +1,6 @@
 import useUserInfoQuery from "@/hooks/useUserInfoQuery";
-import { useState, useMemo, useCallback } from "react";
+import { useMemo, useCallback } from "react";
 import { getTwLoginUrl } from "@/api/incentive";
-import { noop } from "lodash";
 import xGray from "@/images/icon/x-gray.svg";
 import x from "@/images/icon/x.svg";
 import dcGray from "@/images/icon/dc-gray.svg";
@@ -18,16 +17,7 @@ const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=
 export default function useSocial() {
   const { twitterConnected, discordConnected, telegramConnected, data } =
     useUserInfoQuery();
-  const [twCallbackUrl, setTwCallbackUrl] = useState("");
 
-  const twAuth = async (evt) => {
-    evt?.preventDefault();
-    const res = await getTwLoginUrl();
-    localStorage.setItem("redirect_url", location.href);
-    setTwCallbackUrl(() => res["url"]);
-    location.href = res["url"];
-  };
-  
   const socialList = useMemo(() => {
     return [
       {
@@ -36,7 +26,7 @@ export default function useSocial() {
         picUrl: dcGray,
         activePic: dc,
         activeColor: "#5865F2",
-        loginFn: () => {
+        loginFn: async () => {
           localStorage.setItem("redirect_url", location.href);
           location.href = dcCallbackUrl;
         },
@@ -50,7 +40,12 @@ export default function useSocial() {
         picUrl: xGray,
         activePic: x,
         activeColor: "#1DA1F2",
-        loginFn: twAuth,
+        loginFn: async () => {
+          localStorage.setItem("redirect_url", location.href);
+          const res = await getTwLoginUrl();
+          // setTwCallbackUrl(() => res["url"]);
+          location.href = res["url"];
+        },
         userName: data?.userTwitter?.twitterUserName ?? "",
         occupied: data?.userTwitter?.occupied || false,
         occupiedText: `This Twitter @${data?.userTwitter?.twitterUserName} has been connected to another address. Please switch to another Twitter account and try again.`,
@@ -61,7 +56,7 @@ export default function useSocial() {
         picUrl: tgGray,
         activePic: tg,
         activeColor: "#2AABEE",
-        loginFn: () => {
+        loginFn: async () => {
           localStorage.setItem("redirect_url", location.href);
           location.href = tgCallbackUrl;
         },
@@ -70,13 +65,7 @@ export default function useSocial() {
         occupiedText: `This Telegram @${data?.userTg?.username} has been connected to another address. Please switch to another Telegram account and try again.`,
       },
     ];
-  }, [
-    twitterConnected,
-    discordConnected,
-    telegramConnected,
-    twCallbackUrl,
-    data,
-  ]);
+  }, [twitterConnected, discordConnected, telegramConnected, data]);
   const getSocialByName = useCallback(
     (socialName) => {
       return socialList.find((v) => v.name === socialName);
