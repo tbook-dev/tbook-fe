@@ -8,6 +8,8 @@ import { Pagination, Popover, Typography } from "antd";
 import { CopyOutlined, CheckOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import dayjs from "dayjs";
+import copyIcon from '@/images/icon/copy.svg'
+
 const { Paragraph } = Typography;
 
 const { formatDollar, shortAddress, timeFormat } = conf;
@@ -45,7 +47,7 @@ export default function Participation() {
     ];
   }, [pageInfo]);
   const veriedNftList = pageInfo.veriedNftList ?? [];
-  console.log(pageInfo?.credentialList)
+  
   return (
     <div className="space-y-5 mb-10">
       <div className="grid grid-cols-4 gap-x-5">
@@ -119,7 +121,7 @@ export default function Participation() {
                         copyable={{
                           text: v.campaignId,
                           icon: [
-                            <CopyOutlined style={{ color: "#3A82F7" }} />,
+                            <img src={copyIcon} className='w-4 h-4' />,
                             <CheckOutlined style={{ color: "#3A82F7" }} />,
                           ],
                         }}
@@ -129,7 +131,7 @@ export default function Participation() {
                     </div>
                   }
                 >
-                  <span className="text-xs inline-block p-1 bg-[#1a1a1a] rounded-sm">
+                  <span className="text-xs inline-block p-1 bg-[#1a1a1a] rounded-sm cursor-pointer">
                     ID
                   </span>
                 </Popover>
