@@ -5,7 +5,7 @@ import useUserInfo from './useUserInfoQuery'
 export default function useAssetQuery() {
   const { projectId } = useUserInfo()
   return useQuery(["asset", projectId], () => getUserAsset(projectId), {
-    staleTime: 5000,
+    staleTime: 50000,
     enabled: !!projectId,
   });
 }

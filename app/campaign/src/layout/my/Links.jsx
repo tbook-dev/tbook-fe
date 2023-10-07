@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { useMemo } from "react";
 import { useNavLink } from "./conf";
 
-export default function Links({ inDrawer = false, hidden = false }) {
+export default function Links({ inDrawer = false, hidden = false, onClose }) {
   const links = useNavLink();
   const displayNone = useMemo(() => {
     if (hidden) {
@@ -23,7 +23,7 @@ export default function Links({ inDrawer = false, hidden = false }) {
       )}
     >
       {links.map((v) => (
-        <NavLink key={v.text} to={v.link}>
+        <NavLink key={v.text} to={v.link} onClick={onClose}>
           {({ isActive }) => (
             <span className={isActive ? "text-black" : "text-c-6"}>
               {v.text}

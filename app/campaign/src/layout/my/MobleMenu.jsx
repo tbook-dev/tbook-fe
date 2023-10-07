@@ -2,15 +2,14 @@ import menuIcon from "@/images/icon/menu.svg";
 import logo from "@/images/icon/logo.svg";
 import { Drawer } from "antd";
 import { useState } from "react";
-import { Link , useParams} from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { CloseOutlined } from "@ant-design/icons";
 import Links from "./Links";
 import { useCallback } from "react";
 import { Web3Button } from "@web3modal/react";
 import useProjectQuery from "@/hooks/useProjectQuery";
 
-
-export default function MobleMenu({ hideLink = false}) {
+export default function MobleMenu({ hideLink = false }) {
   const { projectId } = useParams();
   const { data: project } = useProjectQuery(projectId);
   const [open, setOpen] = useState(false);
@@ -31,7 +30,13 @@ export default function MobleMenu({ hideLink = false}) {
           <CloseOutlined className="text-2xl" onClick={handleCancel} />
         </div>
 
-        <Links inDrawer hidden={hideLink}/>
+        <Links
+          inDrawer
+          hidden={hideLink}
+          onClose={() => {
+            setOpen(false);
+          }}
+        />
       </div>
 
       <div className="pb-[100px] flex justify-center">
