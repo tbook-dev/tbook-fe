@@ -2,9 +2,11 @@ import { formatDollar } from "@tbook/utils/lib/conf";
 import useAssetQuery from "@/hooks/useAssetQuery";
 import { Spin } from "antd";
 import _ from "lodash";
+import { useParams } from "react-router-dom";
 
 export default function Point() {
-  const { data: assets, isLoading } = useAssetQuery();
+  const { projectId } = useParams();
+  const { data: assets, isLoading } = useAssetQuery(projectId);
   const data = assets?.userPoints || [];
   const total = _.sum(data.map((v) => v.pointNum));
   return (

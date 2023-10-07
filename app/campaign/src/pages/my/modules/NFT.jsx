@@ -8,8 +8,8 @@ import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 
 export default function NFT() {
-  const { data: assets, isLoading } = useAssetQuery();
   const { projectId } = useParams();
+  const { data: assets, isLoading } = useAssetQuery(projectId);
   const data = assets?.nfts || [];
   
   return (

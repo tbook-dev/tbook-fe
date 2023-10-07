@@ -2,9 +2,11 @@ import { Spin } from "antd";
 import Empty from "./Empty";
 import useAssetQuery from "@/hooks/useAssetQuery";
 import clsx from "clsx";
+import { useParams } from "react-router-dom";
 
 export default function Credentials() {
-  const { data: assets, isLoading } = useAssetQuery();
+  const { projectId } = useParams();
+  const { data: assets, isLoading } = useAssetQuery(projectId);
   const data = assets?.credentials || [];
 
   return (
