@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { conf } from "@tbook/utils";
 import { incentiveAssetsTypeList } from "@/utils/conf";
 import { Pagination, Popover, Typography } from "antd";
-import { CopyOutlined, CheckOutlined } from "@ant-design/icons";
+import { CheckOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import dayjs from "dayjs";
 import copyIcon from '@/images/icon/copy.svg'
@@ -46,7 +46,6 @@ export default function Participation() {
       },
     ];
   }, [pageInfo]);
-  const veriedNftList = pageInfo.veriedNftList ?? [];
   
   return (
     <div className="space-y-5 mb-10">

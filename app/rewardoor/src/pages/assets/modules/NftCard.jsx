@@ -13,7 +13,7 @@ export default function NftCard ({ v }) {
       <div className='h-[180px] bg-[#1A1A1A] flex justify-center items-center'>
         <img
           className='w-[140px] h-[140px] object-cover rounded-full hover:translate-y-2 hover:scale-105 transition-all transition-1000'
-          src={v.coverUrl}
+          src={v.picUrl}
         />
       </div>
 

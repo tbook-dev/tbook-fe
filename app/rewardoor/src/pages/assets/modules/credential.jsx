@@ -1,6 +1,10 @@
 import useAsset from "@/hooks/queries/useAsset"
 import { conf } from '@tbook/utils'
 import Loading from '@/components/loading'
+import { CheckOutlined } from "@ant-design/icons";
+import copyIcon from '@/images/icon/copy.svg'
+import { Popover, Typography } from "antd";
+const { Paragraph } = Typography;
 const { formatDollar } = conf
 
 
@@ -24,6 +28,30 @@ export default function Credential () {
                 className='text-t-1'
                 dangerouslySetInnerHTML={{ __html: v.displayExp }}
               />
+               <Popover
+                  content={
+                    <div className="text-sm text-[#FCFCFC] space-y-1">
+                      <p>Credential ID</p>
+                      <Paragraph
+                        style={{ marginBottom: 0 }}
+                        className="flex justify-center items-center"
+                        copyable={{
+                          text: v.campaignId,
+                          icon: [
+                            <img src={copyIcon} className='w-4 h-4' />,
+                            <CheckOutlined style={{ color: "#3A82F7" }} />,
+                          ],
+                        }}
+                      >
+                        {v.campaignId}
+                      </Paragraph>
+                    </div>
+                  }
+                >
+                  <span className="text-xs inline-block p-1 bg-[#1a1a1a] rounded-sm cursor-pointer">
+                    ID
+                  </span>
+                </Popover>
             </div>
             <div className='text-c-9 text-xs border border-[#666] rounded-2.5xl px-4 py-2'>
               Giveaway: {formatDollar(v.giveAway)}
