@@ -31,7 +31,7 @@ export default function () {
                 localStorage.removeItem('redirect_url')
                 location.href = redirect
             } else {
-                navigate('/dashboard/overview')
+                navigate('/')
             }
         })
     }, [])

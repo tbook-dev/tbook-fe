@@ -1,5 +1,6 @@
 import useUserInfoQuery from "@/hooks/useUserInfoQuery";
 import { useState, useMemo, useCallback } from "react";
+import { getTwLoginUrl } from "@/api/incentive";
 import { noop } from "lodash";
 import xGray from "@/images/icon/x-gray.svg";
 import x from "@/images/icon/x.svg";
@@ -18,13 +19,14 @@ export default function useSocial() {
   const { twitterConnected, discordConnected, telegramConnected, data } =
     useUserInfoQuery();
   const [twCallbackUrl, setTwCallbackUrl] = useState("");
+
   const twAuth = async (evt) => {
     evt?.preventDefault();
     const res = await getTwLoginUrl();
     setTwCallbackUrl(() => res["url"]);
     location.href = res["url"];
   };
-
+  
   const socialList = useMemo(() => {
     return [
       {
@@ -35,7 +37,11 @@ export default function useSocial() {
         activeColor: "#5865F2",
         callbackUrl: dcCallbackUrl,
         handle: noop,
-        userName: data?.userDc?.globalName ?? '',
+        loginFn: () => {
+          localStorage.setItem("redirect_url", location.href);
+          location.href = dcCallbackUrl;
+        },
+        userName: data?.userDc?.globalName ?? "",
         occupied: data?.userDc?.occupied || false,
         occupiedText: `This Discord @${data?.userDc?.globalName} has been connected to another address. Please switch to another Discord account and try again.`,
       },
@@ -47,7 +53,13 @@ export default function useSocial() {
         activeColor: "#1DA1F2",
         callbackUrl: twCallbackUrl,
         handle: twAuth,
-        userName: data?.userTwitter?.twitterUserName ?? '',
+        loginFn: async () => {
+          const res = await getTwLoginUrl();
+          localStorage.setItem("redirect_url", location.href);
+          // setTwLink(() => res["url"]);
+          location.href = res["url"];
+        },
+        userName: data?.userTwitter?.twitterUserName ?? "",
         occupied: data?.userTwitter?.occupied || false,
         occupiedText: `This Twitter @${data?.userTwitter?.twitterUserName} has been connected to another address. Please switch to another Twitter account and try again.`,
       },
@@ -59,7 +71,11 @@ export default function useSocial() {
         activeColor: "#2AABEE",
         callbackUrl: tgCallbackUrl,
         handle: noop,
-        userName: data?.userTg?.username ?? '',
+        loginFn: () => {
+          localStorage.setItem("redirect_url", location.href);
+          location.href = tgCallbackUrl;
+        },
+        userName: data?.userTg?.username ?? "",
         occupied: data?.userTg?.occupied || false,
         occupiedText: `This Telegram @${data?.userTg?.username} has been connected to another address. Please switch to another Telegram account and try again.`,
       },

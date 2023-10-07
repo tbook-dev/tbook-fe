@@ -1,4 +1,4 @@
-import { useResponsive } from "ahooks";
+// import { useResponsive } from "ahooks";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useQueryClient } from "react-query";
 import { twLogin, getTwLoginUrl, verifyCredential } from "@/api/incentive";
@@ -26,7 +26,7 @@ import RewardClaim from "./rewardClaim";
 import dateIcon from "@/images/icon/date.svg";
 import { useDispatch } from "react-redux";
 import { setConnectWalletModal } from "@/store/global";
-
+import useSocial from "@/hooks/useSocial";
 
 const { Countdown } = Statistic;
 
@@ -37,16 +37,16 @@ const errorMsg = (
   </>
 );
 
-const tgBotId = import.meta.env.VITE_TG_BOT_ID;
-const tgCallbackHost = import.meta.env.VITE_TG_CALLBACK_HOST;
-const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=https%3A%2F%2F${tgCallbackHost}&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback.html`;
+// const tgBotId = import.meta.env.VITE_TG_BOT_ID;
+// const tgCallbackHost = import.meta.env.VITE_TG_CALLBACK_HOST;
+// const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=https%3A%2F%2F${tgCallbackHost}&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback.html`;
 
-const curHost = new URL(window.location.href).host;
-const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`;
+// const curHost = new URL(window.location.href).host;
+// const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`;
 
 export default function () {
   const [messageApi, contextHolder] = message.useMessage();
-  const { pc } = useResponsive();
+  // const { pc } = useResponsive();
   const dispath = useDispatch();
   const { open } = useWeb3Modal();
   // const { handleSignIn } = useSignIn();
@@ -63,8 +63,9 @@ export default function () {
     useUserInfo();
   const [rewardModalIdx, setRewardModalIdx] = useState(-1);
   const { signMessageAsync } = useSignMessage();
-  const twLinkRef = useRef(null);
-  const [twLink, setTwLink] = useState("");
+  const { getSocialByName } = useSocial();
+  // const twLinkRef = useRef(null);
+  // const [twLink, setTwLink] = useState("");
 
   // const [nonce, setNonce] = useState("");
 
@@ -83,18 +84,18 @@ export default function () {
   //   }
   // }, [isConnected, address]);
 
-  const twLoginCurrent = async () => {
-    const res = await getTwLoginUrl();
-    localStorage.setItem("redirect_url", location.href);
-    setTwLink(() => res["url"]);
-  };
-  const discardLogin = async () => {};
+  // const twLoginCurrent = async () => {
+  //   const res = await getTwLoginUrl();
+  //   localStorage.setItem("redirect_url", location.href);
+  //   setTwLink(() => res["url"]);
+  // };
+  // const discardLogin = async () => {};
 
-  useEffect(() => {
-    if (twLink) {
-      twLinkRef.current.click();
-    }
-  }, [twLink]);
+  // useEffect(() => {
+  //   if (twLink) {
+  //     twLinkRef.current.click();
+  //   }
+  // }, [twLink]);
 
   // const signIn = async () => {
   //   const sign = await signMessageAsync({ message: nonce });
@@ -166,13 +167,6 @@ export default function () {
     }
   }, [page]);
 
-  if (!firstLoad) {
-    return (
-      <div className="flex h-[50vh] items-center justify-center">
-        <Spin spinning />
-      </div>
-    );
-  }
   // const campaignNotStart = notStartList.includes(page?.campaign?.status);
   // const campaignEnd = endList.includes(page?.campaign?.status);
 
@@ -198,6 +192,14 @@ export default function () {
         }
       });
   };
+
+  if (!firstLoad) {
+    return (
+      <div className="flex h-[50vh] items-center justify-center">
+        <Spin spinning />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-2.5 px-2.5 pt-3 lg:pt-5 lg:px-0 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1">
@@ -287,15 +289,9 @@ export default function () {
                     tbook: true,
                   };
                   const sycLoginFnMap = {
-                    twitter: twLoginCurrent,
-                    discord: () => {
-                      localStorage.setItem("redirect_url", location.href);
-                      location.href = dcCallbackUrl;
-                    },
-                    telegram: () => {
-                      localStorage.setItem("redirect_url", location.href);
-                      location.href = tgCallbackUrl;
-                    },
+                    twitter: getSocialByName("twitter").loginFn,
+                    discord: getSocialByName("discord").loginFn,
+                    telegram: getSocialByName("telegram").loginFn,
                   };
                   const taskMap = {
                     8: async () => {
@@ -467,12 +463,12 @@ export default function () {
         )}
       </Modal>
       {contextHolder}
-      <a
+      {/* <a
         href={twLink}
         ref={twLinkRef}
         mc-deep-link="false"
         style={{ visibility: "hidden" }}
-      ></a>
+      ></a> */}
     </div>
   );
 }
