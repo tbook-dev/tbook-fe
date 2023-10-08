@@ -3,11 +3,13 @@ import defaultAvator from "@/images/icon/defaultAvator.svg";
 import { shortAddress } from "@tbook/utils/lib/conf";
 import { useState } from "react";
 import useSocial from "@/hooks/useSocial";
+import { useWeb3Modal } from "@web3modal/react";
 
 export default function PersonalInfo() {
   const { data, userLogined } = useUserInfoQuery();
   const [mainColor, setMainColor] = useState(null);
   const { socialList } = useSocial();
+  const { open } = useWeb3Modal();
 
   return (
     <div className="pt-4 flex flex-col items-center gap-y-4">
@@ -18,7 +20,7 @@ export default function PersonalInfo() {
       />
 
       {userLogined && (
-        <p className="text-[#131517] text-base font-medium">
+        <p className="text-[#131517] text-base font-medium cursor-pointer" onClick={open}>
           {shortAddress(data?.user?.wallet)}
         </p>
       )}

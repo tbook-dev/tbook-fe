@@ -8,10 +8,11 @@ import { useResponsive } from "ahooks";
 import useUserInfo from "@/hooks/useUserInfoQuery";
 import { useDispatch } from "react-redux";
 import { setConnectWalletModal } from "@/store/global";
+import { Spin } from "antd";
 
 function Header() {
   const { pc } = useResponsive();
-  const { userLogined } = useUserInfo();
+  const { userLogined, isLoading, user } = useUserInfo();
   const dispath = useDispatch();
   const handleClick = () => {
     dispath(setConnectWalletModal(true));
@@ -35,18 +36,26 @@ function Header() {
           <Links hidden={!pc} />
 
           
-          {userLogined ? (
-            <>
-              <div className="hidden lg:flex items-center space-x-3">
-                <Web3Button icon="show" balance="hide" avatar="hide" />
+          <div>
+            {isLoading ? (
+              <Spin spinning size="small" />
+            ) : userLogined ? (
+              <div className="flex items-center gap-x-2">
+                <img
+                  src={user?.avatar}
+                  className="w-7 h-7 object-contain object-center rounded-full"
+                />
+                <MobleMenu />
+                <div className="hidden lg:flex items-center space-x-3">
+                  <Web3Button icon="show" balance="hide" avatar="hide" />
+                </div>
               </div>
-              <MobleMenu />
-            </>
-          ) : (
-            <button className="px-2 py-1 text-sm" onClick={handleClick}>
-              Connect Wallet
-            </button>
-          )}
+            ) : (
+              <button className="px-2 py-1 text-sm" onClick={handleClick}>
+                Connect Wallet
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </header>

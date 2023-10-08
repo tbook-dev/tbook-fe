@@ -7,15 +7,18 @@ import { CloseOutlined } from "@ant-design/icons";
 import Links from "./Links";
 import { useCallback } from "react";
 import { Web3Button } from "@web3modal/react";
+import useUserInfo from "@/hooks/useUserInfoQuery";
+
 
 export default function MobleMenu({ hideLink = false}) {
   const [open, setOpen] = useState(false);
+  const { user } = useUserInfo();
   const handleCancel = useCallback(() => {
     setOpen(false);
   }, []);
 
   const Content = () => (
-    <div className="h-full flex flex-col justify-between">
+    <div className="h-full flex flex-col">
       <div>
         <div className="flex items-center justify-between h-10 mb-10">
           <div className="flex items-center">
@@ -24,15 +27,21 @@ export default function MobleMenu({ hideLink = false}) {
             </Link>
           </div>
 
-          <CloseOutlined className="text-2xl" onClick={handleCancel} />
+          <div className="flex items-center gap-x-4">
+            <img
+              src={user?.avatar}
+              className="w-7 h-7 object-contain object-center rounded-full"
+            />
+            <CloseOutlined className="text-2xl" onClick={handleCancel} />
+          </div>
         </div>
 
         <Links inDrawer hidden={hideLink}/>
       </div>
 
-      <div className="pb-[100px] flex justify-center">
+      {/* <div className="pb-[100px] flex justify-center">
         <Web3Button icon="show" balance="hide" avatar="hide" />
-      </div>
+      </div> */}
     </div>
   );
   return (
