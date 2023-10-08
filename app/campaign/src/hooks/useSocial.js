@@ -30,9 +30,9 @@ export default function useSocial() {
           localStorage.setItem("redirect_url", location.href);
           location.href = dcCallbackUrl;
         },
-        userName: data?.userDc?.globalName ?? "",
+        userName: data?.userDc?.username ?? "",
         occupied: data?.userDc?.occupied || false,
-        occupiedText: `This Discord @${data?.userDc?.globalName} has been connected to another address. Please switch to another Discord account and try again.`,
+        occupiedText: `This Discord @${data?.userDc?.username} has been connected to another address. Please switch to another Discord account and try again.`,
       },
       {
         name: "twitter",
