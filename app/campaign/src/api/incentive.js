@@ -75,3 +75,8 @@ export const updateClaimed = async function(nftId, groupId, tx, dummyId) {
   })
   return await res.text()
 }
+
+
+export const getUserCampaign = async function(projectId){
+  return await request(`${host}/user/${projectId}/campaigns`)
+}
