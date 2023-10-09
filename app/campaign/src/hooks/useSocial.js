@@ -43,8 +43,14 @@ export default function useSocial() {
         loginFn: async () => {
           localStorage.setItem("redirect_url", location.href);
           const res = await getTwLoginUrl();
+          const a = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          a.href = res["url"];
+          a.setAttribute("target", "_blank");
+          a.click();
           // setTwCallbackUrl(() => res["url"]);
-          location.href = res["url"];
+          // location.href = res["url"];
         },
         userName: data?.userTwitter?.twitterUserName ?? "",
         occupied: data?.userTwitter?.occupied || false,
