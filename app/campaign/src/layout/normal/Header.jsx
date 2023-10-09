@@ -9,10 +9,12 @@ import useUserInfo from "@/hooks/useUserInfoQuery";
 import { useDispatch } from "react-redux";
 import { setConnectWalletModal } from "@/store/global";
 import { Spin } from "antd";
+import { useAccount } from 'wagmi'
 
 function Header() {
   const { pc } = useResponsive();
-  const { userLogined, isLoading, user } = useUserInfo();
+  const { isConnected } = useAccount()
+  const { userLogined, firstLoad, user } = useUserInfo();
   const dispath = useDispatch();
   const handleClick = () => {
     dispath(setConnectWalletModal(true));
@@ -37,9 +39,9 @@ function Header() {
 
           
           <div>
-            {isLoading ? (
+            {!firstLoad ? (
               <Spin spinning size="small" />
-            ) : userLogined ? (
+            ) : (userLogined && isConnected) ? (
               <div className="flex items-center gap-x-2">
                 <img
                   src={user?.avatar}

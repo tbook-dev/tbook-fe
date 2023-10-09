@@ -70,12 +70,12 @@ export default function (cb) {
       const walletClient = await getWalletClient();
       await signLoginMetaMask(address, walletClient);
       try {
-        await getUserInfo();
+        await queryClient.refetchQueries('userInfo')
         navigate(searchParams.get("redirect") || "/");
       } catch (error) {
         console.log(error)
       }
-      queryClient.refetchQueries('userInfo')
+      // await queryClient.refetchQueries('userInfo')
     } catch (error) {
       console.log(error);
     }
