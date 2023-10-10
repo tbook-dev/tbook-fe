@@ -42,14 +42,14 @@ const ConnectWalletModal = () => {
   const { isConnected, address } = useAccount();
   const { pc } = useResponsive();
   const { open } = useWeb3Modal();
-  // const [ nonce, setNonce ] = useState("");
+  const [ nonce, setNonce ] = useState("");
   const { signMessageAsync } = useSignMessage();
   const [loading, setLoading] = useState(false);
 
   const signIn = async () => {
     setLoading(true);
     try {
-      const nonce = await getNonce(address)
+      // const nonce = await getNonce(address)
       const sign = await signMessageAsync({ message: nonce });
       await authenticate(address, sign)
       // const d = new URLSearchParams();
@@ -77,13 +77,13 @@ const ConnectWalletModal = () => {
     setLoading(false);
   };
 
-  // useEffect(() => {
-  //   if (isConnected) {
-  //     getNonce(address).then((r) => {
-  //       setNonce(() => r);
-  //     });
-  //   }
-  // }, [isConnected, address]);
+  useEffect(() => {
+    if (isConnected) {
+      getNonce(address).then((r) => {
+        setNonce(() => r);
+      });
+    }
+  }, [isConnected, address]);
   // console.log(nonce)
 
   const handleCloseModal = useCallback(() => {
