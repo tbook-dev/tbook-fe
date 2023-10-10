@@ -2,6 +2,25 @@ import request from "./request";
 
 export const host = import.meta.env.VITE_API_HOST;
 
+export const authenticate = async function (address, sign) {
+  const d = new URLSearchParams();
+  d.append("address", address);
+  d.append("sign", sign);
+  const response = await fetch(`${host}/authenticate`, {
+    credentials: "include",
+    method: "POST",
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    },
+    body: d,
+  });
+  console.log("status:", response.status);
+  response.text().then((b) => console.log("body", b));
+  response.headers.forEach((value, key) => {
+    console.log(key, value);
+  });
+  console.log(document.cookie);
+};
 export const getUserInfo = async function () {
   return await request(`${host}/info`);
 };
@@ -55,28 +74,27 @@ export const getNftClaimInfo = async function (nftId, groupId) {
   });
 };
 
-export const getUserAsset = async function(projectId){
-  return await request(`${host}/user/${projectId}/assets`)
-}
-export const getNft = async function(groupId, nftId){
-  return await request(`${host}/user/${groupId}/nftInfo/${nftId}`)
-}
-export const updateClaimed = async function(nftId, groupId, tx, dummyId) {
-  const data = new URLSearchParams()
-  data.append('tx', tx)
-  data.append('dummyId', dummyId)
+export const getUserAsset = async function (projectId) {
+  return await request(`${host}/user/${projectId}/assets`);
+};
+export const getNft = async function (groupId, nftId) {
+  return await request(`${host}/user/${groupId}/nftInfo/${nftId}`);
+};
+export const updateClaimed = async function (nftId, groupId, tx, dummyId) {
+  const data = new URLSearchParams();
+  data.append("tx", tx);
+  data.append("dummyId", dummyId);
   const res = await fetch(`${host}/nft/claimed/${nftId}/group/${groupId}`, {
     method: "POST",
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      "Content-Type": "application/x-www-form-urlencoded",
     },
     credentials: "include",
-    body: data
-  })
-  return await res.text()
-}
+    body: data,
+  });
+  return await res.text();
+};
 
-
-export const getUserCampaign = async function(projectId){
-  return await request(`${host}/user/${projectId}/campaigns`)
-}
+export const getUserCampaign = async function (projectId) {
+  return await request(`${host}/user/${projectId}/campaigns`);
+};

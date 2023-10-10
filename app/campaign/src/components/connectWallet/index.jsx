@@ -12,7 +12,7 @@ import { useWeb3Modal } from "@web3modal/react";
 import { useAccount, useSignMessage } from "wagmi";
 import { getNonce } from "@/utils/web3";
 import { useQueryClient } from "react-query";
-import { host } from "@/api/incentive";
+import { host, authenticate } from "@/api/incentive";
 
 const { shortAddress } = conf;
 const { Paragraph } = Typography;
@@ -42,31 +42,33 @@ const ConnectWalletModal = () => {
   const { isConnected, address } = useAccount();
   const { pc } = useResponsive();
   const { open } = useWeb3Modal();
-  const [nonce, setNonce] = useState("");
+  // const [ nonce, setNonce ] = useState("");
   const { signMessageAsync } = useSignMessage();
   const [loading, setLoading] = useState(false);
 
   const signIn = async () => {
     setLoading(true);
     try {
+      const nonce = await getNonce(address)
       const sign = await signMessageAsync({ message: nonce });
-      const d = new URLSearchParams();
-      d.append("address", address);
-      d.append("sign", sign);
-      const response = await fetch(`${host}/authenticate`, {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-        },
-        body: d,
-      });
-      console.log("status:", response.status);
-      response.text().then((b) => console.log("body", b));
-      response.headers.forEach((value, key) => {
-        console.log(key, value);
-      });
-      console.log(document.cookie);
+      await authenticate(address, sign)
+      // const d = new URLSearchParams();
+      // d.append("address", address);
+      // d.append("sign", sign);
+      // const response = await fetch(`${host}/authenticate`, {
+      //   credentials: "include",
+      //   method: "POST",
+      //   headers: {
+      //     "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+      //   },
+      //   body: d,
+      // });
+      // console.log("status:", response.status);
+      // response.text().then((b) => console.log("body", b));
+      // response.headers.forEach((value, key) => {
+      //   console.log(key, value);
+      // });
+      // console.log(document.cookie);
       await queryClient.refetchQueries("userInfo");
       handleCloseModal();
     } catch (error) {
@@ -75,13 +77,14 @@ const ConnectWalletModal = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    if (isConnected) {
-      getNonce(address).then((r) => {
-        setNonce(() => r);
-      });
-    }
-  }, [isConnected, address]);
+  // useEffect(() => {
+  //   if (isConnected) {
+  //     getNonce(address).then((r) => {
+  //       setNonce(() => r);
+  //     });
+  //   }
+  // }, [isConnected, address]);
+  // console.log(nonce)
 
   const handleCloseModal = useCallback(() => {
     dispath(setConnectWalletModal(false));
@@ -153,20 +156,32 @@ const ConnectWalletModal = () => {
         </div>
         <div>
           <div className="px-5 pt-5 pb-4">
-            <div className={clsx("text-base font-medium")}>
+            <div
+              className={clsx(
+                "text-base font-medium",
+                !isConnected && "text-[#A1A1A2]"
+              )}
+            >
               <h2>{pageConf.step2.name}</h2>
               <h2>{pageConf.step2.title}</h2>
             </div>
-            <p className={clsx("text-[#717374] text-xs mb-6")}>
+            <p
+              className={clsx(
+                "text-[#717374] text-xs mb-6",
+                !isConnected && "text-[#A1A1A2]"
+              )}
+            >
               {pageConf.step2.desc}
             </p>
-            <button
-              onClick={signIn}
-              className="px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md"
-            >
-              {pageConf.step2.button}{" "}
-              {loading && <Spin spinning size="small" className="ml-1" />}
-            </button>
+            {isConnected && (
+              <button
+                onClick={signIn}
+                className="px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md"
+              >
+                {pageConf.step2.button}{" "}
+                {loading && <Spin spinning size="small" className="ml-1" />}
+              </button>
+            )}
           </div>
         </div>
       </div>
