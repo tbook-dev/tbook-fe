@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { setConnectWalletModal } from "@/store/global";
 import { Spin } from "antd";
 import { useAccount } from 'wagmi'
+import { useWeb3Modal } from "@web3modal/react";
 
 function Header() {
   const { pc } = useResponsive();
@@ -18,6 +19,7 @@ function Header() {
   const headerTransparent = useSelector((s) => s.global.headerTransparent);
   const { userLogined, firstLoad, user } = useUserInfo();
   const dispath = useDispatch();
+  const { open } = useWeb3Modal();
   const handleClick = () => {
     dispath(setConnectWalletModal(true));
   };
@@ -40,13 +42,14 @@ function Header() {
           <Links hidden={!pc} />
 
           <div>
-            {firstLoad ? (
+            {!firstLoad ? (
               <Spin spinning size="small" />
             ) : (userLogined && isConnected) ? (
               <div className="flex items-center gap-x-2">
                 <img
                   src={user?.avatar}
                   className="w-7 h-7 object-contain object-center rounded-full"
+                  onClick={open}
                 />
                 <MobleMenu />
                 <div className="hidden lg:flex items-center space-x-3">

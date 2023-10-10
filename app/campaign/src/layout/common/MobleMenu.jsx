@@ -8,11 +8,14 @@ import Links from "./Links";
 import { useCallback } from "react";
 import { Web3Button } from "@web3modal/react";
 import useUserInfo from "@/hooks/useUserInfoQuery";
+import { useWeb3Modal } from "@web3modal/react";
 
 
 export default function MobleMenu({ hideLink = false}) {
   const [open, setOpen] = useState(false);
   const { user } = useUserInfo();
+  const { open: openWeb3Modal } = useWeb3Modal();
+
   const handleCancel = useCallback(() => {
     setOpen(false);
   }, []);
@@ -31,6 +34,7 @@ export default function MobleMenu({ hideLink = false}) {
             <img
               src={user?.avatar}
               className="w-7 h-7 object-contain object-center rounded-full"
+              onClick={openWeb3Modal}
             />
             <CloseOutlined className="text-2xl" onClick={handleCancel} />
           </div>

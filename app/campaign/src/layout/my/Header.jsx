@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { setConnectWalletModal } from "@/store/global";
 import { Spin } from "antd";
 import { useAccount } from 'wagmi'
+import { useWeb3Modal } from "@web3modal/react";
 
 
 function Header() {
@@ -20,6 +21,7 @@ function Header() {
   const { data: project } = useProjectQuery(projectId);
   const { userLogined, firstLoad, user } = useUserInfo();
   const dispath = useDispatch();
+  const { open } = useWeb3Modal();
   const handleClick = () => {
     dispath(setConnectWalletModal(true));
   };
@@ -53,6 +55,7 @@ function Header() {
                 <img
                   src={user?.avatar}
                   className="w-7 h-7 object-contain object-center rounded-full"
+                  onClick={open}
                 />
                 <MobleMenu />
                 <div className="hidden lg:flex items-center space-x-3">

@@ -9,12 +9,14 @@ import { useCallback } from "react";
 import { Web3Button } from "@web3modal/react";
 import useProjectQuery from "@/hooks/useProjectQuery";
 import useUserInfo from "@/hooks/useUserInfoQuery";
+import { useWeb3Modal } from "@web3modal/react";
 
 export default function MobleMenu({ hideLink = false }) {
   const { projectId } = useParams();
   const { data: project } = useProjectQuery(projectId);
   const { user } = useUserInfo();
   const [open, setOpen] = useState(false);
+  const { open: openWeb3Modal } = useWeb3Modal();
   const handleCancel = useCallback(() => {
     setOpen(false);
   }, []);
@@ -33,6 +35,7 @@ export default function MobleMenu({ hideLink = false }) {
             <img
               src={user?.avatar}
               className="w-7 h-7 object-contain object-center rounded-full"
+              onClick={openWeb3Modal}
             />
             <CloseOutlined className="text-2xl" onClick={handleCancel} />
           </div>
