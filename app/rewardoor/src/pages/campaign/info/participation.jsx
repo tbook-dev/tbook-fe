@@ -68,7 +68,7 @@ export default function Participation() {
             >
               <div className="flex items-center gap-x-1 text-t-1">
                 <img
-                  src={incentiveAssetsTypeList.find((m) => m.value === 1)?.icon}
+                  src={v.picUrl}
                   className="w-5 h-5"
                 />
                 <div>{v.name}</div>
@@ -164,7 +164,7 @@ export default function Participation() {
                     className="pb-4 text-sm text-c-9 font-medium"
                   >
                     <div className="inline-flex items-center justify-between gap-x-1 px-5 py-2">
-                      <img src={v.coverUrl} className="w-5 h-5" />
+                      <img src={v.picUrl} className="w-5 h-5" />
                       {v.name}
                     </div>
                   </th>

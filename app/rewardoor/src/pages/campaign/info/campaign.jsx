@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { getCampaignDetail, getCredentials } from '@/api/incentive'
-import x from '@/images/icon/x.svg'
 import { incentiveAssetsTypeList, getUrl } from '@/utils/conf'
 import useUserInfo from '@/hooks/queries/useUserInfo'
 import { Typography } from 'antd'
@@ -59,14 +58,10 @@ export default function Campaign () {
                 <div className='flex items-center w-full'>
                   <div className='space-y-6 w-max'>
                     {cr.credentialList.map((v, idx) => {
-                      const m = credentialSet.find(
-                        item => item.credentialId === v.credentialId
-                      )
-
                       return (
                         <div key={idx} className='flex gap-x-2.5 items-center'>
                           <img
-                            src={m?.icon || x}
+                            src={v.picUrl}
                             className='w-5 h-5 object-contain'
                           />
                           <div
