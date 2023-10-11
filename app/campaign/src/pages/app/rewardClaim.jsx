@@ -200,6 +200,7 @@ export default function RewardClaim ({ group }) {
             {/*  {itemStatus.label}*/}
             {/*</button>*/}
             {/*<p className="text-xs text-c-9">{itemStatus.desc}</p>*/}
+            <RewardStatus showTimeClock={itemStatus.showTimeClock} />
             <WithClaim
               handleFn={() => {
                 handleClaim(point)
