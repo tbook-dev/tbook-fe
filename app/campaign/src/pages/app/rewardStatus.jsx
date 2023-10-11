@@ -8,8 +8,8 @@ const { Countdown } = Statistic;
 export default function RewardStatus({ showTimeClock = false }) {
   const { campaignId } = useParams();
   const { data: page, campaignNotStart } = useCampaignQuery(campaignId);
-
-  return !campaignNotStart && showTimeClock ? (
+  console.log({showTimeClock, campaignNotStart})
+  return (!campaignNotStart && showTimeClock)? (
     <div className="flex items-center gap-x-1 px-2 py-1 rounded-2.5xl bg-[rgb(254,248,234)] w-max mb-3">
       <img
         src={timeSvg}
