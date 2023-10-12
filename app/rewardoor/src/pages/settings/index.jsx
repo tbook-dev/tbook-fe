@@ -20,12 +20,13 @@ import uploadFile from "@/utils/upload";
 import { LoadingOutlined } from "@ant-design/icons";
 import { updateProject, getTwLoginUrl } from "@/api/incentive";
 import { useRef } from "react";
+import DevDoc from "./DevelopDoc";
 
 const pageTitle = "Settings";
 const { Paragraph } = Typography;
 const FormSection = ({ title, children }) => (
   <div className="flex items-center gap-x-6 py-3 px-5 border-b border-b-1">
-    <h3 className="text-base font-medium text-c-9 w-[200px]">{title}</h3>
+    <h3 className="text-base font-medium text-c-9 w-[200px] flex-none">{title}</h3>
     <div>{children}</div>
   </div>
 );
@@ -373,6 +374,12 @@ export default function Settings() {
                 >
                   O-vk8nP-CB4gqY0HY9uQgSvTmJLc
                 </Paragraph>
+              </FormSection>
+
+              <FormSection title="Developer documentation">
+                <div>
+                  <DevDoc />
+                </div>
               </FormSection>
 
               <div className="flex justify-end py-3 px-5">
