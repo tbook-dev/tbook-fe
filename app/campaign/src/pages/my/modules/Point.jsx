@@ -3,12 +3,13 @@ import useAssetQuery from "@/hooks/useAssetQuery";
 import { Spin } from "antd";
 import _ from "lodash";
 import { useParams } from "react-router-dom";
+import dayjs from "dayjs";
 
 export default function Point() {
   const { projectId } = useParams();
   const { data: assets, isLoading } = useAssetQuery(projectId);
-  const data = assets?.userPoints || [];
-  const total = _.sum(data.map((v) => v.pointNum));
+  const data = assets?.points || [];
+  const total = _.sum(data.map((v) => v.number));
   return (
     <div className="space-y-2">
       {isLoading ? (
@@ -29,8 +30,8 @@ export default function Point() {
                 key={idx}
                 className="flex items-center justify-between py-3 px-5 bg-white rounded-xl"
               >
-                <span>+{formatDollar(v.pointNum)}</span>
-                <span>{v.date}</span>
+                <span>+{formatDollar(v.number)}</span>
+                <span>{dayjs(v.claimedDate).format('YYYY-MM-DD')}</span>
               </div>
             );
           })}
