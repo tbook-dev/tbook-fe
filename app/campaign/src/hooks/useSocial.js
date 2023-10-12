@@ -48,6 +48,9 @@ export default function useSocial() {
           a.style = "display: none";
           a.href = res["url"];
           a.setAttribute("target", "_blank");
+          a.setAttribute("mc-deep-link", "false");
+          a.setAttribute("ref", "nofollow noopener noreferrer");
+          // rel='nofollow noopener noreferrer'
           a.click();
           // setTwCallbackUrl(() => res["url"]);
           // location.href = res["url"];
