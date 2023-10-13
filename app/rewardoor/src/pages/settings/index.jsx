@@ -38,7 +38,7 @@ import Loading from "@/components/loading";
 const pageTitle = "Settings";
 const { Paragraph } = Typography;
 const FormSection = ({ title, children }) => (
-  <div className="flex items-center gap-x-6 py-3 px-5 border-b border-b-1">
+  <div className="flex items-start gap-x-6 py-3 px-5 border-b border-b-1">
     <h3 className="text-base font-medium text-c-9 w-[200px] flex-none">
       {title}
     </h3>

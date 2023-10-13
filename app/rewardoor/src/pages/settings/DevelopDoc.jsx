@@ -4,7 +4,7 @@ import { coldarkDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import DevDco from "./developDocumention.md";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import "github-markdown-css";
+import "./github-markdown-dark.css";
 import { useState } from "react";
 import { DownOutlined } from "@ant-design/icons";
 
