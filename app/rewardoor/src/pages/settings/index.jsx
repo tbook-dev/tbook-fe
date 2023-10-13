@@ -8,7 +8,7 @@ import {
   ConfigProvider,
   Popover,
 } from "antd";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import useUserInfo from "@/hooks/queries/useUserInfo";
 import useProjectExt from "@/hooks/queries/useProjectExt";
 import { projectUrlPrefix } from "@/utils/conf";
@@ -19,9 +19,16 @@ import dcGray from "@/images/icon/dc-gray.svg";
 import tgGray from "@/images/icon/tg-gray.svg";
 import uploadFile from "@/utils/upload";
 import { LoadingOutlined } from "@ant-design/icons";
-import { updateProject, getTwLoginUrl } from "@/api/incentive";
+import {
+  updateProject,
+  getTwLoginUrl,
+  genAppKey,
+  updateProjectExt,
+} from "@/api/incentive";
 import { useRef } from "react";
 import DevDoc from "./DevelopDoc";
+import { Popconfirm } from "antd";
+import { useQueryClient } from "react-query";
 
 const pageTitle = "Settings";
 const { Paragraph } = Typography;
@@ -62,15 +69,21 @@ const popoverMap = {
 export default function Settings() {
   const [form] = Form.useForm();
   const [formAdvance] = Form.useForm();
+  const credentialCallbackEnabled = Form.useWatch(
+    "credentialCallbackEnabled",
+    formAdvance
+  );
   const [api, contextHolder] = notification.useNotification();
   const { project, projectId, userDc, userTwitter, userTg } = useUserInfo();
   const { data: projectExt } = useProjectExt(projectId);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [confirmExtLoading, setConfirmExtLoading] = useState(false);
   const [uplading, setUploading] = useState(false);
   const avatarUrl = Form.useWatch("avatarUrl", { form, preserve: true });
   const [twCallbackUrl, setTwCallbackUrl] = useState("");
   const twLinkRef = useRef();
-  console.log({ projectExt });
+  const queryClient = useQueryClient();
+  // console.log({ projectExt, credentialCallbackEnabled });
   const curHost = new URL(window.location.href).host;
   const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`;
 
@@ -93,12 +106,13 @@ export default function Settings() {
     form
       .validateFields()
       .then(async (values) => {
-        const fd = { ...project, ...values, avatarUrl };
-        await updateProject(fd);
-        api.success({ message: "Successfully Saved！" });
-      })
-      .catch((e) => {
-        api.error({ message: "Saved Error！" });
+        try {
+          const fd = { ...project, ...values, avatarUrl };
+          await updateProject(fd);
+          api.success({ message: "Successfully Saved！" });
+        } catch (e) {
+          api.error({ message: "Saved Error！" });
+        }
       })
       .finally(() => {
         setConfirmLoading(false);
@@ -112,6 +126,31 @@ export default function Settings() {
     location.href = res["url"];
   };
 
+  const handleGenerate = async () => {
+    await genAppKey(projectId);
+    return queryClient.refetchQueries(["project-external", projectId]);
+  };
+
+  const handleUpdateProjectExt = async () => {
+    setConfirmExtLoading(true);
+    formAdvance
+      .validateFields()
+      .then(async (values) => {
+        try {
+          const res = await updateProjectExt(projectId, {
+            enable: values.credentialCallbackEnabled,
+            callbackUrl: values.callbackUrl,
+          });
+          api.success({ message: "Successfully Saved！" });
+          console.log(res);
+        } catch (e) {
+          api.error({ message: "Saved Error！" });
+        }
+      })
+      .finally(() => {
+        setConfirmExtLoading(false);
+      });
+  };
   return (
     <div className="text-white relative flex flex-col justify-between min-h-full w-[880px]">
       <ConfigProvider
@@ -280,7 +319,15 @@ export default function Settings() {
             </div>
           </Form>
 
-          <Form form={formAdvance} layout="inline">
+          <Form
+            form={formAdvance}
+            layout="inline"
+            initialValues={{
+              credentialCallbackEnabled:
+                projectExt?.credentialCallbackEnabled || false,
+              callbackUrl: projectExt?.callbackUrl,
+            }}
+          >
             <div className="bg-[#121212] w-full rounded-xl">
               <div className="py-4 px-5 text-[18px] font-medium border-b border-b-1">
                 Advanced settings
@@ -299,10 +346,10 @@ export default function Settings() {
                   </div>
                 }
               >
-                <Form.Item name="credentialCallback">
+                <Form.Item name="credentialCallbackEnabled">
                   <Radio.Group>
-                    <Radio value={1}>Enable</Radio>
-                    <Radio value={2}>Disable</Radio>
+                    <Radio value={true}>Enable</Radio>
+                    <Radio value={false}>Disable</Radio>
                   </Radio.Group>
                 </Form.Item>
                 <p className="text-xs text-[#A1A1A2]">
@@ -312,10 +359,28 @@ export default function Settings() {
               </FormSection>
 
               <FormSection title="Callback url">
-                <Form.Item name="callbackUrl">
+                <Form.Item
+                  dependencies={["credentialCallbackEnabled"]}
+                  name="callbackUrl"
+                  rules={
+                    credentialCallbackEnabled
+                      ? [
+                          {
+                            required: true,
+                            message: "Please input the Callback url!",
+                          },
+                          {
+                            type: "url",
+                            message: "Please input an valid url!",
+                          },
+                        ]
+                      : null
+                  }
+                >
                   <Input
                     placeholder="Enter callback url"
                     className="w-[420px]"
+                    disabled={!credentialCallbackEnabled}
                   />
                 </Form.Item>
               </FormSection>
@@ -363,21 +428,42 @@ export default function Settings() {
                   </div>
                 }
               >
-                <Paragraph
-                  style={{
-                    marginBottom: 0,
-                    color: "#F0F0F0",
-                    fontWeight: 500,
-                    fontSize: 14,
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                  copyable={{
-                    text: project?.appId,
-                  }}
-                >
-                  O-vk8nP-CB4gqY0HY9uQgSvTmJLc
-                </Paragraph>
+                {projectExt?.appKey ? (
+                  <>
+                    <Paragraph
+                      style={{
+                        marginBottom: 0,
+                        color: "#F0F0F0",
+                        fontWeight: 500,
+                        fontSize: 14,
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                      copyable={{
+                        text: project?.appId,
+                      }}
+                    >
+                      {projectExt?.appKey}
+                    </Paragraph>
+                    <Popconfirm
+                      description="Are you sure to generate a new appKey?"
+                      icon={<QuestionCircleOutlined style={{ color: "red" }} />}
+                      onConfirm={handleGenerate}
+                    >
+                      <button className="text-sm text-[#006EE9]">
+                        Generate
+                      </button>
+                    </Popconfirm>
+                  </>
+                ) : (
+                  <Popconfirm
+                    description="Are you sure to generate an appKey?"
+                    icon={<QuestionCircleOutlined style={{ color: "red" }} />}
+                    onConfirm={handleGenerate}
+                  >
+                    <button className="text-sm text-[#006EE9]">Generate</button>
+                  </Popconfirm>
+                )}
               </FormSection>
 
               <FormSection title="Developer documentation">
@@ -388,8 +474,8 @@ export default function Settings() {
                 <div className="max-content">
                   <Button
                     type="primary"
-                    onClick={handleUpdate}
-                    loading={confirmLoading}
+                    onClick={handleUpdateProjectExt}
+                    loading={confirmExtLoading}
                     className="w-full"
                   >
                     Save

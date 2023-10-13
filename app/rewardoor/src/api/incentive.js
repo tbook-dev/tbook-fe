@@ -89,9 +89,9 @@ export const createCredential = async function (values) {
   return await request.Post(`${host}/credentials/create`, values);
 };
 
-export const getProjectExternalConfig = async function(projectId){
-  return await request(`${host}/project/${projectId}/externalConfig`)
-}
+export const getProjectExternalConfig = async function (projectId) {
+  return await request(`${host}/project/${projectId}/externalConfig`);
+};
 
 // export const getCredentials = async function (projectId) {
 //   return await request(`${host}/credentials/project/${projectId}`);
@@ -106,7 +106,7 @@ export const getProjectExternalConfig = async function(projectId){
 //   }
 // };
 export const getPreSignedUrl = async function () {
-  return request(`${host}/signedUploadUrl`);
+  return await request(`${host}/signedUploadUrl`);
 };
 // export const getIncentiveListWithGrants = async function (projectId) {
 //   try {
@@ -132,8 +132,14 @@ export const getPreSignedUrl = async function () {
 //   return request.PostFormV1(`${host}/projects/${projectId}/userAdd`, values);
 // };
 export const updateProject = async function (values) {
-  return request.Post(`${host}/project/update`, values);
+  return await request.Post(`${host}/project/update`, values);
 };
+export const genAppKey = async function (projectId) {
+  return request.Post(`${host}/project/${projectId}/key`)
+};
+export const updateProjectExt = async function(projectId, values){
+  return await request.Post(`${host}/project/${projectId}/callback/update`, values)
+}
 // export const updateProjectValuation = async function (projectId, values) {
 //   return request.PostFormV1(
 //     `${host}/projects/${projectId}/valuationUpdate`,
