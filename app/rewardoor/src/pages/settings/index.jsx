@@ -10,6 +10,7 @@ import {
 } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import useUserInfo from "@/hooks/queries/useUserInfo";
+import useProjectExt from "@/hooks/queries/useProjectExt";
 import { projectUrlPrefix } from "@/utils/conf";
 import Button from "@/components/button";
 import { useState } from "react";
@@ -26,7 +27,9 @@ const pageTitle = "Settings";
 const { Paragraph } = Typography;
 const FormSection = ({ title, children }) => (
   <div className="flex items-center gap-x-6 py-3 px-5 border-b border-b-1">
-    <h3 className="text-base font-medium text-c-9 w-[200px] flex-none">{title}</h3>
+    <h3 className="text-base font-medium text-c-9 w-[200px] flex-none">
+      {title}
+    </h3>
     <div>{children}</div>
   </div>
 );
@@ -60,13 +63,14 @@ export default function Settings() {
   const [form] = Form.useForm();
   const [formAdvance] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
-  const { project, userDc, userTwitter, userTg } = useUserInfo();
+  const { project, projectId, userDc, userTwitter, userTg } = useUserInfo();
+  const { data: projectExt } = useProjectExt(projectId);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [uplading, setUploading] = useState(false);
   const avatarUrl = Form.useWatch("avatarUrl", { form, preserve: true });
   const [twCallbackUrl, setTwCallbackUrl] = useState("");
   const twLinkRef = useRef();
-
+  console.log({ projectExt });
   const curHost = new URL(window.location.href).host;
   const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`;
 
@@ -342,7 +346,7 @@ export default function Settings() {
                     text: project?.appId,
                   }}
                 >
-                  217262530358
+                  {projectId}
                 </Paragraph>
               </FormSection>
 
@@ -377,9 +381,7 @@ export default function Settings() {
               </FormSection>
 
               <FormSection title="Developer documentation">
-                <div>
-                  <DevDoc />
-                </div>
+                <DevDoc />
               </FormSection>
 
               <div className="flex justify-end py-3 px-5">
