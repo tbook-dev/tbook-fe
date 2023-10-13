@@ -8,7 +8,11 @@ import {
   ConfigProvider,
   Popover,
 } from "antd";
-import { InfoCircleOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import {
+  InfoCircleOutlined,
+  QuestionCircleOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 import useUserInfo from "@/hooks/queries/useUserInfo";
 import useProjectExt from "@/hooks/queries/useProjectExt";
 import { projectUrlPrefix } from "@/utils/conf";
@@ -29,6 +33,7 @@ import { useRef } from "react";
 import DevDoc from "./DevelopDoc";
 import { Popconfirm } from "antd";
 import { useQueryClient } from "react-query";
+import Loading from "@/components/loading";
 
 const pageTitle = "Settings";
 const { Paragraph } = Typography;
@@ -37,7 +42,7 @@ const FormSection = ({ title, children }) => (
     <h3 className="text-base font-medium text-c-9 w-[200px] flex-none">
       {title}
     </h3>
-    <div>{children}</div>
+    <div className="flex-auto">{children}</div>
   </div>
 );
 const popoverMap = {
@@ -83,7 +88,7 @@ export default function Settings() {
   const [twCallbackUrl, setTwCallbackUrl] = useState("");
   const twLinkRef = useRef();
   const queryClient = useQueryClient();
-  // console.log({ projectExt, credentialCallbackEnabled });
+  console.log({ projectExt, credentialCallbackEnabled });
   const curHost = new URL(window.location.href).host;
   const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`;
 
@@ -318,135 +323,150 @@ export default function Settings() {
               </div>
             </div>
           </Form>
+          {!projectExt ? (
+            <Loading h="h-[100px]" />
+          ) : (
+            <Form
+              form={formAdvance}
+              layout="inline"
+              initialValues={{
+                credentialCallbackEnabled:
+                  projectExt?.enable || false,
+                callbackUrl: projectExt?.callbackUrl,
+              }}
+            >
+              <div className="bg-[#121212] w-full rounded-xl">
+                <div className="py-4 px-5 text-[18px] font-medium border-b border-b-1 flex items-center gap-x-1 text-[#006EE9]">
+                  <SettingOutlined /> Advanced settings
+                </div>
 
-          <Form
-            form={formAdvance}
-            layout="inline"
-            initialValues={{
-              credentialCallbackEnabled:
-                projectExt?.credentialCallbackEnabled || false,
-              callbackUrl: projectExt?.callbackUrl,
-            }}
-          >
-            <div className="bg-[#121212] w-full rounded-xl">
-              <div className="py-4 px-5 text-[18px] font-medium border-b border-b-1">
-                Advanced settings
-              </div>
-
-              <FormSection
-                title={
-                  <div className="flex items-center gap-x-1">
-                    Credential callback
-                    <Popover
-                      content={popoverMap.credentialCallback}
-                      className="cursor-pointer"
-                    >
-                      <InfoCircleOutlined />
-                    </Popover>
-                  </div>
-                }
-              >
-                <Form.Item name="credentialCallbackEnabled">
-                  <Radio.Group>
-                    <Radio value={true}>Enable</Radio>
-                    <Radio value={false}>Disable</Radio>
-                  </Radio.Group>
-                </Form.Item>
-                <p className="text-xs text-[#A1A1A2]">
-                  Disabling the credential callback means that no further
-                  callback data will be received until it is enabled.
-                </p>
-              </FormSection>
-
-              <FormSection title="Callback url">
-                <Form.Item
-                  dependencies={["credentialCallbackEnabled"]}
-                  name="callbackUrl"
-                  rules={
-                    credentialCallbackEnabled
-                      ? [
-                          {
-                            required: true,
-                            message: "Please input the Callback url!",
-                          },
-                          {
-                            type: "url",
-                            message: "Please input an valid url!",
-                          },
-                        ]
-                      : null
+                <FormSection
+                  title={
+                    <div className="flex items-center gap-x-1">
+                      Credential callback
+                      <Popover
+                        content={popoverMap.credentialCallback}
+                        className="cursor-pointer"
+                      >
+                        <InfoCircleOutlined />
+                      </Popover>
+                    </div>
                   }
                 >
-                  <Input
-                    placeholder="Enter callback url"
-                    className="w-[420px]"
-                    disabled={!credentialCallbackEnabled}
-                  />
-                </Form.Item>
-              </FormSection>
+                  <Form.Item name="credentialCallbackEnabled">
+                    <Radio.Group>
+                      <Radio value={true}>Enable</Radio>
+                      <Radio value={false}>Disable</Radio>
+                    </Radio.Group>
+                  </Form.Item>
+                  <p className="text-xs text-[#A1A1A2]">
+                    Disabling the credential callback means that no further
+                    callback data will be received until it is enabled.
+                  </p>
+                </FormSection>
 
-              <FormSection
-                title={
-                  <div className="flex items-center gap-x-1">
-                    AppId
-                    <Popover
-                      content={popoverMap.appId}
-                      className="cursor-pointer"
-                    >
-                      <InfoCircleOutlined />
-                    </Popover>
-                  </div>
-                }
-              >
-                <Paragraph
-                  style={{
-                    marginBottom: 0,
-                    color: "#F0F0F0",
-                    fontWeight: 500,
-                    fontSize: 14,
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                  copyable={{
-                    text: project?.appId,
-                  }}
+                <FormSection title="Callback url">
+                  <Form.Item
+                    dependencies={["credentialCallbackEnabled"]}
+                    name="callbackUrl"
+                    rules={
+                      credentialCallbackEnabled
+                        ? [
+                            {
+                              required: true,
+                              message: "Please input the Callback url!",
+                            },
+                            {
+                              type: "url",
+                              message: "Please input an valid url!",
+                            },
+                          ]
+                        : null
+                    }
+                  >
+                    <Input
+                      placeholder="Enter callback url"
+                      className="w-[420px]"
+                      disabled={!credentialCallbackEnabled}
+                    />
+                  </Form.Item>
+                </FormSection>
+
+                <FormSection
+                  title={
+                    <div className="flex items-center gap-x-1">
+                      AppId
+                      <Popover
+                        content={popoverMap.appId}
+                        className="cursor-pointer"
+                      >
+                        <InfoCircleOutlined />
+                      </Popover>
+                    </div>
+                  }
                 >
-                  {projectId}
-                </Paragraph>
-              </FormSection>
+                  <Paragraph
+                    style={{
+                      marginBottom: 0,
+                      color: "#F0F0F0",
+                      fontWeight: 500,
+                      fontSize: 14,
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                    copyable={{
+                      text: project?.appId,
+                    }}
+                  >
+                    {projectId}
+                  </Paragraph>
+                </FormSection>
 
-              <FormSection
-                title={
-                  <div className="flex items-center gap-x-1">
-                    AppKey
-                    <Popover
-                      content={popoverMap.appKey}
-                      className="cursor-pointer"
-                    >
-                      <InfoCircleOutlined />
-                    </Popover>
-                  </div>
-                }
-              >
-                {projectExt?.appKey ? (
-                  <>
-                    <Paragraph
-                      style={{
-                        marginBottom: 0,
-                        color: "#F0F0F0",
-                        fontWeight: 500,
-                        fontSize: 14,
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                      copyable={{
-                        text: project?.appId,
-                      }}
-                    >
-                      {projectExt?.appKey}
-                    </Paragraph>
+                <FormSection
+                  title={
+                    <div className="flex items-center gap-x-1">
+                      AppKey
+                      <Popover
+                        content={popoverMap.appKey}
+                        className="cursor-pointer"
+                      >
+                        <InfoCircleOutlined />
+                      </Popover>
+                    </div>
+                  }
+                >
+                  {projectExt?.appKey ? (
+                    <>
+                      <Paragraph
+                        style={{
+                          marginBottom: 0,
+                          color: "#F0F0F0",
+                          fontWeight: 500,
+                          fontSize: 14,
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                        copyable={{
+                          text: project?.appId,
+                        }}
+                      >
+                        {projectExt?.appKey}
+                      </Paragraph>
+                      <Popconfirm
+                        description="Are you sure to generate a new appKey?"
+                        icon={
+                          <QuestionCircleOutlined style={{ color: "red" }} />
+                        }
+                        onConfirm={handleGenerate}
+                      >
+                        <button className="text-sm text-[#006EE9]">
+                          Generate
+                        </button>
+                      </Popconfirm>
+                    </>
+                  ) : (
                     <Popconfirm
-                      description="Are you sure to generate a new appKey?"
+                      description="Are you sure to generate an appKey?"
                       icon={<QuestionCircleOutlined style={{ color: "red" }} />}
                       onConfirm={handleGenerate}
                     >
@@ -454,36 +474,28 @@ export default function Settings() {
                         Generate
                       </button>
                     </Popconfirm>
-                  </>
-                ) : (
-                  <Popconfirm
-                    description="Are you sure to generate an appKey?"
-                    icon={<QuestionCircleOutlined style={{ color: "red" }} />}
-                    onConfirm={handleGenerate}
-                  >
-                    <button className="text-sm text-[#006EE9]">Generate</button>
-                  </Popconfirm>
-                )}
-              </FormSection>
+                  )}
+                </FormSection>
 
-              <FormSection title="Developer documentation">
-                <DevDoc />
-              </FormSection>
+                <FormSection title="Developer documentation">
+                  <DevDoc />
+                </FormSection>
 
-              <div className="flex justify-end py-3 px-5">
-                <div className="max-content">
-                  <Button
-                    type="primary"
-                    onClick={handleUpdateProjectExt}
-                    loading={confirmExtLoading}
-                    className="w-full"
-                  >
-                    Save
-                  </Button>
+                <div className="flex justify-end py-3 px-5">
+                  <div className="max-content">
+                    <Button
+                      type="primary"
+                      onClick={handleUpdateProjectExt}
+                      loading={confirmExtLoading}
+                      className="w-full"
+                    >
+                      Save
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Form>
+            </Form>
+          )}
         </div>
       </ConfigProvider>
 
