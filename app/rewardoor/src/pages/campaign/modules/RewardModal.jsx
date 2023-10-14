@@ -73,6 +73,7 @@ export default function CredentialModal ({
       open={open}
       onCancel={closeModal}
       maskStyle={{ backdropFilter: 'blur(7.5px)' }}
+      maskClosable={false}
       destroyOnClose
       centered
       title={<div className='text-4.2xl font-black text-t-1'>{title}</div>}
