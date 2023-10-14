@@ -14,10 +14,7 @@ const Result = ({ title, desc }) => {
 };
 
 // loading, sucess, failed, occupied
-export default function RedirectSocial({
-  status = "loading",
-  desc = "",
-}) {
+export default function RedirectSocial({ status = "loading", desc = "" }) {
   return (
     <div>
       {status === "loading" && (
@@ -41,14 +38,17 @@ export default function RedirectSocial({
           <img src={failedPNG} className="w-full" />
           <Result
             title="Account authorization failed"
-            desc="We regret that the account authorization has failed. Please try again later."
+            desc={
+              desc ||
+              "We regret that the account authorization has failed. Please try again later."
+            }
           />
         </div>
       )}
       {status === "occupied" && (
         <div>
           <img src={occupiedPNG} className="w-full" />
-          <Result title="Account occupied" desc={desc || 'Account occupied!'} />
+          <Result title="Account occupied" desc={desc || "Account occupied!"} />
         </div>
       )}
     </div>

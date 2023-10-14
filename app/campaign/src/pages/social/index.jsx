@@ -13,8 +13,10 @@ export default function ({ authCallback }) {
         console.log(d);
         if (d.code === 4004) {
           setStatus("occupied");
+          setErrorMessage(d.msg)
         } else if (d.code === 500) {
           setStatus("failed");
+          setErrorMessage(d.msg)
         } else {
           setStatus("sucess");
         }
