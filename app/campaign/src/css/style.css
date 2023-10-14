@@ -42,11 +42,11 @@
   }
 }
 
-/* .bg-linear-c-1 {
+.bg-linear-c-1 {
   background: linear-gradient(
       0deg,
       rgba(255, 255, 255, 0.75) 0%,
       rgba(255, 255, 255, 0.75) 100%
     ),
     linear-gradient(11deg, #c4b1d8 15.48%, #f4d597 100%);
-} */
+}
