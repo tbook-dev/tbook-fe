@@ -210,7 +210,7 @@ export const credentialStatus = [
     bgColor: "transparent",
     color: "#65C467",
     // desc: "You have claimed this reward 🎉",
-    desc:'',
+    desc: "",
     disabled: true,
     showTimeClock: false,
     comment: "Claimed",
@@ -222,7 +222,7 @@ export const credentialStatus = [
     value: 5,
     bgColor: "#f7f7f7",
     color: "#999",
-    desc:"You missed the reward according to the distribution method.",
+    desc: "You missed the reward according to the distribution method.",
     disabled: true,
     showTimeClock: false,
     comment: "missed未获取",
@@ -230,3 +230,8 @@ export const credentialStatus = [
     // nft置灰
   },
 ];
+
+export const delay = (ms) =>
+  new Promise((r) => {
+    setTimeout(r, ms);
+  });

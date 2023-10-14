@@ -98,3 +98,10 @@ export const updateClaimed = async function (nftId, groupId, tx, dummyId) {
 export const getUserCampaign = async function (projectId) {
   return await request(`${host}/user/${projectId}/campaigns`);
 };
+
+export const authTwitterCallback = async function () {
+  const url = new URL(window.location.href);
+  const code = url.searchParams.get("code");
+  const state = url.searchParams.get("state");
+  return await request.PostFormV1({ code, state });
+};
