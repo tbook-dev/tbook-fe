@@ -329,7 +329,7 @@ export default function CredentialModal ({
                           }
                         ]}
                       >
-                        <Switch />
+                        <Switch checkedChildren="on" unCheckedChildren="off" />
                       </Form.Item>
                       {unlimited && (
                         <>
