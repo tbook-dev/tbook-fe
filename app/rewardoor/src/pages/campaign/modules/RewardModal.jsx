@@ -293,7 +293,8 @@ export default function CredentialModal ({
                             <InputNumber
                               placeholder='try a number'
                               className='w-full'
-                              min={0}
+                              min={1}
+                              step={1}
                             />
                           </Form.Item>
                         </>
@@ -335,22 +336,26 @@ export default function CredentialModal ({
                             <Form.Item
                               label='Minting Cap'
                               name={[name, 'mintCap']}
+                              rules={[{ required: true, message: 'Missing!' }]}
                             >
                               <InputNumber
                                 placeholder='try a number'
                                 className='w-full'
-                                min={0}
+                                min={1}
+                                step={1}
                               />
                             </Form.Item>
                           ) : (
                             <Form.Item
                               label='Number of Reward'
                               name={[name, 'rewardNum']}
+                              rules={[{ required: true, message: 'Missing!' }]}
                             >
                               <InputNumber
                                 placeholder='try a number'
                                 className='w-full'
-                                min={0}
+                                min={1}
+                                step={1}
                               />
                             </Form.Item>
                           )}

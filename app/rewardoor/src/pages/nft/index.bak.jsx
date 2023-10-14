@@ -315,6 +315,7 @@ export default function () {
                   <InputNumber
                     placeholder='Enter the number of minting cap'
                     min={1}
+                    step={1}
                     className='w-full'
                   />
                 </Form.Item>
@@ -371,7 +372,7 @@ export default function () {
                     { required: true, message: 'Minting Cap is required' }
                   ]}
                 >
-                  <Input placeholder='Enter the number of minting cap' />
+                  <Input placeholder='Enter the number of minting cap' step={1} min={1}/>
                 </Form.Item>
               </>
             )}
