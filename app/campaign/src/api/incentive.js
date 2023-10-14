@@ -103,5 +103,24 @@ export const authTwitterCallback = async function () {
   const url = new URL(window.location.href);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
-  return await request.PostFormV1({ code, state });
+  return await request.PostFormV1(`${host}/twitter/callback`, { code, state });
 };
+
+export const authTgCallback = async function () {
+  const url = new URL(window.location.href);
+  let authResult;
+  if (url.searchParams["tgAuthResult"]) {
+    authResult = url.searchParams["tgAuthResult"];
+  } else {
+    authResult = url.hash.split("=")[1];
+  }
+  return await request.PostFormV1(`${host}/tg/callback`, {
+    originAuthResult: authResult,
+  });
+};
+
+export const authDcCallback = async function(){
+  const url = new URL(window.location.href)
+  const code = url.searchParams.get('code')
+  return await request.PostFormV1(`${host}/dc/callback`, { code });
+}
