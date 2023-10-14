@@ -11,3 +11,8 @@ export const redirectLocalStorageOnce = (
     navigate(defualtUrl);
   }
 };
+
+export const delay = (ms) =>
+  new Promise((r) => {
+    setTimeout(r, ms);
+  });

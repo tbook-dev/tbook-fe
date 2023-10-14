@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authTwitterCallback } from "@/api/incentive";
 import RedirectSocial from "@/components/redirectSocial";
-import { redirectLocalStorageOnce } from "@/pages/social/conf";
-import { delay } from "@/utils/conf";
+import { redirectLocalStorageOnce, delay } from "@/pages/social/conf";
 
 export default function () {
   const navigate = useNavigate();
