@@ -8,7 +8,7 @@ import { CheckOutlined } from "@ant-design/icons";
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { setConnectWalletModal } from "@/store/global";
-import { useWeb3Modal } from "@web3modal/react";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount, useSignMessage } from "wagmi";
 import { getNonce } from "@/utils/web3";
 import { useQueryClient } from "react-query";

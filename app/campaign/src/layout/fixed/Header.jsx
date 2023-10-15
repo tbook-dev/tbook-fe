@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import logo from "@/images/icon/logo.svg";
-import { Web3Button } from "@web3modal/react";
 import clsx from "clsx";
 import { useResponsive } from "ahooks";
 import { useSelector } from "react-redux";
@@ -11,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { setConnectWalletModal } from "@/store/global";
 import { Spin } from "antd";
 import { useAccount } from 'wagmi'
-import { useWeb3Modal } from "@web3modal/react";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 function Header() {
   const { pc } = useResponsive();
@@ -53,7 +52,7 @@ function Header() {
                 />
                 <MobleMenu />
                 <div className="hidden lg:flex items-center space-x-3">
-                  <Web3Button icon="show" balance="hide" avatar="hide" />
+                  <w3m-button icon="show" balance="hide" avatar="hide" />
                 </div>
               </div>
             ) : (

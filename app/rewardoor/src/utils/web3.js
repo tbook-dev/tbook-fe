@@ -1,27 +1,41 @@
 import { host } from '@/api/incentive'
 
 // import { publicProvider } from 'wagmi/providers/public'
-import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
-import { configureChains, createConfig, WagmiConfig } from 'wagmi'
+import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
+
 import { arbitrum, mainnet, polygon, optimism, optimismGoerli, localhost } from 'wagmi/chains'
 
 const chains = [arbitrum, mainnet, polygon, optimism, optimismGoerli, localhost]
 const projectId = import.meta.env.VITE_WC_PROJECT_ID
 
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
-export const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors: w3mConnectors({ projectId, chains }),
-  publicClient
-})
-export const ethereumClient = new EthereumClient(wagmiConfig, chains)
+// const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
+// export const wagmiConfig = createConfig({
+//   autoConnect: true,
+//   connectors: w3mConnectors({ projectId, chains }),
+//   publicClient
+// })
+// export const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
-// const connectors = modalConnectors({
-//   appName: "tbook",
-//   projectId: import.meta.env.VITE_WC_PROJECT_ID,
-//   chains,
-//   version: '2'
-// });
+const metadata = {
+  name: 'TBook',
+  description: 'TBook',
+  url: 'https://tbook.com',
+  icons: ['https://avatars.githubusercontent.com/u/37784886']
+}
+export const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
+export const web3modal = createWeb3Modal({ 
+  wagmiConfig, 
+  projectId, 
+  chains,
+  themeVariables: {
+    '--w3m-text-big-bold-font-family': 'Red Hat Display, sans-serif',
+    '--w3m-font-family': 'Red Hat Display, sans-serif',
+    '--w3m-accent-color': '#fff',
+    '--w3m-accent-fill-color': '#666',
+    '--w3m-button-border-radius': '20px',
+    '--w3m-z-index': 10001
+  }
+})
 
 export async function fetchLoginNonce (address) {
   return fetch(`${host}/nonce?address=${address}`, {

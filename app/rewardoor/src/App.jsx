@@ -11,11 +11,9 @@ import { watchAccount, getAccount } from 'wagmi/actions'
 import { getWalletClient } from '@wagmi/core'
 import {
   wagmiConfig,
-  ethereumClient,
   changeAccountSignIn,
   logout
 } from '@/utils/web3'
-import { Web3Modal } from '@web3modal/react'
 
 configResponsive({
   pc: 1120
@@ -52,10 +50,6 @@ function App () {
           }
         />
       </WagmiConfig>
-      <Web3Modal
-        projectId={import.meta.env.VITE_WC_PROJECT_ID}
-        ethereumClient={ethereumClient}
-      />
     </>
   )
 }

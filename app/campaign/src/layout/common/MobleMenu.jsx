@@ -6,9 +6,8 @@ import { Link } from "react-router-dom";
 import { CloseOutlined } from "@ant-design/icons";
 import Links from "./Links";
 import { useCallback } from "react";
-import { Web3Button } from "@web3modal/react";
 import useUserInfo from "@/hooks/useUserInfoQuery";
-import { useWeb3Modal } from "@web3modal/react";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 
 export default function MobleMenu({ hideLink = false}) {

@@ -4,7 +4,7 @@ import useUserInfo from '@/hooks/queries/useUserInfo'
 import { useNavigate } from 'react-router-dom'
 import { useAccount } from 'wagmi'
 import  useSignIn from '@/hooks/useSignIn'
-import { useWeb3Modal } from '@web3modal/react'
+import { useWeb3Modal } from '@web3modal/wagmi/react'
 
 export default function () {
   const navigate = useNavigate()

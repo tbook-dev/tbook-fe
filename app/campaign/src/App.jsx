@@ -15,15 +15,13 @@ import { watchAccount, getAccount } from 'wagmi/actions'
 import { getWalletClient } from '@wagmi/core'
 import {
   wagmiConfig,
-  ethereumClient,
   changeAccountSignIn,
   logout,
   preGetNonce,
   signLoginMetaMask,
   isIOS
 } from '@/utils/web3'
-import { Web3Modal } from '@web3modal/react'
-// const { fetchUserInfo } = user
+
 
 configResponsive({
   pc: 1120
@@ -86,7 +84,7 @@ function App () {
         />
         <ConnectWalletModal />
       </WagmiConfig>
-      <Web3Modal
+      {/* <Web3Modal
         projectId={import.meta.env.VITE_WC_PROJECT_ID}
         ethereumClient={ethereumClient}
         themeVariables={{
@@ -97,7 +95,7 @@ function App () {
           '--w3m-button-border-radius': '20px',
           '--w3m-z-index': 10001
         }}
-      />
+      /> */}
     </>
   )
 }

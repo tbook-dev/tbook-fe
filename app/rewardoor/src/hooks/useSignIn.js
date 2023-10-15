@@ -1,7 +1,7 @@
 import  { useState } from "react";
 import { signLoginMetaMask, logout } from "@/utils/web3";
 import { getUserInfo } from "@/api/incentive";
-import { useWeb3Modal } from "@web3modal/react";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 import {
   useAccount,
   useConnect,

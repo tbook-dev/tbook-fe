@@ -3,7 +3,7 @@ import defaultAvator from "@/images/icon/defaultAvator.svg";
 import { shortAddress } from "@tbook/utils/lib/conf";
 import { useState } from "react";
 import useSocial from "@/hooks/useSocial";
-import { useWeb3Modal } from "@web3modal/react";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 export default function PersonalInfo() {
   const { data, userLogined } = useUserInfoQuery();

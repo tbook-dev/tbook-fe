@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { signLoginMetaMask, logout } from "@/utils/web3";
 import { useDispatch } from "react-redux";
 import { user } from "@tbook/store";
-//import { useWeb3Modal } from "@web3modal/react";
+
 import {
   useAccount,
   useConnect,

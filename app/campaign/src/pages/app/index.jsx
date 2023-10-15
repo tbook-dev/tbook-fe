@@ -15,7 +15,7 @@ import useCampaignQuery from "@/hooks/useCampaignQuery";
 import TextMore from "@/components/textMore";
 import { Spin, Statistic } from "antd";
 import { message } from "antd";
-import { useWeb3Modal } from "@web3modal/react";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount, useWalletClient, useSignMessage } from "wagmi";
 // import useSignIn from "@/hooks/useSignIn";
 import WithVerify from "@/components/withVerify";

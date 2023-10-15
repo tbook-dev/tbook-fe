@@ -7,7 +7,6 @@ import useSignIn from '@/hooks/useSignIn'
 import Button from '@/components/button'
 import { useNavigate } from 'react-router-dom'
 import { useAccount } from 'wagmi'
-import { Web3Button } from '@web3modal/react'
 import { useEffect } from 'react'
 import { host } from '@/api/incentive'
 
@@ -72,7 +71,7 @@ export default function Aboard () {
           <div className='mt-10 space-y-6'>
             {isConnected ? (
               <div className='flex items-center gap-x-4'>
-                <Web3Button />
+                <w3m-button />
                 Loading……
               </div>
             ) : (
