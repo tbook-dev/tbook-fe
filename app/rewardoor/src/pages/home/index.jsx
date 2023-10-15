@@ -27,9 +27,9 @@ export default function () {
     }
   }
 
-  function wcClick() {
+  async function wcClick() {
     if (!isConnected) {
-      open()
+      await open()
     } else {
       handleSignIn()
     }

@@ -318,7 +318,7 @@ export default function () {
                                 ? userLogined
                                   ? taskMap[redential.labelType]
                                   : signIn
-                                : open
+                                : async () => await open()
                               : null
                           }
                           className="truncate text-sm text-[#131517] max-w-[calc(100%_-_30px)]"

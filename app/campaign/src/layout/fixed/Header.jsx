@@ -48,7 +48,7 @@ function Header() {
                 <img
                   src={user?.avatar}
                   className="w-7 h-7 object-contain object-center rounded-full"
-                  onClick={open}
+                  onClick={async () => await open()}
                 />
                 <MobleMenu />
                 <div className="hidden lg:flex items-center space-x-3">

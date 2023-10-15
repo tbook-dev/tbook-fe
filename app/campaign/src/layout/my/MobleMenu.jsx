@@ -34,7 +34,7 @@ export default function MobleMenu({ hideLink = false }) {
             <img
               src={user?.avatar}
               className="w-7 h-7 object-contain object-center rounded-full"
-              onClick={openWeb3Modal}
+              onClick={async () => await openWeb3Modal()}
             />
             <CloseOutlined className="text-2xl" onClick={handleCancel} />
           </div>

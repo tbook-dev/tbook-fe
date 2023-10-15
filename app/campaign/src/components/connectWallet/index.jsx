@@ -146,7 +146,7 @@ const ConnectWalletModal = () => {
               </div>
             ) : (
               <button
-                onClick={open}
+                onClick={async() => await open()}
                 className="px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md"
               >
                 {pageConf.step1.button}

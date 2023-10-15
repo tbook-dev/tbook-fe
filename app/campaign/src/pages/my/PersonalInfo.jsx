@@ -20,7 +20,7 @@ export default function PersonalInfo() {
       />
 
       {userLogined && (
-        <p className="text-[#131517] text-base font-medium cursor-pointer" onClick={open}>
+        <p className="text-[#131517] text-base font-medium cursor-pointer" onClick={async () => await open()}>
           {shortAddress(data?.user?.wallet)}
         </p>
       )}
