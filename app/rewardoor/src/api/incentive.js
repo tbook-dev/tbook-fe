@@ -267,3 +267,7 @@ export const getTwLoginUrl = async function () {
   });
   return await res.json();
 };
+
+export const getReward = async function(campaignId){
+  return await request(`${host}/campaignNew/reward/${campaignId}`)
+}

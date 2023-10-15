@@ -11,10 +11,12 @@ import clsx from "clsx";
 import { useState, useCallback } from "react";
 import WhiteListModal from "./whiteListModal";
 import mockAvatorIcon from "@/images/icon/mockAvator.svg";
+import useReward from "@/hooks/queries/useReward";
 
 const { formatDollar } = tbookConf;
 export default function Reward() {
   const { id } = useParams();
+  const { data: reward } = useReward(id);
   const [whiteListData, setWhiteListData] = useState(null);
   const [open, setOpen] = useState(false);
   const { data: pageInfo = {} } = useQuery(
@@ -24,6 +26,7 @@ export default function Reward() {
       staleTime: Infinity,
     }
   );
+  console.log({ reward });
   const closeModal = useCallback(() => {
     setOpen(false);
     setWhiteListData(null);
