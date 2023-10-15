@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
-import { getAsset } from "@/api/incentive";
+import { getReward } from "@/api/incentive";
 
 export default function useReward(campaignId) {
-  return useQuery(["reward", campaignId], () => getAsset(campaignId), {
+  return useQuery(["reward", campaignId], () => getReward(campaignId), {
     enabled: !!campaignId,
     staleTime: 60 * 1000 * 60,
   });
