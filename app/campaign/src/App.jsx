@@ -49,8 +49,8 @@ watchAccount(async acc => {
     if (isIOS) {
       preGetNonce(acc.address)
     } else if (!/Mobi/i.test(window.navigator.userAgent)) {
-      const signer = await getWalletClient()
-      signLoginMetaMask(acc.address, signer)
+      // const signer = await getWalletClient()
+      // signLoginMetaMask(acc.address, signer)
     }
   }
   currentAddress = acc.address
