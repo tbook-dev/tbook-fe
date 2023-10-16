@@ -12,6 +12,7 @@ export default function WhiteList({ data, closeModal, open }) {
   const handleUpdateWhiteList = () => {
     console.log("update");
   };
+  
   return (
     <Modal open={open} width={480} footer={null} centered onCancel={closeModal}>
       <div className="-mx-6">
@@ -28,11 +29,11 @@ export default function WhiteList({ data, closeModal, open }) {
                 <div className="flex items-center gap-x-3 text-sm text-t-3">
                   <div className="w-8 h-8 overflow-hidden rounded-full">
                     <img
-                      src={mockAvatorIcon}
+                      src={v.user.avatar}
                       className="w-full h-full object-contain object-center"
                     />
                   </div>
-                  {shortAddress(v.address)}
+                  {shortAddress(v.user.wallet)}
                 </div>
                 <div className="text-c-6 text-sm">{prompt}</div>
               </div>

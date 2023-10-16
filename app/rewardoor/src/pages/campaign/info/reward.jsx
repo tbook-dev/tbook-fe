@@ -38,207 +38,192 @@ export default function Reward() {
 
   return (
     <div className="w-[520px] space-y-4 mb-20">
-      {pageInfo.groups?.map((group) => {
+      {reward?.nfts?.map((v, idx) => {
+        const nft = v.nft;
+        const isDone = idx % 2 === 0;
+        const itemStatus = isDone ? rewardMap.done : rewardMap.ongoing;
+        const incentiveMethodItem =
+          incentiveMethodList.find((v) => v.value === nft.methodType) ||
+          incentiveMethodList[0];
+        const whiteList = [
+          {
+            address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f763",
+          },
+        ];
+        const hasToUpdateWhiteList = whiteList.length > 0;
+        const winners = v.winnerList;
+        const claimNum = winners.length;
         return (
-          <div className="space-y-4" key={group.id}>
-            {group.nftList?.map((nft, idx) => {
-              const isDone = idx % 2 === 0;
-              const itemStatus = isDone ? rewardMap.done : rewardMap.ongoing;
-              const incentiveMethodItem =
-                incentiveMethodList.find((v) => v.value === nft.methodType) ||
-                incentiveMethodList[0];
-              const whiteList = [
-                {
-                  address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f763",
-                },
-              ];
-              const hasToUpdateWhiteList = whiteList.length > 0;
-              const winners = [
-                {
-                  address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f763",
-                },
-                {
-                  address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f764",
-                },
-              ];
-              const claimNum = 10000;
-              return (
-                <div key={nft.nftId} className="bg-[#161616] rounded-xl">
-                  <div className="flex items-center gap-x-1 mb-2 px-5 py-4 border-b border-[#1f1f1f]">
-                    <img src={nftIcon} className="w-6 h-6" />
-                    <span className="text-white text-lg font-medium">nft</span>
-                  </div>
-                  <div className="px-5 py-6">
-                    <div className="space-y-6 pb-6 border-b border-[#1f1f1f]">
-                      <h2>{nft.name}</h2>
-                      <div className="w-16 h-16 bg-[#272727] p-2 rounded-lg border border-[rgb(50,50,50)] shadow-[0px_0px_12px_0px_rgba(0,0,0,0.08)]">
-                        <img
-                          src={nft.coverUrl}
-                          className="w-full h-full object-contain object-center"
-                        />
-                      </div>
-                      <div className="flex items-center gap-x-1 lowercase text-base">
-                        <img
-                          src={incentiveMethodItem?.icon}
-                          className="w-6 h-6 object-contain object-center"
-                        />
-                        {incentiveMethodItem?.title}
-                        <Tooltip title={incentiveMethodItem.desc}>
-                          <span className="text-c-6 hover:text-white ml-1 cursor-pointer">
-                            <InfoCircleOutlined />
-                          </span>
-                        </Tooltip>
-                      </div>
-                      <button
-                        className="py-1 px-2 text-xs rounded-xl bg-[rgb(28,33,27)] block"
-                        style={{
-                          color: itemStatus.color,
-                        }}
-                      >
-                        {itemStatus.btn}
-                      </button>
-
-                      {hasToUpdateWhiteList && (
-                        <div>
-                          <button
-                            className="text-white text-sm font-medium py-1.5 px-3 bg-[#3A82F7] hover:opacity-80 block rounded-md mb-3"
-                            onClick={() => {
-                              setModalData(winners);
-                            }}
-                          >
-                            Update the whitelist
-                          </button>
-                          <p className="text-xs text-t-3">{itemStatus.text}</p>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="text-t-1 text-sm font-medium">
-                        {formatDollar(winners.length)} winners
-                      </div>
-                      <div className="flex -space-x-3">
-                        {new Array(30)
-                          .fill(0)
-                          .slice(0, 2)
-                          .map((_, idx) => {
-                            return (
-                              <div
-                                key={idx}
-                                className="w-6 h-6 overflow-hidden rounded-full border-0.5 border-[#161616]"
-                              >
-                                <img
-                                  src={mockAvatorIcon}
-                                  className="w-full h-full object-contain object-center"
-                                />
-                              </div>
-                            );
-                          })}
-                      </div>
-                      <div
-                        className={clsx(
-                          whiteList.length === 0 ? "text-white" : "text-c-3",
-                          "text-sm"
-                        )}
-                      >
-                        {formatDollar(claimNum)} nft claimed by participants
-                      </div>
-                    </div>
-                  </div>
+          <div key={v.nft.nftId} className="bg-[#161616] rounded-xl">
+            <div className="flex items-center gap-x-1 mb-2 px-5 py-4 border-b border-[#1f1f1f]">
+              <img src={nftIcon} className="w-6 h-6" />
+              <span className="text-white text-lg font-medium">nft</span>
+            </div>
+            <div className="px-5 py-6">
+              <div className="space-y-6 pb-6 border-b border-[#1f1f1f]">
+                <h2>{nft.name}</h2>
+                <div className="w-16 h-16 bg-[#272727] p-2 rounded-lg border border-[rgb(50,50,50)] shadow-[0px_0px_12px_0px_rgba(0,0,0,0.08)]">
+                  <img
+                    src={nft.picUrl}
+                    className="w-full h-full object-contain object-center"
+                  />
                 </div>
-              );
-            })}
-
-            {group.pointList?.map((point, idx) => {
-              const isDone = idx % 2 === 0;
-              const itemStatus = isDone ? rewardMap.done : rewardMap.ongoing;
-              const incentiveMethodItem =
-                incentiveMethodList.find((v) => v.value === point.methodType) ||
-                incentiveMethodList[0];
-              const whiteList = [
-                {
-                  address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f763",
-                },
-              ];
-              const winners = [
-                {
-                  address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f763",
-                },
-                {
-                  address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f763",
-                },
-              ];
-              const claimNum = 10000;
-              return (
-                <div key={point.pointId} className="bg-[#161616] rounded-xl">
-                  <div className="flex items-center gap-x-1 mb-2 px-5 py-4 border-b border-[#1f1f1f]">
-                    <img src={pointIcon} className="w-6 h-6" />
-                    <span className="text-white text-lg font-medium">
-                      points
+                <div className="flex items-center gap-x-1 lowercase text-base">
+                  <img
+                    src={incentiveMethodItem?.icon}
+                    className="w-6 h-6 object-contain object-center"
+                  />
+                  {incentiveMethodItem?.title}
+                  <Tooltip title={incentiveMethodItem.desc}>
+                    <span className="text-c-6 hover:text-white ml-1 cursor-pointer">
+                      <InfoCircleOutlined />
                     </span>
-                  </div>
-                  <div className="px-5 py-6">
-                    <div className="space-y-6 pb-6 border-b border-[#1f1f1f]">
-                      <div className="flex items-center gap-x-1 lowercase text-base">
-                        <img
-                          src={incentiveMethodItem?.icon}
-                          className="w-6 h-6 object-contain object-center"
-                        />
-                        {incentiveMethodItem?.title}
-                        <Tooltip title={incentiveMethodItem.desc}>
-                          <span className="text-c-6 hover:text-white ml-1 cursor-pointer">
-                            <InfoCircleOutlined />
-                          </span>
-                        </Tooltip>
-                      </div>
-                      <button
-                        className="py-1 px-2 text-xs rounded-xl bg-[rgb(28,33,27)] block"
-                        style={{
-                          color: itemStatus.color,
-                        }}
-                      >
-                        {itemStatus.btn}
-                      </button>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="text-t-1 text-sm font-medium">
-                        {formatDollar(winners.length)} winners
-                      </div>
-                      <div className="flex -space-x-3">
-                        {new Array(30)
-                          .fill(0)
-                          .slice(0, 6)
-                          .map((_, idx) => {
-                            return (
-                              <div
-                                key={idx}
-                                className="w-6 h-6 rounded-full overflow-hidden border-0.5 border-[#161616]"
-                              >
-                                <img
-                                  src={mockAvatorIcon}
-                                  className="w-full h-full object-contain object-center"
-                                />
-                              </div>
-                            );
-                          })}
-                      </div>
-                      <div
-                        className={clsx(
-                          whiteList.length === 0 ? "text-white" : "text-c-3",
-                          "text-sm"
-                        )}
-                      >
-                        {formatDollar(claimNum)} nft claimed by participants
-                      </div>
-                    </div>
-                  </div>
+                  </Tooltip>
                 </div>
-              );
-            })}
+                <button
+                  className="py-1 px-2 text-xs rounded-xl bg-[rgb(28,33,27)] block"
+                  style={{
+                    color: itemStatus.color,
+                  }}
+                >
+                  {itemStatus.btn}
+                </button>
+
+                {hasToUpdateWhiteList && (
+                  <div>
+                    <button
+                      className="text-white text-sm font-medium py-1.5 px-3 bg-[#3A82F7] hover:opacity-80 block rounded-md mb-3"
+                      onClick={() => {
+                        setModalData(winners);
+                      }}
+                    >
+                      Update the whitelist
+                    </button>
+                    <p className="text-xs text-t-3">{itemStatus.text}</p>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                <div className="text-t-1 text-sm font-medium">
+                  {formatDollar(winners.length)} winners
+                </div>
+                <div className="flex -space-x-3">
+                  {winners.map((v, idx) => {
+                      return (
+                        <div
+                          key={idx}
+                          className="w-6 h-6 overflow-hidden rounded-full border-0.5 border-[#161616]"
+                        >
+                          <img
+                            src={v?.user?.avatar}
+                            className="w-full h-full object-contain object-center"
+                          />
+                        </div>
+                      );
+                    })}
+                </div>
+                <div
+                  className={clsx(
+                    whiteList.length === 0 ? "text-white" : "text-c-3",
+                    "text-sm"
+                  )}
+                >
+                  {formatDollar(claimNum)} nft claimed by participants
+                </div>
+              </div>
+            </div>
           </div>
         );
       })}
+
+      {reward?.points?.map((v, idx) => {
+        const point = v.point;
+        const isDone = idx % 2 === 0;
+        const itemStatus = isDone ? rewardMap.done : rewardMap.ongoing;
+        const incentiveMethodItem =
+          incentiveMethodList.find((v) => v.value === point.methodType) ||
+          incentiveMethodList[0];
+        const whiteList = [
+          {
+            address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f763",
+          },
+        ];
+        const winners = [
+          {
+            address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f763",
+          },
+          {
+            address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f763",
+          },
+        ];
+        const claimNum = 10000;
+        return (
+          <div key={point.pointId} className="bg-[#161616] rounded-xl">
+            <div className="flex items-center gap-x-1 mb-2 px-5 py-4 border-b border-[#1f1f1f]">
+              <img src={pointIcon} className="w-6 h-6" />
+              <span className="text-white text-lg font-medium">points</span>
+            </div>
+            <div className="px-5 py-6">
+              <div className="space-y-6 pb-6 border-b border-[#1f1f1f]">
+                <div className="flex items-center gap-x-1 lowercase text-base">
+                  <img
+                    src={incentiveMethodItem?.icon}
+                    className="w-6 h-6 object-contain object-center"
+                  />
+                  {incentiveMethodItem?.title}
+                  <Tooltip title={incentiveMethodItem.desc}>
+                    <span className="text-c-6 hover:text-white ml-1 cursor-pointer">
+                      <InfoCircleOutlined />
+                    </span>
+                  </Tooltip>
+                </div>
+                <button
+                  className="py-1 px-2 text-xs rounded-xl bg-[rgb(28,33,27)] block"
+                  style={{
+                    color: itemStatus.color,
+                  }}
+                >
+                  {itemStatus.btn}
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                <div className="text-t-1 text-sm font-medium">
+                  {formatDollar(winners.length)} winners
+                </div>
+                <div className="flex -space-x-3">
+                  {new Array(30)
+                    .fill(0)
+                    .slice(0, 6)
+                    .map((_, idx) => {
+                      return (
+                        <div
+                          key={idx}
+                          className="w-6 h-6 rounded-full overflow-hidden border-0.5 border-[#161616]"
+                        >
+                          <img
+                            src={mockAvatorIcon}
+                            className="w-full h-full object-contain object-center"
+                          />
+                        </div>
+                      );
+                    })}
+                </div>
+                <div
+                  className={clsx(
+                    whiteList.length === 0 ? "text-white" : "text-c-3",
+                    "text-sm"
+                  )}
+                >
+                  {formatDollar(claimNum)} nft claimed by participants
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
       <WhiteListModal
         data={whiteListData}
         open={open}
