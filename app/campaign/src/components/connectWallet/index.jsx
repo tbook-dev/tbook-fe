@@ -4,6 +4,7 @@ import { useResponsive } from "ahooks";
 import clsx from "clsx";
 import { conf } from "@tbook/utils";
 import copyIcon from "@/images/icon/copy.svg";
+import disconnectIcon from "@/images/icon/disconnect.svg";
 import { CheckOutlined } from "@ant-design/icons";
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
@@ -12,7 +13,8 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount, useSignMessage } from "wagmi";
 import { getNonce } from "@/utils/web3";
 import { useQueryClient } from "react-query";
-import { host, authenticate } from "@/api/incentive";
+import { authenticate } from "@/api/incentive";
+import { disconnect } from "@wagmi/core";
 
 const { shortAddress } = conf;
 const { Paragraph } = Typography;
@@ -42,7 +44,7 @@ const ConnectWalletModal = () => {
   const { isConnected, address } = useAccount();
   const { pc } = useResponsive();
   const { open } = useWeb3Modal();
-  const [ nonce, setNonce ] = useState("");
+  const [nonce, setNonce] = useState("");
   const { signMessageAsync } = useSignMessage();
   const [loading, setLoading] = useState(false);
 
@@ -51,7 +53,7 @@ const ConnectWalletModal = () => {
     try {
       // const nonce = await getNonce(address)
       const sign = await signMessageAsync({ message: nonce });
-      await authenticate(address, sign)
+      await authenticate(address, sign);
       // const d = new URLSearchParams();
       // d.append("address", address);
       // d.append("sign", sign);
@@ -123,30 +125,43 @@ const ConnectWalletModal = () => {
               {pageConf.step1.desc}
             </p>
             {isConnected ? (
-              <div className="px-4 bg-[#f8f9fa] rounded w-max h-8 flex items-center">
-                <Paragraph
-                  className="flex items-center"
-                  style={{ marginBottom: 0 }}
-                  copyable={{
-                    text: address,
-                    icon: (
-                      <img
-                        src={copyIcon}
-                        alt="copy icon"
-                        className="w-5 h-5 object-cover"
-                      />
-                    ),
-                  }}
+              <div>
+                <div className="px-4 bg-[#f8f9fa] rounded w-max h-8 flex items-center">
+                  <Paragraph
+                    className="flex items-center"
+                    style={{ marginBottom: 0 }}
+                    copyable={{
+                      text: address,
+                      icon: (
+                        <img
+                          src={copyIcon}
+                          alt="copy icon"
+                          className="w-5 h-5 object-cover"
+                        />
+                      ),
+                    }}
+                  >
+                    <CheckOutlined style={{ color: "green" }} />
+                    <span className="font-medium text-sm ml-2 mr-1 text-[#A1A1A2]">
+                      {shortAddress(address)}
+                    </span>
+                  </Paragraph>
+                </div>
+                <button
+                  onClick={disconnect}
+                  className="flex items-center gap-x-1 pt-2 text-[#006EE9]"
                 >
-                  <CheckOutlined style={{ color: "green" }} />
-                  <span className="font-medium text-sm ml-2 mr-1 text-[#A1A1A2]">
-                    {shortAddress(address)}
-                  </span>
-                </Paragraph>
+                  <img
+                    src={disconnectIcon}
+                    alt="disconnect"
+                    className="w-2.5 h-2.5 object-center object-contain"
+                  />
+                  disconnect
+                </button>
               </div>
             ) : (
               <button
-                onClick={async() => await open()}
+                onClick={async () => await open()}
                 className="px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md"
               >
                 {pageConf.step1.button}
