@@ -39,7 +39,7 @@ export default function Reward() {
         const winners = v.winnerList?.filter(
           (v) => v.claimType === 3 || v.claimType === 4
         );
-        const claimNum = v.winnerList?.winners?.filter(
+        const claimNum = v.winnerList?.filter(
           (v) => v.claimType === 4
         ).length;
         return (
@@ -117,9 +117,10 @@ export default function Reward() {
         const winners = v.winnerList?.filter(
           (v) => v.claimType === 3 || v.claimType === 4
         );
-        const claimNum = v.winnerList?.winners?.filter(
+        const claimNum = v.winnerList?.filter(
           (v) => v.claimType === 4
         ).length;
+        console.log({claimNum})
         return (
           <div key={point.pointId} className="bg-[#161616] rounded-xl">
             <div className="flex items-center gap-x-1 mb-2 px-5 py-4 border-b border-[#1f1f1f]">
@@ -170,7 +171,7 @@ export default function Reward() {
                   })}
                 </div>
                 <div className={clsx("text-white", "text-sm")}>
-                  {formatDollar(claimNum)} nft claimed by participants
+                  {formatDollar(claimNum)} points claimed by participants
                 </div>
               </div>
             </div>
