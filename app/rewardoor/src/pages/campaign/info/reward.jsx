@@ -1,5 +1,3 @@
-import { getCampaignDetail } from "@/api/incentive";
-import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { incentiveMethodList, rewardMap } from "@/utils/conf";
 import pointIcon from "@/images/icon/point.svg";
@@ -19,13 +17,6 @@ export default function Reward() {
   const { data: reward } = useReward(id);
   const [whiteListData, setWhiteListData] = useState(null);
   const [open, setOpen] = useState(false);
-  const { data: pageInfo = {} } = useQuery(
-    ["campaignDetail", id],
-    () => getCampaignDetail(id),
-    {
-      staleTime: Infinity,
-    }
-  );
   console.log({ reward });
   const closeModal = useCallback(() => {
     setOpen(false);
@@ -38,21 +29,19 @@ export default function Reward() {
 
   return (
     <div className="w-[520px] space-y-4 mb-20">
-      {reward?.nfts?.map((v, idx) => {
+      {reward?.nfts?.map((v) => {
         const nft = v.nft;
-        const isDone = idx % 2 === 0;
+        const isDone = v.status === 3;
         const itemStatus = isDone ? rewardMap.done : rewardMap.ongoing;
         const incentiveMethodItem =
           incentiveMethodList.find((v) => v.value === nft.methodType) ||
           incentiveMethodList[0];
-        const whiteList = [
-          {
-            address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f763",
-          },
-        ];
-        const hasToUpdateWhiteList = whiteList.length > 0;
-        const winners = v.winnerList;
-        const claimNum = winners.length;
+        const winners = v.winnerList?.filter(
+          (v) => v.claimType === 3 || v.claimType === 4
+        );
+        const claimNum = v.winnerList?.winners?.filter(
+          (v) => v.claimType === 4
+        ).length;
         return (
           <div key={v.nft.nftId} className="bg-[#161616] rounded-xl">
             <div className="flex items-center gap-x-1 mb-2 px-5 py-4 border-b border-[#1f1f1f]">
@@ -88,20 +77,6 @@ export default function Reward() {
                 >
                   {itemStatus.btn}
                 </button>
-
-                {hasToUpdateWhiteList && (
-                  <div>
-                    <button
-                      className="text-white text-sm font-medium py-1.5 px-3 bg-[#3A82F7] hover:opacity-80 block rounded-md mb-3"
-                      onClick={() => {
-                        setModalData(winners);
-                      }}
-                    >
-                      Update the whitelist
-                    </button>
-                    <p className="text-xs text-t-3">{itemStatus.text}</p>
-                  </div>
-                )}
               </div>
 
               <div className="space-y-3">
@@ -110,25 +85,20 @@ export default function Reward() {
                 </div>
                 <div className="flex -space-x-3">
                   {winners.map((v, idx) => {
-                      return (
-                        <div
-                          key={idx}
-                          className="w-6 h-6 overflow-hidden rounded-full border-0.5 border-[#161616]"
-                        >
-                          <img
-                            src={v?.user?.avatar}
-                            className="w-full h-full object-contain object-center"
-                          />
-                        </div>
-                      );
-                    })}
+                    return (
+                      <div
+                        key={idx}
+                        className="w-6 h-6 overflow-hidden rounded-full border-0.5 border-[#161616]"
+                      >
+                        <img
+                          src={v?.user?.avatar}
+                          className="w-full h-full object-contain object-center"
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
-                <div
-                  className={clsx(
-                    whiteList.length === 0 ? "text-white" : "text-c-3",
-                    "text-sm"
-                  )}
-                >
+                <div className={clsx("text-white", "text-sm")}>
                   {formatDollar(claimNum)} nft claimed by participants
                 </div>
               </div>
@@ -137,27 +107,19 @@ export default function Reward() {
         );
       })}
 
-      {reward?.points?.map((v, idx) => {
+      {reward?.points?.map((v) => {
         const point = v.point;
-        const isDone = idx % 2 === 0;
+        const isDone = v.status === 3;
         const itemStatus = isDone ? rewardMap.done : rewardMap.ongoing;
         const incentiveMethodItem =
           incentiveMethodList.find((v) => v.value === point.methodType) ||
           incentiveMethodList[0];
-        const whiteList = [
-          {
-            address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f763",
-          },
-        ];
-        const winners = [
-          {
-            address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f763",
-          },
-          {
-            address: "0xe15135ed7fc000788fdbcef9b3efc1d7e194f763",
-          },
-        ];
-        const claimNum = 10000;
+        const winners = v.winnerList?.filter(
+          (v) => v.claimType === 3 || v.claimType === 4
+        );
+        const claimNum = v.winnerList?.winners?.filter(
+          (v) => v.claimType === 4
+        ).length;
         return (
           <div key={point.pointId} className="bg-[#161616] rounded-xl">
             <div className="flex items-center gap-x-1 mb-2 px-5 py-4 border-b border-[#1f1f1f]">
@@ -193,29 +155,21 @@ export default function Reward() {
                   {formatDollar(winners.length)} winners
                 </div>
                 <div className="flex -space-x-3">
-                  {new Array(30)
-                    .fill(0)
-                    .slice(0, 6)
-                    .map((_, idx) => {
-                      return (
-                        <div
-                          key={idx}
-                          className="w-6 h-6 rounded-full overflow-hidden border-0.5 border-[#161616]"
-                        >
-                          <img
-                            src={mockAvatorIcon}
-                            className="w-full h-full object-contain object-center"
-                          />
-                        </div>
-                      );
-                    })}
+                  {winners.slice(0, 6).map((v, idx) => {
+                    return (
+                      <div
+                        key={idx}
+                        className="w-6 h-6 rounded-full overflow-hidden border-0.5 border-[#161616]"
+                      >
+                        <img
+                          src={v?.user?.avatar}
+                          className="w-full h-full object-contain object-center"
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
-                <div
-                  className={clsx(
-                    whiteList.length === 0 ? "text-white" : "text-c-3",
-                    "text-sm"
-                  )}
-                >
+                <div className={clsx("text-white", "text-sm")}>
                   {formatDollar(claimNum)} nft claimed by participants
                 </div>
               </div>
