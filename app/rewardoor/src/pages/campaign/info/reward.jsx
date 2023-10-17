@@ -7,23 +7,22 @@ import { Tooltip } from "antd";
 import { conf as tbookConf } from "@tbook/utils";
 import clsx from "clsx";
 import { useState, useCallback } from "react";
-import WhiteListModal from "./whiteListModal";
-import mockAvatorIcon from "@/images/icon/mockAvator.svg";
+import WinnerListModal from "./winnerListModal";
 import useReward from "@/hooks/queries/useReward";
 
 const { formatDollar } = tbookConf;
 export default function Reward() {
   const { id } = useParams();
   const { data: reward } = useReward(id);
-  const [whiteListData, setWhiteListData] = useState(null);
+  const [winnerListData, setWinnerListData] = useState(null);
   const [open, setOpen] = useState(false);
-  console.log({ reward });
+  const [modalType, setModalType] = useState(null);
   const closeModal = useCallback(() => {
     setOpen(false);
-    setWhiteListData(null);
+    setWinnerListData(null);
   }, []);
   const setModalData = useCallback((data) => {
-    setWhiteListData(data);
+    setWinnerListData(data);
     setOpen(true);
   }, []);
 
@@ -39,9 +38,7 @@ export default function Reward() {
         const winners = v.winnerList?.filter(
           (v) => v.claimType === 3 || v.claimType === 4
         );
-        const claimNum = v.winnerList?.filter(
-          (v) => v.claimType === 4
-        ).length;
+        const claimNum = v.winnerList?.filter((v) => v.claimType === 4).length;
         return (
           <div key={v.nft.nftId} className="bg-[#161616] rounded-xl">
             <div className="flex items-center gap-x-1 mb-2 px-5 py-4 border-b border-[#1f1f1f]">
@@ -79,7 +76,13 @@ export default function Reward() {
                 </button>
               </div>
 
-              <div className="space-y-3">
+              <div
+                className="space-y-3 pt-3 hover:opacity-70 cursor-pointer"
+                onClick={() => {
+                  setModalData(v.winnerList);
+                  setModalType("nft");
+                }}
+              >
                 <div className="text-t-1 text-sm font-medium">
                   {formatDollar(winners.length)} winners
                 </div>
@@ -117,10 +120,8 @@ export default function Reward() {
         const winners = v.winnerList?.filter(
           (v) => v.claimType === 3 || v.claimType === 4
         );
-        const claimNum = v.winnerList?.filter(
-          (v) => v.claimType === 4
-        ).length;
-        console.log({claimNum})
+        const claimNum = v.winnerList?.filter((v) => v.claimType === 4).length;
+
         return (
           <div key={point.pointId} className="bg-[#161616] rounded-xl">
             <div className="flex items-center gap-x-1 mb-2 px-5 py-4 border-b border-[#1f1f1f]">
@@ -151,7 +152,13 @@ export default function Reward() {
                 </button>
               </div>
 
-              <div className="space-y-3">
+              <div
+                className="space-y-3 pt-3 hover:opacity-70 cursor-pointer"
+                onClick={() => {
+                  setModalData(v.winnerList);
+                  setModalType("point");
+                }}
+              >
                 <div className="text-t-1 text-sm font-medium">
                   {formatDollar(winners.length)} winners
                 </div>
@@ -179,10 +186,11 @@ export default function Reward() {
         );
       })}
 
-      <WhiteListModal
-        data={whiteListData}
+      <WinnerListModal
+        data={winnerListData}
         open={open}
         closeModal={closeModal}
+        modalType={modalType}
       />
     </div>
   );
