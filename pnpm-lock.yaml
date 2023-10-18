@@ -32,6 +32,7 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       react-flatpickr: ^3.10.13
+      react-lazy-load-image-component: ^1.6.0
       react-markdown: ^9.0.0
       react-query: ^3.39.3
       react-redux: ^8.0.5
@@ -72,6 +73,7 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-flatpickr: 3.10.13_react@18.2.0
+      react-lazy-load-image-component: 1.6.0_biqbaboplfbrettd7655fr4n2y
       react-markdown: 9.0.0_j3ahe22lw6ac2w6qvqp4kjqnqy
       react-query: 3.39.3_biqbaboplfbrettd7655fr4n2y
       react-redux: 8.0.5_mvsv2khrlxlrz557fqsjz6gfcm
@@ -4871,6 +4873,10 @@ packages:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
     dev: false
 
+  /lodash.debounce/4.0.8:
+    resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
+    dev: false
+
   /lodash.isequal/4.5.0:
     resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
     dev: false
@@ -4878,6 +4884,10 @@ packages:
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
     dev: true
+
+  /lodash.throttle/4.1.1:
+    resolution: {integrity: sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==}
+    dev: false
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
@@ -6540,6 +6550,18 @@ packages:
 
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+    dev: false
+
+  /react-lazy-load-image-component/1.6.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-8KFkDTgjh+0+PVbH+cx0AgxLGbdTsxWMnxXzU5HEUztqewk9ufQAu8cstjZhyvtMIPsdMcPZfA0WAa7HtjQbBQ==}
+    peerDependencies:
+      react: ^15.x.x || ^16.x.x || ^17.x.x || ^18.x.x
+      react-dom: ^15.x.x || ^16.x.x || ^17.x.x || ^18.x.x
+    dependencies:
+      lodash.debounce: 4.0.8
+      lodash.throttle: 4.1.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-markdown/9.0.0_j3ahe22lw6ac2w6qvqp4kjqnqy:

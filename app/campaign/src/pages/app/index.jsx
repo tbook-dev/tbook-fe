@@ -13,7 +13,7 @@ import useUserInfo from "@/hooks/useUserInfoQuery";
 import useProjectQuery from "@/hooks/useProjectQuery";
 import useCampaignQuery from "@/hooks/useCampaignQuery";
 import TextMore from "@/components/textMore";
-import { Spin, Statistic } from "antd";
+import { Skeleton, Statistic } from "antd";
 import { message } from "antd";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount, useWalletClient, useSignMessage } from "wagmi";
@@ -27,6 +27,7 @@ import dateIcon from "@/images/icon/date.svg";
 import { useDispatch } from "react-redux";
 import { setConnectWalletModal } from "@/store/global";
 import useSocial from "@/hooks/useSocial";
+import LazyImage from "@/components/lazyImage";
 
 const { Countdown } = Statistic;
 
@@ -193,81 +194,94 @@ export default function () {
       });
   };
 
-  if (!firstLoad) {
-    return (
-      <div className="flex h-[50vh] items-center justify-center">
-        <Spin spinning />
-      </div>
-    );
-  }
+  // if (!firstLoad) {
+  //   return (
+  //     <div className="flex h-[50vh] items-center justify-center">
+  //       <Spin spinning />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="space-y-2.5 px-2.5 pt-3 lg:pt-5 lg:px-0 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1">
       <section className="rounded-lg overflow-hidden bg-white lg:rounded-2xl">
-        <img
+        <LazyImage
           src={page?.campaign?.picUrl}
+          alt="main banner"
           className="w-full  h-[172px] lg:h-[294px] object-cover object-center"
         />
 
         <div className="px-5 pb-5 pt-3">
-          <div className="mb-3">
-            <h2 className="text-2xl  leading-7 font-bold text-[#131517] mb-1.5">
-              {page?.campaign?.name}
-            </h2>
-            <h4 className="flex items-center gap-x-1.5">
-              <img
-                src={project?.avatarUrl}
-                className="w-6 h-6 object-contain mr-2 rounded-full"
-              />
-              <span className="text-[#131517] text-sm font-normal">
-                {project?.projectName}
-              </span>
-            </h4>
-          </div>
-
-          <div className="text-sm font-normal text-c-6 mb-6">
-            <TextMore text={page?.campaign?.description} />
-          </div>
-
-          <div className="flex items-center gap-x-2">
-            <img
-              src={dateIcon}
-              className="w-6 h-6 object-contain object-center"
-            />
-            <div className="flex items-center gap-x-1 text-sm text-[#68696B]">
-              {campaignEnd ? (
-                <div>This campaign has ended.</div>
-              ) : campaignNotStart ? (
-                <>
-                  <div>start in</div>
-                  <Countdown
-                    value={page?.campaign?.startAt}
-                    format="D[d] H[h] m[m] s[s]"
-                    valueStyle={{
-                      color: "#131517",
-                      fontSize: "14px",
-                      lineHeight: "20px",
-                    }}
+          {!firstLoad ? (
+            <Skeleton active />
+          ) : (
+            <>
+              <div className="mb-3">
+                <h2 className="text-2xl  leading-7 font-bold text-[#131517] mb-1.5">
+                  {page?.campaign?.name}
+                </h2>
+                <h4 className="flex items-center gap-x-1.5">
+                  <img
+                    src={project?.avatarUrl}
+                    className="w-6 h-6 object-contain mr-2 rounded-full"
                   />
-                </>
-              ) : (
-                <>
-                  <div>End in</div>
-                  <Countdown
-                    value={page?.campaign?.endAt}
-                    format="D[d] H[h] m[m] s[s]"
-                    valueStyle={{
-                      color: "#131517",
-                      fontSize: "14px",
-                      lineHeight: "20px",
-                    }}
-                  />
-                </>
-              )}
-            </div>
-          </div>
+                  <span className="text-[#131517] text-sm font-normal">
+                    {project?.projectName}
+                  </span>
+                </h4>
+              </div>
+
+              <div className="text-sm font-normal text-c-6 mb-6">
+                <TextMore text={page?.campaign?.description} />
+              </div>
+
+              <div className="flex items-center gap-x-2">
+                <img
+                  src={dateIcon}
+                  className="w-6 h-6 object-contain object-center"
+                />
+                <div className="flex items-center gap-x-1 text-sm text-[#68696B]">
+                  {campaignEnd ? (
+                    <div>This campaign has ended.</div>
+                  ) : campaignNotStart ? (
+                    <>
+                      <div>start in</div>
+                      <Countdown
+                        value={page?.campaign?.startAt}
+                        format="D[d] H[h] m[m] s[s]"
+                        valueStyle={{
+                          color: "#131517",
+                          fontSize: "14px",
+                          lineHeight: "20px",
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <div>End in</div>
+                      <Countdown
+                        value={page?.campaign?.endAt}
+                        format="D[d] H[h] m[m] s[s]"
+                        valueStyle={{
+                          color: "#131517",
+                          fontSize: "14px",
+                          lineHeight: "20px",
+                        }}
+                      />
+                    </>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </section>
+
+      {!firstLoad && (
+        <div className="rounded-lg lg:rounded-2xl py-3 px-5 bg-white">
+          <Skeleton />
+        </div>
+      )}
 
       <section className="space-y-2.5 lg:space-y-5 tetx-t-1">
         {page?.groups?.map((group, index) => {
