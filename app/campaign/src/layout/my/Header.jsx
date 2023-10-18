@@ -8,16 +8,17 @@ import useProjectQuery from "@/hooks/useProjectQuery";
 import useUserInfo from "@/hooks/useUserInfoQuery";
 import { useDispatch } from "react-redux";
 import { setConnectWalletModal } from "@/store/global";
-import { Spin } from "antd";
-import { useAccount } from 'wagmi'
+import { useAccount } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import UserAddress from "../common/UserAddress";
+import AvatarSkeleton from "../common/AvatarSkeleton";
+import { Skeleton } from "antd";
 
 
 function Header() {
   const { pc } = useResponsive();
   const { projectId } = useParams();
-  const { isConnected } = useAccount()
+  const { isConnected } = useAccount();
   const { data: project } = useProjectQuery(projectId);
   const { userLogined, firstLoad, user } = useUserInfo();
   const dispath = useDispatch();
@@ -25,7 +26,7 @@ function Header() {
   const handleClick = () => {
     dispath(setConnectWalletModal(true));
   };
-  
+
   return (
     <header
       className={clsx(
@@ -37,10 +38,14 @@ function Header() {
         <div className="flex items-center justify-between h-10 lg:h-16">
           <div className="flex items-center">
             <Link to={`/app/${projectId}/campaign`} className="mr-1 lg:mr-16">
-              <img
-                src={project?.avatarUrl}
-                className="h-6 lg:h-10 object-contain"
-              />
+              {!firstLoad ? (
+                <Skeleton.Avatar />
+              ) : (
+                <img
+                  src={project?.avatarUrl}
+                  className="h-6 lg:h-10 object-contain"
+                />
+              )}
             </Link>
           </div>
 
@@ -48,8 +53,8 @@ function Header() {
 
           <div>
             {!firstLoad ? (
-              <Spin spinning size="small" />
-            ) : (userLogined && isConnected) ? (
+              <AvatarSkeleton />
+            ) : userLogined && isConnected ? (
               <div className="flex items-center gap-x-2">
                 <img
                   src={user?.avatar}
@@ -58,7 +63,7 @@ function Header() {
                 />
                 <MobleMenu />
                 <div className="hidden lg:flex items-center space-x-3">
-                  <UserAddress  />
+                  <UserAddress />
                 </div>
               </div>
             ) : (

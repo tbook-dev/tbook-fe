@@ -7,9 +7,9 @@ import { useResponsive } from "ahooks";
 import useUserInfo from "@/hooks/useUserInfoQuery";
 import { useDispatch } from "react-redux";
 import { setConnectWalletModal } from "@/store/global";
-import { Spin } from "antd";
 import { useAccount } from 'wagmi'
 import { useWeb3Modal } from "@web3modal/wagmi/react";
+import AvatarSkeleton from "../common/AvatarSkeleton";
 
 function Header() {
   const { pc } = useResponsive();
@@ -41,7 +41,7 @@ function Header() {
           
           <div>
             {!firstLoad ? (
-              <Spin spinning size="small" />
+              <AvatarSkeleton />
             ) : (userLogined && isConnected) ? (
               <div className="flex items-center gap-x-2">
                 <img
