@@ -11,6 +11,7 @@ import { setConnectWalletModal } from "@/store/global";
 import { Spin } from "antd";
 import { useAccount } from 'wagmi'
 import { useWeb3Modal } from "@web3modal/wagmi/react";
+import UserAddress from "../common/UserAddress";
 
 function Header() {
   const { pc } = useResponsive();
@@ -52,7 +53,7 @@ function Header() {
                 />
                 <MobleMenu />
                 <div className="hidden lg:flex items-center space-x-3">
-                  <w3m-button icon="show" balance="hide" avatar="hide" />
+                  <UserAddress  />
                 </div>
               </div>
             ) : (

@@ -9,7 +9,6 @@ import { useCallback } from "react";
 import useUserInfo from "@/hooks/useUserInfoQuery";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 
-
 export default function MobleMenu({ hideLink = false}) {
   const [open, setOpen] = useState(false);
   const { user } = useUserInfo();
@@ -43,7 +42,7 @@ export default function MobleMenu({ hideLink = false}) {
       </div>
 
       {/* <div className="pb-[100px] flex justify-center">
-        <Web3Button icon="show" balance="hide" avatar="hide" />
+        <Web3Button  />
       </div> */}
     </div>
   );

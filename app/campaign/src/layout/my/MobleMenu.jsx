@@ -50,7 +50,7 @@ export default function MobleMenu({ hideLink = false }) {
       </div>
 
       {/* <div className="pb-[100px] flex justify-center">
-        <Web3Button icon="show" balance="hide" avatar="hide" />
+        <Web3Button  />
       </div> */}
     </div>
   );

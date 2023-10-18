@@ -51,7 +51,7 @@ function Header() {
                 />
                 <MobleMenu />
                 <div className="hidden lg:flex items-center space-x-3">
-                  <w3m-button icon="show" balance="hide" avatar="hide" />
+                  <UserAddress  />
                 </div>
               </div>
             ) : (
