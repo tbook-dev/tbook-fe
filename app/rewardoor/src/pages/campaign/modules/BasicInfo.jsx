@@ -34,10 +34,10 @@ export default function BasicInfo ({ form: setUpForm }) {
         label='Poster'
         name='picUrl'
         rules={[
-          // {
-          //   required: true,
-          //   message: 'Poster is required'
-          // },
+          {
+            required: true,
+            message: 'Poster is required'
+          },
           {
             validator: fileValidator
           }

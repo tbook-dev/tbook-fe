@@ -256,10 +256,10 @@ export default function CredentialModal ({
                             label='NFT Media File'
                             name={[name, 'picUrl']}
                             rules={[
-                              // {
-                              //   required: true,
-                              //   message: 'image is required'
-                              // },
+                              {
+                                required: true,
+                                message: 'image is required'
+                              },
                               {
                                 validator: fileValidator
                               }

@@ -15,11 +15,12 @@ export default async function uploadFile (file) {
 }
 
 export const fileValidator = (_,value) => {
-  if(!value){
-    return Promise.reject(new Error('image is required'));
+  if(value?.length > 0){
+    if (value?.[0]?.response) {
+      return Promise.resolve();
+    }else{
+      return Promise.reject(new Error('please wait image upload'));
+    }
   }
-  if (value?.[0]?.response) {
-    return Promise.resolve();
-  }
-  return Promise.reject(new Error('please wait image upload'));
+  return Promise.resolve();
 }
