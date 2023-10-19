@@ -10,6 +10,7 @@ import { setConnectWalletModal } from "@/store/global";
 import { useAccount } from 'wagmi'
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import AvatarSkeleton from "../common/AvatarSkeleton";
+import UserAddress from "../common/UserAddress";
 
 function Header() {
   const { pc } = useResponsive();
