@@ -17,6 +17,7 @@ export default function Reward() {
   const [winnerListData, setWinnerListData] = useState(null);
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
+  const [per, setPer] = useState(1);
   const closeModal = useCallback(() => {
     setOpen(false);
     setWinnerListData(null);
@@ -81,6 +82,7 @@ export default function Reward() {
                 onClick={() => {
                   setModalData(v.winnerList);
                   setModalType("nft");
+                  setPer(1);
                 }}
               >
                 <div className="text-t-1 text-sm font-medium">
@@ -102,7 +104,8 @@ export default function Reward() {
                   })}
                 </div>
                 <div className={clsx("text-white", "text-sm")}>
-                  {formatDollar(claimNum)} nft claimed by participants
+                  {formatDollar(claimNum)} nft{claimNum > 1 ? "s" : ""} claimed
+                  by participants
                 </div>
               </div>
             </div>
@@ -157,6 +160,7 @@ export default function Reward() {
                 onClick={() => {
                   setModalData(v.winnerList);
                   setModalType("point");
+                  setPer(point.number);
                 }}
               >
                 <div className="text-t-1 text-sm font-medium">
@@ -178,7 +182,9 @@ export default function Reward() {
                   })}
                 </div>
                 <div className={clsx("text-white", "text-sm")}>
-                  {formatDollar(claimNum)} points claimed by participants
+                  {formatDollar(claimNum * point.number)} point
+                  {claimNum * point.number > 1 ? "s" : ""} claimed by
+                  participants
                 </div>
               </div>
             </div>
@@ -191,6 +197,7 @@ export default function Reward() {
         open={open}
         closeModal={closeModal}
         modalType={modalType}
+        per={per}
       />
     </div>
   );
