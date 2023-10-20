@@ -8,15 +8,7 @@ export default function ({ src, alt, className }) {
       alt={alt}
       effect="blur"
       placeholder={
-        <svg
-          width="359"
-          height="172"
-          viewBox="0 0 359 172"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect width="359" height="172" fill="#F0F0F0" />
-        </svg>
+        <div className="bg-[#F0F0F0] w-full h-[172px] lg:h-[294px]"/>
       }
       className={className}
       width={"100%"}
