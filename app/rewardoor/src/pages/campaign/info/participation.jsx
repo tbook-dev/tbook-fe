@@ -237,8 +237,8 @@ export default function Participation() {
                           align="center"
                           className="pb-4 text-base"
                         >
-                          {v.pointList?.length > 0
-                            ? `+${formatDollar(v.number)}`
+                          {v.points?.length > 0
+                            ? `+${formatDollar(v.pointNum)}`
                             : "×"}
                         </td>
                       )}
