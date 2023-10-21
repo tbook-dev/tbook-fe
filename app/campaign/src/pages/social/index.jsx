@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RedirectSocial from "@/components/redirectSocial";
-import { redirectLocalStorageOnce, delay } from "@/pages/social/conf";
+import { redirectLocalStorageOnce } from "@/pages/social/conf";
+import { delay } from '@/utils/common'
 
 export default function ({ authCallback }) {
   const navigate = useNavigate();

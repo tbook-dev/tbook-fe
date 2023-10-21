@@ -28,6 +28,9 @@ import { useDispatch } from "react-redux";
 import { setConnectWalletModal } from "@/store/global";
 import useSocial from "@/hooks/useSocial";
 import LazyImage from "@/components/lazyImage";
+import VerifyStatus, {
+  verifyStatusEnum,
+} from "@/components/withVerify/VerifyStatus";
 
 const { Countdown } = Statistic;
 
@@ -342,14 +345,14 @@ export default function () {
                         />
                       </div>
                       {redential.isVerified ? (
-                        <span className="text-base whitespace-nowrap text-c-9">
+                        <span className="flex items-center gap-x-1 text-md whitespace-nowrap text-[#65C467]">
+                          <VerifyStatus status={verifyStatusEnum.Sucess} />
                           Verified
                         </span>
                       ) : campaignNotStart ||
                         campaignEnd ||
                         !userLogined ? null : (
                         <WithVerify
-                          className="text-base text-blue-1 whitespace-nowrap"
                           sysConnectedMap={sysConnectedMap}
                           sycLoginFnMap={sycLoginFnMap}
                           credentialType={credentialType}

@@ -4,7 +4,8 @@ import { useResponsive } from "ahooks";
 import clsx from "clsx";
 import useSocial from "@/hooks/useSocial";
 import { useCallback } from "react";
-import occupIcon from "@/images/icon/occup.svg";
+import VerifyStatus, { verifyStatusEnum } from "./VerifyStatus";
+import { delay } from "@/utils/common";
 
 const modalConf = {
   title: "Verify",
@@ -19,34 +20,32 @@ const modalConf = {
   step2: {
     title: "Verify your accomplishment.",
     desc: "Verify your accomplishment.",
-    button: "Verify",
   },
 };
 
 export default function WithVerify({
   handleFn,
-  className,
   sysConnectedMap,
   credentialType,
 }) {
   const [open, setOpen] = useState(false);
-  const [verifyLoading, setVefiryLoading] = useState(false);
   const { pc } = useResponsive();
   const { getSocialByName } = useSocial();
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(verifyStatusEnum.NotStarted);
 
   const userLogined = sysConnectedMap[credentialType];
   const social = getSocialByName(credentialType);
   const isSocial = !!social;
   const handleVerify = async (evt) => {
-    setVefiryLoading(true);
+    setStatus(verifyStatusEnum.Pending);
     try {
       await handleFn(evt);
-      setVefiryLoading(false);
+      setStatus(verifyStatusEnum.Sucess);
     } catch (e) {
-      console.log(e);
-      setVefiryLoading(false);
+      setStatus(verifyStatusEnum.NotStarted);
     }
+    await delay(1000);
     handleCancel();
   };
   const handleCancel = useCallback(() => {
@@ -57,8 +56,18 @@ export default function WithVerify({
   return (
     <>
       <button
-        disabled={verifyLoading}
-        className={className}
+        disabled={status === verifyStatusEnum.Pending}
+        className={clsx(
+          "text-base whitespace-nowrap px-1.5 py-1 rounded-md",
+          "flex items-center gap-x-1",
+          {
+            "bg-transparent text-[#65C467]": status === verifyStatusEnum.Sucess,
+            "bg-[rgba(0,110,233,0.04)] text-[#006EE9]":
+              status === verifyStatusEnum.NotStarted,
+            "bg-transparent text-[#006EE9]":
+              status === verifyStatusEnum.Pending,
+          }
+        )}
         onClick={(evt) => {
           if (isSocial) {
             setOpen(true);
@@ -67,7 +76,10 @@ export default function WithVerify({
           }
         }}
       >
-        {verifyLoading ? <Spin size="small" /> : "Verify"}
+        <VerifyStatus status={status} />
+        {status === verifyStatusEnum.Sucess && "Verified"}
+        {status === verifyStatusEnum.Pending && "Verify..."}
+        {status === verifyStatusEnum.NotStarted && "Verify"}
       </button>
 
       {isSocial && (
@@ -80,94 +92,88 @@ export default function WithVerify({
           onCancel={handleCancel}
         >
           <div className="text-black -mx-6">
-            {social.occupied ? (
-              <div className="px-5 flex flex-col items-start gap-y-3">
-                <img src={occupIcon} alt="occup" className="h-10" />
-                <h1 className="text-base font-medium">Account occupied</h1>
-                <p className="text-[#717374] font-medium text-sm">
-                  {social.occupiedText}
+            <h1 className="text-base font-medium border-b px-5 pb-3 border-[#ececec]">
+              {modalConf.title}
+            </h1>
+            <div className="border-[#ececec] border-b">
+              <div className="px-5 pt-5 pb-4">
+                <div
+                  className={clsx(
+                    "text-base font-medium",
+                    userLogined && "text-[#A1A1A2]"
+                  )}
+                >
+                  <h2>{modalConf.step1.title}</h2>
+                </div>
+                <p
+                  className={clsx(
+                    "text-[#717374] text-xs mb-6",
+                    userLogined && "text-[#A1A1A2]"
+                  )}
+                >
+                  {modalConf.step1.desc[credentialType]}
                 </p>
-              </div>
-            ) : (
-              <>
-                <h1 className="text-base font-medium border-b px-5 pb-3 border-[#ececec]">
-                  {modalConf.title}
-                </h1>
-                <div className="border-[#ececec] border-b">
-                  <div className="px-5 pt-5 pb-4">
-                    <div
-                      className={clsx(
-                        "text-base font-medium",
-                        userLogined && "text-[#A1A1A2]"
-                      )}
-                    >
-                      <h2>{modalConf.step1.title}</h2>
-                    </div>
-                    <p
-                      className={clsx(
-                        "text-[#717374] text-xs mb-6",
-                        userLogined && "text-[#A1A1A2]"
-                      )}
-                    >
-                      {modalConf.step1.desc[credentialType]}
-                    </p>
 
-                    {social.connected ? (
-                      <div className="w-max px-4 py-2 bg-[#F8F9FA] rounded-md flex items-center gap-x-2 text-sm text-[#A1A1A2] font-medium">
-                        <img
-                          src={social.activePic}
-                          className="w-4 h-4 object-contain object-center"
-                          alt="social logo"
-                        />
-                        @{social.userName}
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => {
-                          setLoading(true);
-                          social.loginFn().finally(() => setLoading(false));
-                        }}
-                        className="px-4 py-1 text-sm text-white rounded-md"
-                        style={{ backgroundColor: social.activeColor }}
-                      >
-                        Connect {credentialType}
-                        {loading && (
-                          <Spin
-                            spinning
-                            size="small"
-                            style={{ marginLeft: 4 }}
-                          />
-                        )}
-                      </button>
-                    )}
+                {social.connected ? (
+                  <div className="w-max px-4 py-2 bg-[#F8F9FA] rounded-md flex items-center gap-x-2 text-sm text-[#A1A1A2] font-medium">
+                    <img
+                      src={social.activePic}
+                      className="w-4 h-4 object-contain object-center"
+                      alt="social logo"
+                    />
+                    @{social.userName}
                   </div>
-                </div>
-                <div>
-                  <div className="px-5 pt-5 pb-4">
-                    <div className={clsx("text-base font-medium")}>
-                      <h2>{modalConf.step2.name}</h2>
-                      <h2>{modalConf.step2.title}</h2>
-                    </div>
-                    <p className={clsx("text-[#717374] text-xs mb-6")}>
-                      {modalConf.step2.desc}
-                    </p>
-                    {social.connected && (
-                      <button
-                        className="px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md"
-                        onClick={handleVerify}
-                        disabled={verifyLoading}
-                      >
-                        {verifyLoading ? (
-                          <Spin size="small" />
-                        ) : (
-                          modalConf.step2.button
-                        )}
-                      </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setLoading(true);
+                      social.loginFn().finally(() => setLoading(false));
+                    }}
+                    className="px-4 py-1 text-sm text-white rounded-md"
+                    style={{ backgroundColor: social.activeColor }}
+                  >
+                    Connect {credentialType}
+                    {loading && (
+                      <Spin spinning size="small" style={{ marginLeft: 4 }} />
                     )}
-                  </div>
+                  </button>
+                )}
+              </div>
+            </div>
+            <div>
+              <div className="px-5 pt-5 pb-4">
+                <div className={clsx("text-base font-medium")}>
+                  <h2>{modalConf.step2.name}</h2>
+                  <h2>{modalConf.step2.title}</h2>
                 </div>
-              </>
-            )}
+                <p className={clsx("text-[#717374] text-xs mb-6")}>
+                  {modalConf.step2.desc}
+                </p>
+                {social.connected && (
+                  <button
+                    className={clsx(
+                      "text-base whitespace-nowrap px-1.5 py-1 rounded-md",
+                      "flex items-center gap-x-1",
+                      {
+                        "bg-transparent text-[#65C467]":
+                          status === verifyStatusEnum.Sucess,
+                        "bg-[rgba(0,110,233,0.04)] text-[#006EE9]":
+                          status === verifyStatusEnum.NotStarted,
+                        "bg-transparent text-[#006EE9]":
+                          status === verifyStatusEnum.Pending,
+                      }
+                    )}
+                    onClick={handleVerify}
+                    disabled={status === verifyStatusEnum.Pending}
+                  >
+                    <VerifyStatus status={status} />
+                    {status === verifyStatusEnum.Sucess && "Verified"}
+                    {status === verifyStatusEnum.Pending && "Verify..."}
+                    {status === verifyStatusEnum.NotStarted && "Verify"}
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </Modal>
       )}
