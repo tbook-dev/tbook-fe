@@ -13,7 +13,6 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 import UserAddress from "../common/UserAddress";
 import AvatarSkeleton from "../common/AvatarSkeleton";
 import { Skeleton } from "antd";
-import LazyImage from "@/components/lazyImage";
 
 
 function Header() {
@@ -42,7 +41,7 @@ function Header() {
               {!firstLoad ? (
                 <Skeleton.Avatar />
               ) : (
-                <LazyImage
+                <img
                   src={project?.avatarUrl}
                   alt="logo"
                   className="h-6 lg:h-10 object-contain"
