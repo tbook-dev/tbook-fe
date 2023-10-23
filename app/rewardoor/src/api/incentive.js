@@ -271,3 +271,7 @@ export const getTwLoginUrl = async function () {
 export const getReward = async function(campaignId){
   return await request(`${host}/campaignNew/reward/${campaignId}`)
 }
+
+export const getNFTSupportedChains = async function() {
+  return await request(`${host}/nft/supportedChains`)
+}

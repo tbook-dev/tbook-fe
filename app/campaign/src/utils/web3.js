@@ -2,9 +2,9 @@ import { host } from '@/api/incentive'
 
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 
-import { arbitrum, mainnet, polygon, optimism, optimismGoerli, localhost } from 'wagmi/chains'
+import { arbitrum, mainnet, polygon, optimism, polygonMumbai, optimismGoerli, localhost } from 'wagmi/chains'
 
-const chains = [arbitrum, mainnet, polygon, optimism, optimismGoerli, localhost]
+const chains = [arbitrum, mainnet, polygon, optimism, polygonMumbai, optimismGoerli, localhost]
 const projectId = import.meta.env.VITE_WC_PROJECT_ID
 
 import { user } from '@tbook/store'

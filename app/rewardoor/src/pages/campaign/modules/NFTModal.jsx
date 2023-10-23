@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
 import Button from "@/components/button";
 import { Modal, Form, Input, Select, Switch } from "antd";
-import { supportChains, factoryContract } from "@/utils/conf";
-import { handleCreateNFTcontract, createNFT } from "@/api/incentive";
+import { chainIcons } from "@/utils/conf";
+import { getNFTSupportedChains, createNFT } from "@/api/incentive";
 import useUserInfo from "@/hooks/queries/useUserInfo";
 import { useQueryClient } from "react-query";
 import {
   useAccount,
   useSwitchNetwork,
+  useNetwork,
   usePrepareContractWrite,
   useContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { optimismGoerli, optimism } from "wagmi/chains";
+import { getNetwork, prepareWriteContract, writeContract, waitForTransaction } from '@wagmi/core'
 import abi from "@/abi/nft";
+import { message } from "antd";
 
 const nftPlaceholder =
   "Enter the name that will be visible on blockchain as official verification";
@@ -21,8 +23,6 @@ const symbolPlaceholder =
   "Enter the Token Symbol that will be visible on the blockchain";
 
 const title = "Deploy NFT Contract";
-const chainId = import.meta.env.VITE_CHAIN_ID;
-const stationContract = import.meta.env.VITE_SPACESTATION_CONTRACT;
 
 export default function NFTModal({ visible, setOpen }) {
   const [form] = Form.useForm();
@@ -39,36 +39,22 @@ export default function NFTModal({ visible, setOpen }) {
   const [NFTName, setNFTName] = useState("tbook");
   const [NFTSymbol, setNFTSymbol] = useState("tbook");
   const [NFTTransferable, setNFTTransferable] = useState(true);
-  const { switchNetwork, data: currentChain } = useSwitchNetwork();
+  const { switchNetworkAsync } = useSwitchNetwork();
+  const { chain: currentChain } = useNetwork()
   const { address, isConnected, ...others } = useAccount();
-  const id = optimismGoerli.id;
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [deployedAddress, setDeployedAddress] = useState("");
   const [fdInfo, setFdInfo] = useState(null);
   const [createNFTLoading, setCreateNFTLoading] = useState(false)
-  const { config } = usePrepareContractWrite({
-    address: factoryContract,
-    abi: abi,
-    functionName: "createStarNFT",
-    args: [stationContract, address, NFTName, NFTSymbol, NFTTransferable],
-    enabled: true,
-  });
-
-  const { data, isLoading, isSuccess, writeAsync } = useContractWrite(config);
-
-  const waitForTransaction = useWaitForTransaction({
-    hash: data?.hash,
-    onSuccess(data) {
-      console.log("transaction log: ", data);
-      setDeployedAddress(data.logs[0].address);
-    },
-  });
+  const [supportChains, setSupportChains] = useState([])
 
   useEffect(() => {
-    if (currentChain?.id != chainId) {
-      switchNetwork(chainId);
+    const getData = async () => {
+      const contractChains = await getNFTSupportedChains()
+      setSupportChains(contractChains)
     }
-  }, [currentChain]);
+    getData()
+  }, []);
 
   useEffect(() => {
     if (deployedAddress.length > 0) {
@@ -76,7 +62,6 @@ export default function NFTModal({ visible, setOpen }) {
       setCreateNFTLoading(true);
       createNFT({
         ...fdInfo,
-        chainId: chainId,
         contract: deployedAddress,
       })
         .then(async (d) => {
@@ -94,23 +79,37 @@ export default function NFTModal({ visible, setOpen }) {
     form.validateFields().then(async (values) => {
       console.log(values);
       const { name, network, symbol, transferable } = values;
+      if (network != currentChain.id) {
+        await switchNetworkAsync(network)
+      }
+      if (network != getNetwork().chain?.id) {
+        message.error('wrong network, please switch in your wallet')
+        return
+      }
       setCreateNFTLoading(true);
+      const currentInfo = supportChains.find(c => c.chainId == network)
 
-      const r = await writeAsync?.({
-        args: [address, address, name, symbol, !!transferable],
-        from: address,
-      });
-      console.log(r);
-      setFdInfo(() => ({
-        name: name,
-        symbol: symbol,
-        chainId: network,
-        projectId: projectId,
-      }));
-      // handleCreateNFTcontract(projectId, values).then(res => {
-      //   queryClient.refetchQueries('NFTcontracts')
-      //   setOpen(false)
-      // })
+      try {
+        const config = await prepareWriteContract({
+          address: currentInfo.factoryAddress,
+          abi: abi,
+          functionName: "createStarNFT",
+          args: [currentInfo.stationContractAddress, address, name, symbol, transferable],
+        })
+
+        const r = await writeContract(config)
+        const data = await waitForTransaction({ hash: r.hash })
+        console.log('transaction data', data)
+        setDeployedAddress(data.logs[0].address);
+        setFdInfo(() => ({
+          name: name,
+          symbol: symbol,
+          chainId: network,
+          projectId: projectId,
+        }));
+      } catch(e) {
+        console.error("deploy error", e)
+      }
     });
   };
   return (
@@ -157,10 +156,10 @@ export default function NFTModal({ visible, setOpen }) {
         >
           <Select>
             {supportChains.map((v) => (
-              <Select.Option value={v.value} key={v.value}>
+              <Select.Option value={v.chainId} key={v.chainId}>
                 <div className="flex items-center gap-x-1">
-                  <img src={v.icon} className="w-4 h-4" />
-                  <span className="ml-2">{v.label}</span>
+                  <img src={chainIcons[v.chainId]} className="w-4 h-4" />
+                  <span className="ml-2">{v.chainName}</span>
                 </div>
               </Select.Option>
             ))}

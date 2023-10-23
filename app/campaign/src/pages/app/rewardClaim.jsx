@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import pointIcon from '@/images/icon/point.svg'
 import nftIcon from '@/images/icon/nft.svg'
 import { credentialStatus, incentiveMethodList } from '@/utils/conf'
-import { claimCampaign, getNftClaimInfo, updateClaimed } from '@/api/incentive'
+import { claimCampaign, getNftClaimInfo, updateClaimed, getNFTSupportedChains } from '@/api/incentive'
 import { useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { useParams } from 'react-router-dom'
@@ -13,7 +13,7 @@ import {
   useContractWrite,
   useWaitForTransaction
 } from 'wagmi'
-import { optimismGoerli, optimism } from 'wagmi/chains'
+import { getNetwork, prepareWriteContract, writeContract, waitForTransaction } from '@wagmi/core'
 import abi from '@/abi/st'
 import clsx from 'clsx'
 import WithClaim from './withClaim'
@@ -28,40 +28,17 @@ export default function RewardClaim ({ group }) {
   const queryClient = useQueryClient()
   const { campaignId } = useParams()
   const { address, isConnected, ...others } = useAccount()
-  const { switchNetwork, data: currentChain } = useSwitchNetwork()
-  const [curNft, setCurNft] = useState()
-  const [dummyId, setDummyId] = useState()
+  const { switchNetworkAsync, data: currentChain } = useSwitchNetwork()
   const [loading, updateLoading] = useState(false);
+  const [supportChains, setSupportChains] = useState([])
 
   useEffect(() => {
-    if (currentChain?.id != chainId) {
-      switchNetwork && switchNetwork(chainId)
+    const getData = async () => {
+      const contractChains = await getNFTSupportedChains()
+      setSupportChains(contractChains)
     }
-  }, [currentChain])
-
-  const { config } = usePrepareContractWrite({
-    address: stContract,
-    abi: abi,
-    functionName: 'claim',
-    args: [1, address, 1, 1, address, '0xc48df9f57bab11c2b85d57d53602d000cc19e6341d55fabc1e9ad632c8d050d034c5b7bcb1c9e6ccbadfc34894ad00d72d4f6d5d9823f92ef343aad0bb96ef171c'],
-    enabled: false
-  })
-
-  const { data, isLoading, isSuccess, writeAsync } = useContractWrite({
-    address: stContract,
-    abi: abi,
-    functionName: 'claim'
-  })
-
-  const waitForTransaction = useWaitForTransaction({
-    hash: data?.hash,
-    async onSuccess (data) {
-      console.log('transaction log: ', data)
-      await updateClaimed(curNft.nftId, curNft.groupId, data.transactionHash, dummyId)
-      await queryClient.refetchQueries(['campaignDetail', campaignId])
-      updateLoading(false)
-    }
-  })
+    getData()
+  }, []);
 
   const handleClaim = async () => {
     updateLoading(true)
@@ -78,10 +55,21 @@ export default function RewardClaim ({ group }) {
   const handleClaimNFT = async nft => {
     try {
       updateLoading(true)
-      setCurNft(nft)
       const info = await getNftClaimInfo(nft.nftId, nft.groupId)
-      setDummyId(info.dummyId)
-      const r = await writeAsync?.({
+      
+      if (getNetwork().chain?.id != nft.chainId) {
+        await switchNetworkAsync(nft.chainId)
+      }
+      if (nft.chainId != getNetwork().chain?.id) {
+        message.error('wrong network, please switch in your wallet')
+        return
+      }
+      const currentInfo = supportChains.find(c => c.chainId == nft.chainId)
+
+      const config = await prepareWriteContract({
+        address: currentInfo.stationContractAddress,
+        abi: abi,
+        functionName: 'claim',
         args: [
           info.cid,
           info.nftAddress,
@@ -89,11 +77,17 @@ export default function RewardClaim ({ group }) {
           info.powah,
           info.account,
           info.sign
-        ],
-        from: address
+        ]
       })
+      const r = await writeContract(config)
+
+      const data = await waitForTransaction({ hash: r.hash })
+      console.log('transaction log: ', data)
+      await updateClaimed(nft.nftId, nft.groupId, data.transactionHash, info.dummyId)
+      await queryClient.refetchQueries(['campaignDetail', campaignId])
+      updateLoading(false)
     } catch (error) {
-      if (error.shortMessage.indexOf('Already minted') >= 0) {
+      if (error.shortMessage && error.shortMessage.indexOf('Already minted') >= 0) {
         message.error('Claim failed: Already minted')
       } else {
         message.error('Claim failed')

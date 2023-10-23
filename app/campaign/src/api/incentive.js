@@ -124,3 +124,7 @@ export const authDcCallback = async function(){
   const code = url.searchParams.get('code')
   return await request.PostFormV1(`${host}/dc/callback`, { code });
 }
+
+export const getNFTSupportedChains = async function() {
+  return await request(`${host}/nft/supportedChains`)
+}
