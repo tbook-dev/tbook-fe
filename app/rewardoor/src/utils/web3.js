@@ -3,9 +3,9 @@ import { host } from '@/api/incentive'
 // import { publicProvider } from 'wagmi/providers/public'
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 
-import { arbitrum, mainnet, polygon, optimism, optimismGoerli, localhost } from 'wagmi/chains'
+import { arbitrum, mainnet, polygon, optimism, optimismGoerli, polygonMumbai, localhost } from 'wagmi/chains'
 
-const chains = [arbitrum, mainnet, polygon, optimism, optimismGoerli, localhost]
+const chains = [arbitrum, mainnet, polygon, optimism, optimismGoerli, polygonMumbai, localhost]
 const projectId = import.meta.env.VITE_WC_PROJECT_ID
 
 // const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])

@@ -56,6 +56,11 @@ export const getTwitterId = (url) => {
   return "";
 };
 
+export const chainIcons = {
+  10: opIcon,
+  420: opIcon,
+}
+
 export const supportChains = [
   {
     icon: opIcon,
