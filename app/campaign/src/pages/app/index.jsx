@@ -130,14 +130,20 @@ export default function () {
     setRewardModalIdx(-1);
   }, []);
   const handleVerify = useCallback(async (redential) => {
+    let hasError = false
     try {
       const res = await verifyCredential(redential.credentialId);
       if (res.isVerified) {
+        hasError = false
         await queryClient.refetchQueries(["campaignDetail", campaignId]);
       } else {
-        messageApi.error(errorMsg);
+        hasError = true
       }
     } catch (error) {
+      hasError = true
+    }
+
+    if(hasError){
       messageApi.error(errorMsg);
       throw new Error(error.message)
     }
