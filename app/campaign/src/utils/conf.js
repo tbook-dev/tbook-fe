@@ -109,6 +109,10 @@ const labelTypeMap = {
       label: "Twitter Spaces",
       value: 3,
     },
+    {
+      label: "Twitter Follows",
+      value: 11,
+    }
   ],
   discord: [
     {

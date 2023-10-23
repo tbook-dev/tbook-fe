@@ -138,7 +138,8 @@ export default function () {
         messageApi.error(errorMsg);
       }
     } catch (error) {
-      console.log(error);
+      messageApi.error(errorMsg);
+      throw new Error(error.message)
     }
   }, []);
 
