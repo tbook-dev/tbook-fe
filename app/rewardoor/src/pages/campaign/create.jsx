@@ -141,6 +141,7 @@ export default function () {
             const nft = NFTcontracts.find((n) => n.nftId === v.nftId);
             return {
               ...v,
+              chainId: nft.chainId,
               contract: nft.contract,
               creatorId: nft.creatorId,
               unlimited: !v.unlimited,
