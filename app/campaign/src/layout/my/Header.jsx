@@ -30,7 +30,7 @@ function Header() {
   return (
     <header
       className={clsx(
-        "top-0 z-30 sticky inset-x-0 text-black dark:text-white shadow-d2",
+        "text-black dark:text-white shadow-d2",
         "transition duration-300 ease-in-out"
       )}
     >
