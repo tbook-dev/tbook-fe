@@ -158,7 +158,7 @@ export default function NFTModal({ visible, setOpen }) {
             {supportChains.map((v) => (
               <Select.Option value={v.chainId} key={v.chainId}>
                 <div className="flex items-center gap-x-1">
-                  <img src={chainIcons[v.chainId]} className="w-4 h-4" />
+                  <img src={v.icon} className="w-4 h-4" />
                   <span className="ml-2">{v.chainName}</span>
                 </div>
               </Select.Option>
