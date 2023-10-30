@@ -67,14 +67,14 @@ export default function (cb) {
           await open("ConnectWallet");
         }
       }
-      /*const walletClient = await getWalletClient();
+      const walletClient = await getWalletClient();
       await signLoginMetaMask(address, walletClient);
       try {
         await queryClient.refetchQueries('userInfo')
         navigate(searchParams.get("redirect") || "/");
       } catch (error) {
         console.log(error)
-      }*/
+      }
       // await queryClient.refetchQueries('userInfo')
     } catch (error) {
       console.log(error);
