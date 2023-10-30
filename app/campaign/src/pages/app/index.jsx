@@ -1,4 +1,4 @@
-// import { useResponsive } from "ahooks";
+import { useResponsive } from "ahooks";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useQueryClient } from "react-query";
 import { twLogin, getTwLoginUrl, verifyCredential } from "@/api/incentive";
@@ -50,7 +50,7 @@ const errorMsg = (
 
 export default function () {
   const [messageApi, contextHolder] = message.useMessage();
-  // const { pc } = useResponsive();
+  const { pc } = useResponsive();
   const dispath = useDispatch();
   const { open } = useWeb3Modal();
   // const { handleSignIn } = useSignIn();
@@ -130,22 +130,22 @@ export default function () {
     setRewardModalIdx(-1);
   }, []);
   const handleVerify = useCallback(async (redential) => {
-    let hasError = false
+    let hasError = false;
     try {
       const res = await verifyCredential(redential.credentialId);
       if (res.isVerified) {
-        hasError = false
+        hasError = false;
         await queryClient.refetchQueries(["campaignDetail", campaignId]);
       } else {
-        hasError = true
+        hasError = true;
       }
     } catch (error) {
-      hasError = true
+      hasError = true;
     }
 
-    if(hasError){
+    if (hasError) {
       messageApi.error(errorMsg);
-      throw new Error(error.message)
+      throw new Error(error.message);
     }
   }, []);
 
@@ -347,7 +347,9 @@ export default function () {
                           }
                           className="truncate text-sm text-[#131517] max-w-[calc(100%_-_30px)]"
                           dangerouslySetInnerHTML={{
-                            __html: redential.displayExp,
+                            __html: pc
+                              ? redential.intentDisplayExp
+                              : redential.displayExp,
                           }}
                         />
                       </div>
