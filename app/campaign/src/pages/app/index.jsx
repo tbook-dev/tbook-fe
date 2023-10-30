@@ -349,7 +349,7 @@ export default function () {
                           dangerouslySetInnerHTML={{
                             __html: pc
                               ? redential.intentDisplayExp
-                              : redential.intentDisplayExp,
+                              : redential.displayExp,
                           }}
                         />
                       </div>
