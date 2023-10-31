@@ -2,9 +2,11 @@ import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import { useMemo } from "react";
 import { useNavLink } from "./conf";
+import { useParams } from "react-router-dom";
 
 export default function Links({ inDrawer = false, hidden = false, onClose }) {
   const links = useNavLink();
+  const parma = useParams();
   const displayNone = useMemo(() => {
     if (hidden) {
       return true;
@@ -23,7 +25,12 @@ export default function Links({ inDrawer = false, hidden = false, onClose }) {
       )}
     >
       {links.map((v) => (
-        <NavLink key={v.text} to={v.link} onClick={onClose}>
+        <NavLink
+          key={v.text}
+          to={v.link}
+          onClick={onClose}
+          target={parma.campaignId ? "_blank" : "_self"}
+        >
           {({ isActive }) => (
             <span className={isActive ? "text-black" : "text-c-6"}>
               {v.text}
