@@ -23,19 +23,30 @@ export default function WithClaim({ handleFn, item, loading }) {
   return (
     !campaignNotStart && (
       <>
-        {item.showBtn && (
-          <button
-            className="w-full py-2.5 mb-1 rounded"
-            disabled={loading}
-            style={{
-              color: item.color,
-              backgroundColor: item.bgColor,
-            }}
-            onClick={handleClick}
-          >
-            {loading ? item.loadingBtn : item.label}
-          </button>
-        )}
+        {item.showBtn &&
+          (item.disabled ? (
+            <div
+              className="w-full py-2.5 mb-1 rounded flex justify-center items-center"
+              style={{
+                color: item.color,
+                backgroundColor: item.bgColor,
+              }}
+            >
+              {item.label}
+            </div>
+          ) : (
+            <button
+              className="w-full py-2.5 mb-1 rounded"
+              disabled={loading}
+              style={{
+                color: item.color,
+                backgroundColor: item.bgColor,
+              }}
+              onClick={handleClick}
+            >
+              {loading ? item.loadingBtn : item.label}
+            </button>
+          ))}
 
         <p className="text-xs text-c-9">
           {loading ? item.loadingText : item.desc}
