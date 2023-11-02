@@ -71,7 +71,6 @@ export default function (cb) {
       await signLoginMetaMask(address, walletClient);
       try {
         await queryClient.refetchQueries('userInfo')
-        navigate(searchParams.get("redirect") || "/");
       } catch (error) {
         console.log(error)
       }

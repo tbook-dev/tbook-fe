@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAccount } from 'wagmi'
 import { useEffect } from 'react'
 import { host } from '@/api/incentive'
+import { useState } from 'react'
 
 const titleList = ['Incentivize core', 'communities', 'and builders']
 const p = 'grant easily and optimize continuously '
@@ -20,28 +21,39 @@ const h1Text =
 export default function Aboard () {
   const { isConnected } = useAccount()
   const navigate = useNavigate()
-  const { loading, handleSignIn } = useSignIn()
+  const { loading, handleSignIn, signMessage } = useSignIn()
+  const [ autoFetch, setAutoFetch ] = useState(true)
+
+  const clickSignIn = async (useWc) => {
+    setAutoFetch(false); 
+    await handleSignIn(useWc) 
+    await signMessage()
+  }
 
   useEffect(() => {
-    if (isConnected) {
+    if (isConnected && autoFetch) {
       fetch(`${host}/info`, {
         method: 'GET',
         credentials: 'include'
       }).then(r => {
+        console.log({autoFetch})
+        if (!autoFetch) return
+        let p;
         if (r.status === 401) {
-          handleSignIn()
-        } else {
-          r.json().then(res => {
-            if (res?.projects?.length === 0) {
-              navigate('/new-project')
-            } else {
-              navigate('/')
-            }
-          })
+          p = handleSignIn()
+        } else { 
+          p = r.json()
         }
-      })
+        p.then(res => {
+          if (res?.projects?.length === 0) {
+            navigate('/new-project')
+          } else {
+            navigate('/')
+          }
+        })
+    })
     }
-  }, [isConnected])
+  }, [isConnected, autoFetch])
 
   return (
     <div className='flex h-screen'>
@@ -78,7 +90,7 @@ export default function Aboard () {
               <>
                 <Button
                   className='w-full text-base font-bold text-white'
-                  onClick={() => handleSignIn(false)}
+                  onClick={() => clickSignIn(false) }
                   loading={loading}
                 >
                   <img src={metaMask} className='mr-3 w-5 h-5 object-contain' />
@@ -86,7 +98,7 @@ export default function Aboard () {
                 </Button>
                 <Button
                   className='w-full text-base font-bold text-white'
-                  onClick={() => handleSignIn(true)}
+                  onClick={() => clickSignIn(true) }
                 >
                   <img
                     src={walletconnect}
