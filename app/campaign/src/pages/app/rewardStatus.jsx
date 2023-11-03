@@ -7,7 +7,7 @@ import { Popover } from "antd";
 const { Countdown } = Statistic;
 const doneText =
   "The distribution has finished! Kindly check your reward result below.";
-const finishTaskText = "We're excited to let you know that the lucky draw will be held when the campaign ends. Your patience is greatly appreciated!"
+const finishTaskText = `We're excited to let you know the distribution result when the tasks are accomplished. `
 
 export default function RewardStatus({ showTimeClock = false }) {
   const { campaignId } = useParams();
