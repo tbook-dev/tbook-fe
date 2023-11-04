@@ -45,7 +45,9 @@ export default function Layout ({ children }) {
     <div className='w-full min-h-screen text-white flex pl-[280px]'>
       <div className='w-[240px] bg-b-1 pl-2 pb-20 rounded-r-4xl fixed left-0 inset-y-0 select-none overflow-hidden flex flex-col justify-between'>
         <div className='bg-black'>
-          <Logo />
+          <div className='absolute top-8 left-10'>
+            <Logo className="inline-block w-8 h-8"/>
+          </div>
           <div
             className={clsx(
               'pt-[133px] pb-[38px] pl-8 uppercase text-base leading-none font-bold bg-b-1'

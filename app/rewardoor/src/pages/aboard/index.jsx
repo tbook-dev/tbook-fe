@@ -1,15 +1,12 @@
 import Logo from "@/components/logo";
-import metaMask from "@/images/icon/metamask.svg";
-import walletconnect from "@/images/icon/walletconnect.svg";
 import useSignIn from "@/hooks/useSignIn";
-import Button from "@/components/button";
 import { useNavigate } from "react-router-dom";
 import { useAccount } from "wagmi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { host } from "@/api/incentive";
-import { useState } from "react";
 import Slide from "./slide";
-
+import ButtonTab from "./buttonTab";
+import { categoriedWallet } from "./conf";
 const h1 = "Get started on TBOOK";
 const h1Text = "Connect your wallet now and start setting up Campaigns.";
 
@@ -51,14 +48,14 @@ export default function Aboard() {
   }, [isConnected, autoFetch]);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-[#121212]">
       <div className="select-none	w-1/2 overflow-hidden min-h-full relative p-12 flex flex-col justify-center">
         <Slide />
       </div>
-      <div className="w-1/2  flex items-center justify-center">
+      <div className="w-1/2  flex items-center justify-center overflow-y-auto">
         <div className="w-[560px] space-y-12">
           <div>
-            <Logo className="w-8 h-8 inline-block"/>
+            <Logo className="w-8 h-8 inline-block" />
           </div>
           <div>
             <h1 className="text-[40px] leading-[40px] font-bold mb-6">{h1}</h1>
@@ -72,26 +69,11 @@ export default function Aboard() {
                 Loading……
               </div>
             ) : (
-              <>
-                <Button
-                  className="w-full text-base font-bold text-white"
-                  onClick={() => clickSignIn(false)}
-                  loading={loading}
-                >
-                  <img src={metaMask} className="mr-3 w-5 h-5 object-contain" />
-                  MetaMask
-                </Button>
-                <Button
-                  className="w-full text-base font-bold text-white"
-                  onClick={() => clickSignIn(true)}
-                >
-                  <img
-                    src={walletconnect}
-                    className="mr-3 w-5 h-5 object-contain"
-                  />
-                  WalletConnect
-                </Button>
-              </>
+              <ButtonTab
+                list={categoriedWallet}
+                loading={loading}
+                handleClick={()=>clickSignIn(true)}
+              />
             )}
           </div>
         </div>

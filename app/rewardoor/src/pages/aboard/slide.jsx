@@ -28,7 +28,7 @@ export default function Slide() {
       {conf.map((v, idx) => {
         return (
           <SwiperSlide key={idx}>
-            <div className="bg-black rounded-2.5xl h-full py-10 flex flex-col justify-between">
+            <div className="bg-black rounded-2.5xl h-full py-10 flex flex-col justify-between overflow-y-auto">
               <div className="flex justify-center">
                 <img
                   src={v.img}
@@ -37,7 +37,7 @@ export default function Slide() {
                 />
               </div>
 
-              <div>
+              <div className="mx-4">
                 <h2 className="text-[32px] font-extrabold mb-4">{v.title}</h2>
                 <p className="text-base font-medium">{v.desc}</p>
               </div>
