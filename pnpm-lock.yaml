@@ -122,6 +122,7 @@ importers:
       '@tbook/store': workspace:*
       '@tbook/ui': workspace:*
       '@tbook/utils': workspace:*
+      '@tbook/wallet': workspace:*
       alchemy-sdk: ^2.8.3
     dependencies:
       '@tbook/hooks': link:../../packages/hooks
@@ -129,6 +130,7 @@ importers:
       '@tbook/store': link:../../packages/store
       '@tbook/ui': link:../../packages/ui
       '@tbook/utils': link:../../packages/utils
+      '@tbook/wallet': link:../../packages/wallet
       alchemy-sdk: 2.8.3
 
   app/grantee:

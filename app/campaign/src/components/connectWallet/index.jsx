@@ -15,6 +15,8 @@ import { getNonce } from "@/utils/web3";
 import { useQueryClient } from "react-query";
 import { authenticate } from "@/api/incentive";
 import { disconnect } from "@wagmi/core";
+import Wallet from "./wallet";
+import { categoriedWallet } from "@tbook/wallet/conf";
 
 const { shortAddress } = conf;
 const { Paragraph } = Typography;
@@ -51,26 +53,8 @@ const ConnectWalletModal = () => {
   const signIn = async () => {
     setLoading(true);
     try {
-      // const nonce = await getNonce(address)
       const sign = await signMessageAsync({ message: nonce });
       await authenticate(address, sign);
-      // const d = new URLSearchParams();
-      // d.append("address", address);
-      // d.append("sign", sign);
-      // const response = await fetch(`${host}/authenticate`, {
-      //   credentials: "include",
-      //   method: "POST",
-      //   headers: {
-      //     "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-      //   },
-      //   body: d,
-      // });
-      // console.log("status:", response.status);
-      // response.text().then((b) => console.log("body", b));
-      // response.headers.forEach((value, key) => {
-      //   console.log(key, value);
-      // });
-      // console.log(document.cookie);
       await queryClient.refetchQueries("userInfo");
       handleCloseModal();
     } catch (error) {
@@ -86,12 +70,11 @@ const ConnectWalletModal = () => {
       });
     }
   }, [isConnected, address]);
-  // console.log(nonce)
 
   const handleCloseModal = useCallback(() => {
     dispath(setConnectWalletModal(false));
   }, []);
-
+  console.log({ isConnected });
   return (
     <Modal
       footer={null}
@@ -102,30 +85,37 @@ const ConnectWalletModal = () => {
       onCancel={handleCloseModal}
     >
       <div className="text-black -mx-6">
-        <h1 className="text-base font-medium border-b px-5 pb-3 border-[#ececec]">
+        <h1
+          className={clsx(
+            "text-base font-medium border-b px-5 pb-3 border-[#ececec] relative",
+            "after:absolute after:h-0.5 after:left-0 after:bottom-0 after:bg-[#006EE9]",
+            isConnected ? "after:w-full" : "after:w-1/2"
+          )}
+        >
           {pageConf.title}
         </h1>
-        <div className="border-[#ececec] border-b">
-          <div className="px-5 pt-5 pb-4">
+        <div className={isConnected && "border-[#ececec] border-b"}>
+          <div className={clsx("px-5 pt-5 ", isConnected ? "pb-4" : "")}>
             <div
               className={clsx(
                 "text-base font-medium",
-                isConnected && "text-[#A1A1A2]"
+                isConnected ? "text-[#A1A1A2]" : "mb-6"
               )}
             >
               <h2>{pageConf.step1.name}</h2>
               <h2>{pageConf.step1.title}</h2>
             </div>
-            <p
-              className={clsx(
-                "text-[#717374] text-xs mb-6",
-                isConnected && "text-[#A1A1A2]"
-              )}
-            >
-              {pageConf.step1.desc}
-            </p>
+
             {isConnected ? (
               <div>
+                <p
+                  className={clsx(
+                    "text-[#717374] text-xs mb-6",
+                    isConnected && "text-[#A1A1A2]"
+                  )}
+                >
+                  {pageConf.step1.desc}
+                </p>
                 <div className="px-4 bg-[#f8f9fa] rounded w-max h-8 flex items-center">
                   <Paragraph
                     className="flex items-center"
@@ -160,16 +150,16 @@ const ConnectWalletModal = () => {
                 </button>
               </div>
             ) : (
-              <button
-                onClick={async () => await open()}
-                className="px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md"
-              >
-                {pageConf.step1.button}
-              </button>
+              <Wallet
+                list={categoriedWallet}
+                loading={loading}
+                handleClick={async () => await open()}
+              />
             )}
           </div>
         </div>
-        <div>
+
+        {isConnected && (
           <div className="px-5 pt-5 pb-4">
             <div
               className={clsx(
@@ -188,17 +178,16 @@ const ConnectWalletModal = () => {
             >
               {pageConf.step2.desc}
             </p>
-            {isConnected && (
-              <button
-                onClick={signIn}
-                className="px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md"
-              >
-                {pageConf.step2.button}{" "}
-                {loading && <Spin spinning size="small" className="ml-1" />}
-              </button>
-            )}
+
+            <button
+              onClick={signIn}
+              className="px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md"
+            >
+              {pageConf.step2.button}{" "}
+              {loading && <Spin spinning size="small" className="ml-1" />}
+            </button>
           </div>
-        </div>
+        )}
       </div>
     </Modal>
   );
