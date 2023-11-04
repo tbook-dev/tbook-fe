@@ -1,8 +1,8 @@
-import metaMask from "@/images/icon/metamask.svg";
-import walletconnect from "@/images/icon/walletconnect.svg";
-import arConnect from "@/images/icon/arConnect.svg";
-import bitget from "@/images/icon/bitget.svg";
-import finnie from "@/images/icon/finnie.svg";
+import metaMask from "./images/metamask.svg";
+import walletconnect from "./images/walletconnect.svg";
+import arConnect from "./images/arConnect.svg";
+import bitget from "./images/bitget.svg";
+import finnie from "./images/finnie.svg";
 
 export const supportCategorys = [
   {

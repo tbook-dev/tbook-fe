@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { host } from "@/api/incentive";
 import Slide from "./slide";
 import ButtonTab from "./buttonTab";
-import { categoriedWallet } from "./conf";
+import { categoriedWallet } from "@tbook/wallet/conf";
+
 const h1 = "Get started on TBOOK";
 const h1Text = "Connect your wallet now and start setting up Campaigns.";
 

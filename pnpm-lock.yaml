@@ -165,10 +165,12 @@ importers:
     specifiers:
       '@tbook/share': workspace:*
       '@tbook/utils': workspace:*
+      '@tbook/wallet': workspace:*
       alchemy-sdk: ^2.8.3
     dependencies:
       '@tbook/share': link:../../packages/share
       '@tbook/utils': link:../../packages/utils
+      '@tbook/wallet': link:../../packages/wallet
       alchemy-sdk: 2.8.3
 
   packages/hooks:
@@ -232,6 +234,20 @@ importers:
       '@tbook/store': link:../store
       '@tbook/ui': link:../ui
       '@tbook/utils': 'link:'
+
+  packages/wallet:
+    specifiers:
+      '@tbook/hooks': workspace:*
+      '@tbook/share': workspace:*
+      '@tbook/store': workspace:*
+      '@tbook/ui': workspace:*
+      '@tbook/utils': workspace:*
+    dependencies:
+      '@tbook/hooks': link:../hooks
+      '@tbook/share': link:../share
+      '@tbook/store': link:../store
+      '@tbook/ui': link:../ui
+      '@tbook/utils': link:../utils
 
 packages:
 
