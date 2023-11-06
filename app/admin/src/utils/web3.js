@@ -1,30 +1,36 @@
 import { host, getGrantSignInfo, postGrantSignInfo } from "@/api/incentive";
 
-import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { publicProvider } from 'wagmi/providers/public'
-import { mainnet, bsc } from "wagmi/chains";
+import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 
-import { user } from "@tbook/store";
+import { arbitrum, mainnet, polygon, optimism, polygonMumbai, optimismGoerli, localhost } from 'wagmi/chains'
 
-const { reset } = user;
+const chains = [arbitrum, mainnet, polygon, optimism, polygonMumbai, optimismGoerli, localhost]
+const projectId = import.meta.env.VITE_WC_PROJECT_ID
 
-const chains = [mainnet, bsc];
+import { user } from '@tbook/store'
 
-//const wcProvider = walletConnectProvider({ projectId: import.meta.env.VITE_WC_PROJECT_ID });
+const { reset } = user
 
-const { provider } = configureChains(chains, [publicProvider()]);
-
-// const connectors = modalConnectors({ 
-//   appName: "tbook", 
-//   projectId: import.meta.env.VITE_WC_PROJECT_ID,
-//   chains, 
-//   version: '2' 
-// });
-
-export const wagmiClient = createClient({
-  autoConnect: true,
-  provider,
-});
+const metadata = {
+  name: 'TBook',
+  description: 'TBook',
+  url: 'https://tbook.com',
+  icons: ['https://avatars.githubusercontent.com/u/37784886']
+}
+export const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
+export const web3modal = createWeb3Modal({ 
+  wagmiConfig, 
+  projectId, 
+  chains,
+  themeVariables: {
+    '--w3m-text-big-bold-font-family': 'Red Hat Display, sans-serif',
+    '--w3m-font-family': 'Red Hat Display, sans-serif',
+    '--w3m-accent-color': '#fff',
+    '--w3m-accent-fill-color': '#666',
+    '--w3m-button-border-radius': '20px',
+    '--w3m-z-index': 10001
+  }
+})
 
 export async function fetchLoginNonce(address) {
   return fetch(
@@ -52,7 +58,7 @@ async function signLogin(addr, signer, chain, pubKey) {
     { credentials: "include" }
   )
   const nonce = await r.text()
-  const sign = await signer.signMessage(nonce)
+  const sign = await signer.signMessage({message: nonce})
   const d = new FormData();
   d.append("address", address);
   d.append("sign", sign);
