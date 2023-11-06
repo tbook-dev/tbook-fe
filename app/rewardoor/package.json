@@ -10,6 +10,7 @@
   "dependencies": {
     "@tbook/share": "workspace:*",
     "@tbook/utils": "workspace:*",
+    "@tbook/wallet": "workspace:*",
     "alchemy-sdk": "^2.8.3"
   }
 }

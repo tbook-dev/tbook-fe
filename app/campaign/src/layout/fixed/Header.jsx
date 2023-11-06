@@ -36,7 +36,6 @@ function Header() {
         <div className="flex items-center justify-between h-10 lg:h-16">
           <div className="flex items-center">
             <Link to="/" className="mr-1 lg:mr-16">
-              <div className="w-8 h-8 rounded-full bg-l-6" />
               <img src={logo} className="h-6 lg:h-10 object-contain" />
             </Link>
           </div>

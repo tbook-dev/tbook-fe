@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom'
-import logo from '@/images/icon/logo.svg'
+import { Link } from "react-router-dom";
+import logo from "@/images/icon/logo.svg";
 
-export default function Logo () {
+export default function Logo({ className }) {
   return (
-    <Link to='/' className='absolute top-8 left-10'>
-      <img src={logo} className='h-10 w-8' />
+    <Link to="/" className={className}>
+      <img src={logo} className="w-full h-full" />
     </Link>
-  )
+  );
 }

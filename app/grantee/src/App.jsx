@@ -12,9 +12,15 @@ import { configResponsive } from "ahooks";
 import routes from "./router";
 import { Spin } from "antd";
 
-import { WagmiConfig } from "wagmi";
-import { watchAccount, getAccount, fetchSigner } from "wagmi/actions";
-import { wagmiClient, changeAccountSignIn, logout } from "@/utils/web3";
+import { WagmiConfig } from 'wagmi'
+import { watchAccount, getAccount } from 'wagmi/actions'
+import { getWalletClient } from '@wagmi/core'
+import {
+  wagmiConfig,
+  changeAccountSignIn,
+  logout,
+  signLoginMetaMask
+} from '@/utils/web3'
 
 const { fetchUserInfo } = user;
 
@@ -56,7 +62,7 @@ function App() {
 
   return (
     <>
-      <WagmiConfig client={wagmiClient}>
+      <WagmiConfig config={wagmiConfig}>
         <Layout>
           <Routes>
             {routes.map((route) => {
