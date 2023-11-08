@@ -47,45 +47,43 @@ export default function Guide() {
         </div>
       ) : (
         <>
-          <div className="min-h-[387px]">
-            <Swiper
-              onSlideChange={handleSlideChange}
-              onSwiper={setSwiper}
-              className="w-full "
-              modules={[Pagination]}
-              pagination={{
-                el: "#paginationRef",
-              }}
-            >
-              {conf.map((v, idx) => {
-                return (
-                  <SwiperSlide key={idx} className="h-full">
-                    <div className="flex flex-col justify-between">
-                      <img
-                        src={v.img}
-                        alt="slide"
-                        className="w-full h-auto mb-10"
-                      />
+          <Swiper
+            onSlideChange={handleSlideChange}
+            onSwiper={setSwiper}
+            className="w-full "
+            modules={[Pagination]}
+            pagination={{
+              el: "#paginationRef",
+            }}
+          >
+            {conf.map((v, idx) => {
+              return (
+                <SwiperSlide key={idx} className="h-full">
+                  <div className="flex flex-col justify-between">
+                    <img
+                      src={v.img}
+                      alt="slide"
+                      className="w-full h-auto mb-10"
+                    />
 
-                      <div className="text-center">
-                        <h2 className="text-2xl font-extrabold mb-2">
-                          {v.title}
-                        </h2>
-                        <p className="text-xs font-medium">{v.desc}</p>
-                      </div>
+                    <div className="text-center">
+                      <h2 className="text-2xl font-extrabold mb-2">
+                        {v.title}
+                      </h2>
+                      <p className="text-xs font-medium">{v.desc}</p>
                     </div>
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
-          </div>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
           <div
             className="w-full h-10 flex items-center justify-center space-x-3"
             id="paginationRef"
             ref={paginationRef}
           />
 
-          <div className="absolute bottom-14 w-full text-center">
+          <div className="fixed bottom-14 left-0 w-full text-center">
             {reachEnd ? (
               <button
                 className="w-[calc(100%_-_80px)] bg-[#006EE9] h-10 rounded-lg"
@@ -96,7 +94,7 @@ export default function Guide() {
                 Incentivize now
               </button>
             ) : (
-              <div className="flex justify-between">
+              <div className="flex justify-between px-5">
                 <button
                   className="text-sm font-medium text-[#006EE9]"
                   onClick={() => {
