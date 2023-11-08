@@ -1,4 +1,4 @@
-import LayoutAdmin from './layout/Layout'
+import LayoutAdmin from './layout'
 import LeftNavLayout from './layout/LeftNavLayout'
 // import Home from '@/pages/dashboard/overview'
 import Home from '@/pages/campaign/list'

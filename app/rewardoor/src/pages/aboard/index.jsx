@@ -58,7 +58,7 @@ export default function Aboard () {
   return (
     <div className='flex h-screen'>
       <div className='select-none	w-1/2 relative bg-b-1 rounded-r-4xl flex items-center justify-center'>
-        <Logo />
+        <Logo className="w-8 h-10 absolute left-10 top-8"/>
         <div className='w-[592px] relative pt-[220px]'>
           <img src={bannerUrl} className='absolute top-0 left-0 w-full' />
           <img src={bannerBg} className='absolute top-0 left-0 w-full' />
