@@ -11,17 +11,7 @@ const conf = [
     img: slide1,
     title: "Incentivize core communities and builders",
     desc: "Empower core communities and builders through strategic incentives, fostering sustained growth and engagement. ",
-  },
-  {
-    img: slide1,
-    title: "Incentivize core communities and builders",
-    desc: "Empower core communities and builders through strategic incentives, fostering sustained growth and engagement. ",
-  },
-  {
-    img: slide1,
-    title: "Incentivize core communities and builders",
-    desc: "Empower core communities and builders through strategic incentives, fostering sustained growth and engagement. ",
-  },
+  }
 ];
 const pcTipText = "Please visit the website in a web browser.";
 
