@@ -1,17 +1,21 @@
 import slide1 from "@/images/aboard/slide1.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { Pagination } from "swiper";
+import { Pagination, Lazy } from "swiper";
 import "swiper/css/pagination";
+import "swiper/css/lazy";
 import { useState, useRef } from "react";
 import pcTip from "@/images/pcTip.png";
+import PreImage from "@/components/preloadImage";
+import { useEffect } from "react";
+import { preloadImg } from "@/utils/preload";
 
 const conf = [
   {
     img: slide1,
     title: "Incentivize core communities and builders",
     desc: "Empower core communities and builders through strategic incentives, fostering sustained growth and engagement. ",
-  }
+  },
 ];
 const pcTipText = "Please visit the website in a web browser.";
 
@@ -20,6 +24,11 @@ export default function Guide() {
   const [reachEnd, setReachEnd] = useState(conf.length === 1);
   const [showTip, setShowTip] = useState(false);
   const paginationRef = useRef();
+
+  useEffect(() => {
+    preloadImg(pcTip);
+  }, []);
+
   const handleSlideChange = (swiper) => {
     const activeIndex = swiper.activeIndex;
     const lastIndex = swiper.slides.length - 1;
@@ -37,12 +46,16 @@ export default function Guide() {
       style={{
         "--swiper-theme-color": "#006EE9",
         "--swiper-pagination-bullet-inactive-color": "#002C5D",
-        "--swiper-pagination-bullet-inactive-opacity": "1"
+        "--swiper-pagination-bullet-inactive-opacity": "1",
       }}
     >
       {showTip ? (
         <div className="px-4">
-          <img src={pcTip} alt="go to pc" className="mb-11" />
+          <PreImage
+            src={pcTip}
+            alt="go to pc"
+            className="w-full  min-h-[374px] mb-11 object-cover object-center"
+          />
           <h2 className="text-2xl font-extrabold text-center">{pcTipText}</h2>
         </div>
       ) : (
@@ -51,9 +64,13 @@ export default function Guide() {
             onSlideChange={handleSlideChange}
             onSwiper={setSwiper}
             className="w-full "
-            modules={[Pagination]}
+            modules={[Pagination, Lazy]}
             pagination={{
               el: "#paginationRef",
+            }}
+            lazy={{
+              enabled: true,
+              loadPrevNext: true,
             }}
           >
             {conf.map((v, idx) => {
@@ -63,8 +80,9 @@ export default function Guide() {
                     <img
                       src={v.img}
                       alt="slide"
-                      className="w-full h-auto mb-10"
+                      className="w-full h-auto mb-10 swiper-lazy"
                     />
+                    <div className="swiper-lazy-preloader" />
 
                     <div className="text-center">
                       <h2 className="text-2xl font-extrabold mb-2">
@@ -83,7 +101,7 @@ export default function Guide() {
             ref={paginationRef}
           />
 
-          <div className="fixed bottom-14 left-0 w-full text-center">
+          <div className="fixed bottom-14 left-0 w-full text-center z-10">
             {reachEnd ? (
               <button
                 className="w-[calc(100%_-_80px)] bg-[#006EE9] h-10 rounded-lg"
