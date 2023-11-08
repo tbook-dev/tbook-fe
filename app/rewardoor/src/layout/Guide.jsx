@@ -33,7 +33,7 @@ export default function Guide() {
 
   return (
     <div
-      className="pt-20 px-4 bg-black text-white min-h-screen flex flex-col justify-between"
+      className="pt-20 relative px-4 bg-black text-white min-h-screen"
       style={{
         "--swiper-theme-color": "#006EE9",
         "--swiper-pagination-bullet-inactive-color": "#002C5D",
@@ -47,7 +47,7 @@ export default function Guide() {
         </div>
       ) : (
         <>
-          <div className="flex-auto min-h-[387px]">
+          <div className="min-h-[387px]">
             <Swiper
               onSlideChange={handleSlideChange}
               onSwiper={setSwiper}
@@ -85,7 +85,7 @@ export default function Guide() {
             ref={paginationRef}
           />
 
-          <div className="pb-14 pt-12  text-center">
+          <div className="absolute bottom-14 w-full text-center">
             {reachEnd ? (
               <button
                 className="w-[calc(100%_-_80px)] bg-[#006EE9] h-10 rounded-lg"
