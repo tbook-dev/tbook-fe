@@ -56,7 +56,7 @@ export default function Aboard() {
       <div className="w-1/2  flex items-center justify-center overflow-y-auto">
         <div className="w-[560px] space-y-12">
           <div>
-            <Logo className="w-8 h-8 inline-block" />
+            <Logo className="w-8 h-10 inline-block" />
           </div>
           <div>
             <h1 className="text-[40px] leading-[40px] font-bold mb-6">{h1}</h1>

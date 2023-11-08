@@ -88,7 +88,7 @@ export default function () {
   return (
     <div className="w-full min-h-screen text-white flex pl-[280px]">
       <div className="fixed left-0 inset-y-0 w-[240px] bg-b-1 pb-20 rounded-r-4xl  flex flex-col justify-end">
-        <Logo />
+        <Logo className="w-8 h-10 absolute top-8 left-10"/>
         <img
           src={bannerUrl}
           className="w-[592px] absolute top-1/4 right-[51px] max-w-none"
