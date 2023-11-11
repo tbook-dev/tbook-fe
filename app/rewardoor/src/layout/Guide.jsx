@@ -30,7 +30,6 @@ export default function Guide() {
     preloadImg(pcTip);
   }, []);
 
-
   const handleSlideChange = (swiper) => {
     const activeIndex = swiper.activeIndex;
     const lastIndex = swiper.slides.length - 1;
@@ -49,7 +48,7 @@ export default function Guide() {
         "--swiper-theme-color": "#006EE9",
         "--swiper-pagination-bullet-inactive-color": "#002C5D",
         "--swiper-pagination-bullet-inactive-opacity": "1",
-        height
+        height,
       }}
     >
       {showTip ? (
@@ -59,7 +58,27 @@ export default function Guide() {
             alt="go to pc"
             className="w-full  min-h-[374px] mb-11 object-cover object-center"
           />
-          <h2 className="text-2xl font-extrabold text-center">{pcTipText}</h2>
+          <h2 className="text-2xl font-extrabold text-center mb-2">{pcTipText}</h2>
+          <button 
+            className="text-[#006EE9] flex items-center gap-x-1 mx-auto"
+            onClick={()=>{
+              setShowTip(false)
+            }}
+          >
+            <svg
+              width="21"
+              height="21"
+              viewBox="0 0 21 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17.1667 9.85514H7.02501L11.6833 5.1968L10.5 4.0218L3.83334 10.6885L10.5 17.3551L11.675 16.1801L7.02501 11.5218H17.1667V9.85514Z"
+                fill="#006EE9"
+              />
+            </svg>
+            Back
+          </button>
         </div>
       ) : (
         <>
