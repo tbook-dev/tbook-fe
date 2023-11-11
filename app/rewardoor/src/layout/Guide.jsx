@@ -9,6 +9,7 @@ import pcTip from "@/images/pcTip.png";
 import PreImage from "@/components/preloadImage";
 import { useEffect } from "react";
 import { preloadImg } from "@/utils/preload";
+import useScreen from "@/hooks/useScreen";
 
 const conf = [
   {
@@ -24,10 +25,11 @@ export default function Guide() {
   const [reachEnd, setReachEnd] = useState(conf.length === 1);
   const [showTip, setShowTip] = useState(false);
   const paginationRef = useRef();
-
+  const { height } = useScreen();
   useEffect(() => {
     preloadImg(pcTip);
   }, []);
+
 
   const handleSlideChange = (swiper) => {
     const activeIndex = swiper.activeIndex;
@@ -42,11 +44,12 @@ export default function Guide() {
 
   return (
     <div
-      className="pt-20 relative px-4 bg-black text-white min-h-screen"
+      className="pt-20 relative px-4 bg-black text-white"
       style={{
         "--swiper-theme-color": "#006EE9",
         "--swiper-pagination-bullet-inactive-color": "#002C5D",
         "--swiper-pagination-bullet-inactive-opacity": "1",
+        height
       }}
     >
       {showTip ? (
