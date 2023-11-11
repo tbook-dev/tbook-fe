@@ -48,11 +48,11 @@ export default function Guide() {
         "--swiper-theme-color": "#006EE9",
         "--swiper-pagination-bullet-inactive-color": "#002C5D",
         "--swiper-pagination-bullet-inactive-opacity": "1",
-        height,
+        minHeight: height,
       }}
     >
       {showTip ? (
-        <div className="px-4">
+        <div className="px-4 pb-10">
           <PreImage
             src={pcTip}
             alt="go to pc"
