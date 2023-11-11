@@ -3,13 +3,13 @@ import { useState } from "react";
 
 export default function () {
   const [s, setScreen] = useState({
-    height: window.screen.height,
-    width: window.screen.width,
+    height: window.innerWidth,
+    width: window.innerWidth,
   });
   useEventListener("resize", () => {
     setScreen({
-      height: window.screen.height,
-      width: window.screen.width,
+      height: window.innerHeight,
+      width: window.innerWidth,
     });
   });
   return s;
