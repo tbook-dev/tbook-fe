@@ -1,11 +1,13 @@
 import Typed from "@/components/Type";
 import banner from "@/images/banner-01.png";
-import { Button } from "@tbook/ui";
-import { conf } from "@tbook/utils";
+// import { Button } from "@tbook/ui";
+// import { conf } from "@tbook/utils";
 
-const { appLink, myLink } = conf;
+// const { appLink, myLink } = conf;
 
 export default function () {
+  const appLink = 12
+  const myLink = 34
   return (
     <section className="relative mt-[44px] lg:mt-[126px] lg:h-[600px] lg:mb-[92px] mb-10">
       <div className="relative bx">
@@ -27,15 +29,15 @@ export default function () {
 
         <div className="flex flex-col items-center justify-center mb-8 lg:mb-0 lg:block">
           <a href={appLink} target="_blank" className="mb-4 lg:mb-0">
-            <Button className="px-8 cursor-pointer lg:bg-white lg:bg-none w-[80vw] lg:w-auto lg:mr-[22px]">
+            <button className="px-8 cursor-pointer lg:bg-white lg:bg-none w-[80vw] lg:w-auto lg:mr-[22px]">
               Launch APP
-            </Button>
+            </button>
           </a>
 
           <a href={myLink} target="_blank">
-            <Button className="px-8 cursor-pointer dark:bg-black dark:text-white w-[80vw] lg:w-auto bg-none dark:shadow-d3">
+            <button className="px-8 cursor-pointer dark:bg-black dark:text-white w-[80vw] lg:w-auto bg-none dark:shadow-d3">
               My Grants
-            </Button>
+            </button>
           </a>
         </div>
 
