@@ -63,18 +63,6 @@ export const getTwitterId = (url) => {
   return "";
 };
 
-export const supportChains = [
-  {
-    icon: opIcon,
-    label: "Optimism",
-    value: 10,
-  },
-  {
-    icon: opIcon,
-    label: "Optimism Test",
-    value: 420,
-  },
-];
 
 export const mediaTypes = [
   {

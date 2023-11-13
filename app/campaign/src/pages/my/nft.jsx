@@ -3,19 +3,19 @@ import { useParams, Link } from "react-router-dom";
 import { shortAddress } from "@tbook/utils/lib/conf";
 import clsx from "clsx";
 import linkIcon from "@/images/icon/link.svg";
-import { supportChains } from "@/utils/conf";
 import backIcon from "@/images/icon/back.svg";
 import useNftQuery from "@/hooks/useNftQuery";
 import dayjs from "dayjs";
 import { Spin } from "antd";
-
+import useSupportChainsQuery from "@/hooks/useSupportChainsQuery";
 
 export default function NFT() {
   const { projectId, groupId, nftId } = useParams();
   const { data = {}, isLoading } = useNftQuery(groupId, nftId);
+  const { data: supportChains = [] } = useSupportChainsQuery();
   const list = useMemo(() => {
     const chain = supportChains.find(
-      (v) => v.value === data.chainId || v.value === 420
+      (v) => v.chainId === data.chainId
     );
 
     return [
@@ -29,11 +29,11 @@ export default function NFT() {
         com: (
           <div className="flex items-center gap-x-1">
             <img
-              src={chain.icon}
+              src={chain?.icon}
               alt="network"
               className="w-4 h-4 object-center object-contain"
             />
-            {chain?.label}
+            {chain?.chainName}
           </div>
         ),
         col: 1,
@@ -76,7 +76,10 @@ export default function NFT() {
   }
   return (
     <div className="relative">
-      <Link className="lg:hidden absolute left-2 top-3" to={`/app/${data.campaignId}`}>
+      <Link
+        className="lg:hidden absolute left-2 top-3"
+        to={`/app/${data.campaignId}`}
+      >
         <img src={backIcon} alt="back" />
       </Link>
 
