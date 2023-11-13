@@ -1,18 +1,28 @@
-import { lazy } from "react";
+import Layout from './layout'
+import Home from '@/pages/home'
 
 const routes = [
   {
-    path: "/",
-    component: lazy(() => import("@/pages/home")),
-  },
-  {
-    path: "/about",
-    component: lazy(() => import("@/pages/about")),
-  },
-  {
-    path: "/solution",
-    component: lazy(() => import("@/pages/solution")),
-  },
-];
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: (
+            <Home />
+        )
+      },
+      // {
+      //   path: '/twitter/callback',
+      //   async lazy () {
+      //     const { default: Component } = await import(
+      //       '@/pages/twitter/callback'
+      //     )
+      //     return { Component }
+      //   }
+      // },
+    ]
+  }
+]
 
-export default routes;
+export default routes
