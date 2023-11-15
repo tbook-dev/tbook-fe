@@ -8,10 +8,8 @@ const routes = [
     children: [
       {
         index: true,
-        element: (
-            <Home />
-        )
-      },
+        element: <Home />
+      }
       // {
       //   path: '/twitter/callback',
       //   async lazy () {
