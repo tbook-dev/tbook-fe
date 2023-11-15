@@ -121,3 +121,5 @@ export const list2 = [
     link: "",
   },
 ];
+
+export const list = [...list1, ...list2];

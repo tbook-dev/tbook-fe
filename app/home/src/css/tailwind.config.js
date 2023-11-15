@@ -8,7 +8,6 @@ module.exports = {
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
     "./node_modules/@tbook/ui/src/**/*.{js,jsx}",
-    "./node_modules/tw-elements/dist/js/**/*.js",
   ],
   theme: {
     extend: {
@@ -67,6 +66,20 @@ module.exports = {
       },
       zIndex: {
         60: "60",
+      },
+      animation: {
+        marquee: "marquee 100s linear infinite",
+        marquee2: "marquee2 100s linear infinite",
+      },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+        marquee2: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0%)" },
+        },
       },
     },
   },

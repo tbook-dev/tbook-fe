@@ -47,8 +47,12 @@ export default function () {
       </video>
       <main className='relative text-center bx'>
         <h1 className='text-[32px] leading-[38px] font-medium px-6 lg:text-[60px] lg:leading-[72px] mb-6 lg:mb-10'>
-          {pageConf.h1.map(v => {
-            return <span className={v.className}>{v.text}</span>
+          {pageConf.h1.map((v, idx) => {
+            return (
+              <span className={v.className} key={idx}>
+                {v.text}
+              </span>
+            )
           })}
         </h1>
         <p className='text-base lg:text-xl lg:w-[750px] lg:mx-auto'>
