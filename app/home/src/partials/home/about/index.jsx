@@ -94,7 +94,10 @@ const Card = ({ id, isActive, quote, author, position }) => {
 export default function About () {
   const { pc } = useResponsive()
   return (
-    <section className='lg:pt-[110px] lg:pb-[90px] space-y-8 lg:space-y-[120px]'>
+    <section
+      id='about'
+      className='lg:pt-[110px] lg:pb-[90px] space-y-8 lg:space-y-[120px]'
+    >
       <div className='flex flex-col items-center gap-y-6'>
         <Title text={moduleConf.title} />
         <Desc text={moduleConf.desc} />
