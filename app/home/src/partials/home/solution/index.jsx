@@ -11,19 +11,19 @@ const moduleConf = {
 }
 export default function Solution () {
   return (
-    <>
+    <div id='solution'>
       <div className='py-7 bg-black mb-[187px] lg:mb'>
         <Swiper list={list} />
       </div>
 
       <div className='bx flex flex-col items-center px-6 lg:px-0 space-y-10 mb-[192px] lg:mb-[360px]'>
         <Title text={moduleConf.title} />
-        <div className='text-[40px] leading-[48px] font-medium text-center'>
+        <div className='text-[32px] lg:text-[40px] leading-[48px] font-medium text-center'>
           {moduleConf.desc.map((v, idx) => {
             return <p key={idx}>{v}</p>
           })}
         </div>
       </div>
-    </>
+    </div>
   )
 }

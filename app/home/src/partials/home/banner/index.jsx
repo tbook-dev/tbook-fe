@@ -1,9 +1,3 @@
-// import Typed from '@/components/Type'
-// import banner from '@/images/banner-01.png'
-// import { Button } from "@tbook/ui";
-// import { conf } from "@tbook/utils";
-
-// const { appLink, myLink } = conf;
 import bgMp4 from '@/images/banner.mp4'
 const pageConf = {
   h1: [
