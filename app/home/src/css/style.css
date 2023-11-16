@@ -25,4 +25,8 @@
             @apply w-full;
         }
     }
+    .solution .swiper-wrapper{
+     @apply !ease-linear;
+    }
 }
+

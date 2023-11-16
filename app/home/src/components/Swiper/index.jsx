@@ -1,13 +1,14 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, FreeMode } from 'swiper'
+import { Autoplay } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/autoplay'
 
 export default function ({ list = [] }) {
   return (
     <Swiper
-      modules={[Autoplay, FreeMode]}
+      modules={[Autoplay]}
       loop
+      loopPreventsSlide
       speed={3000}
       slidesPerView='auto'
       spaceBetween={40}
@@ -16,6 +17,7 @@ export default function ({ list = [] }) {
         pauseOnMouseEnter: true,
         disableOnInteraction: false
       }}
+      className='solution'
     >
       {list.map(v => (
         <SwiperSlide key={v.src} style={{ width: 'max-content' }}>
