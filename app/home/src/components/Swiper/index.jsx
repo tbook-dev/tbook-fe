@@ -1,27 +1,27 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper";
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, FreeMode } from 'swiper'
+import 'swiper/css'
+import 'swiper/css/autoplay'
 
-export default function ({ list = [], delay = 1000 }) {
+export default function ({ list = [] }) {
   return (
     <Swiper
-      modules={[Autoplay]}
+      modules={[Autoplay, FreeMode]}
       loop
       speed={3000}
-      slidesPerView="auto"
+      slidesPerView='auto'
+      spaceBetween={40}
       autoplay={{
-        delay: delay,
+        delay: 0,
         pauseOnMouseEnter: true,
-        disableOnInteraction: false,
+        disableOnInteraction: false
       }}
     >
-      {list.map((v) => (
-        <SwiperSlide key={v.src}>
-          <img
-            src={v.src}
-            className="h-[40px] mr-[40px] sm:h-[96px] sm:mr-[96px]"
-          />
+      {list.map(v => (
+        <SwiperSlide key={v.src} style={{ width: 'max-content' }}>
+          <img src={v.src} className='h-[40px] sm:h-[96px] inline-block' />
         </SwiperSlide>
       ))}
     </Swiper>
-  );
+  )
 }

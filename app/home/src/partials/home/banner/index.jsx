@@ -37,7 +37,7 @@ export default function () {
       className='relative overflow-hidden pt-[180px] pb-[200px] lg:pt-[230px] lg:pb-[326px]'
     >
       <video
-        className='absolute inset-0 h-full w-full object-cover'
+        className='absolute inset-0 h-full w-full object-cover object-center'
         autoPlay
         loop
         muted

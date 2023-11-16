@@ -1,6 +1,3 @@
-// import 'swiper/css'
-// import 'swiper/css/navigation'
-
 import Banner from '@/partials/home/banner'
 import Solution from '@/partials/home/solution'
 
