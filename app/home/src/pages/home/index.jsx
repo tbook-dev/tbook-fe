@@ -1,6 +1,8 @@
 import Banner from '@/partials/home/banner'
 import Solution from '@/partials/home/solution'
 import Features from '@/partials/home/features'
+import About from '@/partials/home/about'
+
 // import Partners from '@/partials/home/partners'
 // import Product from '@/partials/home/product'
 // import Testimonial from '@/partials/home/testimonial'
@@ -13,6 +15,7 @@ export default function Home () {
       <Banner />
       <Solution />
       <Features />
+      <About />
       {/* <Product /> */}
       {/* <Partners /> */}
       {/* <Testimonial /> */}
