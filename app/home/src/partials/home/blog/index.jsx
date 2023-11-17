@@ -83,13 +83,9 @@ export default function Blog () {
           <div className='space-y-6 lg:space-y-8 text-black mb-6'>
             <p className='text-base'>{last.createTime}</p>
             <h3 className='text-xl'>{last.title}</h3>
-            <a
-              href={last.link}
-              target='_blank'
-              className='hidden lg:block w-max rounded-lg bg-[#131517] hover:opacity-70 text-white text-xl px-[30px] py-2.5 font-medium'
-            >
+            <button className='hidden lg:block w-max rounded-lg bg-[#131517] hover:opacity-70 text-white text-xl px-[30px] py-2.5 font-medium'>
               Read Blog
-            </a>
+            </button>
           </div>
         </a>
       </div>

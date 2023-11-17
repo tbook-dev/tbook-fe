@@ -3,12 +3,7 @@ import Solution from '@/partials/home/solution'
 import Features from '@/partials/home/features'
 import About from '@/partials/home/about'
 import Blog from '@/partials/home/Blog'
-
-// import Partners from '@/partials/home/partners'
-// import Product from '@/partials/home/product'
-// import Testimonial from '@/partials/home/testimonial'
-// import Subscribe from '@/partials/subscribe'
-// import Calendly from '@/partials/calendly'
+import Calendly from '@/partials/calendly'
 
 export default function Home () {
   return (
@@ -18,11 +13,7 @@ export default function Home () {
       <Features />
       <About />
       <Blog />
-      {/* <Product /> */}
-      {/* <Partners /> */}
-      {/* <Testimonial /> */}
-      {/* <Calendly /> */}
-      {/* <Subscribe /> */}
+      <Calendly />
     </div>
   )
 }

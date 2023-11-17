@@ -1,38 +1,47 @@
-import { conf } from "@tbook/utils";
+import bgMp4 from '@/images/banner.mp4'
+import { Desc } from '@/components/Para'
 
-const { appLink } = conf;
+const moduleConf = {
+  title: 'Build with us',
+  desc: 'Join Our Exclusive Community! Follow us for Exclusive Updates, Insights, and Special Offers.',
+  btn: 'Book a demo',
+  caLink: 'https://calendly.com/keylasue/30min'
+}
 
-const title = "Buidl with TBOOK";
-const paragraph = `Dive Into Incentive Protocol With Us`;
-const caLink = "https://calendly.com/keylasue/30min";
-
-export default function Da() {
+export default function ContactCalendly () {
   const handleClick = () => {
-    Calendly?.initPopupWidget({ url: caLink });
-  };
+    Calendly?.initPopupWidget({ url: moduleConf.caLink })
+  }
   return (
-    <div className="p-3 mb-10 lg:mb-[144px] rounded-lg lg:p-10 lg:rounded-2xl shadow-d6 bx">
-      <div className="mb-5 text-center lg:mb-10">
-        <h2 className="mb-0.5 lg:text-c3 lg:mb-3 text-sm font-medium">
-          <span className="text-colorful1">{title}</span>
-        </h2>
-        <p className="font-bold text-white lg:text-cwh6 text-ch1">{paragraph}</p>
-      </div>
+    <section
+      id='contact'
+      className='relative overflow-hidden py-20 lg:pb-[100px]'
+    >
+      <video
+        className='absolute inset-0 h-full w-full object-cover object-center'
+        autoPlay
+        loop
+        muted
+      >
+        <source src={bgMp4} type='video/mp4' />
+        Your browser does not support the video tag. Please update your browser.
+      </video>
 
-      <div className="flex flex-col items-center font-medium lg:flex-row lg:justify-center text-c9 lg:space-x-6">
-        <a href={appLink} target="_blank" className="mb-4 lg:mb-0">
-          <button className="h-10 w-[60vw] lg:w-[140px] shadow-d5 text-white bg-black rounded-md hover:opacity-70">
-            Try App Now
+      <main className='relative text-center bx lg:w-[610px] space-y-10'>
+        <div className='space-y-6 text-center lg:mb-10'>
+          <Desc text={moduleConf.title} />
+          <p className='text-base'>{moduleConf.desc}</p>
+        </div>
+
+        <div className='flex justify-center'>
+          <button
+            onClick={handleClick}
+            className='rounded-lg bg-[#131517] hover:opacity-70 text-white text-xl px-[30px] py-2.5 font-medium'
+          >
+            {moduleConf.btn}
           </button>
-        </a>
-
-        <button
-          onClick={handleClick}
-          className="h-10 w-[60vw] lg:w-[140px] text-black rounded-md bg-cw1 hover:opacity-70"
-        >
-          Set Up A Call
-        </button>
-      </div>
-    </div>
-  );
+        </div>
+      </main>
+    </section>
+  )
 }
