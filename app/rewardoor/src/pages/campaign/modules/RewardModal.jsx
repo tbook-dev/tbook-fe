@@ -6,13 +6,13 @@ import { useCallback, useEffect, useState } from "react";
 import {
   incentiveMethodList,
   incentiveAssetsTypeList,
-  supportChains,
 } from "@/utils/conf";
 import NFTModal from "./NFTModal";
 import uploadFile, { fileValidator } from "@/utils/upload";
 import uploadIcon from "@/images/icon/upload.svg";
 import clsx from "clsx";
 import SelectNFT from "@/components/SelectNFT";
+import useSupportChains from '@/hooks/queries/useSupportChains'
 
 const title = "Set Up Reward";
 const defaultIncentive = { rewardType: 1, unlimited: false };
@@ -31,6 +31,7 @@ export default function CredentialModal({
   const reward = Form.useWatch("reward", rewardForm);
   const [showContractModal, setShowContractModal] = useState(false);
   const [selectOpen, setSelectOpen] = useState(false);
+  const { data: supportChains } = useSupportChains()
 
   // console.log({ credentialsFormValues, conf })
   const handleOk = async () => {
@@ -236,7 +237,7 @@ export default function CredentialModal({
                             >
                               {NFTcontracts.map((item) => {
                                 const icon = supportChains.find(
-                                  (v) => item.chainId === v.value
+                                  (v) => item.chainId === v.chainId
                                 )?.icon;
                                 return (
                                   <Select.Option
