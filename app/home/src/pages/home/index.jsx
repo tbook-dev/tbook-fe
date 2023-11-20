@@ -2,7 +2,7 @@ import Banner from '@/partials/home/banner'
 import Solution from '@/partials/home/solution'
 import Features from '@/partials/home/features'
 import About from '@/partials/home/about'
-import Blog from '@/partials/home/Blog'
+import Blog from '@/partials/home/blog'
 import Calendly from '@/partials/calendly'
 
 export default function Home () {
