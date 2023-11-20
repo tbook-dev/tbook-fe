@@ -1,13 +1,16 @@
-import React from "react";
-import Header from "./Header";
-import Footer from "./Footer";
+import React from 'react'
+import Header from './Header'
+import Footer from './Footer'
+import { Outlet } from 'react-router-dom'
 
-export default function LayoutAdmin({ children }) {
+export default function Layout () {
   return (
-    <div className="flex flex-col min-h-screen dark:bg-black">
+    <>
       <Header />
-      <div className="relative flex-auto overflow-x-hidden overflow-y-auto">{children}</div>
+      <div className='relative overflow-x-hidden overflow-y-auto'>
+        <Outlet />
+      </div>
       <Footer />
-    </div>
-  );
+    </>
+  )
 }

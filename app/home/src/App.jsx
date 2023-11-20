@@ -1,45 +1,29 @@
-import React, { Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
-import "@/css/style.css";
+import React from 'react'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-// import PageNotFound from "./pages/utility/PageNotFound";
-import Layout from "./layout/Layout";
-import { configResponsive } from "ahooks";
-import routes from "./router";
-import { Spin } from "antd";
+import { configResponsive } from 'ahooks'
+import routes from './router'
+import { Spin } from 'antd'
+
+
+
 
 configResponsive({
-  pc: 1212,
-});
+  pc: 1120
+})
 
-function App() {
+function App () {
+
   return (
-    <Layout>
-      <Routes>
-        {routes.map((route) => {
-          return (
-            <Route
-              key={route.path}
-              path={route.path}
-              element={
-                <Suspense
-                  fallback={
-                    <div className="flex flex-col items-center justify-center h-screen">
-                      <Spin />
-                    </div>
-                  }
-                >
-                  <route.component />
-                </Suspense>
-              }
-            />
-          );
-        })}
-
-        {/* <Route path="*" element={<PageNotFound />} /> */}
-      </Routes>
-    </Layout>
-  );
+    <RouterProvider
+      router={createBrowserRouter(routes)}
+      fallbackElement={
+        <div className='flex flex-col items-center justify-center h-[300px]'>
+          <Spin />
+        </div>
+      }
+    />
+  )
 }
 
-export default App;
+export default App

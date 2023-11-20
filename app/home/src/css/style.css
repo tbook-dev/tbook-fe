@@ -10,78 +10,31 @@
 
 @import 'tailwindcss/utilities';
 
-:root {
-    font-family: 'Red Hat Display', sans-serif;;
-}
-.swiper-wrapper{
-    align-items: center;
-}
 
 @layer components { 
-    .text-colorful1{
-        background: linear-gradient(57.39deg, #6AB3F7 -4.5%, #67EBD4 96.91%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-    }
-    .animation-paused{
-        animation-play-state: paused;
+    :root {
+        font-family: 'Poppins', sans-serif;
+        @apply scroll-smooth;
     }
     .bx{
-        width: 1212px;
-        @apply mx-auto;
+        @apply mx-auto w-[1280px];
        
     }
-    .up{
-        will-change: transform;
-        animation: up 1s linear;
-        z-index: 10;
-    }
-    .loop-left{
-        will-change: transform;
-        animation: loop-left 20s linear infinite forwards;
-    }
-    .loop-right{
-        will-change: transform;
-        animation: loop-right 20s linear infinite forwards;
-    }
-
-    .swiper-icon-nav1{
-        box-shadow: inset 0px -1px 1px rgba(255, 255, 255, 0.15), inset 0px 4px 4px rgba(255, 255, 255, 0.1), inset 0px -3px 3px rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(7px);
-    }
-    @media (max-width: 1212px){
+    @media (max-width: 1279px){
         .bx{
             @apply w-full;
         }
     }
-}
-
-
-@keyframes loop-left {
-    0% {
-        transform: translateX(0%);
-    }
-    100% {
-        transform: translateX(-100%);
+    .solution .swiper-wrapper{
+     @apply !ease-linear;
     }
 }
-@keyframes loop-right {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(0%);
-    }
-  }
 
+.line1{
+    background: linear-gradient(115deg, rgba(58, 130, 247, 0.80) 32.82%, rgba(58, 130, 247, 0.80) 61.21%, rgba(204, 137, 233, 0.80) 72.98%, rgba(255, 199, 55, 0.80) 92.14%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
 
-  @keyframes up {
-    0% {
-      transform: translate(-20px, 20px);
-    }
-    100% {
-      transform: translate(0,0);
-    }
-  }

@@ -1,16 +1,16 @@
-import React, { Suspense, useLayoutEffect } from "react";
-import { Routes, Route } from "react-router-dom";
-import { useAsyncEffect } from "ahooks";
-import { useDispatch } from "react-redux";
-import { user } from "@tbook/store";
-import "@/css/style.css";
-import { useTheme } from "@tbook/hooks";
+import React, { Suspense, useLayoutEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import { useAsyncEffect } from 'ahooks'
+import { useDispatch } from 'react-redux'
+import { user } from '@tbook/store'
+import '@/css/style.css'
+import { useTheme } from '@tbook/hooks'
 
 // import PageNotFound from "./pages/utility/PageNotFound";
-import Layout from "./layout/Layout";
-import { configResponsive } from "ahooks";
-import routes from "./router";
-import { Spin } from "antd";
+import Layout from './layout/Layout'
+import { configResponsive } from 'ahooks'
+import routes from './router'
+import { Spin } from 'antd'
 
 import { WagmiConfig } from 'wagmi'
 import { watchAccount, getAccount } from 'wagmi/actions'
@@ -22,51 +22,51 @@ import {
   signLoginMetaMask
 } from '@/utils/web3'
 
-const { fetchUserInfo } = user;
+const { fetchUserInfo } = user
 
 configResponsive({
-  pc: 1120,
-});
+  pc: 1120
+})
 
-const currentAccount = getAccount();
-watchAccount(async (acc) => {
-  console.log("account changed:", acc);
-  if (currentAccount.address == acc.address) return;
+const currentAccount = getAccount()
+watchAccount(async acc => {
+  console.log('account changed:', acc)
+  if (currentAccount.address == acc.address) return
   if (!acc.address) {
     // disconnect
-    logout().then((r) => {
-      location.href = location;
-    });
+    logout().then(r => {
+      location.href = location
+    })
   } else {
-    const signer = await getWalletClient();
-    changeAccountSignIn(acc.address, signer).then((r) => {
-      location.href = location;
-    });
+    const signer = await getWalletClient()
+    changeAccountSignIn(acc.address, signer).then(r => {
+      location.href = location
+    })
   }
-});
+})
 
-function App() {
-  const dispatch = useDispatch();
-  const theme = useTheme();
+function App () {
+  const dispatch = useDispatch()
+  const theme = useTheme()
 
   useLayoutEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark')
     } else {
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.remove('dark')
     }
-  }, [theme]);
+  }, [theme])
 
   useAsyncEffect(async () => {
-    dispatch(fetchUserInfo());
-  }, []);
+    dispatch(fetchUserInfo())
+  }, [])
 
   return (
     <>
       <WagmiConfig config={wagmiConfig}>
         <Layout>
           <Routes>
-            {routes.map((route) => {
+            {routes.map(route => {
               return (
                 <Route
                   key={route.path}
@@ -74,7 +74,7 @@ function App() {
                   element={
                     <Suspense
                       fallback={
-                        <div className="flex flex-col items-center justify-center h-[300px]">
+                        <div className='flex flex-col items-center justify-center h-[300px]'>
                           <Spin />
                         </div>
                       }
@@ -83,7 +83,7 @@ function App() {
                     </Suspense>
                   }
                 />
-              );
+              )
             })}
 
             {/* <Route path="*" element={<PageNotFound />} /> */}
@@ -91,7 +91,7 @@ function App() {
         </Layout>
       </WagmiConfig>
     </>
-  );
+  )
 }
 
-export default App;
+export default App

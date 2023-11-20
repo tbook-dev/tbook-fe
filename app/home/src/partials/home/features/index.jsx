@@ -1,53 +1,31 @@
-import { useMemo } from "react";
-import clsx from "clsx";
-import { useResponsive } from "ahooks";
-import intelligent from "@/images/intelligent.png";
-import security from "@/images/security.png";
-import analytic from "@/images/analytic.png";
-
+import bgMp4 from '@/images/banner.mp4'
+const pageConf = {
+  h2: [
+    <h2 key='1'>Customizable</h2>,
+    <h2 key='2'>
+      Incentive <span className='line1'>Campaigns</span>
+    </h2>
+  ],
+  desc: 'Layer incentive campaigns, engage the core community, and build authentic community asset. Diverse and Easily Integrated Credential Templates. TBOOK provides a variety of credential templates across both onchain and offchain '
+}
 export default function () {
-  const { pc } = useResponsive();
-  const list = useMemo(
-    () => [
-      {
-        icon: intelligent,
-        title: "Intelligent",
-        desc: "By leveraging the numerous exemplary projects on our platform, we make astute recommendations for the solution that fits you best ",
-      },
-      {
-        icon: security,
-        title: "Security",
-        desc: "By encrypting grant details, we ensures all sensitive information such as grant amounts and recipient details  are safeguarded against unauthorized access or tampering",
-      },
-      {
-        icon: analytic,
-        title: "Analytics",
-        desc: "Experience the convenience of an all-in-one platform that provides efficient access to all grands details and reports on tokens",
-      },
-    ],
-    []
-  );
-
   return (
-    <section className="grid bx  grid-cols-1 gap-y-4 rounded-lg  lg:grid-cols-3 lg:gap-x-12 mb-10 lg:mb-[192px]">
-      {list.map((feat, idx) => {
-        return (
-          <div
-            className={clsx(
-              "flex flex-col px-5 py-3.5 lg:p-10 lg:rounded-2xl rounded-lg shadow-d6",
-              !pc && idx % 2 !== 0 && "items-end text-right"
-            )}
-            key={feat.title}
-          >
-            <div className="w-24 h-24 mb-4 lg:rounded-2xl shadow-d10 lg:mb-8">
-              <img src={feat.icon} />
-            </div>
-
-            <h2 className="font-extrabold text-white lg:mb-2 lg:text-cwh2">{feat.title}</h2>
-            <p className="tex-c6 text-c-9">{feat.desc}</p>
-          </div>
-        );
-      })}
+    <section className='relative overflow-hidden lg:h-[900px] lg:flex lg:flex-col lg:justify-center'>
+      <video
+        className=' w-full object-cover object-center mb-9 lg:mb-0 lg:absolute lg:inset-0 lg:h-full'
+        autoPlay
+        loop
+        muted
+      >
+        <source src={bgMp4} type='video/mp4' />
+        Your browser does not support the video tag. Please update your browser.
+      </video>
+      <main className='relative bx text-left space-y-6 px-6 lg:px-0 mb-[130px] lg:mb-0'>
+        <div className='text-[24px] lg:text-[40px] leading-[38px] lg:leading-[40px] font-medium'>
+          {pageConf.h2}
+        </div>
+        <p className='text-base lg:text-xl lg:leading-8'>{pageConf.desc}</p>
+      </main>
     </section>
-  );
+  )
 }

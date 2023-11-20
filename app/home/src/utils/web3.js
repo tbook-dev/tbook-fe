@@ -1,98 +1,120 @@
-import { host, getGrantSignInfo, postGrantSignInfo } from "@/api/incentive";
+import { host } from '@/api/incentive'
+import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
+import { arbitrum, mainnet, polygon, optimism, polygonMumbai, optimismGoerli, localhost } from 'wagmi/chains'
 
+const chains = [arbitrum, mainnet, polygon, optimism, polygonMumbai, optimismGoerli, localhost]
+const projectId = import.meta.env.VITE_WC_PROJECT_ID
 
-import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { publicProvider } from 'wagmi/providers/public'
-import { mainnet, bsc } from "wagmi/chains";
+const metadata = {
+  name: 'TBook',
+  description: 'TBook',
+  url: 'https://tbook.com',
+  icons: ['https://avatars.githubusercontent.com/u/37784886']
+}
+export const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
+export const web3modal = createWeb3Modal({ 
+  wagmiConfig, 
+  projectId, 
+  chains,
+  themeVariables: {
+    '--w3m-text-big-bold-font-family': 'Red Hat Display, sans-serif',
+    '--w3m-font-family': 'Red Hat Display, sans-serif',
+    '--w3m-accent-color': '#fff',
+    '--w3m-accent-fill-color': '#666',
+    '--w3m-button-border-radius': '20px',
+    '--w3m-z-index': 10001
+  }
+})
 
-import { user } from "@tbook/store";
-
-const { reset } = user;
-
-const chains = [mainnet, bsc];
-
-//const wcProvider = walletConnectProvider({ projectId: import.meta.env.VITE_WC_PROJECT_ID });
-
-const { provider } = configureChains(chains, [publicProvider()]);
-
-// const connectors = modalConnectors({ 
-//   appName: "tbook", 
-//   projectId: import.meta.env.VITE_WC_PROJECT_ID,
-//   chains, 
-//   version: '2' 
-// });
-
-export const wagmiClient = createClient({
-  autoConnect: true,
-  provider,
-});
-//export const ethereumClient = new EthereumClient(wagmiClient, chains)
-
-export async function fetchLoginNonce(address) {
-  return fetch(
-    `${host}/nonce?address=${address}`,
-    { credentials: "include" }
-  ).then(r => r.text())
+export async function fetchLoginNonce (address) {
+  return fetch(`${host}/nonce?address=${address}`, {
+    credentials: 'include'
+  }).then(r => r.text())
 }
 
-export async function loginWithSign(address, sign) {
-  const d = new FormData();
-  d.append("address", address);
-  d.append("sign", sign);
+export async function loginWithSign (address, sign) {
+  const d = new FormData()
+  d.append('address', address)
+  d.append('sign', sign)
   return fetch(`${host}/authenticate`, {
-    credentials: "include",
-    method: "POST",
-    body: d,
-  });
+    credentials: 'include',
+    method: 'POST',
+    body: d
+  })
 }
 
-async function signLogin(addr, signer, chain, pubKey) {
-  if(!addr) return;
+export async function getNonce(address) {
+  const r = await fetch(`${host}/nonce?address=${address}`, {
+    credentials: 'include'
+  })
+  return await r.text()
+}
+
+export function preGetNonce(address) {
+  console.log('preGetNonce, isIOS: ', isIOS)
+  if (isIOS) {
+    getNonce(address).then(nonce => {
+      localStorage.setItem('nonce', nonce)
+    })
+  }
+}
+
+async function signLogin (addr, signer, chain, pubKey) {
+  if (!addr) return
   const address = addr.toLowerCase()
-  const r = await fetch(
-    `${host}/nonce?address=${address}`,
-    { credentials: "include" }
-  )
-  const nonce = await r.text()
-  const sign = await signer.signMessage(nonce)
-  const d = new FormData();
-  d.append("address", address);
-  d.append("sign", sign);
-  d.append("chain", chain);
+  let nonce
+  console.log('begin get nonce, isIOS: ', isIOS)
+  if (isIOS) {
+    nonce = localStorage.getItem('nonce')
+    localStorage.removeItem('nonce')
+  } else {
+    nonce = await getNonce(address)
+  }
+
+  const sign = await signer.signMessage({message: nonce})
+  const d = new URLSearchParams()
+  d.append('address', address)
+  d.append('sign', sign)
+  d.append('chain', chain)
   if (pubKey) {
-    d.append("publicKey", pubKey);
+    d.append('publicKey', pubKey)
   }
   const authResult = await fetch(`${host}/authenticate`, {
-        credentials: "include",
-        method: "POST",
-        body: d,
-      });
-  return authResult;
+    credentials: 'include',
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    },
+    body: d
+  })
+  return authResult
 }
 
-export function logout() {
-  reset()
-  return fetch(
-    `${host}/signout`,
-    { credentials: "include" }
-  )
+export function logout () {
+  return fetch(`${host}/signout`, { credentials: 'include' })
 }
 
-export async function changeAccountSignIn(addr, signer) {
+export async function changeAccountSignIn (addr, signer) {
   return logout().then(() => signLoginMetaMask(addr, signer))
 }
 
-export async function signLoginMetaMask(addr, signer) {
-  return signLogin(addr, signer, "Ethereum")
+export async function signLoginMetaMask (addr, signer) {
+  return signLogin(addr, signer, 'Ethereum')
 }
 
-export async function loginSui(wallet) {
+export async function loginSui (wallet) {
   const signer = {
-    signMessage: (message) => 
+    signMessage: message =>
       wallet.signMessage({
         message: new TextEncoder().encode(message)
       })
   }
-  return signLogin(wallet.account.address, signer, "Sui", wallet.account.publicKey.toString('hex'))
+  return signLogin(
+    wallet.account.address,
+    signer,
+    'Sui',
+    wallet.account.publicKey.toString('hex')
+  )
 }
 
+export const isIOS = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream

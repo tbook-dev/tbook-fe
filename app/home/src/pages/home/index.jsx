@@ -1,25 +1,19 @@
-import 'swiper/css'
-import 'swiper/css/navigation'
-
-import Banner from '@/partials/banner'
-import Features from '@/partials/features'
-import Partners from '@/partials/partners'
-import Product from '@/partials/product'
-import Testimonial from '@/partials/testimonial'
-// import Calendly from "@/partials/calendly";
-import Subscribe from '@/partials/subscribe'
+import Banner from '@/partials/home/banner'
+import Solution from '@/partials/home/solution'
+import Features from '@/partials/home/features'
+import About from '@/partials/home/about'
+import Blog from '@/partials/home/Blog'
 import Calendly from '@/partials/calendly'
 
 export default function Home () {
   return (
-    <div className='w-full text-[#202124] mb-4 px-4 lg:px-0'>
+    <div className='w-full text-[#131517] mb-4'>
       <Banner />
+      <Solution />
       <Features />
-      <Product />
-      <Partners />
-      <Testimonial />
-      {/* <Calendly /> */}
-      <Subscribe />
+      <About />
+      <Blog />
+      <Calendly />
     </div>
   )
 }
