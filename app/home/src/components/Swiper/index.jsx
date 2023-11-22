@@ -19,9 +19,9 @@ export default function ({ list = [] }) {
       }}
       className='solution'
     >
-      {list.map(v => (
-        <SwiperSlide key={v.src} style={{ width: 'max-content' }}>
-          <img src={v.src} className='h-[40px] sm:h-[96px] inline-block' />
+      {list.map((v,idx) => (
+        <SwiperSlide key={idx} style={{ width: 'max-content' }}>
+          <img src={v.src} className='h-[40px] lg:h-[56px]' />
         </SwiperSlide>
       ))}
     </Swiper>

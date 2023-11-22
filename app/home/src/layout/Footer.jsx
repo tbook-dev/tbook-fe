@@ -85,11 +85,11 @@ export default function Footer () {
           </div>
           <div className='flex flex-col gap-y-4 w-[275px] mx-auto'>
             <h2 className='font-bold bold text-xl'>{moduleConf.help.title}</h2>
-            {moduleConf.help.links.map(link => {
+            {moduleConf.help.links.map((link,idx) => {
               return (
                 <a
-                  key={link.anchor}
-                  href={`#${link.anchor}`}
+                  key={idx}
+                  href={`#${link.text}`}
                   target='_blank'
                   className='text-[#131517] text-base font-medium hover:opacity-70'
                 >

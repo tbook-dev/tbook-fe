@@ -21,7 +21,7 @@ export default function Solution () {
   )
   return (
     <div id='solution'>
-      <div className='py-7 bg-black mb-[187px] lg:mb'>
+      <div className='py-7 mb-[187px] lg:mb'>
         <Swiper list={list} />
       </div>
 
