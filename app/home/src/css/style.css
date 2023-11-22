@@ -28,13 +28,22 @@
     .solution .swiper-wrapper{
      @apply !ease-linear;
     }
+    .line1{
+        background: linear-gradient(115deg, rgba(58, 130, 247, 0.80) 32.82%, rgba(58, 130, 247, 0.80) 61.21%, rgba(204, 137, 233, 0.80) 72.98%, rgba(255, 199, 55, 0.80) 92.14%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+    }
+    
 }
 
-.line1{
-    background: linear-gradient(115deg, rgba(58, 130, 247, 0.80) 32.82%, rgba(58, 130, 247, 0.80) 61.21%, rgba(204, 137, 233, 0.80) 72.98%, rgba(255, 199, 55, 0.80) 92.14%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
+@layer utilities{
+    .video-mask{
+        @apply after:absolute after:inset-0;
+    }
 }
+
+
+
 

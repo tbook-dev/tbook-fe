@@ -1,4 +1,5 @@
 import bgMp4 from '@/images/banner.mp4'
+import { useSpring, animated } from '@react-spring/web'
 const pageConf = {
   h1: [
     {
@@ -25,10 +26,15 @@ const pageConf = {
   desc: 'Empower core communities and builders through strategic incentives, fostering sustained growth and engagement.'
 }
 export default function () {
+  const props = useSpring({
+    from: { opacity: 0 , transform: 'translateY(100px)'},
+    to: { opacity: 1 , transform: 'translateY(0)'},
+    config: { duration: 500 },
+  })
   return (
     <section
       id='home'
-      className='relative overflow-hidden pt-[180px] pb-[200px] lg:pt-[230px] lg:pb-[326px]'
+      className='relative overflow-hidden pt-[180px] pb-[200px] lg:pt-[230px] lg:pb-[326px] video-mask'
     >
       <video
         className='absolute inset-0 h-full w-full object-cover object-center'
@@ -39,7 +45,7 @@ export default function () {
         <source src={bgMp4} type='video/mp4' />
         Your browser does not support the video tag. Please update your browser.
       </video>
-      <main className='relative text-center bx'>
+      <animated.main className='relative text-center bx z-10' style={props}>
         <h1 className='text-[32px] leading-[38px] font-medium px-6 lg:text-[60px] lg:leading-[72px] mb-6 lg:mb-10'>
           {pageConf.h1.map((v, idx) => {
             return (
@@ -52,7 +58,7 @@ export default function () {
         <p className='text-base lg:text-xl lg:w-[750px] lg:mx-auto'>
           {pageConf.desc}
         </p>
-      </main>
+      </animated.main>
     </section>
   )
 }
