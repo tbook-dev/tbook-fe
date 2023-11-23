@@ -20,7 +20,7 @@ export default function Solution () {
     { threshold: 0.2, once: true }
   )
   return (
-    <div id='solution'>
+    <div id='solution' className='h-full flex flex-col justify-between'>
       <div className='py-7 mb-[187px] lg:mb'>
         <Swiper list={list} />
       </div>

@@ -19,3 +19,7 @@ https://codepen.io/GreenSock/pen/gOPyLWv/21be48a8aad305b4341bd094361ec24a
 
 ## 官网动效
 parallax-sticky
+
+## snapshot api apply
+
+https://docs.snapshot.org/tools/api/api-keys

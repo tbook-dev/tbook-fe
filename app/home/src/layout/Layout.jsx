@@ -5,12 +5,8 @@ import { Outlet } from 'react-router-dom'
 
 export default function Layout () {
   return (
-    <>
-      <Header />
-      <div className='relative overflow-x-hidden overflow-y-auto'>
-        <Outlet />
-      </div>
-      <Footer />
-    </>
+    <div className='relative overflow-x-hidden overflow-y-auto'>
+      <Outlet />
+    </div>
   )
 }

@@ -27,14 +27,14 @@ const pageConf = {
 }
 export default function () {
   const props = useSpring({
-    from: { opacity: 0 , transform: 'translateY(100px)'},
-    to: { opacity: 1 , transform: 'translateY(0)'},
-    config: { duration: 500 },
+    from: { opacity: 0, transform: 'translateY(100px)' },
+    to: { opacity: 1, transform: 'translateY(0)' },
+    config: { duration: 500 }
   })
   return (
     <section
       id='home'
-      className='relative overflow-hidden pt-[180px] pb-[200px] lg:pt-[230px] lg:pb-[326px] flex items-center video-mask h-full'
+      className='relative overflow-hidden pt-[180px] pb-[200px] lg:pt-[230px] lg:pb-[326px] video-mask h-full'
     >
       <video
         className='absolute inset-0 h-full w-full object-cover object-center'

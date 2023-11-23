@@ -7,6 +7,7 @@ importers:
       '@ant-design/cssinjs': ^1.2.0
       '@ant-design/icons': ^4.8.0
       '@ant-design/plots': ^1.2.3
+      '@react-spring/parallax': ^9.7.3
       '@react-spring/web': ^9.7.3
       '@reduxjs/toolkit': ^1.9.1
       '@tailwindcss/forms': ^0.5.2
@@ -55,6 +56,7 @@ importers:
       '@ant-design/cssinjs': 1.5.6_biqbaboplfbrettd7655fr4n2y
       '@ant-design/icons': 4.8.0_biqbaboplfbrettd7655fr4n2y
       '@ant-design/plots': 1.2.5_biqbaboplfbrettd7655fr4n2y
+      '@react-spring/parallax': 9.7.3_biqbaboplfbrettd7655fr4n2y
       '@react-spring/web': 9.7.3_biqbaboplfbrettd7655fr4n2y
       '@reduxjs/toolkit': 1.9.3_k4ae6lp43ej6mezo3ztvx6pykq
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.3.3
@@ -1712,6 +1714,18 @@ packages:
       '@react-spring/shared': 9.7.3_react@18.2.0
       '@react-spring/types': 9.7.3
       react: 18.2.0
+    dev: false
+
+  /@react-spring/parallax/9.7.3_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Qm7l0aw2rDMXMg9H4KqgbSuDd/y3YErQezoc6o/NvQj53Gt4lUKC2rHmlD9R+ae8rqiagYaS1q8iPCN3P3wuAg==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@react-spring/shared': 9.7.3_react@18.2.0
+      '@react-spring/web': 9.7.3_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@react-spring/shared/9.7.3_react@18.2.0:
