@@ -19,6 +19,7 @@ const pageConf = {
   },
   desc: 'We help industry to navigate critical decisions, elevate token economy as a whole'
 }
+
 export default function () {
   const props = useSpring({
     from: { opacity: 0, transform: 'translateY(100px)' },
@@ -28,7 +29,7 @@ export default function () {
   return (
     <section
       id='home'
-      className='relative overflow-hidden py-[180px] lg:py-[300px] video-mask min-h-screen flex flex-col justify-center'
+      className='relative overflow-hidden py-[180px] lg:py-[300px] video-mask min-h-screen flex flex-col justify-center line1'
     >
       <video
         className='absolute inset-0 h-full w-full object-cover object-center'

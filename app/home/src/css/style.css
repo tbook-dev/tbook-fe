@@ -28,12 +28,10 @@
     .solution .swiper-wrapper{
      @apply !ease-linear;
     }
-    .line1{
-        background: linear-gradient(115deg, rgba(58, 130, 247, 0.80) 32.82%, rgba(58, 130, 247, 0.80) 61.21%, rgba(204, 137, 233, 0.80) 72.98%, rgba(255, 199, 55, 0.80) 92.14%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
+    .line1:after{
+        background: linear-gradient(75deg, #fff 23.99%, rgba(255, 255, 255, 0.8) 55.95%, rgba(255, 255, 255, 0) 75.94%
+);
+
     }
     
 }
