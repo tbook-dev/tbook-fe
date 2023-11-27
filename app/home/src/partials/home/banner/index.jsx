@@ -28,7 +28,7 @@ export default function () {
   return (
     <section
       id='home'
-      className='relative overflow-hidden pt-[180px] pb-[200px] lg:pt-[230px] lg:pb-[326px] video-mask h-screen flex flex-col justify-center'
+      className='relative overflow-hidden py-[180px] lg:py-[300px] video-mask min-h-screen flex flex-col justify-center'
     >
       <video
         className='absolute inset-0 h-full w-full object-cover object-center'
@@ -47,11 +47,11 @@ export default function () {
               modules={[Autoplay]}
               loop
               loopPreventsSlide
-              speed={2000}
+              speed={1500}
               direction='vertical'
               effect='fade'
               className='h-[72px]'
-              spaceBetween={30}
+              spaceBetween={72}
               autoplay={{
                 delay: 0,
                 pauseOnMouseEnter: true,
