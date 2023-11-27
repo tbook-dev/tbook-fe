@@ -96,7 +96,7 @@ export default function About () {
   return (
     <section
       id='about'
-      className='lg:pt-[110px] lg:pb-[90px] space-y-8 lg:space-y-[120px]'
+      className='lg:py-[100px] space-y-8 lg:space-y-[120px] min-h-screen flex flex-col justify-between'
     >
       <div className='flex flex-col items-center gap-y-6'>
         <Title text={moduleConf.title} />
@@ -128,7 +128,7 @@ export default function About () {
           ))}
         </Swiper>
         {pc && (
-          <div className='relative w-[72px] pt-10 pb-[90px] h-7 mx-auto'>
+          <div className='relative w-[72px] pt-10 pb-[90px] h-7 mx-auto mb-10'>
             <div className='swiper-button-prev'></div>
             <div className='swiper-button-next'></div>
           </div>

@@ -123,8 +123,11 @@ const Slides = (_, ref) => {
             </video>
             <div className='z-10 bx relative lg:h-full lg:flex lg:flex-col lg:justify-between '>
               <div className='lg:h-16' />
-              <h2 className='text-base'>{v.title}</h2>
-              {v.desc && <h2 className='text-2xl w-[630px]'>{v.desc}</h2>}
+              <div className='space-y-4'>
+                <h2 className='text-base'>{v.title}</h2>
+                {v.desc && <h2 className='text-2xl w-[630px]'>{v.desc}</h2>}
+              </div>
+
               <div className='lg:space-y-10 lg:w-[554px]'>
                 {v.list.map((v, idx) => (
                   <div

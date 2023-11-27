@@ -45,7 +45,10 @@ export default function Blog () {
   const blogs = moduleConf.list.slice(0, -1)
   const last = moduleConf.list[moduleConf.list.length - 1]
   return (
-    <section id='blog' className='bx'>
+    <section
+      id='blog'
+      className='bx min-h-screen lg:py-[100px] flex flex-col justify-between'
+    >
       <div className='flex flex-col items-center gap-y-6 px-6 lg:px-0 pt-[140px] pb-[70px] lg:pt-6 lg:pb-16'>
         <Title text={moduleConf.title} />
         <Desc text={moduleConf.desc} />
