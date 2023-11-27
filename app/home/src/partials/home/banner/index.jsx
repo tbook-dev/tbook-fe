@@ -5,6 +5,8 @@ import 'swiper/css/autoplay'
 import homeVideo from './homepage.mp4'
 import { useSpring, animated } from '@react-spring/web'
 import { useResponsive } from 'ahooks'
+import VideoPlayer from '@/components/video'
+
 const pageConf = {
   h1: {
     prefix: 'optimize',
@@ -32,15 +34,10 @@ export default function () {
       id='home'
       className='relative overflow-hidden py-[180px] lg:py-[300px] video-mask min-h-screen flex flex-col justify-center line1'
     >
-      <video
+      <VideoPlayer
+        src={homeVideo}
         className='absolute inset-0 h-full w-full object-cover object-center'
-        autoPlay
-        loop
-        muted
-      >
-        <source src={homeVideo} type='video/mp4' />
-        Your browser does not support the video tag. Please update your browser.
-      </video>
+      />
       <animated.main
         className='relative bx z-10 text-center lg:text-left'
         style={props}

@@ -32,13 +32,13 @@ export default function Solution () {
         id='solution'
         className='relative overflow-hidden video-mask flex flex-col justify-between lg:pt-16 min-h-screen'
       >
-        <div className='py-5 lg:py-7 mb-[100px] lg:mb-[187px] lg:mb'>
+        <div className='py-5 lg:py-7 lg:mb'>
           <Swiper list={list} />
         </div>
         <animated.div
           ref={ref}
           style={springs}
-          className='bx flex flex-col items-center px-6 lg:px-0 space-y-3 lg:space-y-10 mb-[100px] lg:mb-[360px] relative z-10'
+          className='bx flex flex-col items-center px-6 lg:px-0 space-y-3 lg:space-y-10 relative z-10'
         >
           <Title text={moduleConf.title} />
           <div className='text-[24px] leading-8 lg:text-[40px] lg:leading-[48px] font-medium text-center'>

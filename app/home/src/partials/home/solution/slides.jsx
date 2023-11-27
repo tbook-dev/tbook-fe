@@ -1,6 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectFade, Mousewheel, Autoplay } from 'swiper'
 import useWindowSize from '@/hooks/useWindowSize'
+import VideoPlayer from '@/components/video'
 
 import 'swiper/css'
 import 'swiper/css/effect-fade'
@@ -117,16 +118,11 @@ const Slides = (_, ref) => {
               key={idx}
               className='relative h-screen video-mask line2'
             >
-              <video
+              <VideoPlayer
+                src={v.video}
                 className='w-full  object-cover object-center mb-9 lg:mb-0 lg:absolute lg:inset-0 lg:h-full'
-                autoPlay
-                loop
-                muted
-              >
-                <source src={v.video} type='video/mp4' />
-                Your browser does not support the video tag. Please update your
-                browser.
-              </video>
+              />
+
               <div className='z-10 bx relative lg:h-full lg:flex lg:flex-col lg:justify-between '>
                 <div className='lg:h-16' />
                 <div className='space-y-4'>
@@ -186,16 +182,10 @@ const Slides = (_, ref) => {
         </Swiper>
       ) : (
         <div className='h-screen video-mask relative overflow-hidden line4'>
-          <video
+          <VideoPlayer
+            src={h5Video}
             className='absolute inset-0 h-full w-full object-cover object-center'
-            autoPlay
-            loop
-            muted
-          >
-            <source src={h5Video} type='video/mp4' />
-            Your browser does not support the video tag. Please update your
-            browser.
-          </video>
+          />
           <Swiper className='h-screen m-solotuion' direction='vertical'>
             {moduleConf.map((v, idx) => (
               <SwiperSlide

@@ -1,5 +1,6 @@
 import bgMp4 from './contact.mp4'
 import { Desc } from '@/components/Para'
+import VideoPlayer from '@/components/video'
 
 const moduleConf = {
   title: 'Build with us',
@@ -17,15 +18,10 @@ export default function ContactCalendly () {
       id='contact'
       className='relative overflow-hidden py-20 lg:pb-[100px] line3 video-mask'
     >
-      <video
+      <VideoPlayer
+        src={bgMp4}
         className='absolute inset-0 h-full w-full object-cover object-center'
-        autoPlay
-        loop
-        muted
-      >
-        <source src={bgMp4} type='video/mp4' />
-        Your browser does not support the video tag. Please update your browser.
-      </video>
+      />
 
       <main className='relative text-center bx lg:w-[610px] space-y-10 z-10'>
         <div className='space-y-3 lg:space-y-6 text-center lg:mb-10 px-6 lg:px-0'>
