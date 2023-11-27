@@ -66,7 +66,7 @@ export default function Footer () {
           </div>
         </div>
 
-        <div className='flex flex-col lg:flex-row gap-x-6 text-center gap-y-6 lg:gap-y-0 lg:text-left'>
+        <div className='flex flex-col lg:flex-row gap-x-6 text-center gap-y-10 lg:gap-y-0 lg:text-left'>
           <div className='flex flex-col gap-y-4 w-[200px] mx-auto'>
             <h2 className='font-bold text-xl'>{moduleConf.navigation.title}</h2>
             {moduleConf.navigation.links.map(link => {
