@@ -68,9 +68,7 @@ export default function Footer () {
 
         <div className='flex flex-col lg:flex-row gap-x-6 text-center gap-y-6 lg:gap-y-0 lg:text-left'>
           <div className='flex flex-col gap-y-4 w-[200px] mx-auto'>
-            <h2 className='font-bold bold text-xl'>
-              {moduleConf.navigation.title}
-            </h2>
+            <h2 className='font-bold text-xl'>{moduleConf.navigation.title}</h2>
             {moduleConf.navigation.links.map(link => {
               return (
                 <a
@@ -84,7 +82,7 @@ export default function Footer () {
             })}
           </div>
           <div className='flex flex-col gap-y-4 w-[275px] mx-auto'>
-            <h2 className='font-bold bold text-xl'>{moduleConf.help.title}</h2>
+            <h2 className='font-semibold text-xl'>{moduleConf.help.title}</h2>
             {moduleConf.help.links.map((link, idx) => {
               return (
                 <a

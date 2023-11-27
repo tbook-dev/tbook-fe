@@ -99,7 +99,7 @@ const Slides = (_, ref) => {
         <Swiper
           className='h-screen'
           style={{ height: Math.max(840, height ?? 0) }}
-          modules={[EffectFade, Mousewheel, Autoplay]}
+          modules={[EffectFade, Mousewheel]}
           onSwiper={setSwiper}
           mousewheel={{ releaseOnEdges: true }}
           effect='fade'
@@ -108,7 +108,6 @@ const Slides = (_, ref) => {
             el: '.swiper-pagination',
             type: 'progressbar'
           }}
-          autoplay
           onSlideChange={swiper => {
             setIdx(swiper?.activeIndex)
           }}
@@ -186,7 +185,11 @@ const Slides = (_, ref) => {
             src={h5Video}
             className='absolute inset-0 h-full w-full object-cover object-center'
           />
-          <Swiper className='h-screen m-solotuion' direction='vertical'>
+          <Swiper
+            className='h-screen m-solotuion'
+            // direction='vertical'
+            // allowTouchMove={false}
+          >
             {moduleConf.map((v, idx) => (
               <SwiperSlide
                 key={idx}
