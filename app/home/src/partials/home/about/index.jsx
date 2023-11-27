@@ -8,7 +8,7 @@ import 'swiper/css/autoplay'
 import clsx from 'clsx'
 
 const moduleConf = {
-  title: 'About',
+  title: 'Testimonial',
   desc: 'What they say about us',
   list: [
     {
