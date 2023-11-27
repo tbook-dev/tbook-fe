@@ -1,9 +1,10 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { EffectFade } from 'swiper'
+import { EffectFade, Mousewheel } from 'swiper'
 import useWindowSize from '@/hooks/useWindowSize'
 
 import 'swiper/css'
 import 'swiper/css/effect-fade'
+import 'swiper/css/mousewheel'
 
 import clsx from 'clsx'
 
@@ -93,9 +94,10 @@ const Slides = (_, ref) => {
       <Swiper
         className='h-screen'
         style={{ height: Math.max(840, height ?? 0) }}
-        modules={[EffectFade]}
+        modules={[EffectFade, Mousewheel]}
         onSwiper={setSwiper}
         effect='fade'
+        mousewheel={{ releaseOnEdges: true }}
         fadeEffect={{ crossFade: true }}
         pagination={{
           el: '.swiper-pagination',

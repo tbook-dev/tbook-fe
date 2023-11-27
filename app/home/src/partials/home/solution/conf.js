@@ -1,15 +1,33 @@
+import ambition from "@/images/partner/ambition.svg";
 import bestsign from "@/images/partner/bestsign.svg";
 import bmblab from "@/images/partner/bmblab.svg";
 import bonfire from "@/images/partner/bonfire.svg";
+import chainbase from "@/images/partner/chainbase.svg";
+import craftfinance from "@/images/partner/craftfinance.svg";
+import daige from "@/images/partner/daige.svg";
+import dotART from "@/images/partner/dotART.svg";
 import goplus from "@/images/partner/goplus.svg";
+import everVision from "@/images/partner/everVision.svg";
+import hippyghosts from "@/images/partner/hippyghosts.svg";
 import kapbook from "@/images/partner/kapbook.svg";
+import logo from "@/images/partner/logo.svg";
+import logo2 from "@/images/partner/logo2.svg";
+import mask from "@/images/partner/mask.svg";
+import meMe from "@/images/partner/meMe.svg";
+import metopia from "@/images/partner/metopia.svg";
+import movebit from "@/images/partner/movebit.svg";
 import nftplay from "@/images/partner/nftplay.svg";
-import read2N from "@/images/partner/read2N.svg";
-import zavenue from "@/images/partner/zavenue.svg";
-
-
+import read2n from "@/images/partner/read2n.svg";
+import tokeninsight from "@/images/partner/tokeninsight.svg";
+import tokenpocket from "@/images/partner/tokenpocket.svg";
+import triangledao from "@/images/partner/triangledao.svg";
+import zavanue from "@/images/partner/zavanue.svg";
 
 export const list = [
+  {
+    src: ambition,
+    link: "",
+  },
   {
     src: bestsign,
     link: "",
@@ -23,7 +41,31 @@ export const list = [
     link: "",
   },
   {
+    src: chainbase,
+    link: "",
+  },
+  {
+    src: craftfinance,
+    link: "",
+  },
+  {
+    src: daige,
+    link: "",
+  },
+  {
+    src: dotART,
+    link: "",
+  },
+  {
     src: goplus,
+    link: "",
+  },
+  {
+    src: everVision,
+    link: "",
+  },
+  {
+    src: hippyghosts,
     link: "",
   },
   {
@@ -31,33 +73,27 @@ export const list = [
     link: "",
   },
   {
-    src: nftplay,
+    src: logo,
     link: "",
   },
   {
-    src: read2N,
+    src: logo2,
     link: "",
   },
   {
-    src: zavenue,
-    link: "",
-  },
-
-
-
-
-
-  
-  {
-    src: nftplay,
+    src: mask,
     link: "",
   },
   {
-    src: read2N,
+    src: meMe,
     link: "",
   },
   {
-    src: zavenue,
+    src: metopia,
+    link: "",
+  },
+  {
+    src: movebit,
     link: "",
   },
   {
@@ -65,11 +101,23 @@ export const list = [
     link: "",
   },
   {
-    src: read2N,
+    src: read2n,
     link: "",
   },
   {
-    src: zavenue,
+    src: tokeninsight,
+    link: "",
+  },
+  {
+    src: tokenpocket,
+    link: "",
+  },
+  {
+    src: triangledao,
+    link: "",
+  },
+  {
+    src: zavanue,
     link: "",
   },
 ];
