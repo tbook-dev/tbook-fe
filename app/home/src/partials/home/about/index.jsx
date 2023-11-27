@@ -90,22 +90,15 @@ export default function About () {
         }}
       >
         <Swiper
-          modules={[Navigation, Autoplay]}
+          modules={[Navigation]}
           slidesPerView='auto'
           spaceBetween={pc ? 32 : 48}
           centeredSlides
           loop
-          loopPreventsSlide
-          speed={5000}
           initialSlide={Math.floor(moduleConf.list.length / 2)}
           navigation={{
             prevEl: '.swiper-button-prev',
             nextEl: '.swiper-button-next'
-          }}
-          autoplay={{
-            delay: 0,
-            pauseOnMouseEnter: true,
-            disableOnInteraction: false
           }}
         >
           {moduleConf.list.map(v => (
