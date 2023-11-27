@@ -8,8 +8,8 @@ import 'swiper/css/effect-fade'
 import clsx from 'clsx'
 
 import { forwardRef, useState } from 'react'
-import v1 from './solution1.webm'
-import v2 from './solution3.mp4'
+import v1 from './solution1.mp4'
+import v2 from './solution2.mp4'
 import v3 from './solution3.mp4'
 import v4 from './solution4.mp4'
 
@@ -27,8 +27,7 @@ const moduleConf = [
         desc: 'Multiple user label management, simulating airdrop incentive effects in various scenarios to optimize capital efficiency.'
       }
     ],
-    video: v1,
-    videoType: 'video/webm'
+    video: v1
   },
   {
     title: 'Optimizable Incentive Campaigns',
@@ -47,8 +46,7 @@ const moduleConf = [
         desc: 'All the data around incentive campaigns  can be integrated into your own dashboard pages by using the advanced settings, including participation, convert ratio, asset claiming and more.'
       }
     ],
-    video: v2,
-    videoType: 'video/mp4'
+    video: v2
   },
   {
     title: 'Streamline incentive assets lifecycle',
@@ -63,8 +61,7 @@ const moduleConf = [
         desc: 'Flexible and proven asset claim vesting mechanism to optimize capital efficiency.TBOOK offers an integrated asset management dashboard, making it easy to control incentive costs and maximize asset utilization.'
       }
     ],
-    video: v3,
-    videoType: 'video/mp4'
+    video: v3
   },
   {
     title: 'Streamline incentive assets lifecycle ',
@@ -83,8 +80,7 @@ const moduleConf = [
         desc: 'You can flexibly combine governance proposals based on strategies such as liquidity, delegation, staking, etc. Additionally, we offer appropriate incentive programs to encourage the community to foster a positive governance culture.'
       }
     ],
-    video: v4,
-    videoType: 'video/mp4'
+    video: v4
   }
 ]
 const Slides = (_, ref) => {
@@ -117,7 +113,7 @@ const Slides = (_, ref) => {
               loop
               muted
             >
-              <source src={v.video} type={v.videoType} />
+              <source src={v.video} type='video/mp4' />
               Your browser does not support the video tag. Please update your
               browser.
             </video>

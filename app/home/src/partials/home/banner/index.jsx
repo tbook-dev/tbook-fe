@@ -2,7 +2,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/autoplay'
-import homeVideo from './homepage.webm'
+import homeVideo from './homepage.mp4'
 import { useSpring, animated } from '@react-spring/web'
 
 const pageConf = {
