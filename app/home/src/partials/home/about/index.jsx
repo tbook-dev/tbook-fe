@@ -1,9 +1,10 @@
 import { Title, Desc } from '@/components/Para'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper'
+import { Navigation, Autoplay } from 'swiper'
 import { useResponsive } from 'ahooks'
 import 'swiper/css'
 import 'swiper/css/navigation'
+import 'swiper/css/autoplay'
 import clsx from 'clsx'
 
 const moduleConf = {
@@ -74,7 +75,7 @@ export default function About () {
   return (
     <section
       id='about'
-      className='lg:py-[100px] space-y-8 lg:space-y-[120px] min-h-screen flex flex-col justify-between'
+      className='py-[100px] space-y-8 lg:space-y-[120px] min-h-screen flex flex-col justify-between'
     >
       <div className='flex flex-col items-center gap-y-6'>
         <Title text={moduleConf.title} />
@@ -89,14 +90,22 @@ export default function About () {
         }}
       >
         <Swiper
-          modules={[Navigation]}
+          modules={[Navigation, Autoplay]}
           slidesPerView='auto'
           spaceBetween={pc ? 32 : 48}
           centeredSlides
+          loop
+          loopPreventsSlide
+          speed={5000}
           initialSlide={Math.floor(moduleConf.list.length / 2)}
           navigation={{
             prevEl: '.swiper-button-prev',
             nextEl: '.swiper-button-next'
+          }}
+          autoplay={{
+            delay: 0,
+            pauseOnMouseEnter: true,
+            disableOnInteraction: false
           }}
         >
           {moduleConf.list.map(v => (

@@ -28,15 +28,15 @@ export default function ContactCalendly () {
       </video>
 
       <main className='relative text-center bx lg:w-[610px] space-y-10 z-10'>
-        <div className='space-y-6 text-center lg:mb-10'>
+        <div className='space-y-3 lg:space-y-6 text-center lg:mb-10 px-6 lg:px-0'>
           <Desc text={moduleConf.title} />
-          <p className='text-base'>{moduleConf.desc}</p>
+          <p className='text-sm lg:text-base'>{moduleConf.desc}</p>
         </div>
 
         <div className='flex justify-center'>
           <button
             onClick={handleClick}
-            className='rounded-lg bg-[#131517] hover:opacity-70 text-white text-xl px-[30px] py-2.5 font-medium'
+            className='rounded-lg text-sm bg-[#131517] hover:opacity-70 text-white lg:text-xl px-[30px] py-2.5 font-medium'
           >
             {moduleConf.btn}
           </button>

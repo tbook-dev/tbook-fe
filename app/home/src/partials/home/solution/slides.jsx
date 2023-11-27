@@ -8,12 +8,13 @@ import 'swiper/css/mousewheel'
 import 'swiper/css/autoplay'
 
 import clsx from 'clsx'
-
+import { useResponsive } from 'ahooks'
 import { forwardRef, useState } from 'react'
 import v1 from './solution1.mp4'
 import v2 from './solution2.mp4'
 import v3 from './solution3.mp4'
 import v4 from './solution4.mp4'
+import h5Video from './h5solution.mp4'
 
 const moduleConf = [
   {
@@ -89,93 +90,148 @@ const Slides = (_, ref) => {
   const [swiper, setSwiper] = useState(null)
   const [swiperIdx, setIdx] = useState(0)
   const { height } = useWindowSize()
+  const { pc } = useResponsive()
 
   return (
     <div className='min-h-screen' ref={ref}>
-      <Swiper
-        className='h-screen'
-        style={{ height: Math.max(840, height ?? 0) }}
-        modules={[EffectFade, Mousewheel, Autoplay]}
-        onSwiper={setSwiper}
-        effect='fade'
-        mousewheel={{ releaseOnEdges: true }}
-        fadeEffect={{ crossFade: true }}
-        pagination={{
-          el: '.swiper-pagination',
-          type: 'progressbar'
-        }}
-        autoplay
-        onSlideChange={swiper => {
-          setIdx(swiper?.activeIndex)
-        }}
-      >
-        {moduleConf.map((v, idx) => (
-          <SwiperSlide key={idx} className='relative h-screen video-mask line2'>
-            <video
-              className='w-full  object-cover object-center mb-9 lg:mb-0 lg:absolute lg:inset-0 lg:h-full'
-              autoPlay
-              loop
-              muted
+      {pc ? (
+        <Swiper
+          className='h-screen'
+          style={{ height: Math.max(840, height ?? 0) }}
+          modules={[EffectFade, Mousewheel, Autoplay]}
+          onSwiper={setSwiper}
+          mousewheel={{ releaseOnEdges: true }}
+          effect='fade'
+          fadeEffect={{ crossFade: true }}
+          pagination={{
+            el: '.swiper-pagination',
+            type: 'progressbar'
+          }}
+          autoplay
+          onSlideChange={swiper => {
+            setIdx(swiper?.activeIndex)
+          }}
+        >
+          {moduleConf.map((v, idx) => (
+            <SwiperSlide
+              key={idx}
+              className='relative h-screen video-mask line2'
             >
-              <source src={v.video} type='video/mp4' />
-              Your browser does not support the video tag. Please update your
-              browser.
-            </video>
-            <div className='z-10 bx relative lg:h-full lg:flex lg:flex-col lg:justify-between '>
-              <div className='lg:h-16' />
-              <div className='space-y-4'>
-                <h2 className='text-base'>{v.title}</h2>
-                {v.desc && <h2 className='text-2xl w-[630px]'>{v.desc}</h2>}
-              </div>
+              <video
+                className='w-full  object-cover object-center mb-9 lg:mb-0 lg:absolute lg:inset-0 lg:h-full'
+                autoPlay
+                loop
+                muted
+              >
+                <source src={v.video} type='video/mp4' />
+                Your browser does not support the video tag. Please update your
+                browser.
+              </video>
+              <div className='z-10 bx relative lg:h-full lg:flex lg:flex-col lg:justify-between '>
+                <div className='lg:h-16' />
+                <div className='space-y-4'>
+                  <h2 className='text-base'>{v.title}</h2>
+                  {v.desc && <h2 className='text-2xl w-[630px]'>{v.desc}</h2>}
+                </div>
 
-              <div className='lg:space-y-10 lg:w-[554px]'>
-                {v.list.map((v, idx) => (
-                  <div
-                    key={idx}
-                    className='space-y-2 border-l lg:pl-4 border-l-[rgb(161,161,162)]/[0.25]'
-                  >
-                    <p className='text-xl font-medium'>{v.title}</p>
-                    <p className='text-[#717374] text-lg'>{v.desc}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div className={clsx('mb-20', idx === swiperIdx ? '' : '')}>
-                <div className='grid grid-cols-4 space-x-5 mb-4 w-[700px]'>
-                  {moduleConf.map((v, idx) => (
+                <div className='lg:space-y-10 lg:w-[554px]'>
+                  {v.list.map((v, idx) => (
                     <div
                       key={idx}
-                      className={clsx(
-                        'text-xs cursor-pointer',
-                        swiperIdx === idx ? 'text-[#131517]' : 'text-[#717374]'
-                      )}
-                      onClick={() => {
-                        swiper?.slideTo(idx)
-                      }}
+                      className='space-y-2 border-l lg:pl-4 border-l-[rgb(161,161,162)]/[0.25]'
                     >
-                      <p>{`${idx + 1}`.padStart(2, '0')}</p>
-                      <p>{v.title}</p>
+                      <p className='text-xl font-medium'>{v.title}</p>
+                      <p className='text-[#717374] text-lg'>{v.desc}</p>
                     </div>
                   ))}
                 </div>
-                <div className='grid grid-cols-4 space-x-5 h-1  w-[700px]'>
-                  <div
-                    className={clsx(
-                      'col-start-1 bg-[rgb(161,161,162)]/[0.20] rounded-[10px]',
-                      {
-                        'col-end-2': swiperIdx === 0,
-                        'col-end-3': swiperIdx === 1,
-                        'col-end-4': swiperIdx === 2,
-                        'col-end-5': swiperIdx === 3
-                      }
-                    )}
-                  />
+
+                <div className={clsx('mb-20', idx === swiperIdx ? '' : '')}>
+                  <div className='grid grid-cols-4 space-x-5 mb-4 w-[700px]'>
+                    {moduleConf.map((v, idx) => (
+                      <div
+                        key={idx}
+                        className={clsx(
+                          'text-xs cursor-pointer',
+                          swiperIdx === idx
+                            ? 'text-[#131517]'
+                            : 'text-[#717374]'
+                        )}
+                        onClick={() => {
+                          swiper?.slideTo(idx)
+                        }}
+                      >
+                        <p>{`${idx + 1}`.padStart(2, '0')}</p>
+                        <p>{v.title}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className='grid grid-cols-4 space-x-5 h-1  w-[700px]'>
+                    <div
+                      className={clsx(
+                        'col-start-1 bg-[rgb(161,161,162)]/[0.20] rounded-[10px]',
+                        {
+                          'col-end-2': swiperIdx === 0,
+                          'col-end-3': swiperIdx === 1,
+                          'col-end-4': swiperIdx === 2,
+                          'col-end-5': swiperIdx === 3
+                        }
+                      )}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      ) : (
+        <div className='h-screen video-mask relative overflow-hidden line4'>
+          <video
+            className='absolute inset-0 h-full w-full object-cover object-center'
+            autoPlay
+            loop
+            muted
+          >
+            <source src={h5Video} type='video/mp4' />
+            Your browser does not support the video tag. Please update your
+            browser.
+          </video>
+          <Swiper
+            className='h-screen m-solotuion'
+            direction='vertical'
+            loop
+            loopPreventsSlide
+            modules={[Autoplay]}
+            speed={5000}
+            autoplay={{
+              delay: 0,
+              pauseOnMouseEnter: true,
+              disableOnInteraction: false
+            }}
+          >
+            {moduleConf.map((v, idx) => (
+              <SwiperSlide
+                key={idx}
+                className='flex flex-col justify-end gap-y-5 px-6 pb-10 transition-opacity'
+              >
+                <h2 className='text-xs'>{v.title}</h2>
+
+                <div className='space-y-5'>
+                  {v.list.map((v, idx) => (
+                    <div
+                      key={idx}
+                      className='space-y-2 border-l lg:pl-4 border-l-[rgb(161,161,162)]/[0.25]'
+                    >
+                      <p className='text-sm font-medium'>{v.title}</p>
+                      <p className='text-[#717374] text-xs'>{v.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      )}
     </div>
   )
 }

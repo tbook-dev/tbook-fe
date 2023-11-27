@@ -38,7 +38,7 @@ export default function () {
         loop
         muted
       >
-        <source src={homeVideo} type='video/webm' />
+        <source src={homeVideo} type='video/mp4' />
         Your browser does not support the video tag. Please update your browser.
       </video>
       <animated.main

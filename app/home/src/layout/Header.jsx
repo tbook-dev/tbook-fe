@@ -31,10 +31,8 @@ function Header () {
   const { pc } = useResponsive()
 
   return (
-    <header className='fixed top-0 inset-x-0 z-10 overflow-hidden'>
-      {pc && (
-        <div className='blur-sm absolute inset-0 bg-[rgb(247,251,255)]/[0.5]' />
-      )}
+    <header className='fixed top-0 inset-x-0 z-30 overflow-hidden'>
+      <div className='backdrop-blur  absolute inset-0 bg-[rgb(247,251,255)]/[0.5]' />
       <div className='bx px-4 lg:px-0 relative z-10'>
         <div className='flex items-center justify-between h-14 lg:h-16'>
           <div className='flex items-center'>

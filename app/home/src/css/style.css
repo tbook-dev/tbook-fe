@@ -44,6 +44,9 @@
   .line3:after{
     background: linear-gradient(180deg, #fff 9.7%, rgba(255, 255, 255, 0.2) 100%);
   }
+  .line4:after{
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 23.35%, #fff 37.86%);
+  }
 }
 
 @layer utilities {
