@@ -196,19 +196,7 @@ const Slides = (_, ref) => {
             Your browser does not support the video tag. Please update your
             browser.
           </video>
-          <Swiper
-            className='h-screen m-solotuion'
-            direction='vertical'
-            loop
-            loopPreventsSlide
-            modules={[Autoplay]}
-            speed={5000}
-            autoplay={{
-              delay: 0,
-              pauseOnMouseEnter: true,
-              disableOnInteraction: false
-            }}
-          >
+          <Swiper className='h-screen m-solotuion' direction='vertical'>
             {moduleConf.map((v, idx) => (
               <SwiperSlide
                 key={idx}
