@@ -13,59 +13,35 @@ const moduleConf = {
     {
       id: 1,
       quote:
-        'Since using this platform, our team has been more motivated and engaged than ever before. The ability to mix and match different credentials has incentivized everyone to work harder and collaborate better. Thank you for creating such an innovative solution!',
-      author: 'Chari Zhang / CEO of Read2n',
+        'tbook has played a key role across the protocol’s tokenomics and various mechanisms to help optimize ecosystem growth in a measured and sustainable manner.',
+      author: 'Chari Zhang',
       position: 'CEO of Read2n'
     },
     {
       id: 2,
-      quote:
-        'Since using this platform, our team has been more motivated and engaged than ever before. The ability to mix and match different credentials has incentivized everyone to work harder and collaborate better. Thank you for creating such an innovative solution!',
-      author: 'Chari Zhang / CEO of Read2n',
-      position: 'CEO of Read2n'
+      quote: `I love how user-friendly and intuitive this platform is. It makes setting up incentive plans and tracking performance a breeze. As an HR manager, I highly recommend it to anyone looking for a simple yet powerful incentive solution.`,
+      author: 'Sarah Johnson',
+      position: 'Operation Manager at NextId Group'
     },
     {
       id: 3,
-      quote:
-        'Since using this platform, our team has been more motivated and engaged than ever before. The ability to mix and match different credentials has incentivized everyone to work harder and collaborate better. Thank you for creating such an innovative solution!',
-      author: 'Chari Zhang / CEO of Read2n',
-      position: 'CEO of Read2n'
+      quote: `This platform has revolutionized the way we incentivize and reward our users and developers. The flexibility and customization it offers has allowed us to tailor our incentive methods to each individual's needs and preferences. `,
+      author: 'Mark Williams.',
+      position: 'Project Manager at Exnew Inc.'
     },
     {
       id: 4,
-      quote:
-        'Since using this platform, our team has been more motivated and engaged than ever before. The ability to mix and match different credentials has incentivized everyone to work harder and collaborate better. Thank you for creating such an innovative solution!',
-      author: 'Chari Zhang / CEO of Read2n',
-      position: 'CEO of Read2n'
-    },
-    {
-      id: 5,
-      quote:
-        'Since using this platform, our team has been more motivated and engaged than ever before. The ability to mix and match different credentials has incentivized everyone to work harder and collaborate better. Thank you for creating such an innovative solution!',
-      author: 'Chari Zhang / CEO of Read2n',
-      position: 'CEO of Read2n'
-    },
-    {
-      id: 6,
-      quote:
-        'Since using this platform, our team has been more motivated and engaged than ever before. The ability to mix and match different credentials has incentivized everyone to work harder and collaborate better. Thank you for creating such an innovative solution!',
-      author: 'Chari Zhang / CEO of Read2n',
-      position: 'CEO of Read2n'
-    },
-    {
-      id: 7,
-      quote:
-        'Since using this platform, our team has been more motivated and engaged than ever before. The ability to mix and match different credentials has incentivized everyone to work harder and collaborate better. Thank you for creating such an innovative solution!',
-      author: 'Chari Zhang / CEO of Read2n',
-      position: 'CEO of Read2n'
+      quote: `TBOOK's incentive platform has allowed us to accurately pinpoint our core community contributors. The real-time tracking and optimization of our incentive strategy have maximized our asset utilization, ultimately driving the success of our project.`,
+      author: 'Jane Smith',
+      position: 'Investment campany'
     }
   ]
 }
-const Card = ({ id, isActive, quote, author, position }) => {
+const Card = ({ isActive, quote, author, position }) => {
   return (
     <div
       className={clsx(
-        'flex flex-col items-start gap-y-5 px-8 py-6 bg-[#F7FBFE] rouned-[25px]',
+        'flex flex-col items-start gap-y-5 px-8 py-6 bg-[#F7FBFE] rounded-[24px]',
         !isActive && 'opacity-40'
       )}
     >
@@ -83,7 +59,9 @@ const Card = ({ id, isActive, quote, author, position }) => {
           fill='#131517'
         />
       </svg>
-      <h3 className='text-base leading-8 lg:text-[24px]'>{quote}</h3>
+      <h3 className='text-base leading-8 lg:text-[24px] lg:min-h-[200px]'>
+        {quote}
+      </h3>
       <div className='space-y-2'>
         <h4 className='text-[#67646A] text-xs'>{author}</h4>
         <p className='text-[#131517] text-xs'>{position}</p>

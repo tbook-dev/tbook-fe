@@ -1,10 +1,11 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { EffectFade, Mousewheel } from 'swiper'
+import { EffectFade, Mousewheel, Autoplay } from 'swiper'
 import useWindowSize from '@/hooks/useWindowSize'
 
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 import 'swiper/css/mousewheel'
+import 'swiper/css/autoplay'
 
 import clsx from 'clsx'
 
@@ -65,7 +66,7 @@ const moduleConf = [
     video: v3
   },
   {
-    title: 'Streamline incentive assets lifecycle ',
+    title: 'Community Governance',
     desc: '',
     list: [
       {
@@ -94,7 +95,7 @@ const Slides = (_, ref) => {
       <Swiper
         className='h-screen'
         style={{ height: Math.max(840, height ?? 0) }}
-        modules={[EffectFade, Mousewheel]}
+        modules={[EffectFade, Mousewheel, Autoplay]}
         onSwiper={setSwiper}
         effect='fade'
         mousewheel={{ releaseOnEdges: true }}
@@ -103,12 +104,13 @@ const Slides = (_, ref) => {
           el: '.swiper-pagination',
           type: 'progressbar'
         }}
+        autoplay
         onSlideChange={swiper => {
           setIdx(swiper?.activeIndex)
         }}
       >
         {moduleConf.map((v, idx) => (
-          <SwiperSlide key={idx} className='relative h-screen video-mask'>
+          <SwiperSlide key={idx} className='relative h-screen video-mask line2'>
             <video
               className='w-full  object-cover object-center mb-9 lg:mb-0 lg:absolute lg:inset-0 lg:h-full'
               autoPlay
@@ -139,12 +141,12 @@ const Slides = (_, ref) => {
               </div>
 
               <div className={clsx('mb-20', idx === swiperIdx ? '' : '')}>
-                <div className='grid grid-cols-4 space-x-5 mb-4'>
+                <div className='grid grid-cols-4 space-x-5 mb-4 w-[700px]'>
                   {moduleConf.map((v, idx) => (
                     <div
                       key={idx}
                       className={clsx(
-                        'text-sm cursor-pointer',
+                        'text-xs cursor-pointer',
                         swiperIdx === idx ? 'text-[#131517]' : 'text-[#717374]'
                       )}
                       onClick={() => {
@@ -156,7 +158,7 @@ const Slides = (_, ref) => {
                     </div>
                   ))}
                 </div>
-                <div className='grid grid-cols-4 space-x-5 h-1'>
+                <div className='grid grid-cols-4 space-x-5 h-1  w-[700px]'>
                   <div
                     className={clsx(
                       'col-start-1 bg-[rgb(161,161,162)]/[0.20] rounded-[10px]',

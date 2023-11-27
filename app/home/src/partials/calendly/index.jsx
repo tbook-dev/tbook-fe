@@ -1,4 +1,4 @@
-import bgMp4 from '@/images/banner.mp4'
+import bgMp4 from './contact.mp4'
 import { Desc } from '@/components/Para'
 
 const moduleConf = {
@@ -15,7 +15,7 @@ export default function ContactCalendly () {
   return (
     <section
       id='contact'
-      className='relative overflow-hidden py-20 lg:pb-[100px]'
+      className='relative overflow-hidden py-20 lg:pb-[100px] line3 video-mask'
     >
       <video
         className='absolute inset-0 h-full w-full object-cover object-center'
@@ -27,7 +27,7 @@ export default function ContactCalendly () {
         Your browser does not support the video tag. Please update your browser.
       </video>
 
-      <main className='relative text-center bx lg:w-[610px] space-y-10'>
+      <main className='relative text-center bx lg:w-[610px] space-y-10 z-10'>
         <div className='space-y-6 text-center lg:mb-10'>
           <Desc text={moduleConf.title} />
           <p className='text-base'>{moduleConf.desc}</p>
