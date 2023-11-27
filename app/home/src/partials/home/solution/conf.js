@@ -17,7 +17,7 @@ import meMe from "@/images/partner/meMe.svg";
 import metopia from "@/images/partner/metopia.svg";
 import movebit from "@/images/partner/movebit.svg";
 import nftplay from "@/images/partner/nftplay.svg";
-import read2n from "@/images/partner/read2n.svg";
+import read2 from "@/images/partner/read2.svg";
 import tokeninsight from "@/images/partner/tokeninsight.svg";
 import tokenpocket from "@/images/partner/tokenpocket.svg";
 import triangledao from "@/images/partner/triangledao.svg";
@@ -101,7 +101,7 @@ export const list = [
     link: "",
   },
   {
-    src: read2n,
+    src: read2,
     link: "",
   },
   {
