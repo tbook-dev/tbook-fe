@@ -1,6 +1,6 @@
 export default function Title ({ text }) {
   return (
-    <h2 className='py-2 px-7 border-2 rounded-[60px] border-black w-max text-[26px] leading-8'>
+    <h2 className='lg:py-2 lg:px-7 border-2 rounded-[60px] border-black w-max lg:text-[26px] lg:leading-8 text-sm py-0.5 px-5'>
       {text}
     </h2>
   )
