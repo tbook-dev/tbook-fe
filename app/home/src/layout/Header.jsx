@@ -31,7 +31,7 @@ function Header () {
   const { pc } = useResponsive()
 
   return (
-    <header className='sticky top-0 z-30'>
+    <header className='fixed top-0 inset-x-0 z-10'>
       <div className='bx px-4 lg:px-0'>
         <div className='flex items-center justify-between h-14 lg:h-16'>
           <div className='flex items-center'>
