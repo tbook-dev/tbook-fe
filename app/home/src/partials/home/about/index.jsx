@@ -75,7 +75,7 @@ export default function About () {
   return (
     <section
       id='about'
-      className='py-[100px] space-y-8 lg:space-y-[120px] min-h-screen flex flex-col justify-between'
+      className='pt-[100px] space-y-8 lg:space-y-[120px] min-h-screen flex flex-col justify-between'
     >
       <div className='flex flex-col items-center gap-y-6'>
         <Title text={moduleConf.title} />
