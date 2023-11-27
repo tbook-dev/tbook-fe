@@ -16,24 +16,24 @@ const moduleConf = {
     links: [
       {
         text: 'How to set up an Incentive Campaign with TBOOK?',
-        link: ''
+        link: 'https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-set-up-an-incentive-campaign-with-tbook'
       },
       {
         text: 'How to track the performance of your incentive campaigns?',
-        link: ''
+        link: 'https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-track-the-performance-of-your-incentive-campaigns'
       },
       {
         text: 'How to Get Role ID in Discord',
-        link: ''
+        link: 'https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord'
       },
       {
         text: 'TBOOK Telegram Bot Settings',
-        link: ''
-      },
-      {
-        text: 'How to set up an NFT as a reward?',
-        link: ''
+        link: 'https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/tbook-telegram-bot-settings'
       }
+      // {
+      //   text: 'How to set up an NFT as a reward?',
+      //   link: ''
+      // }
     ]
   },
   copyright: '© 2023 TBOOK All rights reserved'
@@ -85,11 +85,11 @@ export default function Footer () {
           </div>
           <div className='flex flex-col gap-y-4 w-[275px] mx-auto'>
             <h2 className='font-bold bold text-xl'>{moduleConf.help.title}</h2>
-            {moduleConf.help.links.map((link,idx) => {
+            {moduleConf.help.links.map((link, idx) => {
               return (
                 <a
                   key={idx}
-                  href={`#${link.text}`}
+                  href={link.link}
                   target='_blank'
                   className='text-[#131517] text-base font-medium hover:opacity-70'
                 >

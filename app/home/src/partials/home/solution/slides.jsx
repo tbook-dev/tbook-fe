@@ -141,7 +141,7 @@ const Slides = (_, ref) => {
                       className='space-y-2 border-l lg:pl-4 border-l-[rgb(161,161,162)]/[0.25]'
                     >
                       <p className='text-xl font-medium'>{v.title}</p>
-                      <p className='text-[#717374] text-lg'>{v.desc}</p>
+                      <p className='text-[#717374] text-base'>{v.desc}</p>
                     </div>
                   ))}
                 </div>
