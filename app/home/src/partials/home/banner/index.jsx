@@ -4,7 +4,7 @@ import 'swiper/css'
 import 'swiper/css/autoplay'
 import homeVideo from './homepage.mp4'
 import { useSpring, animated } from '@react-spring/web'
-
+import { useResponsive } from 'ahooks'
 const pageConf = {
   h1: {
     prefix: 'optimize',
@@ -26,6 +26,7 @@ export default function () {
     to: { opacity: 1, transform: 'translateY(0)' },
     config: { duration: 500 }
   })
+  const { pc } = useResponsive()
   return (
     <section
       id='home'
@@ -40,19 +41,22 @@ export default function () {
         <source src={homeVideo} type='video/webm' />
         Your browser does not support the video tag. Please update your browser.
       </video>
-      <animated.main className='relative bx z-10' style={props}>
-        <div className='text-[32px] leading-[38px] font-medium px-6 lg:text-[60px] lg:leading-[72px] lg:px-0 mb-6 lg:mb-10'>
-          <h2 className='flex gap-x-5 items-center justify-start w-max'>
-            {pageConf.h1.prefix}
+      <animated.main
+        className='relative bx z-10 text-center lg:text-left'
+        style={props}
+      >
+        <div className='text-[32px] leading-[40px] font-medium px-6 lg:text-[60px] lg:leading-[84px] lg:px-0 mb-6 lg:mb-10'>
+          <div className='flex lg:gap-x-5 items-center flex-col lg:flex-row lg:justify-start lg:w-max'>
+            <h2>{pageConf.h1.prefix}</h2>
             <Swiper
               modules={[Autoplay]}
               loop
               loopPreventsSlide
-              speed={1500}
+              speed={pc ? 1500 : 1000}
               direction='vertical'
               effect='fade'
-              className='h-[72px]'
-              spaceBetween={72}
+              className={pc ? 'h-[72px]' : 'h-[40px]'}
+              spaceBetween={pc ? 40 : 84}
               autoplay={{
                 delay: 0,
                 pauseOnMouseEnter: true,
@@ -62,16 +66,22 @@ export default function () {
               {pageConf.h1.aspects.map((v, idx) => (
                 <SwiperSlide
                   key={idx}
-                  style={{ width: 'max-content', height: 72 }}
+                  style={{
+                    width: pc ? 'max-content' : '',
+                    height: pc ? 84 : 40
+                  }}
+                  className='flex justify-center items-center'
                 >
                   <span className='text-[#006EE9]'>{v}</span>
                 </SwiperSlide>
               ))}
             </Swiper>
-          </h2>
+          </div>
           <h2>{pageConf.h1.surfix}</h2>
         </div>
-        <p className='text-base lg:text-xl mx-auto lg:ml-0'>{pageConf.desc}</p>
+        <p className='text-base lg:text-xl mx-auto lg:ml-0 px-12 lg:px-0'>
+          {pageConf.desc}
+        </p>
       </animated.main>
     </section>
   )
