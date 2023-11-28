@@ -5,8 +5,8 @@ import VideoPlayer from '@/components/video'
 
 import 'swiper/css'
 import 'swiper/css/effect-fade'
-import 'swiper/css/mousewheel'
 import 'swiper/css/autoplay'
+import 'swiper/css/mousewheel'
 
 import clsx from 'clsx'
 import { useResponsive } from 'ahooks'
@@ -180,22 +180,30 @@ const Slides = (_, ref) => {
           ))}
         </Swiper>
       ) : (
-        <div className='h-screen video-mask relative overflow-hidden line4'>
+        <div className='h-screen video-mask relative overflow-hidden line5'>
           <VideoPlayer
             src={h5Video}
             className='absolute inset-0 h-full w-full object-cover object-center'
           />
           <Swiper
             className='h-screen m-solotuion'
-            // direction='vertical'
-            // allowTouchMove={false}
+            modules={[Autoplay, EffectFade]}
+            loop
+            speed={200}
+            effect='fade'
+            fadeEffect={{ crossFade: true }}
+            autoplay={{
+              delay: 2000,
+              pauseOnMouseEnter: true,
+              disableOnInteraction: false
+            }}
           >
             {moduleConf.map((v, idx) => (
               <SwiperSlide
                 key={idx}
                 className='flex flex-col justify-end gap-y-5 px-6 pb-10 transition-opacity'
               >
-                <h2 className='text-xs'>{v.title}</h2>
+                <div className='text-xs'>{v.title}</div>
 
                 <div className='space-y-5'>
                   {v.list.map((v, idx) => (
@@ -203,7 +211,7 @@ const Slides = (_, ref) => {
                       key={idx}
                       className='space-y-2 lg:border-l lg:pl-4 lg:border-l-[rgb(161,161,162)]/[0.25]'
                     >
-                      <p className='text-sm font-medium'>{v.title}</p>
+                      <div className='text-sm font-medium'>{v.title}</div>
                       <p className='text-[#717374] text-xs'>{v.desc}</p>
                     </div>
                   ))}

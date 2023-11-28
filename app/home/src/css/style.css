@@ -26,6 +26,12 @@
   .solution .swiper-wrapper {
     @apply !ease-linear;
   }
+}
+
+@layer utilities {
+  .video-mask {
+    @apply after:absolute after:inset-0;
+  }
   .line1:after {
     background: linear-gradient(
       75deg,
@@ -47,10 +53,7 @@
   .line4:after{
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 23.35%, #fff 37.86%);
   }
-}
-
-@layer utilities {
-  .video-mask {
-    @apply after:absolute after:inset-0;
+  .line5:after{
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 23.35%, #fff 60%);
   }
 }

@@ -4,10 +4,12 @@ import p2 from "./pics/2.png";
 import p3 from "./pics/3.png";
 import p4 from "./pics/4.png";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, EffectFade } from "swiper";
 import { useResponsive } from "ahooks";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
+import "swiper/css/effect-fade";
 
 const moduleConf = {
   title: "Blog",
@@ -50,13 +52,25 @@ export default function Blog() {
   const blogs = moduleConf.list.slice(0, -1);
   const last = moduleConf.list[moduleConf.list.length - 1];
   const { pc } = useResponsive();
-
+  const extConf = pc
+    ? {}
+    : {
+        loop: true,
+        speed: 200,
+        effect: "fade",
+        fadeEffect: { crossFade: true },
+        autoplay: {
+          delay: 2000,
+          pauseOnMouseEnter: true,
+          disableOnInteraction: false,
+        },
+      };
   return (
     <section
       id="blog"
       className="bx min-h-screen lg:py-[100px] flex flex-col justify-between"
     >
-      <div className="flex flex-col items-center gap-y-3 lg:gap-y-6 px-6 lg:px-0 pt-[140px] pb-[70px] lg:pt-6 lg:pb-16">
+      <div className="flex flex-col items-center gap-y-3 lg:gap-y-6 px-6 lg:px-0 pt-[100px] pb-[70px] lg:pt-6 lg:pb-16">
         <Title text={moduleConf.title} />
         <Desc text={moduleConf.desc} />
       </div>
@@ -102,12 +116,14 @@ export default function Blog() {
         </div>
       ) : (
         <div className="px-6 lg:px-0 pb-[100px] lg:pb-0">
-          <Swiper spaceBetween={48}>
+          <Swiper
+            spaceBetween={48}
+            modules={[Autoplay, EffectFade]}
+            {...extConf}
+          >
             {moduleConf.list.map((blog) => {
               return (
-                <SwiperSlide
-                  key={blog.idx}
-                >
+                <SwiperSlide key={blog.idx}>
                   <a
                     href={blog.link}
                     target="_blank"
