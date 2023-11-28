@@ -1,6 +1,6 @@
 import { Title, Desc } from '@/components/Para'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Autoplay } from 'swiper'
+import { Navigation } from 'swiper'
 import { useResponsive } from 'ahooks'
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -75,15 +75,15 @@ export default function About () {
   return (
     <section
       id='about'
-      className='pt-[100px] space-y-8 lg:space-y-[120px] min-h-screen flex flex-col justify-between'
+      className='pt-[100px] space-y-10 lg:space-y-[120px] min-h-screen flex flex-col justify-between'
     >
-      <div className='flex flex-col items-center gap-y-6'>
+      <div className='flex flex-col items-center gap-y-3 lg:gap-y-6'>
         <Title text={moduleConf.title} />
         <Desc text={moduleConf.desc} />
       </div>
 
       <div
-        className='px-6 lg:px-0'
+        className='px-6 lg:px-0 pb-[100px] lg:pb-0'
         style={{
           '--swiper-navigation-size': '16px',
           '--swiper-navigation-color': '#4B4C4D'

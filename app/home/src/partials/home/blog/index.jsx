@@ -49,12 +49,12 @@ export default function Blog () {
       id='blog'
       className='bx min-h-screen lg:py-[100px] flex flex-col justify-between'
     >
-      <div className='flex flex-col items-center gap-y-6 px-6 lg:px-0 pt-[140px] pb-[70px] lg:pt-6 lg:pb-16'>
+      <div className='flex flex-col items-center gap-y-3 lg:gap-y-6 px-6 lg:px-0 pt-[140px] pb-[70px] lg:pt-6 lg:pb-16'>
         <Title text={moduleConf.title} />
         <Desc text={moduleConf.desc} />
       </div>
-      <div className='grid lg:grid-cols-2 lg:gap-x-10 px-6 lg:px-0 space-y-8 lg:space-y-0 lg:space-x-0 mb-9'>
-        <div className='lg:flex lg:flex-col lg:gap-y-6'>
+      <div className='space-y-8 lg:grid lg:grid-cols-2 lg:gap-x-10 px-6 lg:px-0 lg:space-y-0 lg:space-x-0 mb-9'>
+        <div className='space-y-8 lg:space-y-0 lg:flex lg:flex-col lg:gap-y-6'>
           {blogs.map(blog => {
             return (
               <a
