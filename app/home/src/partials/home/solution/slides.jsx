@@ -201,7 +201,7 @@ const Slides = (_, ref) => {
             {moduleConf.map((v, idx) => (
               <SwiperSlide
                 key={idx}
-                className='flex flex-col justify-end gap-y-5 px-6 pb-10 transition-opacity'
+                className='flex flex-col justify-end gap-y-5 px-6 transition-opacity pb-[100px]'
               >
                 <div className='text-xs'>{v.title}</div>
 
