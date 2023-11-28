@@ -57,7 +57,7 @@ export default function () {
               modules={[Autoplay]}
               loop
               loopPreventsSlide
-              speed={pc ? 1500 : 1000}
+              speed={pc ? 1500 : 2000}
               direction='vertical'
               effect='fade'
               className={pc ? 'h-[72px]' : 'h-[40px]'}

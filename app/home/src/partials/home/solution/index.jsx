@@ -36,7 +36,7 @@ export default function Solution() {
     <>
       <div
         id="solution"
-        className="relative overflow-hidden video-mask flex flex-col justify-between lg:pt-16 min-h-screen"
+        className="relative overflow-hidden video-mask flex flex-col justify-between pt-14 lg:pt-16 min-h-screen"
       >
         <div className="py-5 lg:py-7 lg:mb">
           <Swiper list={list} />

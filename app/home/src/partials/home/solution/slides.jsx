@@ -201,7 +201,7 @@ const Slides = (_, ref) => {
                   {v.list.map((v, idx) => (
                     <div
                       key={idx}
-                      className='space-y-2 border-l lg:pl-4 border-l-[rgb(161,161,162)]/[0.25]'
+                      className='space-y-2 lg:border-l lg:pl-4 lg:border-l-[rgb(161,161,162)]/[0.25]'
                     >
                       <p className='text-sm font-medium'>{v.title}</p>
                       <p className='text-[#717374] text-xs'>{v.desc}</p>
