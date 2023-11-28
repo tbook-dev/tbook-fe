@@ -3,7 +3,7 @@ import { Autoplay } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/autoplay'
 import homeVideo from './homepage.mp4'
-import { useSpring, animated } from '@react-spring/web'
+import { useInView, animated } from '@react-spring/web'
 import { useResponsive } from 'ahooks'
 import VideoPlayer from '@/components/video'
 
@@ -23,11 +23,18 @@ const pageConf = {
 }
 
 export default function () {
-  const props = useSpring({
-    from: { opacity: 0, transform: 'translateY(100px)' },
-    to: { opacity: 1, transform: 'translateY(0)' },
-    config: { duration: 500 }
-  })
+  const [ref, springs] = useInView(
+    () => ({
+      from: { opacity: 0, transform: 'translateY(100px)' },
+      to: { opacity: 1, transform: 'translateY(0)' },
+      config: { duration: 500 },
+      loop: true
+    }),
+
+    {
+      rootMargin: '-40% 0%'
+    }
+  )
   const { pc } = useResponsive()
   return (
     <section
@@ -39,8 +46,9 @@ export default function () {
         className='absolute inset-0 h-full w-full object-cover object-center'
       />
       <animated.main
+        ref={ref}
         className='relative bx z-10 text-center lg:text-left'
-        style={props}
+        style={springs}
       >
         <div className='text-[32px] leading-[40px] font-medium px-6 lg:text-[60px] lg:leading-[84px] lg:px-0 mb-6 lg:mb-10'>
           <div className='flex lg:gap-x-5 items-center flex-col lg:flex-row lg:justify-start lg:w-max'>

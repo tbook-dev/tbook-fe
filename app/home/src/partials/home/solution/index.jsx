@@ -18,9 +18,10 @@ export default function Solution () {
     () => ({
       from: { opacity: 0, transform: 'translateY(200px)' },
       to: { opacity: 1, transform: 'translateY(0)' },
-      config: { duration: 500 }
+      config: { duration: 500 },
+      loop: true
     }),
-    { threshold: 0.2, once: true }
+    { threshold: 0.2 }
   )
   const slideRef = useRef()
   const handleJump = () => {
