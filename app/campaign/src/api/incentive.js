@@ -106,6 +106,13 @@ export const authTwitterCallback = async function () {
   return await request.PostFormV1(`${host}/twitter/callback`, { code, state });
 };
 
+export const authTwitterLoginCallback = async function () {
+  const url = new URL(window.location.href);
+  const code = url.searchParams.get("code");
+  const state = url.searchParams.get("state");
+  return await request.PostFormV1(`${host}/twitter/login/callback`, { code, state });
+};
+
 export const authTgCallback = async function () {
   const url = new URL(window.location.href);
   let authResult;
