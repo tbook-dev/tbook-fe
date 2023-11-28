@@ -7,6 +7,7 @@ importers:
       '@ant-design/cssinjs': ^1.2.0
       '@ant-design/icons': ^4.8.0
       '@ant-design/plots': ^1.2.3
+      '@gsap/react': ^1.0.0
       '@react-spring/web': ^9.7.3
       '@reduxjs/toolkit': ^1.9.1
       '@tailwindcss/forms': ^0.5.2
@@ -22,6 +23,7 @@ importers:
       eslint-plugin-prettier: ^5.0.0
       flatpickr: ^4.6.13
       github-markdown-css: ^5.3.0
+      gsap: ^3.12.2
       lodash: ^4.17.21
       lottie-react: ^2.4.0
       mockjs: ^1.1.0
@@ -55,6 +57,7 @@ importers:
       '@ant-design/cssinjs': 1.5.6_biqbaboplfbrettd7655fr4n2y
       '@ant-design/icons': 4.8.0_biqbaboplfbrettd7655fr4n2y
       '@ant-design/plots': 1.2.5_biqbaboplfbrettd7655fr4n2y
+      '@gsap/react': 1.0.0_react@18.2.0
       '@react-spring/web': 9.7.3_biqbaboplfbrettd7655fr4n2y
       '@reduxjs/toolkit': 1.9.3_k4ae6lp43ej6mezo3ztvx6pykq
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.3.3
@@ -66,6 +69,7 @@ importers:
       clsx: 1.2.1
       dayjs: 1.11.7
       github-markdown-css: 5.3.0
+      gsap: 3.12.2
       lodash: 4.17.21
       lottie-react: 2.4.0_biqbaboplfbrettd7655fr4n2y
       mockjs: 1.1.0
@@ -1386,6 +1390,14 @@ packages:
       '@ethersproject/logger': 5.7.0
       '@ethersproject/properties': 5.7.0
       '@ethersproject/strings': 5.7.0
+    dev: false
+
+  /@gsap/react/1.0.0_react@18.2.0:
+    resolution: {integrity: sha512-PsvIfk2KM2WZAPUcvKmfLmtYlY2QGpx+rsn3ArlJJTebUEieWK0i0XJOZdPEjtFfuvC3eyoajUS4hz+BWhQA0g==}
+    peerDependencies:
+      react: '>=16'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@humanwhocodes/config-array/0.11.10:
@@ -4241,6 +4253,10 @@ packages:
   /graphemer/1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
     dev: true
+
+  /gsap/3.12.2:
+    resolution: {integrity: sha512-EkYnpG8qHgYBFAwsgsGEqvT1WUidX0tt/ijepx7z8EUJHElykg91RvW1XbkT59T0gZzzszOpjQv7SE41XuIXyQ==}
+    dev: false
 
   /has-ansi/2.0.0:
     resolution: {integrity: sha512-C8vBJ8DwUCx19vhm7urhTuUsr4/IyP6l4VzNQDv+ryHQObW3TTTp9yB68WpYgRe2bbaGuZ/se74IqFeVnMnLZg==}
