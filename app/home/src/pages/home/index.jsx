@@ -41,7 +41,7 @@ export default function Home () {
               snapScroll
             )
           },
-          duration: 0.5
+          duration: 1
         }
       })
     },

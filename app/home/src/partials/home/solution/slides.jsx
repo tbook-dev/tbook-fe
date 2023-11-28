@@ -23,11 +23,11 @@ const moduleConf = [
     desc: '',
     list: [
       {
-        title: 'Evaluate the tokenomics allocation plan',
+        title: <h2>Evaluate the <span className="text-[#006EE9]">tokenomics allocation </span>plan</h2>,
         desc: 'Tbook helps to integrate multidimensional data aggregation to ensure efficient allocation of resources, including onchain data, incentive data, and private domain data, to provide comprehensive support for intelligent incentive decision-making.'
       },
       {
-        title: 'Community profiling & token airdrop incentive simulation',
+        title: <h2>Community <span className="text-[#006EE9]">profiling</span> & token airdrop incentive <span className="text-[#006EE9]">simulation</span></h2>,
         desc: 'Multiple user label management, simulating airdrop incentive effects in various scenarios to optimize capital efficiency.'
       }
     ],
@@ -38,15 +38,15 @@ const moduleConf = [
     desc: 'Layer incentive campaigns, engage the core community, and build authentic community assets. ',
     list: [
       {
-        title: 'Diverse Credential Templates',
+        title: <h2>Diverse <span className="text-[#006EE9]">Credential Templates</span></h2>,
         desc: 'TBOOK provides a variety of credential templates across both onchain and offchain scenarios, catering to both web2 and web3. '
       },
       {
-        title: 'Real-time feedback on incentive effect',
+        title: <h2>Real-time feedback on <span className="text-[#006EE9]">incentive effect</span></h2>,
         desc: 'Enables real time iterative optimization of incentive strategies.'
       },
       {
-        title: 'One stop incentive data insight integration',
+        title: <h2>One stop incentive <span className="text-[#006EE9]">data insight</span> integration</h2>,
         desc: 'All the data around incentive campaigns  can be integrated into your own dashboard pages by using the advanced settings, including participation, convert ratio, asset claiming and more.'
       }
     ],
@@ -57,11 +57,11 @@ const moduleConf = [
     desc: '',
     list: [
       {
-        title: 'Build authentic community assets',
+        title: <h2>Build authentic <span className="text-[#006EE9]">community assets</span></h2>,
         desc: 'The most fair asset minting should reflect the contributions of core community users. Minting assets corresponding to users based on their contributions is a very sustainable asset minting approach.'
       },
       {
-        title: 'Multiple asset vesting template',
+        title: <h2>Multiple asset <span className="text-[#006EE9]">vesting</span> template</h2>,
         desc: 'Flexible and proven asset claim vesting mechanism to optimize capital efficiency.TBOOK offers an integrated asset management dashboard, making it easy to control incentive costs and maximize asset utilization.'
       }
     ],
@@ -72,15 +72,15 @@ const moduleConf = [
     desc: '',
     list: [
       {
-        title: 'Multiple governance template',
+        title: <h2>Multiple <span className="text-[#006EE9]">governance template</span></h2>,
         desc: 'We provide rich and effective governance solutions, assisting protocols and applications in different scenarios to combine governance solutions that best suit their objectives'
       },
       {
-        title: 'One stop token governance platform',
+        title: <h2>One stop <span className="text-[#006EE9]">token governance</span> platform</h2>,
         desc: 'We provide a one-stop token governance tool that supports governance needs for different scenarios and proposals. It manages the voting progress and encourages participation in the voting process.'
       },
       {
-        title: 'Governance incentive program',
+        title: <h2><span className="text-[#006EE9]">Governance incentive</span> program</h2>,
         desc: 'You can flexibly combine governance proposals based on strategies such as liquidity, delegation, staking, etc. Additionally, we offer appropriate incentive programs to encourage the community to foster a positive governance culture.'
       }
     ],
@@ -124,8 +124,8 @@ const Slides = (_, ref) => {
 
               <div className='z-10 bx relative lg:h-full lg:flex lg:flex-col lg:justify-between '>
                 <div className='lg:h-16' />
-                <div className='space-y-4'>
-                  <h2 className='text-base'>{v.title}</h2>
+                <div className='space-y-4 text-base'>
+                  {v.title}
                   {v.desc && <h2 className='text-2xl w-[630px]'>{v.desc}</h2>}
                 </div>
 
