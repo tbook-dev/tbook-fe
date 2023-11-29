@@ -1,5 +1,5 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
 
 /* Additional styles */
 /* @import 'additional-styles/utility-patterns.css';
@@ -8,80 +8,52 @@
 @import 'additional-styles/flatpickr.css';
 @import 'additional-styles/theme.css'; */
 
-@import 'tailwindcss/utilities';
+@import "tailwindcss/utilities";
 
-:root {
-    font-family: 'Red Hat Display', sans-serif;;
-}
-.swiper-wrapper{
-    align-items: center;
-}
-
-@layer components { 
-    .text-colorful1{
-        background: linear-gradient(57.39deg, #6AB3F7 -4.5%, #67EBD4 96.91%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-    }
-    .animation-paused{
-        animation-play-state: paused;
-    }
-    .bx{
-        width: 1212px;
-        @apply mx-auto;
-       
-    }
-    .up{
-        will-change: transform;
-        animation: up 1s linear;
-        z-index: 10;
-    }
-    .loop-left{
-        will-change: transform;
-        animation: loop-left 20s linear infinite forwards;
-    }
-    .loop-right{
-        will-change: transform;
-        animation: loop-right 20s linear infinite forwards;
-    }
-
-    .swiper-icon-nav1{
-        box-shadow: inset 0px -1px 1px rgba(255, 255, 255, 0.15), inset 0px 4px 4px rgba(255, 255, 255, 0.1), inset 0px -3px 3px rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(7px);
-    }
-    @media (max-width: 1212px){
-        .bx{
-            @apply w-full;
-        }
-    }
-}
-
-
-@keyframes loop-left {
-    0% {
-        transform: translateX(0%);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
-}
-@keyframes loop-right {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(0%);
+@layer components {
+  :root {
+    font-family: "Poppins", sans-serif;
+    @apply scroll-smooth;
+  }
+  .bx {
+    @apply mx-auto w-[1280px];
+  }
+  @media (max-width: 1279px) {
+    .bx {
+      @apply w-full;
     }
   }
-
-
-  @keyframes up {
-    0% {
-      transform: translate(-20px, 20px);
-    }
-    100% {
-      transform: translate(0,0);
-    }
+  .solution .swiper-wrapper {
+    @apply !ease-linear;
   }
+}
+
+@layer utilities {
+  .video-mask {
+    @apply after:absolute after:inset-0;
+  }
+  .line1:after {
+    background: linear-gradient(
+      75deg,
+      #fff 23.99%,
+      rgba(255, 255, 255, 0.8) 55.95%,
+      rgba(255, 255, 255, 0) 75.94%
+    );
+  }
+  .line2:after {
+    background: linear-gradient(
+      117deg,
+      rgba(247, 251, 255, 0.9) 27.63%,
+      rgba(255, 255, 255, 0) 95.92%
+    );
+  }
+  .line3:after{
+    background: linear-gradient(180deg, #fff 9.7%, rgba(255, 255, 255, 0.2) 100%);
+  }
+  .line4:after{
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 23.35%, #fff 37.86%);
+  }
+  .line5:after{
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 23.35%, #fff 70%);
+  }
+}

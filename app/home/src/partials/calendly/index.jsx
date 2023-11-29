@@ -1,38 +1,43 @@
-import { conf } from "@tbook/utils";
+import bgMp4 from './contact.mp4'
+import { Desc } from '@/components/Para'
+import VideoPlayer from '@/components/video'
 
-const { appLink } = conf;
+const moduleConf = {
+  title: 'Build with us',
+  desc: 'Join Our Exclusive Community! Follow us for Exclusive Updates, Insights, and Special Offers.',
+  btn: 'Book a demo',
+  caLink: 'https://calendly.com/keylasue/30min'
+}
 
-const title = "Buidl with TBOOK";
-const paragraph = `Dive Into Incentive Protocol With Us`;
-const caLink = "https://calendly.com/keylasue/30min";
-
-export default function Da() {
+export default function ContactCalendly () {
   const handleClick = () => {
-    Calendly?.initPopupWidget({ url: caLink });
-  };
+    Calendly?.initPopupWidget({ url: moduleConf.caLink })
+  }
   return (
-    <div className="p-3 mb-10 lg:mb-[144px] rounded-lg lg:p-10 lg:rounded-2xl shadow-d6 bx">
-      <div className="mb-5 text-center lg:mb-10">
-        <h2 className="mb-0.5 lg:text-c3 lg:mb-3 text-sm font-medium">
-          <span className="text-colorful1">{title}</span>
-        </h2>
-        <p className="font-bold text-white lg:text-cwh6 text-ch1">{paragraph}</p>
-      </div>
+    <section
+      id='contact'
+      className='relative overflow-hidden py-20 lg:pb-[100px] line3 video-mask'
+    >
+      <VideoPlayer
+        src={bgMp4}
+        className='absolute inset-0 h-full w-full object-cover object-center'
+      />
 
-      <div className="flex flex-col items-center font-medium lg:flex-row lg:justify-center text-c9 lg:space-x-6">
-        <a href={appLink} target="_blank" className="mb-4 lg:mb-0">
-          <button className="h-10 w-[60vw] lg:w-[140px] shadow-d5 text-white bg-black rounded-md hover:opacity-70">
-            Try App Now
+      <main className='relative text-center bx lg:w-[610px] space-y-10 z-10'>
+        <div className='space-y-3 lg:space-y-6 text-center lg:mb-10 px-6 lg:px-0'>
+          <Desc text={moduleConf.title} />
+          <p className='text-sm lg:text-base'>{moduleConf.desc}</p>
+        </div>
+
+        <div className='flex justify-center'>
+          <button
+            onClick={handleClick}
+            className='rounded-lg text-sm bg-[#131517] hover:opacity-70 text-white lg:text-xl px-[30px] py-2.5 font-medium'
+          >
+            {moduleConf.btn}
           </button>
-        </a>
-
-        <button
-          onClick={handleClick}
-          className="h-10 w-[60vw] lg:w-[140px] text-black rounded-md bg-cw1 hover:opacity-70"
-        >
-          Set Up A Call
-        </button>
-      </div>
-    </div>
-  );
+        </div>
+      </main>
+    </section>
+  )
 }

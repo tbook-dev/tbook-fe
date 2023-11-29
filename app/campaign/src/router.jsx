@@ -11,6 +11,8 @@ import Explore from '@/pages/explore'
 import TwitterCallback from '@/pages/twitter/callback'
 import TgCallback from '@/pages/social/tg'
 import DcCallback from '@/pages/social/dc'
+import TwitterLoginCallback from '@/pages/twitter/login_callback'
+import TwLoginIndex from '@/pages/twitter/tw_login'
 // import SocialConnect from '@/pages/social/index'
 
 const routes = [
@@ -63,6 +65,26 @@ const routes = [
       {
         index: true,
         element: <TwitterCallback />
+      }
+    ]
+  },
+  {
+    path: '/twitter/login/callback',
+    element: <MyLayout />,
+    children: [
+      {
+        index: true,
+        element: <TwitterLoginCallback />
+      }
+    ]
+  },
+  {
+    path: '/tw_login',
+    element: <MyLayout />,
+    children: [
+      {
+        index: true,
+        element: <TwLoginIndex />
       }
     ]
   },

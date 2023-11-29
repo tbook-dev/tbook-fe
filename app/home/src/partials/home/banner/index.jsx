@@ -1,49 +1,93 @@
-import Typed from "@/components/Type";
-import banner from "@/images/banner-01.png";
-import { Button } from "@tbook/ui";
-import { conf } from "@tbook/utils";
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay } from 'swiper'
+import 'swiper/css'
+import 'swiper/css/autoplay'
+import homeVideo from './homepage.mp4'
+import { useInView, animated } from '@react-spring/web'
+import { useResponsive } from 'ahooks'
+import VideoPlayer from '@/components/video'
 
-const { appLink, myLink } = conf;
+const pageConf = {
+  h1: {
+    prefix: 'optimize',
+    aspects: [
+      'core',
+      'token economy',
+      'governance',
+      'protocol design',
+      'incentive program'
+    ],
+    surfix: 'of future financial system'
+  },
+  desc: 'We help industry to navigate critical decisions, elevate token economy as a whole'
+}
 
 export default function () {
+  const [ref, springs] = useInView(
+    () => ({
+      from: { opacity: 0, transform: 'translateY(100px)' },
+      to: { opacity: 1, transform: 'translateY(0)' },
+      config: { duration: 500 },
+      loop: true
+    }),
+
+    {
+      rootMargin: '-40% 0%'
+    }
+  )
+  const { pc } = useResponsive()
   return (
-    <section className="relative mt-[44px] lg:mt-[126px] lg:h-[600px] lg:mb-[92px] mb-10">
-      <div className="relative bx">
-        <div className="w-[240px] lg:w-[427px] mb-2 lg:mb-6 mx-auto lg:ml-0">
-          <div className="lg:pt-[126px] lg:mb-4">
-            <div className="h-[80px] lg:h-[150px]">
-              <h2 className="font-bold text-white break-all text-cwh1 lg:text-cwh4 ">
-                <Typed strings={[`<span class="text-colorful1">Token Incentive</span> Made Easy`]} />
-              </h2>
-            </div>
+    <section
+      id='home'
+      className='relative overflow-hidden py-[180px] lg:py-[300px] video-mask min-h-screen flex flex-col justify-center line1'
+    >
+      <VideoPlayer
+        src={homeVideo}
+        className='absolute inset-0 h-full w-full object-cover object-center'
+      />
+      <animated.main
+        ref={ref}
+        className='relative bx z-10 text-center lg:text-left'
+        style={springs}
+      >
+        <div className='text-[32px] leading-[40px] font-medium px-6 lg:text-[60px] lg:leading-[84px] lg:px-0 mb-6 lg:mb-10'>
+          <div className='flex lg:gap-x-5 items-center flex-col lg:flex-row lg:justify-start lg:w-max'>
+            <h2>{pageConf.h1.prefix}</h2>
+            <Swiper
+              modules={[Autoplay]}
+              loop
+              loopPreventsSlide
+              speed={pc ? 1500 : 2000}
+              direction='vertical'
+              effect='fade'
+              className={pc ? 'h-[72px]' : 'h-[40px]'}
+              spaceBetween={pc ? 40 : 84}
+              autoplay={{
+                delay: 0,
+                pauseOnMouseEnter: true,
+                disableOnInteraction: false
+              }}
+            >
+              {pageConf.h1.aspects.map((v, idx) => (
+                <SwiperSlide
+                  key={idx}
+                  style={{
+                    width: pc ? 'max-content' : '',
+                    height: pc ? 84 : 40
+                  }}
+                  className='flex justify-center items-center'
+                >
+                  <span className='text-[#006EE9]'>{v}</span>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
+          <h2>{pageConf.h1.surfix}</h2>
         </div>
-
-        <div className="w-[270px] lg:w-[427px] mb-8 mx-auto lg:ml-0">
-          <p className="text-c2 lg:text-c3 text-c-9">
-            The Smart and Secure Way to Create and Manage Token Incentive Plans
-          </p>
-        </div>
-
-        <div className="flex flex-col items-center justify-center mb-8 lg:mb-0 lg:block">
-          <a href={appLink} target="_blank" className="mb-4 lg:mb-0">
-            <Button className="px-8 cursor-pointer lg:bg-white lg:bg-none w-[80vw] lg:w-auto lg:mr-[22px]">
-              Launch APP
-            </Button>
-          </a>
-
-          <a href={myLink} target="_blank">
-            <Button className="px-8 cursor-pointer dark:bg-black dark:text-white w-[80vw] lg:w-auto bg-none dark:shadow-d3">
-              My Grants
-            </Button>
-          </a>
-        </div>
-
-        <img src={banner} className="-mr-4 hidden lg:block lg:absolute lg:top-0 lg:right-0 lg:h-[500px]" />
-      </div>
-      <div className="-mr-4 lg:hidden">
-        <img src={banner} className="relative -mr-4 lg:absolute lg:top-0 lg:right-0 lg:h-[600px]" />
-      </div>
+        <p className='text-base lg:text-xl mx-auto lg:ml-0 px-12 lg:px-0'>
+          {pageConf.desc}
+        </p>
+      </animated.main>
     </section>
-  );
+  )
 }
