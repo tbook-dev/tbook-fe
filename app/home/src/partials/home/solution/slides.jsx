@@ -233,7 +233,7 @@ const Slides = (_, ref) => {
           className='absolute inset-0 h-full w-full object-cover object-center'
         />
         <div className='z-10 h-screen flex flex-col justify-end gap-y-5 px-6 transition-opacity pb-[100px] relative overflow-hidden'>
-          <div className='text-xs'>{v.title}</div>
+          <div className='text-lg font-medium'>{v.title}</div>
           <div className='space-y-5'>
             {v.list.map((v, idx) => (
               <div
