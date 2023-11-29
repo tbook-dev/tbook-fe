@@ -125,6 +125,7 @@ importers:
     specifiers:
       '@tbook/hooks': workspace:*
       '@tbook/share': workspace:*
+      '@tbook/snapshot': workspace:*
       '@tbook/store': workspace:*
       '@tbook/ui': workspace:*
       '@tbook/utils': workspace:*
@@ -133,6 +134,7 @@ importers:
     dependencies:
       '@tbook/hooks': link:../../packages/hooks
       '@tbook/share': link:../../packages/share
+      '@tbook/snapshot': link:../../packages/snapshot
       '@tbook/store': link:../../packages/store
       '@tbook/ui': link:../../packages/ui
       '@tbook/utils': link:../../packages/utils
@@ -204,6 +206,9 @@ importers:
       '@tbook/store': link:../store
       '@tbook/ui': link:../ui
       '@tbook/utils': link:../utils
+
+  packages/snapshot:
+    specifiers: {}
 
   packages/store:
     specifiers:
