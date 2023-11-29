@@ -23,7 +23,6 @@ import v04 from './solution04.mp4'
 const moduleConf = [
   {
     title: 'Optimization of the Overall Project Token Economics',
-    desc: '',
     list: [
       {
         title: (
@@ -49,7 +48,6 @@ const moduleConf = [
   },
   {
     title: 'Optimizable Incentive Campaigns',
-    desc: 'Layer incentive campaigns, engage the core community, and build authentic community assets. ',
     list: [
       {
         title: (
@@ -83,7 +81,6 @@ const moduleConf = [
   },
   {
     title: 'Streamline incentive assets lifecycle',
-    desc: '',
     list: [
       {
         title: (
@@ -109,7 +106,6 @@ const moduleConf = [
   },
   {
     title: 'Community Governance',
-    desc: '',
     list: [
       {
         title: (
@@ -174,10 +170,7 @@ const Slides = (_, ref) => {
 
             <div className='z-10 bx relative lg:h-full lg:flex lg:flex-col lg:justify-between '>
               <div className='lg:h-16' />
-              <div className='space-y-4 text-base'>
-                {v.title}
-                {v.desc && <h2 className='text-2xl w-[630px]'>{v.desc}</h2>}
-              </div>
+              <div className='space-y-4 text-base'>{v.title}</div>
 
               <div className='lg:space-y-10 lg:w-[554px]'>
                 {v.list.map((v, idx) => (
