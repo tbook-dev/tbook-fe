@@ -10,11 +10,10 @@ function Compaign({
   users,
   nfts = [],
   points,
-  projectId,
 }) {
   return (
     <Link
-      to={`/app/${projectId}/campaign/${campaignId}`}
+      to={`/app/${project?.projectId}/campaign/${campaignId}`}
       className="rounded-3xl overflow-hidden bg-white flex flex-col shadow-s2"
     >
       <img
