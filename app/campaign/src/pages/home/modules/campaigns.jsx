@@ -27,6 +27,10 @@ export default function Campaigns() {
         title: "GameFi Campaigns",
         list: list.filter(v=> v.campaignCategory === 4),
       },
+      {
+        title: "Community Campaigns",
+        list: list.filter(v=> v.campaignCategory === 5),
+      },
     ].filter(v => v.list.length > 0);
   }, [list]);
 

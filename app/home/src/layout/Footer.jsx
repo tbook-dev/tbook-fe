@@ -16,19 +16,19 @@ const moduleConf = {
     links: [
       {
         text: 'How to set up an Incentive Campaign with TBOOK?',
-        link: 'https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-set-up-an-incentive-campaign-with-tbook'
+        link: 'https://tbook.gitbook.io/rewardoor/how-to-set-up-an-incentive-campaign-with-tbook'
       },
       {
         text: 'How to track the performance of your incentive campaigns?',
-        link: 'https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-track-the-performance-of-your-incentive-campaigns'
+        link: 'https://tbook.gitbook.io/rewardoor/how-to-track-the-performance-of-your-incentive-campaigns'
       },
       {
         text: 'How to Get Role ID in Discord',
-        link: 'https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord'
+        link: 'https://tbook.gitbook.io/rewardoor/how-to-get-role-id-in-discord'
       },
       {
         text: 'TBOOK Telegram Bot Settings',
-        link: 'https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/tbook-telegram-bot-settings'
+        link: 'https://tbook.gitbook.io/rewardoor/tbook-telegram-bot-settings'
       }
       // {
       //   text: 'How to set up an NFT as a reward?',

@@ -1,6 +1,6 @@
 import ambition from "@/images/partner/ambition.svg";
 import bestsign from "@/images/partner/bestsign.svg";
-import bmblab from "@/images/partner/bmblab.png";
+import bmblab from "@/images/partner/bmblab.svg";
 import bonfire from "@/images/partner/bonfire.svg";
 import chainbase from "@/images/partner/chainbase.svg";
 import craftfinance from "@/images/partner/craftfinance.svg";
@@ -9,13 +9,13 @@ import dotART from "@/images/partner/dotART.svg";
 import goplus from "@/images/partner/goplus.svg";
 import everVision from "@/images/partner/everVision.svg";
 import hippyghosts from "@/images/partner/hippyghosts.svg";
-import kapbook from "@/images/partner/kapbook.png";
-import logo from "@/images/partner/logo.svg";
-import logo2 from "@/images/partner/logo2.png";
-import mask from "@/images/partner/mask.png";
+import kapbook from "@/images/partner/kapbook.svg";
+import logo1 from "@/images/partner/logo1.svg";
+import logo2 from "@/images/partner/logo2.svg";
+import mask from "@/images/partner/mask.svg";
 import meMe from "@/images/partner/meMe.svg";
 import metopia from "@/images/partner/metopia.svg";
-import movebit from "@/images/partner/movebit.png";
+import movebit from "@/images/partner/movebit.svg";
 import nftplay from "@/images/partner/nftplay.svg";
 import read2 from "@/images/partner/read2.svg";
 import tokeninsight from "@/images/partner/tokeninsight.svg";
@@ -73,7 +73,7 @@ export const list = [
     link: "",
   },
   {
-    src: logo,
+    src: logo1,
     link: "",
   },
   {
