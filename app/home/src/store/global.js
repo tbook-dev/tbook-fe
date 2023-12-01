@@ -13,14 +13,13 @@ export const globalSlice = createSlice({
     updateHeaderTransparent: (state, action) => {
       state.headerTransparent = action.payload;
     },
-    setConnectWalletModal: (state, action) => {
+    setLoginModal: (state, action) => {
       state.showConnectWalletModal = action.payload;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateHeaderTransparent, setConnectWalletModal } =
-  globalSlice.actions;
+export const { updateHeaderTransparent, setLoginModal } = globalSlice.actions;
 
 export default globalSlice.reducer;
