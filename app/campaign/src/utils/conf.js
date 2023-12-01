@@ -29,7 +29,7 @@ export const incentiveMethodList = [
   {
     title: "FCFS",
     desc: `FCFS is one of the reward distribution methods which stands for "First come, first served". It means that whoever gets the credentials first can claim the reward first.`,
-    pop: `It’s a 'lucky draw' opportunity which means participants who meet the requirements have a chance to be randomly selected for rewards.`,
+    pop: `It's a 'first come, first served' opportunity which means whoever gets the credentials first can claim the reward first.`,
     value: 1,
     icon: fcfsIcon,
   },
@@ -37,6 +37,7 @@ export const incentiveMethodList = [
     title: "Lucky Draw",
     desc: `Lucky draw is one of the reward distribution methods which means that a random selection of participants from those who meet the requirements.`,
     pop: `It's a 'first come, first served' opportunity which means whoever gets the credentials first can claim the reward first.`,
+
     value: 2,
     icon: ldIcon,
   },
@@ -62,7 +63,6 @@ export const getTwitterId = (url) => {
   }
   return "";
 };
-
 
 export const mediaTypes = [
   {
