@@ -7,10 +7,14 @@ const httpHub = "https://hub.snapshot.org";
 export const client = new snapshot.Client712(httpHub);
 
 export const getSnapshotIdBylink = (link) => {
-  const { hash } = new URL(link);
-  const path = hash.slice(0);
-  const pathParts = path.split("/");
-  return pathParts[pathParts.length - 1];
+  try {
+    const { hash } = new URL(link);
+    const path = hash.slice(0);
+    const pathParts = path.split("/");
+    return pathParts[pathParts.length - 1];
+  } catch (e) {
+    return null;
+  }
 };
 
 export const useProposal = (id) => {

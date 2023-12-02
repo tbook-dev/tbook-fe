@@ -32,7 +32,7 @@ import VerifyStatus, {
   verifyStatusEnum,
 } from "@/components/withVerify/VerifyStatus";
 import SnapshotPreview from "@tbook/snapshot/Preview";
-import { getSnapshotIdBylink } from '@tbook/snapshot/api'
+import { getSnapshotIdBylink } from "@tbook/snapshot/api";
 const { Countdown } = Statistic;
 
 const errorMsg = (
@@ -323,9 +323,8 @@ export default function () {
                     },
                     10: () => signCredential(redential),
                   };
-                  console.log({ redential });
                   const isSnapshotType = redential.labelType === 12;
-                  const snapshotId =getSnapshotIdBylink(redential.link);
+                  const snapshotId = getSnapshotIdBylink(redential.link);
                   return (
                     <React.Fragment key={index}>
                       <div
@@ -379,7 +378,7 @@ export default function () {
                           />
                         )}
                       </div>
-                      {isSnapshotType && (
+                      {isSnapshotType && snapshotId && (
                         <Link
                           to={`/app/${projectId}/snapshot/${campaignId}/${snapshotId}`}
                         >
