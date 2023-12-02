@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useProposal } from "@tbook/snapshot/api";
 import TimerDown from "@tbook/snapshot/components/TimerDown";
 import Markdown from "./Markdown";
+import SingleVote from "./SingleVote";
 
 const regex = /(!\[.*?\]\()ipfs:\/\/([^)]+)(\))/g;
 const replacement = "$1https://snapshot.4everland.link/ipfs/$2$3";
@@ -11,7 +12,6 @@ const formatIPFS = (src) => {
   return src
     .split("\n")
     .map((markdown) => {
-      console.log("markdown->", markdown);
       return markdown.replace(regex, replacement);
     })
     .join("\n");
@@ -50,6 +50,8 @@ export default function Snapshot() {
         </div>
 
         <Markdown>{formatIPFS(data?.body)}</Markdown>
+
+        <SingleVote snapshotId={snapshotId}/>
       </div>
     </div>
   );

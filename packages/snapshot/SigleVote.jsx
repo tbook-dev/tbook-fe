@@ -27,7 +27,10 @@ export default function SigleVote({ id }) {
     data && (
       <div className="block mt-4 border border-[rgb(19,21,23)]/[0.06] p-3 rounded-xl space-y-8">
         <div className="space-y-3">
-          <TimerDown state={data.state} value={data.end} />
+          {data.state === "active" && (
+            <TimerDown state="active" value={data.end} />
+          )}
+
           <h2 className="text-base font-medium">{data.title}</h2>
         </div>
 
@@ -52,7 +55,9 @@ export default function SigleVote({ id }) {
                     {v.percent}%
                   </h3>
                 </div>
-                <p className="text-xs text-[#A1A1A2] col-span-2 text-right">{v.voteNum} vote</p>
+                <p className="text-xs text-[#A1A1A2] col-span-2 text-right">
+                  {v.voteNum} vote
+                </p>
               </div>
             );
           })}

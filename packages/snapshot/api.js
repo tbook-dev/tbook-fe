@@ -20,6 +20,8 @@ export const useProposal = (id) => {
               body
               choices
               start
+              link
+              discussion
               end
               snapshot
               state

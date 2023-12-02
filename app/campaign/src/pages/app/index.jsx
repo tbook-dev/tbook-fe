@@ -324,7 +324,7 @@ export default function () {
                   }
                   const isSnapshotType = true
                   // const snapshotId = 'QmWbpCtwdLzxuLKnMW4Vv4MPFd2pdPX71YBKPasfZxqLUS'
-                  const snapshotId = '0x6f7cc109170a98ec8a38a189dc2811c81297c2b7c5c9128ec92860581bf55731'
+                  const snapshotId = '0xe2e3494c78a9082d09d9506e9e5a5cb405487267db93254e7e3a876960f85170'
                   return (
                     <React.Fragment key={index}>
 
