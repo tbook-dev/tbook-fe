@@ -1,45 +1,46 @@
-import { useResponsive } from 'ahooks'
-import React, { useState, useCallback, useEffect, useRef } from 'react'
-import { useQueryClient } from 'react-query'
-import { twLogin, getTwLoginUrl, verifyCredential } from '@/api/incentive'
-import { useParams, Link } from 'react-router-dom'
-import { credentialStatus, incentiveMethodList } from '@/utils/conf'
-import nftIcon from '@/images/icon/nft.svg'
-import pointIcon from '@/images/icon/point.svg'
-import rewardIcon from '@/images/icon/reward.svg'
+import { useResponsive } from "ahooks";
+import React, { useState, useCallback, useEffect, useRef } from "react";
+import { useQueryClient } from "react-query";
+import { twLogin, getTwLoginUrl, verifyCredential } from "@/api/incentive";
+import { useParams, Link } from "react-router-dom";
+import { credentialStatus, incentiveMethodList } from "@/utils/conf";
+import nftIcon from "@/images/icon/nft.svg";
+import pointIcon from "@/images/icon/point.svg";
+import rewardIcon from "@/images/icon/reward.svg";
 // import verifiedIcon from '@/images/icon/verified.svg'
-import Modal from '@/components/modal'
-import useUserInfo from '@/hooks/useUserInfoQuery'
-import useProjectQuery from '@/hooks/useProjectQuery'
-import useCampaignQuery from '@/hooks/useCampaignQuery'
-import TextMore from '@/components/textMore'
-import { Skeleton, Statistic } from 'antd'
-import { message } from 'antd'
-import { useWeb3Modal } from '@web3modal/wagmi/react'
-import { useAccount, useWalletClient, useSignMessage } from 'wagmi'
+import Modal from "@/components/modal";
+import useUserInfo from "@/hooks/useUserInfoQuery";
+import useProjectQuery from "@/hooks/useProjectQuery";
+import useCampaignQuery from "@/hooks/useCampaignQuery";
+import TextMore from "@/components/textMore";
+import { Skeleton, Statistic } from "antd";
+import { message } from "antd";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useAccount, useWalletClient, useSignMessage } from "wagmi";
 // import useSignIn from "@/hooks/useSignIn";
-import WithVerify from '@/components/withVerify'
+import WithVerify from "@/components/withVerify";
 // import { getNonce } from "@/utils/web3";
-import { host, verifyTbook } from '@/api/incentive'
-import { getCrenditialType } from '@/utils/conf'
-import RewardClaim from './rewardClaim'
-import dateIcon from '@/images/icon/date.svg'
-import { useDispatch } from 'react-redux'
-import { setLoginModal } from '@/store/global'
-import useSocial from '@/hooks/useSocial'
-import LazyImage from '@/components/lazyImage'
+import { host, verifyTbook } from "@/api/incentive";
+import { getCrenditialType } from "@/utils/conf";
+import RewardClaim from "./rewardClaim";
+import dateIcon from "@/images/icon/date.svg";
+import { useDispatch } from "react-redux";
+import { setLoginModal } from "@/store/global";
+import useSocial from "@/hooks/useSocial";
+import LazyImage from "@/components/lazyImage";
 import VerifyStatus, {
-  verifyStatusEnum
-} from '@/components/withVerify/VerifyStatus'
-import SnapshotPreview from '@tbook/snapshot/Preview'
-const { Countdown } = Statistic
+  verifyStatusEnum,
+} from "@/components/withVerify/VerifyStatus";
+import SnapshotPreview from "@tbook/snapshot/Preview";
+import { getSnapshotIdBylink } from "@tbook/snapshot/api";
+const { Countdown } = Statistic;
 
 const errorMsg = (
   <>
     Please click the link and finish the task first.
     <br /> If you have fulfilled the requirement, please try again in 30s.
   </>
-)
+);
 
 // const tgBotId = import.meta.env.VITE_TG_BOT_ID;
 // const tgCallbackHost = import.meta.env.VITE_TG_CALLBACK_HOST;
@@ -49,35 +50,35 @@ const errorMsg = (
 // const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`;
 
 export default function () {
-  const [messageApi, contextHolder] = message.useMessage()
-  const { pc } = useResponsive()
-  const dispath = useDispatch()
-  const { open } = useWeb3Modal()
+  const [messageApi, contextHolder] = message.useMessage();
+  const { pc } = useResponsive();
+  const dispath = useDispatch();
+  const { open } = useWeb3Modal();
   // const { handleSignIn } = useSignIn();
-  const { campaignId, projectId } = useParams()
-  const queryClient = useQueryClient()
+  const { campaignId, projectId } = useParams();
+  const queryClient = useQueryClient();
   const {
     data: page,
     firstLoad,
     campaignNotStart,
-    campaignEnd
-  } = useCampaignQuery(campaignId)
-  const { data: project } = useProjectQuery(projectId)
+    campaignEnd,
+  } = useCampaignQuery(campaignId);
+  const { data: project } = useProjectQuery(projectId);
   const { twitterConnected, userLogined, discordConnected, telegramConnected } =
-    useUserInfo()
-  const [rewardModalIdx, setRewardModalIdx] = useState(-1)
-  const { signMessageAsync } = useSignMessage()
-  const { getSocialByName } = useSocial()
+    useUserInfo();
+  const [rewardModalIdx, setRewardModalIdx] = useState(-1);
+  const { signMessageAsync } = useSignMessage();
+  const { getSocialByName } = useSocial();
   // const twLinkRef = useRef(null);
   // const [twLink, setTwLink] = useState("");
 
   // const [nonce, setNonce] = useState("");
 
   // const { data: walletClient, isError, isLoading } = useWalletClient();
-  const { address, isConnected, isDisconnected } = useAccount()
+  const { address, isConnected, isDisconnected } = useAccount();
 
-  const [rawDatas, setRawDatas] = useState({})
-  const [signed, setSigned] = useState({})
+  const [rawDatas, setRawDatas] = useState({});
+  const [signed, setSigned] = useState({});
   // useEffect(() => {
   //   if (isConnected) {
   //     getNonce(address).then((r) => {
@@ -121,86 +122,86 @@ export default function () {
   //   await queryClient.refetchQueries("userInfo");
   // };
   const signIn = useCallback(() => {
-    dispath(setLoginModal(true))
-  }, [])
+    dispath(setLoginModal(true));
+  }, []);
 
   const handleCancel = useCallback(() => {
-    setRewardModalIdx(-1)
-  }, [])
-  const handleVerify = useCallback(async redential => {
-    let hasError = false
+    setRewardModalIdx(-1);
+  }, []);
+  const handleVerify = useCallback(async (redential) => {
+    let hasError = false;
     try {
-      const res = await verifyCredential(redential.credentialId)
+      const res = await verifyCredential(redential.credentialId);
       if (res.isVerified) {
-        hasError = false
-        await queryClient.refetchQueries(['campaignDetail', campaignId])
+        hasError = false;
+        await queryClient.refetchQueries(["campaignDetail", campaignId]);
       } else {
-        hasError = true
+        hasError = true;
       }
     } catch (error) {
-      hasError = true
+      hasError = true;
     }
 
     if (hasError) {
-      messageApi.error(errorMsg)
-      throw new Error(error.message)
+      messageApi.error(errorMsg);
+      throw new Error(error.message);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    const gs = page?.groups
+    const gs = page?.groups;
     if (gs && gs.length > 0) {
       const signs = gs
-        .flatMap(g => g.credentialList)
-        .filter(c => c.labelType == 10)
-      signs.forEach(c => {
+        .flatMap((g) => g.credentialList)
+        .filter((c) => c.labelType == 10);
+      signs.forEach((c) => {
         fetch(`${host}/campaignSign/${c.credentialId}`, {
-          method: 'GET',
-          credentials: 'include'
+          method: "GET",
+          credentials: "include",
         })
-          .then(r => r.json())
-          .then(d => {
-            if (d['code'] == 0) {
+          .then((r) => r.json())
+          .then((d) => {
+            if (d["code"] == 0) {
               setRawDatas(() => {
-                const nd = {}
-                nd[c.credentialId] = d['data']
-                return { ...rawDatas, ...nd }
-              })
+                const nd = {};
+                nd[c.credentialId] = d["data"];
+                return { ...rawDatas, ...nd };
+              });
             } else {
               setSigned(() => {
-                return { ...signed, [c.credentialId]: true }
-              })
+                return { ...signed, [c.credentialId]: true };
+              });
             }
-          })
-      })
+          });
+      });
     }
-  }, [page])
+  }, [page]);
 
   // const campaignNotStart = notStartList.includes(page?.campaign?.status);
   // const campaignEnd = endList.includes(page?.campaign?.status);
 
-  const signCredential = async credential => {
+  const signCredential = async (credential) => {
     if (signed[credential.credentialId]) {
-      messageApi.warning('Already signed, verify please')
-      return
+      messageApi.warning("Already signed, verify please");
+      return;
     }
-    const m = rawDatas[credential.credentialId]
-    const sign = await signMessageAsync({ message: m })
-    const d = new URLSearchParams()
-    d.append('sign', sign)
+    const m = rawDatas[credential.credentialId];
+    const sign = await signMessageAsync({ message: m });
+    const d = new URLSearchParams();
+    d.append("sign", sign);
     fetch(`${host}/campaignSign/${credential.credentialId}/verify`, {
-      method: 'POST',
-      'content-type': 'application/x-www-form-urlencoded',
+      method: "POST",
+      "content-type": "application/x-www-form-urlencoded",
       body: d,
-      credentials: 'include'
+      credentials: "include",
     })
-      .then(r => r.json())
-      .then(d => {
-        if (!d['success']) {
-          alert(d['error'])
+      .then((r) => r.json())
+      .then((d) => {
+        if (!d["success"]) {
+          alert(d["error"]);
         }
-      })
-  }
+      });
+  };
 
   // if (!firstLoad) {
   //   return (
@@ -211,44 +212,44 @@ export default function () {
   // }
 
   return (
-    <div className='space-y-2.5 px-2.5 pt-3 lg:pt-5 lg:px-0 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1'>
-      <section className='rounded-lg overflow-hidden bg-white lg:rounded-2xl'>
+    <div className="space-y-2.5 px-2.5 pt-3 lg:pt-5 lg:px-0 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1">
+      <section className="rounded-lg overflow-hidden bg-white lg:rounded-2xl">
         <LazyImage
           src={page?.campaign?.picUrl}
-          alt='main banner'
-          className='w-full  h-[172px] lg:h-[294px] object-cover object-center'
+          alt="main banner"
+          className="w-full  h-[172px] lg:h-[294px] object-cover object-center"
         />
 
-        <div className='px-5 pb-5 pt-3'>
+        <div className="px-5 pb-5 pt-3">
           {!firstLoad ? (
             <Skeleton active />
           ) : (
             <>
-              <div className='mb-3'>
-                <h2 className='text-2xl  leading-7 font-bold text-[#131517] mb-1.5'>
+              <div className="mb-3">
+                <h2 className="text-2xl  leading-7 font-bold text-[#131517] mb-1.5">
                   {page?.campaign?.name}
                 </h2>
-                <h4 className='flex items-center gap-x-1.5'>
+                <h4 className="flex items-center gap-x-1.5">
                   <img
                     src={project?.avatarUrl}
-                    className='w-6 h-6 object-contain mr-2 rounded-full'
+                    className="w-6 h-6 object-contain mr-2 rounded-full"
                   />
-                  <span className='text-[#131517] text-sm font-normal'>
+                  <span className="text-[#131517] text-sm font-normal">
                     {project?.projectName}
                   </span>
                 </h4>
               </div>
 
-              <div className='text-sm font-normal text-c-6 mb-6'>
+              <div className="text-sm font-normal text-c-6 mb-6">
                 <TextMore text={page?.campaign?.description} />
               </div>
 
-              <div className='flex items-center gap-x-2'>
+              <div className="flex items-center gap-x-2">
                 <img
                   src={dateIcon}
-                  className='w-6 h-6 object-contain object-center'
+                  className="w-6 h-6 object-contain object-center"
                 />
-                <div className='flex items-center gap-x-1 text-sm text-[#68696B]'>
+                <div className="flex items-center gap-x-1 text-sm text-[#68696B]">
                   {campaignEnd ? (
                     <div>This campaign has ended.</div>
                   ) : campaignNotStart ? (
@@ -256,11 +257,11 @@ export default function () {
                       <div>start in</div>
                       <Countdown
                         value={page?.campaign?.startAt}
-                        format='D[d] H[h] m[m] s[s]'
+                        format="D[d] H[h] m[m] s[s]"
                         valueStyle={{
-                          color: '#131517',
-                          fontSize: '14px',
-                          lineHeight: '20px'
+                          color: "#131517",
+                          fontSize: "14px",
+                          lineHeight: "20px",
                         }}
                       />
                     </>
@@ -269,11 +270,11 @@ export default function () {
                       <div>End in</div>
                       <Countdown
                         value={page?.campaign?.endAt}
-                        format='D[d] H[h] m[m] s[s]'
+                        format="D[d] H[h] m[m] s[s]"
                         valueStyle={{
-                          color: '#131517',
-                          fontSize: '14px',
-                          lineHeight: '20px'
+                          color: "#131517",
+                          fontSize: "14px",
+                          lineHeight: "20px",
                         }}
                       />
                     </>
@@ -286,184 +287,185 @@ export default function () {
       </section>
 
       {!firstLoad && (
-        <div className='rounded-lg lg:rounded-2xl py-3 px-5 bg-white'>
+        <div className="rounded-lg lg:rounded-2xl py-3 px-5 bg-white">
           <Skeleton />
         </div>
       )}
 
-      <section className='space-y-2.5 lg:space-y-5 tetx-t-1'>
+      <section className="space-y-2.5 lg:space-y-5 tetx-t-1">
         {page?.groups?.map((group, index) => {
           return (
             <div
               key={index}
-              className='rounded-lg lg:rounded-2xl flex flex-col bg-white'
+              className="rounded-lg lg:rounded-2xl flex flex-col bg-white"
             >
-              <h3 className='text-base text-[#131517] lg:text-[20px] font-medium px-5 py-3 border-b border-[rgb(236,236,236)]'>
+              <h3 className="text-base text-[#131517] lg:text-[20px] font-medium px-5 py-3 border-b border-[rgb(236,236,236)]">
                 Tasks and Rewards
               </h3>
-              <div className='px-5 py-3'>
+              <div className="px-5 py-3">
                 {group.credentialList?.map((redential, index) => {
-                  const credentialType = getCrenditialType(redential.labelType)
+                  const credentialType = getCrenditialType(redential.labelType);
                   const sysConnectedMap = {
                     twitter: twitterConnected,
                     discord: discordConnected,
                     telegram: telegramConnected,
-                    tbook: true
-                  }
+                    tbook: true,
+                  };
                   const sycLoginFnMap = {
-                    twitter: getSocialByName('twitter').loginFn,
-                    discord: getSocialByName('discord').loginFn,
-                    telegram: getSocialByName('telegram').loginFn
-                  }
+                    twitter: getSocialByName("twitter").loginFn,
+                    discord: getSocialByName("discord").loginFn,
+                    telegram: getSocialByName("telegram").loginFn,
+                  };
                   const taskMap = {
                     8: async () => {
-                      await verifyTbook(redential.credentialId)
-                      await handleVerify(redential)
+                      await verifyTbook(redential.credentialId);
+                      await handleVerify(redential);
                     },
-                    10: () => signCredential(redential)
-                  }
-                  const isSnapshotType = true
-                  const snapshotId = 'QmWbpCtwdLzxuLKnMW4Vv4MPFd2pdPX71YBKPasfZxqLUS'
-                  // const snapshotId = '0xe2e3494c78a9082d09d9506e9e5a5cb405487267db93254e7e3a876960f85170'
+                    10: () => signCredential(redential),
+                  };
+                  const isSnapshotType = redential.labelType === 12;
+                  const snapshotId = getSnapshotIdBylink(redential.link);
                   return (
                     <React.Fragment key={index}>
-
-                    <div
-                      key={index}
-                      className='flex items-center justify-between h-10 w-full'
-                    >
-                      <div className='flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]'>
-                        <img
-                          src={redential.picUrl}
-                          className='w-5 h-5 object-contain'
-                        />
-                        <div
-                          onClick={
-                            typeof taskMap[redential.labelType] === 'function'
-                              ? isConnected
+                      <div
+                        key={index}
+                        className="flex items-center justify-between h-10 w-full"
+                      >
+                        <div className="flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]">
+                          <img
+                            src={redential.picUrl}
+                            className="w-5 h-5 object-contain"
+                          />
+                          <div
+                            onClick={
+                              typeof taskMap[redential.labelType] === "function"
+                                ? isConnected
+                                  ? userLogined
+                                    ? taskMap[redential.labelType]
+                                    : signIn
+                                  : async () => await open()
+                                : null
+                            }
+                            className="truncate text-sm text-[#131517] max-w-[calc(100%_-_30px)]"
+                            dangerouslySetInnerHTML={{
+                              __html: pc
+                                ? redential.intentDisplayExp
+                                : redential.displayExp,
+                            }}
+                          />
+                        </div>
+                        {redential.isVerified ? (
+                          <span className="flex items-center gap-x-1 text-md whitespace-nowrap text-[#65C467]">
+                            <VerifyStatus status={verifyStatusEnum.Sucess} />
+                            Verified
+                          </span>
+                        ) : campaignNotStart ||
+                          campaignEnd ||
+                          !userLogined ? null : (
+                          <WithVerify
+                            sysConnectedMap={sysConnectedMap}
+                            sycLoginFnMap={sycLoginFnMap}
+                            credentialType={credentialType}
+                            handleFn={
+                              isConnected
                                 ? userLogined
-                                  ? taskMap[redential.labelType]
+                                  ? sysConnectedMap[credentialType]
+                                    ? () => handleVerify(redential)
+                                    : sycLoginFnMap[credentialType]
                                   : signIn
-                                : async () => await open()
-                              : null
-                          }
-                          className='truncate text-sm text-[#131517] max-w-[calc(100%_-_30px)]'
-                          dangerouslySetInnerHTML={{
-                            __html: pc
-                              ? redential.intentDisplayExp
-                              : redential.displayExp
-                          }}
-                        />
+                                : open
+                            }
+                          />
+                        )}
                       </div>
-                      {redential.isVerified ? (
-                        <span className='flex items-center gap-x-1 text-md whitespace-nowrap text-[#65C467]'>
-                          <VerifyStatus status={verifyStatusEnum.Sucess} />
-                          Verified
-                        </span>
-                      ) : campaignNotStart ||
-                        campaignEnd ||
-                        !userLogined ? null : (
-                        <WithVerify
-                          sysConnectedMap={sysConnectedMap}
-                          sycLoginFnMap={sycLoginFnMap}
-                          credentialType={credentialType}
-                          handleFn={
-                            isConnected
-                              ? userLogined
-                                ? sysConnectedMap[credentialType]
-                                  ? () => handleVerify(redential)
-                                  : sycLoginFnMap[credentialType]
-                                : signIn
-                              : open
-                          }
-                        />
+                      {isSnapshotType && snapshotId && (
+                        <Link
+                          to={`/app/${projectId}/snapshot/${campaignId}/${snapshotId}`}
+                        >
+                          <SnapshotPreview id={snapshotId} />
+                        </Link>
                       )}
-                    </div>
-                      <Link to={`/app/${projectId}/snapshot/${campaignId}/${snapshotId}`}>
-                        <SnapshotPreview id={snapshotId}/>
-                      </Link>
                     </React.Fragment>
-
-                  )
+                  );
                 })}
               </div>
-              <div className='h-px bg-[rgb(236,236,236)] mx-5 mb-4' />
-              <div className='px-5 pb-4'>
+              <div className="h-px bg-[rgb(236,236,236)] mx-5 mb-4" />
+              <div className="px-5 pb-4">
                 <img
                   src={rewardIcon}
-                  className='w-[64px] h-[64px] object-center object-contain mb-2'
+                  className="w-[64px] h-[64px] object-center object-contain mb-2"
                 />
-                <p className='text-xs text-[#131517] mb-6'>
+                <p className="text-xs text-[#131517] mb-6">
                   You may get following rewards once you have accomplished all
                   tasks in the group!
                 </p>
-                <div className='space-y-6 mb-6'>
-                  {group.nftList?.map(nft => {
+                <div className="space-y-6 mb-6">
+                  {group.nftList?.map((nft) => {
                     const incentiveMethodItem =
                       incentiveMethodList.find(
-                        v => v.value === nft.methodType
-                      ) || incentiveMethodList[0]
+                        (v) => v.value === nft.methodType
+                      ) || incentiveMethodList[0];
 
                     return (
                       <div key={nft.nftId}>
-                        <div className='flex items-center gap-x-0.5 mb-2'>
-                          <img src={nftIcon} className='w-4 h-4' />
-                          <span className='text-[#131517] text-sm'>nft</span>
+                        <div className="flex items-center gap-x-0.5 mb-2">
+                          <img src={nftIcon} className="w-4 h-4" />
+                          <span className="text-[#131517] text-sm">nft</span>
                         </div>
-                        <div className='flex mb-2.5'>
-                          <div className='flex flex-col gap-y-1.5 text-[#717374] text-sm flex-auto'>
+                        <div className="flex mb-2.5">
+                          <div className="flex flex-col gap-y-1.5 text-[#717374] text-sm flex-auto">
                             <p>{nft.name}</p>
-                            <div className='flex items-center gap-x-0.5 lowercase'>
+                            <div className="flex items-center gap-x-0.5 lowercase">
                               <img
                                 src={incentiveMethodItem?.icon}
-                                className='w-3 h-4'
+                                className="w-3 h-4"
                               />
                               {incentiveMethodItem?.title}
                             </div>
                           </div>
-                          <div className='w-12 h-12 rounded'>
-                            <img src={nft.picUrl} className='w-full h-full' />
+                          <div className="w-12 h-12 rounded">
+                            <img src={nft.picUrl} className="w-full h-full" />
                           </div>
                         </div>
                       </div>
-                    )
+                    );
                   })}
-                  {group.pointList?.map(point => {
+                  {group.pointList?.map((point) => {
                     const incentiveMethodItem =
                       incentiveMethodList.find(
-                        v => v.value === point.methodType
-                      ) || incentiveMethodList[0]
+                        (v) => v.value === point.methodType
+                      ) || incentiveMethodList[0];
                     return (
                       <div key={point.pointId}>
-                        <div className='flex items-center gap-x-0.5 mb-2'>
-                          <img src={pointIcon} className='w-4 h-4' />
-                          <span className='text-[#131517] text-sm'>point</span>
+                        <div className="flex items-center gap-x-0.5 mb-2">
+                          <img src={pointIcon} className="w-4 h-4" />
+                          <span className="text-[#131517] text-sm">point</span>
                         </div>
-                        <div className='flex flex-col gap-y-1.5 text-[#717374] text-sm'>
+                        <div className="flex flex-col gap-y-1.5 text-[#717374] text-sm">
                           <p>{point.number} points</p>
-                          <div className='flex items-center gap-x-0.5 lowercase'>
+                          <div className="flex items-center gap-x-0.5 lowercase">
                             <img
                               src={incentiveMethodItem?.icon}
-                              className='w-3 h-4'
+                              className="w-3 h-4"
                             />
                             {incentiveMethodItem?.title}
                           </div>
                         </div>
                       </div>
-                    )
+                    );
                   })}
                 </div>
-                <div className='flex items-center gap-x-2.5 text-sm'>
+                <div className="flex items-center gap-x-2.5 text-sm">
                   <div
-                    className='text-blue-1 bg-[#f5f8fd] px-2.5 py-1 cursor-pointer rounded'
+                    className="text-blue-1 bg-[#f5f8fd] px-2.5 py-1 cursor-pointer rounded"
                     onClick={() => {
-                      const fn = () => setRewardModalIdx(index)
+                      const fn = () => setRewardModalIdx(index);
                       const handler = isConnected
                         ? userLogined
                           ? fn
                           : signIn
-                        : open
-                      handler()
+                        : open;
+                      handler();
                     }}
                   >
                     View Rewards
@@ -471,25 +473,25 @@ export default function () {
                 </div>
               </div>
             </div>
-          )
+          );
         })}
       </section>
 
       <Modal open={rewardModalIdx >= 0} onCancel={handleCancel}>
         <img
           src={rewardIcon}
-          className='w-[88px] h-[88px] absolute left-1/2 -translate-x-1/2 top-[-50px] z-10'
+          className="w-[88px] h-[88px] absolute left-1/2 -translate-x-1/2 top-[-50px] z-10"
         />
         {rewardModalIdx >= 0 && (
-          <div className='text-t-1 -mx-2 max-h-[345px] overflow-y-auto'>
-            <h2 className='text-base lg:text-4xl mb-1.5 font-medium text-[#131517]'>
+          <div className="text-t-1 -mx-2 max-h-[345px] overflow-y-auto">
+            <h2 className="text-base lg:text-4xl mb-1.5 font-medium text-[#131517]">
               Rewards
             </h2>
-            <p className='text-xs text-[#131517] mb-8'>
+            <p className="text-xs text-[#131517] mb-8">
               You may get following rewards once you have accomplished all tasks
               in the group!
             </p>
-            <div className='text-base'>
+            <div className="text-base">
               <RewardClaim group={page?.groups?.[rewardModalIdx]} />
             </div>
           </div>
@@ -503,5 +505,5 @@ export default function () {
         style={{ visibility: "hidden" }}
       ></a> */}
     </div>
-  )
+  );
 }

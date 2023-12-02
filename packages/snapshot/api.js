@@ -6,6 +6,17 @@ const qlHub = `https://hub.snapshot.org/graphql?apiKey=74eda144b7ab8c8120193528c
 const httpHub = "https://hub.snapshot.org";
 export const client = new snapshot.Client712(httpHub);
 
+export const getSnapshotIdBylink = (link) => {
+  try {
+    const { hash } = new URL(link);
+    const path = hash.slice(0);
+    const pathParts = path.split("/");
+    return pathParts[pathParts.length - 1];
+  } catch (e) {
+    return null;
+  }
+};
+
 export const useProposal = (id) => {
   return useQuery(
     ["proposal", id],
@@ -55,8 +66,7 @@ export const useProposal = (id) => {
   );
 };
 
-
-export const useSpace = id => {
+export const useSpace = (id) => {
   return useQuery(
     ["space", id],
     async () => {
@@ -85,4 +95,4 @@ export const useSpace = id => {
       enabled: !!id,
     }
   );
-}
+};
