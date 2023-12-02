@@ -2,7 +2,7 @@ import { useResponsive } from 'ahooks'
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useQueryClient } from 'react-query'
 import { twLogin, getTwLoginUrl, verifyCredential } from '@/api/incentive'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { credentialStatus, incentiveMethodList } from '@/utils/conf'
 import nftIcon from '@/images/icon/nft.svg'
 import pointIcon from '@/images/icon/point.svg'
@@ -54,7 +54,7 @@ export default function () {
   const dispath = useDispatch()
   const { open } = useWeb3Modal()
   // const { handleSignIn } = useSignIn();
-  const { campaignId } = useParams()
+  const { campaignId, projectId } = useParams()
   const queryClient = useQueryClient()
   const {
     data: page,
@@ -62,7 +62,7 @@ export default function () {
     campaignNotStart,
     campaignEnd
   } = useCampaignQuery(campaignId)
-  const { data: project } = useProjectQuery(page?.campaign?.projectId)
+  const { data: project } = useProjectQuery(projectId)
   const { twitterConnected, userLogined, discordConnected, telegramConnected } =
     useUserInfo()
   const [rewardModalIdx, setRewardModalIdx] = useState(-1)
@@ -379,8 +379,9 @@ export default function () {
                         />
                       )}
                     </div>
-
-                      <SnapshotPreview id={snapshotId}/>
+                      <Link to={`/app/${projectId}/snapshot/${campaignId}/${snapshotId}`}>
+                        <SnapshotPreview id={snapshotId}/>
+                      </Link>
                     </React.Fragment>
 
                   )

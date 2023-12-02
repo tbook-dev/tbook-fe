@@ -55,6 +55,15 @@ const routes = [
       {
         path: ':projectId/nft/:groupId/:nftId',
         element: <NFT />
+      },
+      {
+        path: ':projectId/snapshot/:campaignId/:snapshotId',
+        async lazy () {
+          const { default: Component } = await import(
+            '@/pages/snapshot'
+          )
+          return { Component }
+        }
       }
     ]
   },

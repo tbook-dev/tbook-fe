@@ -1,5 +1,4 @@
 import { useProposal } from "./api";
-import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { useMemo } from "react";
 import TimerDown from "./components/TimerDown";
@@ -26,7 +25,7 @@ export default function SigleVote({ id }) {
 
   return (
     data && (
-      <Link className="block mt-4 border border-[rgb(19,21,23)]/[0.06] p-3 rounded-xl space-y-8">
+      <div className="block mt-4 border border-[rgb(19,21,23)]/[0.06] p-3 rounded-xl space-y-8">
         <div className="space-y-3">
           <TimerDown state={data.state} value={data.end} />
           <h2 className="text-base font-medium">{data.title}</h2>
@@ -94,7 +93,7 @@ export default function SigleVote({ id }) {
             />
           </svg>
         </div>
-      </Link>
+      </div>
     )
   );
 }
