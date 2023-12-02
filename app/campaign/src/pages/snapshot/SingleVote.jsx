@@ -22,14 +22,14 @@ export default function SingleVote({ snapshotId }) {
             <div
               key={idx}
               onClick={() => {
-                setVoted(v);
+                setVoted(v === voted ? null : v);
               }}
               className={clsx(
                 "flex items-center justify-between",
                 "px-4 py-3 border rounded-lg text-sm font-medium h-[46px] bg-white",
                 {
                   "border-[#F8F8F8] text-[#A1A1A2]": data?.state === "pending",
-                  "border-[rgba(0,110,233)]/[0.20] text-[#006EE9]":
+                  "border-[rgba(0,110,233)]/[0.20] text-[#006EE9] cursor-pointer select-none":
                     data?.state === "active",
                 }
               )}
@@ -45,7 +45,7 @@ export default function SingleVote({ snapshotId }) {
         })}
       </div>
       <button
-        disabled={data?.state === "active" && voted !== null}
+        disabled={!(data?.state === "active" && voted !== null)}
         className={clsx(
           "w-full text-xl font-medium h-12 rounded-lg",
           data?.state === "active" && voted !== null

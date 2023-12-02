@@ -3,6 +3,7 @@ import { useProposal } from "@tbook/snapshot/api";
 import TimerDown from "@tbook/snapshot/components/TimerDown";
 import Markdown from "./Markdown";
 import SingleVote from "./SingleVote";
+import VoteResult from "./VoteResult";
 
 const regex = /(!\[.*?\]\()ipfs:\/\/([^)]+)(\))/g;
 const replacement = "$1https://snapshot.4everland.link/ipfs/$2$3";
@@ -43,7 +44,7 @@ export default function Snapshot() {
         Back to campaign
       </Link>
 
-      <div className="bg-white rounded-t-[20px] px-6 pt-5 min-h-[calc(100vh_-_100px)] space-y-8">
+      <div className="bg-white rounded-t-[20px] px-6 pt-5 min-h-[calc(100vh_-_100px)] space-y-8 pb-3">
         <div className="space-y-3">
           <TimerDown state={data?.state} value={data?.end} />
           <h2 className="text-xl font-medium">{data?.title}</h2>
@@ -52,6 +53,7 @@ export default function Snapshot() {
         <Markdown>{formatIPFS(data?.body)}</Markdown>
 
         {data?.state !== "closed" && <SingleVote snapshotId={snapshotId} />}
+        <VoteResult snapshotId={snapshotId} />
       </div>
     </div>
   );
