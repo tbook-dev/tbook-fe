@@ -1,5 +1,5 @@
 import { useResponsive } from 'ahooks'
-import { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useQueryClient } from 'react-query'
 import { twLogin, getTwLoginUrl, verifyCredential } from '@/api/incentive'
 import { useParams } from 'react-router-dom'
@@ -31,7 +31,7 @@ import LazyImage from '@/components/lazyImage'
 import VerifyStatus, {
   verifyStatusEnum
 } from '@/components/withVerify/VerifyStatus'
-
+import SnapshotPreview from '@tbook/snapshot/Preview'
 const { Countdown } = Statistic
 
 const errorMsg = (
@@ -74,12 +74,10 @@ export default function () {
   // const [nonce, setNonce] = useState("");
 
   // const { data: walletClient, isError, isLoading } = useWalletClient();
-
   const { address, isConnected, isDisconnected } = useAccount()
 
   const [rawDatas, setRawDatas] = useState({})
   const [signed, setSigned] = useState({})
-
   // useEffect(() => {
   //   if (isConnected) {
   //     getNonce(address).then((r) => {
@@ -324,8 +322,12 @@ export default function () {
                     },
                     10: () => signCredential(redential)
                   }
-
+                  const isSnapshotType = true
+                  // const snapshotId = 'QmWbpCtwdLzxuLKnMW4Vv4MPFd2pdPX71YBKPasfZxqLUS'
+                  const snapshotId = '0x6f7cc109170a98ec8a38a189dc2811c81297c2b7c5c9128ec92860581bf55731'
                   return (
+                    <React.Fragment key={index}>
+
                     <div
                       key={index}
                       className='flex items-center justify-between h-10 w-full'
@@ -377,6 +379,10 @@ export default function () {
                         />
                       )}
                     </div>
+
+                      <SnapshotPreview id={snapshotId}/>
+                    </React.Fragment>
+
                   )
                 })}
               </div>
