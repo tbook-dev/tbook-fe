@@ -51,7 +51,7 @@ export default function Snapshot() {
 
         <Markdown>{formatIPFS(data?.body)}</Markdown>
 
-        <SingleVote snapshotId={snapshotId}/>
+        {data?.state !== "closed" && <SingleVote snapshotId={snapshotId} />}
       </div>
     </div>
   );

@@ -323,8 +323,8 @@ export default function () {
                     10: () => signCredential(redential)
                   }
                   const isSnapshotType = true
-                  // const snapshotId = 'QmWbpCtwdLzxuLKnMW4Vv4MPFd2pdPX71YBKPasfZxqLUS'
-                  const snapshotId = '0xe2e3494c78a9082d09d9506e9e5a5cb405487267db93254e7e3a876960f85170'
+                  const snapshotId = 'QmWbpCtwdLzxuLKnMW4Vv4MPFd2pdPX71YBKPasfZxqLUS'
+                  // const snapshotId = '0xe2e3494c78a9082d09d9506e9e5a5cb405487267db93254e7e3a876960f85170'
                   return (
                     <React.Fragment key={index}>
 
