@@ -54,3 +54,35 @@ export const useProposal = (id) => {
     }
   );
 };
+
+
+export const useSpace = id => {
+  return useQuery(
+    ["space", id],
+    async () => {
+      const { space } = await request(
+        qlHub,
+        gql`
+        query {
+          space(id: "${id}") {
+              id
+              voting {
+                delay
+                hideAbstain
+                period
+                privacy
+                quorum
+                type
+              }
+            }
+          }
+        `
+      );
+
+      return space;
+    },
+    {
+      enabled: !!id,
+    }
+  );
+}

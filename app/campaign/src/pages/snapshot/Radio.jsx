@@ -14,7 +14,7 @@ export default function Radio({ disabled = false, checked }) {
           r="10"
           fill="white"
           stroke="#A1A1A2"
-          stroke-width="2"
+          strokeWidth="2"
         />
       </svg>
     );
@@ -34,7 +34,7 @@ export default function Radio({ disabled = false, checked }) {
           r="10"
           fill="white"
           stroke="#006EE9"
-          stroke-width="2"
+          strokeWidth="2"
         />
         <circle cx="11" cy="11" r="8" fill="#006EE9" />
       </svg>
@@ -54,7 +54,7 @@ export default function Radio({ disabled = false, checked }) {
           r="10"
           fill="white"
           stroke="#006EE9"
-          stroke-width="2"
+          strokeWidth="2"
         />
         <circle cx="11" cy="11" r="8" fill="white" />
       </svg>

@@ -26,7 +26,7 @@ export default function Snapshot() {
     <div className="lg:w-[880px] mx-auto">
       <Link
         to={`/app/${projectId}/campaign/${campaignId}`}
-        className="flex items-center text-base font-semibold p-2.5"
+        className="flex items-center text-base font-semibold p-2.5 lg:hidden"
       >
         <svg
           width="12"
@@ -44,7 +44,7 @@ export default function Snapshot() {
         Back to campaign
       </Link>
 
-      <div className="bg-white rounded-t-[20px] px-6 pt-5 min-h-[calc(100vh_-_100px)] space-y-8 pb-3">
+      <div className="bg-white rounded-t-[20px] lg:rounded-[20px] px-6 pt-5 min-h-[calc(100vh_-_100px)] space-y-8 pb-3">
         <div className="space-y-3">
           <TimerDown state={data?.state} value={data?.end} />
           <h2 className="text-xl font-medium">{data?.title}</h2>
