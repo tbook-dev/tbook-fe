@@ -6,6 +6,7 @@ import xIcon from '@/images/icon/x2.svg'
 import { useState, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { setLoginModal, setConnectWalletModal } from '@/store/global'
+import { loginUsingTwitterUrl } from '@/api/incentive'
 import WalletWeb3Modal from './walletWeb3Modal'
 
 const pageConf = {
@@ -69,7 +70,7 @@ const ConnectWalletModal = () => {
             <Divider style={{ color: '#A1A1A2' }}>
               <span className='text-xs text-[#717374]'>{pageConf.divider}</span>
             </Divider>
-            <button className='text-[#131517] px-4 border border-[#131517] w-full h-8 rounded-md flex items-center justify-start overflow-hidden'>
+            <button onClick={loginUsingTwitterUrl} className='text-[#131517] px-4 border border-[#131517] w-full h-8 rounded-md flex items-center justify-start overflow-hidden'>
               <img
                 src={pageConf.connectTwitter.icon}
                 className='w-4 h-4 object-center'
