@@ -51,8 +51,8 @@ export default function SigleVote({ id }) {
                   >
                     {v.percent}%
                   </h3>
-                  <p className="text-sx text-[#A1A1A2]">{v.voteNum} vote</p>
                 </div>
+                <p className="text-xs text-[#A1A1A2] col-span-2 text-right">{v.voteNum} vote</p>
               </div>
             );
           })}
