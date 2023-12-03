@@ -37,7 +37,7 @@ export default function CastModal() {
   const { snapshotId } = useParams();
   const { address } = useAccount();
   const { showSnapshotCastModal, snapshotData } = useSelector((s) => s.global);
-  const { data } = useProposal(snapshotId);
+  const { data, refetch } = useProposal(snapshotId);
   const [voting, setVoting] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const op = {
@@ -66,6 +66,7 @@ export default function CastModal() {
     castVote(param)
       .then((r) => {
         messageApi.success(moduleConf.voteSucess);
+        refetch();
       })
       .catch(() => {
         messageApi.error(moduleConf.voteError);

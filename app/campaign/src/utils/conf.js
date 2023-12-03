@@ -145,6 +145,10 @@ const labelTypeMap = {
       label: "Sign Message",
       value: 10,
     },
+    {
+      label: "snapshot",
+      value: 12,
+    },
   ],
 };
 

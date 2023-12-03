@@ -2,7 +2,7 @@ import { useResponsive } from "ahooks";
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useQueryClient } from "react-query";
 import { twLogin, getTwLoginUrl, verifyCredential } from "@/api/incentive";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { credentialStatus, incentiveMethodList } from "@/utils/conf";
 import nftIcon from "@/images/icon/nft.svg";
 import pointIcon from "@/images/icon/point.svg";
@@ -51,6 +51,7 @@ const errorMsg = (
 
 export default function () {
   const [messageApi, contextHolder] = message.useMessage();
+  const navigate = useNavigate();
   const { pc } = useResponsive();
   const dispath = useDispatch();
   const { open } = useWeb3Modal();
@@ -305,6 +306,9 @@ export default function () {
               <div className="px-5 py-3">
                 {group.credentialList?.map((redential, index) => {
                   const credentialType = getCrenditialType(redential.labelType);
+                  const isSnapshotType = redential.labelType === 12;
+                  const snapshotId = getSnapshotIdBylink(redential.link);
+
                   const sysConnectedMap = {
                     twitter: twitterConnected,
                     discord: discordConnected,
@@ -316,15 +320,18 @@ export default function () {
                     discord: getSocialByName("discord").loginFn,
                     telegram: getSocialByName("telegram").loginFn,
                   };
+               
                   const taskMap = {
                     8: async () => {
                       await verifyTbook(redential.credentialId);
                       await handleVerify(redential);
                     },
                     10: () => signCredential(redential),
+                    12: () => {
+                      navigate(`/app/${projectId}/snapshot/${campaignId}/${snapshotId}`)
+                    },
                   };
-                  const isSnapshotType = redential.labelType === 12;
-                  const snapshotId = getSnapshotIdBylink(redential.link);
+                  console.log('sysConnectedMap[credentialType]', sysConnectedMap[credentialType])
                   return (
                     <React.Fragment key={index}>
                       <div

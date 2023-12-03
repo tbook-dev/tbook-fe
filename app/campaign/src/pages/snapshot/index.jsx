@@ -22,7 +22,7 @@ const formatIPFS = (src) => {
 export default function Snapshot() {
   const { projectId, campaignId, snapshotId } = useParams();
   const { data } = useProposal(snapshotId);
-  console.log({ data });
+  
   return (
     <>
       <div className="lg:w-[880px] mx-auto">
