@@ -320,7 +320,7 @@ export default function () {
                     discord: getSocialByName("discord").loginFn,
                     telegram: getSocialByName("telegram").loginFn,
                   };
-               
+
                   const taskMap = {
                     8: async () => {
                       await verifyTbook(redential.credentialId);
@@ -328,10 +328,11 @@ export default function () {
                     },
                     10: () => signCredential(redential),
                     12: () => {
-                      navigate(`/app/${projectId}/snapshot/${campaignId}/${snapshotId}`)
+                      navigate(
+                        `/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`
+                      );
                     },
                   };
-                  console.log('sysConnectedMap[credentialType]', sysConnectedMap[credentialType])
                   return (
                     <React.Fragment key={index}>
                       <div
@@ -387,7 +388,7 @@ export default function () {
                       </div>
                       {isSnapshotType && snapshotId && (
                         <Link
-                          to={`/app/${projectId}/snapshot/${campaignId}/${snapshotId}`}
+                          to={`/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
                         >
                           <SnapshotPreview id={snapshotId} />
                         </Link>

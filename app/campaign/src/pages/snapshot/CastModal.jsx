@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin, message } from "antd";
+import { verifyTbook } from "@/api/incentive"
 
 const moduleConf = {
   title: "Cast your vote",
@@ -34,7 +35,7 @@ const moduleConf = {
 export default function CastModal() {
   const { pc } = useResponsive();
   const dispath = useDispatch();
-  const { snapshotId } = useParams();
+  const { snapshotId, credentialId } = useParams();
   const { address } = useAccount();
   const { showSnapshotCastModal, snapshotData } = useSelector((s) => s.global);
   const { data, refetch } = useProposal(snapshotId);
@@ -66,6 +67,8 @@ export default function CastModal() {
     castVote(param)
       .then((r) => {
         messageApi.success(moduleConf.voteSucess);
+        // 上报
+        verifyTbook(credentialId)
         refetch();
       })
       .catch(() => {
