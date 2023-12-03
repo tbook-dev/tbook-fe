@@ -27,7 +27,7 @@ export default function VoteResult({ snapshotId }) {
   const arriveQuorum = BigNumber(data?.scores_total).gte(data?.quorum);
   return (
     <div className="space-y-6">
-      {data?.quorum && (
+      {data?.quorum > 0 && (
         <div className="space-y-3">
           <h2 className="flex items-center justify-between text-sm font-medium text-[#717374]">
             <span>Turnout/Quorum</span>

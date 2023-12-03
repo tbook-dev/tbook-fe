@@ -1,6 +1,7 @@
 import snapshot from "@snapshot-labs/snapshot.js";
 import { useQuery } from "react-query";
 import { request, gql } from "graphql-request";
+import { Web3Provider } from "@ethersproject/providers";
 
 const apiKey =
   "74eda144b7ab8c8120193528c36779c62bfd1263d225d2b966d4ac641cff0756";
@@ -50,6 +51,7 @@ export const useProposal = (id) => {
               quorum
               votes
               ipfs
+              app
               strategies {
                 name
                 network
@@ -175,4 +177,18 @@ export const useVp = ({ address, network, strategies, snapshot, space }) => {
       enabled: !!address && !!snapshot,
     }
   );
+};
+
+export const castVote = async ({ proposal, space, type, choice, app }) => {
+  const web3 = new Web3Provider(window.ethereum);
+  const [account] = await web3.listAccounts();
+return client.vote(web3, account, {
+      space,
+      proposal,
+      type,
+      choice,
+      app,
+      reason: "",
+    });
+   
 };
