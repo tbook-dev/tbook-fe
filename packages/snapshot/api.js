@@ -2,7 +2,9 @@ import snapshot from "@snapshot-labs/snapshot.js";
 import { useQuery } from "react-query";
 import { request, gql } from "graphql-request";
 
-const qlHub = `https://hub.snapshot.org/graphql?apiKey=74eda144b7ab8c8120193528c36779c62bfd1263d225d2b966d4ac641cff0756`;
+const apiKey =
+  "74eda144b7ab8c8120193528c36779c62bfd1263d225d2b966d4ac641cff0756";
+const qlHub = `https://hub.snapshot.org/graphql?apiKey=${apiKey}`;
 const httpHub = "https://hub.snapshot.org";
 export const client = new snapshot.Client712(httpHub);
 
@@ -124,6 +126,53 @@ export const useUserVotes = (proposalId, voter) => {
     },
     {
       enabled: !!proposalId && !!voter,
+    }
+  );
+};
+
+export const getVp = ({
+  address,
+  network,
+  strategies,
+  snapshot: snapshotHeight,
+  space,
+}) => {
+  // const address = "0xa478c2975ab1ea89e8196811f51a7b7ade33eb11";
+  // const network = "1";
+  // const strategies = [
+  //   {
+  //     name: "erc20-balance-of",
+  //     params: {
+  //       address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+  //       symbol: "DAI",
+  //       decimals: 18,
+  //     },
+  //   },
+  // ];
+  // const snapshotHeight = 11437846;
+  // const space = "yam.eth";
+  const delegation = false;
+  const options = { url: `https://score.snapshot.org/?apiKey=${apiKey}` };
+
+  return snapshot.utils.getVp(
+    address,
+    network,
+    strategies,
+    Number(snapshotHeight),
+    space,
+    delegation,
+    options
+  );
+};
+
+export const useVp = ({ address, network, strategies, snapshot, space }) => {
+  return useQuery(
+    ["vp", address, network, snapshot, space],
+    async () => {
+      return getVp({ address, network, strategies, snapshot, space });
+    },
+    {
+      enabled: !!address && !!snapshot,
     }
   );
 };

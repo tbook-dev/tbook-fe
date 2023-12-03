@@ -28,7 +28,6 @@ const ConnectWalletModal = () => {
     s => s.global.showConnectWalletModal
   )
   const showLoginModal = useSelector(s => s.global.showLoginModal)
-  console.log({ showConnectWalletModal })
   const dispath = useDispatch()
   const { pc } = useResponsive()
 

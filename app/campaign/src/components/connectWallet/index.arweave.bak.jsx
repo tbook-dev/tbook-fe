@@ -74,7 +74,7 @@ const ConnectWalletModal = () => {
   const handleCloseModal = useCallback(() => {
     dispath(setLoginModal(false))
   }, [])
-  console.log({ isConnected })
+  // console.log({ isConnected })
   return (
     <Modal
       footer={null}
