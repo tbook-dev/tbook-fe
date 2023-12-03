@@ -3,13 +3,16 @@ import { useResponsive } from "ahooks";
 import { useSelector } from "react-redux";
 import BigNumber from "bignumber.js";
 import { setSnapshotCastModal, setSnapshotData } from "@/store/global";
-import { useVp, useProposal } from "@tbook/snapshot/api";
+import { useVp, useProposal, castVote } from "@tbook/snapshot/api";
 import { useDispatch } from "react-redux";
 import { formatDollar } from "@tbook/utils/lib/conf";
 import Arrow2Icon from "@/images/icon/arrow2.svg";
 import errorIcon from "@/images/icon/error.svg";
 import { useAccount } from "wagmi";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Spin, message } from "antd";
 
 const moduleConf = {
   title: "Cast your vote",
@@ -25,6 +28,8 @@ const moduleConf = {
   votingPowerLink: "https://github.com/snapshot-labs/snapshot/discussions/767",
   votingPowerText: "Learn more",
   button: "Confirm",
+  voteSucess: "Vote sucess!",
+  voteError: "Vote error!",
 };
 export default function CastModal() {
   const { pc } = useResponsive();
@@ -33,6 +38,8 @@ export default function CastModal() {
   const { address } = useAccount();
   const { showSnapshotCastModal, snapshotData } = useSelector((s) => s.global);
   const { data } = useProposal(snapshotId);
+  const [voting, setVoting] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
   const op = {
     address,
     network: data?.network,
@@ -42,10 +49,31 @@ export default function CastModal() {
   };
   const { data: vp } = useVp(op);
   const hasPower = BigNumber(vp?.vp).gt(0);
-  
-  const handleCance = () => {
+
+  const handleCancel = () => {
     dispath(setSnapshotCastModal(false));
     dispath(setSnapshotData(null));
+  };
+  const handleVote = () => {
+    setVoting(true);
+    const param = {
+      proposal: data?.id,
+      space: data?.space?.id,
+      type: data?.type,
+      choice: snapshotData?.choice,
+      app: data?.app,
+    };
+    castVote(param)
+      .then((r) => {
+        messageApi.success(moduleConf.voteSucess);
+      })
+      .catch(() => {
+        messageApi.error(moduleConf.voteError);
+      })
+      .finally(() => {
+        setVoting(false);
+        handleCancel();
+      });
   };
 
   return (
@@ -55,7 +83,7 @@ export default function CastModal() {
       centered
       open={showSnapshotCastModal}
       closable={pc ? true : false}
-      onCancel={handleCance}
+      onCancel={handleCancel}
     >
       <div className="-mx-6 text-[#131517]">
         <div className="mx-6">
@@ -106,8 +134,17 @@ export default function CastModal() {
             )}
           </div>
           {hasPower ? (
-            <button className="h-8 w-full rounded-lg bg-[#006EE9] text-white text-sm font-medium">
+            <button
+              disabled={voting}
+              onClick={handleVote}
+              className="h-8 w-full rounded-lg bg-[#006EE9] text-white text-sm font-medium flex items-center justify-center gap-x-2"
+            >
               {moduleConf.button}
+              {voting && (
+                <Spin
+                  indicator={<LoadingOutlined style={{ fontSize: 16 }} spin />}
+                />
+              )}
             </button>
           ) : (
             <div className="flex items-start gap-x-2">
@@ -131,6 +168,7 @@ export default function CastModal() {
           )}
         </div>
       </div>
+      {contextHolder}
     </Modal>
   );
 }
