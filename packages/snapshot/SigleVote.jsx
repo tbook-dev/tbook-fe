@@ -13,10 +13,13 @@ export default function SigleVote({ id }) {
       ? data.choices.map((v, idx) => {
           return {
             choiceDesc: v,
-            percent: BigNumber(data.scores[idx])
-              .div(data.scores_total)
-              .times(100)
-              .toFixed(1),
+            percent:
+              data.scores_total === 0
+                ? 0
+                : BigNumber(data.scores[idx])
+                    .div(data.scores_total)
+                    .times(100)
+                    .toFixed(1),
             voteNum: BigNumber(data.scores[idx]).toFixed(6),
           };
         })

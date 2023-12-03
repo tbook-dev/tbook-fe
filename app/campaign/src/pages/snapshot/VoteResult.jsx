@@ -6,7 +6,6 @@ import { useMemo } from "react";
 import { Progress } from "antd";
 import { formatDollar } from "@tbook/utils/lib/conf";
 
-
 export default function VoteResult({ snapshotId }) {
   const { data } = useProposal(snapshotId);
   const choices = useMemo(() => {
@@ -15,10 +14,13 @@ export default function VoteResult({ snapshotId }) {
       ? data.choices.map((v, idx) => {
           return {
             choiceDesc: v,
-            percent: BigNumber(data.scores[idx])
-              .div(data.scores_total)
-              .times(100)
-              .toFixed(1),
+            percent:
+              data.scores_total === 0
+                ? 0
+                : BigNumber(data.scores[idx])
+                    .div(data.scores_total)
+                    .times(100)
+                    .toFixed(1),
             voteNum: BigNumber(data.scores[idx]).toFixed(6),
           };
         })
@@ -51,7 +53,8 @@ export default function VoteResult({ snapshotId }) {
                   />
                 </svg>
               )}
-              {formatDollar(BigNumber(data?.scores_total).toFixed(6),6)}/{formatDollar(data?.quorum,6)}
+              {formatDollar(BigNumber(data?.scores_total).toFixed(6), 6)}/
+              {formatDollar(data?.quorum, 6)}
             </span>
           </h2>
           <Progress
