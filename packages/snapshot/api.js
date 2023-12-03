@@ -43,7 +43,11 @@ export const useProposal = (id) => {
               scores_total
               scores_updated
               plugins
+              type
               network
+              quorum
+              votes
+              ipfs
               strategies {
                 name
                 network
@@ -93,6 +97,33 @@ export const useSpace = (id) => {
     },
     {
       enabled: !!id,
+    }
+  );
+};
+
+// 获取当前的投票情况
+export const useUserVotes = (proposalId, voter) => {
+  return useQuery(
+    ["vote", proposalId, voter],
+    async () => {
+      const { votes } = await request(
+        qlHub,
+        gql`
+        query {
+          votes(where: { proposal: "${proposalId}", voter: "${voter}" }) {
+              choice
+              ipfs
+              voter
+              vp
+              vp_by_strategy
+            }
+          }
+        `
+      );
+      return votes;
+    },
+    {
+      enabled: !!proposalId && !!voter,
     }
   );
 };
