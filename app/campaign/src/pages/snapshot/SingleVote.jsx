@@ -5,15 +5,18 @@ import Radio from "./Radio";
 import clsx from "clsx";
 import { useAccount } from "wagmi";
 import { useEffect } from "react";
-
+import { useDispatch } from "react-redux";
+import { setSnapshotCastModal, setSnapshotData } from "@/store/global";
 export default function SingleVote({ snapshotId }) {
   const { data } = useProposal(snapshotId);
   const [voted, setVoted] = useState(null);
   const { address } = useAccount();
   const { data: votes } = useUserVotes(snapshotId, address);
-  const handleVote = ()=>{
-    console.log(voted,'user chioce')
-  }
+  const dispath = useDispatch();
+  const handleVote = () => {
+    dispath(setSnapshotCastModal(true));
+    dispath(setSnapshotData({ choice: voted, type: data?.type }));
+  };
   useEffect(() => {
     if (!votes) return;
     const vote = votes?.find((v) => v.voter === address);
