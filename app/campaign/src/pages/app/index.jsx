@@ -387,11 +387,18 @@ export default function () {
                         )}
                       </div>
                       {isSnapshotType && snapshotId && (
-                        <Link
-                          to={`/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
+                        <div
+                          className="cursor-pointer"
+                          onClick={
+                            isConnected
+                              ? userLogined
+                                ? taskMap[redential.labelType]
+                                : signIn
+                              : async () => await open()
+                          }
                         >
                           <SnapshotPreview id={snapshotId} />
-                        </Link>
+                        </div>
                       )}
                     </React.Fragment>
                   );
