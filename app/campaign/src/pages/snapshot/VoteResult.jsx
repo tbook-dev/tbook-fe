@@ -4,6 +4,8 @@ import { useProposal } from "@tbook/snapshot/api";
 import clsx from "clsx";
 import { useMemo } from "react";
 import { Progress } from "antd";
+import { formatDollar } from "@tbook/utils/lib/conf";
+
 
 export default function VoteResult({ snapshotId }) {
   const { data } = useProposal(snapshotId);
@@ -49,7 +51,7 @@ export default function VoteResult({ snapshotId }) {
                   />
                 </svg>
               )}
-              {BigNumber(data?.scores_total).toFixed(6)}/{data?.quorum}
+              {formatDollar(BigNumber(data?.scores_total).toFixed(6),6)}/{formatDollar(data?.quorum,6)}
             </span>
           </h2>
           <Progress
@@ -85,7 +87,7 @@ export default function VoteResult({ snapshotId }) {
                 </h3>
               </div>
               <p className="text-xs text-[#A1A1A2] col-span-2 text-right">
-                {v.voteNum} vote
+                {formatDollar(v.voteNum, 6)} vote
               </p>
             </div>
           );

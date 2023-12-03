@@ -7,6 +7,7 @@ import { useAccount } from "wagmi";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setSnapshotCastModal, setSnapshotData } from "@/store/global";
+
 export default function SingleVote({ snapshotId }) {
   const { data } = useProposal(snapshotId);
   const [voted, setVoted] = useState(null);
@@ -15,12 +16,17 @@ export default function SingleVote({ snapshotId }) {
   const dispath = useDispatch();
   const handleVote = () => {
     dispath(setSnapshotCastModal(true));
-    dispath(setSnapshotData({ choice: voted, type: data?.type }));
+    dispath(
+      setSnapshotData({
+        choice: voted,
+        choiceText: data?.choices?.[voted - 1],
+      })
+    );
   };
   useEffect(() => {
     if (!votes) return;
     const vote = votes?.find((v) => v.voter === address);
-    setVoted(vote.choice);
+    setVoted(vote?.choice ?? null);
   }, [votes]);
 
   return (
