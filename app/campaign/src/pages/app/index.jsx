@@ -328,8 +328,9 @@ export default function () {
                     },
                     10: () => signCredential(redential),
                     12: () => {
-                      navigate(
-                        `/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`
+                      window.open(
+                        `/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`,
+                        "_blank"
                       );
                     },
                   };
