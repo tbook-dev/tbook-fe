@@ -1,12 +1,28 @@
-import { useProposal } from "@tbook/snapshot/api";
+import { useProposal, useUserVotes } from "@tbook/snapshot/api";
 import dayjs from "dayjs";
 import { useState } from "react";
 import Radio from "./Radio";
 import clsx from "clsx";
-
+import { useAccount } from "wagmi";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setSnapshotCastModal, setSnapshotData } from "@/store/global";
 export default function SingleVote({ snapshotId }) {
   const { data } = useProposal(snapshotId);
   const [voted, setVoted] = useState(null);
+  const { address } = useAccount();
+  const { data: votes } = useUserVotes(snapshotId, address);
+  const dispath = useDispatch();
+  const handleVote = () => {
+    dispath(setSnapshotCastModal(true));
+    dispath(setSnapshotData({ choice: voted, type: data?.type }));
+  };
+  useEffect(() => {
+    if (!votes) return;
+    const vote = votes?.find((v) => v.voter === address);
+    setVoted(vote.choice);
+  }, [votes]);
+
   return (
     <div className="space-y-6">
       {data?.state === "pending" && (
@@ -22,7 +38,7 @@ export default function SingleVote({ snapshotId }) {
             <div
               key={idx}
               onClick={() => {
-                setVoted(v === voted ? null : v);
+                setVoted(v === voted ? null : idx + 1);
               }}
               className={clsx(
                 "flex items-center justify-between",
@@ -38,7 +54,7 @@ export default function SingleVote({ snapshotId }) {
               {data?.state === "pending" ? (
                 <Radio disabled />
               ) : (
-                <Radio checked={v === voted} />
+                <Radio checked={idx + 1 === voted} />
               )}
             </div>
           );
@@ -46,6 +62,7 @@ export default function SingleVote({ snapshotId }) {
       </div>
       <button
         disabled={!(data?.state === "active" && voted !== null)}
+        onClick={handleVote}
         className={clsx(
           "w-full text-xl font-medium h-12 rounded-lg",
           data?.state === "active" && voted !== null

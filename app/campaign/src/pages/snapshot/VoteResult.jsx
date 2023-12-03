@@ -1,14 +1,12 @@
 import BigNumber from "bignumber.js";
 import { colorSchema } from "@tbook/snapshot/conf";
-import { useProposal, useSpace } from "@tbook/snapshot/api";
+import { useProposal } from "@tbook/snapshot/api";
 import clsx from "clsx";
 import { useMemo } from "react";
 import { Progress } from "antd";
 
 export default function VoteResult({ snapshotId }) {
   const { data } = useProposal(snapshotId);
-  const { data: space } = useSpace(data?.space?.id);
-  console.log({ space });
   const choices = useMemo(() => {
     // const sum =
     return Array.isArray(data?.choices)
@@ -24,10 +22,10 @@ export default function VoteResult({ snapshotId }) {
         })
       : [];
   }, [data]);
-  const arriveQuorum = BigNumber(data?.scores_total).gte(space?.voting?.quorum);
+  const arriveQuorum = BigNumber(data?.scores_total).gte(data?.quorum);
   return (
     <div className="space-y-6">
-      {space?.voting?.quorum && (
+      {data?.quorum && (
         <div className="space-y-3">
           <h2 className="flex items-center justify-between text-sm font-medium text-[#717374]">
             <span>Turnout/Quorum</span>
@@ -51,12 +49,12 @@ export default function VoteResult({ snapshotId }) {
                   />
                 </svg>
               )}
-              {BigNumber(data?.scores_total).toFixed(6)}/{space?.voting?.quorum}
+              {BigNumber(data?.scores_total).toFixed(6)}/{data?.quorum}
             </span>
           </h2>
           <Progress
             percent={BigNumber(data?.scores_total)
-              .div(space?.voting?.quorum)
+              .div(data?.quorum)
               .times(100)
               .toFixed(2)}
             showInfo={false}
