@@ -320,7 +320,7 @@ export default function () {
                     discord: getSocialByName("discord").loginFn,
                     telegram: getSocialByName("telegram").loginFn,
                   };
-
+                  // 不需要登陆。
                   const taskMap = {
                     8: async () => {
                       await verifyTbook(redential.credentialId);
@@ -388,18 +388,11 @@ export default function () {
                         )}
                       </div>
                       {isSnapshotType && snapshotId && (
-                        <div
-                          className="cursor-pointer"
-                          onClick={
-                            isConnected
-                              ? userLogined
-                                ? taskMap[redential.labelType]
-                                : signIn
-                              : async () => await open()
-                          }
+                        <Link
+                          to={`/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
                         >
                           <SnapshotPreview id={snapshotId} />
-                        </div>
+                        </Link>
                       )}
                     </React.Fragment>
                   );

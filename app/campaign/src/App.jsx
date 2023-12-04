@@ -5,10 +5,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 // import { user } from '@tbook/store'
 import ConnectWalletModal from '@/components/connectWallet'
 // import useTheme from '@/hooks/useTheme'
-
+import PageFallBack from '@/components/pageFallback'
 import { configResponsive } from 'ahooks'
 import routes from './router'
-import { Spin } from 'antd'
+// import { Spin } from 'antd'
 
 import { WagmiConfig } from 'wagmi'
 import { watchAccount, getAccount } from 'wagmi/actions'
@@ -76,11 +76,7 @@ function App () {
       <WagmiConfig config={wagmiConfig}>
         <RouterProvider
           router={createBrowserRouter(routes)}
-          fallbackElement={
-            <div className='flex flex-col items-center justify-center h-[300px]'>
-              <Spin />
-            </div>
-          }
+          fallbackElement={<PageFallBack />}
         />
         <ConnectWalletModal />
       </WagmiConfig>

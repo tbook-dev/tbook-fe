@@ -6,22 +6,32 @@ import clsx from "clsx";
 import { useAccount } from "wagmi";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setSnapshotCastModal, setSnapshotData } from "@/store/global";
+import {
+  setSnapshotCastModal,
+  setSnapshotData,
+  setConnectWalletModal,
+} from "@/store/global";
+import useUserInfo from "@/hooks/useUserInfoQuery";
 
 export default function SingleVote({ snapshotId }) {
   const { data } = useProposal(snapshotId);
   const [voted, setVoted] = useState(null);
   const { address } = useAccount();
   const { data: votes } = useUserVotes(snapshotId, address);
+  const { userLogined } = useUserInfo();
   const dispath = useDispatch();
   const handleVote = () => {
-    dispath(setSnapshotCastModal(true));
-    dispath(
-      setSnapshotData({
-        choice: voted,
-        choiceText: data?.choices?.[voted - 1],
-      })
-    );
+    if (userLogined) {
+      dispath(setSnapshotCastModal(true));
+      dispath(
+        setSnapshotData({
+          choice: voted,
+          choiceText: data?.choices?.[voted - 1],
+        })
+      );
+    } else {
+      dispath(setConnectWalletModal(true));
+    }
   };
   useEffect(() => {
     if (!votes) return;
