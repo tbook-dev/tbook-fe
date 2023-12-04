@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { formatDollar } from "@tbook/utils/lib/conf";
 import Arrow2Icon from "@/images/icon/arrow2.svg";
 import errorIcon from "@/images/icon/error.svg";
-import { useAccount } from "wagmi";
+import { useAccount, useWalletClient, usePublicClient } from "wagmi";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -37,6 +37,8 @@ export default function CastModal() {
   const dispath = useDispatch();
   const { snapshotId, credentialId } = useParams();
   const { address } = useAccount();
+  const publicClient = usePublicClient();
+  const { data: walletClient } = useWalletClient();
   const { showSnapshotCastModal, snapshotData } = useSelector((s) => s.global);
   const { data, refetch } = useProposal(snapshotId);
   const [voting, setVoting] = useState(false);
@@ -64,7 +66,7 @@ export default function CastModal() {
       choice: snapshotData?.choice,
       app: data?.app,
     };
-    castVote(param)
+    castVote(walletClient, address, param)
       .then((r) => {
         messageApi.success(moduleConf.voteSucess);
         // 上报

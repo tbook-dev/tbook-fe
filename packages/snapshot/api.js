@@ -179,10 +179,9 @@ export const useVp = ({ address, network, strategies, snapshot, space }) => {
   );
 };
 
-export const castVote = async ({ proposal, space, type, choice, app }) => {
-  const web3 = new Web3Provider(window.ethereum);
-  const [account] = await web3.listAccounts();
-return client.vote(web3, account, {
+export const castVote = async (wallet, account, { proposal, space, type, choice, app }) => {
+  const web3 = new Web3Provider(wallet)
+  return client.vote(web3, account, {
       space,
       proposal,
       type,
@@ -190,5 +189,4 @@ return client.vote(web3, account, {
       app,
       reason: "",
     });
-   
 };
