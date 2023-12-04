@@ -23,7 +23,7 @@ const moduleConf = {
   ],
   ethscan: "https://etherscan.io/block",
   noVotingPower: (v) =>
-    `You can’t vote for this proposal. It seems you don't have any voting power at block ${formatDollar(
+    `You can't vote for this proposal. It seems you don't have any voting power at block ${formatDollar(
       v
     )}.`,
   votingPowerLink: "https://github.com/snapshot-labs/snapshot/discussions/767",
@@ -71,7 +71,8 @@ export default function CastModal() {
         verifyTbook(credentialId)
         refetch();
       })
-      .catch(() => {
+      .catch((e) => {
+        console.error(e);
         messageApi.error(moduleConf.voteError);
       })
       .finally(() => {
