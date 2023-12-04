@@ -26,6 +26,7 @@ export default function useUserInfo() {
   const twitterConnected = !!data?.userTwitter?.connected;
   const discordConnected = !!data?.userDc?.connected;
   const telegramConnected = !!data?.userTg?.connected;
+  const wallectConnected = !!data?.user?.wallet;
   const user = data?.user ?? {};
   const userLogined = isSuccess;
   return {
@@ -38,6 +39,7 @@ export default function useUserInfo() {
     twitterConnected,
     discordConnected,
     telegramConnected,
+    wallectConnected,
     firstLoad,
     userLogined,
     user,

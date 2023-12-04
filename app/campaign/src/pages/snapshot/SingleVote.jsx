@@ -16,11 +16,12 @@ import useUserInfo from "@/hooks/useUserInfoQuery";
 export default function SingleVote({ snapshotId }) {
   const { data } = useProposal(snapshotId);
   const [voted, setVoted] = useState(null);
-  const { isConnected, address } = useAccount();
+  const { address } = useAccount();
   const { data: votes } = useUserVotes(snapshotId, address);
   const dispath = useDispatch();
+  const { wallectConnected } = useUserInfo();
   const handleVote = () => {
-    if (isConnected) {
+    if (wallectConnected) {
       dispath(setSnapshotCastModal(true));
       dispath(
         setSnapshotData({
