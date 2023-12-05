@@ -15,7 +15,7 @@ import { getNonce } from '@/utils/web3'
 import { useQueryClient } from 'react-query'
 import { authenticate } from '@/api/incentive'
 import { disconnect } from '@wagmi/core'
-
+import { broadcast } from '@/utils/channel'
 const { shortAddress } = conf
 const { Paragraph } = Typography
 
@@ -72,6 +72,8 @@ const ConnectWalletModal = () => {
       // });
       // console.log(document.cookie);
       await queryClient.refetchQueries('userInfo')
+      // cast the userInfo event
+      broadcast('userInfo')
       handleCloseModal()
     } catch (error) {
       console.log(error)

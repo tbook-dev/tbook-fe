@@ -1,15 +1,10 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-// import { useAsyncEffect } from 'ahooks'
-// import { useDispatch } from 'react-redux'
-// import { user } from '@tbook/store'
 import ConnectWalletModal from '@/components/connectWallet'
-// import useTheme from '@/hooks/useTheme'
 import PageFallBack from '@/components/pageFallback'
-import { configResponsive } from 'ahooks'
+import { configResponsive, useEventListener } from 'ahooks'
 import routes from './router'
-// import { Spin } from 'antd'
-
+import { useQueryClient } from 'react-query'
 import { WagmiConfig } from 'wagmi'
 import { watchAccount, getAccount } from 'wagmi/actions'
 import { getWalletClient } from '@wagmi/core'
@@ -18,10 +13,10 @@ import {
   changeAccountSignIn,
   logout,
   preGetNonce,
-  signLoginMetaMask,
+  // signLoginMetaMask,
   isIOS
 } from '@/utils/web3'
-
+import { receive } from '@/utils/channel'
 
 configResponsive({
   pc: 1120
@@ -57,19 +52,12 @@ watchAccount(async acc => {
 })
 
 function App () {
-  // const dispatch = useDispatch()
-  // const theme = useTheme()
-  // useLayoutEffect(() => {
-  //   if (theme !== 'dark') {
-  //     document.documentElement.classList.add('dark')
-  //   } else {
-  //     document.documentElement.classList.remove('dark')
-  //   }
-  // }, [theme])
-
-  // useAsyncEffect(async () => {
-  //   dispatch(fetchUserInfo())
-  // }, [])
+  const queryClient = useQueryClient()
+  useEventListener('storage', ev => {
+    receive(ev, msg => {
+      queryClient.refetchQueries(msg)
+    })
+  })
 
   return (
     <>
