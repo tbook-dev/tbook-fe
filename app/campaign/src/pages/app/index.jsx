@@ -1,4 +1,4 @@
-import { useResponsive } from 'ahooks'
+import { useResponsive, useUpdateEffect } from 'ahooks'
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useQueryClient } from 'react-query'
 import { twLogin, getTwLoginUrl, verifyCredential } from '@/api/incentive'
@@ -61,7 +61,7 @@ export default function () {
   const queryClient = useQueryClient()
   const {
     data: page,
-    firstLoad,
+    isLoading,
     campaignNotStart,
     campaignEnd
   } = useCampaignQuery(campaignId)
@@ -160,6 +160,12 @@ export default function () {
     }
   }, [])
 
+  useUpdateEffect(() => {
+    if (userLogined) {
+      queryClient.refetchQueries(['campaignDetail', campaignId])
+    }
+  }, [userLogined])
+
   useEffect(() => {
     const gs = page?.groups
     if (gs && gs.length > 0) {
@@ -233,7 +239,7 @@ export default function () {
         />
 
         <div className='px-5 pb-5 pt-3'>
-          {!firstLoad ? (
+          {isLoading ? (
             <Skeleton active />
           ) : (
             <>
@@ -298,7 +304,7 @@ export default function () {
         </div>
       </section>
 
-      {!firstLoad && (
+      {isLoading && (
         <div className='rounded-lg lg:rounded-2xl py-3 px-5 bg-white'>
           <Skeleton />
         </div>

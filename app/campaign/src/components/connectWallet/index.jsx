@@ -53,7 +53,6 @@ const ConnectWalletModal = () => {
           <div className='px-5 pt-5'>
             <button
               onClick={() => {
-                console.log('xx')
                 dispath(setConnectWalletModal(true))
               }}
               className='text-white px-4 bg-[#006EE9] w-full h-8 rounded-md flex items-center justify-start overflow-hidden'
@@ -69,7 +68,10 @@ const ConnectWalletModal = () => {
             <Divider style={{ color: '#A1A1A2' }}>
               <span className='text-xs text-[#717374]'>{pageConf.divider}</span>
             </Divider>
-            <button onClick={loginUsingTwitterUrl} className='text-[#131517] px-4 border border-[#131517] w-full h-8 rounded-md flex items-center justify-start overflow-hidden'>
+            <button
+              onClick={loginUsingTwitterUrl}
+              className='text-[#131517] px-4 border border-[#131517] w-full h-8 rounded-md flex items-center justify-start overflow-hidden'
+            >
               <img
                 src={pageConf.connectTwitter.icon}
                 className='w-4 h-4 object-center'

@@ -7,7 +7,11 @@ const endList = [3, 4, 5];
 
 export default function useCampaignQuery(campaignId) {
   const [firstLoad, setFirstLoad] = useState(false);
-  const { isLoading, data: page, ...props } = useQuery(
+  const {
+    isLoading,
+    data: page,
+    ...props
+  } = useQuery(
     ["campaignDetail", campaignId],
     () => getCampaignDetail(campaignId),
     {
@@ -28,7 +32,8 @@ export default function useCampaignQuery(campaignId) {
     ...props,
     data: page,
     firstLoad,
+    isLoading,
     campaignNotStart,
-    campaignEnd
+    campaignEnd,
   };
 }
