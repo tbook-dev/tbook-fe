@@ -10,7 +10,7 @@ import { setLoginModal } from '@/store/global'
 import { useAccount } from 'wagmi'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import AvatarSkeleton from '../common/AvatarSkeleton'
-import UserAddress from '../common/UserAddress'
+import Avatar from '../common/Avatar'
 
 function Header () {
   const { pc } = useResponsive()
@@ -44,15 +44,8 @@ function Header () {
               <AvatarSkeleton />
             ) : userLogined && isConnected ? (
               <div className='flex items-center gap-x-2'>
-                <img
-                  src={user?.avatar}
-                  className='w-7 h-7 object-contain object-center rounded-full'
-                  onClick={async () => await open()}
-                />
+                <Avatar />
                 <MobleMenu />
-                <div className='hidden lg:flex items-center space-x-3'>
-                  <UserAddress />
-                </div>
               </div>
             ) : (
               <button

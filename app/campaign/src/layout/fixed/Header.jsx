@@ -10,9 +10,9 @@ import { useDispatch } from 'react-redux'
 import { setLoginModal } from '@/store/global'
 import { useAccount } from 'wagmi'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
-import UserAddress from '../common/UserAddress'
+// import UserAddress from '../common/UserAddress'
 import AvatarSkeleton from '../common/AvatarSkeleton'
-import { Skeleton } from 'antd'
+import Avatar from '../common/Avatar'
 
 function Header () {
   const { pc } = useResponsive()
@@ -47,15 +47,8 @@ function Header () {
               <AvatarSkeleton />
             ) : userLogined && isConnected ? (
               <div className='flex items-center gap-x-2'>
-                <img
-                  src={user?.avatar}
-                  className='w-7 h-7 object-contain object-center rounded-full'
-                  onClick={async () => await open()}
-                />
+                <Avatar />
                 <MobleMenu />
-                <div className='hidden lg:flex items-center space-x-3'>
-                  <UserAddress />
-                </div>
               </div>
             ) : (
               <button
