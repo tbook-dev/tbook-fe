@@ -200,7 +200,6 @@ export default function RewardClaim ({ group }) {
         const incentiveMethodItem =
           incentiveMethodList.find(v => v.value === point.methodType) ||
           incentiveMethodList[0]
-        console.log({ point, incentiveMethodItem })
 
         return (
           <div key={point.pointId}>
