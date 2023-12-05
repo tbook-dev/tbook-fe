@@ -37,52 +37,57 @@ const ConnectWalletModal = () => {
 
   return (
     <>
-      <Modal
-        footer={null}
-        title={null}
-        centered
-        open={showLoginModal}
-        closable={pc ? true : false}
-        onCancel={handleCloseModal}
-      >
-        <div className='text-black -mx-6'>
-          <div className=' border-b px-5 pb-3 border-[#ececec] space-y-2'>
-            <h1 className='text-base font-medium'>{pageConf.title}</h1>
-            <h2 className='text-xs'>{pageConf.desc}</h2>
+      {showLoginModal && (
+        <Modal
+          footer={null}
+          title={null}
+          centered
+          open={showLoginModal}
+          closable={pc ? true : false}
+          onCancel={handleCloseModal}
+        >
+          <div className='text-black -mx-6'>
+            <div className=' border-b px-5 pb-3 border-[#ececec] space-y-2'>
+              <h1 className='text-base font-medium'>{pageConf.title}</h1>
+              <h2 className='text-xs'>{pageConf.desc}</h2>
+            </div>
+            <div className='px-5 pt-5'>
+              <button
+                onClick={() => {
+                  dispath(setConnectWalletModal(true))
+                  handleCloseModal()
+                }}
+                className='text-white px-4 bg-[#006EE9] w-full h-8 rounded-md flex items-center justify-start overflow-hidden'
+              >
+                <img
+                  src={pageConf.connectWallet.icon}
+                  className='w-4 h-4 object-center'
+                />
+                <span className='text-center flex-auto'>
+                  {pageConf.connectWallet.text}
+                </span>
+              </button>
+              <Divider style={{ color: '#A1A1A2' }}>
+                <span className='text-xs text-[#717374]'>
+                  {pageConf.divider}
+                </span>
+              </Divider>
+              <button
+                onClick={loginUsingTwitterUrl}
+                className='text-[#131517] px-4 border border-[#131517] w-full h-8 rounded-md flex items-center justify-start overflow-hidden'
+              >
+                <img
+                  src={pageConf.connectTwitter.icon}
+                  className='w-4 h-4 object-center'
+                />
+                <span className='text-center flex-auto'>
+                  {pageConf.connectTwitter.text}
+                </span>
+              </button>
+            </div>
           </div>
-          <div className='px-5 pt-5'>
-            <button
-              onClick={() => {
-                dispath(setConnectWalletModal(true))
-              }}
-              className='text-white px-4 bg-[#006EE9] w-full h-8 rounded-md flex items-center justify-start overflow-hidden'
-            >
-              <img
-                src={pageConf.connectWallet.icon}
-                className='w-4 h-4 object-center'
-              />
-              <span className='text-center flex-auto'>
-                {pageConf.connectWallet.text}
-              </span>
-            </button>
-            <Divider style={{ color: '#A1A1A2' }}>
-              <span className='text-xs text-[#717374]'>{pageConf.divider}</span>
-            </Divider>
-            <button
-              onClick={loginUsingTwitterUrl}
-              className='text-[#131517] px-4 border border-[#131517] w-full h-8 rounded-md flex items-center justify-start overflow-hidden'
-            >
-              <img
-                src={pageConf.connectTwitter.icon}
-                className='w-4 h-4 object-center'
-              />
-              <span className='text-center flex-auto'>
-                {pageConf.connectTwitter.text}
-              </span>
-            </button>
-          </div>
-        </div>
-      </Modal>
+        </Modal>
+      )}
       <WalletWeb3Modal />
     </>
   )
