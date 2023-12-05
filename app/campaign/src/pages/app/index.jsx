@@ -25,7 +25,7 @@ import { getCrenditialType } from '@/utils/conf'
 import RewardClaim from './rewardClaim'
 import dateIcon from '@/images/icon/date.svg'
 import { useDispatch } from 'react-redux'
-import { setLoginModal } from '@/store/global'
+import { setLoginModal, setConnectWalletModal } from '@/store/global'
 import useSocial from '@/hooks/useSocial'
 import LazyImage from '@/components/lazyImage'
 import VerifyStatus, {
@@ -65,8 +65,13 @@ export default function () {
     campaignEnd
   } = useCampaignQuery(campaignId)
   const { data: project } = useProjectQuery(projectId)
-  const { twitterConnected, userLogined, discordConnected, telegramConnected } =
-    useUserInfo()
+  const {
+    twitterConnected,
+    userLogined,
+    discordConnected,
+    telegramConnected,
+    wallectConnected
+  } = useUserInfo()
   const [rewardModalIdx, setRewardModalIdx] = useState(-1)
   const { signMessageAsync } = useSignMessage()
   const { getSocialByName } = useSocial()
@@ -320,14 +325,26 @@ export default function () {
                     discord: getSocialByName('discord').loginFn,
                     telegram: getSocialByName('telegram').loginFn
                   }
-                  // 不需要登陆。
+                  // 点击任务，除了跳转外的额外处理。
                   const taskMap = {
                     8: async () => {
-                      await verifyTbook(redential.credentialId)
-                      await handleVerify(redential)
+                      // log event, 需要任意登录即可
+                      if (userLogined) {
+                        await verifyTbook(redential.credentialId)
+                        await handleVerify(redential)
+                      } else {
+                        dispath(setLoginModal(true))
+                      }
                     },
-                    10: () => signCredential(redential),
+                    10: () => {
+                      if (wallectConnected) {
+                        signCredential(redential)
+                      } else {
+                        dispath(setConnectWalletModal(true))
+                      }
+                    },
                     12: () => {
+                      // 当前页面不需要登录
                       window.open(
                         `/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`,
                         '_blank'
@@ -348,11 +365,7 @@ export default function () {
                           <div
                             onClick={
                               typeof taskMap[redential.labelType] === 'function'
-                                ? isConnected
-                                  ? userLogined
-                                    ? taskMap[redential.labelType]
-                                    : signIn
-                                  : async () => await open()
+                                ? taskMap[redential.labelType]
                                 : null
                             }
                             className='truncate text-sm text-[#131517] max-w-[calc(100%_-_30px)]'
