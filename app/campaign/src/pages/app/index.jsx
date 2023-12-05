@@ -487,7 +487,8 @@ export default function () {
                     className='text-blue-1 bg-[#f5f8fd] px-2.5 py-1 cursor-pointer rounded'
                     onClick={() => {
                       const fn = () => setRewardModalIdx(index)
-                      const handler = canUseWallect ? fn : connectWallect
+                      // 必须登录
+                      const handler = userLogined ? fn : signIn
                       handler()
                     }}
                   >
