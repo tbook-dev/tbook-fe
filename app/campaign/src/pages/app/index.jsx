@@ -33,6 +33,7 @@ import VerifyStatus, {
 } from '@/components/withVerify/VerifyStatus'
 import SnapshotPreview from '@tbook/snapshot/Preview'
 import { getSnapshotIdBylink } from '@tbook/snapshot/api'
+import { useMemo } from 'react'
 const { Countdown } = Statistic
 
 const errorMsg = (
@@ -127,10 +128,15 @@ export default function () {
   //   console.log(document.cookie);
   //   await queryClient.refetchQueries("userInfo");
   // };
+  const canUseWallect = useMemo(() => {
+    return isConnected && wallectConnected
+  }, [isConnected, wallectConnected])
   const signIn = useCallback(() => {
     dispath(setLoginModal(true))
   }, [])
-
+  const connectWallect = useCallback(() => {
+    dispath(setConnectWalletModal(true))
+  }, [])
   const handleCancel = useCallback(() => {
     setRewardModalIdx(-1)
   }, [])
@@ -333,14 +339,14 @@ export default function () {
                         await verifyTbook(redential.credentialId)
                         await handleVerify(redential)
                       } else {
-                        dispath(setLoginModal(true))
+                        signIn()
                       }
                     },
                     10: () => {
-                      if (wallectConnected) {
+                      if (canUseWallect) {
                         signCredential(redential)
                       } else {
-                        dispath(setConnectWalletModal(true))
+                        connectWallect()
                       }
                     },
                     12: () => {
@@ -388,15 +394,7 @@ export default function () {
                             sysConnectedMap={sysConnectedMap}
                             sycLoginFnMap={sycLoginFnMap}
                             credentialType={credentialType}
-                            handleFn={
-                              isConnected
-                                ? userLogined
-                                  ? sysConnectedMap[credentialType]
-                                    ? () => handleVerify(redential)
-                                    : sycLoginFnMap[credentialType]
-                                  : signIn
-                                : open
-                            }
+                            handleFn={() => handleVerify(redential)}
                           />
                         )}
                       </div>
@@ -483,11 +481,7 @@ export default function () {
                     className='text-blue-1 bg-[#f5f8fd] px-2.5 py-1 cursor-pointer rounded'
                     onClick={() => {
                       const fn = () => setRewardModalIdx(index)
-                      const handler = isConnected
-                        ? userLogined
-                          ? fn
-                          : signIn
-                        : open
+                      const handler = canUseWallect ? fn : connectWallect
                       handler()
                     }}
                   >
