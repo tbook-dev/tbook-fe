@@ -55,7 +55,10 @@ function Header () {
                 </div>
               </div>
             ) : (
-              <button className='px-2 py-1 text-sm' onClick={handleClick}>
+              <button
+                className='px-2 py-1 text-sm rounded-md bg-white'
+                onClick={handleClick}
+              >
                 Connect Wallet
               </button>
             )}
