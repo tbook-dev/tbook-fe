@@ -61,6 +61,8 @@ const ConnectWalletModal = () => {
         const data = await r.json()
         if (data.code != 200) {
           message.error(data.message)
+          setLoading(false)
+          handleCloseModal()
           return
         }
       } else {
