@@ -30,7 +30,6 @@ export default function Avatar () {
     }
     location.href = location
   }, [isConnected])
-
   const Content = () => {
     return (
       <div className='space-y-16 lg:w-[375px]'>
@@ -40,17 +39,27 @@ export default function Avatar () {
               src={user?.avatar}
               className='w-12 h-12 rounded-full object-center'
             />
-
-            <div className='text-lg text-[#131517] font-medium'>
-              {user?.wallet ? (
-                shortAddress(user?.wallet)
-              ) : (
-                <button
-                  className='text-[#006EE9]'
-                  onClick={handleConnectWallet}
-                >
-                  Connect Wallet
-                </button>
+            <div>
+              <div className='text-lg text-[#131517] font-medium'>
+                {user?.wallet ? (
+                  shortAddress(user?.wallet)
+                ) : (
+                  <button
+                    className='text-[#006EE9]'
+                    onClick={handleConnectWallet}
+                  >
+                    Connect Wallet
+                  </button>
+                )}
+              </div>
+              {data?.userTwitter?.connected && (
+                <div className='flex items-center gap-x-0.5 text-[#717374] text-base'>
+                  {`@${data?.userTwitter?.twitterUserName}`}
+                  <img
+                    src={socialList.find(v => v.name === 'twitter')?.activePic}
+                    className='w-5 h-5 object-center'
+                  />
+                </div>
               )}
             </div>
           </div>
@@ -64,32 +73,40 @@ export default function Avatar () {
         </div>
 
         <div className='space-y-6'>
-          {socialList.map(v => {
-            return (
-              <button
-                key={v.name}
-                onClick={!v.connected ? v.loginFn : null}
-                className='flex items-center gap-x-3'
-                target='_blank'
-                disabled={v.connected}
-                rel='nofollow noopener noreferrer'
-              >
-                <img
-                  src={v.connected ? v.activePic : v.picUrl}
-                  className='w-5 h-5 object-contain object-center'
-                />
-
-                <span
-                  className={clsx(
-                    'text-base',
-                    v.connected ? 'text-[#006EE9]' : 'text-[#717374] capitalize'
-                  )}
-                >
-                  {v.connected ? `@${v.userName}` : `Connect ${v.name}`}
-                </span>
-              </button>
+          {socialList
+            .filter(v =>
+              data?.userTwitter?.connected && v.name === 'twitter'
+                ? false
+                : true
             )
-          })}
+            .map(v => {
+              return (
+                <button
+                  key={v.name}
+                  onClick={!v.connected ? v.loginFn : null}
+                  className='flex items-center gap-x-3'
+                  target='_blank'
+                  disabled={v.connected}
+                  rel='nofollow noopener noreferrer'
+                >
+                  <img
+                    src={v.connected ? v.activePic : v.picUrl}
+                    className='w-5 h-5 object-contain object-center'
+                  />
+
+                  <span
+                    className={clsx(
+                      'text-base',
+                      v.connected
+                        ? 'text-[#006EE9]'
+                        : 'text-[#717374] capitalize'
+                    )}
+                  >
+                    {v.connected ? `@${v.userName}` : `Connect ${v.name}`}
+                  </span>
+                </button>
+              )
+            })}
         </div>
       </div>
     )
