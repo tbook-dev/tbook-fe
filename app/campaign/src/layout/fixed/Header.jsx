@@ -45,7 +45,7 @@ function Header () {
           <div>
             {!firstLoad ? (
               <AvatarSkeleton />
-            ) : userLogined && isConnected ? (
+            ) : userLogined ? (
               <div className='flex items-center gap-x-2'>
                 <Avatar />
                 <MobleMenu />
