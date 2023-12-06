@@ -52,6 +52,7 @@ export const useProposal = (id) => {
               votes
               ipfs
               app
+              symbol
               strategies {
                 name
                 network
@@ -179,14 +180,18 @@ export const useVp = ({ address, network, strategies, snapshot, space }) => {
   );
 };
 
-export const castVote = async (wallet, account, { proposal, space, type, choice, app }) => {
-  const web3 = new Web3Provider(wallet)
+export const castVote = async (
+  wallet,
+  account,
+  { proposal, space, type, choice, app }
+) => {
+  const web3 = new Web3Provider(wallet);
   return client.vote(web3, account, {
-      space,
-      proposal,
-      type,
-      choice,
-      app,
-      reason: "",
-    });
+    space,
+    proposal,
+    type,
+    choice,
+    app,
+    reason: "",
+  });
 };
