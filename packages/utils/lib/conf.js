@@ -175,7 +175,7 @@ export const periodMap = {
 // export const formatDollar = (v = "") => {
 //   return `${v}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 // };
-export const formatDollar = (value) => {
+export const formatDollar = (value, maximumSignificantDigits = 3) => {
   const v = Number(value);
   if (Number.isNaN(v)) {
     return value;
@@ -183,7 +183,7 @@ export const formatDollar = (value) => {
     return Intl.NumberFormat("en-US", {
       // style: 'currency',
       // currency: 'USD',
-      // maximumSignificantDigits: 3,
+      maximumSignificantDigits,
       notation: "standard",
     }).format(v);
   }

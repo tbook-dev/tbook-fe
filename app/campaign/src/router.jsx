@@ -1,117 +1,132 @@
-import MyLayout from '@/layout/my/Layout'
-import Layout from '@/layout/normal/Layout'
-import HomeLayout from '@/layout/fixed/Layout'
-import Home from '@/pages/home'
-import App from '@/pages/app'
-import My from '@/pages/my'
-import Campaign from '@/pages/my/campaign'
-import NFT from '@/pages/my/nft'
-import Explore from '@/pages/explore'
+import MyLayout from "@/layout/my/Layout";
+import Layout from "@/layout/normal/Layout";
+import HomeLayout from "@/layout/fixed/Layout";
+import Home from "@/pages/home";
+import App from "@/pages/app";
+import My from "@/pages/my";
+import Campaign from "@/pages/my/campaign";
+import NFT from "@/pages/my/nft";
+import Explore from "@/pages/explore";
+import { Suspense, lazy } from "react";
+import TwitterCallback from "@/pages/twitter/callback";
+import TgCallback from "@/pages/social/tg";
+import DcCallback from "@/pages/social/dc";
+import TwitterLoginCallback from "@/pages/twitter/login_callback";
+import TwLoginIndex from "@/pages/twitter/tw_login";
+import PageFallBack from "@/components/pageFallback";
+const Snapshot = lazy(() => import("@/pages/snapshot"));
 
-import TwitterCallback from '@/pages/twitter/callback'
-import TgCallback from '@/pages/social/tg'
-import DcCallback from '@/pages/social/dc'
-import TwitterLoginCallback from '@/pages/twitter/login_callback'
-import TwLoginIndex from '@/pages/twitter/tw_login'
 // import SocialConnect from '@/pages/social/index'
 
 const routes = [
   {
-    path: '/',
+    path: "/",
     element: <HomeLayout />,
     children: [
       {
         index: true,
-        element: <Home />
-      }
-    ]
+        element: <Home />,
+      },
+    ],
   },
   {
-    path: '/explore',
+    path: "/explore",
     element: <Layout />,
     children: [
       {
         index: true,
-        element: <Explore />
-      }
-    ]
+        element: <Explore />,
+      },
+    ],
   },
   {
-    path: 'app',
+    path: "app",
     element: <MyLayout />,
     children: [
       {
-        path: ':projectId/asset',
-        element: <My />
+        path: ":projectId/asset",
+        element: <My />,
       },
       {
-        path: ':projectId/campaign',
-        element: <Campaign />
+        path: ":projectId/campaign",
+        element: <Campaign />,
       },
       {
-        path: ':projectId/campaign/:campaignId',
-        element: <App />
+        path: ":projectId/campaign/:campaignId",
+        element: <App />,
       },
       {
-        path: ':projectId/nft/:groupId/:nftId',
-        element: <NFT />
-      }
-    ]
+        path: ":projectId/nft/:groupId/:nftId",
+        element: <NFT />,
+      },
+      {
+        path: ":projectId/snapshot/:campaignId/:credentialId/:snapshotId",
+        async lazy() {
+          return {
+            Component: () => (
+              <Suspense fallback={<PageFallBack />}>
+                <Snapshot />
+              </Suspense>
+            ),
+          };
+        },
+      },
+    ],
   },
   {
-    path: '/twitter/callback',
+    path: "/twitter/callback",
     element: <MyLayout />,
     children: [
       {
         index: true,
-        element: <TwitterCallback />
-      }
-    ]
+        element: <TwitterCallback />,
+      },
+    ],
   },
   {
-    path: '/twitter/login/callback',
+    path: "/twitter/login/callback",
     element: <MyLayout />,
     children: [
       {
         index: true,
-        element: <TwitterLoginCallback />
-      }
-    ]
+        element: <TwitterLoginCallback />,
+      },
+    ],
   },
   {
-    path: '/tw_login',
+    path: "/tw_login",
     element: <MyLayout />,
     children: [
       {
         index: true,
-        element: <TwLoginIndex />
-      }
-    ]
+        element: <TwLoginIndex />,
+      },
+    ],
   },
   {
-    path: '/tg_callback',
+    path: "/tg_callback",
     element: <MyLayout />,
     children: [
       {
         index: true,
-        element: <TgCallback />
-      }
-    ]
+        element: <TgCallback />,
+      },
+    ],
   },
   {
-    path: '/dc_callback',
+    path: "/dc_callback",
     element: <MyLayout />,
     children: [
       {
         index: true,
-        element: <DcCallback />
-      }
-    ]
+        element: <DcCallback />,
+      },
+    ],
   },
   {
-    path: '*',
-    element: <div className='w-full h-screen bg-black text-t-1'>404</div>
-  }
-]
+    path: "*",
+    element: <div className="w-full h-screen bg-black text-t-1">404</div>,
+  },
+];
 
-export default routes
+export default routes;

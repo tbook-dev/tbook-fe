@@ -12,3 +12,11 @@ https://snapshot.org/#/
 https://snapshot.org/#/keylasue.eth/create
 
 snapshot developer docs
+https://docs.snapshot.org/tools/api
+https://docs.snapshot.org/tools/tools-overview
+
+
+
+graphql
+https://the-guild.dev/graphql/codegen/plugins/typescript/typescript-react-query
+https://github.com/TanStack/query/blob/v3/examples/basic-graphql-request/src/index.js

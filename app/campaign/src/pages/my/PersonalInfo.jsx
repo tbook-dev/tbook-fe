@@ -1,50 +1,67 @@
-import useUserInfoQuery from "@/hooks/useUserInfoQuery";
-import defaultAvator from "@/images/icon/defaultAvator.svg";
-import { shortAddress } from "@tbook/utils/lib/conf";
-import useSocial from "@/hooks/useSocial";
-import { useWeb3Modal } from "@web3modal/wagmi/react";
+import useUserInfoQuery from '@/hooks/useUserInfoQuery'
+import defaultAvator from '@/images/icon/defaultAvator.svg'
+import { shortAddress } from '@tbook/utils/lib/conf'
+import useSocial from '@/hooks/useSocial'
+import { useWeb3Modal } from '@web3modal/wagmi/react'
+import { useDispatch } from 'react-redux'
+import { useCallback } from 'react'
+import { setConnectWalletModal } from '@/store/global'
 
-export default function PersonalInfo() {
-  const { data, userLogined } = useUserInfoQuery();
-  const { socialList } = useSocial();
-  const { open } = useWeb3Modal();
-
+export default function PersonalInfo () {
+  const { data, userLogined, user } = useUserInfoQuery()
+  const { socialList } = useSocial()
+  const { open } = useWeb3Modal()
+  const dispath = useDispatch()
+  const handleConnectWallet = useCallback(() => {
+    dispath(setConnectWalletModal(true))
+  }, [])
   return (
-    <div className="pt-4 flex flex-col items-center gap-y-4">
+    <div className='pt-4 flex flex-col items-center gap-y-4'>
       <img
         src={data?.user?.avatar ?? defaultAvator}
-        alt="user avatar"
-        className="w-20 h-20 rounded-full"
+        alt='user avatar'
+        className='w-20 h-20 rounded-full'
       />
 
-      {userLogined && (
-        <p className="text-[#131517] text-base font-medium cursor-pointer" onClick={async () => await open()}>
+      {user?.wallet ? (
+        <p
+          className='text-[#131517] text-base font-medium cursor-pointer'
+          onClick={async () => await open()}
+        >
           {shortAddress(data?.user?.wallet)}
         </p>
+      ) : (
+        <button
+          className='text-[#006EE9] text-base'
+          onClick={handleConnectWallet}
+        >
+          Connect Wallet
+        </button>
       )}
 
-      <div className="flex items-center gap-x-3">
-        {socialList.map((v) => {
+      <div className='flex items-center gap-x-3'>
+        {socialList.map(v => {
           const logo = (
             <img
               src={v.connected ? v.activePic : v.picUrl}
-              className="w-4 h-4 object-contain object-center"
+              className='w-4 h-4 object-contain object-center'
             />
-          );
+          )
           return v.connected ? (
             <span key={v.name}>{logo}</span>
           ) : (
             <button
+              disabled={v.connected}
               key={v.name}
               onClick={userLogined ? v.loginFn : null}
-              target="_blank"
-              rel="nofollow noopener noreferrer"
+              target='_blank'
+              rel='nofollow noopener noreferrer'
             >
               {logo}
             </button>
-          );
+          )
         })}
       </div>
     </div>
-  );
+  )
 }
