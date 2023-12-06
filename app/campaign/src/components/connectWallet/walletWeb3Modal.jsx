@@ -1,4 +1,4 @@
-import { Modal, Typography, Spin } from 'antd'
+import { Modal, Typography, Spin, message } from 'antd'
 import { useSelector } from 'react-redux'
 import { useResponsive } from 'ahooks'
 import clsx from 'clsx'
@@ -57,7 +57,12 @@ const ConnectWalletModal = () => {
       // const nonce = await getNonce(address)
       const sign = await signMessageAsync({ message: nonce })
       if (twitterConnected) {
-        await bindEvm(address, sign)
+        const r = await bindEvm(address, sign)
+        const data = await r.json()
+        if (data.code != 200) {
+          message.error(data.message)
+          return
+        }
       } else {
         await authenticate(address, sign)
       }
