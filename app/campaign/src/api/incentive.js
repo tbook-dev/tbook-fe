@@ -120,7 +120,10 @@ export const authTwitterLoginCallback = async function () {
   const url = new URL(window.location.href);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
-  return await request.PostFormV1(`${host}/twitter/login/callback`, { code, state });
+  return await request.PostFormV1(`${host}/twitter/login/callback`, {
+    code,
+    state,
+  });
 };
 
 export const authTgCallback = async function () {
@@ -136,12 +139,27 @@ export const authTgCallback = async function () {
   });
 };
 
-export const authDcCallback = async function(){
-  const url = new URL(window.location.href)
-  const code = url.searchParams.get('code')
+export const authDcCallback = async function () {
+  const url = new URL(window.location.href);
+  const code = url.searchParams.get("code");
   return await request.PostFormV1(`${host}/dc/callback`, { code });
-}
+};
 
-export const getNFTSupportedChains = async function() {
-  return await request(`${host}/nft/supportedChains`)
-}
+export const getNFTSupportedChains = async function () {
+  return await request(`${host}/nft/supportedChains`);
+};
+
+export const bindEvm = async function (address, sign) {
+  const d = new URLSearchParams();
+  d.append("address", address);
+  d.append("sign", sign);
+  const bindResult = await fetch(`${host}/bindEvm`, {
+    credentials: "include",
+    method: "POST",
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    },
+    body: d,
+  });
+  return bindResult;
+};

@@ -13,9 +13,11 @@ import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { useAccount, useSignMessage } from 'wagmi'
 import { getNonce } from '@/utils/web3'
 import { useQueryClient } from 'react-query'
-import { authenticate } from '@/api/incentive'
+import { authenticate, bindEvm } from '@/api/incentive'
 import { disconnect } from '@wagmi/core'
 import { broadcast } from '@/utils/channel'
+import useUserInfo from '@/hooks/useUserInfoQuery'
+
 const { shortAddress } = conf
 const { Paragraph } = Typography
 
@@ -39,6 +41,7 @@ const ConnectWalletModal = () => {
   const showConnectWalletModal = useSelector(
     s => s.global.showConnectWalletModal
   )
+  const { twitterConnected } = useUserInfo()
   const queryClient = useQueryClient()
   const dispath = useDispatch()
   const { isConnected, address } = useAccount()
@@ -53,7 +56,11 @@ const ConnectWalletModal = () => {
     try {
       // const nonce = await getNonce(address)
       const sign = await signMessageAsync({ message: nonce })
-      await authenticate(address, sign)
+      if (twitterConnected) {
+        await bindEvm(address, sign)
+      } else {
+        await authenticate(address, sign)
+      }
       // const d = new URLSearchParams();
       // d.append("address", address);
       // d.append("sign", sign);
