@@ -29,7 +29,7 @@ export const incentiveMethodList = [
   {
     title: "FCFS",
     desc: `FCFS is one of the reward distribution methods which stands for "First come, first served". It means that whoever gets the credentials first can claim the reward first.`,
-    pop: `It's a 'first come, first served' opportunity which means whoever gets the credentials first can claim the reward first.`,
+    pop: `It's a "first come, first served" opportunity which means who participate and accomplish tasks early are prioritized for rewards. As soon as the predetermined reward pool is depleted, subsequent participants accomplishing the tasks miss out on receiving rewards.`,
     value: 1,
     icon: fcfsIcon,
   },
