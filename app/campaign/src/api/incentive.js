@@ -70,7 +70,8 @@ export const loginUsingTwitterUrl = async function () {
   });
   const data = await res.json();
   localStorage.setItem("redirect_url", location.href);
-  window.location = data["url"];
+  // window.location = data["url"];
+  window.open(data["url"], "_blank")
 };
 
 export const getExporeCampain = async function () {
