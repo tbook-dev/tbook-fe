@@ -10,6 +10,7 @@ import { useAccount } from 'wagmi'
 import { useEffect } from 'react'
 import { host } from '@/api/incentive'
 import { useState } from 'react'
+import Slide from './slide'
 
 const titleList = ['Incentivize core', 'communities', 'and builders']
 const p = 'grant easily and optimize continuously '
@@ -22,11 +23,11 @@ export default function Aboard () {
   const { isConnected } = useAccount()
   const navigate = useNavigate()
   const { loading, handleSignIn, signMessage } = useSignIn()
-  const [ autoFetch, setAutoFetch ] = useState(true)
+  const [autoFetch, setAutoFetch] = useState(true)
 
-  const clickSignIn = async (useWc) => {
-    setAutoFetch(false); 
-    await handleSignIn(useWc) 
+  const clickSignIn = async useWc => {
+    setAutoFetch(false)
+    await handleSignIn(useWc)
     await signMessage()
   }
 
@@ -36,12 +37,12 @@ export default function Aboard () {
         method: 'GET',
         credentials: 'include'
       }).then(r => {
-        console.log({autoFetch})
+        console.log({ autoFetch })
         if (!autoFetch) return
-        let p;
+        let p
         if (r.status === 401) {
           p = handleSignIn()
-        } else { 
+        } else {
           p = r.json()
         }
         p.then(res => {
@@ -51,31 +52,16 @@ export default function Aboard () {
             navigate('/')
           }
         })
-    })
+      })
     }
   }, [isConnected, autoFetch])
 
   return (
-    <div className='flex h-screen'>
-      <div className='select-none	w-1/2 relative bg-b-1 rounded-r-4xl flex items-center justify-center'>
-        <Logo className="w-8 h-10 absolute left-10 top-8"/>
-        <div className='w-[592px] relative pt-[220px]'>
-          <img src={bannerUrl} className='absolute top-0 left-0 w-full' />
-          <img src={bannerBg} className='absolute top-0 left-0 w-full' />
-
-          <div className='flex flex-col relative z-10'>
-            {titleList.map((item, index) => (
-              <h3
-                key={index}
-                className='text-6.5xl font-extrabold text-colorful1'
-              >
-                {item}
-              </h3>
-            ))}
-            <p className='mt-3 text-3xl font-extrabold'>{p}</p>
-          </div>
-        </div>
+    <div className='flex h-screen bg-[#121212]'>
+      <div className='select-none	w-1/2 overflow-hidden min-h-full relative p-12 flex flex-col justify-center'>
+        <Slide />
       </div>
+
       <div className='w-1/2  flex items-center justify-center'>
         <div className='w-[560px]'>
           <h1 className='text-5xl font-extrabold'>{h1}</h1>
@@ -90,7 +76,7 @@ export default function Aboard () {
               <>
                 <Button
                   className='w-full text-base font-bold text-white'
-                  onClick={() => clickSignIn(false) }
+                  onClick={() => clickSignIn(false)}
                   loading={loading}
                 >
                   <img src={metaMask} className='mr-3 w-5 h-5 object-contain' />
@@ -98,7 +84,7 @@ export default function Aboard () {
                 </Button>
                 <Button
                   className='w-full text-base font-bold text-white'
-                  onClick={() => clickSignIn(true) }
+                  onClick={() => clickSignIn(true)}
                 >
                   <img
                     src={walletconnect}
