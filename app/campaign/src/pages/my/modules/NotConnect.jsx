@@ -16,7 +16,7 @@ export default function NotConnect ({ text = defaultText }) {
         }}
         className='py-1 px-4 bg-[#006EE9] text-white rounded-md'
       >
-        Connect Wallet
+        Log In
       </button>
     </div>
   )

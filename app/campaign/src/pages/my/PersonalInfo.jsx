@@ -5,15 +5,15 @@ import useSocial from '@/hooks/useSocial'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { useDispatch } from 'react-redux'
 import { useCallback } from 'react'
-import { setConnectWalletModal } from '@/store/global'
+import { setLoginModal } from '@/store/global'
 
 export default function PersonalInfo () {
   const { data, userLogined, user } = useUserInfoQuery()
   const { socialList } = useSocial()
   const { open } = useWeb3Modal()
   const dispath = useDispatch()
-  const handleConnectWallet = useCallback(() => {
-    dispath(setConnectWalletModal(true))
+  const handleLogin = useCallback(() => {
+    dispath(setLoginModal(true))
   }, [])
   return (
     <div className='pt-4 flex flex-col items-center gap-y-4'>
@@ -31,11 +31,8 @@ export default function PersonalInfo () {
           {shortAddress(data?.user?.wallet)}
         </p>
       ) : (
-        <button
-          className='text-[#006EE9] text-base'
-          onClick={handleConnectWallet}
-        >
-          Connect Wallet
+        <button className='text-[#006EE9] text-base' onClick={handleLogin}>
+          Log In
         </button>
       )}
 
