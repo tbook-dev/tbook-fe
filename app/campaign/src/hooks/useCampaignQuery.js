@@ -1,18 +1,20 @@
 import { useQuery } from "react-query";
 import { getCampaignDetail } from "@/api/incentive";
 import { useEffect, useState } from "react";
+import useUserInfoQuery from "./useUserInfoQuery";
 
 const notStartList = [2, 0];
 const endList = [3, 4, 5];
 
 export default function useCampaignQuery(campaignId) {
   const [firstLoad, setFirstLoad] = useState(false);
+  const { userLogined } = useUserInfoQuery();
   const {
     isLoading,
     data: page,
     ...props
   } = useQuery(
-    ["campaignDetail", campaignId],
+    ["campaignDetail", campaignId, userLogined],
     () => getCampaignDetail(campaignId),
     {
       staleTime: 50000,

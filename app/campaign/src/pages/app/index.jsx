@@ -1,4 +1,4 @@
-import { useResponsive, useUpdateEffect } from 'ahooks'
+import { useResponsive } from 'ahooks'
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useQueryClient } from 'react-query'
 import { twLogin, getTwLoginUrl, verifyCredential } from '@/api/incentive'
@@ -159,12 +159,6 @@ export default function () {
       throw new Error(error.message)
     }
   }, [])
-
-  useUpdateEffect(() => {
-    if (userLogined) {
-      queryClient.refetchQueries(['campaignDetail', campaignId])
-    }
-  }, [userLogined])
 
   useEffect(() => {
     const gs = page?.groups

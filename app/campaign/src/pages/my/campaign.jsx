@@ -6,8 +6,9 @@ import TabList from './TabList'
 import { useState } from 'react'
 import useUserCampaignQuery from '@/hooks/useUserCampaignQuery'
 import { useMemo } from 'react'
-import Loading from '@/components/loading'
 import NotConnect from './modules/NotConnect'
+import Loading from '@/components/loading'
+import Empty from './modules/Empty'
 
 const tabModule = [
   {
@@ -25,9 +26,9 @@ const tabModule = [
 ]
 export default function Campaign () {
   const { projectId } = useParams()
-  const { firstLoad, userLogined } = useUserInfoQuery()
+  const { userLogined } = useUserInfoQuery()
   const [value, setValue] = useState(tabModule[0].value)
-  const { data: resData } = useUserCampaignQuery(projectId)
+  const { data: resData, isLoading } = useUserCampaignQuery(projectId)
   const data = useMemo(() => {
     const {
       claimableCampaigns = [],
@@ -43,9 +44,6 @@ export default function Campaign () {
     return mappping[value]
   }, [resData, value])
 
-  if (!firstLoad) {
-    return <Loading />
-  }
   return (
     <div className='space-y-10 w-page-content px-2 lg:px-0 mx-auto'>
       <PersonalInfo />
@@ -58,11 +56,21 @@ export default function Campaign () {
       />
       {userLogined ? (
         <div className='space-y-3'>
-          {data.map(v => {
-            return (
-              <CampaignMyCard key={v.campaignId} projectId={projectId} {...v} />
-            )
-          })}
+          {isLoading ? (
+            <Loading />
+          ) : data.length === 0 ? (
+            <Empty text='No Data' />
+          ) : (
+            data.map(v => {
+              return (
+                <CampaignMyCard
+                  key={v.campaignId}
+                  projectId={projectId}
+                  {...v}
+                />
+              )
+            })
+          )}
         </div>
       ) : (
         <NotConnect />
