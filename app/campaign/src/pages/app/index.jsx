@@ -7,7 +7,7 @@ import { credentialStatus, incentiveMethodList } from '@/utils/conf'
 import nftIcon from '@/images/icon/nft.svg'
 import pointIcon from '@/images/icon/point.svg'
 import rewardIcon from '@/images/icon/reward.svg'
-// import verifiedIcon from '@/images/icon/verified.svg'
+import arrow3Icon from '@/images/icon/arrow3.svg'
 import Modal from '@/components/modal'
 import useUserInfo from '@/hooks/useUserInfoQuery'
 import useProjectQuery from '@/hooks/useProjectQuery'
@@ -35,6 +35,7 @@ import SnapshotPreview from '@tbook/snapshot/Preview'
 import { getSnapshotIdBylink } from '@tbook/snapshot/api'
 import ColorCaptial from '@/components/colorCaptial'
 import { formatDollar } from '@tbook/utils/lib/conf'
+
 const { Countdown } = Statistic
 
 const errorMsg = (
@@ -232,7 +233,7 @@ export default function () {
 
   return (
     <div className='space-y-2.5 pt-3 lg:pt-5 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1'>
-      <section className='overflow-hidden'>
+      <section className='overflow-hidden mb-12'>
         <LazyImage
           src={page?.campaign?.picUrl}
           alt='main banner'
@@ -297,22 +298,22 @@ export default function () {
       </section>
 
       {isLoading && (
-        <div className='px-5 lg:px-0 rounded-lg lg:rounded-2xl py-3 bg-white'>
+        <div className='px-5 lg:px-0 rounded-lg lg:rounded-2xl py-3'>
           <Skeleton />
         </div>
       )}
 
-      <section className='px-2.5 lg:px-0 space-y-2.5 lg:space-y-5 tetx-t-1'>
+      <section className='px-4 lg:px-0 space-y-2.5 lg:space-y-5 tetx-t-1'>
         {page?.groups?.map((group, index) => {
           return (
             <div
               key={index}
-              className='rounded-lg lg:rounded-2xl flex flex-col bg-white'
+              className='rounded-lg lg:rounded-2xl flex flex-col'
             >
-              <h3 className='text-base text-[#131517] lg:text-[20px] font-medium px-5 py-3 border-b border-[rgb(236,236,236)]'>
+              <h3 className='text-base lg:text-[20px] font-bold mb-8'>
                 Tasks and Rewards
               </h3>
-              <div className='px-5 py-3'>
+              <div className='space-y-4 mb-8'>
                 {group.credentialList?.map((redential, index) => {
                   const credentialType = getCrenditialType(redential.labelType)
                   const isSnapshotType = redential.labelType === 12
@@ -359,7 +360,7 @@ export default function () {
                     <React.Fragment key={index}>
                       <div
                         key={index}
-                        className='flex items-center justify-between h-10 w-full'
+                        className='flex items-center justify-between h-10 w-full border border-[#904BF6] p-5 rounded-lg bg-linear1'
                       >
                         <div className='flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]'>
                           <img
@@ -372,7 +373,7 @@ export default function () {
                                 ? taskMap[redential.labelType]
                                 : null
                             }
-                            className='truncate text-sm text-[#131517] max-w-[calc(100%_-_30px)]'
+                            className='truncate text-sm max-w-[calc(100%_-_30px)]'
                             dangerouslySetInnerHTML={{
                               __html: pc
                                 ? redential.intentDisplayExp
@@ -408,31 +409,29 @@ export default function () {
                   )
                 })}
               </div>
-              <div className='h-px bg-[rgb(236,236,236)] mx-5 mb-4' />
-              <div className='px-5 pb-4'>
-                <img
-                  src={rewardIcon}
-                  className='w-[64px] h-[64px] object-center object-contain mb-2'
-                />
-                <p className='text-xs text-[#131517] mb-6'>
+              <div className='pb-4'>
+                <p className='text-xs mb-4'>
                   You may get following rewards once you have accomplished all
                   tasks in the group!
                 </p>
-                <div className='space-y-6 mb-6'>
+                <div className='space-y-4 mb-6'>
                   {group.nftList?.map(nft => {
-                    const incentiveMethodItem =
-                      incentiveMethodList.find(
-                        v => v.value === nft.methodType
-                      ) || incentiveMethodList[0]
+                    // const incentiveMethodItem =
+                    //   incentiveMethodList.find(
+                    //     v => v.value === nft.methodType
+                    //   ) || incentiveMethodList[0]
 
                     return (
-                      <div key={nft.nftId}>
-                        <div className='flex items-center gap-x-0.5 mb-2'>
+                      <div
+                        key={nft.nftId}
+                        className='p-5 rounded-lg bg-linear1 flex'
+                      >
+                        {/* <div className='flex items-center gap-x-0.5 mb-2'>
                           <img src={nftIcon} className='w-4 h-4' />
-                          <span className='text-[#131517] text-sm'>nft</span>
+                          <span className='text-sm'>nft</span>
                         </div>
                         <div className='flex mb-2.5'>
-                          <div className='flex flex-col gap-y-1.5 text-[#717374] text-sm flex-auto'>
+                          <div className='flex flex-col gap-y-1.5 text-sm flex-auto'>
                             <p>{nft.name}</p>
                             <div className='flex items-center gap-x-0.5 lowercase'>
                               <img
@@ -445,38 +444,77 @@ export default function () {
                           <div className='w-12 h-12 rounded'>
                             <img src={nft.picUrl} className='w-full h-full' />
                           </div>
+                        </div> */}
+
+                        <div className='flex-auto flex flex-col justify-between'>
+                          <div>
+                            <h2 className='text-sm text-[#A1A1A2]'>nft</h2>
+                            <h3 className='text-base font-medium'>
+                              {nft.name}
+                            </h3>
+                          </div>
+                          <button
+                            className='flex items-center w-max'
+                            onClick={() => {
+                              const fn = () => setRewardModalIdx(index)
+                              // 必须登录
+                              const handler = userLogined ? fn : signIn
+                              handler()
+                            }}
+                          >
+                            <span className='text-color1'>View Rewards</span>
+                            <img src={arrow3Icon} />
+                          </button>
                         </div>
+                        <img
+                          src={nft.picUrl}
+                          className='w-20 h-20 object-center rounded-lg flex-none'
+                        />
                       </div>
                     )
                   })}
                   {group.pointList?.map(point => {
-                    const incentiveMethodItem =
-                      incentiveMethodList.find(
-                        v => v.value === point.methodType
-                      ) || incentiveMethodList[0]
+                    // const incentiveMethodItem =
+                    //   incentiveMethodList.find(
+                    //     v => v.value === point.methodType
+                    //   ) || incentiveMethodList[0]
                     return (
-                      <div key={point.pointId}>
-                        <div className='flex items-center gap-x-0.5 mb-2'>
-                          <img src={pointIcon} className='w-4 h-4' />
-                          <span className='text-[#131517] text-sm'>point</span>
-                        </div>
-                        <div className='flex flex-col gap-y-1.5 text-[#717374] text-sm'>
-                          <p>{point.number} points</p>
-                          <div className='flex items-center gap-x-0.5 lowercase'>
-                            <img
-                              src={incentiveMethodItem?.icon}
-                              className='w-3 h-4'
-                            />
-                            {incentiveMethodItem?.title}
+                      <div
+                        key={point.pointId}
+                        className='p-5 rounded-lg bg-linear1 flex'
+                      >
+                        <div className='flex-auto flex flex-col justify-between'>
+                          <div>
+                            <h2 className='text-sm text-[#A1A1A2]'>points</h2>
+                            <h3 className='text-base font-medium'>
+                              {point.number}
+                              points
+                            </h3>
                           </div>
+                          <button
+                            className='flex items-center w-max'
+                            onClick={() => {
+                              const fn = () => setRewardModalIdx(index)
+                              // 必须登录
+                              const handler = userLogined ? fn : signIn
+                              handler()
+                            }}
+                          >
+                            <span className='text-color1'>View Rewards</span>
+                            <img src={arrow3Icon} />
+                          </button>
                         </div>
+                        <img
+                          src={pointIcon}
+                          className='w-20 h-20 object-center rounded-lg flex-none'
+                        />
                       </div>
                     )
                   })}
                 </div>
-                <div className='flex items-center gap-x-2.5 text-sm'>
+                {/* <div className='flex items-center gap-x-2.5 text-sm'>
                   <div
-                    className='text-blue-1 bg-[#f5f8fd] px-2.5 py-1 cursor-pointer rounded'
+                    className='px-2.5 py-1 cursor-pointer rounded'
                     onClick={() => {
                       const fn = () => setRewardModalIdx(index)
                       // 必须登录
@@ -486,7 +524,7 @@ export default function () {
                   >
                     View Rewards
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           )
