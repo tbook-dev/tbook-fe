@@ -24,7 +24,12 @@ function Header () {
   }
 
   return (
-    <header className={clsx('transition duration-300 ease-in-out')}>
+    <header
+      className={clsx(
+        'transition duration-300 ease-in-out',
+        'backdrop-blur-sm'
+      )}
+    >
       <div className='px-4 py-2 lg:px-20 lg:py-2.5'>
         <div className='flex items-center justify-between h-10 lg:h-16'>
           <div className='flex items-center'>
@@ -47,7 +52,7 @@ function Header () {
             {!firstLoad ? (
               <AvatarSkeleton />
             ) : userLogined ? (
-              <div className='flex items-center gap-x-2'>
+              <div className='flex items-center gap-x-4'>
                 <Avatar />
                 <MobleMenu />
               </div>
