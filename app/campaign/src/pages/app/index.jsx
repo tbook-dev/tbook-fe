@@ -1,5 +1,5 @@
 import { useResponsive, useUpdateEffect } from 'ahooks'
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { useQueryClient } from 'react-query'
 import { twLogin, getTwLoginUrl, verifyCredential } from '@/api/incentive'
 import { useParams, Link, useNavigate } from 'react-router-dom'
@@ -33,7 +33,8 @@ import VerifyStatus, {
 } from '@/components/withVerify/VerifyStatus'
 import SnapshotPreview from '@tbook/snapshot/Preview'
 import { getSnapshotIdBylink } from '@tbook/snapshot/api'
-import { useMemo } from 'react'
+import ColorCaptial from '@/components/colorCaptial'
+import { formatDollar } from '@tbook/utils/lib/conf'
 const { Countdown } = Statistic
 
 const errorMsg = (
@@ -230,74 +231,65 @@ export default function () {
   // }
 
   return (
-    <div className='space-y-2.5 px-2.5 pt-3 lg:pt-5 lg:px-0 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1'>
-      <section className='rounded-lg overflow-hidden bg-white lg:rounded-2xl'>
+    <div className='space-y-2.5 pt-3 lg:pt-5 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1'>
+      <section className='overflow-hidden'>
         <LazyImage
           src={page?.campaign?.picUrl}
           alt='main banner'
           className='w-full  h-[172px] lg:h-[294px] object-cover object-center'
         />
 
-        <div className='px-5 pb-5 pt-3'>
+        <div className='p-4'>
           {isLoading ? (
             <Skeleton active />
           ) : (
             <>
-              <div className='mb-3'>
-                <h2 className='text-2xl  leading-7 font-bold text-[#131517] mb-1.5'>
-                  {page?.campaign?.name}
-                </h2>
-                <h4 className='flex items-center gap-x-1.5'>
-                  <img
-                    src={project?.avatarUrl}
-                    className='w-6 h-6 object-contain mr-2 rounded-full'
-                  />
-                  <span className='text-[#131517] text-sm font-normal'>
-                    {project?.projectName}
-                  </span>
-                </h4>
-              </div>
+              <h2 className='text-xl  font-bold  mb-5'>
+                <ColorCaptial text={page?.campaign?.name} />
+              </h2>
 
-              <div className='text-sm font-normal text-c-6 mb-6'>
+              <div className='text-sm font-normal mb-8'>
                 <TextMore text={page?.campaign?.description} />
               </div>
+              <div className='flex items-center text-sm text-[#A1A1A2] mb-4'>
+                <span className='mr-0.5 text-sm font-medium text-white'>
+                  {formatDollar(page?.participation?.participantNum)}
+                </span>
+                participantNum
+              </div>
 
-              <div className='flex items-center gap-x-2'>
-                <img
-                  src={dateIcon}
-                  className='w-6 h-6 object-contain object-center'
-                />
-                <div className='flex items-center gap-x-1 text-sm text-[#68696B]'>
-                  {campaignEnd ? (
-                    <div>This campaign has ended.</div>
-                  ) : campaignNotStart ? (
-                    <>
-                      <div>start in</div>
-                      <Countdown
-                        value={page?.campaign?.startAt}
-                        format='D[d] H[h] m[m] s[s]'
-                        valueStyle={{
-                          color: '#131517',
-                          fontSize: '14px',
-                          lineHeight: '20px'
-                        }}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <div>End in</div>
-                      <Countdown
-                        value={page?.campaign?.endAt}
-                        format='D[d] H[h] m[m] s[s]'
-                        valueStyle={{
-                          color: '#131517',
-                          fontSize: '14px',
-                          lineHeight: '20px'
-                        }}
-                      />
-                    </>
-                  )}
-                </div>
+              <div className='flex items-center gap-x-1 text-sm text-[#A1A1A2]'>
+                {campaignEnd ? (
+                  <div>This campaign has ended.</div>
+                ) : campaignNotStart ? (
+                  <>
+                    <div>start in</div>
+                    <Countdown
+                      value={page?.campaign?.startAt}
+                      format='D[d] H[h] m[m] s[s]'
+                      valueStyle={{
+                        color: '#fff',
+                        fontSize: '14px',
+                        lineHeight: '20px',
+                        fontWeight: 500
+                      }}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <div>End in</div>
+                    <Countdown
+                      value={page?.campaign?.endAt}
+                      format='D[d] H[h] m[m] s[s]'
+                      valueStyle={{
+                        color: '#fff',
+                        fontSize: '14px',
+                        lineHeight: '20px',
+                        fontWeight: 500
+                      }}
+                    />
+                  </>
+                )}
               </div>
             </>
           )}
@@ -305,12 +297,12 @@ export default function () {
       </section>
 
       {isLoading && (
-        <div className='rounded-lg lg:rounded-2xl py-3 px-5 bg-white'>
+        <div className='px-5 lg:px-0 rounded-lg lg:rounded-2xl py-3 bg-white'>
           <Skeleton />
         </div>
       )}
 
-      <section className='space-y-2.5 lg:space-y-5 tetx-t-1'>
+      <section className='px-2.5 lg:px-0 space-y-2.5 lg:space-y-5 tetx-t-1'>
         {page?.groups?.map((group, index) => {
           return (
             <div
