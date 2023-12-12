@@ -89,24 +89,19 @@ export default function WithVerify ({
           closable={pc ? true : false}
           onCancel={handleCancel}
         >
-          <div className='text-black -mx-6'>
-            <h1 className='text-base font-medium border-b px-5 pb-3 border-[#ececec]'>
+          <div className='-mx-6'>
+            <h1 className='text-base font-medium border-b px-5 pb-3 border-[#8148C6]'>
               {modalConf.title}
             </h1>
-            <div className='border-[#ececec] border-b'>
+            <div className='border-[#8148C6] border-b'>
               <div className='px-5 pt-5 pb-4'>
-                <div
-                  className={clsx(
-                    'text-base font-medium',
-                    userLogined && 'text-[#A1A1A2]'
-                  )}
-                >
+                <div className={clsx('text-base font-medium')}>
                   <h2>{modalConf.step1.title}</h2>
                 </div>
                 <p
                   className={clsx(
-                    'text-[#717374] text-xs mb-6',
-                    userLogined && 'text-[#A1A1A2]'
+                    'text-xs mb-6',
+                    userLogined && 'text-[#C0ABD9]'
                   )}
                 >
                   {modalConf.step1.desc[credentialType]}
@@ -127,9 +122,14 @@ export default function WithVerify ({
                       setLoading(true)
                       social.loginFn().finally(() => setLoading(false))
                     }}
-                    className='px-4 py-1 text-sm text-white rounded-md'
-                    style={{ backgroundColor: social.activeColor }}
+                    className='flex items-center gap-x-1 px-4 py-1 text-sm text-black rounded-md bg-white'
+                    // style={{ backgroundColor: social.activeColor }}
                   >
+                    <img
+                      src={social.activePic}
+                      className='w-4 h-4 object-contain object-center'
+                      alt='social logo'
+                    />
                     Connect {credentialType}
                     {loading && (
                       <Spin spinning size='small' style={{ marginLeft: 4 }} />
@@ -140,11 +140,22 @@ export default function WithVerify ({
             </div>
             <div>
               <div className='px-5 pt-5 pb-4'>
-                <div className={clsx('text-base font-medium')}>
+                <div
+                  className={clsx(
+                    'text-base font-medium',
+                    !social.connected && 'text-[#C0ABD9]'
+                  )}
+                >
                   <h2>{modalConf.step2.name}</h2>
                   <h2>{modalConf.step2.title}</h2>
                 </div>
-                <p className={clsx('text-[#717374] text-xs mb-6')}>
+                <p
+                  className={clsx(
+                    'text-xs mb-6',
+
+                    !social.connected && 'text-[#C0ABD9]'
+                  )}
+                >
                   {modalConf.step2.desc}
                 </p>
                 {social.connected && (

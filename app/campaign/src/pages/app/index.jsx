@@ -382,7 +382,7 @@ export default function () {
                           />
                         </div>
                         {redential.isVerified ? (
-                          <span className='flex items-center gap-x-1 text-md whitespace-nowrap text-[#65C467]'>
+                          <span className='flex items-center gap-x-1 text-md whitespace-nowrap'>
                             <VerifyStatus status={verifyStatusEnum.Sucess} />
                             Verified
                           </span>
