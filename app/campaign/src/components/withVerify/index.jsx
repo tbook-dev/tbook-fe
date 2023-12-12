@@ -108,7 +108,7 @@ export default function WithVerify ({
                 </p>
 
                 {social.connected ? (
-                  <div className='w-max px-4 py-2 bg-[#F8F9FA] rounded-md flex items-center gap-x-2 text-sm text-[#A1A1A2] font-medium'>
+                  <div className='w-max py-2  rounded-md flex items-center gap-x-1 text-sm font-medium'>
                     <img
                       src={social.activePic}
                       className='w-4 h-4 object-contain object-center'
@@ -161,21 +161,12 @@ export default function WithVerify ({
                 {social.connected && (
                   <button
                     className={clsx(
-                      'text-base whitespace-nowrap px-1.5 py-1 rounded-md',
-                      'flex items-center gap-x-1',
-                      {
-                        'bg-transparent text-[#65C467]':
-                          status === verifyStatusEnum.Sucess,
-                        'bg-[rgba(0,110,233,0.04)] text-[#006EE9]':
-                          status === verifyStatusEnum.NotStarted,
-                        'bg-transparent text-[#006EE9]':
-                          status === verifyStatusEnum.Pending
-                      }
+                      'text-base whitespace-nowrap px-5 py-1 rounded-md',
+                      'flex items-center gap-x-1 bg-white text-black'
                     )}
                     onClick={handleVerify}
                     disabled={status === verifyStatusEnum.Pending}
                   >
-                    <VerifyStatus status={status} />
                     {status === verifyStatusEnum.Sucess && 'Verified'}
                     {status === verifyStatusEnum.Pending && 'Verify...'}
                     {status === verifyStatusEnum.NotStarted && 'Verify'}
