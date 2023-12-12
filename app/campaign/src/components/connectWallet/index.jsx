@@ -8,6 +8,14 @@ import { useDispatch } from 'react-redux'
 import { setLoginModal, setConnectWalletModal } from '@/store/global'
 import { loginUsingTwitterUrl } from '@/api/incentive'
 import WalletWeb3Modal from './walletWeb3Modal'
+import useUserInfo from '@/hooks/useUserInfoQuery'
+import { useAccount, useWalletClient } from 'wagmi'
+import {
+  changeAccountSignIn,
+  logout,
+  preGetNonce,
+  isIOS
+} from '@/utils/web3'
 
 const pageConf = {
   title: 'Log in',
@@ -30,6 +38,40 @@ const ConnectWalletModal = () => {
   const showLoginModal = useSelector(s => s.global.showLoginModal)
   const dispath = useDispatch()
   const { pc } = useResponsive()
+
+  const [currentAddress, setCurrentAddress] = useState('')
+  const { walletClient } = useWalletClient()
+  const { userLogined, user } = useUserInfo()
+  const { address } = useAccount({
+    onConnect({ address, connector, isReconnected }) {
+      console.log('Connected', { address, connector, isReconnected })
+      if (currentAddress == address) return
+      if (currentAddress) {
+        // account change
+        changeAccountSignIn(address, walletClient).then(r => {
+          location.href = location
+        })
+      } else {
+        // new account connect
+        if (isIOS) {
+          preGetNonce(address)
+        } else if (!/Mobi/i.test(window.navigator.userAgent)) {
+          // const signer = await getWalletClient()
+          // signLoginMetaMask(acc.address, signer)
+        }
+      }
+    },
+    onDisconnect() {
+      if (userLogined && user.evm.binded) {
+        logout().then(r => {
+          location.href = location
+        })
+      }
+    },
+  })
+  useEffect(() => {
+    setCurrentAddress(address)
+  }, [address, setCurrentAddress])
 
   const handleCloseModal = useCallback(() => {
     dispath(setLoginModal(false))
