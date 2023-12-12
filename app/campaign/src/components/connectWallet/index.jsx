@@ -67,8 +67,8 @@ const ConnectWalletModal = () => {
                   {pageConf.connectWallet.text}
                 </span>
               </button>
-              <Divider style={{ color: '#A1A1A2' }}>
-                <span className='text-xs text-[#717374]'>
+              <Divider style={{ color: '#8148C6' }}>
+                <span className='text-xs text-[#8148C6]'>
                   {pageConf.divider}
                 </span>
               </Divider>

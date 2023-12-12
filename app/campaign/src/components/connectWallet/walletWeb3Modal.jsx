@@ -119,10 +119,10 @@ const ConnectWalletModal = () => {
       onCancel={handleCloseModal}
     >
       <div className='-mx-6'>
-        <h1 className='text-base font-medium border-b px-5 pb-3 border-[#ececec]'>
+        <h1 className='text-base font-medium border-b px-5 pb-3 border-[#8148C6]'>
           {pageConf.title}
         </h1>
-        <div className='border-[#ececec] border-b'>
+        <div className='border-[#8148C6] border-b'>
           <div className='px-5 pt-5 pb-4'>
             <div
               className={clsx(

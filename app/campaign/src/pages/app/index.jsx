@@ -360,7 +360,7 @@ export default function () {
                     <React.Fragment key={index}>
                       <div
                         key={index}
-                        className='flex items-center justify-between h-10 w-full border border-[#904BF6] p-5 rounded-lg bg-linear1'
+                        className='flex items-center justify-between h-14 w-full border border-[#904BF6] p-5 rounded-lg bg-linear1'
                       >
                         <div className='flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]'>
                           <img
