@@ -21,4 +21,7 @@ export default {
     controlHeight: 40,
     borderRadius: 24,
   },
+  Modal: {
+    // contentBg: `unset`,
+  },
 };

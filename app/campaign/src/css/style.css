@@ -50,3 +50,7 @@
     ),
     linear-gradient(11deg, #c4b1d8 15.48%, #f4d597 100%);
 }
+
+.ant-modal-content {
+  @apply bg-linear2;
+}
