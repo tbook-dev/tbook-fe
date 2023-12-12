@@ -9,7 +9,7 @@ export const getParicipant = v => {
   const { isTwitterLogin, wallet } = v
   return isTwitterLogin ? (
     <span className='flex items-center gap-x-0.5'>
-      {wallet} <img src={xIcon} alt='x icon' />
+      @{wallet} <img src={xIcon} alt='x icon' />
     </span>
   ) : (
     shortAddress(wallet)
