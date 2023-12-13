@@ -34,7 +34,14 @@ export default function Snapshot () {
 
           <Markdown>{formatIPFS(data?.body)}</Markdown>
 
+          {data?.state === 'closed' && (
+            <div className='text-[#C4C4C4] text-sm mb-4'>
+              The voting has closed.
+            </div>
+          )}
+
           {data?.state !== 'closed' && <SingleVote snapshotId={snapshotId} />}
+
           <VoteResult snapshotId={snapshotId} />
         </div>
       </div>

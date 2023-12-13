@@ -3,7 +3,7 @@ import { useResponsive } from 'ahooks'
 import { useSelector } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { setSnapshotCastModal, setSnapshotData } from '@/store/global'
-import { useVp, useProposal, castVote } from '@tbook/snapshot/api'
+import { useVp, useProposal, useUserVotes, castVote } from '@tbook/snapshot/api'
 import { useDispatch } from 'react-redux'
 import { formatDollar } from '@tbook/utils/lib/conf'
 import Arrow2Icon from '@/images/icon/arrow2.svg'
@@ -41,6 +41,8 @@ export default function CastModal () {
   const { data: walletClient } = useWalletClient()
   const { showSnapshotCastModal, snapshotData } = useSelector(s => s.global)
   const { data, refetch } = useProposal(snapshotId)
+  const { refetch: refetchVote } = useUserVotes(snapshotId, address)
+
   const [voting, setVoting] = useState(false)
   const [messageApi, contextHolder] = message.useMessage()
   const op = {
@@ -72,6 +74,7 @@ export default function CastModal () {
         // 上报
         verifyTbook(credentialId)
         refetch()
+        refetchVote()
       })
       .catch(e => {
         console.error(e)

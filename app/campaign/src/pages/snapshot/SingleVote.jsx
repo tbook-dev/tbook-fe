@@ -40,33 +40,28 @@ export default function SingleVote ({ snapshotId }) {
   const remoteVoted = useMemo(() => {
     if (!votes) return
     return votes?.find(v => v.voter === address)
-  }, [votes])
+  }, [votes, data])
   console.log({ remoteVoted, data })
   return (
     <div className='space-y-6'>
-      <div className='space-y-4'>
-        {data?.state === 'pending' && (
-          <div className='text-[#C4C4C4] text-sm'>
-            This voting will start at
-            {dayjs(data?.start * 1000).format('MMM D, YYYY h:mm A')}
-          </div>
-        )}
-        {data?.state === 'closed' && (
-          <div className='text-[#C4C4C4] text-sm'>The voting has closed.</div>
-        )}
+      {data?.state === 'pending' && (
+        <div className='text-[#C4C4C4] text-sm'>
+          This voting will start at
+          {dayjs(data?.start * 1000).format('MMM D, YYYY h:mm A')}
+        </div>
+      )}
 
-        {remoteVoted && (
-          <div className='text-white text-sm font-medium'>
-            You voted
-            <span className='px-2 rounded-full border mx-1'>
-              {data?.choices?.[remoteVoted.choice - 1]}
-            </span>
-            <span className='mx-1'>with</span>
-            <span className='mr-1'>{BigNumber(remoteVoted.vp).toFixed(6)}</span>
-            {data?.symbol}
-          </div>
-        )}
-      </div>
+      {remoteVoted && (
+        <div className='text-white text-sm font-medium'>
+          You voted
+          <span className='px-2 rounded-full border mx-1'>
+            {data?.choices?.[remoteVoted.choice - 1]}
+          </span>
+          <span className='mx-1'>with</span>
+          <span className='mr-1'>{BigNumber(remoteVoted.vp).toFixed(6)}</span>
+          {data?.symbol}
+        </div>
+      )}
 
       <div className='space-y-2'>
         {data?.choices.map((v, idx) => {
