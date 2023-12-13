@@ -23,7 +23,6 @@ import LazyImage from '@/components/lazyImage'
 import VerifyStatus, {
   verifyStatusEnum
 } from '@/components/withVerify/VerifyStatus'
-import SnapshotPreview from '@tbook/snapshot/Preview'
 import { getSnapshotIdBylink } from '@tbook/snapshot/api'
 import ColorCaptial from '@/components/colorCaptial'
 import { formatDollar } from '@tbook/utils/lib/conf'
@@ -294,11 +293,11 @@ export default function () {
                     }
                   }
                   return (
-                    <React.Fragment key={index}>
-                      <div
-                        key={index}
-                        className='flex items-center justify-between h-14 w-full border border-[#904BF6] p-5 rounded-lg bg-linear1'
-                      >
+                    <div
+                      key={index}
+                      className='border border-[#904BF6] p-5 rounded-lg bg-linear1 space-y-5'
+                    >
+                      <div className='flex items-center justify-between h-14 w-full'>
                         <div className='flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]'>
                           <img
                             src={redential.picUrl}
@@ -337,12 +336,15 @@ export default function () {
                       {isSnapshotType && snapshotId && (
                         <Link
                           target='_blank'
+                          className='text-base font-medium'
                           to={`/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
                         >
-                          <SnapshotPreview id={snapshotId} />
+                          <h2 className='border-t mt-4 pt-5 border-[#8148C6]'>
+                            Would you use TBOOK to incentivize your community?
+                          </h2>
                         </Link>
                       )}
-                    </React.Fragment>
+                    </div>
                   )
                 })}
               </div>
