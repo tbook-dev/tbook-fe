@@ -9,8 +9,8 @@ export default function TextMore ({ text }) {
   const textRef = useRef(null)
   useEffect(() => {
     if (textRef.current) {
-      const { scrollWidth, clientWidth } = textRef.current
-      if (scrollWidth > clientWidth) {
+      const { offsetHeight, scrollHeight } = textRef.current
+      if (scrollHeight > offsetHeight) {
         setHasMore(true)
       }
     }
@@ -23,10 +23,7 @@ export default function TextMore ({ text }) {
         setShowMore(v => !v)
       }}
     >
-      <div
-        className={clsx('text-[#68696B] text-sm', !showMore && 'truncate')}
-        ref={textRef}
-      >
+      <div className={clsx(!showMore && 'line-clamp-2')} ref={textRef}>
         {text}
       </div>
       {hasMore && (

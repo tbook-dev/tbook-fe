@@ -24,8 +24,8 @@
 }
 
 @layer components {
-  .text-colorful1 {
-    background: linear-gradient(323deg, #4d0bef 0%, #cf0063 100%);
+  .text-color1 {
+    background: linear-gradient(281deg, #904BF6 85.75%, #CF0063 99.07%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -49,4 +49,8 @@
       rgba(255, 255, 255, 0.75) 100%
     ),
     linear-gradient(11deg, #c4b1d8 15.48%, #f4d597 100%);
+}
+
+.ant-modal-content {
+  @apply bg-linear2;
 }

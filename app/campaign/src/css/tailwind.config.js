@@ -9,7 +9,6 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
     "./node_modules/@tbook/ui/src/**/*.{js,jsx}",
     "./node_modules/@tbook/snapshot/**/*.{js,jsx}",
-    "./node_modules/tw-elements/dist/js/**/*.js",
   ],
   theme: {
     extend: {
@@ -17,8 +16,9 @@ module.exports = {
         lg: "1120px", // 96*2+928=1120
       },
       backgroundImage: {
-        cw1: "linear-gradient(283.69deg, #4D0BEF -14.58%, #D645ED 134.55%);",
-        cw2: "linear-gradient(326deg, #4D0BEF 0%, #CF0063 100%)",
+        linear1:
+          "linear-gradient(280deg, rgba(144, 75, 246, 0.10) 49.68%, rgba(207, 0, 99, 0.10) 108.87%)",
+        linear2: "linear-gradient(116deg, #7535C4 0%, #351857 100%)",
       },
       boxShadow: {
         s1: " 0px 0px 6px 0px rgba(0, 0, 0, 0.10)",

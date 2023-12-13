@@ -5,7 +5,6 @@ import clsx from 'clsx'
 import { conf } from '@tbook/utils'
 import copyIcon from '@/images/icon/copy.svg'
 import disconnectIcon from '@/images/icon/disconnect.svg'
-import { CheckOutlined } from '@ant-design/icons'
 import { useState, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { setConnectWalletModal, setLoginModal } from '@/store/global'
@@ -17,6 +16,7 @@ import { authenticate, bindEvm } from '@/api/incentive'
 import { disconnect } from '@wagmi/core'
 import { broadcast } from '@/utils/channel'
 import useUserInfo from '@/hooks/useUserInfoQuery'
+import { CheckOutlined } from '@ant-design/icons'
 
 const { shortAddress } = conf
 const { Paragraph } = Typography
@@ -118,55 +118,52 @@ const ConnectWalletModal = () => {
       closable={pc ? true : false}
       onCancel={handleCloseModal}
     >
-      <div className='text-black -mx-6'>
-        <h1 className='text-base font-medium border-b px-5 pb-3 border-[#ececec]'>
+      <div className='-mx-6'>
+        <h1 className='text-base font-medium border-b px-5 pb-3 border-[#8148C6]'>
           {pageConf.title}
         </h1>
-        <div className='border-[#ececec] border-b'>
+        <div className='border-[#8148C6] border-b'>
           <div className='px-5 pt-5 pb-4'>
             <div
               className={clsx(
                 'text-base font-medium',
-                isConnected && 'text-[#A1A1A2]'
+                isConnected && 'text-[#C0ABD9]'
               )}
             >
               <h2>{pageConf.step1.name}</h2>
               <h2>{pageConf.step1.title}</h2>
             </div>
             <p
-              className={clsx(
-                'text-[#717374] text-xs mb-6',
-                isConnected && 'text-[#A1A1A2]'
-              )}
+              className={clsx('text-xs mb-6', isConnected && 'text-[#C0ABD9]')}
             >
               {pageConf.step1.desc}
             </p>
             {isConnected ? (
               <div>
-                <div className='px-4 bg-[#f8f9fa] rounded w-max h-8 flex items-center'>
+                <div className='rounded w-max h-8 flex items-center'>
                   <Paragraph
                     className='flex items-center'
                     style={{ marginBottom: 0 }}
                     copyable={{
                       text: address,
-                      icon: (
+                      icon: [
                         <img
                           src={copyIcon}
                           alt='copy icon'
                           className='w-5 h-5 object-cover'
-                        />
-                      )
+                        />,
+                        <CheckOutlined className='text-white' />
+                      ]
                     }}
                   >
-                    <CheckOutlined style={{ color: 'green' }} />
-                    <span className='font-medium text-sm ml-2 mr-1 text-[#A1A1A2]'>
+                    <span className='font-medium text-sm mr-1'>
                       {shortAddress(address)}
                     </span>
                   </Paragraph>
                 </div>
                 <button
                   onClick={disconnect}
-                  className='flex items-center gap-x-1 pt-2 text-[#006EE9]'
+                  className='flex items-center gap-x-1 pt-2'
                 >
                   <img
                     src={disconnectIcon}
@@ -179,7 +176,7 @@ const ConnectWalletModal = () => {
             ) : (
               <button
                 onClick={async () => await open()}
-                className='px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md'
+                className='px-4 py-1 text-sm text-black bg-white rounded-md'
               >
                 {pageConf.step1.button}
               </button>
@@ -191,24 +188,21 @@ const ConnectWalletModal = () => {
             <div
               className={clsx(
                 'text-base font-medium',
-                !isConnected && 'text-[#A1A1A2]'
+                !isConnected && 'text-[#C0ABD9]'
               )}
             >
               <h2>{pageConf.step2.name}</h2>
               <h2>{pageConf.step2.title}</h2>
             </div>
             <p
-              className={clsx(
-                'text-[#717374] text-xs mb-6',
-                !isConnected && 'text-[#A1A1A2]'
-              )}
+              className={clsx('text-xs mb-6', !isConnected && 'text-[#C0ABD9]')}
             >
               {pageConf.step2.desc}
             </p>
             {isConnected && (
               <button
                 onClick={signIn}
-                className='px-4 py-1 text-sm text-white bg-[#006EE9] rounded-md'
+                className='px-4 py-1 text-sm text-black bg-white rounded-md'
               >
                 {pageConf.step2.button}{' '}
                 {loading && <Spin spinning size='small' className='ml-1' />}

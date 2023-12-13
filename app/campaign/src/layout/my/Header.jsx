@@ -26,8 +26,8 @@ function Header () {
   return (
     <header
       className={clsx(
-        'text-black dark:text-white shadow-d2',
-        'transition duration-300 ease-in-out'
+        'transition duration-300 ease-in-out',
+        'backdrop-blur-sm'
       )}
     >
       <div className='px-4 py-2 lg:px-20 lg:py-2.5'>
@@ -52,13 +52,13 @@ function Header () {
             {!firstLoad ? (
               <AvatarSkeleton />
             ) : userLogined ? (
-              <div className='flex items-center gap-x-2'>
+              <div className='flex items-center gap-x-4'>
                 <Avatar />
                 <MobleMenu />
               </div>
             ) : (
               <button
-                className='px-2 py-1 text-sm rounded-md bg-white'
+                className='px-2 py-1 text-sm rounded-md border border-white text-white lg:hover:opacity-70'
                 onClick={handleClick}
               >
                 Log In
