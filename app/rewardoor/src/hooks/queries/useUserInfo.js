@@ -6,8 +6,8 @@ export default function useUserInfo() {
     "userInfo",
     getUserInfo,
     {
-      staleTime: 1000 * 60 * 10,
-      retry:  false
+      // staleTime: 1000 * 60 * 10,
+      retry: false,
     }
   );
   const projects = data?.projects;
