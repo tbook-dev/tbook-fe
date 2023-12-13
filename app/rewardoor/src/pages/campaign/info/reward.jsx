@@ -9,11 +9,12 @@ import clsx from 'clsx'
 import { useState, useCallback } from 'react'
 import WinnerListModal from './winnerListModal'
 import useReward from '@/hooks/queries/useReward'
+import Loading from '@/components/loading'
 
 const { formatDollar } = tbookConf
 export default function Reward () {
   const { id } = useParams()
-  const { data: reward } = useReward(id)
+  const { data: reward, isLoading } = useReward(id)
   const [winnerListData, setWinnerListData] = useState(null)
   const [open, setOpen] = useState(false)
   const [modalType, setModalType] = useState(null)
@@ -26,6 +27,9 @@ export default function Reward () {
     setWinnerListData(data)
     setOpen(true)
   }, [])
+  if (isLoading) {
+    return <Loading h='h-[300px]' />
+  }
 
   return (
     <div className='w-[520px] space-y-4 mb-20'>
