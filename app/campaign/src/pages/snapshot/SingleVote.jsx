@@ -40,8 +40,8 @@ export default function SingleVote ({ snapshotId }) {
   const remoteVoted = useMemo(() => {
     if (!votes) return
     return votes?.find(v => v.voter === address)
-  }, [votes, data])
-  console.log({ remoteVoted, data })
+  }, [votes])
+
   return (
     <div className='space-y-6'>
       {data?.state === 'pending' && (
