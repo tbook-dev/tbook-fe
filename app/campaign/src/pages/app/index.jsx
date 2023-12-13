@@ -1,14 +1,10 @@
-import { useResponsive, useUpdateEffect } from 'ahooks'
+import { useResponsive } from 'ahooks'
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { useQueryClient } from 'react-query'
-import { twLogin, getTwLoginUrl, verifyCredential } from '@/api/incentive'
+import { verifyCredential } from '@/api/incentive'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { credentialStatus, incentiveMethodList } from '@/utils/conf'
-import nftIcon from '@/images/icon/nft.svg'
 import pointIcon from '@/images/icon/point.svg'
-import rewardIcon from '@/images/icon/reward.svg'
 import arrow3Icon from '@/images/icon/arrow3.svg'
-import Modal from '@/components/modal'
 import useUserInfo from '@/hooks/useUserInfoQuery'
 import useProjectQuery from '@/hooks/useProjectQuery'
 import useCampaignQuery from '@/hooks/useCampaignQuery'
@@ -16,14 +12,10 @@ import TextMore from '@/components/textMore'
 import { Skeleton, Statistic } from 'antd'
 import { message } from 'antd'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
-import { useAccount, useWalletClient, useSignMessage } from 'wagmi'
-// import useSignIn from "@/hooks/useSignIn";
+import { useAccount, useSignMessage } from 'wagmi'
 import WithVerify from '@/components/withVerify'
-// import { getNonce } from "@/utils/web3";
 import { host, verifyTbook } from '@/api/incentive'
 import { getCrenditialType } from '@/utils/conf'
-import RewardClaim from './rewardClaim'
-import dateIcon from '@/images/icon/date.svg'
 import { useDispatch } from 'react-redux'
 import { setLoginModal, setConnectWalletModal } from '@/store/global'
 import useSocial from '@/hooks/useSocial'
@@ -35,7 +27,7 @@ import SnapshotPreview from '@tbook/snapshot/Preview'
 import { getSnapshotIdBylink } from '@tbook/snapshot/api'
 import ColorCaptial from '@/components/colorCaptial'
 import { formatDollar } from '@tbook/utils/lib/conf'
-
+import ViewReward from './viewReward'
 const { Countdown } = Statistic
 
 const errorMsg = (
@@ -44,13 +36,6 @@ const errorMsg = (
     <br /> If you have fulfilled the requirement, please try again in 30s.
   </>
 )
-
-// const tgBotId = import.meta.env.VITE_TG_BOT_ID;
-// const tgCallbackHost = import.meta.env.VITE_TG_CALLBACK_HOST;
-// const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=https%3A%2F%2F${tgCallbackHost}&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback.html`;
-
-// const curHost = new URL(window.location.href).host;
-// const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`;
 
 export default function () {
   const [messageApi, contextHolder] = message.useMessage()
@@ -75,61 +60,15 @@ export default function () {
     telegramConnected,
     wallectConnected
   } = useUserInfo()
-  const [rewardModalIdx, setRewardModalIdx] = useState(-1)
   const { signMessageAsync } = useSignMessage()
   const { getSocialByName } = useSocial()
-  // const twLinkRef = useRef(null);
-  // const [twLink, setTwLink] = useState("");
-
-  // const [nonce, setNonce] = useState("");
-
-  // const { data: walletClient, isError, isLoading } = useWalletClient();
-  const { address, isConnected, isDisconnected } = useAccount()
+  const { isConnected } = useAccount()
+  const [viewModalOpen, setViewModalOpen] = useState(false)
+  const [viewModalData, setViewModalData] = useState(null)
 
   const [rawDatas, setRawDatas] = useState({})
   const [signed, setSigned] = useState({})
-  // useEffect(() => {
-  //   if (isConnected) {
-  //     getNonce(address).then((r) => {
-  //       setNonce(() => r);
-  //     });
-  //   }
-  // }, [isConnected, address]);
 
-  // const twLoginCurrent = async () => {
-  //   const res = await getTwLoginUrl();
-  //   localStorage.setItem("redirect_url", location.href);
-  //   setTwLink(() => res["url"]);
-  // };
-  // const discardLogin = async () => {};
-
-  // useEffect(() => {
-  //   if (twLink) {
-  //     twLinkRef.current.click();
-  //   }
-  // }, [twLink]);
-
-  // const signIn = async () => {
-  //   const sign = await signMessageAsync({ message: nonce });
-  //   const d = new URLSearchParams();
-  //   d.append("address", address);
-  //   d.append("sign", sign);
-  //   const response = await fetch(`${host}/authenticate`, {
-  //     credentials: "include",
-  //     method: "POST",
-  //     headers: {
-  //       "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-  //     },
-  //     body: d,
-  //   });
-  //   console.log("status:", response.status);
-  //   response.text().then((b) => console.log("body", b));
-  //   response.headers.forEach((value, key) => {
-  //     console.log(key, value);
-  //   });
-  //   console.log(document.cookie);
-  //   await queryClient.refetchQueries("userInfo");
-  // };
   const canUseWallect = useMemo(() => {
     return isConnected && wallectConnected
   }, [isConnected, wallectConnected])
@@ -140,8 +79,23 @@ export default function () {
     dispath(setConnectWalletModal(true))
   }, [])
   const handleCancel = useCallback(() => {
-    setRewardModalIdx(-1)
+    setViewModalOpen(false)
+    setViewModalData(null)
   }, [])
+  const setViewModalDataCallbcak = useCallback(
+    (data, type) => {
+      if (userLogined) {
+        setViewModalData({
+          ...data,
+          type
+        })
+        setViewModalOpen(true)
+      } else {
+        signIn()
+      }
+    },
+    [userLogined]
+  )
   const handleVerify = useCallback(async redential => {
     let hasError = false
     try {
@@ -161,12 +115,6 @@ export default function () {
       throw new Error(error.message)
     }
   }, [])
-
-  useUpdateEffect(() => {
-    if (userLogined) {
-      queryClient.refetchQueries(['campaignDetail', campaignId])
-    }
-  }, [userLogined])
 
   useEffect(() => {
     const gs = page?.groups
@@ -197,9 +145,6 @@ export default function () {
     }
   }, [page])
 
-  // const campaignNotStart = notStartList.includes(page?.campaign?.status);
-  // const campaignEnd = endList.includes(page?.campaign?.status);
-
   const signCredential = async credential => {
     if (signed[credential.credentialId]) {
       messageApi.warning('Already signed, verify please')
@@ -222,14 +167,6 @@ export default function () {
         }
       })
   }
-
-  // if (!firstLoad) {
-  //   return (
-  //     <div className="flex h-[50vh] items-center justify-center">
-  //       <Spin spinning />
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className='space-y-2.5 pt-3 lg:pt-5 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1'>
@@ -416,36 +353,11 @@ export default function () {
                 </p>
                 <div className='space-y-4 mb-6'>
                   {group.nftList?.map(nft => {
-                    // const incentiveMethodItem =
-                    //   incentiveMethodList.find(
-                    //     v => v.value === nft.methodType
-                    //   ) || incentiveMethodList[0]
-
                     return (
                       <div
                         key={nft.nftId}
                         className='p-5 rounded-lg bg-linear1 flex'
                       >
-                        {/* <div className='flex items-center gap-x-0.5 mb-2'>
-                          <img src={nftIcon} className='w-4 h-4' />
-                          <span className='text-sm'>nft</span>
-                        </div>
-                        <div className='flex mb-2.5'>
-                          <div className='flex flex-col gap-y-1.5 text-sm flex-auto'>
-                            <p>{nft.name}</p>
-                            <div className='flex items-center gap-x-0.5 lowercase'>
-                              <img
-                                src={incentiveMethodItem?.icon}
-                                className='w-3 h-4'
-                              />
-                              {incentiveMethodItem?.title}
-                            </div>
-                          </div>
-                          <div className='w-12 h-12 rounded'>
-                            <img src={nft.picUrl} className='w-full h-full' />
-                          </div>
-                        </div> */}
-
                         <div className='flex-auto flex flex-col justify-between'>
                           <div>
                             <h2 className='text-sm text-[#A1A1A2]'>nft</h2>
@@ -455,12 +367,7 @@ export default function () {
                           </div>
                           <button
                             className='flex items-center w-max'
-                            onClick={() => {
-                              const fn = () => setRewardModalIdx(index)
-                              // 必须登录
-                              const handler = userLogined ? fn : signIn
-                              handler()
-                            }}
+                            onClick={() => setViewModalDataCallbcak(nft, 'nft')}
                           >
                             <span className='text-color1'>View Rewards</span>
                             <img src={arrow3Icon} />
@@ -473,11 +380,8 @@ export default function () {
                       </div>
                     )
                   })}
+
                   {group.pointList?.map(point => {
-                    // const incentiveMethodItem =
-                    //   incentiveMethodList.find(
-                    //     v => v.value === point.methodType
-                    //   ) || incentiveMethodList[0]
                     return (
                       <div
                         key={point.pointId}
@@ -493,12 +397,9 @@ export default function () {
                           </div>
                           <button
                             className='flex items-center w-max'
-                            onClick={() => {
-                              const fn = () => setRewardModalIdx(index)
-                              // 必须登录
-                              const handler = userLogined ? fn : signIn
-                              handler()
-                            }}
+                            onClick={() =>
+                              setViewModalDataCallbcak(point, 'point')
+                            }
                           >
                             <span className='text-color1'>View Rewards</span>
                             <img src={arrow3Icon} />
@@ -512,52 +413,21 @@ export default function () {
                     )
                   })}
                 </div>
-                {/* <div className='flex items-center gap-x-2.5 text-sm'>
-                  <div
-                    className='px-2.5 py-1 cursor-pointer rounded'
-                    onClick={() => {
-                      const fn = () => setRewardModalIdx(index)
-                      // 必须登录
-                      const handler = userLogined ? fn : signIn
-                      handler()
-                    }}
-                  >
-                    View Rewards
-                  </div>
-                </div> */}
               </div>
             </div>
           )
         })}
       </section>
 
-      <Modal open={rewardModalIdx >= 0} onCancel={handleCancel}>
-        <img
-          src={rewardIcon}
-          className='w-[88px] h-[88px] absolute left-1/2 -translate-x-1/2 top-[-50px] z-10'
+      {viewModalData && (
+        <ViewReward
+          data={viewModalData}
+          open={viewModalOpen}
+          onCancel={handleCancel}
         />
-        {rewardModalIdx >= 0 && (
-          <div className='text-t-1 -mx-2 max-h-[345px] overflow-y-auto'>
-            <h2 className='text-base lg:text-4xl mb-1.5 font-medium text-[#131517]'>
-              Rewards
-            </h2>
-            <p className='text-xs text-[#131517] mb-8'>
-              You may get following rewards once you have accomplished all tasks
-              in the group!
-            </p>
-            <div className='text-base'>
-              <RewardClaim group={page?.groups?.[rewardModalIdx]} />
-            </div>
-          </div>
-        )}
-      </Modal>
+      )}
+
       {contextHolder}
-      {/* <a
-        href={twLink}
-        ref={twLinkRef}
-        mc-deep-link="false"
-        style={{ visibility: "hidden" }}
-      ></a> */}
     </div>
   )
 }
