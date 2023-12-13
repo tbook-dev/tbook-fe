@@ -248,10 +248,7 @@ export default function () {
                   {page?.campaign?.name}
                 </h2>
                 <h4 className='flex items-center gap-x-1.5'>
-                  <img
-                    src={project?.avatarUrl}
-                    className='w-6 h-6 object-contain mr-2 rounded-full'
-                  />
+                  <img src={project?.avatarUrl} className='h-6 mr-2' />
                   <span className='text-[#131517] text-sm font-normal'>
                     {project?.projectName}
                   </span>
