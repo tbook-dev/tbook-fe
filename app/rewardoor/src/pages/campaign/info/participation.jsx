@@ -10,6 +10,7 @@ import { useState } from 'react'
 import dayjs from 'dayjs'
 import copyIcon from '@/images/icon/copy.svg'
 import { getParicipant } from '../conf'
+import Loading from '@/components/loading'
 
 const { Paragraph } = Typography
 
@@ -20,7 +21,7 @@ const pageSize = 10
 export default function Participation () {
   const [current, setCurrent] = useState(1)
   const { id } = useParams()
-  const { data: pageInfo = {} } = useQuery(
+  const { data: pageInfo = {}, isLoading } = useQuery(
     ['participation', id],
     () => getCampaignParticipation(id),
     {
@@ -47,6 +48,9 @@ export default function Participation () {
       }
     ]
   }, [pageInfo])
+  if (isLoading) {
+    return <Loading h='h-[300px]' />
+  }
 
   return (
     <div className='space-y-5 mb-10'>
