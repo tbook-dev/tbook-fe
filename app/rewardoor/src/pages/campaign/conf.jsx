@@ -6,10 +6,10 @@ export const defaultCredentialReward = {
 }
 
 export const getParicipant = v => {
-  const { isTwitterLogin, wallet } = v
+  const { isTwitterLogin, wallet, twitterName } = v
   return isTwitterLogin ? (
     <span className='flex items-center gap-x-0.5'>
-      @{wallet} <img src={xIcon} alt='x icon' />
+      @{twitterName} <img src={xIcon} alt='x icon' />
     </span>
   ) : (
     shortAddress(wallet)
