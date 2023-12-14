@@ -120,14 +120,14 @@ export default function Participation () {
                         style={{ marginBottom: 0 }}
                         className='flex justify-center items-center'
                         copyable={{
-                          text: v.campaignId,
+                          text: v.credentialId,
                           icon: [
                             <img src={copyIcon} className='w-4 h-4' />,
                             <CheckOutlined style={{ color: '#3A82F7' }} />
                           ]
                         }}
                       >
-                        {v.campaignId}
+                        {v.credentialId}
                       </Paragraph>
                     </div>
                   }
