@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination } from 'swiper'
+import { Pagination, Autoplay } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import slide1 from '@/images/aboard/slide1.png'
@@ -35,7 +35,8 @@ export default function Slide () {
   return (
     <Swiper
       className='w-full h-full rounded-2.5xl'
-      modules={[Pagination]}
+      autoplay
+      modules={[Pagination, Autoplay]}
       style={{
         '--swiper-theme-color': '#fff',
         '--swiper-pagination-bullet-inactive-color': '#fff'

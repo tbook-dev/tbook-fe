@@ -5,6 +5,7 @@ import { incentiveAssetsTypeList, getUrl } from '@/utils/conf'
 import useUserInfo from '@/hooks/queries/useUserInfo'
 import { Typography } from 'antd'
 import dayjs from 'dayjs'
+import Loading from '@/components/loading'
 
 const dateFormat = `YYYY-MM-DD HH:mm:ss`
 const { Paragraph } = Typography
@@ -12,7 +13,7 @@ const { Paragraph } = Typography
 export default function Campaign () {
   const { id } = useParams()
   const { projectId } = useUserInfo()
-  const { data: pageInfo = {} } = useQuery(
+  const { data: pageInfo = {}, isLoading } = useQuery(
     ['campaignDetail', id],
     () => getCampaignDetail(id),
     {
@@ -30,6 +31,9 @@ export default function Campaign () {
   // console.log({ pageInfo })
   const credentialSet = credentialList.map(v => v.credentialList).flat()
   const link = `${getUrl()}/app/${projectId}/campaign/${id}`
+  if (isLoading) {
+    return <Loading h='h-[300px]' />
+  }
   return (
     <div className='space-y-10 mb-10'>
       <div>
