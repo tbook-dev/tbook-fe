@@ -38,6 +38,7 @@ export default function ViewReward ({ data, open, onCancel }) {
 
   const [loading, updateLoading] = useState(false)
   const itemStatus = credentialStatus.find(v => v.value === data.claimedType)
+  console.log({ itemStatus, data })
   const incentiveMethodItem = incentiveMethodList.find(
     v => v.value === data.methodType
   )
@@ -56,11 +57,11 @@ export default function ViewReward ({ data, open, onCancel }) {
     getData()
   }, [])
 
-  const handleClaim = async () => {
+  const handleClaim = async data => {
     updateLoading(true)
     try {
       console.log('handleClaimPoint')
-      await claimCampaign(group.id)
+      await claimCampaign(data.groupId)
     } catch (error) {
       console.log(error)
     }
@@ -197,7 +198,7 @@ export default function ViewReward ({ data, open, onCancel }) {
                 connectWallect()
               }
             } else {
-              handleClaim(data)
+              await handleClaim(data)
             }
           }}
           item={itemStatus}
