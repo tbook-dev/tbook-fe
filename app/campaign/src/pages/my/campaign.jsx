@@ -28,7 +28,7 @@ const moduleConf = {
 }
 export default function Campaign () {
   const { projectId } = useParams()
-  const { userLogined } = useUserInfoQuery()
+  const { userLogined, isLoading: userLoading } = useUserInfoQuery()
   const [value, setValue] = useState(moduleConf.tab[0].value)
   const { data: resData, isLoading } = useUserCampaignQuery(projectId)
   const data = useMemo(() => {
@@ -58,7 +58,9 @@ export default function Campaign () {
         />
       </div>
 
-      {userLogined ? (
+      {userLoading ? (
+        <Loading />
+      ) : userLogined ? (
         <div className='space-y-3'>
           {isLoading ? (
             <Loading />

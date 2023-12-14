@@ -4,6 +4,7 @@ import NFT from './modules/NFT'
 import Point from './modules/Point'
 import NotConnect from './modules/NotConnect'
 import useUserInfoQuery from '@/hooks/useUserInfoQuery'
+import Loading from '@/components/loading'
 import { useState } from 'react'
 
 const tabModule = [
@@ -24,7 +25,7 @@ const tabModule = [
   }
 ]
 export default function Asset () {
-  const { userLogined } = useUserInfoQuery()
+  const { userLogined, userLoading } = useUserInfoQuery()
   const [value, setValue] = useState(tabModule[0].value)
 
   return (
@@ -39,7 +40,9 @@ export default function Asset () {
         />
       </div>
 
-      {userLogined ? (
+      {userLoading ? (
+        <Loading />
+      ) : userLogined ? (
         <div>{tabModule.find(v => v.value === value).com}</div>
       ) : (
         <NotConnect />

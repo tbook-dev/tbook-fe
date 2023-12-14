@@ -1,110 +1,115 @@
-import { useMemo } from "react";
-import { useParams, Link } from "react-router-dom";
-import { shortAddress } from "@tbook/utils/lib/conf";
-import clsx from "clsx";
-import linkIcon from "@/images/icon/link.svg";
-import backIcon from "@/images/icon/back.svg";
-import useNftQuery from "@/hooks/useNftQuery";
-import dayjs from "dayjs";
-import { Spin } from "antd";
-import useSupportChainsQuery from "@/hooks/useSupportChainsQuery";
+import { useMemo } from 'react'
+import { useParams, Link, useNavigate } from 'react-router-dom'
+import { shortAddress } from '@tbook/utils/lib/conf'
+import clsx from 'clsx'
+import linkIcon from '@/images/icon/link.svg'
+import backIcon from '@/images/icon/back.svg'
+import useNftQuery from '@/hooks/useNftQuery'
+import dayjs from 'dayjs'
+import { Spin } from 'antd'
+import useSupportChainsQuery from '@/hooks/useSupportChainsQuery'
 
-export default function NFT() {
-  const { projectId, groupId, nftId } = useParams();
-  const { data = {}, isLoading } = useNftQuery(groupId, nftId);
-  const { data: supportChains = [] } = useSupportChainsQuery();
+export default function NFT () {
+  const { projectId, groupId, nftId } = useParams()
+  const navigate = useNavigate()
+  const { data = {}, isLoading } = useNftQuery(groupId, nftId)
+  const { data: supportChains = [] } = useSupportChainsQuery()
   const list = useMemo(() => {
-    const chain = supportChains.find(
-      (v) => v.chainId === data.chainId
-    );
+    const chain = supportChains.find(v => v.chainId === data.chainId)
 
     return [
       {
-        title: "Contract",
+        title: 'Contract',
         com: shortAddress(data.contract),
-        col: 1,
+        col: 1
       },
       {
-        title: "Chain",
+        title: 'Chain',
         com: (
-          <div className="flex items-center gap-x-1">
+          <div className='flex items-center gap-x-1'>
             <img
               src={chain?.icon}
-              alt="network"
-              className="w-4 h-4 object-center object-contain"
+              alt='network'
+              className='w-4 h-4 object-center object-contain'
             />
             {chain?.chainName}
           </div>
         ),
-        col: 1,
+        col: 1
       },
       {
-        title: "ID",
+        title: 'ID',
         com: `#${data.nftId}`,
-        col: 2,
+        col: 2
       },
       {
-        title: "Campaign",
+        title: 'Campaign',
         com: (
           <Link
-            to={`/app/${projectId}/${data.campaignId}`}
-            className="flex items-center flex-wrap gap-x-1"
+            to={`/app/${projectId}/campaign/${data.campaignId}`}
+            className='flex items-center flex-wrap gap-x-1'
           >
             {data.campaignName}
             <img
               src={linkIcon}
-              className="w-4 h-4 object-center object-contain"
-              alt="link"
+              className='w-4 h-4 object-center object-contain'
+              alt='link'
             />
           </Link>
         ),
-        col: 2,
+        col: 2
       },
       {
-        title: "Mint Time",
-        com: dayjs(data.claimedDate).format("MMM D, YYYY"),
-        col: 2,
-      },
-    ];
-  }, [data]);
+        title: 'Mint Time',
+        com: dayjs(data.claimedDate).format('MMM D, YYYY'),
+        col: 2
+      }
+    ]
+  }, [data])
   if (isLoading) {
     return (
-      <div className="flex h-[50vh] items-center justify-center">
+      <div className='flex h-[50vh] items-center justify-center'>
         <Spin spinning />
       </div>
-    );
+    )
   }
   return (
-    <div className="relative">
-      <Link
-        className="lg:hidden absolute left-2 top-3"
-        to={`/app/${data.campaignId}`}
+    <div className='relative'>
+      <button
+        className='lg:hidden absolute left-2 top-3'
+        onClick={() => {
+          if (window.history.length > 1) {
+            navigate(-1)
+          } else {
+            navigate(`/app/${projectId}/campaign/${data.campaignId}`)
+          }
+        }}
       >
-        <img src={backIcon} alt="back" />
-      </Link>
+        <img src={backIcon} alt='back' />
+      </button>
 
-      <div className="w-page-content mx-auto mb-5">
-        <img src={data.picUrl} className="w-full" />
+      <div className='w-page-content mx-auto mb-5'>
+        <img src={data.picUrl} className='w-full' />
       </div>
-      <div className="w-page-content mx-auto px-6 lg:px-0">
-        <h2 className="text-2xl font-bold mb-5">{data.campaignName}</h2>
-        <div className="grid grid-cols-2 gap-y-4">
-          {list.map((v) => {
+      <div className='w-page-content mx-auto px-4 lg:px-0'>
+        <h2 className='text-2xl font-bold mb-5'>{data.campaignName}</h2>
+        <div className='grid grid-cols-2 gap-y-4'>
+          {list.map(v => {
             return (
               <div
                 key={v.title}
                 className={clsx({
-                  "col-span-2": v.col === 2,
-                  "col-span-1": v.col === 1,
+                  'col-span-2': v.col === 2,
+                  'col-span-1': v.col === 1
                 })}
               >
-                <div className="text-[#717374] text-xs mb-1">{v.title}</div>
-                <div className="text-black text-sm font-medium">{v.com}</div>
+                <div className='text-[#A1A1A2] text-xs mb-1'>{v.title}</div>
+                <div className='text-sm font-medium'>{v.com}</div>
               </div>
-            );
+            )
           })}
         </div>
       </div>
     </div>
-  );
+  )
 }
