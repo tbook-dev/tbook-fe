@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { incentiveAssetsTypeList } from '@/utils/conf'
 import { formatDollar } from '@tbook/utils/lib/conf'
 
 export default function CampaignCard ({
@@ -9,7 +8,7 @@ export default function CampaignCard ({
   nft,
   points,
   projectId,
-  userNum = 0
+  participantNum = 0
 }) {
   return (
     <Link
@@ -21,7 +20,7 @@ export default function CampaignCard ({
         <div className='w-[180px]'>
           <h1 className='text-base font-medium'>{name}</h1>
           <h2 className='text-[#C4C4C4] text-xs'>
-            {formatDollar(userNum)} Participants
+            {formatDollar(participantNum)} Participants
           </h2>
         </div>
 

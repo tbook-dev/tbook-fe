@@ -63,7 +63,7 @@ export default function Campaign () {
           {isLoading ? (
             <Loading />
           ) : data.length === 0 ? (
-            <Empty text='No Data' />
+            <Empty text='There’s no campaign yet.' />
           ) : (
             data.map(v => {
               return (
