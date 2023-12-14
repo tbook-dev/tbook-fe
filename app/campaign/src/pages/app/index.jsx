@@ -62,8 +62,10 @@ export default function () {
   const { signMessageAsync } = useSignMessage()
   const { getSocialByName } = useSocial()
   const { isConnected } = useAccount()
+  const [viewIdx, setViewIdx] = useState(null)
+  const [subIdx, setSubIdx] = useState(null)
+  const [viewType, setViewType] = useState(null)
   const [viewModalOpen, setViewModalOpen] = useState(false)
-  const [viewModalData, setViewModalData] = useState(null)
 
   const [rawDatas, setRawDatas] = useState({})
   const [signed, setSigned] = useState({})
@@ -79,15 +81,35 @@ export default function () {
   }, [])
   const handleCancel = useCallback(() => {
     setViewModalOpen(false)
-    setViewModalData(null)
+    setViewIdx(null)
+    setSubIdx(null)
+    setViewType(null)
   }, [])
+  const viewModalData = useMemo(() => {
+    if (viewIdx !== null && viewType !== null && subIdx !== null && page) {
+      try {
+        const group = page?.groups?.[viewIdx]
+        let data = {}
+        if (viewType === 'nft') {
+          data = group.nftList[subIdx]
+        } else {
+          data = group.pointList[subIdx]
+        }
+        return { ...data, type: viewType }
+      } catch (e) {
+        console.log(e)
+        return null
+      }
+    } else {
+      return null
+    }
+  }, [viewIdx, subIdx, viewType, page])
   const setViewModalDataCallbcak = useCallback(
-    (data, type) => {
+    (idx, subIdx, type) => {
       if (userLogined) {
-        setViewModalData({
-          ...data,
-          type
-        })
+        setViewIdx(idx)
+        setSubIdx(subIdx)
+        setViewType(type)
         setViewModalOpen(true)
       } else {
         signIn()
@@ -297,7 +319,7 @@ export default function () {
                       key={index}
                       className='border border-[#904BF6] p-5 rounded-lg bg-linear1 space-y-5'
                     >
-                      <div className='flex items-center justify-between h-14 w-full'>
+                      <div className='flex items-center justify-between w-full'>
                         <div className='flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]'>
                           <img
                             src={redential.picUrl}
@@ -354,7 +376,7 @@ export default function () {
                   tasks in the group!
                 </p>
                 <div className='space-y-4 mb-6'>
-                  {group.nftList?.map(nft => {
+                  {group.nftList?.map((nft, idx) => {
                     return (
                       <div
                         key={nft.nftId}
@@ -369,7 +391,9 @@ export default function () {
                           </div>
                           <button
                             className='flex items-center w-max'
-                            onClick={() => setViewModalDataCallbcak(nft, 'nft')}
+                            onClick={() =>
+                              setViewModalDataCallbcak(index, idx, 'nft')
+                            }
                           >
                             <span className='text-color1'>View Rewards</span>
                             <img src={arrow3Icon} />
@@ -400,7 +424,7 @@ export default function () {
                           <button
                             className='flex items-center w-max'
                             onClick={() =>
-                              setViewModalDataCallbcak(point, 'point')
+                              setViewModalDataCallbcak(index, 0, 'point')
                             }
                           >
                             <span className='text-color1'>View Rewards</span>
