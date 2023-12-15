@@ -32,7 +32,11 @@ export default function Links ({ inDrawer = false, hidden = false, onClose }) {
           target={parma.campaignId ? '_blank' : '_self'}
         >
           {({ isActive }) => (
-            <span className={isActive ? 'text-white' : 'text-c-6'}>
+            <span
+              className={
+                isActive && !parma.campaignId ? 'text-white' : 'text-c-6'
+              }
+            >
               {v.text}
             </span>
           )}

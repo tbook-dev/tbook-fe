@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { formatDollar } from '@tbook/utils/lib/conf'
 
+// 上下解构
 export default function CampaignCard ({
   campaignId,
   picUrl,
@@ -16,18 +17,15 @@ export default function CampaignCard ({
       target='__blank'
       className='block rounded-xl bg-[rgb(144,75,246)]/[0.1] p-5'
     >
-      <div className='flex justify-between'>
-        <div className='w-[180px]'>
-          <h1 className='text-base font-medium'>{name}</h1>
-          <h2 className='text-[#C4C4C4] text-xs'>
-            {formatDollar(participantNum)} Participants
-          </h2>
-        </div>
-
+      <div className='mb-8'>
         <img
           src={picUrl}
-          className='rounded-lg h-20 w-20 object-center object-cover hover:scale-150 transition-all'
+          className='rounded-lg w-full h-[200px] object-center object-cover mb-4'
         />
+        <h1 className='text-base font-medium'>{name}</h1>
+        <h2 className='text-[#C4C4C4] text-xs'>
+          {formatDollar(participantNum)} Participants
+        </h2>
       </div>
 
       <div className='flex items-center gap-x-2 text-xs font-medium'>

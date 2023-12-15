@@ -38,7 +38,7 @@
     @apply shadow-d10 rounded lg:rounded-lg;
   }
   .w-page-content{
-    @apply w-auto lg:w-[880px]; 
+    @apply w-auto lg:w-[1198px]; 
   }
 }
 

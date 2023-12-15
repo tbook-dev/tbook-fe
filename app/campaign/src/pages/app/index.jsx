@@ -323,7 +323,7 @@ export default function () {
                     return (
                       <div
                         key={index}
-                        className='border border-[#904BF6] lg:border-[#281545] p-5 rounded-lg bg-linear1 lg:bg-none space-y-5'
+                        className='border border-[#904BF6] lg:hover:border-[#904BF6] lg:border-[#281545] p-5 rounded-lg bg-linear1 lg:bg-none space-y-5'
                       >
                         <div className='flex items-center justify-between w-full'>
                           <div className='flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]'>
