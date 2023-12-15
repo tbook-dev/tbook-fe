@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 import { useResponsive } from 'ahooks'
 import Links from './Links'
-import MobleMenu from './MobleMenu'
 import { useParams } from 'react-router-dom'
 import useProjectQuery from '@/hooks/useProjectQuery'
 import useUserInfo from '@/hooks/useUserInfoQuery'
@@ -54,7 +53,6 @@ function Header () {
             ) : userLogined ? (
               <div className='flex items-center gap-x-4'>
                 <Avatar />
-                <MobleMenu />
               </div>
             ) : (
               <button

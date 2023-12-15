@@ -1,16 +1,16 @@
-import { useState, useCallback } from 'react'
-import { Popover, Drawer } from 'antd'
+import { useState, useCallback, useMemo } from 'react'
+import { Popover, Drawer, Tooltip } from 'antd'
 import { useResponsive } from 'ahooks'
 import useUserInfo from '@/hooks/useUserInfoQuery'
 import { shortAddress } from '@tbook/utils/lib/conf'
-import logoutIcon from '@/images/icon/logout.svg'
+import walletGrayIcon from '@/images/icon/wallet-gay.svg'
 import useSocial from '@/hooks/useSocial'
-import clsx from 'clsx'
 import { useDispatch } from 'react-redux'
 import { setConnectWalletModal } from '@/store/global'
 import { logout } from '@/utils/web3'
 import { useAccount } from 'wagmi'
 import { disconnect } from '@wagmi/core'
+import { Link, useParams } from 'react-router-dom'
 
 export default function Avatar () {
   const [open, setOpen] = useState(false)
@@ -19,6 +19,8 @@ export default function Avatar () {
   const { socialList } = useSocial()
   const { isConnected } = useAccount()
   const dispatch = useDispatch()
+  const { projectId } = useParams()
+
   const handleConnectWallet = useCallback(() => {
     setOpen(false)
     dispatch(setConnectWalletModal(true))
@@ -30,49 +32,58 @@ export default function Avatar () {
     }
     location.href = location
   }, [isConnected])
+  const links = useMemo(() => {
+    return [
+      {
+        name: 'Campaigns',
+        path: `/app/${projectId}/campaign`
+      },
+      {
+        name: 'Asset',
+        path: `/app/${projectId}/asset`
+      }
+    ]
+  }, [projectId])
+
   const Content = () => {
     return (
-      <div className='space-y-16 lg:w-[375px]'>
-        <div className='flex items-center justify-between'>
-          <div className='flex items-center gap-x-5'>
-            <img
-              src={user?.avatar}
-              className='w-12 h-12 rounded-full object-center'
-            />
-            <div>
-              <div className='text-lg text-[#131517] font-medium'>
-                {user?.wallet ? (
-                  shortAddress(user?.wallet)
-                ) : (
-                  <button
-                    className='text-[#006EE9]'
-                    onClick={handleConnectWallet}
-                  >
-                    Connect Wallet
-                  </button>
-                )}
-              </div>
-              {data?.userTwitter?.connected && (
-                <div className='flex items-center gap-x-0.5 text-[#717374] text-base'>
-                  {`@${data?.userTwitter?.twitterUserName}`}
-                  <img
-                    src={socialList.find(v => v.name === 'twitter')?.activePic}
-                    className='w-5 h-5 object-center'
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-
+      <div className='lg:w-[375px] text-white'>
+        <div className='flex flex-col items-center gap-y-2  text-lg font-medium mb-4'>
           <img
-            src={logoutIcon}
-            className='w-6 h-6 object-center cursor-pointer'
-            alt='logout'
-            onClick={handleLogout}
+            src={user?.avatar}
+            className='w-10 h-10 border-2 border-[rgb(255,255,255)]/[0.2] rounded-full object-center'
           />
+          <div>
+            {/* 优先展示wallet,然后就是tw */}
+            {user?.wallet
+              ? shortAddress(user?.wallet)
+              : data?.userTwitter?.connected && (
+                  <div className='flex items-center gap-x-0.5 text-[#717374] text-base'>
+                    {`@${data?.userTwitter?.twitterUserName}`}
+                    <img
+                      src={
+                        socialList.find(v => v.name === 'twitter')?.activePic
+                      }
+                      className='w-5 h-5 object-center'
+                    />
+                  </div>
+                )}
+          </div>
         </div>
 
-        <div className='space-y-6'>
+        <div className='flex items-center justify-center gap-x-3 pb-4 border-b border-[#8148C6]'>
+          {!user?.wallet && (
+            <button
+              onClick={handleConnectWallet}
+              rel='nofollow noopener noreferrer'
+            >
+              <img
+                src={walletGrayIcon}
+                alt='wallet connect'
+                className='w-6 h-6 object-contain object-center'
+              />
+            </button>
+          )}
           {socialList
             .filter(v =>
               data?.userTwitter?.connected && v.name === 'twitter'
@@ -80,33 +91,41 @@ export default function Avatar () {
                 : true
             )
             .map(v => {
-              return (
+              return v.connected ? (
+                <Tooltip key={v.name} title={`@${v.userName}`}>
+                  <img
+                    src={v.connected ? v.activePic : v.picUrl}
+                    className='w-6 h-6 object-contain object-center'
+                  />
+                </Tooltip>
+              ) : (
                 <button
                   key={v.name}
-                  onClick={!v.connected ? v.loginFn : null}
-                  className='flex items-center gap-x-3'
-                  target='_blank'
-                  disabled={v.connected}
+                  onClick={v.loginFn}
                   rel='nofollow noopener noreferrer'
                 >
                   <img
                     src={v.connected ? v.activePic : v.picUrl}
-                    className='w-5 h-5 object-contain object-center'
+                    className='w-6 h-6 object-contain object-center'
                   />
-
-                  <span
-                    className={clsx(
-                      'text-base',
-                      v.connected
-                        ? 'text-[#006EE9]'
-                        : 'text-[#717374] capitalize'
-                    )}
-                  >
-                    {v.connected ? `@${v.userName}` : `Connect ${v.name}`}
-                  </span>
                 </button>
               )
             })}
+        </div>
+        <div className='flex flex-col px-6 py-4 gap-y-4 text-lg border-b border-[#8148C6]'>
+          {links.map(v => {
+            return (
+              <Link key={v.name} to={v.path} className='text-[#C0ABD9]'>
+                {v.name}
+              </Link>
+            )
+          })}
+        </div>
+
+        <div className='px-6 py-4'>
+          <button className='text-[#C0ABD9] text-lg' onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       </div>
     )
@@ -159,7 +178,9 @@ export default function Avatar () {
           setOpen(false)
         }}
       >
-        <Content />
+        <div className='-mx-6'>
+          <Content />
+        </div>
       </Drawer>
     </>
   )
