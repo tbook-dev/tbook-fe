@@ -30,8 +30,10 @@ export default function Asset () {
 
   return (
     <div className='space-y-8 w-page-content px-4 pt-4 lg:px-0 mx-auto'>
-      <div className='flex items-center justify-between'>
-        <h2 className='text-base font-medium'>Assets</h2>
+      <div className='flex items-center justify-between py-4 lg:py-8'>
+        <h2 className='text-base font-medium lg:text-2xl lg:font-bold'>
+          Assets
+        </h2>
         <TabList
           disabled={!userLogined}
           tabs={tabModule}

@@ -13,7 +13,9 @@ export default function NFT () {
   return (
     <div
       className={clsx(
-        isLoading ? 'flex justify-center pt-10' : 'grid grid-cols-2 gap-2'
+        isLoading
+          ? 'flex justify-center pt-10'
+          : 'grid grid-cols-2 gap-2 lg:grid lg:grid-cols-5 lg:gap-4'
       )}
     >
       {isLoading ? (
@@ -29,10 +31,12 @@ export default function NFT () {
               <img
                 src={v.picUrl}
                 alt='nft'
-                className='h-[187px] rounded-t-lg object-cover object-center flex-none'
+                className='h-[187px] lg:h-[225px] rounded-t-lg object-cover object-center flex-none'
               />
               <div className='p-4'>
-                <h2 className='text-sm font-bold'>{v.name}</h2>
+                <h2 className='text-sm font-bold lg:text-xl lg:text-medium'>
+                  {v.name}
+                </h2>
               </div>
             </Link>
           )

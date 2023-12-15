@@ -74,7 +74,7 @@ export default function NFT () {
     )
   }
   return (
-    <div className='relative'>
+    <div className='relative lg:pt-20'>
       <button
         className='lg:hidden absolute left-2 top-3'
         onClick={() => {
@@ -88,26 +88,35 @@ export default function NFT () {
         <img src={backIcon} alt='back' />
       </button>
 
-      <div className='w-page-content mx-auto mb-5'>
-        <img src={data.picUrl} className='w-full' />
-      </div>
-      <div className='w-page-content mx-auto px-4 lg:px-0'>
-        <h2 className='text-2xl font-bold mb-5'>{data.campaignName}</h2>
-        <div className='grid grid-cols-2 gap-y-4'>
-          {list.map(v => {
-            return (
-              <div
-                key={v.title}
-                className={clsx({
-                  'col-span-2': v.col === 2,
-                  'col-span-1': v.col === 1
-                })}
-              >
-                <div className='text-[#A1A1A2] text-xs mb-1'>{v.title}</div>
-                <div className='text-sm font-medium'>{v.com}</div>
-              </div>
-            )
-          })}
+      <div className='w-page-content mx-auto mb-5  lg:flex lg:gap-x-20'>
+        <img
+          src={data.picUrl}
+          className='w-[480px] h-[480px] object-center object-cover rounded-xl'
+        />
+        <div className='w-page-content mx-auto px-4 lg:px-0'>
+          <h2 className='text-2xl font-bold mb-5 lg:mb-16'>
+            {data.campaignName}
+          </h2>
+          <div className='grid grid-cols-2 gap-y-4'>
+            {list.map(v => {
+              return (
+                <div
+                  key={v.title}
+                  className={clsx({
+                    'col-span-2': v.col === 2,
+                    'col-span-1': v.col === 1
+                  })}
+                >
+                  <div className='text-[#A1A1A2] text-xs mb-1 lg:text-sm'>
+                    {v.title}
+                  </div>
+                  <div className='text-sm font-medium lg:text-base'>
+                    {v.com}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     </div>

@@ -196,7 +196,7 @@ export default function () {
           <LazyImage
             src={page?.campaign?.picUrl}
             alt='main banner'
-            className='w-full h-full'
+            className='w-full h-full object-cover object-center'
           />
         </div>
 

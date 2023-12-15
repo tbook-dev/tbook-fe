@@ -12,8 +12,8 @@ export default function Credentials () {
   return (
     <div
       className={clsx(
-        'flex flex-col gap-y-4 gap-x-2 items-center px-2',
-        isLoading && 'pt-10'
+        'flex flex-col lg:flex-row gap-y-4 gap-x-2 items-center px-2 lg:px-0 font-medium',
+        isLoading && 'pt-10 justify-center'
       )}
     >
       {isLoading ? (
@@ -21,7 +21,7 @@ export default function Credentials () {
       ) : data.length > 0 ? (
         data.map((v, idx) => (
           <div
-            className='flex items-center gap-x-1 bg-[#904BF6] rounded-xl py-1 px-3 w-max'
+            className='flex items-center gap-x-1 bg-white text-black py-1 px-3 w-max rounded-[18px] border-b-2 border-l-2 lg:border-b-4 lg:border-l-4 border-[#904BF6]'
             key={idx}
           >
             <img

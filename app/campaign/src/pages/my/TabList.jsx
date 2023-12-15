@@ -9,9 +9,10 @@ export default function TabList ({ disabled, tabs, value, onSelect }) {
             key={m.name}
             disabled={disabled}
             className={clsx(
+              'lg:px-4 lg:py-1 rounded',
               m.value === value
-                ? 'font-bold text-white lg:font-medium'
-                : 'text-[#C4C4C4]',
+                ? 'font-bold lg:font-medium lg:bg-[rgb(255,255,255)]/[0.1]'
+                : '',
               !disabled && 'hover:opacity-80'
             )}
             onClick={() => {

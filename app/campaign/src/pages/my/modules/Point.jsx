@@ -23,12 +23,15 @@ export default function Point () {
         <>
           <div className='flex items-center justify-between p-5 rounded-lg bg-[#0e0819] border border-[#904BF6] mb-8'>
             <div className='space-y-1'>
-              <div className='text-sm text-[#A1A1A2]'>points</div>
-              <div className='font-bold text-4.2xl leading-[44px] mb-1'>
+              <div className='text-sm text-[#A1A1A2] lg:text-lg'>points</div>
+              <div className='font-bold text-4.2xl leading-[44px] mb-1 lg:text-[48px] lg:font-medium'>
                 <span className='text-color1'>{formatDollar(total)}</span>
               </div>
             </div>
-            <img src={pointIcon} className='w-20 h-20' />
+            <img
+              src={pointIcon}
+              className='w-20 h-20 lg:w-[120px] lg:h-[120px]'
+            />
           </div>
           <div className='space-y-2'>
             {data.map((v, idx) => {
