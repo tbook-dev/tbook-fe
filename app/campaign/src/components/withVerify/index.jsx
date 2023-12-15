@@ -61,9 +61,11 @@ export default function WithVerify ({
           'text-base whitespace-nowrap px-1.5 py-1 rounded',
           'flex items-center gap-x-1',
           {
-            'bg-transparent': status === verifyStatusEnum.Sucess,
-            'text-black bg-[#904BF6]': status === verifyStatusEnum.NotStarted,
-            'bg-transparent': status === verifyStatusEnum.Pending
+            'bg-transparent': [
+              verifyStatusEnum.Sucess,
+              verifyStatusEnum.Pending
+            ].includes(status),
+            'text-black bg-[#904BF6]': status === verifyStatusEnum.NotStarted
           }
         )}
         onClick={evt => {
