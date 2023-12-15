@@ -38,7 +38,6 @@ export default function ViewReward ({ data, open, onCancel }) {
 
   const [loading, updateLoading] = useState(false)
   const itemStatus = credentialStatus.find(v => v.value === data.claimedType)
-  console.log({ itemStatus, data })
   const incentiveMethodItem = incentiveMethodList.find(
     v => v.value === data.methodType
   )

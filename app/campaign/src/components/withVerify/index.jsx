@@ -65,7 +65,7 @@ export default function WithVerify ({
               verifyStatusEnum.Sucess,
               verifyStatusEnum.Pending
             ].includes(status),
-            'text-black bg-[#904BF6]': status === verifyStatusEnum.NotStarted
+            'text-white bg-[#904BF6]': status === verifyStatusEnum.NotStarted
           }
         )}
         onClick={evt => {

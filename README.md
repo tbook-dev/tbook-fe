@@ -22,3 +22,4 @@ https://faucet.quicknode.com/optimism/goerli
 
 如果是获取project对应的groups的话是 /campaignNew/project/{projectId}，
 如果是获取campaign对应的那个大json的话是/campaignNew/{id}
+

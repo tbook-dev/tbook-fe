@@ -19,7 +19,7 @@ import {
 import { receive } from '@/utils/channel'
 
 configResponsive({
-  pc: 1120
+  pc: 1198
 })
 
 function App () {

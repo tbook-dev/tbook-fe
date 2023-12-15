@@ -6,7 +6,6 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import pointIcon from '@/images/icon/point.svg'
 import arrow3Icon from '@/images/icon/arrow3.svg'
 import useUserInfo from '@/hooks/useUserInfoQuery'
-import useProjectQuery from '@/hooks/useProjectQuery'
 import useCampaignQuery from '@/hooks/useCampaignQuery'
 import TextMore from '@/components/textMore'
 import { Skeleton, Statistic } from 'antd'
@@ -35,6 +34,8 @@ const errorMsg = (
     <br /> If you have fulfilled the requirement, please try again in 30s.
   </>
 )
+const prompt =
+  'You may get the rewards once you have accomplished all tasks in the group!'
 
 export default function () {
   const [messageApi, contextHolder] = message.useMessage()
@@ -51,7 +52,6 @@ export default function () {
     campaignNotStart,
     campaignEnd
   } = useCampaignQuery(campaignId)
-  const { data: project } = useProjectQuery(projectId)
   const {
     twitterConnected,
     userLogined,
@@ -190,24 +190,26 @@ export default function () {
   }
 
   return (
-    <div className='space-y-2.5 pt-3 lg:pt-5 lg:w-[880px] mx-auto pb-16 lg:py-2  text-t-1'>
-      <section className='overflow-hidden mb-12'>
-        <LazyImage
-          src={page?.campaign?.picUrl}
-          alt='main banner'
-          className='w-full  h-[172px] lg:h-[294px] object-cover object-center'
-        />
+    <div className='space-y-2.5 pt-3 lg:pt-5 lg:w-[1198px] mx-auto pb-16 lg:py-2  text-t-1'>
+      <section className='overflow-hidden mb-12 lg:flex lg:justify-between lg:gap-x-[100px]'>
+        <div className='w-full h-[172px] lg:w-[468px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center'>
+          <LazyImage
+            src={page?.campaign?.picUrl}
+            alt='main banner'
+            className='w-full h-full'
+          />
+        </div>
 
-        <div className='p-4'>
+        <div className='p-4 lg:p-0 lg:flex-auto'>
           {isLoading ? (
             <Skeleton active />
           ) : (
             <>
-              <h2 className='text-xl  font-bold  mb-5'>
+              <h2 className='text-xl  font-bold  mb-5 lg:text-4xl lg:mb-8'>
                 <ColorCaptial text={page?.campaign?.name} />
               </h2>
 
-              <div className='text-sm font-normal mb-8'>
+              <div className='text-sm font-normal mb-8 text-[#C4C4C4]'>
                 <TextMore text={page?.campaign?.description} />
               </div>
               <div className='flex items-center text-sm text-[#A1A1A2] mb-4'>
@@ -261,136 +263,142 @@ export default function () {
         </div>
       )}
 
-      <section className='px-4 lg:px-0 space-y-2.5 lg:space-y-5 tetx-t-1'>
+      <section className='px-4 lg:px-0 space-y-4 lg:space-y-8'>
         {page?.groups?.map((group, index) => {
           return (
             <div
               key={index}
-              className='rounded-lg lg:rounded-2xl flex flex-col'
+              className='rounded-lg flex flex-col lg:flex-row-reverse  lg:overflow-hidden lg:items-stretch'
             >
-              <h3 className='text-base lg:text-[20px] font-bold mb-8'>
-                Tasks and Rewards
-              </h3>
-              <div className='space-y-4 mb-8'>
-                {group.credentialList?.map((redential, index) => {
-                  const credentialType = getCrenditialType(redential.labelType)
-                  const isSnapshotType = redential.labelType === 12
-                  const snapshotId = getSnapshotIdBylink(redential.link)
+              <div className='lg:w-1/2 lg:bg-[#0f081a] lg:px-8 lg:py-5 lg:flex lg:flex-col lg:justify-center'>
+                <h3 className='text-base font-bold mb-8 lg:hidden'>
+                  Tasks and Rewards
+                </h3>
+                <p className='hidden lg:block text-sm mb-4'>{prompt}</p>
+                <div className='space-y-4 mb-8'>
+                  {group.credentialList?.map((redential, index) => {
+                    const credentialType = getCrenditialType(
+                      redential.labelType
+                    )
+                    const isSnapshotType = redential.labelType === 12
+                    const snapshotId = getSnapshotIdBylink(redential.link)
 
-                  const sysConnectedMap = {
-                    twitter: twitterConnected,
-                    discord: discordConnected,
-                    telegram: telegramConnected,
-                    tbook: true
-                  }
-                  const sycLoginFnMap = {
-                    twitter: getSocialByName('twitter').loginFn,
-                    discord: getSocialByName('discord').loginFn,
-                    telegram: getSocialByName('telegram').loginFn
-                  }
-                  // 点击任务，除了跳转外的额外处理。
-                  const taskMap = {
-                    8: async () => {
-                      // log event, 需要任意登录即可
-                      if (userLogined) {
-                        await verifyTbook(redential.credentialId)
-                        await handleVerify(redential)
-                      } else {
-                        signIn()
-                      }
-                    },
-                    10: () => {
-                      if (canUseWallect) {
-                        signCredential(redential)
-                      } else {
-                        connectWallect()
-                      }
-                    },
-                    12: () => {
-                      // 当前页面不需要登录
-                      window.open(
-                        `/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`,
-                        '_blank'
-                      )
+                    const sysConnectedMap = {
+                      twitter: twitterConnected,
+                      discord: discordConnected,
+                      telegram: telegramConnected,
+                      tbook: true
                     }
-                  }
-                  return (
-                    <div
-                      key={index}
-                      className='border border-[#904BF6] p-5 rounded-lg bg-linear1 space-y-5'
-                    >
-                      <div className='flex items-center justify-between w-full'>
-                        <div className='flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]'>
-                          <img
-                            src={redential.picUrl}
-                            className='w-5 h-5 object-contain'
-                          />
-                          <div
-                            onClick={
-                              typeof taskMap[redential.labelType] === 'function'
-                                ? taskMap[redential.labelType]
-                                : null
-                            }
-                            className='truncate text-sm max-w-[calc(100%_-_30px)]'
-                            dangerouslySetInnerHTML={{
-                              __html: pc
-                                ? redential.intentDisplayExp
-                                : redential.displayExp
-                            }}
-                          />
+                    const sycLoginFnMap = {
+                      twitter: getSocialByName('twitter').loginFn,
+                      discord: getSocialByName('discord').loginFn,
+                      telegram: getSocialByName('telegram').loginFn
+                    }
+                    // 点击任务，除了跳转外的额外处理。
+                    const taskMap = {
+                      8: async () => {
+                        // log event, 需要任意登录即可
+                        if (userLogined) {
+                          await verifyTbook(redential.credentialId)
+                          await handleVerify(redential)
+                        } else {
+                          signIn()
+                        }
+                      },
+                      10: () => {
+                        if (canUseWallect) {
+                          signCredential(redential)
+                        } else {
+                          connectWallect()
+                        }
+                      },
+                      12: () => {
+                        // 当前页面不需要登录
+                        window.open(
+                          `/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`,
+                          '_blank'
+                        )
+                      }
+                    }
+                    return (
+                      <div
+                        key={index}
+                        className='border border-[#904BF6] lg:border-[#281545] p-5 rounded-lg bg-linear1 lg:bg-none space-y-5'
+                      >
+                        <div className='flex items-center justify-between w-full'>
+                          <div className='flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]'>
+                            <img
+                              src={redential.picUrl}
+                              className='w-5 h-5 object-contain'
+                            />
+                            <div
+                              onClick={
+                                typeof taskMap[redential.labelType] ===
+                                'function'
+                                  ? taskMap[redential.labelType]
+                                  : null
+                              }
+                              className='truncate text-sm max-w-[calc(100%_-_30px)]'
+                              dangerouslySetInnerHTML={{
+                                __html: pc
+                                  ? redential.intentDisplayExp
+                                  : redential.displayExp
+                              }}
+                            />
+                          </div>
+                          {redential.isVerified ? (
+                            <span className='flex items-center gap-x-1 text-md whitespace-nowrap'>
+                              <VerifyStatus status={verifyStatusEnum.Sucess} />
+                              Verified
+                            </span>
+                          ) : campaignNotStart ||
+                            campaignEnd ||
+                            !userLogined ? null : (
+                            <WithVerify
+                              sysConnectedMap={sysConnectedMap}
+                              sycLoginFnMap={sycLoginFnMap}
+                              credentialType={credentialType}
+                              handleFn={() => handleVerify(redential)}
+                            />
+                          )}
                         </div>
-                        {redential.isVerified ? (
-                          <span className='flex items-center gap-x-1 text-md whitespace-nowrap'>
-                            <VerifyStatus status={verifyStatusEnum.Sucess} />
-                            Verified
-                          </span>
-                        ) : campaignNotStart ||
-                          campaignEnd ||
-                          !userLogined ? null : (
-                          <WithVerify
-                            sysConnectedMap={sysConnectedMap}
-                            sycLoginFnMap={sycLoginFnMap}
-                            credentialType={credentialType}
-                            handleFn={() => handleVerify(redential)}
-                          />
+                        {isSnapshotType && snapshotId && (
+                          <Link
+                            target='_blank'
+                            className='text-base font-medium'
+                            to={`/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
+                          >
+                            <h2 className='border-t mt-4 pt-5 border-[#8148C6]'>
+                              Would you use TBOOK to incentivize your community?
+                            </h2>
+                          </Link>
                         )}
                       </div>
-                      {isSnapshotType && snapshotId && (
-                        <Link
-                          target='_blank'
-                          className='text-base font-medium'
-                          to={`/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
-                        >
-                          <h2 className='border-t mt-4 pt-5 border-[#8148C6]'>
-                            Would you use TBOOK to incentivize your community?
-                          </h2>
-                        </Link>
-                      )}
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+                </div>
               </div>
-              <div className='pb-4'>
-                <p className='text-xs mb-4'>
-                  You may get following rewards once you have accomplished all
-                  tasks in the group!
-                </p>
-                <div className='space-y-4 mb-6'>
+
+              <div className='lg:w-1/2 pb-4  lg:bg-[#150b25] lg:px-8 lg:pb-0 lg:flex lg:flex-col lg:justify-center'>
+                <p className='text-xs mb-4 lg:hidden'>{prompt}</p>
+                <div className='space-y-4 lg:space-y-0 lg:divide-y lg:divide-[#8148C6]'>
                   {group.nftList?.map((nft, idx) => {
                     return (
                       <div
                         key={nft.nftId}
-                        className='p-5 rounded-lg bg-linear1 flex'
+                        className='p-5 rounded-lg bg-linear1 lg:bg-none lg:px-0 lg:py-8 flex lg:flex-row-reverse lg:gap-x-8 lg:rounded-none'
                       >
                         <div className='flex-auto flex flex-col justify-between'>
                           <div>
-                            <h2 className='text-sm text-[#A1A1A2]'>nft</h2>
-                            <h3 className='text-base font-medium'>
+                            <h2 className='text-sm lg:text-base text-[#A1A1A2]'>
+                              nft
+                            </h2>
+                            <h3 className='text-base lg:text-lg font-medium'>
                               {nft.name}
                             </h3>
                           </div>
                           <button
-                            className='flex items-center w-max'
+                            className='flex items-center w-max text-sm font-medium'
                             onClick={() =>
                               setViewModalDataCallbcak(index, idx, 'nft')
                             }
@@ -401,7 +409,7 @@ export default function () {
                         </div>
                         <img
                           src={nft.picUrl}
-                          className='w-20 h-20 object-center rounded-lg flex-none'
+                          className='w-20 h-20 lg:w-[120px] lg:h-[120px] object-center rounded-lg flex-none'
                         />
                       </div>
                     )
@@ -411,18 +419,20 @@ export default function () {
                     return (
                       <div
                         key={point.pointId}
-                        className='p-5 rounded-lg bg-linear1 flex'
+                        className='p-5 rounded-lg  bg-linear1 lg:bg-none lg:px-0 lg:py-8 flex lg:flex-row-reverse lg:gap-x-8 lg:rounded-none'
                       >
                         <div className='flex-auto flex flex-col justify-between'>
                           <div>
-                            <h2 className='text-sm text-[#A1A1A2]'>points</h2>
-                            <h3 className='text-base font-medium'>
+                            <h2 className='text-sm lg:text-base text-[#A1A1A2]'>
+                              points
+                            </h2>
+                            <h3 className='text-base lg:text-lg font-medium'>
                               {point.number}
                               points
                             </h3>
                           </div>
                           <button
-                            className='flex items-center w-max'
+                            className='flex items-center w-max text-sm font-medium'
                             onClick={() =>
                               setViewModalDataCallbcak(index, 0, 'point')
                             }
@@ -433,7 +443,7 @@ export default function () {
                         </div>
                         <img
                           src={pointIcon}
-                          className='w-20 h-20 object-center rounded-lg flex-none'
+                          className='w-20 h-20 lg:w-[120px] lg:h-[120px] object-center rounded-lg flex-none'
                         />
                       </div>
                     )

@@ -13,7 +13,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        lg: "1120px", // 96*2+928=1120
+        lg: "1198px", // 96*2+928=1120
       },
       backgroundImage: {
         linear1:
