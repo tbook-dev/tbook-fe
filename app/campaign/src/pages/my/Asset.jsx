@@ -6,6 +6,8 @@ import NotConnect from './modules/NotConnect'
 import useUserInfoQuery from '@/hooks/useUserInfoQuery'
 import Loading from '@/components/loading'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import useAssetQuery from '@/hooks/useAssetQuery'
 
 const tabModule = [
   {
@@ -25,9 +27,10 @@ const tabModule = [
   }
 ]
 export default function Asset () {
-  const { userLogined, userLoading } = useUserInfoQuery()
+  const { userLogined, isLoading: userLoading } = useUserInfoQuery()
   const [value, setValue] = useState(tabModule[0].value)
-
+  const { projectId } = useParams()
+  const { isLoading } = useAssetQuery(projectId)
   return (
     <div className='space-y-8 w-page-content px-4 pt-4 lg:px-0 mx-auto'>
       <div className='flex items-center justify-between py-4 lg:py-8'>
@@ -45,7 +48,11 @@ export default function Asset () {
       {userLoading ? (
         <Loading />
       ) : userLogined ? (
-        <div>{tabModule.find(v => v.value === value).com}</div>
+        isLoading ? (
+          <Loading />
+        ) : (
+          <div>{tabModule.find(v => v.value === value).com}</div>
+        )
       ) : (
         <NotConnect />
       )}
