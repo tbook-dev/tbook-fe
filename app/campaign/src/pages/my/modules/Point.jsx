@@ -22,10 +22,10 @@ export default function Point () {
       ) : (
         <>
           <div className='flex items-center justify-between p-5 rounded-lg bg-[#0e0819] border border-[#904BF6] mb-8'>
-            <div className='space-y-1'>
-              <div className='text-sm text-[#A1A1A2] lg:text-lg'>points</div>
-              <div className='font-bold text-4.2xl leading-[44px] mb-1 lg:text-[48px] lg:font-medium'>
-                <span className='text-color1'>{formatDollar(total)}</span>
+            <div className='space-y-2 lg:space-y-4'>
+              <div className='text-sm lg:text-lg'>points</div>
+              <div className='font-bold text-4.2xl leading-[44px] mb-1 lg:text-[48px] lg:font-medium font-podiumsharp'>
+                {formatDollar(total)}
               </div>
             </div>
             <img
@@ -52,7 +52,9 @@ export default function Point () {
                         className='w-4 h-4 object-contain'
                       />
                     </Link>
-                    <span>{dayjs(v.claimedDate).format('MMMM DD, YYYY')}</span>
+                    <span className='text-xs text-[#C0ABD9]'>
+                      {dayjs(v.claimedDate).format('MMMM DD, YYYY')}
+                    </span>
                   </div>
                   <div className='text-base font-medium'>
                     +{formatDollar(v.number)}
