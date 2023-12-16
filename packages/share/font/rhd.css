@@ -9,3 +9,8 @@
   font-style: italic;
   src: url(./static/RedHatDisplay-Italic-VariableFont_wght.ttf) format('truetype-variations');
 }
+
+@font-face {
+  font-family: 'podiumsharp';
+  src: url(./static/Fontspring-podiumsharp-9.9.otf) format('truetype');
+}

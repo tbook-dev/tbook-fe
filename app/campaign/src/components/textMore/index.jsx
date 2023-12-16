@@ -1,11 +1,12 @@
 import { useEffect, useState, useRef } from 'react'
 import downIcon from '@/images/icon/down.svg'
 import clsx from 'clsx'
+import { useResponsive } from 'ahooks'
 
 export default function TextMore ({ text }) {
   const [showMore, setShowMore] = useState(false)
   const [hasMore, setHasMore] = useState(false)
-
+  const { pc } = useResponsive()
   const textRef = useRef(null)
   useEffect(() => {
     if (textRef.current) {
@@ -23,7 +24,10 @@ export default function TextMore ({ text }) {
         setShowMore(v => !v)
       }}
     >
-      <div className={clsx(!showMore && 'line-clamp-2')} ref={textRef}>
+      <div
+        className={clsx(!showMore && (pc ? 'line-clamp-3' : 'line-clamp-2'))}
+        ref={textRef}
+      >
         {text}
       </div>
       {hasMore && (

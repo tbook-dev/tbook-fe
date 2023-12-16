@@ -119,6 +119,7 @@ export default function Avatar () {
                 key={v.name}
                 to={v.path}
                 className='text-[#C0ABD9] lg:hover:text-[#8148C6]'
+                target='_blank'
                 onClick={() => {
                   setOpen(false)
                 }}

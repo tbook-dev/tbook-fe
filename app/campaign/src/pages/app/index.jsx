@@ -205,18 +205,18 @@ export default function () {
             <Skeleton active />
           ) : (
             <>
-              <h2 className='text-xl  font-bold  mb-5 lg:text-4xl lg:mb-8'>
+              <h2 className='text-xl  font-bold  mb-5 lg:text-4xl lg:mb-8 font-podiumsharp'>
                 <ColorCaptial text={page?.campaign?.name} />
               </h2>
 
-              <div className='text-sm font-normal mb-8 text-[#C4C4C4]'>
+              <div className='text-sm lg:text-base font-normal mb-8 text-[#C4C4C4]'>
                 <TextMore text={page?.campaign?.description} />
               </div>
               <div className='flex items-center text-sm text-[#A1A1A2] mb-4'>
-                <span className='mr-0.5 text-sm font-medium text-white'>
+                <span className='mr-1 text-sm font-medium text-white'>
                   {formatDollar(page?.participation?.participantNum)}
                 </span>
-                participantNum
+                participant
               </div>
 
               <div className='flex items-center gap-x-1 text-sm text-[#A1A1A2]'>

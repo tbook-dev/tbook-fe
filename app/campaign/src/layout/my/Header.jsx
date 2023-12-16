@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
-import { useResponsive } from 'ahooks'
-import Links from './Links'
 import { useParams } from 'react-router-dom'
 import useProjectQuery from '@/hooks/useProjectQuery'
 import useUserInfo from '@/hooks/useUserInfoQuery'
@@ -13,7 +11,6 @@ import { Skeleton } from 'antd'
 import Avatar from '../common/Avatar'
 
 function Header () {
-  const { pc } = useResponsive()
   const { projectId } = useParams()
   const { data: project } = useProjectQuery(projectId)
   const { userLogined, firstLoad } = useUserInfo()
@@ -45,7 +42,7 @@ function Header () {
             </Link>
           </div>
 
-          <Links hidden={!pc} />
+          {/* <Links hidden={!pc} /> */}
 
           <div>
             {!firstLoad ? (
