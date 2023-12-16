@@ -71,7 +71,7 @@ export default function Avatar () {
           </div>
         </div>
 
-        <div className='flex items-center justify-center gap-x-3 pb-4 border-b border-[#8148C6]'>
+        <div className='flex items-center justify-center gap-x-3 pb-4 border-b border-[#8148C6] lg:border-[#353535]'>
           {!user?.wallet && (
             <button
               onClick={handleConnectWallet}
@@ -114,13 +114,13 @@ export default function Avatar () {
               )
             })}
         </div>
-        <div className='flex flex-col px-6 py-4 gap-y-4 text-lg border-b border-[#8148C6]'>
+        <div className='flex flex-col px-6 py-4 gap-y-4 text-lg border-b border-[#8148C6] lg:border-[#353535]'>
           {links.map(v => {
             return (
               <Link
                 key={v.name}
                 to={v.path}
-                className='text-[#C0ABD9] lg:hover:text-[#8148C6]'
+                className='text-[#C0ABD9] lg:text-[#c4c4c4] lg:hover:text-white'
                 target='_blank'
                 onClick={() => {
                   setOpen(false)
@@ -134,7 +134,7 @@ export default function Avatar () {
 
         <div className='px-6 py-4'>
           <button
-            className='text-[#C0ABD9] text-lg lg:hover:text-[#8148C6]'
+            className='text-[#C0ABD9] text-lg lg:text-[#c4c4c4] lg:hover:text-white'
             onClick={handleLogout}
           >
             Logout

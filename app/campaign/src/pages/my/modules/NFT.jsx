@@ -42,7 +42,9 @@ export default function NFT () {
           )
         })
       ) : (
-        <Empty text="There's no nfts yet." />
+        <div className='lg:h-[330px] lg:bg-[#0F081A] lg:rounded-xl flex justify-center items-center'>
+          <Empty text="There's no nfts yet." />
+        </div>
       )}
     </div>
   )

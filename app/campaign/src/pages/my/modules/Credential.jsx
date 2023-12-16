@@ -36,7 +36,9 @@ export default function Credentials () {
           </div>
         ))
       ) : (
-        <Empty text="There's no credential yet." />
+        <div className='lg:h-[330px] lg:bg-[#0F081A] lg:rounded-xl flex justify-center items-center'>
+          <Empty text="There's no credential yet." />
+        </div>
       )}
     </div>
   )
