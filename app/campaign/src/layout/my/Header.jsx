@@ -9,6 +9,7 @@ import { setLoginModal } from '@/store/global'
 import AvatarSkeleton from '../common/AvatarSkeleton'
 import { Skeleton } from 'antd'
 import Avatar from '../common/Avatar'
+import logo from '@/images/icon/logo.svg'
 
 function Header () {
   const { projectId } = useParams()
@@ -18,7 +19,6 @@ function Header () {
   const handleClick = () => {
     dispath(setLoginModal(true))
   }
-
   return (
     <header
       className={clsx(
@@ -34,7 +34,7 @@ function Header () {
                 <Skeleton.Avatar />
               ) : (
                 <img
-                  src={project?.avatarUrl}
+                  src={projectId ? project?.avatarUrl : logo}
                   alt='logo'
                   className='h-6 lg:h-10 object-contain'
                 />
