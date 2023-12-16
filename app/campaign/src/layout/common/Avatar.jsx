@@ -85,11 +85,13 @@ export default function Avatar () {
             </button>
           )}
           {socialList
-            .filter(v =>
-              data?.userTwitter?.connected && v.name === 'twitter'
-                ? false
-                : true
-            )
+            .filter(v => {
+              if (v.name === 'twitter') {
+                return data?.userTwitter?.connected ? false : true
+              } else {
+                return true
+              }
+            })
             .map(v => {
               return v.connected ? (
                 <Tooltip key={v.name} title={`@${v.userName}`}>
