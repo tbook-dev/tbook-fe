@@ -12,8 +12,8 @@ export default function TabList ({ disabled, tabs, value, onSelect }) {
               'lg:px-4 lg:py-1 rounded',
               m.value === value
                 ? 'font-bold lg:font-medium lg:bg-[rgb(255,255,255)]/[0.1]'
-                : '',
-              !disabled && 'hover:opacity-80'
+                : 'text-[#c4c4c4]',
+              !disabled && 'hover:text-white'
             )}
             onClick={() => {
               onSelect(m.value)
