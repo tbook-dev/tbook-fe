@@ -1,6 +1,10 @@
 import clsx from 'clsx'
+import arrowIcon from '@/images/icon/arrow2.svg'
+import { Link, useParams } from 'react-router-dom'
 
 export default function WithClaim ({ handleFn, item, loading }) {
+  const { projectId } = useParams()
+
   //const [loading, updateLoading] = useState(false);
   const handleClick = async function () {
     if (item.disabled) return
@@ -35,12 +39,23 @@ export default function WithClaim ({ handleFn, item, loading }) {
       <p
         className={clsx({
           'text-xs text-[#C0ABD9]': [0, 1, 2, 3].includes(item.value),
-          'text-3xl text-white font-bold w-[280px]': item.value === 4,
-          'text-xs text-[#C0ABD9] font-bold': item.value === 5
+          'text-2xl text-white font-bold w-[260px] font-podiumsharp mb-8':
+            item.value === 4,
+          'text-xs text-[#C0ABD9] font-bold font-podiumsharp': item.value === 5
         })}
       >
         {loading ? item.loadingText : item.desc}
       </p>
+      {item.value === 4 && (
+        <Link
+          className='text-sm text-[#C0ABD9]  lg:hover:text-white flex items-center gap-x-0.5'
+          to={`/app/${projectId}/asset`}
+          target='_blank'
+        >
+          View your assets
+          <img src={arrowIcon} className='w-4 h-4' alt='assets link' />
+        </Link>
+      )}
     </>
   )
 }

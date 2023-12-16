@@ -150,8 +150,10 @@ export default function ViewReward ({ data, open, onCancel }) {
             />
           </div>
         ) : (
-          <div className='pt-4 flex items-center justify-around w-full'>
-            <span className='text-[60px] font-bold'>{data.number}</span>
+          <div className='pt-4 flex items-center justify-center gap-x-4 w-full'>
+            <span className='text-[60px] font-bold font-podiumsharp'>
+              {data.number}
+            </span>
             <img src={multiplyIcon} className='w-8 h-8' alt='multiply icon' />
             <img
               src={pointIcon}

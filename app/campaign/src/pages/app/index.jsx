@@ -268,10 +268,10 @@ export default function () {
           return (
             <div
               key={index}
-              className='rounded-lg flex flex-col lg:flex-row-reverse  lg:overflow-hidden lg:items-stretch'
+              className='rounded-lg flex flex-col lg:flex-row  lg:overflow-hidden lg:items-stretch'
             >
-              <div className='lg:w-1/2 lg:bg-[#0f081a] lg:px-8 lg:py-5 lg:flex lg:flex-col lg:justify-center'>
-                <h3 className='text-base font-bold mb-8 lg:hidden'>
+              <div className='lg:w-1/2 lg:bg-[#0f081a] lg:px-8 lg:py-5 lg:flex lg:flex-col'>
+                <h3 className='text-base font-bold mb-8 lg:hidden font-podiumsharp'>
                   Tasks and Rewards
                 </h3>
                 <p className='hidden lg:block text-sm mb-4'>{prompt}</p>
@@ -323,7 +323,7 @@ export default function () {
                     return (
                       <div
                         key={index}
-                        className='border border-[#904BF6] lg:hover:border-[#904BF6] lg:border-[#281545] p-5 rounded-lg bg-linear1 lg:bg-none space-y-5'
+                        className='border border-[#904BF6] lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5'
                       >
                         <div className='flex items-center justify-between w-full'>
                           <div className='flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]'>
@@ -428,7 +428,7 @@ export default function () {
                             </h2>
                             <h3 className='text-base lg:text-lg font-medium'>
                               {point.number}
-                              points
+                              <span className='ml-1'>points</span>
                             </h3>
                           </div>
                           <button
