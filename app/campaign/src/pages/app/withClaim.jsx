@@ -39,9 +39,9 @@ export default function WithClaim ({ handleFn, item, loading }) {
       <p
         className={clsx({
           'text-xs text-[#C0ABD9]': [0, 1, 2, 3].includes(item.value),
-          'text-2xl text-white font-bold w-[260px] font-podiumsharp mb-8':
+          'text-2xl text-white font-bold w-[260px] font-zen-dot mb-8':
             item.value === 4,
-          'text-xs text-[#C0ABD9] font-bold font-podiumsharp': item.value === 5
+          'text-xs text-[#C0ABD9] font-bold font-zen-dot': item.value === 5
         })}
       >
         {loading ? item.loadingText : item.desc}

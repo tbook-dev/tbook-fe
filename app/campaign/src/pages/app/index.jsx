@@ -205,7 +205,7 @@ export default function () {
             <Skeleton active />
           ) : (
             <>
-              <h2 className='text-xl  font-bold  mb-5 lg:text-4xl lg:mb-8 font-podiumsharp'>
+              <h2 className='text-xl  font-bold  mb-5 lg:text-4xl lg:mb-8 font-zen-dot'>
                 <ColorCaptial text={page?.campaign?.name} />
               </h2>
 
@@ -271,7 +271,7 @@ export default function () {
               className='rounded-lg flex flex-col lg:flex-row  lg:overflow-hidden lg:items-stretch'
             >
               <div className='lg:w-1/2 lg:bg-[#0f081a] lg:px-8 lg:py-5 lg:flex lg:flex-col'>
-                <h3 className='text-base font-bold mb-8 lg:hidden font-podiumsharp'>
+                <h3 className='text-base font-bold mb-8 lg:hidden font-zen-dot'>
                   Tasks and Rewards
                 </h3>
                 <p className='hidden lg:block text-sm mb-4'>{prompt}</p>

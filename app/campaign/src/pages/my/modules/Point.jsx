@@ -24,7 +24,7 @@ export default function Point () {
           <div className='flex items-center justify-between p-5 rounded-lg bg-[#0e0819] border border-[#904BF6] mb-8'>
             <div className='space-y-2 lg:space-y-4'>
               <div className='text-sm lg:text-lg'>points</div>
-              <div className='font-bold text-4.2xl leading-[44px] mb-1 lg:text-[48px] lg:font-medium font-podiumsharp'>
+              <div className='font-bold text-4.2xl leading-[44px] mb-1 lg:text-[48px] lg:font-medium font-zen-dot'>
                 {formatDollar(total)}
               </div>
             </div>

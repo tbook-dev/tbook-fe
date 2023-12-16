@@ -27,7 +27,7 @@ module.exports = {
       },
       fontFamily: {
         rhd: ["Red Hat Display", "sans-serif"],
-        podiumsharp: ["podiumsharp", "sans-serif"],
+        'zen-dot': ["zen-dot", "sans-serif"],
       },
       fontSize: {
         "6.5xl": "4rem",
