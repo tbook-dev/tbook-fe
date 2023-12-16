@@ -87,7 +87,9 @@ export default function Avatar () {
           {socialList
             .filter(v => {
               if (v.name === 'twitter') {
-                return data?.userTwitter?.connected ? false : true
+                return data?.userTwitter?.connected && !user?.wallet
+                  ? false
+                  : true
               } else {
                 return true
               }
