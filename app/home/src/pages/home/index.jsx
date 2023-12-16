@@ -64,7 +64,7 @@ export default function Home () {
       <Banner />
       <Solution />
       <About />
-      <Blog />
+      {/* <Blog /> */}
       <Calendly />
     </div>
   )
