@@ -1,52 +1,41 @@
-import { Link } from "react-router-dom";
-import { incentiveAssetsTypeList } from "@/utils/conf";
+import { Link } from 'react-router-dom'
+import { formatDollar } from '@tbook/utils/lib/conf'
 
-export default function CampaignCard({
+export default function CampaignCard ({
   campaignId,
   picUrl,
   name,
   nft,
-  point,
+  points,
   projectId,
+  participantNum = 0
 }) {
   return (
     <Link
       to={`/app/${projectId}/campaign/${campaignId}`}
-      target="__blank"
-      className="block bg-white rounded-xl"
+      target='__blank'
+      className='block rounded-xl bg-[rgb(144,75,246)]/[0.1] p-5'
     >
-      <img
-        src={picUrl}
-        className="rounded-t-2.5xl w-full h-[172px] object-center object-cover"
-      />
-
-      <div className="px-5 pb-5 pt-3">
-        <h2 className="font-medium text-base text-black mb-6">{name}</h2>
-        <div className="flex items-center gap-x-3">
-          <div className="flex flex-wrap font-medium space-x-3 text-lt-1 text-sm">
-            {nft > 0 && (
-              <div className="py-0.5 flex items-center gap-x-2  text-t-1">
-                <img
-                  src={incentiveAssetsTypeList.find((v) => v.value === 1)?.icon}
-                  className="w-5 h-5"
-                />
-                NFT
-              </div>
-            )}
-          </div>
-          <div className="flex flex-wrap font-medium space-x-3 text-lt-1 text-sm">
-            {point > 0 && (
-              <div className="py-0.5 flex items-center gap-x-2  text-t-1">
-                <img
-                  src={incentiveAssetsTypeList.find((v) => v.value === 2)?.icon}
-                  className="w-5 h-5"
-                />
-                POINT
-              </div>
-            )}
-          </div>
+      <div className='flex justify-between'>
+        <div className='w-[180px]'>
+          <h1 className='text-base font-medium'>{name}</h1>
+          <h2 className='text-[#C4C4C4] text-xs'>
+            {formatDollar(participantNum)} Participants
+          </h2>
         </div>
+
+        <img
+          src={picUrl}
+          className='rounded-lg h-20 w-20 object-center object-cover hover:scale-150 transition-all'
+        />
+      </div>
+
+      <div className='flex items-center gap-x-2 text-xs font-medium'>
+        {nft > 0 && <div className='px-1.5 bg-[#904BF6] rounded-full'>nft</div>}
+        {points > 0 && (
+          <div className='px-1.5 bg-[#904BF6] rounded-full'>points</div>
+        )}
       </div>
     </Link>
-  );
+  )
 }

@@ -10,7 +10,7 @@ export default function useUserInfo() {
     {
       staleTime: 1000 * 60 * 10,
       retry: false,
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
     }
   );
   useEffect(() => {

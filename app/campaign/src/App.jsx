@@ -1,4 +1,4 @@
-import React from 'react'
+import { React } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import ConnectWalletModal from '@/components/connectWallet'
 import PageFallBack from '@/components/pageFallback'
@@ -19,36 +19,7 @@ import {
 import { receive } from '@/utils/channel'
 
 configResponsive({
-  pc: 1120
-})
-
-let currentAddress = getAccount().address
-watchAccount(async acc => {
-  console.log(
-    `account changed, original: ${currentAddress}, new account: ${acc.address}`
-  )
-  if (currentAddress == acc.address) return
-  if (!acc.address) {
-    // disconnect
-    logout().then(r => {
-      location.href = location
-    })
-  } else if (currentAddress) {
-    // account change
-    const signer = await getWalletClient()
-    changeAccountSignIn(acc.address, signer).then(r => {
-      location.href = location
-    })
-  } else {
-    // new account connect
-    if (isIOS) {
-      preGetNonce(acc.address)
-    } else if (!/Mobi/i.test(window.navigator.userAgent)) {
-      // const signer = await getWalletClient()
-      // signLoginMetaMask(acc.address, signer)
-    }
-  }
-  currentAddress = acc.address
+  pc: 1200
 })
 
 function App () {

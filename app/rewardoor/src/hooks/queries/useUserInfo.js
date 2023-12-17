@@ -2,12 +2,12 @@ import { useQuery } from "react-query";
 import { getUserInfo } from "@/api/incentive";
 
 export default function useUserInfo() {
-  const { data, isLoading, error, ...props } = useQuery(
+  const { data, isLoading, isSuccess, error, ...props } = useQuery(
     "userInfo",
     getUserInfo,
     {
-      staleTime: 1000 * 60 * 10,
-      retry:  false
+      // staleTime: 1000 * 60 * 10,
+      retry: false,
     }
   );
   const projects = data?.projects;
@@ -17,6 +17,8 @@ export default function useUserInfo() {
   const userTg = data?.userTg;
   const userTwitter = data?.userTwitter;
   const user = data?.user;
+  const userLogined = isSuccess;
+
   return {
     data,
     isLoading,
@@ -28,6 +30,8 @@ export default function useUserInfo() {
     userTg,
     userTwitter,
     user,
+    userLogined,
+    isSuccess,
     ...props,
   };
 }

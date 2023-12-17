@@ -1,16 +1,17 @@
 import { useEffect, useState, useRef } from 'react'
 import downIcon from '@/images/icon/down.svg'
 import clsx from 'clsx'
+import { useResponsive } from 'ahooks'
 
 export default function TextMore ({ text }) {
   const [showMore, setShowMore] = useState(false)
   const [hasMore, setHasMore] = useState(false)
-
+  const { pc } = useResponsive()
   const textRef = useRef(null)
   useEffect(() => {
     if (textRef.current) {
-      const { scrollWidth, clientWidth } = textRef.current
-      if (scrollWidth > clientWidth) {
+      const { offsetHeight, scrollHeight } = textRef.current
+      if (scrollHeight > offsetHeight) {
         setHasMore(true)
       }
     }
@@ -24,7 +25,7 @@ export default function TextMore ({ text }) {
       }}
     >
       <div
-        className={clsx('text-[#68696B] text-sm', !showMore && 'truncate')}
+        className={clsx(!showMore && (pc ? 'line-clamp-3' : 'line-clamp-2'))}
         ref={textRef}
       >
         {text}

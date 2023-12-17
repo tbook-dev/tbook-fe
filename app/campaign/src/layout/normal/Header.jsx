@@ -24,9 +24,9 @@ function Header () {
   return (
     <header
       className={clsx(
-        'top-0 z-30  text-black dark:text-white shadow-d2',
+        'top-0 z-30  text-white',
         'transition duration-300 ease-in-out',
-        'sticky bg-white dark:bg-black'
+        'sticky bg-black'
       )}
     >
       <div className='px-4 py-2 lg:px-20 lg:py-2.5'>

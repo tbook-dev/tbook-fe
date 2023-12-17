@@ -1,3 +1,5 @@
+// back,no longer used
+
 import { useEffect, useMemo, useCallback } from 'react'
 import pointIcon from '@/images/icon/point.svg'
 import nftIcon from '@/images/icon/nft.svg'
@@ -27,7 +29,7 @@ import {
 import abi from '@/abi/st'
 import clsx from 'clsx'
 import WithClaim from './withClaim'
-import RewardStatus from './rewardStatus'
+import RewardStatus from './timeDown'
 import { message, Popover } from 'antd'
 import noticeSvg from '@/images/icon/notice.svg'
 import useUserInfoQuery from '@/hooks/useUserInfoQuery'

@@ -1,8 +1,5 @@
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
-import { useResponsive } from 'ahooks'
-import Links from './Links'
-import MobleMenu from './MobleMenu'
 import { useParams } from 'react-router-dom'
 import useProjectQuery from '@/hooks/useProjectQuery'
 import useUserInfo from '@/hooks/useUserInfoQuery'
@@ -12,9 +9,9 @@ import { setLoginModal } from '@/store/global'
 import AvatarSkeleton from '../common/AvatarSkeleton'
 import { Skeleton } from 'antd'
 import Avatar from '../common/Avatar'
+import logo from '@/images/icon/logo.svg'
 
 function Header () {
-  const { pc } = useResponsive()
   const { projectId } = useParams()
   const { data: project } = useProjectQuery(projectId)
   const { userLogined, firstLoad } = useUserInfo()
@@ -22,12 +19,11 @@ function Header () {
   const handleClick = () => {
     dispath(setLoginModal(true))
   }
-
   return (
     <header
       className={clsx(
-        'text-black dark:text-white shadow-d2',
-        'transition duration-300 ease-in-out'
+        'transition duration-300 ease-in-out',
+        'backdrop-blur-sm'
       )}
     >
       <div className='px-4 py-2 lg:px-20 lg:py-2.5'>
@@ -38,7 +34,7 @@ function Header () {
                 <Skeleton.Avatar />
               ) : (
                 <img
-                  src={project?.avatarUrl}
+                  src={projectId ? project?.avatarUrl : logo}
                   alt='logo'
                   className='h-6 lg:h-10 object-contain'
                 />
@@ -46,19 +42,18 @@ function Header () {
             </Link>
           </div>
 
-          <Links hidden={!pc} />
+          {/* <Links hidden={!pc} /> */}
 
           <div>
             {!firstLoad ? (
               <AvatarSkeleton />
             ) : userLogined ? (
-              <div className='flex items-center gap-x-2'>
+              <div className='flex items-center gap-x-4'>
                 <Avatar />
-                <MobleMenu />
               </div>
             ) : (
               <button
-                className='px-2 py-1 text-sm rounded-md bg-white'
+                className='px-2 py-1 text-sm rounded-md border border-white text-white lg:hover:opacity-70'
                 onClick={handleClick}
               >
                 Log In

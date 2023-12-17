@@ -1,56 +1,59 @@
-import Lottie from "lottie-react";
-import redirectJSON from "@/images/social/redirect.json";
-import sucessPNG from "@/images/social/sucess.png";
-import failedPNG from "@/images/social/failed.png";
-import occupiedPNG from "@/images/social/occupied.png";
+import Lottie from 'lottie-react'
+import redirectJSON from '@/images/social/redirect.json'
+import tbook from '@/images/social/tbook.svg'
+
+// import sucessSvg from '@/images/social/sucess.svg'
+// import failedSvg from '@/images/social/fail.svg'
+// import occupiedSvg from '@/images/social/occupied.svg'
 
 const Result = ({ title, desc }) => {
   return (
-    <div className="px-7 pt-1 text-center">
-      <h2 className="text-[#131517] text-base font-medium mb-3">{title}</h2>
-      <p className="text-sm text-[#717374]">{desc}</p>
+    <div className='px-7 pt-4 text-center'>
+      { title && <h2 className='text-white text-base font-medium mb-2'>{title}</h2> }
+      <p className='text-sm text-[#9a89ae]'>{desc}</p>
     </div>
-  );
-};
+  )
+}
 
 // loading, sucess, failed, occupied
-export default function RedirectSocial({ status = "loading", desc = "" }) {
+export default function RedirectSocial ({ status = 'loading', desc = '' }) {
   return (
-    <div>
-      {status === "loading" && (
-        <div>
-          <Lottie animationData={redirectJSON} loop={true} />
+    <div className='pt-[100px] lg:pt-[200px]'>
+      {status === 'loading' && (
+        <div className='flex flex-col items-center'>
+          <div className='w-14 lg:w-20 h-14 lg:h-20  mb-4 lg:mb-8'>
+            <Lottie animationData={redirectJSON} loop={true} />
+          </div>
           <Result
-            title="Loading..."
-            desc="We are currently verifying the account connection results. Your patience is greatly appreciated."
+            desc='We are verifying the account connection results.'
           />
         </div>
       )}
 
-      {status === "sucess" && (
-        <div>
-          <img src={sucessPNG} className="w-full" />
-          <Result title="Account authorized successfully!" />
+      {status === 'sucess' && (
+        <div className='flex flex-col items-center'>
+          <img src={tbook} className='w-14 lg:w-20 h-14 lg:h-20' />
+          <Result title='Account authorized successfully!' />
         </div>
       )}
-      {status === "failed" && (
-        <div>
-          <img src={failedPNG} className="w-full" />
+      {status === 'failed' && (
+        <div className='flex flex-col items-center'>
+          <img src={tbook} className='w-14 lg:w-20 h-14 lg:h-20' />
           <Result
-            title="Account authorization failed"
+            title='Account authorization failed'
             desc={
               desc ||
-              "We regret that the account authorization has failed. Please try again later."
+              'Please try again later.'
             }
           />
         </div>
       )}
-      {status === "occupied" && (
-        <div>
-          <img src={occupiedPNG} className="w-full" />
-          <Result title="Account occupied" desc={desc || "Account occupied!"} />
+      {status === 'occupied' && (
+        <div className='flex flex-col items-center'>
+          <img src={tbook} className='w-14 lg:w-20 h-14 lg:h-20' />
+          <Result title='Account occupied' desc={desc || 'Account occupied!'} />
         </div>
       )}
     </div>
-  );
+  )
 }

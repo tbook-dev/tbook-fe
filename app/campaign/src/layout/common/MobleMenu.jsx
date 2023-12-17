@@ -29,21 +29,16 @@ export default function MobleMenu ({ hideLink = false }) {
           </div>
 
           <div className='flex items-center gap-x-4'>
-            {/* <img
-              src={user?.avatar}
-              className="w-7 h-7 object-contain object-center rounded-full"
-              onClick={async () => await openWeb3Modal()}
-            /> */}
-            <CloseOutlined className='text-2xl' onClick={handleCancel} />
+            <CloseOutlined
+              className='text-2xl'
+              style={{ color: 'white' }}
+              onClick={handleCancel}
+            />
           </div>
         </div>
 
         <Links inDrawer hidden={hideLink} />
       </div>
-
-      {/* <div className="pb-[100px] flex justify-center">
-        <Web3Button  />
-      </div> */}
     </div>
   )
   return (
@@ -61,12 +56,8 @@ export default function MobleMenu ({ hideLink = false }) {
         placement='right'
         height='100vh'
         width='100vw'
-        contentWrapperStyle={{
-          overflow: 'hidden'
-        }}
-        maskStyle={{
-          backdropFilter: 'blur(6px)',
-          backgroundColor: 'rgba(0,0,0,0.6)'
+        style={{
+          background: '#000'
         }}
       >
         <Content />

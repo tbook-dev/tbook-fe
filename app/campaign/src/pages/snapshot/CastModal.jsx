@@ -3,7 +3,7 @@ import { useResponsive } from 'ahooks'
 import { useSelector } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { setSnapshotCastModal, setSnapshotData } from '@/store/global'
-import { useVp, useProposal, castVote } from '@tbook/snapshot/api'
+import { useVp, useProposal, useUserVotes, castVote } from '@tbook/snapshot/api'
 import { useDispatch } from 'react-redux'
 import { formatDollar } from '@tbook/utils/lib/conf'
 import Arrow2Icon from '@/images/icon/arrow2.svg'
@@ -41,6 +41,8 @@ export default function CastModal () {
   const { data: walletClient } = useWalletClient()
   const { showSnapshotCastModal, snapshotData } = useSelector(s => s.global)
   const { data, refetch } = useProposal(snapshotId)
+  const { refetch: refetchVote } = useUserVotes(snapshotId, address)
+
   const [voting, setVoting] = useState(false)
   const [messageApi, contextHolder] = message.useMessage()
   const op = {
@@ -72,6 +74,7 @@ export default function CastModal () {
         // 上报
         verifyTbook(credentialId)
         refetch()
+        refetchVote()
       })
       .catch(e => {
         console.error(e)
@@ -85,52 +88,52 @@ export default function CastModal () {
 
   return (
     <Modal
-      title={moduleConf.title}
+      title={null}
       footer={null}
       centered
       open={showSnapshotCastModal}
       closable={pc ? true : false}
       onCancel={handleCancel}
     >
-      <div className='-mx-6 text-[#131517]'>
-        <div className='mx-6'>
+      <div className='-mx-6'>
+        <div className='mx-6 mb-2'>
+          <h2 className='text-base font-medium'>{moduleConf.title}</h2>
+
           {moduleConf.desc.map((v, idx) => {
             return (
-              <p key={idx} className='text-xs'>
+              <p key={idx} className='text-xs text-[#C0ABD9]'>
                 {v}
               </p>
             )
           })}
         </div>
 
-        <div className='my-3 h-px bg-[rgb(19,21,23)]/[0.08]' />
+        <div className='my-3 h-px bg-[#8148C6]' />
 
         <div className='mx-6 space-y-3 text-sm'>
           <div className='flex items-center justify-between'>
-            <span className='text-[#717374]'>Choice</span>
-            <span className='text-[#131517] font-medium'>
-              {snapshotData?.choiceText}
-            </span>
+            <span className='text-[#C0ABD9]'>Choice</span>
+            <span className='font-medium'>{snapshotData?.choiceText}</span>
           </div>
           <div className='flex items-center justify-between'>
-            <span className='text-[#717374]'>Snapshot</span>
+            <span className='text-[#C0ABD9]'>Snapshot</span>
             <a
               href={`${moduleConf.ethscan}/${data?.snapshot}`}
               target='_blank'
-              className='text-[#131517] font-medium flex items-center'
+              className='font-medium flex items-center'
             >
               {formatDollar(data?.snapshot)}
               <img src={Arrow2Icon} alt='block link' />
             </a>
           </div>
           <div className='flex items-center justify-between'>
-            <span className='text-[#717374]'>Your voting power</span>
+            <span className='text-[#C0ABD9]'>Your voting power</span>
             {hasPower ? (
-              <span className='text-[#131517] font-medium'>
+              <span className='font-medium'>
                 {formatDollar(BigNumber(vp?.vp).toFixed(6), 6)} {data?.symbol}
               </span>
             ) : (
-              <span className='text-[#131517] font-medium flex items-center gap-x-1'>
+              <span className='font-medium flex items-center gap-x-1'>
                 <img
                   src={errorIcon}
                   className='w-4 h-4'
@@ -144,7 +147,7 @@ export default function CastModal () {
             <button
               disabled={voting}
               onClick={handleVote}
-              className='h-8 w-full rounded-lg bg-[#006EE9] text-white text-sm font-medium flex items-center justify-center gap-x-2'
+              className='h-8 w-full rounded-lg bg-white text-black text-sm font-medium flex items-center justify-center gap-x-2'
             >
               {moduleConf.button}
               {voting && (
@@ -161,12 +164,12 @@ export default function CastModal () {
                 className='w-4 h-4 mt-1'
               />
               <div className='text-xs'>
-                <p className='text-black'>
+                <p className='text-[#C0ABD9]'>
                   {moduleConf.noVotingPower(data?.snapshot)}
                 </p>
                 <a
                   href={moduleConf.votingPowerLink}
-                  className='text-[#A1A1A2] underline hover:underline'
+                  className='underline hover:underline'
                 >
                   {moduleConf.votingPowerText}
                 </a>

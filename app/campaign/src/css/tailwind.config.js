@@ -9,16 +9,16 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
     "./node_modules/@tbook/ui/src/**/*.{js,jsx}",
     "./node_modules/@tbook/snapshot/**/*.{js,jsx}",
-    "./node_modules/tw-elements/dist/js/**/*.js",
   ],
   theme: {
     extend: {
       screens: {
-        lg: "1120px", // 96*2+928=1120
+        lg: "1200px", // 96*2+928=1120
       },
       backgroundImage: {
-        cw1: "linear-gradient(283.69deg, #4D0BEF -14.58%, #D645ED 134.55%);",
-        cw2: "linear-gradient(326deg, #4D0BEF 0%, #CF0063 100%)",
+        linear1:
+          "linear-gradient(280deg, rgba(144, 75, 246, 0.10) 49.68%, rgba(207, 0, 99, 0.10) 108.87%)",
+        linear2: "linear-gradient(116deg, #7535C4 0%, #351857 100%)",
       },
       boxShadow: {
         s1: " 0px 0px 6px 0px rgba(0, 0, 0, 0.10)",
@@ -27,6 +27,7 @@ module.exports = {
       },
       fontFamily: {
         rhd: ["Red Hat Display", "sans-serif"],
+        'zen-dot': ["zen-dot", "sans-serif"],
       },
       fontSize: {
         "6.5xl": "4rem",
@@ -46,21 +47,6 @@ module.exports = {
         },
         blue: {
           1: "#3A82F7",
-        },
-        // black
-        b: {
-          1: "rgba(255, 255, 255, 0.1)",
-          2: "rgba(255, 255, 255, 0.2)",
-          4: "rgba(255, 255, 255, 0.4)",
-          6: "rgba(255, 255, 255, 0.6)",
-          8: "rgba(255, 255, 255, 0.8)",
-        },
-        l: {
-          1: "rgba(0, 0, 0, 0.1)",
-          2: "rgba(0, 0, 0, 0.02)",
-          4: "rgba(0, 0, 0, 0.4)",
-          6: "rgba(0, 0, 0, 0.06)",
-          8: "rgba(0, 0, 0, 0.8)",
         },
         // disable
         disable: "rgba(255, 255, 255, 0.2)",

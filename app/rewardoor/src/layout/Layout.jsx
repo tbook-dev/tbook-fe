@@ -1,46 +1,52 @@
-import { useNavigate, useLocation, Outlet } from "react-router-dom";
-import { useEffect } from "react";
-import useUserInfo from "@/hooks/queries/useUserInfo";
-import { Spin } from "antd";
-import { useState } from "react";
+import { useNavigate, useLocation, Outlet } from 'react-router-dom'
+import { useEffect } from 'react'
+import useUserInfo from '@/hooks/queries/useUserInfo'
+import { Spin } from 'antd'
+import { useState } from 'react'
 
-const aboardPath = "/aboard";
-const newProjectPath = "/new-project";
-export default function LayoutAdmin() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { error, projects, isLoading } = useUserInfo();
-  const [firstLoad, setFirstLoad] = useState(false);
-
+const aboardPath = '/aboard'
+const newProjectPath = '/new-project'
+export default function LayoutAdmin () {
+  const location = useLocation()
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const { error, userLogined, projects, isLoading } = useUserInfo()
+  const [firstLoad, setFirstLoad] = useState(false)
+  console.log({ pathname })
   useEffect(() => {
     if (error && error.code === 401 && location.pathname !== aboardPath) {
       navigate(
         `${aboardPath}?redirect=${encodeURIComponent(
           location.pathname + location.search
         )}`
-      );
+      )
     }
-  }, [error]);
+  }, [error])
 
   useEffect(() => {
-    if (Array.isArray(projects) && projects.length === 0) {
-      navigate(newProjectPath);
+    if (
+      userLogined &&
+      Array.isArray(projects) &&
+      projects.length === 0 &&
+      pathname !== aboardPath
+    ) {
+      navigate(newProjectPath)
     }
-  }, [projects]);
+  }, [projects, pathname])
 
   useEffect(() => {
     if (!firstLoad && !isLoading) {
-      setFirstLoad(true);
-      return;
+      setFirstLoad(true)
+      return
     }
-  }, [isLoading]);
+  }, [isLoading])
 
   // console.log({firstLoad, isLoading})
   return (
-    <div className="flex flex-col min-h-screen dark:bg-black dark:text-white bg-[#FBFDFF]">
-      <div className="relative flex-auto overflow-x-hidden overflow-y-auto">
+    <div className='flex flex-col min-h-screen dark:bg-black dark:text-white bg-[#FBFDFF]'>
+      <div className='relative flex-auto overflow-x-hidden overflow-y-auto'>
         {!firstLoad ? (
-          <div className="flex pt-40 justify-center">
+          <div className='flex pt-40 justify-center'>
             <Spin spinning />
           </div>
         ) : (
@@ -48,5 +54,5 @@ export default function LayoutAdmin() {
         )}
       </div>
     </div>
-  );
+  )
 }
