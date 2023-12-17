@@ -49,10 +49,10 @@ function Header () {
               </div>
             ) : (
               <button
-                className='px-2 py-1 text-sm rounded-md bg-white'
+                className='px-2 py-1 text-sm rounded-md border border-white text-white lg:hover:opacity-70'
                 onClick={handleClick}
               >
-                Connect Wallet
+                Log In
               </button>
             )}
           </div>
