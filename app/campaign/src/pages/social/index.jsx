@@ -7,7 +7,7 @@ import { delay } from '@/utils/common'
 export default function ({ authCallback }) {
   const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
-  const [status, setStatus] = useState('sucess')
+  const [status, setStatus] = useState('loading')
   useEffect(() => {
     authCallback()
       .then(async d => {
