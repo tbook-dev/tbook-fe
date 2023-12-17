@@ -21,7 +21,7 @@ export default function RedirectSocial ({ status = 'loading', desc = '' }) {
     <div className='pt-[100px] lg:pt-[200px]'>
       {status === 'loading' && (
         <div className='flex flex-col items-center'>
-          <div className='w-14 lg:w-20  mb-4 lg:mb-8'>
+          <div className='w-14 lg:w-20 h-14 lg:h-20  mb-4 lg:mb-8'>
             <Lottie animationData={redirectJSON} loop={true} />
           </div>
           <Result
@@ -32,25 +32,25 @@ export default function RedirectSocial ({ status = 'loading', desc = '' }) {
 
       {status === 'sucess' && (
         <div className='flex flex-col items-center'>
-          <img src={tbook} className='w-14 lg:w-20' />
+          <img src={tbook} className='w-14 lg:w-20 h-14 lg:h-20' />
           <Result title='Account authorized successfully!' />
         </div>
       )}
       {status === 'failed' && (
         <div className='flex flex-col items-center'>
-          <img src={tbook} className='w-14 lg:w-20' />
+          <img src={tbook} className='w-14 lg:w-20 h-14 lg:h-20' />
           <Result
             title='Account authorization failed'
             desc={
               desc ||
-              'We regret that the account authorization has failed. Please try again later.'
+              'Please try again later.'
             }
           />
         </div>
       )}
       {status === 'occupied' && (
         <div className='flex flex-col items-center'>
-          <img src={tbook} className='w-14 lg:w-20' />
+          <img src={tbook} className='w-14 lg:w-20 h-14 lg:h-20' />
           <Result title='Account occupied' desc={desc || 'Account occupied!'} />
         </div>
       )}
