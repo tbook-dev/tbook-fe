@@ -1,8 +1,10 @@
 import Lottie from 'lottie-react'
 import redirectJSON from '@/images/social/redirect.json'
-import sucessSvg from '@/images/social/sucess.svg'
-import failedSvg from '@/images/social/fail.svg'
-import occupiedSvg from '@/images/social/occupied.svg'
+import tbook from '@/images/social/tbook.svg'
+
+// import sucessSvg from '@/images/social/sucess.svg'
+// import failedSvg from '@/images/social/fail.svg'
+// import occupiedSvg from '@/images/social/occupied.svg'
 
 const Result = ({ title, desc }) => {
   return (
@@ -31,13 +33,13 @@ export default function RedirectSocial ({ status = 'loading', desc = '' }) {
 
       {status === 'sucess' && (
         <div className='flex flex-col items-center'>
-          <img src={sucessSvg} className='w-10 lg:w-20' />
+          <img src={tbook} className='w-14 lg:w-20' />
           <Result title='Account authorized successfully!' />
         </div>
       )}
       {status === 'failed' && (
         <div className='flex flex-col items-center'>
-          <img src={failedSvg} className='w-10 lg:w-20' />
+          <img src={tbook} className='w-14 lg:w-20' />
           <Result
             title='Account authorization failed'
             desc={
@@ -49,7 +51,7 @@ export default function RedirectSocial ({ status = 'loading', desc = '' }) {
       )}
       {status === 'occupied' && (
         <div className='flex flex-col items-center'>
-          <img src={occupiedSvg} className='w-10 lg:w-20' />
+          <img src={tbook} className='w-14 lg:w-20' />
           <Result title='Account occupied' desc={desc || 'Account occupied!'} />
         </div>
       )}
