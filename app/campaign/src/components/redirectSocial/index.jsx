@@ -9,7 +9,7 @@ import tbook from '@/images/social/tbook.svg'
 const Result = ({ title, desc }) => {
   return (
     <div className='px-7 pt-4 text-center'>
-      <h2 className='text-white text-base font-medium mb-2'>{title}</h2>
+      { title && <h2 className='text-white text-base font-medium mb-2'>{title}</h2> }
       <p className='text-sm text-[#9a89ae]'>{desc}</p>
     </div>
   )
@@ -25,7 +25,6 @@ export default function RedirectSocial ({ status = 'loading', desc = '' }) {
             <Lottie animationData={redirectJSON} loop={true} />
           </div>
           <Result
-            title='Loading...'
             desc='We are verifying the account connection results.'
           />
         </div>

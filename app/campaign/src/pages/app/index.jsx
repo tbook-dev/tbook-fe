@@ -190,9 +190,9 @@ export default function () {
   }
 
   return (
-    <div className='space-y-2.5 pt-3 lg:pt-5 lg:w-[1198px] mx-auto pb-16 lg:py-2  text-t-1'>
-      <section className='overflow-hidden mb-12 lg:flex lg:justify-between lg:gap-x-[100px]'>
-        <div className='w-full h-[172px] lg:w-[468px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center'>
+    <div className='space-y-2.5 pt-3 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-t-1'>
+      <section className='overflow-hidden mb-16 lg:flex lg:justify-between lg:gap-x-[80px]'>
+        <div className='w-full h-[172px] lg:w-[566px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center'>
           <LazyImage
             src={page?.campaign?.picUrl}
             alt='main banner'
@@ -270,7 +270,7 @@ export default function () {
               key={index}
               className='rounded-lg flex flex-col lg:flex-row  lg:overflow-hidden lg:items-stretch'
             >
-              <div className='lg:w-1/2 lg:bg-[#0f081a] lg:px-8 lg:py-5 lg:flex lg:flex-col'>
+              <div className='lg:w-[634px] lg:bg-[#160b25] lg:px-8 lg:py-5 lg:flex lg:flex-col'>
                 <h3 className='text-base font-bold mb-8 lg:hidden font-zen-dot'>
                   Tasks and Rewards
                 </h3>
@@ -368,7 +368,7 @@ export default function () {
                             className='text-base font-medium'
                             to={`/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
                           >
-                            <h2 className='border-t mt-4 pt-5 border-[#8148C6]'>
+                            <h2 className='border-t mt-4 pt-5 border-[#281545]'>
                               Would you use TBOOK to incentivize your community?
                             </h2>
                           </Link>
@@ -379,9 +379,9 @@ export default function () {
                 </div>
               </div>
 
-              <div className='lg:w-1/2 pb-4  lg:bg-[#150b25] lg:px-8 lg:pb-0 lg:flex lg:flex-col lg:justify-center'>
+              <div className='lg:w-[566px] pb-4  lg:bg-[#1c0e2f] lg:px-8 lg:pb-0 lg:flex lg:flex-col lg:justify-center'>
                 <p className='text-xs mb-4 lg:hidden'>{prompt}</p>
-                <div className='space-y-4 lg:space-y-0 lg:divide-y lg:divide-[#8148C6]'>
+                <div className='space-y-4 lg:space-y-0 lg:divide-y lg:divide-[#281545]'>
                   {group.nftList?.map((nft, idx) => {
                     return (
                       <div
