@@ -136,6 +136,7 @@ export default function ViewReward ({ data, open, onCancel }) {
       title={null}
       footer={null}
       closeIcon={pc}
+      centered
     >
       <div className='flex flex-col items-center'>
         <h2 className='text-base font-medium mb-0.5 text-[#C0ABD9]'>
