@@ -22,13 +22,13 @@ import v04 from './solution04.mp4'
 
 const moduleConf = [
   {
-    title: 'Optimization of the Overall Project Token Economics',
+    title: 'Optimization of the Overall Project Incentive Economics',
     list: [
       {
         title: (
           <h2>
             Evaluate the{' '}
-            <span className='text-[#006EE9]'>tokenomics allocation </span>plan
+            <span className='text-[#006EE9]'>incentive allocation </span>plan
           </h2>
         ),
         desc: 'Tbook helps to integrate multidimensional data aggregation to ensure efficient allocation of resources, including onchain data, incentive data, and private domain data, to provide comprehensive support for intelligent incentive decision-making.'
@@ -36,8 +36,9 @@ const moduleConf = [
       {
         title: (
           <h2>
-            Community <span className='text-[#006EE9]'>profiling</span> & token
-            airdrop incentive <span className='text-[#006EE9]'>simulation</span>
+            Community <span className='text-[#006EE9]'>profiling</span> &
+            incentive airdrop incentive{' '}
+            <span className='text-[#006EE9]'>simulation</span>
           </h2>
         ),
         desc: 'Multiple user label management, simulating airdrop incentive effects in various scenarios to optimize capital efficiency.'
@@ -118,11 +119,12 @@ const moduleConf = [
       {
         title: (
           <h2>
-            One stop <span className='text-[#006EE9]'>token governance</span>{' '}
+            One stop{' '}
+            <span className='text-[#006EE9]'>incentive governance</span>{' '}
             platform
           </h2>
         ),
-        desc: 'We provide a one-stop token governance tool that supports governance needs for different scenarios and proposals. It manages the voting progress and encourages participation in the voting process.'
+        desc: 'We provide a one-stop incentive governance tool that supports governance needs for different scenarios and proposals. It manages the voting progress and encourages participation in the voting process.'
       },
       {
         title: (

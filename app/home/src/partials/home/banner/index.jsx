@@ -12,14 +12,14 @@ const pageConf = {
     prefix: 'optimize',
     aspects: [
       'core',
-      'economy',
+      'incentive economy',
       'governance',
       'protocol design',
       'incentive program'
     ],
     surfix: 'of future financial system'
   },
-  desc: 'We help industry to navigate critical decisions, elevate economy as a whole'
+  desc: 'We help industry to navigate critical decisions, elevate incentive economy as a whole'
 }
 
 export default function () {
