@@ -30,7 +30,7 @@ export default function VerifyStatus ({ status }) {
           loop
           autoplay={true}
           animationData={dataJSON}
-          style={{ height: '16px', width: '16px' }}
+          style={{ height: '24px', width: '24px' }}
         />
       )}
 
