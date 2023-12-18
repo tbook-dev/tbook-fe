@@ -216,7 +216,7 @@ export default function () {
                 <span className='mr-1 text-sm font-medium text-white'>
                   {formatDollar(page?.participation?.participantNum)}
                 </span>
-                participant
+                participant{page?.participation?.participantNum > 0?"s":""}
               </div>
 
               <div className='flex items-center gap-x-1 text-sm text-[#A1A1A2]'>
