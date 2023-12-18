@@ -169,6 +169,10 @@ export default function WithVerify ({
                     onClick={handleVerify}
                     disabled={status === verifyStatusEnum.Pending}
                   >
+                    {
+                      status === verifyStatusEnum.Pending &&
+                      <VerifyStatus status={status} />
+                    }
                     {status === verifyStatusEnum.Sucess && 'Verified'}
                     {status === verifyStatusEnum.Pending && 'Verify...'}
                     {status === verifyStatusEnum.NotStarted && 'Verify'}
