@@ -50,7 +50,7 @@ export default function Campaign () {
 
   return (
     <div className='space-y-8 w-page-content px-4 pt-4 lg:px-0 mx-auto'>
-      <div className='flex items-center justify-between py-4 lg:py-8'>
+      <div className='flex flex-col gap-y-4 lg:gap-y-8 py-4'>
         <h2 className='text-base font-medium lg:text-2xl lg:font-bold'>
           {moduleConf.title}
         </h2>

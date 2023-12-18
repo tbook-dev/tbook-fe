@@ -2,7 +2,7 @@ import clsx from 'clsx'
 
 export default function TabList ({ disabled, tabs, value, onSelect }) {
   return (
-    <div className='flex items-center justify-center gap-x-6 text-xs lg:text-lg font-medium'>
+    <div className='flex items-center gap-x-6 text-xs lg:text-lg font-medium'>
       {tabs.map(m => {
         return (
           <button
