@@ -31,8 +31,9 @@ export default function NFT () {
               <img
                 src={v.picUrl}
                 alt='nft'
-                className='h-[187px] lg:h-[225px] rounded-t-lg object-cover object-center flex-none'
+                className='w-full h-[187px] lg:h-[225px] rounded-t-lg object-contain flex-none'
               />
+              <div className='h-px w-full bg-linear3' />
               <div className='p-4'>
                 <h2 className='text-sm font-bold lg:text-xl lg:text-medium'>
                   {v.name}
