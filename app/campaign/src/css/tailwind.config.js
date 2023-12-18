@@ -19,6 +19,7 @@ module.exports = {
         linear1:
           "linear-gradient(280deg, rgba(144, 75, 246, 0.10) 49.68%, rgba(207, 0, 99, 0.10) 108.87%)",
         linear2: "linear-gradient(116deg, #7535C4 0%, #351857 100%)",
+        linear3: "linear-gradient(30deg, #C60C7A 0%, #904bf6  60%)",
       },
       boxShadow: {
         s1: " 0px 0px 6px 0px rgba(0, 0, 0, 0.10)",
@@ -27,7 +28,7 @@ module.exports = {
       },
       fontFamily: {
         rhd: ["Red Hat Display", "sans-serif"],
-        'zen-dot': ["zen-dot", "sans-serif"],
+        "zen-dot": ["zen-dot", "sans-serif"],
       },
       fontSize: {
         "6.5xl": "4rem",

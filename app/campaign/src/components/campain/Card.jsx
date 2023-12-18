@@ -15,9 +15,9 @@ export default function CampaignCard ({
     <Link
       to={`/app/${projectId}/campaign/${campaignId}`}
       target='__blank'
-      className='block rounded-xl bg-[rgb(144,75,246)]/[0.1] p-5'
+      className='rounded-xl bg-[rgb(144,75,246)]/[0.1] p-5 flex flex-col gap-y-8 justify-between'
     >
-      <div className='mb-8'>
+      <div>
         <img
           src={picUrl}
           className='rounded-lg w-full h-[200px] object-center object-cover mb-4'
