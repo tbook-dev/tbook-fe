@@ -40,16 +40,16 @@ export default function Point () {
                   key={idx}
                   className='p-5 bg-[#0e0819] rounded-lg flex justify-between items-center'
                 >
-                  <div className='w-[250px]'>
+                  <div className='w-[250px] lg:w-[1000px] flex flex-col'>
                     <Link
-                      className='text-sm font-medium flex items-center gap-x-0.5'
+                      className='text-sm font-medium'
                       to={`/app/${projectId}/campaign/${v.campaignId}`}
                     >
                       {v.campaignName}
                       <img
                         src={arrow3Icon}
                         alt='arrow'
-                        className='w-4 h-4 object-contain'
+                        className='inline-block ml-0.5 w-4 h-4 object-contain'
                       />
                     </Link>
                     <span className='text-xs text-[#C0ABD9]'>
