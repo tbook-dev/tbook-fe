@@ -49,9 +49,9 @@ export default function Campaign () {
   }, [resData, value])
 
   return (
-    <div className='space-y-8 w-page-content px-4 pt-4 lg:px-0 mx-auto'>
-      <div className='flex flex-col gap-y-4 lg:gap-y-8 py-4'>
-        <h2 className='text-base font-medium lg:text-2xl lg:font-bold'>
+    <div className='space-y-8 w-page-content mx-auto'>
+      <div className='flex flex-col gap-y-4 lg:gap-y-8 pt-3 pb-4 px-4 lg:px-0 border-b border-[#333] lg:border-none'>
+        <h2 className='font-medium text-2xl lg:font-bold font-zen-dot'>
           {moduleConf.title}
         </h2>
         <TabList
@@ -62,41 +62,43 @@ export default function Campaign () {
         />
       </div>
 
-      {userLoading ? (
-        <Loading />
-      ) : userLogined ? (
-        isLoading ? (
+      <div className='px-4 lg:px-0'>
+        {userLoading ? (
           <Loading />
-        ) : data.length === 0 ? (
-          <div className='lg:h-[330px] lg:bg-[#0F081A] lg:rounded-xl flex justify-center items-center'>
-            <Empty text='There’s no campaign yet.' />
-          </div>
+        ) : userLogined ? (
+          isLoading ? (
+            <Loading />
+          ) : data.length === 0 ? (
+            <div className='lg:h-[330px] lg:bg-[#0F081A] lg:rounded-xl flex justify-center items-center'>
+              <Empty text='There’s no campaign yet.' />
+            </div>
+          ) : (
+            <div
+              className={
+                'space-y-3 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-4 lg:gap-y-12'
+              }
+            >
+              {data.map(v => {
+                return pc ? (
+                  <CampaignCard2
+                    key={v.campaignId}
+                    projectId={projectId}
+                    {...v}
+                  />
+                ) : (
+                  <CampaignMyCard
+                    key={v.campaignId}
+                    projectId={projectId}
+                    {...v}
+                  />
+                )
+              })}
+            </div>
+          )
         ) : (
-          <div
-            className={
-              'space-y-3 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-4 lg:gap-y-12'
-            }
-          >
-            {data.map(v => {
-              return pc ? (
-                <CampaignCard2
-                  key={v.campaignId}
-                  projectId={projectId}
-                  {...v}
-                />
-              ) : (
-                <CampaignMyCard
-                  key={v.campaignId}
-                  projectId={projectId}
-                  {...v}
-                />
-              )
-            })}
-          </div>
-        )
-      ) : (
-        <NotConnect />
-      )}
+          <NotConnect />
+        )}
+      </div>
     </div>
   )
 }

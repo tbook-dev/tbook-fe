@@ -11,17 +11,17 @@ import useAssetQuery from '@/hooks/useAssetQuery'
 
 const tabModule = [
   {
-    name: 'credentials',
+    name: 'Credentials',
     value: 1,
     com: <Credentials />
   },
   {
-    name: 'nfts',
+    name: 'NFTs',
     value: 2,
     com: <NFT />
   },
   {
-    name: 'points',
+    name: 'Points',
     value: 3,
     com: <Point />
   }
@@ -32,9 +32,9 @@ export default function Asset () {
   const { projectId } = useParams()
   const { isLoading } = useAssetQuery(projectId)
   return (
-    <div className='space-y-8 w-page-content px-4 pt-4 lg:px-0 mx-auto'>
-      <div className='flex flex-col gap-y-4 lg:gap-y-8 py-4'>
-        <h2 className='text-base font-medium lg:text-2xl lg:font-bold'>
+    <div className='space-y-8 w-page-content mx-auto'>
+      <div className='flex flex-col gap-y-4 lg:gap-y-8 pt-3 pb-4 px-4 lg:px-0 border-b border-[#333] lg:border-none'>
+        <h2 className='font-medium text-2xl lg:font-bold font-zen-dot'>
           Assets
         </h2>
         <TabList
@@ -45,17 +45,19 @@ export default function Asset () {
         />
       </div>
 
-      {userLoading ? (
-        <Loading />
-      ) : userLogined ? (
-        isLoading ? (
+      <div className='px-4 lg:px-0'>
+        {userLoading ? (
           <Loading />
+        ) : userLogined ? (
+          isLoading ? (
+            <Loading />
+          ) : (
+            <div>{tabModule.find(v => v.value === value).com}</div>
+          )
         ) : (
-          <div>{tabModule.find(v => v.value === value).com}</div>
-        )
-      ) : (
-        <NotConnect />
-      )}
+          <NotConnect />
+        )}
+      </div>
     </div>
   )
 }
