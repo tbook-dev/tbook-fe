@@ -59,7 +59,7 @@ export default function CredentialModal({
     if (open) {
       const useDefaultValue = conf?.length === 0;
       rewardForm.setFieldsValue({
-        reward: useDefaultValue ? [defaultIncentive] : conf,
+        reward: useDefaultValue ? [] : conf,
       });
     }
   }, [open]);
@@ -127,7 +127,7 @@ export default function CredentialModal({
         layout="vertical"
         // requiredMark={false}
         initialValues={{
-          reward: [defaultIncentive],
+          reward: [],
         }}
       >
         <Form.List

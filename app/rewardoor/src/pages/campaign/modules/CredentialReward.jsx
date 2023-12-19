@@ -132,18 +132,19 @@ function CredentialReward ({
                     <div className='space-y-6'>
                       {cr.reward.map((v, idx) => {
                         const rewardType = v.rewardType
+                        const reward =incentiveAssetsTypeList.find(i => i.value === rewardType)
+
                         return (
                           <div
                             key={idx}
                             className='px-6 py-2 text-xs font-medium text-t-1 border border-c-6 rounded-2.5xl flex justify-between items-center'
                           >
-                            <span>
-                              {
-                                incentiveAssetsTypeList.find(
-                                  i => i.value === rewardType
-                                )?.label
-                              }
+                            <span className='inline-flex items-center gap-x-1'>
+
+                              <img src={reward?.icon} className='w-6 h-6'/>
+                              {reward?.text}
                             </span>
+
                             <span>{rewardType === 1 ? v.name : v.number}</span>
                           </div>
                         )
