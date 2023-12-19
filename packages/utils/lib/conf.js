@@ -191,9 +191,9 @@ export const formatDollar = (value, maximumSignificantDigits = 3) => {
 
 export const shortAddress = (address) => {
   return (
-    `${address}`.slice(0, 6) +
+    `${address}`.slice(0, 7) +
     "..." +
-    `${address}`.slice(`${address}`.length - 4)
+    `${address}`.slice(`${address}`.length - 5)
   );
 };
 

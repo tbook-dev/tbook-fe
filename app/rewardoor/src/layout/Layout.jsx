@@ -12,7 +12,6 @@ export default function LayoutAdmin () {
   const navigate = useNavigate()
   const { error, userLogined, projects, isLoading } = useUserInfo()
   const [firstLoad, setFirstLoad] = useState(false)
-  console.log({ pathname })
   useEffect(() => {
     if (error && error.code === 401 && location.pathname !== aboardPath) {
       navigate(

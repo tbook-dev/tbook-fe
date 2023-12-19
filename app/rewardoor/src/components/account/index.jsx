@@ -3,8 +3,10 @@ import { disconnect } from '@wagmi/core'
 import { shortAddress } from '@tbook/utils/lib/conf'
 import eth from '@/images/icon/eth.svg'
 import useUserInfo from '@/hooks/queries/useUserInfo'
-import { Popover } from 'antd'
+import { Popover, Typography } from 'antd'
 import { logout } from '@/utils/web3'
+
+const { Paragraph } = Typography
 
 export default function Account () {
   const { address } = useAccount()
@@ -20,13 +22,26 @@ export default function Account () {
         <div className='flex'>
           <img src={eth} className='ml-2.5 mr-4' />
           <span className='text-sm font-bold ml-0.5'>
-            {shortAddress(user?.wallet || address)}
+            <Popover
+              content={
+                <Paragraph copyable style={{ marginBottom: 0 }}>
+                  {user?.wallet || address}
+                </Paragraph>
+              }
+              placement='right'
+            >
+              {shortAddress(user?.wallet || address)}
+            </Popover>
           </span>
         </div>
         <Popover
           trigger='click'
           placement='top'
-          content={<button onClick={handleLogout}>Disconnect</button>}
+          content={
+            <button onClick={handleLogout} className='lg:hover:opacity-70'>
+              Disconnect
+            </button>
+          }
         >
           <button className='w-8 h-8 rounded-full flex justify-center items-center text-base font-bold text-c-9 bg-b-1 lg:hover:opacity-70'>
             ···
