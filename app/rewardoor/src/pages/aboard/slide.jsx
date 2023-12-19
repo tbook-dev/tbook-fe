@@ -43,6 +43,7 @@ export default function Slide () {
       pagination={{
         clickable: true
       }}
+      loop
       autoplay={{
         pauseOnMouseEnter: true,
         disableOnInteraction: false
@@ -56,7 +57,7 @@ export default function Slide () {
                 <img
                   src={v.img}
                   alt='slide'
-                  className='w-full h-[500px] object-contain object-center'
+                  className='w-full h-[420px] object-contain object-center'
                 />
               </div>
 
