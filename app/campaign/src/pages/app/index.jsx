@@ -30,8 +30,8 @@ const { Countdown } = Statistic
 
 const errorMsg = (
   <>
-    Please click the link and finish the task first.
-    <br /> If you have fulfilled the requirement, please try again in 30s.
+    It seems you have not finished the task.
+    <br /> If you have finished, please verify after 30s.
   </>
 )
 const prompt =
@@ -216,7 +216,7 @@ export default function () {
                 <span className='mr-1 text-sm font-medium text-white'>
                   {formatDollar(page?.participation?.participantNum)}
                 </span>
-                participant{page?.participation?.participantNum > 0?"s":""}
+                participant{page?.participation?.participantNum > 0 ? 's' : ''}
               </div>
 
               <div className='flex items-center gap-x-1 text-sm text-[#A1A1A2]'>
