@@ -11,12 +11,11 @@ export default function Account () {
   const { user } = useUserInfo()
   const handleLogout = () => {
     Promise.all([logout(), disconnect()]).then(() => {
-      console.log('xxx')
       window.location.reload()
     })
   }
   return (
-    <div className='w-[200px] h-10 p-1 rounded-2.5xl bg-black shadow-s1 ml-6 mr-2'>
+    <div className='w-[200px] h-10 p-1 rounded-2.5xl bg-black shadow-s1 mx-auto'>
       <div className='flex items-center justify-between h-full'>
         <div className='flex'>
           <img src={eth} className='ml-2.5 mr-4' />
