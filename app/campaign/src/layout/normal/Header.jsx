@@ -29,7 +29,7 @@ function Header () {
         'sticky bg-black'
       )}
     >
-      <div className='px-4 py-2 lg:px-20 lg:py-2.5'>
+      <div className='px-4 py-1.5 lg:px-20 lg:py-2.5'>
         <div className='flex items-center justify-between h-10 lg:h-16'>
           <div className='flex items-center'>
             <Link to='/' className='mr-1 lg:mr-16'>

@@ -190,7 +190,7 @@ export default function () {
   }
 
   return (
-    <div className='space-y-2.5 pt-3 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-t-1'>
+    <div className='space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-t-1'>
       <section className='overflow-hidden mb-16 lg:flex lg:justify-between lg:gap-x-[80px]'>
         <div className='w-full h-[172px] lg:w-[566px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center'>
           <LazyImage
