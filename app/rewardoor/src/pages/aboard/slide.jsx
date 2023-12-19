@@ -35,7 +35,6 @@ export default function Slide () {
   return (
     <Swiper
       className='w-full h-full rounded-2.5xl'
-      autoplay
       modules={[Pagination, Autoplay]}
       style={{
         '--swiper-theme-color': '#fff',
@@ -44,20 +43,24 @@ export default function Slide () {
       pagination={{
         clickable: true
       }}
+      autoplay={{
+        pauseOnMouseEnter: true,
+        disableOnInteraction: false
+      }}
     >
       {conf.map((v, idx) => {
         return (
           <SwiperSlide key={idx}>
-            <div className='bg-black h-full py-10 flex flex-col justify-center overflow-y-auto'>
-              <div className='flex justify-center'>
+            <div className='bg-black h-full py-10 flex flex-col justify-center gap-y-16 overflow-y-auto'>
+              <div className='flex justify-center px-20'>
                 <img
                   src={v.img}
                   alt='slide'
-                  className='w-full h-[450px] object-contain object-center'
+                  className='w-full h-[500px] object-contain object-center'
                 />
               </div>
 
-              <div className='mx-4'>
+              <div className='mx-20'>
                 <h2 className='text-[32px] font-extrabold mb-4'>{v.title}</h2>
                 <p className='text-base font-medium'>{v.desc}</p>
               </div>

@@ -1,4 +1,4 @@
-import Logo from '@/components/logo'
+import logoSvg from '@/images/icon/logo.svg'
 import bannerUrl from '@/images/aboard-banner.png'
 import bannerBg from '@/images/aboard-bg.png'
 import metaMask from '@/images/icon/metamask.svg'
@@ -64,7 +64,8 @@ export default function Aboard () {
 
       <div className='w-1/2  flex items-center justify-center'>
         <div className='w-[560px]'>
-          <h1 className='text-5xl font-extrabold'>{h1}</h1>
+          <img src={logoSvg} className='w-8 h-8 mb-8' alt='logo' />
+          <h1 className='text-5xl font-extrabold mb-4'>{h1}</h1>
           <p className='text-base font-medium'>{h1Text}</p>
           <div className='mt-10 space-y-6'>
             {isConnected ? (
