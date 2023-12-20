@@ -1,5 +1,17 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="16" cy="16" r="16" fill="#EBF0F0" fill-opacity="0.5"/>
-    <path d="M18.0417 11L13 16.5L18.0417 21.5" stroke="#717374" stroke-width="1.5" stroke-linecap="square"/>
-    </svg>
-    
+    <g filter="url(#filter0_b_10119_425)">
+        <circle cx="16" cy="16" r="16" fill="white" fill-opacity="0.4" />
+    </g>
+    <path d="M19.705 20.59L15.125 16L19.705 11.41L18.295 10L12.295 16L18.295 22L19.705 20.59Z"
+        fill="black" />
+    <defs>
+        <filter id="filter0_b_10119_425" x="-4" y="-4" width="40" height="40"
+            filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feGaussianBlur in="BackgroundImageFix" stdDeviation="2" />
+            <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_10119_425" />
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_10119_425"
+                result="shape" />
+        </filter>
+    </defs>
+</svg>
