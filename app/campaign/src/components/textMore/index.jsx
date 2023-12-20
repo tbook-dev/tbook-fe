@@ -19,7 +19,7 @@ export default function TextMore ({ text }) {
 
   return (
     <div
-      className='flex gap-x-5 cursor-pointer'
+      className={clsx('flex gap-x-5', hasMore? 'cursor-pointer':'')}
       onClick={() => {
         setShowMore(v => !v)
       }}

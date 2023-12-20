@@ -26,8 +26,8 @@ function Header () {
         'backdrop-blur-sm'
       )}
     >
-      <div className='px-4 py-1.5 lg:px-20 lg:py-2.5'>
-        <div className='flex items-center justify-between h-10 lg:h-16'>
+      <div className='px-4 py-1.5 lg:px-20'>
+        <div className='flex items-center justify-between h-10'>
           <div className='flex items-center'>
             <Link to={`/app/${projectId}/campaign`} className='mr-1 lg:mr-16'>
               {!firstLoad ? (
@@ -36,7 +36,7 @@ function Header () {
                 <img
                   src={projectId ? project?.avatarUrl : logo}
                   alt='logo'
-                  className='h-6 lg:h-10 object-contain'
+                  className='h-6 object-contain'
                 />
               )}
             </Link>

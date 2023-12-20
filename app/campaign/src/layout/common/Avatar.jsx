@@ -155,7 +155,7 @@ export default function Avatar () {
       >
         <img
           src={user?.avatar}
-          className='h-6 w-6 lg:w-10 lg:h-10 rounded-full object-center'
+          className='h-6 w-6 rounded-full object-center'
         />
       </div>
     )
