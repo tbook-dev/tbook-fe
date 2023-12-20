@@ -19,6 +19,7 @@ function Header () {
   const handleClick = () => {
     dispath(setLoginModal(true))
   }
+  const logoUrl = projectId ? project?.avatarUrl : logo
   return (
     <header
       className={clsx(
@@ -30,11 +31,11 @@ function Header () {
         <div className='flex items-center justify-between h-10'>
           <div className='flex items-center'>
             <Link to={`/app/${projectId}/campaign`} className='mr-1 lg:mr-16'>
-              {!firstLoad ? (
+              {!logoUrl ? (
                 <Skeleton.Avatar />
               ) : (
                 <img
-                  src={projectId ? project?.avatarUrl : logo}
+                  src={logoUrl}
                   alt='logo'
                   className='h-6 object-contain'
                 />
