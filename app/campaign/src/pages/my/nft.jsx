@@ -91,7 +91,7 @@ export default function NFT () {
       <div className='w-page-content mx-auto mb-5  lg:flex lg:gap-x-20'>
         <img
           src={data.picUrl}
-          className='w-[480px] h-[480px] object-center object-cover rounded-xl'
+          className='lg:w-[480px] lg:h-[480px] mb-8 lg:mb-0 object-center object-cover lg:rounded-xl'
         />
         <div className='w-page-content mx-auto px-4 lg:px-0'>
           <h2 className='text-2xl font-bold mb-5 lg:mb-16'>
