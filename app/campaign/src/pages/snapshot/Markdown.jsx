@@ -29,9 +29,9 @@ export default function Markdown ({ children }) {
   }
 
   return (
-    <div>
+    <div className='mb-16'>
       <div
-        className={clsx(showMore ? '' : 'h-[180px] overflow-hidden')}
+        className={clsx(showMore ? '' : 'max-h-[180px] overflow-hidden')}
         ref={textRef}
         onLoad={handleOnload}
       >
