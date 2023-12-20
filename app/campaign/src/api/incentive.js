@@ -71,7 +71,16 @@ export const loginUsingTwitterUrl = async function () {
   const data = await res.json();
   localStorage.setItem("redirect_url", location.href);
   // window.location = data["url"];
-  window.open(data["url"], "_blank")
+  // window.open(data["url"], "_blank")
+  const a = document.createElement("a");
+  document.body.appendChild(a);
+  a.style = "display: none";
+  a.href = data["url"];
+  a.setAttribute("target", "_blank");
+  a.setAttribute("mc-deep-link", "false");
+  a.setAttribute("ref", "nofollow noopener noreferrer");
+  // rel='nofollow noopener noreferrer'
+  a.click();
 };
 
 export const getExporeCampain = async function () {
