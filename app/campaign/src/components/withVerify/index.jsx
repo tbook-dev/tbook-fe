@@ -128,7 +128,7 @@ export default function WithVerify ({
                     // style={{ backgroundColor: social.activeColor }}
                   >
                     <img
-                      src={social.activePic}
+                      src={social.picUrl}
                       className='w-4 h-4 object-contain object-center'
                       alt='social logo'
                     />
@@ -169,10 +169,9 @@ export default function WithVerify ({
                     onClick={handleVerify}
                     disabled={status === verifyStatusEnum.Pending}
                   >
-                    {
-                      status === verifyStatusEnum.Pending &&
+                    {status === verifyStatusEnum.Pending && (
                       <VerifyStatus status={status} />
-                    }
+                    )}
                     {status === verifyStatusEnum.Sucess && 'Verified'}
                     {status === verifyStatusEnum.Pending && 'Verify...'}
                     {status === verifyStatusEnum.NotStarted && 'Verify'}
