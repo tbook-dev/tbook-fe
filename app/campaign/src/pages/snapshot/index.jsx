@@ -36,22 +36,30 @@ export default function Snapshot () {
         <div className='px-6 pt-5 min-h-[calc(100vh_-_100px)] space-y-8 pb-3'>
           <div className='space-y-3 lg:space-y-4'>
             <TimerDown state={data?.state} value={data?.end} />
-            <h2 className='text-xl lg:font-medium font-bold lg:text-4xl'>{data?.title}</h2>
+            <h2 className='text-xl lg:font-medium font-bold lg:text-4xl'>
+              {data?.title}
+            </h2>
           </div>
 
           <div className='lg:flex space-y-16 lg:space-y-0 lg:gap-x-20'>
             <div className='space-y-6 lg:space-y-16 lg:w-[calc(100%_-_480px)]'>
               <Markdown>{formatIPFS(data?.body)}</Markdown>
 
-              {data?.state === 'closed' && (
-                <div className='text-[#C4C4C4] text-sm mb-4'>
-                  The voting has closed.
-                </div>
-              )}
+              <div>
+                <h2 className='mb-4 text-base font-bold font-zen-dot'>
+                  Cast your vote
+                </h2>
 
-              {data?.state !== 'closed' && (
-                <SingleVote snapshotId={snapshotId} />
-              )}
+                {data?.state === 'closed' && (
+                  <div className='text-[#C4C4C4] text-sm mb-4'>
+                    The voting has closed.
+                  </div>
+                )}
+
+                {data?.state !== 'closed' && (
+                  <SingleVote snapshotId={snapshotId} />
+                )}
+              </div>
             </div>
 
             <div className='lg:w-[400px] lg:flex-none'>

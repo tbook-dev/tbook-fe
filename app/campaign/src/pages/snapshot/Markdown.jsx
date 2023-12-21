@@ -6,6 +6,7 @@ import rehypeRaw from 'rehype-raw'
 import './github-markdown-light.css'
 import { useEffect, useState, useRef } from 'react'
 import clsx from 'clsx'
+import { useEventListener } from 'ahooks'
 
 export default function Markdown ({ children }) {
   const [showMore, setShowMore] = useState(false)
@@ -20,20 +21,27 @@ export default function Markdown ({ children }) {
       const { offsetHeight, scrollHeight } = textRef.current
       if (scrollHeight > offsetHeight) {
         setHasMore(true)
+      }else{
+        setHasMore(false)
       }
     }
   }
 
-  const handleOnload = () => {
-    calcFn()
-  }
+
+  useEventListener('resize', calcFn)
 
   return (
-    <div className='mb-16'>
+    <div className={clsx(hasMore ? 'mb-[104px]' : 'mb-16', ' relative')}>
       <div
-        className={clsx(showMore ? '' : 'max-h-[180px] overflow-hidden')}
+        className={clsx(
+          'relative',
+          showMore ? '' : 'max-h-[180px] overflow-hidden',
+          hasMore &&
+            !showMore &&
+            'after:absolute after:inset-0 after:bg-linear4'
+        )}
         ref={textRef}
-        onLoad={handleOnload}
+        onLoad={calcFn}
       >
         <ReactMarkdown
           className='markdown-body'
@@ -63,7 +71,10 @@ export default function Markdown ({ children }) {
       {hasMore && (
         <button
           onClick={() => setShowMore(v => !v)}
-          className='text-[#904BF6] mt-1'
+          className={clsx(
+            showMore ? 'mt-2' : '-mt-5',
+            'text-white font-medium px-5 py-2 bg-black border border-[#333] rounded-full text-sm absolute left-1/2 -translate-x-1/2'
+          )}
         >
           {showMore ? 'Show Less' : 'Show More'}
         </button>

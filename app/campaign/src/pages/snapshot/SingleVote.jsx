@@ -89,8 +89,8 @@ export default function SingleVote ({ snapshotId }) {
         className={clsx(
           'w-full text-xl font-medium h-12 rounded-lg',
           data?.state === 'active' && voted !== null
-            ? 'bg-[#904BF6] text-black'
-            : 'bg-[rgb(144,75,246)]/[0.6] text-black'
+            ? 'bg-[#904BF6] text-white'
+            : 'bg-[#2b174a] text-[#55456e]'
         )}
       >
         Vote

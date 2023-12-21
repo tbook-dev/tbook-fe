@@ -30,7 +30,7 @@ export default function VoteResult ({ snapshotId }) {
       {data?.quorum > 0 && (
         <div className='space-y-3'>
           <h2 className='flex items-center justify-between text-sm font-medium text-white'>
-            <span>Turnout/Quorum</span>
+            <span>Quorum</span>
             <span
               className={clsx(
                 arriveQuorum ? 'text-[#76DF9A] flex items-center gap-x-1' : ''
@@ -65,7 +65,7 @@ export default function VoteResult ({ snapshotId }) {
               <div className='flex justify-between items-center text-sm font-medium'>
                 <p>{v.choiceDesc}</p>
                 <p>
-                  {formatDollar(v.voteNum, 6)} {data?.symbol}/{v.percent}%
+                  {formatDollar(v.voteNum, 6)} {data?.symbol}<span className='m-1'/>{v.percent}%
                 </p>
               </div>
 

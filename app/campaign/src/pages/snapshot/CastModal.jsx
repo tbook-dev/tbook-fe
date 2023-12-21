@@ -120,7 +120,7 @@ export default function CastModal () {
             <a
               href={`${moduleConf.ethscan}/${data?.snapshot}`}
               target='_blank'
-              className='font-medium flex items-center'
+              className='font-medium flex items-center hover:text-[#C0ABD9]'
             >
               {formatDollar(data?.snapshot)}
               <img src={Arrow2Icon} alt='block link' />
