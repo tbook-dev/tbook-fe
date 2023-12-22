@@ -42,7 +42,7 @@ export default function Asset () {
   }
   return (
     <div className='space-y-8 w-page-content mx-auto'>
-      <div className='flex flex-col gap-y-4 lg:gap-y-8 pt-3 pb-4 px-4 lg:px-0 border-b border-[#333] lg:border-none'>
+      <div className='flex flex-col gap-y-4 lg:gap-y-8 pt-3 pb-4 px-4 lg:px-0 border-b border-[#160b25] lg:border-none'>
         <h2 className='font-medium text-2xl lg:font-bold font-zen-dot'>
           Assets
         </h2>
