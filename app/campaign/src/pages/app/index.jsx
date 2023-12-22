@@ -287,7 +287,7 @@ export default function () {
                       twitter: twitterConnected,
                       discord: discordConnected,
                       telegram: telegramConnected,
-                      tbook: true
+                      tbook: userLogined
                     }
                     const sycLoginFnMap = {
                       twitter: getSocialByName('twitter').loginFn,
@@ -352,8 +352,7 @@ export default function () {
                               Verified
                             </span>
                           ) : campaignNotStart ||
-                            campaignEnd ||
-                            !userLogined ? null : (
+                            campaignEnd ? null : (
                             <WithVerify
                               sysConnectedMap={sysConnectedMap}
                               sycLoginFnMap={sycLoginFnMap}
