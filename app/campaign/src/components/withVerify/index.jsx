@@ -43,19 +43,15 @@ export default function WithVerify ({
   const social = getSocialByName(credentialType)
   const isSocial = !!social
   const handleVerify = async evt => {
-    if (!userLogined) {
-      dispath(setLoginModal(true))
-    } else {
-      setStatus(verifyStatusEnum.Pending)
-      try {
-        await handleFn(evt)
-        setStatus(verifyStatusEnum.Sucess)
-      } catch (e) {
-        setStatus(verifyStatusEnum.NotStarted)
-      }
-      await delay(1000)
-      handleCancel()
+    setStatus(verifyStatusEnum.Pending)
+    try {
+      await handleFn(evt)
+      setStatus(verifyStatusEnum.Sucess)
+    } catch (e) {
+      setStatus(verifyStatusEnum.NotStarted)
     }
+    await delay(1000)
+    handleCancel()
   }
   const handleCancel = useCallback(() => {
     setOpen(false)
@@ -78,10 +74,14 @@ export default function WithVerify ({
           }
         )}
         onClick={evt => {
-          if (isSocial) {
-            setOpen(true)
+          if (!userLogined) {
+            dispath(setLoginModal(true))
           } else {
-            handleVerify(evt)
+            if (isSocial) {
+              setOpen(true)
+            } else {
+              handleVerify(evt)
+            }
           }
         }}
       >
