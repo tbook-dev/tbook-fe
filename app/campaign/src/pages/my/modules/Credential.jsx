@@ -68,7 +68,7 @@ export default function Credentials() {
                     </div>
                   }
                 >
-                  <span className="text-[rgb(143,117,205)] px-2.5 py-0.5 rounded-[10px] cursor-pointer bg-[#EDE9FE]">
+                  <span className="text-[rgb(143,117,205)] ml-3 px-2.5 py-0.5 rounded-[10px] cursor-pointer bg-[#EDE9FE]">
                     {v.length}
                   </span>
                 </Popover>
