@@ -11,6 +11,11 @@ import dayjs from 'dayjs'
 import copyIcon from '@/images/icon/copy.svg'
 import { getParicipant } from '../conf'
 import Loading from '@/components/loading'
+import clsx from 'clsx'
+import credentialsSVG from '@/images/campaign/credentials.svg'
+import nftSVG from '@/images/campaign/nft.svg'
+import participantsSVG from '@/images/campaign/participants.svg'
+import pointSVG from '@/images/campaign/point.svg'
 
 const { Paragraph } = Typography
 
@@ -32,19 +37,27 @@ export default function Participation () {
     return [
       {
         title: 'Participants',
-        value: formatDollar(pageInfo.participantNum || 0)
+        value: formatDollar(pageInfo.participantNum || 0),
+        cls: 'bg-[#904BF6]',
+        picUrl: participantsSVG
       },
       {
-        title: 'GiveAway Credentials',
-        value: formatDollar(pageInfo.credentialNum || 0)
+        title: 'Credentials',
+        value: formatDollar(pageInfo.credentialNum || 0),
+        cls: 'bg-[#1A1A1A]',
+        picUrl: credentialsSVG 
       },
       {
-        title: 'GiveAway Points',
-        value: formatDollar(pageInfo.pointNum || 0)
+        title: 'Points',
+        value: formatDollar(pageInfo.pointNum || 0),
+        cls: 'bg-[#006EE9]',
+        picUrl: pointSVG 
       },
       {
-        title: 'GiveAway NFTs',
-        value: formatDollar(pageInfo.nftNum || 0)
+        title: 'NFTs',
+        value: formatDollar(pageInfo.nftNum || 0),
+        cls: 'bg-[#CF0063]',
+        picUrl: nftSVG
       }
     ]
   }, [pageInfo])
@@ -56,9 +69,13 @@ export default function Participation () {
     <div className='space-y-5 mb-10'>
       <div className='grid grid-cols-4 gap-x-5'>
         {participantConf.map((v, idx) => (
-          <div key={idx} className='rounded-2.5xl bg-gray p-5'>
-            <div className='text-[20px] font-black text-t-1'>{v.value}</div>
-            <div className='text-sm font-medium text-c-9'>{v.title}</div>
+          <div key={idx} className={clsx('rounded-2.5xl text-white p-5 flex items-center justify-between',v.cls)}>
+            <div>
+              <div className='text-2xl font-black'>{v.value}</div>
+              <div className='text-sm font-medium'>{v.title}</div>
+            </div>
+
+            <img src={v.picUrl} className='w-[72px] h-[72px]'/>
           </div>
         ))}
       </div>
