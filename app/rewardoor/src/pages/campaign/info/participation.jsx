@@ -71,8 +71,8 @@ export default function Participation () {
         {participantConf.map((v, idx) => (
           <div key={idx} className={clsx('rounded-2.5xl text-white p-5 flex items-center justify-between',v.cls)}>
             <div>
-              <div className='text-2xl font-black'>{v.value}</div>
-              <div className='text-sm font-medium'>{v.title}</div>
+              <div className='text-2xl font-zen-dot'>{v.value}</div>
+              <div className='text-sm'>{v.title}</div>
             </div>
 
             <img src={v.picUrl} className='w-[72px] h-[72px]'/>
