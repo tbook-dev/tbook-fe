@@ -1,20 +1,24 @@
 import { useParams } from 'react-router-dom'
-import { incentiveMethodList, rewardMap } from '@/utils/conf'
+import { incentiveMethodList } from '@/utils/conf'
 import pointIcon from '@/images/icon/point.svg'
-import nftIcon from '@/images/icon/nft.svg'
 import { InfoCircleOutlined } from '@ant-design/icons'
-import { Tooltip } from 'antd'
+import { Tooltip, Statistic } from 'antd'
 import { conf as tbookConf } from '@tbook/utils'
 import clsx from 'clsx'
 import { useState, useCallback } from 'react'
 import WinnerListModal from './winnerListModal'
 import useReward from '@/hooks/queries/useReward'
 import Loading from '@/components/loading'
+import timeSvg from '@/images/icon/time.svg'
+import useCampaign from '@/hooks/queries/useCampaign'
 
+const { Countdown } = Statistic
 const { formatDollar } = tbookConf
+
 export default function Reward() {
   const { id } = useParams()
   const { data: reward, isLoading } = useReward(id)
+  const { data: page } = useCampaign(id)
   const [winnerListData, setWinnerListData] = useState(null)
   const [open, setOpen] = useState(false)
   const [modalType, setModalType] = useState(null)
@@ -50,19 +54,38 @@ export default function Reward() {
                   <h1 className='text-base text-[#C4C4C4]'>NFT</h1>
                   <h2 className='text-lg font-medium text-white'>{nft.name}</h2>
                 </div>
-                <div className='space-y-1'>
-                  <div className='text-xs text-[#C4C4C4]'>Distribution Method</div>
-                  <div className='flex items-center gap-x-1 lowercase text-base'>
+                <div className='flex gap-x-8 items-start'>
+                  <div className='space-y-1'>
+                    <div className='text-xs text-[#C4C4C4]'>Distribution Method</div>
+                    <div className='flex items-center gap-x-1 lowercase text-base'>
+                      <img
+                        src={incentiveMethodItem?.icon}
+                        className='w-6 h-6 object-contain object-center'
+                      />
+                      {incentiveMethodItem?.title}
+                      <Tooltip title={incentiveMethodItem.desc}>
+                        <span className='text-c-6 hover:text-white ml-1 cursor-pointer'>
+                          <InfoCircleOutlined />
+                        </span>
+                      </Tooltip>
+                    </div>
+                  </div>
+
+                  <div className='flex items-center gap-x-1 px-2 py-1 rounded-2.5xl bg-[rgb(255,255,255)]/[0.1] w-max'>
                     <img
-                      src={incentiveMethodItem?.icon}
-                      className='w-6 h-6 object-contain object-center'
+                      src={timeSvg}
+                      className='w-4 h-4 object-center object-contain'
+                      alt='time'
                     />
-                    {incentiveMethodItem?.title}
-                    <Tooltip title={incentiveMethodItem.desc}>
-                      <span className='text-c-6 hover:text-white ml-1 cursor-pointer'>
-                        <InfoCircleOutlined />
-                      </span>
-                    </Tooltip>
+                    <Countdown
+                      value={page?.campaign?.endAt}
+                      format='D[d] H[h] m[m] s[s]'
+                      valueStyle={{
+                        color: '#fff',
+                        fontSize: '14px',
+                        lineHeight: '20px'
+                      }}
+                    />
                   </div>
                 </div>
               </div>
@@ -126,21 +149,38 @@ export default function Reward() {
                   <h1 className='text-base text-[#C4C4C4]'>points</h1>
                   <h2 className='text-lg font-medium text-white'>{point.number}{" "}point{point.number > 0 && 's'}</h2>
                 </div>
-                <div className='space-y-1'>
 
-                  <div className='text-xs text-[#C4C4C4]'>Distribution Method</div>
-
-                  <div className='flex items-center gap-x-1 lowercase text-base'>
+                <div className='flex gap-x-8 items-start'>
+                  <div className='space-y-1'>
+                    <div className='text-xs text-[#C4C4C4]'>Distribution Method</div>
+                    <div className='flex items-center gap-x-1 lowercase text-base'>
+                      <img
+                        src={incentiveMethodItem?.icon}
+                        className='w-6 h-6 object-contain object-center'
+                      />
+                      {incentiveMethodItem?.title}
+                      <Tooltip title={incentiveMethodItem.desc}>
+                        <span className='text-c-6 hover:text-white ml-1 cursor-pointer'>
+                          <InfoCircleOutlined />
+                        </span>
+                      </Tooltip>
+                    </div>
+                  </div>
+                  <div className='flex items-center gap-x-1 px-2 py-1 rounded-2.5xl bg-[rgb(255,255,255)]/[0.1] w-max'>
                     <img
-                      src={incentiveMethodItem?.icon}
-                      className='w-6 h-6 object-contain object-center'
+                      src={timeSvg}
+                      className='w-4 h-4 object-center object-contain'
+                      alt='time'
                     />
-                    {incentiveMethodItem?.title}
-                    <Tooltip title={incentiveMethodItem.desc}>
-                      <span className='text-c-6 hover:text-white ml-1 cursor-pointer'>
-                        <InfoCircleOutlined />
-                      </span>
-                    </Tooltip>
+                    <Countdown
+                      value={page?.campaign?.endAt}
+                      format='D[d] H[h] m[m] s[s]'
+                      valueStyle={{
+                        color: '#fff',
+                        fontSize: '14px',
+                        lineHeight: '20px'
+                      }}
+                    />
                   </div>
                 </div>
 
