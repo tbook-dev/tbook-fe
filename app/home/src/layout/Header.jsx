@@ -17,10 +17,10 @@ export const links = [
     text: 'About',
     anchor: 'about'
   },
-  // {
-  //   text: 'Blog',
-  //   anchor: 'blog'
-  // },
+  {
+    text: 'Blog',
+    anchor: 'blog'
+  },
   {
     text: 'Contact',
     anchor: 'contact'
