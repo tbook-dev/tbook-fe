@@ -1,7 +1,7 @@
 import { useResponsive } from 'ahooks'
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { useQueryClient } from 'react-query'
-import { verifyCredential } from '@/api/incentive'
+import { verifyCredential, logUserReport } from '@/api/incentive'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import pointIcon from '@/images/icon/point.svg'
 import arrow3Icon from '@/images/icon/arrow3.svg'
@@ -54,6 +54,7 @@ export default function () {
     campaignEnd
   } = useCampaignQuery(campaignId)
   const {
+    user,
     twitterConnected,
     userLogined,
     discordConnected,
@@ -189,6 +190,18 @@ export default function () {
         }
       })
   }
+
+  useEffect(() => {
+    if (userLogined) {
+      // 上报数据
+      logUserReport({
+        userId: user?.userId,
+        campaignId,
+        address: user?.wallet,
+        isTwitterLogin: twitterConnected
+      })
+    }
+  }, [userLogined])
 
   return (
     <div className='space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-t-1'>
@@ -335,7 +348,7 @@ export default function () {
                             <div
                               onClick={
                                 typeof taskMap[redential.labelType] ===
-                                'function'
+                                  'function'
                                   ? taskMap[redential.labelType]
                                   : null
                               }
@@ -369,7 +382,7 @@ export default function () {
                             to={`/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
                           >
                             <h2 className='border-t mt-4 pt-5 border-[#281545]'>
-                             <Preview id={snapshotId}/>
+                              <Preview id={snapshotId} />
                             </h2>
                           </Link>
                         )}

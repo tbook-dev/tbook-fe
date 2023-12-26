@@ -173,3 +173,12 @@ export const bindEvm = async function (address, sign) {
   });
   return bindResult;
 };
+
+
+export const logUserReport = async function(data){
+  try{
+    return await request.Post(`${host}/campaignNew/participant`, data);
+  } catch(e){
+    return null
+  }
+}
