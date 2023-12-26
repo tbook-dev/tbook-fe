@@ -1,8 +1,4 @@
-import { conf } from '@tbook/utils'
-import { Typography } from 'antd'
-import copyIcon from '@/images/icon/copy.svg'
-const { shortAddress } = conf
-const { Paragraph } = Typography
+import Address from '@tbook/ui/src/Address'
 
 export default function NftCard ({ v }) {
   return (
@@ -19,24 +15,10 @@ export default function NftCard ({ v }) {
 
       <div className='p-6 flex flex-col justify-between flex-auto'>
         <h2 className='font-black text-xl mb-3 line-clamp-2 h-14'>{v.name}</h2>
-        <Paragraph
-          className='flex items-center'
-          style={{ marginBottom: 0 }}
-          copyable={{
-            text: v.contract,
-            icon: (
-              <img
-                src={copyIcon}
-                alt='copy icon'
-                className='w-5 h-5 object-cover'
-              />
-            )
-          }}
-        >
-          <span className='font-bold text-sm mr-2 text-[#C8C8C8]'>
-            {shortAddress(v.contract)}
-          </span>
-        </Paragraph>
+      
+        <span className='font-bold text-sm mr-2 text-[#C8C8C8]'>
+          <Address address={v.contract} />
+        </span>
       </div>
     </div>
   )

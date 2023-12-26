@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo } from 'react'
 import { Popover, Drawer, Tooltip } from 'antd'
 import { useResponsive } from 'ahooks'
 import useUserInfo from '@/hooks/useUserInfoQuery'
-import { shortAddress } from '@tbook/utils/lib/conf'
+// import { shortAddress } from '@tbook/utils/lib/conf'
 import walletGrayIcon from '@/images/icon/wallet-gray.svg'
 import useSocial from '@/hooks/useSocial'
 import { useDispatch } from 'react-redux'
@@ -11,6 +11,7 @@ import { logout } from '@/utils/web3'
 import { useAccount } from 'wagmi'
 import { disconnect } from '@wagmi/core'
 import { Link, useParams } from 'react-router-dom'
+import Address from '@tbook/ui/src/Address'
 
 export default function Avatar () {
   const [open, setOpen] = useState(false)
@@ -56,7 +57,7 @@ export default function Avatar () {
           <div>
             {/* 优先展示wallet,然后就是tw */}
             {user?.wallet
-              ? shortAddress(user?.wallet)
+              ? <Address address={(user?.wallet)}/>
               : data?.userTwitter?.connected && (
                   <div className='flex items-center gap-x-0.5 text-[#717374] text-base'>
                     {`@${data?.userTwitter?.twitterUserName}`}

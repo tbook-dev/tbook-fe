@@ -11,6 +11,7 @@
     "@tbook/share": "workspace:*",
     "@tbook/utils": "workspace:*",
     "@tbook/wallet": "workspace:*",
+    "@tbook/ui": "workspace:*",
     "alchemy-sdk": "^2.8.3"
   }
 }

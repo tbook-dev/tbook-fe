@@ -203,6 +203,7 @@ export default function ViewReward ({ data, open, onCancel }) {
               await handleClaim(data)
             }
           }}
+          type={data.type}
           item={itemStatus}
           loading={loading}
         />

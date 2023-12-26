@@ -1,11 +1,12 @@
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
-import { getCampaignDetail, getCredentials } from '@/api/incentive'
+import { getCredentials } from '@/api/incentive'
 import { incentiveAssetsTypeList, getUrl } from '@/utils/conf'
 import useUserInfo from '@/hooks/queries/useUserInfo'
 import { Typography } from 'antd'
 import dayjs from 'dayjs'
 import Loading from '@/components/loading'
+import useCampaign from '@/hooks/queries/useCampaign'
 
 const dateFormat = `YYYY-MM-DD HH:mm:ss`
 const { Paragraph } = Typography
@@ -13,13 +14,7 @@ const { Paragraph } = Typography
 export default function Campaign () {
   const { id } = useParams()
   const { projectId } = useUserInfo()
-  const { data: pageInfo = {}, isLoading } = useQuery(
-    ['campaignDetail', id],
-    () => getCampaignDetail(id),
-    {
-      staleTime: Infinity
-    }
-  )
+  const { data: pageInfo = {}, isLoading } = useCampaign(id)
   const { data: credentialList = [] } = useQuery(
     ['credentialList', projectId],
     () => getCredentials(projectId),

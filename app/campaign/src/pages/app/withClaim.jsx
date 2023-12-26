@@ -1,8 +1,11 @@
 import clsx from 'clsx'
 import arrowIcon from '@/images/icon/arrow2.svg'
 import { Link, useParams } from 'react-router-dom'
-
-export default function WithClaim ({ handleFn, item, loading }) {
+const typeMap = {
+  nft: 2,
+  point: 3
+}
+export default function WithClaim ({ handleFn, item, loading, type }) {
   const { projectId } = useParams()
 
   //const [loading, updateLoading] = useState(false);
@@ -49,7 +52,7 @@ export default function WithClaim ({ handleFn, item, loading }) {
       {item.value === 4 && (
         <Link
           className='text-sm text-[#C0ABD9]  lg:hover:text-white flex items-center gap-x-0.5'
-          to={`/app/${projectId}/asset`}
+          to={`/app/${projectId}/asset?type=${typeMap[type]}`}
           target='_blank'
         >
           View your assets

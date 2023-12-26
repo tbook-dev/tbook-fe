@@ -6,6 +6,9 @@ import useSocial from '@/hooks/useSocial'
 import { useCallback } from 'react'
 import VerifyStatus, { verifyStatusEnum } from './VerifyStatus'
 import { delay } from '@/utils/common'
+import useUserInfo from '@/hooks/useUserInfoQuery'
+import { useDispatch } from 'react-redux'
+import { setLoginModal } from '@/store/global'
 
 const modalConf = {
   title: 'Verify',
@@ -33,8 +36,10 @@ export default function WithVerify ({
   const { getSocialByName } = useSocial()
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState(verifyStatusEnum.NotStarted)
+  const { userLogined } = useUserInfo()
+  const dispath = useDispatch()
 
-  const userLogined = sysConnectedMap[credentialType]
+  const sysLogined = sysConnectedMap[credentialType]
   const social = getSocialByName(credentialType)
   const isSocial = !!social
   const handleVerify = async evt => {
@@ -69,10 +74,14 @@ export default function WithVerify ({
           }
         )}
         onClick={evt => {
-          if (isSocial) {
-            setOpen(true)
+          if (!userLogined) {
+            dispath(setLoginModal(true))
           } else {
-            handleVerify(evt)
+            if (isSocial) {
+              setOpen(true)
+            } else {
+              handleVerify(evt)
+            }
           }
         }}
       >
@@ -103,7 +112,7 @@ export default function WithVerify ({
                 <p
                   className={clsx(
                     'text-xs mb-6',
-                    userLogined && 'text-[#C0ABD9]'
+                    sysLogined && 'text-[#C0ABD9]'
                   )}
                 >
                   {modalConf.step1.desc[credentialType]}

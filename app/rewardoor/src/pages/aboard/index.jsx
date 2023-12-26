@@ -17,9 +17,10 @@ const p = 'grant easily and optimize continuously '
 
 const h1 = 'Get Started on TBOOK'
 const h1Text =
-  'TBOOK is your one-stop for branding, marketing, growth and analysis for Web3. Connect your wallet now and start setting up Campaigns.'
+  ['Build a collaborative community with TBOOK from now.',
+    'Connect your wallet and start setting up Campaigns.']
 
-export default function Aboard () {
+export default function Aboard() {
   const { isConnected } = useAccount()
   const navigate = useNavigate()
   const { loading, handleSignIn, signMessage } = useSignIn()
@@ -66,7 +67,12 @@ export default function Aboard () {
         <div className='w-[560px]'>
           <img src={logoSvg} className='w-8 h-8 mb-8' alt='logo' />
           <h1 className='text-5xl font-extrabold mb-4'>{h1}</h1>
-          <p className='text-base font-medium'>{h1Text}</p>
+          {
+            h1Text.map((v,idx)=>{
+              return <p className='text-base font-medium' key={idx}>{v}</p>
+            })
+          }
+          
           <div className='mt-10 space-y-6'>
             {isConnected ? (
               <div className='flex items-center gap-x-4'>
