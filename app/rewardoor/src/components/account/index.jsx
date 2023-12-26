@@ -1,10 +1,11 @@
 import { useAccount } from 'wagmi'
 import { disconnect } from '@wagmi/core'
-import { shortAddress } from '@tbook/utils/lib/conf'
-import eth from '@/images/icon/eth.svg'
+// import { shortAddress } from '@tbook/utils/lib/conf'
+// import eth from '@/images/icon/eth.svg'
 import useUserInfo from '@/hooks/queries/useUserInfo'
 import { Popover, Typography } from 'antd'
 import { logout } from '@/utils/web3'
+import Address from '@tbook/ui/src/Address'
 
 const { Paragraph } = Typography
 
@@ -20,18 +21,9 @@ export default function Account () {
     <div className='w-[200px] h-10 p-1 rounded-2.5xl bg-black shadow-s1 mx-auto'>
       <div className='flex items-center justify-between h-full'>
         <div className='flex'>
-          <img src={eth} className='ml-2.5 mr-4' />
-          <span className='text-sm font-bold ml-0.5'>
-            <Popover
-              content={
-                <Paragraph copyable style={{ marginBottom: 0 }}>
-                  {user?.wallet || address}
-                </Paragraph>
-              }
-              placement='right'
-            >
-              {shortAddress(user?.wallet || address)}
-            </Popover>
+          {/* <img src={eth} className='ml-2.5 mr-4' /> */}
+          <span className='text-sm font-bold ml-2.5'>
+            <Address address={user?.wallet || address} placement='right'/>
           </span>
         </div>
         <Popover
