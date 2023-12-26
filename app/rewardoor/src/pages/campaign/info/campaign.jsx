@@ -14,7 +14,7 @@ const { Paragraph } = Typography
 export default function Campaign () {
   const { id } = useParams()
   const { projectId } = useUserInfo()
-  const { data: pageInfo = {}, isLoading } = useCampaign(projectId)
+  const { data: pageInfo = {}, isLoading } = useCampaign(id)
   const { data: credentialList = [] } = useQuery(
     ['credentialList', projectId],
     () => getCredentials(projectId),
