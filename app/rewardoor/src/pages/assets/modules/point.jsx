@@ -3,8 +3,9 @@ import Loading from '@/components/loading'
 import clsx from 'clsx'
 import useAsset from '@/hooks/queries/useAsset'
 import { useMemo } from 'react'
+import Address from '@tbook/ui/src/Address'
 
-const { formatDollar, shortAddress } = conf
+const { formatDollar } = conf
 
 export default function Point () {
   const { data: info, isLoading: loading } = useAsset()
@@ -42,7 +43,10 @@ export default function Point () {
                   className={clsx('flex items-center justify-between h-6')}
                   key={idx}
                 >
-                  <span className='text-t-1'>{shortAddress(v.address)}</span>
+                  <span className='text-t-1'>
+                    <Address address={v.address} />
+                  </span>
+
                   <span>{formatDollar(v.pointNum)}</span>
                 </div>
               )

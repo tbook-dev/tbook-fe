@@ -1,4 +1,4 @@
-import { shortAddress } from '@tbook/utils/lib/conf'
+import Address from '@tbook/ui/src/Address'
 import xIcon from '@/images/icon/x.svg'
 export const defaultCredentialReward = {
   credential: [],
@@ -12,6 +12,6 @@ export const getParicipant = v => {
       @{twitterName} <img src={xIcon} alt='x icon' />
     </span>
   ) : (
-    shortAddress(wallet)
+    <Address address={wallet} />
   )
 }

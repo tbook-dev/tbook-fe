@@ -184,11 +184,13 @@ importers:
   app/rewardoor:
     specifiers:
       '@tbook/share': workspace:*
+      '@tbook/ui': workspace:*
       '@tbook/utils': workspace:*
       '@tbook/wallet': workspace:*
       alchemy-sdk: ^2.8.3
     dependencies:
       '@tbook/share': link:../../packages/share
+      '@tbook/ui': link:../../packages/ui
       '@tbook/utils': link:../../packages/utils
       '@tbook/wallet': link:../../packages/wallet
       alchemy-sdk: 2.8.3
