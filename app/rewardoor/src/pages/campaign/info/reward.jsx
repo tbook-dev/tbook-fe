@@ -54,7 +54,7 @@ export default function Reward() {
                   <h1 className='text-base text-[#C4C4C4]'>NFT</h1>
                   <h2 className='text-lg font-medium text-white'>{nft.name}</h2>
                 </div>
-                <div className='flex gap-x-8 items-start'>
+                <div className='flex gap-x-8 items-end'>
                   <div className='space-y-1'>
                     <div className='text-xs text-[#C4C4C4]'>Distribution Method</div>
                     <div className='flex items-center gap-x-1 lowercase text-base'>
@@ -150,7 +150,7 @@ export default function Reward() {
                   <h2 className='text-lg font-medium text-white'>{point.number}{" "}point{point.number > 0 && 's'}</h2>
                 </div>
 
-                <div className='flex gap-x-8 items-start'>
+                <div className='flex gap-x-8 items-end'>
                   <div className='space-y-1'>
                     <div className='text-xs text-[#C4C4C4]'>Distribution Method</div>
                     <div className='flex items-center gap-x-1 lowercase text-base'>
