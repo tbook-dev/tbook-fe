@@ -26,6 +26,7 @@ import { getSnapshotIdBylink } from '@tbook/snapshot/api'
 import ColorCaptial from '@/components/colorCaptial'
 import { formatDollar } from '@tbook/utils/lib/conf'
 import ViewReward from './viewReward'
+import Preview from '@tbook/snapshot/Preview'
 const { Countdown } = Statistic
 
 const errorMsg = (
@@ -368,7 +369,7 @@ export default function () {
                             to={`/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
                           >
                             <h2 className='border-t mt-4 pt-5 border-[#281545]'>
-                              Would you use TBOOK to incentivize your community?
+                             <Preview id={snapshotId}/>
                             </h2>
                           </Link>
                         )}
