@@ -8,7 +8,7 @@ import VerifyStatus, { verifyStatusEnum } from './VerifyStatus'
 import { delay } from '@/utils/common'
 import useUserInfo from '@/hooks/useUserInfoQuery'
 import { useDispatch } from 'react-redux'
-import { setLoginModal } from '@/store/global'
+import { setLoginModal, setConnectWalletModal } from '@/store/global'
 
 const modalConf = {
   title: 'Verify',
@@ -36,7 +36,7 @@ export default function WithVerify ({
   const { getSocialByName } = useSocial()
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState(verifyStatusEnum.NotStarted)
-  const { userLogined } = useUserInfo()
+  const { userLogined, wallectConnected } = useUserInfo()
   const dispath = useDispatch()
 
   const sysLogined = sysConnectedMap[credentialType]
@@ -76,7 +76,9 @@ export default function WithVerify ({
         onClick={evt => {
           if (!userLogined) {
             dispath(setLoginModal(true))
-          } else {
+          } else if(!wallectConnected){
+            dispath(setConnectWalletModal(true))
+          }else {
             if (isSocial) {
               setOpen(true)
             } else {
