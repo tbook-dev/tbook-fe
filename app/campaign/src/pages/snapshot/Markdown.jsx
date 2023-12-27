@@ -17,17 +17,16 @@ export default function Markdown ({ children }) {
   }, [])
 
   const calcFn = () => {
-    if (textRef.current) {
+    if (textRef.current && !showMore) {
       const { offsetHeight, scrollHeight } = textRef.current
       if (scrollHeight > offsetHeight) {
         setHasMore(true)
       }else{
         setHasMore(false)
       }
-      console.log('calcFn', offsetHeight, scrollHeight)
     }
   }
-
+  
   useEventListener('resize', calcFn)
 
   return (
