@@ -14,7 +14,7 @@ export default function Markdown ({ children }) {
   const textRef = useRef(null)
   useEffect(() => {
     calcFn()
-  }, [children])
+  }, [])
 
   const calcFn = () => {
     if (textRef.current) {
@@ -24,9 +24,9 @@ export default function Markdown ({ children }) {
       }else{
         setHasMore(false)
       }
+      console.log('calcFn', offsetHeight, scrollHeight)
     }
   }
-
 
   useEventListener('resize', calcFn)
 
