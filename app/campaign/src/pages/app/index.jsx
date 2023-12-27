@@ -135,7 +135,7 @@ export default function () {
 
     if (hasError) {
       messageApi.error(errorMsg)
-      throw new Error(error.message)
+      throw new Error(hasError)
     }
   }, [])
 

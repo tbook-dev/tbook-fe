@@ -48,12 +48,14 @@ export default function WithVerify ({
     try {
       await handleFn(evt)
       setStatus(verifyStatusEnum.Sucess)
+      await delay(1000)
+      handleCancel()
     } catch (e) {
+      handleCancel()
+      setCount(30)
       setStatus(verifyStatusEnum.NotStarted)
     }
-    await delay(1000)
-    handleCancel()
-    setCount(30)
+    
   }
   const handleCancel = useCallback(() => {
     setOpen(false)
