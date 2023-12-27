@@ -48,12 +48,6 @@ export default function () {
   const { campaignId, projectId } = useParams()
   const queryClient = useQueryClient()
   const {
-    data: page,
-    isLoading,
-    campaignNotStart,
-    campaignEnd
-  } = useCampaignQuery(campaignId)
-  const {
     user,
     twitterConnected,
     userLogined,
@@ -61,6 +55,14 @@ export default function () {
     telegramConnected,
     wallectConnected
   } = useUserInfo()
+
+  const {
+    data: page,
+    isLoading,
+    campaignNotStart,
+    campaignEnd
+  } = useCampaignQuery(campaignId)
+
   const { signMessageAsync } = useSignMessage()
   const { getSocialByName } = useSocial()
   const { isConnected } = useAccount()
