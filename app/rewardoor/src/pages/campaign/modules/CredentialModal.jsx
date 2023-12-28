@@ -126,7 +126,7 @@ export default function CredentialModal ({
   return (
     <Modal
       width={1160}
-      title={<div className='text-4.2xl font-black text-t-1'>{title}</div>}
+      title={<div className='text-2xl font-black font-zen-dot pt-3'>{title}</div>}
       open={open}
       onCancel={closeModal}
       maskStyle={{ backdropFilter: 'blur(7.5px)' }}

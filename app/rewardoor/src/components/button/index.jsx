@@ -3,7 +3,7 @@ import { Spin } from 'antd'
 
 const clsMap = {
   primary: 'bg-cw2 text-white',
-  default: 'text-c-9 font-medium border border-c-9',
+  default: 'text-c-9 font-medium border border-c-3',
   text: 'text-c-9 px-0 font-medium',
   gost:'text-[#A1A1A2] border-[#A1A1A2] border text-base font-medium'
 }

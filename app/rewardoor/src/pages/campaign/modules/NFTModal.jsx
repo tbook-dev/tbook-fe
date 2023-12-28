@@ -120,7 +120,7 @@ export default function NFTModal({ visible, setOpen }) {
       maskStyle={{ backdropFilter: "blur(7.5px)" }}
       centered
       destroyOnClose
-      title={<div className="text-4.2xl font-black text-t-1">{title}</div>}
+      title={<div className="text-2xl font-black text-white font-zen-dot pb-8 pt-3">{title}</div>}
       footer={
         <div className="flex justify-end" onClick={handleOk}>
           <Button type="primary" loading={createNFTLoading}>Save</Button>

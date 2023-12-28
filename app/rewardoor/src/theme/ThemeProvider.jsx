@@ -11,6 +11,7 @@ export default function ({ children, ...props }) {
         components,
         token: {
           colorPrimary: '#fff',
+          borderRadiusLG: 16,
           fontFamily: "'Red Hat Display', sans-serif;"
         }
       }}

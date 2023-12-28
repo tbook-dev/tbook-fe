@@ -77,7 +77,7 @@ export default function CredentialModal({
       maskClosable={false}
       destroyOnClose
       centered
-      title={<div className="text-4.2xl font-black text-t-1">{title}</div>}
+      title={<div className="text-2xl font-black text-white font-zen-dot mb-8">{title}</div>}
       footer={
         <div className="flex justify-end" onClick={handleOk}>
           <Button type="primary">Save</Button>
@@ -171,7 +171,7 @@ export default function CredentialModal({
                   return (
                     <div
                       key={key}
-                      className="bg-b-1 rounded-md p-4 mb-5 relative"
+                      className="border border-c-3 rounded-2xl p-4 mb-5 relative"
                     >
                       <div className="text-xl text-t-1 mb-5 font-bold relative">
                         <div className="flex items-center gap-x-2">

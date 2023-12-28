@@ -34,3 +34,9 @@
     }
 }
 
+.ant-modal-content {
+  @apply !bg-[#000];
+}
+.ant-modal-mask{
+   @apply !bg-[rgb(15,15,15)]/[0.5];
+}
