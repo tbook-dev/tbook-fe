@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { useProposal } from '@tbook/snapshot/api'
 import TimerDown from '@tbook/snapshot/components/TimerDown'
 import Markdown from './Markdown'
@@ -23,7 +23,7 @@ const formatIPFS = src => {
 }
 
 export default function Snapshot () {
-  const { snapshotId } = useParams()
+  const { snapshotId, campaignId, projectId } = useParams()
   const { data, isLoading } = useProposal(snapshotId)
   const { pc } = useResponsive()
   if (isLoading) {
@@ -35,7 +35,31 @@ export default function Snapshot () {
       <div className='lg:w-page-content mx-auto relative'>
         <div className='px-6 pt-5 min-h-[calc(100vh_-_100px)] space-y-8 pb-3'>
           <div className='space-y-3 lg:space-y-4'>
-            <TimerDown state={data?.state} value={data?.end} />
+            <div>
+              <Link
+                to={`/app/${projectId}/campaign/${campaignId}`}
+                className='flex items-center gap-x-1 text-sm font-semibold py-2.5 text-[#717374] group hover:text-white'
+              >
+                <div className='w-6 h-6 flex items-center justify-center'>
+                  <svg
+                    width='12'
+                    height='12'
+                    viewBox='0 0 12 12'
+                    fill='none'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path
+                      d='M12 5.25H2.8725L7.065 1.0575L6 0L0 6L6 12L7.0575 10.9425L2.8725 6.75H12V5.25Z'
+                      className='fill-[#717374] group-hover:fill-white'
+                    />
+                  </svg>
+                </div>
+                Back to campaign homepage
+              </Link>
+
+              <TimerDown state={data?.state} value={data?.end} />
+            </div>
+
             <h2 className='text-xl lg:font-medium font-bold lg:text-4xl'>
               {data?.title}
             </h2>
