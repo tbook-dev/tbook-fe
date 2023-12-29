@@ -69,7 +69,7 @@ const getProjectIdFn = async ({ params }) => {
 
 const routes = [
   {
-    path: ":projectName?/",
+    path: "/",
     loader: getProjectIdFn,
     element: <HomeLayout />,
     children: [
@@ -81,7 +81,7 @@ const routes = [
     ],
   },
   {
-    path: ":projectName?/explore",
+    path: "/explore",
     loader: getProjectIdFn,
     element: <Layout />,
     children: [
