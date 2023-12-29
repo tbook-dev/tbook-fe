@@ -73,6 +73,7 @@ const routes = [
     children: [
       {
         index: true,
+        loader: getProjectIdFn,
         element: <Home />,
       },
     ],
@@ -84,6 +85,7 @@ const routes = [
     children: [
       {
         index: true,
+        loader: getProjectIdFn,
         element: <Explore />,
       },
     ],
@@ -136,6 +138,7 @@ const routes = [
     children: [
       {
         index: true,
+        loader: getProjectIdFn,
         element: <TwitterCallback />,
       },
     ],
@@ -147,6 +150,7 @@ const routes = [
     children: [
       {
         index: true,
+        loader: getProjectIdFn,
         element: <TwitterLoginCallback />,
       },
     ],
@@ -158,6 +162,7 @@ const routes = [
     children: [
       {
         index: true,
+        loader: getProjectIdFn,
         element: <TwLoginIndex />,
       },
     ],
@@ -169,6 +174,7 @@ const routes = [
     children: [
       {
         index: true,
+        loader: getProjectIdFn,
         element: <TgCallback />,
       },
     ],
@@ -180,6 +186,7 @@ const routes = [
     children: [
       {
         index: true,
+        loader: getProjectIdFn,
         element: <DcCallback />,
       },
     ],
