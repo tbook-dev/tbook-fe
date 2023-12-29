@@ -231,7 +231,7 @@ export default function Settings () {
                     ]
                   }}
                 >
-                  {projectUrlPrefix + project?.projectUrl}
+                  {projectUrlPrefix + encodeURIComponent(project?.projectUrl)}
                 </Paragraph>
               </FormSection>
 

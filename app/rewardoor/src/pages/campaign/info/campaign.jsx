@@ -13,7 +13,7 @@ const { Paragraph } = Typography
 
 export default function Campaign () {
   const { id } = useParams()
-  const { projectId } = useUserInfo()
+  const { projectId, project } = useUserInfo()
   const { data: pageInfo = {}, isLoading } = useCampaign(id)
   const { data: credentialList = [] } = useQuery(
     ['credentialList', projectId],
@@ -25,7 +25,7 @@ export default function Campaign () {
   )
   // console.log({ pageInfo })
   const credentialSet = credentialList.map(v => v.credentialList).flat()
-  const link = `${getUrl()}/app/${projectId}/campaign/${id}`
+  const link = `${getUrl()}/${encodeURIComponent(project.projectName)}/${id}`
   if (isLoading) {
     return <Loading h='h-[300px]' />
   }
