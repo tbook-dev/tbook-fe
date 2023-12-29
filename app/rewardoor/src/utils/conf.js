@@ -19,7 +19,9 @@ export const rewardDistributionMethod = [
     value: 2,
   },
 ];
-export const projectUrlPrefix = "https://app.tbook.com" + "/";
+export const projectUrlPrefix = `https://${
+  location.hostname.includes("staging") ? "campaign-staging" : "i"
+}.tbook.com/`;
 export const incentiveMethodList = [
   {
     title: "FCFS",
@@ -59,7 +61,7 @@ export const getTwitterId = (url) => {
 export const chainIcons = {
   10: opIcon,
   420: opIcon,
-}
+};
 
 export const supportChains = [
   {
