@@ -11,11 +11,11 @@ function Compaign ({
   nfts = [],
   points
 }) {
-  const { isUsingSubdomain, projectName } = useLoaderData()
+  const { isUsingSubdomain } = useLoaderData()
 
   return (
     <Link
-      to={`${isUsingSubdomain ? '' : `/${projectName}`}/${campaignId}`}
+      to={`${isUsingSubdomain ? '' : `/${project?.projectName}`}/${campaignId}`}
       className='rounded-3xl overflow-hidden bg-white flex flex-col shadow-s2'
     >
       <img

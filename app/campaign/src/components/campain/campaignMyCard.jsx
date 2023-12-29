@@ -7,13 +7,16 @@ export default function CampaignCard ({
   name,
   nft,
   points,
+  project,
   participantNum = 0
 }) {
   const { isUsingSubdomain, projectName } = useLoaderData()
 
   return (
     <Link
-      to={`${isUsingSubdomain ? '' : `/${projectName}`}/${campaignId}`}
+      to={`/${
+        isUsingSubdomain ? '' : `${project?.project || projectName}`
+      }/${campaignId}`}
       target='__blank'
       className='rounded-xl bg-[rgb(144,75,246)]/[0.1] p-5 flex flex-col gap-y-8 justify-between'
     >

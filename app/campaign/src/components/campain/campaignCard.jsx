@@ -14,7 +14,9 @@ export default function CampaignCard ({
 
   return (
     <Link
-      to={`${isUsingSubdomain ? '' : `/${projectName}`}/${campaignId}`}
+      to={`${
+        isUsingSubdomain ? '' : `/${project?.projectName || projectName}`
+      }/${campaignId}`}
       className='flex items-center gap-x-3'
     >
       <img
