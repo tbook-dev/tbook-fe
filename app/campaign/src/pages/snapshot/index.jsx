@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useLoaderData } from 'react-router-dom'
 import { useProposal } from '@tbook/snapshot/api'
 import TimerDown from '@tbook/snapshot/components/TimerDown'
 import Markdown from './Markdown'
@@ -23,7 +23,8 @@ const formatIPFS = src => {
 }
 
 export default function Snapshot () {
-  const { snapshotId, campaignId, projectId } = useParams()
+  const { snapshotId, campaignId } = useParams()
+  const { projectName, isUsingSubdomain } = useLoaderData()
   const { data, isLoading } = useProposal(snapshotId)
   const { pc } = useResponsive()
   if (isLoading) {
@@ -37,7 +38,9 @@ export default function Snapshot () {
           <div className='space-y-3 lg:space-y-4'>
             <div>
               <Link
-                to={`/app/${projectId}/campaign/${campaignId}`}
+                to={`${
+                  isUsingSubdomain ? '' : `/${projectName}`
+                }/${campaignId}`}
                 className='flex items-center gap-x-1 text-sm font-semibold py-2.5 text-[#717374] group hover:text-white'
               >
                 <div className='w-6 h-6 flex items-center justify-center'>

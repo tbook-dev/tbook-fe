@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link, useNavigate, useLoaderData } from 'react-router-dom'
 import { shortAddress } from '@tbook/utils/lib/conf'
 import clsx from 'clsx'
 import linkIcon from '@/images/icon/link.svg'
@@ -10,7 +10,8 @@ import { Spin } from 'antd'
 import useSupportChainsQuery from '@/hooks/useSupportChainsQuery'
 
 export default function NFT () {
-  const { projectId, groupId, nftId } = useParams()
+  const { projectName, isUsingSubdomain } = useLoaderData()
+  const { groupId, nftId } = useParams()
   const navigate = useNavigate()
   const { data = {}, isLoading } = useNftQuery(groupId, nftId)
   const { data: supportChains = [] } = useSupportChainsQuery()
@@ -46,7 +47,7 @@ export default function NFT () {
         title: 'Campaign',
         com: (
           <Link
-            to={`/app/${projectId}/campaign/${data.campaignId}`}
+            to={`${ isUsingSubdomain ? '': `/${projectName}`}/${data.campaignId}`}
             className='flex items-center flex-wrap gap-x-1'
           >
             {data.campaignName}
@@ -81,7 +82,7 @@ export default function NFT () {
           if (window.history.length > 1) {
             navigate(-1)
           } else {
-            navigate(`/app/${projectId}/campaign/${data.campaignId}`)
+            navigate(`${isUsingSubdomain ? '' : `/${projectName}`}/${data.campaignId}`)
           }
         }}
       >

@@ -1,7 +1,6 @@
 import request from "./request";
 
 export const host = import.meta.env.VITE_API_HOST;
-
 export const authenticate = async function (address, sign) {
   const d = new URLSearchParams();
   d.append("address", address);
@@ -174,11 +173,14 @@ export const bindEvm = async function (address, sign) {
   return bindResult;
 };
 
-
-export const logUserReport = async function(data){
-  try{
+export const logUserReport = async function (data) {
+  try {
     return await request.Post(`${host}/campaignNew/participant`, data);
-  } catch(e){
-    return null
+  } catch (e) {
+    return null;
   }
-}
+};
+
+export const getProjectId = async function (projectName) {
+  return await request(`${host}/project/byUrl/${encodeURI(projectName)}`);
+};

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLoaderData } from 'react-router-dom'
 import { memo } from 'react'
 import { incentiveAssetsTypeList } from '@/utils/conf'
 
@@ -11,9 +11,11 @@ function Compaign ({
   nfts = [],
   points
 }) {
+  const { isUsingSubdomain, projectName } = useLoaderData()
+
   return (
     <Link
-      to={`/app/${project?.projectId}/campaign/${campaignId}`}
+      to={`${isUsingSubdomain ? '' : `/${projectName}`}/${campaignId}`}
       className='rounded-3xl overflow-hidden bg-white flex flex-col shadow-s2'
     >
       <img

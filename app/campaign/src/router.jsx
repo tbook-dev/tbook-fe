@@ -14,13 +14,41 @@ import DcCallback from '@/pages/social/dc'
 import TwitterLoginCallback from '@/pages/twitter/login_callback'
 import TwLoginIndex from '@/pages/twitter/tw_login'
 import PageFallBack from '@/components/pageFallback'
+import { getProjectId } from '@/api/incentive'
+import queryClient from './query-client'
+
 const Snapshot = lazy(() => import('@/pages/snapshot'))
+
+const getProjectIdFn = async ({ params }) => {
+  let projectName = params.projectName
+  let isUsingSubdomain = false
+  if (!projectName) {
+    const host = location.hostname
+    projectName = host.split('.')?.[0]
+    isUsingSubdomain = true
+  }
+  const res = await queryClient.fetchQuery(
+    ['project', projectName],
+    () => getProjectId(projectName),
+    {
+      staleTime: Infinity,
+      cacheTime: Infinity
+    }
+  )
+  return {
+    projectName,
+    isUsingSubdomain,
+    projectId: res?.projectId,
+    project: res
+  }
+}
 
 // import SocialConnect from '@/pages/social/index'
 
 const routes = [
   {
-    path: '/',
+    path: ':projectName?/',
+    loader: getProjectIdFn,
     element: <HomeLayout />,
     children: [
       {
@@ -30,7 +58,8 @@ const routes = [
     ]
   },
   {
-    path: '/explore',
+    path: ':projectName?/explore',
+    loader: getProjectIdFn,
     element: <Layout />,
     children: [
       {
@@ -42,33 +71,32 @@ const routes = [
   {
     path: '/',
     element: <MyLayout />,
+    loader: getProjectIdFn,
     children: [
       {
-        path: ':projectId?/asset',
+        path: ':projectName?/asset',
+        loader: getProjectIdFn,
         element: <Asset />
       },
       {
-        path: ':projectId?/campaign',
+        path: ':projectName?/campaign',
+        loader: getProjectIdFn,
         element: <Campaign />
       },
       {
         // path: ':projectId?/campaign/:campaignId',
-        path: ':projectId?/:campaignId',
-        loader: async ({ params,...props }) => {
-          console.log({ params, props })
-          await new Promise((resolve) => setTimeout(resolve, 100))
-          return {
-            projectId: 154283610009
-          }
-        },
+        path: ':projectName?/:campaignId',
+        loader: getProjectIdFn,
         element: <App />
       },
       {
-        path: ':projectId?/nft/:groupId/:nftId',
+        path: ':projectName?/nft/:groupId/:nftId',
+        loader: getProjectIdFn,
         element: <NFT />
       },
       {
-        path: ':projectId?/snapshot/:campaignId/:credentialId/:snapshotId',
+        path: ':projectName?/snapshot/:campaignId/:credentialId/:snapshotId',
+        loader: getProjectIdFn,
         async lazy () {
           return {
             Component: () => (
@@ -83,6 +111,7 @@ const routes = [
   },
   {
     path: '/twitter/callback',
+    loader: getProjectIdFn,
     element: <MyLayout />,
     children: [
       {
@@ -93,6 +122,7 @@ const routes = [
   },
   {
     path: '/twitter/login/callback',
+    loader: getProjectIdFn,
     element: <MyLayout />,
     children: [
       {
@@ -103,6 +133,7 @@ const routes = [
   },
   {
     path: '/tw_login',
+    loader: getProjectIdFn,
     element: <MyLayout />,
     children: [
       {
@@ -113,6 +144,7 @@ const routes = [
   },
   {
     path: '/tg_callback',
+    loader: getProjectIdFn,
     element: <MyLayout />,
     children: [
       {
@@ -123,6 +155,7 @@ const routes = [
   },
   {
     path: '/dc_callback',
+    loader: getProjectIdFn,
     element: <MyLayout />,
     children: [
       {
@@ -133,7 +166,7 @@ const routes = [
   },
   {
     path: '*',
-    element: <div className='w-full h-screen bg-black text-t-1'>404</div>
+    element: <div className='w-full h-screen bg-black text-white'>404</div>
   }
 ]
 

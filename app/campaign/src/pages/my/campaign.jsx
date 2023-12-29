@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
 import useUserInfoQuery from '@/hooks/useUserInfoQuery'
 import CampaignMyCard from '@/components/campain/campaignMyCard'
 import CampaignCard2 from '@/components/campain/Card'
@@ -29,7 +29,7 @@ const moduleConf = {
 }
 export default function Campaign () {
   const { pc } = useResponsive()
-  const { projectId } = useParams()
+  const { projectId } = useLoaderData()
   const { userLogined, isLoading: userLoading } = useUserInfoQuery()
   const [value, setValue] = useState(moduleConf.tab[0].value)
   const { data: resData, isLoading } = useUserCampaignQuery(projectId)

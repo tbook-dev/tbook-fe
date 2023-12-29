@@ -1,7 +1,5 @@
-import { Link } from 'react-router-dom'
 import clsx from 'clsx'
-import { useParams } from 'react-router-dom'
-import useProjectQuery from '@/hooks/useProjectQuery'
+import { useLoaderData, Link } from 'react-router-dom'
 import useUserInfo from '@/hooks/useUserInfoQuery'
 import { useDispatch } from 'react-redux'
 import { setLoginModal } from '@/store/global'
@@ -12,14 +10,13 @@ import Avatar from '../common/Avatar'
 import logo from '@/images/icon/logo.svg'
 
 function Header () {
-  const { projectId } = useParams()
-  const { data: project } = useProjectQuery(projectId)
+  const { project, projectName, isUsingSubdomain } = useLoaderData()
   const { userLogined, firstLoad } = useUserInfo()
   const dispath = useDispatch()
   const handleClick = () => {
     dispath(setLoginModal(true))
   }
-  const logoUrl = projectId ? project?.avatarUrl : logo
+  const logoUrl = project?.avatarUrl
   return (
     <header
       className={clsx(
@@ -30,15 +27,14 @@ function Header () {
       <div className='px-4 py-1.5 lg:px-20'>
         <div className='flex items-center justify-between h-10'>
           <div className='flex items-center'>
-            <Link to={`/app/${projectId}/campaign`} className='mr-1 lg:mr-16'>
+            <Link
+              to={`${isUsingSubdomain ? '' : `/${projectName}`}/campaign`}
+              className='mr-1 lg:mr-16'
+            >
               {!logoUrl ? (
                 <Skeleton.Avatar />
               ) : (
-                <img
-                  src={logoUrl}
-                  alt='logo'
-                  className='h-6 object-contain'
-                />
+                <img src={logoUrl} alt='logo' className='h-6 object-contain' />
               )}
             </Link>
           </div>

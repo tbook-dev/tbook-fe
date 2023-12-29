@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, useLoaderData } from 'react-router-dom'
 import TabList from './TabList'
 import Credentials from './modules/Credential'
 import NFT from './modules/NFT'
@@ -6,7 +6,6 @@ import Point from './modules/Point'
 import NotConnect from './modules/NotConnect'
 import useUserInfoQuery from '@/hooks/useUserInfoQuery'
 import Loading from '@/components/loading'
-import { useParams } from 'react-router-dom'
 import useAssetQuery from '@/hooks/useAssetQuery'
 
 const tabModule = [
@@ -27,10 +26,10 @@ const tabModule = [
   }
 ]
 export default function Asset () {
+  const { projectId } = useLoaderData()
   const { userLogined, isLoading: userLoading } = useUserInfoQuery()
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const { projectId } = useParams()
   const { isLoading } = useAssetQuery(projectId)
   // get filter from url
   const value =

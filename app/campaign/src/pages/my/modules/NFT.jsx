@@ -3,10 +3,10 @@ import useAssetQuery from '@/hooks/useAssetQuery'
 import clsx from 'clsx'
 import { Spin } from 'antd'
 import { Link } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
 
 export default function NFT () {
-  const { projectId } = useParams()
+  const { projectId, projectName } = useLoaderData()
   const { data: assets, isLoading } = useAssetQuery(projectId)
   const data = assets?.nfts || []
 
@@ -24,7 +24,9 @@ export default function NFT () {
         data.map(v => {
           return (
             <Link
-              to={`/app/${projectId}/nft/${v.groupId}/${v.nftId}`}
+              to={`${isUsingSubdomain ? '' : `/${projectName}`}/nft/${
+                v.groupId
+              }/${v.nftId}`}
               className='rounded-lg block bg-[#0e0819] overflow-hidden'
               key={v.nftId}
             >

@@ -10,7 +10,7 @@ import { setConnectWalletModal } from '@/store/global'
 import { logout } from '@/utils/web3'
 import { useAccount } from 'wagmi'
 import { disconnect } from '@wagmi/core'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useLoaderData } from 'react-router-dom'
 import Address from '@tbook/ui/src/Address'
 
 export default function Avatar () {
@@ -20,8 +20,8 @@ export default function Avatar () {
   const { socialList } = useSocial()
   const { isConnected } = useAccount()
   const dispatch = useDispatch()
-  const { projectId } = useParams()
-
+  const { projectName } = useParams()
+  const { isUsingSubdomain } = useLoaderData()
   const handleConnectWallet = useCallback(() => {
     setOpen(false)
     dispatch(setConnectWalletModal(true))
@@ -37,14 +37,14 @@ export default function Avatar () {
     return [
       {
         name: 'Campaigns',
-        path: `/app/${projectId}/campaign`
+        path: `${isUsingSubdomain ? '' : `/${projectName}`}/campaign`
       },
       {
         name: 'Assets',
-        path: `/app/${projectId}/asset`
+        path: `${isUsingSubdomain ? '' : `/${projectName}`}/asset`
       }
     ]
-  }, [projectId])
+  }, [projectName])
 
   const Content = () => {
     return (
@@ -56,19 +56,19 @@ export default function Avatar () {
           />
           <div>
             {/* 优先展示wallet,然后就是tw */}
-            {user?.wallet
-              ? <Address address={(user?.wallet)}/>
-              : data?.userTwitter?.connected && (
-                  <div className='flex items-center gap-x-0.5 text-[#717374] text-base'>
-                    {`@${data?.userTwitter?.twitterUserName}`}
-                    <img
-                      src={
-                        socialList.find(v => v.name === 'twitter')?.activePic
-                      }
-                      className='w-5 h-5 object-center'
-                    />
-                  </div>
-                )}
+            {user?.wallet ? (
+              <Address address={user?.wallet} />
+            ) : (
+              data?.userTwitter?.connected && (
+                <div className='flex items-center gap-x-0.5 text-[#717374] text-base'>
+                  {`@${data?.userTwitter?.twitterUserName}`}
+                  <img
+                    src={socialList.find(v => v.name === 'twitter')?.activePic}
+                    className='w-5 h-5 object-center'
+                  />
+                </div>
+              )
+            )}
           </div>
         </div>
 

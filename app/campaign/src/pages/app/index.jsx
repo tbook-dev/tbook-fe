@@ -41,14 +41,12 @@ const prompt =
 export default function () {
   const [messageApi, contextHolder] = message.useMessage()
   const navigate = useNavigate()
-  const { projectId: pid} = useLoaderData()
   const { pc } = useResponsive()
   const dispath = useDispatch()
   const { open } = useWeb3Modal()
   // const { handleSignIn } = useSignIn();
-  const { campaignId, projectId: projectIdPa } = useParams()
-  const projectId = pid || projectIdPa
-  console.log({ projectId, pid,projectIdPa })
+  const { isUsingSubdomain } = useLoaderData()
+  const { campaignId, projectName } = useParams()
   const queryClient = useQueryClient()
   const {
     user,
@@ -334,8 +332,12 @@ export default function () {
                       12: () => {
                         // 当前页面不需要登录
                         window.open(
-                          `/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`,
-                          '_blank'
+                          `${
+                            isUsingSubdomain ? '' : `/${projectName}`
+                          }/snapshot/${campaignId}/${
+                            redential.credentialId
+                          }/${snapshotId}`,
+                          pc ? '_blank' : '_self'
                         )
                       }
                     }
@@ -353,7 +355,7 @@ export default function () {
                             <div
                               onClick={
                                 typeof taskMap[redential.labelType] ===
-                                  'function'
+                                'function'
                                   ? taskMap[redential.labelType]
                                   : null
                               }
@@ -370,8 +372,7 @@ export default function () {
                               <VerifyStatus status={verifyStatusEnum.Sucess} />
                               Verified
                             </span>
-                          ) : campaignNotStart ||
-                            campaignEnd ? null : (
+                          ) : campaignNotStart || campaignEnd ? null : (
                             <WithVerify
                               sysConnectedMap={sysConnectedMap}
                               sycLoginFnMap={sycLoginFnMap}
@@ -384,7 +385,11 @@ export default function () {
                           <Link
                             target='_blank'
                             className='text-base font-medium'
-                            to={`/app/${projectId}/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
+                            to={`${
+                              isUsingSubdomain ? '' : `/${projectName}`
+                            }/snapshot/${campaignId}/${
+                              redential.credentialId
+                            }/${snapshotId}`}
                           >
                             <h2 className='border-t mt-4 pt-5 border-[#281545]'>
                               <Preview id={snapshotId} />

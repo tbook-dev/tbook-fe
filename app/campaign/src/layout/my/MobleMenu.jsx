@@ -1,15 +1,13 @@
 import menuIcon from '@/images/icon/menu.svg'
 import { Drawer } from 'antd'
 import { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
 import { CloseOutlined } from '@ant-design/icons'
 import Links from './Links'
 import { useCallback } from 'react'
-import useProjectQuery from '@/hooks/useProjectQuery'
+import { useLoaderData, Link } from 'react-router-dom'
 
 export default function MobleMenu ({ hideLink = false }) {
-  const { projectId } = useParams()
-  const { data: project } = useProjectQuery(projectId)
+  const { project, projectName, isUsingSubdomain } = useLoaderData()
   const [open, setOpen] = useState(false)
   const handleCancel = useCallback(() => {
     setOpen(false)
@@ -20,7 +18,10 @@ export default function MobleMenu ({ hideLink = false }) {
       <div>
         <div className='flex items-center justify-between h-10 mb-10'>
           <div className='flex items-center'>
-            <Link to={`/app/${projectId}/campaign`} className='mr-1 lg:mr-16'>
+            <Link
+              to={`${isUsingSubdomain ? '' : `/${projectName}`}`}
+              className='mr-1 lg:mr-16'
+            >
               <img src={project?.avatarUrl} className='h-6 object-contain' />
             </Link>
           </div>

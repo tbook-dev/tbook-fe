@@ -2,13 +2,13 @@ import { formatDollar } from '@tbook/utils/lib/conf'
 import useAssetQuery from '@/hooks/useAssetQuery'
 import { Spin } from 'antd'
 import _ from 'lodash'
-import { useParams, Link } from 'react-router-dom'
+import { useLoaderData, Link } from 'react-router-dom'
 import dayjs from 'dayjs'
 import pointIcon from '@/images/icon/point.svg'
 import arrow3Icon from '@/images/icon/arrow2.svg'
 
 export default function Point () {
-  const { projectId } = useParams()
+  const { projectId, projectName, isUsingSubdomain } = useLoaderData()
   const { data: assets, isLoading } = useAssetQuery(projectId)
   const data = assets?.points || []
   const total = _.sum(data.map(v => v.number))
@@ -43,7 +43,9 @@ export default function Point () {
                   <div className='w-[250px] lg:w-[1000px] flex flex-col'>
                     <Link
                       className='text-sm font-medium'
-                      to={`/app/${projectId}/campaign/${v.campaignId}`}
+                      to={`${isUsingSubdomain ? '' : `/${projectName}`}/${
+                        v.campaignId
+                      }`}
                     >
                       {v.campaignName}
                       <img

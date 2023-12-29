@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLoaderData } from 'react-router-dom'
 import { formatDollar } from '@tbook/utils/lib/conf'
 
 // 上下解构
@@ -8,12 +8,13 @@ export default function CampaignCard ({
   name,
   nft,
   points,
-  projectId,
   participantNum = 0
 }) {
+  const { isUsingSubdomain, projectName } = useLoaderData()
+
   return (
     <Link
-      to={`/app/${projectId}/campaign/${campaignId}`}
+      to={`${isUsingSubdomain ? '' : `/${projectName}`}/${campaignId}`}
       target='__blank'
       className='rounded-xl bg-[rgb(144,75,246)]/[0.1] p-5 flex flex-col gap-y-8 justify-between'
     >

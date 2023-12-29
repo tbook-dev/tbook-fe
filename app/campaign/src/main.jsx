@@ -5,8 +5,8 @@ import App from './App'
 import Theme from './theme/ThemeProvider'
 import { store } from './store/store'
 import { Provider } from 'react-redux'
-import { QueryClient, QueryClientProvider } from 'react-query'
-const queryClient = new QueryClient()
+import { QueryClientProvider } from 'react-query'
+import queryClient from './query-client'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>

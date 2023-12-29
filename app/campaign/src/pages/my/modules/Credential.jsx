@@ -2,11 +2,11 @@ import { Spin, Popover } from 'antd'
 import Empty from './Empty'
 import useAssetQuery from '@/hooks/useAssetQuery'
 import clsx from 'clsx'
-import { useParams } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom'
 import { groupBy } from 'lodash'
 
 export default function Credentials () {
-  const { projectId } = useParams()
+  const { projectId } = useLoaderData()
   const { data: assets, isLoading } = useAssetQuery(projectId)
   const data = assets?.credentials || []
   const fdata = groupBy(data, 'displayExp')
