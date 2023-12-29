@@ -19,27 +19,39 @@ import queryClient from './query-client'
 
 const Snapshot = lazy(() => import('@/pages/snapshot'))
 
+const selfSubDomain = ['campaign-staging', 'i']
 const getProjectIdFn = async ({ params }) => {
   let projectName = params.projectName
   let isUsingSubdomain = false
   if (!projectName) {
     const host = location.hostname
     projectName = host.split('.')?.[0]
-    isUsingSubdomain = true
-  }
-  const res = await queryClient.fetchQuery(
-    ['project', projectName],
-    () => getProjectId(projectName),
-    {
-      staleTime: Infinity,
-      cacheTime: Infinity
+    if (!selfSubDomain.includes(projectName)) {
+      isUsingSubdomain = true
     }
-  )
-  return {
-    projectName,
-    isUsingSubdomain,
-    projectId: res?.projectId,
-    project: res
+  }
+  try {
+    const res = await queryClient.fetchQuery(
+      ['project', projectName],
+      () => getProjectId(projectName),
+      {
+        staleTime: Infinity,
+        cacheTime: Infinity
+      }
+    )
+    return {
+      projectName,
+      isUsingSubdomain,
+      projectId: res?.projectId,
+      project: res
+    }
+  } catch (e) {
+    return {
+      projectName: 'tbook',
+      isUsingSubdomain: false,
+      projectId: '',
+      project: {}
+    }
   }
 }
 
