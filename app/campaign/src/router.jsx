@@ -40,27 +40,34 @@ const routes = [
     ]
   },
   {
-    path: 'app',
+    path: '/',
     element: <MyLayout />,
     children: [
       {
-        path: ':projectId/asset',
+        path: ':projectId?/asset',
         element: <Asset />
       },
       {
-        path: ':projectId/campaign',
+        path: ':projectId?/campaign',
         element: <Campaign />
       },
       {
-        path: ':projectId/campaign/:campaignId',
+        path: ':projectId?/campaign/:campaignId',
+        loader: async ({ params,...props }) => {
+          console.log({ params, props })
+          await new Promise((resolve) => setTimeout(resolve, 100))
+          return {
+            projectId: 154283610009
+          }
+        },
         element: <App />
       },
       {
-        path: ':projectId/nft/:groupId/:nftId',
+        path: ':projectId?/nft/:groupId/:nftId',
         element: <NFT />
       },
       {
-        path: ':projectId/snapshot/:campaignId/:credentialId/:snapshotId',
+        path: ':projectId?/snapshot/:campaignId/:credentialId/:snapshotId',
         async lazy () {
           return {
             Component: () => (

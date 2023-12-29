@@ -2,7 +2,7 @@ import { useResponsive } from 'ahooks'
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { useQueryClient } from 'react-query'
 import { verifyCredential, logUserReport } from '@/api/incentive'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link, useNavigate, useLoaderData } from 'react-router-dom'
 import pointIcon from '@/images/icon/point.svg'
 import arrow3Icon from '@/images/icon/arrow3.svg'
 import useUserInfo from '@/hooks/useUserInfoQuery'
@@ -41,11 +41,14 @@ const prompt =
 export default function () {
   const [messageApi, contextHolder] = message.useMessage()
   const navigate = useNavigate()
+  const { projectId: pid} = useLoaderData()
   const { pc } = useResponsive()
   const dispath = useDispatch()
   const { open } = useWeb3Modal()
   // const { handleSignIn } = useSignIn();
-  const { campaignId, projectId } = useParams()
+  const { campaignId, projectId: projectIdPa } = useParams()
+  const projectId = pid || projectIdPa
+  console.log({ projectId, pid,projectIdPa })
   const queryClient = useQueryClient()
   const {
     user,
