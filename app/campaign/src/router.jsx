@@ -1,185 +1,193 @@
-import MyLayout from '@/layout/my/Layout'
-import Layout from '@/layout/normal/Layout'
-import HomeLayout from '@/layout/fixed/Layout'
-import Home from '@/pages/home'
-import App from '@/pages/app'
-import Asset from '@/pages/my/Asset'
-import Campaign from '@/pages/my/campaign'
-import NFT from '@/pages/my/nft'
-import Explore from '@/pages/explore'
-import { Suspense, lazy } from 'react'
-import TwitterCallback from '@/pages/twitter/callback'
-import TgCallback from '@/pages/social/tg'
-import DcCallback from '@/pages/social/dc'
-import TwitterLoginCallback from '@/pages/twitter/login_callback'
-import TwLoginIndex from '@/pages/twitter/tw_login'
-import PageFallBack from '@/components/pageFallback'
-import { getProjectId } from '@/api/incentive'
-import queryClient from './query-client'
+import MyLayout from "@/layout/my/Layout";
+import Layout from "@/layout/normal/Layout";
+import HomeLayout from "@/layout/fixed/Layout";
+import Home from "@/pages/home";
+import App from "@/pages/app";
+import Asset from "@/pages/my/Asset";
+import Campaign from "@/pages/my/campaign";
+import NFT from "@/pages/my/nft";
+import Explore from "@/pages/explore";
+import { Suspense, lazy } from "react";
+import TwitterCallback from "@/pages/twitter/callback";
+import TgCallback from "@/pages/social/tg";
+import DcCallback from "@/pages/social/dc";
+import TwitterLoginCallback from "@/pages/twitter/login_callback";
+import TwLoginIndex from "@/pages/twitter/tw_login";
+import PageFallBack from "@/components/pageFallback";
+import { getProjectId } from "@/api/incentive";
+import queryClient from "./query-client";
 
-const Snapshot = lazy(() => import('@/pages/snapshot'))
+const Snapshot = lazy(() => import("@/pages/snapshot"));
 
-const selfSubDomain = ['campaign-staging', 'i']
+const selfSubDomain = ["campaign-staging", "i"];
 const getProjectIdFn = async ({ params }) => {
-  let projectName = params.projectName
-  let isUsingSubdomain = false
+  let projectName = params.projectName;
+  let isUsingSubdomain = false;
   if (!projectName) {
-    const host = location.hostname
-    projectName = host.split('.')?.[0]
+    const host = location.hostname;
+    projectName = host.split(".")?.[0];
     if (!selfSubDomain.includes(projectName)) {
-      isUsingSubdomain = true
+      isUsingSubdomain = true;
     }
   }
-  try {
-    const res = await queryClient.fetchQuery(
-      ['project', projectName],
-      () => getProjectId(projectName),
-      {
-        staleTime: Infinity,
-        cacheTime: Infinity
-      }
-    )
-    return {
-      projectName,
-      isUsingSubdomain,
-      projectId: res?.projectId,
-      project: res
-    }
-  } catch (e) {
-    return {
+  const defaultValues = {
+    projectName: "tbook",
+    isUsingSubdomain: false,
+    projectId: "",
+    project: {
       projectName: 'tbook',
-      isUsingSubdomain: false,
-      projectId: '',
-      project: {}
+    },
+  };
+
+  if (!selfSubDomain.includes(projectName)) {
+    try {
+      const res = await queryClient.fetchQuery(
+        ["project", projectName],
+        () => getProjectId(projectName),
+        {
+          staleTime: Infinity,
+          cacheTime: Infinity,
+        }
+      );
+      return {
+        projectName,
+        isUsingSubdomain,
+        projectId: res?.projectId,
+        project: res,
+      };
+    } catch (e) {
+      return defaultValues;
     }
+  }else{
+    return defaultValues
   }
-}
+};
 
 // import SocialConnect from '@/pages/social/index'
 
 const routes = [
   {
-    path: ':projectName?/',
+    path: ":projectName?/",
     loader: getProjectIdFn,
     element: <HomeLayout />,
     children: [
       {
         index: true,
-        element: <Home />
-      }
-    ]
+        element: <Home />,
+      },
+    ],
   },
   {
-    path: ':projectName?/explore',
+    path: ":projectName?/explore",
     loader: getProjectIdFn,
     element: <Layout />,
     children: [
       {
         index: true,
-        element: <Explore />
-      }
-    ]
+        element: <Explore />,
+      },
+    ],
   },
   {
-    path: '/',
+    path: "/",
     element: <MyLayout />,
     loader: getProjectIdFn,
     children: [
       {
-        path: ':projectName?/asset',
+        path: ":projectName?/asset",
         loader: getProjectIdFn,
-        element: <Asset />
+        element: <Asset />,
       },
       {
-        path: ':projectName?/campaign',
+        path: ":projectName?/campaign",
         loader: getProjectIdFn,
-        element: <Campaign />
+        element: <Campaign />,
       },
       {
         // path: ':projectId?/campaign/:campaignId',
-        path: ':projectName?/:campaignId',
+        path: ":projectName?/:campaignId",
         loader: getProjectIdFn,
-        element: <App />
+        element: <App />,
       },
       {
-        path: ':projectName?/nft/:groupId/:nftId',
+        path: ":projectName?/nft/:groupId/:nftId",
         loader: getProjectIdFn,
-        element: <NFT />
+        element: <NFT />,
       },
       {
-        path: ':projectName?/snapshot/:campaignId/:credentialId/:snapshotId',
+        path: ":projectName?/snapshot/:campaignId/:credentialId/:snapshotId",
         loader: getProjectIdFn,
-        async lazy () {
+        async lazy() {
           return {
             Component: () => (
               <Suspense fallback={<PageFallBack />}>
                 <Snapshot />
               </Suspense>
-            )
-          }
-        }
-      }
-    ]
+            ),
+          };
+        },
+      },
+    ],
   },
   {
-    path: '/twitter/callback',
+    path: "/twitter/callback",
     loader: getProjectIdFn,
     element: <MyLayout />,
     children: [
       {
         index: true,
-        element: <TwitterCallback />
-      }
-    ]
+        element: <TwitterCallback />,
+      },
+    ],
   },
   {
-    path: '/twitter/login/callback',
+    path: "/twitter/login/callback",
     loader: getProjectIdFn,
     element: <MyLayout />,
     children: [
       {
         index: true,
-        element: <TwitterLoginCallback />
-      }
-    ]
+        element: <TwitterLoginCallback />,
+      },
+    ],
   },
   {
-    path: '/tw_login',
+    path: "/tw_login",
     loader: getProjectIdFn,
     element: <MyLayout />,
     children: [
       {
         index: true,
-        element: <TwLoginIndex />
-      }
-    ]
+        element: <TwLoginIndex />,
+      },
+    ],
   },
   {
-    path: '/tg_callback',
+    path: "/tg_callback",
     loader: getProjectIdFn,
     element: <MyLayout />,
     children: [
       {
         index: true,
-        element: <TgCallback />
-      }
-    ]
+        element: <TgCallback />,
+      },
+    ],
   },
   {
-    path: '/dc_callback',
+    path: "/dc_callback",
     loader: getProjectIdFn,
     element: <MyLayout />,
     children: [
       {
         index: true,
-        element: <DcCallback />
-      }
-    ]
+        element: <DcCallback />,
+      },
+    ],
   },
   {
-    path: '*',
-    element: <div className='w-full h-screen bg-black text-white'>404</div>
-  }
-]
+    path: "*",
+    element: <div className="w-full h-screen bg-black text-white">404</div>,
+  },
+];
 
-export default routes
+export default routes;
