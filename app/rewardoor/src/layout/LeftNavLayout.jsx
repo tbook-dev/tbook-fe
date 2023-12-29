@@ -50,7 +50,7 @@ export default function Layout ({ children }) {
           </div>
           <div
             className={clsx(
-              'pt-[133px] pb-[38px] pl-8 uppercase text-base leading-none font-bold bg-b-1'
+              'pt-[133px] pb-[38px] pl-8 text-base leading-none font-bold bg-b-1'
               // validatorSucessIdx === 0 && 'rounded-br-2xl'
             )}
           >
