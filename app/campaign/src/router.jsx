@@ -52,7 +52,8 @@ const routes = [
         element: <Campaign />
       },
       {
-        path: ':projectId?/campaign/:campaignId',
+        // path: ':projectId?/campaign/:campaignId',
+        path: ':projectId?/:campaignId',
         loader: async ({ params,...props }) => {
           console.log({ params, props })
           await new Promise((resolve) => setTimeout(resolve, 100))
