@@ -115,7 +115,13 @@ export default function () {
           <Form.Item
             label="Project Name"
             name="projectName"
-            rules={[{ required: true, message: "Project Name is required" }]}
+            rules={[
+              { required: true, message: "Project Name is required" },
+              {
+                pattern: /^[a-z0-9-]+$/,
+                message: 'Can only contain numbers, lowercase letters, and hyphens!',
+              },
+            ]}
           >
             <Input placeholder="Enter a Project Name" />
           </Form.Item>
