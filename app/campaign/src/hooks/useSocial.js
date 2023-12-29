@@ -7,6 +7,7 @@ import dcGray from "@/images/icon/dc-gray.svg";
 import dc from "@/images/icon/dc.svg";
 import tgGray from "@/images/icon/tg-gray.svg";
 import tg from "@/images/icon/tg.svg";
+import { useResponsive } from "ahooks";
 
 const curHost = new URL(window.location.href).host;
 const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`;
@@ -17,7 +18,7 @@ const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=
 export default function useSocial() {
   const { twitterConnected, discordConnected, telegramConnected, data } =
     useUserInfoQuery();
-
+  const { pc } = useResponsive();
   const socialList = useMemo(() => {
     return [
       {
@@ -47,7 +48,7 @@ export default function useSocial() {
           document.body.appendChild(a);
           a.style = "display: none";
           a.href = res["url"];
-          a.setAttribute("target", "_blank");
+          a.setAttribute("target", pc ? "_blank" : "_self");
           a.setAttribute("mc-deep-link", "false");
           a.setAttribute("ref", "nofollow noopener noreferrer");
           // rel='nofollow noopener noreferrer'
