@@ -22,24 +22,26 @@ const Snapshot = lazy(() => import("@/pages/snapshot"));
 const selfSubDomain = ["campaign-staging", "i"];
 const getProjectIdFn = async ({ params }) => {
   let projectName = params.projectName;
+  let subDomain = null;
   let isUsingSubdomain = false;
   if (!projectName) {
     const host = location.hostname;
-    projectName = host.split(".")?.[0];
-    if (!selfSubDomain.includes(projectName)) {
+    subDomain = host.split(".")?.[0];
+    projectName = subDomain;
+    if (!selfSubDomain.includes(subDomain)) {
       isUsingSubdomain = true;
     }
   }
   const defaultValues = {
     projectName: "tbook",
-    isUsingSubdomain: false,
+    isUsingSubdomain,
     projectId: "",
     project: {
       projectName: 'tbook',
     },
   };
-
-  if (!selfSubDomain.includes(projectName)) {
+  
+  if (!selfSubDomain.includes(subDomain)) {
     try {
       const res = await queryClient.fetchQuery(
         ["project", projectName],
