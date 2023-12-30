@@ -3,29 +3,31 @@ import { useProposal } from '@tbook/snapshot/api'
 import clsx from 'clsx'
 import { useMemo } from 'react'
 import { formatDollar } from '@tbook/utils/lib/conf'
+import { Skeleton } from 'antd'
 
-export default function VoteResult ({ snapshotId }) {
-  const { data } = useProposal(snapshotId)
+export default function VoteResult({ snapshotId }) {
+  const { data, isLoading } = useProposal(snapshotId)
   const choices = useMemo(() => {
     // const sum =
     return Array.isArray(data?.choices)
       ? data.choices.map((v, idx) => {
-          return {
-            choiceDesc: v,
-            percent:
-              data.scores_total === 0
-                ? 0
-                : BigNumber(data.scores[idx])
-                    .div(data.scores_total)
-                    .times(100)
-                    .toFixed(1),
-            voteNum: BigNumber(data.scores[idx]).toFixed(6)
-          }
-        })
+        return {
+          choiceDesc: v,
+          percent:
+            data.scores_total === 0
+              ? 0
+              : BigNumber(data.scores[idx])
+                .div(data.scores_total)
+                .times(100)
+                .toFixed(1),
+          voteNum: BigNumber(data.scores[idx]).toFixed(6)
+        }
+      })
       : []
   }, [data])
   const arriveQuorum = BigNumber(data?.scores_total).gte(data?.quorum)
-  return (
+
+  return (isLoading ? <Skeleton /> :
     <div className='space-y-6'>
       {data?.quorum > 0 && (
         <div className='space-y-3'>
@@ -65,7 +67,7 @@ export default function VoteResult ({ snapshotId }) {
               <div className='flex justify-between items-center text-sm font-medium'>
                 <p>{v.choiceDesc}</p>
                 <p>
-                  {formatDollar(v.voteNum, 6)} {data?.symbol}<span className='m-1'/>{v.percent}%
+                  {formatDollar(v.voteNum, 6)} {data?.symbol}<span className='m-1' />{v.percent}%
                 </p>
               </div>
 
