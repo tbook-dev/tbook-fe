@@ -38,23 +38,8 @@ export default function VoteResult({ snapshotId }) {
                 arriveQuorum ? 'text-[#76DF9A] flex items-center gap-x-1' : ''
               )}
             >
-              {arriveQuorum && (
-                <svg
-                  width='14'
-                  height='14'
-                  viewBox='0 0 14 14'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <rect width='14' height='14' rx='7' fill='#76DF9A' />
-                  <path
-                    d='M3 7.39917C3 7.39917 5.04854 9.07486 5.25202 10.5C5.25202 10.5 7.93818 6.10281 10.9228 5.70938C10.9228 5.70938 10.0138 5.04697 10.3123 4C10.3123 4 8.6572 4.16515 5.53692 9.00837L4.07453 6.52601L3 7.39917Z'
-                    fill='white'
-                  />
-                </svg>
-              )}
               {formatDollar(BigNumber(data?.scores_total).toFixed(6), 6)}/
-              {formatDollar(data?.quorum, 6)}
+              <span className='text-white'>{formatDollar(data?.quorum, 6)}</span>
             </span>
           </h2>
         </div>

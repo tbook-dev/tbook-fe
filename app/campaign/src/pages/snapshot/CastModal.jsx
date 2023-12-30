@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 import { setSnapshotCastModal, setSnapshotData } from '@/store/global'
 import { useVp, useProposal, useUserVotes, castVote } from '@tbook/snapshot/api'
 import { useDispatch } from 'react-redux'
-import { formatDollar } from '@tbook/utils/lib/conf'
+import { formatDollarV2 } from '@tbook/utils/lib/conf'
 import Arrow2Icon from '@/images/icon/arrow2.svg'
 import errorIcon from '@/images/icon/error.svg'
 import { useAccount, useWalletClient, usePublicClient } from 'wagmi'
@@ -23,7 +23,7 @@ const moduleConf = {
   ],
   ethscan: 'https://etherscan.io/block',
   noVotingPower: v =>
-    `You can't vote for this proposal. It seems you don't have any voting power at block ${formatDollar(
+    `You can't vote for this proposal. It seems you don't have any voting power at block ${formatDollarV2(
       v
     )}.`,
   votingPowerLink: 'https://github.com/snapshot-labs/snapshot/discussions/767',
@@ -122,7 +122,7 @@ export default function CastModal () {
               target='_blank'
               className='font-medium flex items-center hover:text-[#C0ABD9]'
             >
-              {formatDollar(data?.snapshot)}
+              {formatDollarV2(data?.snapshot)}
               <img src={Arrow2Icon} alt='block link' />
             </a>
           </div>
@@ -130,7 +130,7 @@ export default function CastModal () {
             <span className='text-[#C0ABD9]'>Your voting power</span>
             {hasPower ? (
               <span className='font-medium'>
-                {formatDollar(BigNumber(vp?.vp).toFixed(6), 6)} {data?.symbol}
+                {formatDollarV2(BigNumber(vp?.vp).toFixed(6), 6)} {data?.symbol}
               </span>
             ) : (
               <span className='font-medium flex items-center gap-x-1'>

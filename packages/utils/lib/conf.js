@@ -188,6 +188,19 @@ export const formatDollar = (value, maximumSignificantDigits = 3) => {
     }).format(v);
   }
 };
+export const formatDollarV2 = (value) => {
+  const v = Number(value);
+  if (Number.isNaN(v)) {
+    return value;
+  } else {
+    return Intl.NumberFormat("en-US", {
+      // style: 'currency',
+      // currency: 'USD',
+      // maximumSignificantDigits,
+      notation: "standard",
+    }).format(v);
+  }
+};
 
 export const shortAddress = (address) => {
   return (
