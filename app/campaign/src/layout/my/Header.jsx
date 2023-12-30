@@ -27,8 +27,8 @@ function Header () {
       <div className='px-4 py-1.5 lg:px-20'>
         <div className='flex items-center justify-between h-10'>
           <div className='flex items-center'>
-            <Link
-              to={`${isUsingSubdomain ? '' : `/${projectName}`}/campaign`}
+            <div
+              // to={`${isUsingSubdomain ? '' : `/${projectName}`}/campaign`}
               className='mr-1 lg:mr-16'
             >
               {!logoUrl ? (
@@ -36,7 +36,7 @@ function Header () {
               ) : (
                 <img src={logoUrl} alt='logo' className='h-6 object-contain' />
               )}
-            </Link>
+            </div>
           </div>
 
           {/* <Links hidden={!pc} /> */}
