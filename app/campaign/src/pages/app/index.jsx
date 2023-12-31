@@ -26,7 +26,7 @@ import { getSnapshotIdBylink } from '@tbook/snapshot/api'
 import ColorCaptial from '@/components/colorCaptial'
 import { formatDollar } from '@tbook/utils/lib/conf'
 import ViewReward from './viewReward'
-import Preview from '@tbook/snapshot/Preview'
+import Preview from '../snapshot/Preview'
 const { Countdown } = Statistic
 
 const errorMsg = (
@@ -391,9 +391,9 @@ export default function () {
                               redential.credentialId
                             }/${snapshotId}`}
                           >
-                            <h2 className='border-t mt-4 pt-5 border-[#281545]'>
+                            <div className='border-t mt-4 pt-5 border-[#281545]'>
                               <Preview id={snapshotId} />
-                            </h2>
+                            </div>
                           </Link>
                         )}
                       </div>

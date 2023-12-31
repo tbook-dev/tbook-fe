@@ -20,12 +20,16 @@ module.exports = {
           "linear-gradient(280deg, rgba(144, 75, 246, 0.10) 49.68%, rgba(207, 0, 99, 0.10) 108.87%)",
         linear2: "linear-gradient(116deg, #7535C4 0%, #351857 100%)",
         linear3: "linear-gradient(30deg, #C60C7A 0%, #904bf6  60%)",
-        linear4: "linear-gradient(179deg, rgba(0, 0, 0, 0.00) 58.87%, rgba(0, 0, 0, 0.90) 91.27%, #000 104.31%)",
+        linear4:
+          "linear-gradient(179deg, rgba(0, 0, 0, 0.00) 58.87%, rgba(0, 0, 0, 0.90) 91.27%, #000 104.31%)",
+        linear5:
+          "linear-gradient(280deg, rgba(144, 75, 246, 0.10) 49.68%, rgba(207, 0, 99, 0.10) 108.87%)",
       },
       boxShadow: {
         s1: " 0px 0px 6px 0px rgba(0, 0, 0, 0.10)",
         s2: "0px 0px 8px 0px rgba(0, 0, 0, 0.08)",
         s3: "0px 0px 4px 0px rgba(0, 0, 0, 0.08)",
+        s4: "0px 4px 20px 0px rgba(0, 110, 233, 0.02)",
       },
       fontFamily: {
         rhd: ["Red Hat Display", "sans-serif"],
