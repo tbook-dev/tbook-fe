@@ -359,7 +359,7 @@ export default function () {
                                   ? taskMap[redential.labelType]
                                   : null
                               }
-                              className='truncate text-sm max-w-[calc(100%_-_30px)]'
+                              className='truncate text-sm max-w-[185px]'
                               dangerouslySetInnerHTML={{
                                 __html: pc
                                   ? redential.intentDisplayExp
