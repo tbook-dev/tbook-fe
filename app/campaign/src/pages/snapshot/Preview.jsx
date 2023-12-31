@@ -23,8 +23,6 @@ export default function Preview ({ id }) {
       : []
   }, [data])
 
-  console.log({ data, choices })
-
   return (
     <div className='space-y-4'>
       <h2>{data?.title}</h2>
