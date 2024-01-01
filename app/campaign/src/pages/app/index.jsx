@@ -346,11 +346,11 @@ export default function () {
                         key={index}
                         className='border border-[#904BF6] lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5'
                       >
-                        <div className='flex items-center justify-between w-full'>
-                          <div className='flex items-center gap-x-1 flex-auto w-[calc(100%_-_45px)]'>
+                        <div className='flex items-start justify-between w-full'>
+                          <div className='flex items-start gap-x-1 pt-[3px] flex-auto w-[calc(100%_-_45px)]'>
                             <img
                               src={redential.picUrl}
-                              className='w-5 h-5 object-contain'
+                              className='w-5 h-5 object-contain mt-0.5'
                             />
                             <div
                               onClick={
@@ -359,7 +359,7 @@ export default function () {
                                   ? taskMap[redential.labelType]
                                   : null
                               }
-                              className='truncate text-sm max-w-[185px]'
+                              className='text-sm max-w-[177px] lg:max-w-[430px]'
                               dangerouslySetInnerHTML={{
                                 __html: pc
                                   ? redential.intentDisplayExp
