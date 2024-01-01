@@ -137,10 +137,8 @@ export const authTwitterLoginCallback = async function () {
 
 export const authTgCallback = async function () {
   const url = new URL(window.location.href);
-  let authResult;
-  if (url.searchParams["tgAuthResult"]) {
-    authResult = url.searchParams["tgAuthResult"];
-  } else {
+  let authResult = url.searchParams.get("tgAuthResult");
+  if (!authResult) {
     authResult = url.hash.split("=")[1];
   }
   return await request.PostFormV1(`${host}/tg/callback`, {
