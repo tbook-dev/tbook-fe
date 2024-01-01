@@ -359,7 +359,7 @@ export default function () {
                                   ? taskMap[redential.labelType]
                                   : null
                               }
-                              className='text-sm max-w-[177px] lg:max-w-[430px]'
+                              className='text-sm max-w-[calc(100%_-_26px)] lg:max-w-[430px]'
                               dangerouslySetInnerHTML={{
                                 __html: pc
                                   ? redential.intentDisplayExp
