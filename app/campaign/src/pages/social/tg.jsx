@@ -70,9 +70,9 @@
 //   );
 // }
 
-import { authTgCallback } from "@/api/incentive";
-import AuthSocial from ".";
+import { authTgCallback } from '@/api/incentive'
+import AuthSocial from '.'
 
 export default function () {
-  return <AuthSocial authCallback={authTgCallback} />;
+  return <AuthSocial authCallback={authTgCallback} type='telegram' />
 }

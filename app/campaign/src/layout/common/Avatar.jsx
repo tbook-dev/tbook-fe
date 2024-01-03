@@ -106,7 +106,7 @@ export default function Avatar () {
               ) : (
                 <button
                   key={v.name}
-                  onClick={v.loginFn}
+                  onClick={() => v.loginFn(false)}
                   rel='nofollow noopener noreferrer'
                 >
                   <img

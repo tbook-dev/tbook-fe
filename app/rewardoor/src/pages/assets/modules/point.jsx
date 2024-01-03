@@ -60,14 +60,21 @@ export default function Point () {
           </div>
           {info?.userPoints?.length > 0 ? (
             <div className='text-white text-base'>
-              <div className='mb-2'>
+              <div className='mb-2 space-y-3'>
                 {tableData.map((v, idx) => {
                   return (
                     <div
                       className={clsx('flex items-center justify-between h-6')}
                       key={idx}
                     >
-                      <span className='italic w-[160px]'>{v.ranking}</span>
+                      <span
+                        className={clsx(
+                          'italic w-[160px] font-medium',
+                          idx > 2 && 'text-sm'
+                        )}
+                      >
+                        {v.ranking}
+                      </span>
                       <span className='w-[200px]'>
                         <Address address={v.address} />
                       </span>

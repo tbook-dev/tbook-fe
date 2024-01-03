@@ -4,36 +4,60 @@ import RedirectSocial from '@/components/redirectSocial'
 import { redirectLocalStorageOnce } from '@/pages/social/conf'
 import { delay } from '@/utils/common'
 
-export default function ({ authCallback }) {
+const displayName = {
+  twitter: 'X',
+  discard: 'Discord',
+  telegram: 'Telegram'
+}
+export default function ({ authCallback, type }) {
   const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
   const [status, setStatus] = useState('loading')
+  const [data, setData] = useState({})
   useEffect(() => {
     authCallback()
       .then(async d => {
-        console.log(d)
+        setData(d)
+        console.log(d, 'd')
         if (d.code === 4004) {
+          //           {
+          //     "message": "Twitter account already connected",
+          //     "socialName": "Timberlake Hu",
+          //     "code": 4004,
+          //     "address": "0x7Bd6...c6CE"
+          // }
           setStatus('occupied')
-          setErrorMessage(d.msg)
+          setErrorMessage(
+            `${displayName[type]} account @${d.socialName}  has been connected to another address ${d.address}`
+          )
         } else if (d.code === 500) {
+          // 失败
           setStatus('failed')
           setErrorMessage(d.msg)
         } else {
+          // 成功停留2s，然后跳转
           setStatus('sucess')
+          setErrorMessage(
+            `${displayName[type]} account @${d.socialName} has been authorized. `
+          )
+          await delay(2000)
+          redirectLocalStorageOnce(navigate)
         }
       })
       .catch(async e => {
+        console.log(e, 'error')
         setStatus('failed')
-      })
-      .finally(async () => {
-        await delay(3000)
-        redirectLocalStorageOnce(navigate)
       })
   }, [])
 
   return (
     <div className='w-page-content px-2 lg:px-0 mx-auto'>
-      <RedirectSocial status={status} desc={errorMessage} />
+      <RedirectSocial
+        status={status}
+        desc={errorMessage}
+        data={data}
+        type={type}
+      />
     </div>
   )
 }

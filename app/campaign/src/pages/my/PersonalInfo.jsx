@@ -50,7 +50,7 @@ export default function PersonalInfo () {
             <button
               disabled={v.connected}
               key={v.name}
-              onClick={userLogined ? v.loginFn : null}
+              onClick={userLogined ? () => v.loginFn(false) : null}
               target='_blank'
               rel='nofollow noopener noreferrer'
             >

@@ -13,7 +13,7 @@ const curHost = new URL(window.location.href).host;
 const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`;
 const tgCallbackHost = import.meta.env.VITE_TG_CALLBACK_HOST;
 const tgBotId = import.meta.env.VITE_TG_BOT_ID;
-const domain = curHost.split('.')[0];
+const domain = curHost.split(".")[0];
 const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=https%3A%2F%2F${tgCallbackHost}%2Ftg%2Fcallback%2F${domain}&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg%2Fcallback%2F${domain}`;
 
 export default function useSocial() {
@@ -28,13 +28,13 @@ export default function useSocial() {
         picUrl: dcGray,
         activePic: dc,
         activeColor: "#5865F2",
-        loginFn: async () => {
-          localStorage.setItem("redirect_url", location.href);
+        loginFn: async (skip = false) => {
+          !skip && localStorage.setItem("redirect_url", location.href);
           location.href = dcCallbackUrl;
         },
         userName: data?.userDc?.username ?? "",
-        occupied: data?.userDc?.occupied || false,
-        occupiedText: `This Discord @${data?.userDc?.username} has been connected to another address. Please switch to another Discord account and try again.`,
+        failText:
+          "Please authorize your Discord account and continue to verify.",
       },
       {
         name: "twitter",
@@ -42,8 +42,8 @@ export default function useSocial() {
         picUrl: xGray,
         activePic: x,
         activeColor: "#1DA1F2",
-        loginFn: async () => {
-          localStorage.setItem("redirect_url", location.href);
+        loginFn: async (skip = false) => {
+          !skip && localStorage.setItem("redirect_url", location.href);
           const res = await getTwLoginUrl();
           const a = document.createElement("a");
           document.body.appendChild(a);
@@ -58,8 +58,7 @@ export default function useSocial() {
           // location.href = res["url"];
         },
         userName: data?.userTwitter?.twitterUserName ?? "",
-        occupied: data?.userTwitter?.occupied || false,
-        occupiedText: `This Twitter @${data?.userTwitter?.twitterUserName} has been connected to another address. Please switch to another Twitter account and try again.`,
+        failText: "Please authorize your X account and continue to verify.",
       },
       {
         name: "telegram",
@@ -67,13 +66,13 @@ export default function useSocial() {
         picUrl: tgGray,
         activePic: tg,
         activeColor: "#2AABEE",
-        loginFn: async () => {
-          localStorage.setItem("redirect_url", location.href);
+        loginFn: async (skip = false) => {
+          !skip && localStorage.setItem("redirect_url", location.href);
           location.href = tgCallbackUrl;
         },
         userName: data?.userTg?.username ?? "",
-        occupied: data?.userTg?.occupied || false,
-        occupiedText: `This Telegram @${data?.userTg?.username} has been connected to another address. Please switch to another Telegram account and try again.`,
+        failText:
+          "Please authorize your telegram account and continue to verify.",
       },
     ];
   }, [twitterConnected, discordConnected, telegramConnected, data]);
