@@ -19,7 +19,7 @@ import pointSVG from '@/images/campaign/point.svg'
 
 const { Paragraph } = Typography
 
-const { formatDollar, shortAddress, timeFormat } = conf
+const { formatDollarV2: formatDollar, shortAddress, timeFormat } = conf
 
 const pageSize = 10
 
@@ -45,13 +45,13 @@ export default function Participation () {
         title: 'Credentials',
         value: formatDollar(pageInfo.credentialNum || 0),
         cls: 'bg-[#1A1A1A]',
-        picUrl: credentialsSVG 
+        picUrl: credentialsSVG
       },
       {
         title: 'Points',
         value: formatDollar(pageInfo.pointNum || 0),
         cls: 'bg-[#006EE9]',
-        picUrl: pointSVG 
+        picUrl: pointSVG
       },
       {
         title: 'NFTs',
@@ -69,13 +69,19 @@ export default function Participation () {
     <div className='space-y-5 mb-10'>
       <div className='grid grid-cols-4 gap-x-5'>
         {participantConf.map((v, idx) => (
-          <div key={idx} className={clsx('rounded-2.5xl text-white p-5 flex items-center justify-between',v.cls)}>
+          <div
+            key={idx}
+            className={clsx(
+              'rounded-2.5xl text-white p-5 flex items-center justify-between',
+              v.cls
+            )}
+          >
             <div>
               <div className='text-2xl font-zen-dot'>{v.value}</div>
               <div className='text-sm'>{v.title}</div>
             </div>
 
-            <img src={v.picUrl} className='w-[72px] h-[72px]'/>
+            <img src={v.picUrl} className='w-[72px] h-[72px]' />
           </div>
         ))}
       </div>
