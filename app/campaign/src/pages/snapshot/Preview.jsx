@@ -23,7 +23,7 @@ export default function Preview ({ id }) {
         })
       : []
   }, [data])
-  console.log({ isLoading })
+
   return (
     <div className='space-y-4'>
       <h2>{data?.title}</h2>
