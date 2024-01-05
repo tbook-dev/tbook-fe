@@ -180,6 +180,7 @@ export default function Settings () {
             initialValues={{
               avatarUrl: project.avatarUrl,
               projectName: project.projectName,
+              projectUrl: project.projectUrl,
               projectDescription: project.projectDescription,
               websiteUrl: project?.websiteUrl,
               telegramUrl: project?.telegramUrl

@@ -44,7 +44,7 @@ export default function () {
   const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
-    form.setFieldsValue({ projectUrl: projectName });
+    form.setFieldsValue({ projectUrl: projectName?.toLowerCase().replace(/\s+/g,'-') });
   }, [projectName]);
 
   const hanleUpload = ({ onSuccess, onError, file }) => {
@@ -117,10 +117,6 @@ export default function () {
             name="projectName"
             rules={[
               { required: true, message: "Project Name is required" },
-              {
-                pattern: /^[a-z0-9-]+$/,
-                message: 'Can only contain numbers, lowercase letters, and hyphens!',
-              },
             ]}
           >
             <Input placeholder="Enter a Project Name" />
@@ -165,7 +161,13 @@ export default function () {
           <Form.Item
             label="Project URL"
             name="projectUrl"
-            rules={[{ required: true, message: "Project URL is required" }]}
+            rules={[
+              { required: true, message: "Project URL is required" },
+              {
+                pattern: /^[a-z0-9-]+$/,
+                message: 'Can only contain numbers, lowercase letters, and hyphens!',
+              },
+            ]}
           >
             <Input
               placeholder="Enter a Project URL"

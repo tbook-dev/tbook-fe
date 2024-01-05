@@ -25,7 +25,7 @@ export default function Campaign () {
   )
   // console.log({ pageInfo })
   const credentialSet = credentialList.map(v => v.credentialList).flat()
-  const link = `${getUrl()}/${encodeURIComponent(project.projectName)}/${id}`
+  const link = `${getUrl()}/${encodeURIComponent(project.projectUrl)}/${id}`
   if (isLoading) {
     return <Loading h='h-[300px]' />
   }

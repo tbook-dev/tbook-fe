@@ -114,6 +114,15 @@ export default function Credential ({ redential, showVerify, signCredential }) {
       )
     }
   }
+  const isRedentialNotLink = redential.labelType === 10
+  const getTaskFn = (redential) => {
+    if(isRedentialNotLink){
+      taskMap[redential.labelType]()
+    }else{
+      window.open(redential.link, pc ? '_blank' : '_self')
+    }
+  }
+
   useEffect(() => {
     clearInterIdRef.current = setInterval(() => {
       if (count > 0) {
@@ -181,11 +190,7 @@ export default function Credential ({ redential, showVerify, signCredential }) {
           {
             !isSnapshotType &&
             <div
-              onClick={
-                typeof taskMap[redential.labelType] === 'function'
-                  ? taskMap[redential.labelType]
-                  : () => window.open(redential.link, pc ? '_blank' : '_self')
-              }
+              onClick={()=>getTaskFn(redential)}
               className='cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
             >
               Go to finish
