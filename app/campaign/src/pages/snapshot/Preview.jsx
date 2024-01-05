@@ -2,9 +2,10 @@ import { useProposal } from '@tbook/snapshot/api'
 import BigNumber from 'bignumber.js'
 import { useMemo } from 'react'
 import { formatDollar } from '@tbook/utils/lib/conf'
+import { Skeleton } from 'antd'
 
 export default function Preview ({ id }) {
-  const { data } = useProposal(id)
+  const { data, isLoading } = useProposal(id)
   const choices = useMemo(() => {
     return Array.isArray(data?.choices)
       ? data.choices.map((v, idx) => {
@@ -22,24 +23,28 @@ export default function Preview ({ id }) {
         })
       : []
   }, [data])
-
+  console.log({ isLoading })
   return (
     <div className='space-y-4'>
       <h2>{data?.title}</h2>
       <div className='space-y-3'>
-        {choices.map((v, idx) => (
-          <div
-            key={idx}
-            className='flex justify-between items-center bg-linear5 shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
-          >
-            <span>{v.choiceDesc}</span>
-            <span>
-              {formatDollar(v.voteNum, 6)} {data?.symbol}
-              <span className='m-1' />
-              {v.percent}%
-            </span>
-          </div>
-        ))}
+        {isLoading ? (
+          <Skeleton />
+        ) : (
+          choices.map((v, idx) => (
+            <div
+              key={idx}
+              className='flex justify-between items-center bg-linear5 shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
+            >
+              <span>{v.choiceDesc}</span>
+              <span>
+                {formatDollar(v.voteNum, 6)} {data?.symbol}
+                <span className='m-1' />
+                {v.percent}%
+              </span>
+            </div>
+          ))
+        )}
         <div className='flex justify-center items-center bg-linear5 shadow-s4 rounded py-1.5 px-4  text-sm font-medium'>
           Go to vote
           <svg
