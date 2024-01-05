@@ -6,13 +6,11 @@ import useUserInfo from '@/hooks/useUserInfoQuery'
 import { useDispatch } from 'react-redux'
 import { setLoginModal, setConnectWalletModal } from '@/store/global'
 
-export default function WithVerify ({ handleFn, credentialType }) {
+export default function WithVerify ({ handleFn, count, credentialType }) {
   const { getSocialByName } = useSocial()
   const [status, setStatus] = useState(verifyStatusEnum.NotStarted)
   const { userLogined, wallectConnected } = useUserInfo()
   const dispath = useDispatch()
-  const [count, setCount] = useState(0)
-  const clearInterIdRef = useRef()
   const social = getSocialByName(credentialType)
   const isSocial = !!social
   const handleVerify = async evt => {
@@ -21,23 +19,9 @@ export default function WithVerify ({ handleFn, credentialType }) {
       await handleFn(evt)
       setStatus(verifyStatusEnum.Sucess)
     } catch (e) {
-      setCount(30)
       setStatus(verifyStatusEnum.NotStarted)
     }
   }
-
-  useEffect(() => {
-    clearInterIdRef.current = setInterval(() => {
-      if (count > 0) {
-        setCount(v => v - 1)
-      } else {
-        clearInterval(clearInterIdRef.current)
-      }
-    }, 1000)
-    return () => {
-      clearInterval(clearInterIdRef.current)
-    }
-  }, [count])
 
   // console.log({social})
 

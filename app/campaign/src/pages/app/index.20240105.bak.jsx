@@ -1,6 +1,8 @@
+import { useResponsive } from 'ahooks'
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
-import { logUserReport } from '@/api/incentive'
-import { useParams } from 'react-router-dom'
+import { useQueryClient } from 'react-query'
+import { verifyCredential, logUserReport } from '@/api/incentive'
+import { useParams, Link, useNavigate, useLoaderData } from 'react-router-dom'
 import pointIcon from '@/images/icon/point.svg'
 import arrow3Icon from '@/images/icon/arrow3.svg'
 import useUserInfo from '@/hooks/useUserInfoQuery'
@@ -8,26 +10,53 @@ import useCampaignQuery from '@/hooks/useCampaignQuery'
 import TextMore from '@/components/textMore'
 import { Skeleton, Statistic } from 'antd'
 import { message } from 'antd'
-import { useSignMessage } from 'wagmi'
-import { host } from '@/api/incentive'
+import { useWeb3Modal } from '@web3modal/wagmi/react'
+import { useAccount, useSignMessage } from 'wagmi'
+import WithVerify from '@/components/withVerify'
+import { host, verifyTbook } from '@/api/incentive'
+import { getCrenditialType } from '@/utils/conf'
 import { useDispatch } from 'react-redux'
-import { setLoginModal } from '@/store/global'
+import { setLoginModal, setConnectWalletModal } from '@/store/global'
+import useSocial from '@/hooks/useSocial'
 import LazyImage from '@/components/lazyImage'
-
+import VerifyStatus, {
+  verifyStatusEnum
+} from '@/components/withVerify/VerifyStatus'
+import { getSnapshotIdBylink } from '@tbook/snapshot/api'
 import ColorCaptial from '@/components/colorCaptial'
 import { formatDollar } from '@tbook/utils/lib/conf'
 import ViewReward from './viewReward'
-import Credential from './credential'
+import Preview from '../snapshot/Preview'
 const { Countdown } = Statistic
 
+const errorMsg = (
+  <>
+    It seems you have not finished the task.
+    <br /> If you have finished, please verify after 30s.
+  </>
+)
 const prompt =
   'You may get the rewards once you have accomplished all tasks in the group!'
 
 export default function () {
   const [messageApi, contextHolder] = message.useMessage()
+  const navigate = useNavigate()
+  const { pc } = useResponsive()
   const dispath = useDispatch()
-  const { campaignId } = useParams()
-  const { user, twitterConnected, userLogined } = useUserInfo()
+  const { open } = useWeb3Modal()
+  // const { handleSignIn } = useSignIn();
+  const { isUsingSubdomain } = useLoaderData()
+  const { campaignId, projectName } = useParams()
+  const queryClient = useQueryClient()
+  const {
+    user,
+    twitterConnected,
+    userLogined,
+    discordConnected,
+    telegramConnected,
+    wallectConnected
+  } = useUserInfo()
+
   const {
     data: page,
     isLoading,
@@ -36,6 +65,8 @@ export default function () {
   } = useCampaignQuery(campaignId)
 
   const { signMessageAsync } = useSignMessage()
+  const { getSocialByName } = useSocial()
+  const { isConnected } = useAccount()
   const [viewIdx, setViewIdx] = useState(null)
   const [subIdx, setSubIdx] = useState(null)
   const [viewType, setViewType] = useState(null)
@@ -44,10 +75,15 @@ export default function () {
   const [rawDatas, setRawDatas] = useState({})
   const [signed, setSigned] = useState({})
 
+  const canUseWallect = useMemo(() => {
+    return isConnected && wallectConnected
+  }, [isConnected, wallectConnected])
   const signIn = useCallback(() => {
     dispath(setLoginModal(true))
   }, [])
-
+  const connectWallect = useCallback(() => {
+    dispath(setConnectWalletModal(true))
+  }, [])
   const handleCancel = useCallback(() => {
     setViewModalOpen(false)
     setViewIdx(null)
@@ -86,28 +122,25 @@ export default function () {
     },
     [userLogined]
   )
-  const signCredential = async credential => {
-    if (signed[credential.credentialId]) {
-      messageApi.warning('Already signed, verify please')
-      return
+  const handleVerify = useCallback(async redential => {
+    let hasError = false
+    try {
+      const res = await verifyCredential(redential.credentialId)
+      if (res.isVerified) {
+        hasError = false
+        await queryClient.refetchQueries(['campaignDetail', campaignId])
+      } else {
+        hasError = true
+      }
+    } catch (error) {
+      hasError = true
     }
-    const m = rawDatas[credential.credentialId]
-    const sign = await signMessageAsync({ message: m })
-    const d = new URLSearchParams()
-    d.append('sign', sign)
-    fetch(`${host}/campaignSign/${credential.credentialId}/verify`, {
-      method: 'POST',
-      'content-type': 'application/x-www-form-urlencoded',
-      body: d,
-      credentials: 'include'
-    })
-      .then(r => r.json())
-      .then(d => {
-        if (!d['success']) {
-          alert(d['error'])
-        }
-      })
-  }
+
+    if (hasError) {
+      messageApi.error(errorMsg)
+      throw new Error(hasError)
+    }
+  }, [])
 
   useEffect(() => {
     const gs = page?.groups
@@ -137,6 +170,29 @@ export default function () {
       })
     }
   }, [page])
+
+  const signCredential = async credential => {
+    if (signed[credential.credentialId]) {
+      messageApi.warning('Already signed, verify please')
+      return
+    }
+    const m = rawDatas[credential.credentialId]
+    const sign = await signMessageAsync({ message: m })
+    const d = new URLSearchParams()
+    d.append('sign', sign)
+    fetch(`${host}/campaignSign/${credential.credentialId}/verify`, {
+      method: 'POST',
+      'content-type': 'application/x-www-form-urlencoded',
+      body: d,
+      credentials: 'include'
+    })
+      .then(r => r.json())
+      .then(d => {
+        if (!d['success']) {
+          alert(d['error'])
+        }
+      })
+  }
 
   useEffect(() => {
     if (userLogined) {
@@ -237,14 +293,112 @@ export default function () {
                 </h3>
                 <p className='hidden lg:block text-sm mb-4'>{prompt}</p>
                 <div className='space-y-4 mb-8'>
-                  {group.credentialList?.map(redential => (
-                    <Credential
-                      redential={redential}
-                      key={redential.campaignId}
-                      showVerify={!(campaignNotStart || campaignEnd)}
-                      signCredential={signCredential}
-                    />
-                  ))}
+                  {group.credentialList?.map((redential, index) => {
+                    const credentialType = getCrenditialType(
+                      redential.labelType
+                    )
+                    const isSnapshotType = redential.labelType === 12
+                    const snapshotId = getSnapshotIdBylink(redential.link)
+
+                    const sysConnectedMap = {
+                      twitter: twitterConnected,
+                      discord: discordConnected,
+                      telegram: telegramConnected,
+                      tbook: userLogined
+                    }
+                    const sycLoginFnMap = {
+                      twitter: getSocialByName('twitter').loginFn,
+                      discord: getSocialByName('discord').loginFn,
+                      telegram: getSocialByName('telegram').loginFn
+                    }
+                    // 点击任务，除了跳转外的额外处理。
+                    const taskMap = {
+                      8: async () => {
+                        // log event, 需要任意登录即可
+                        if (userLogined) {
+                          await verifyTbook(redential.credentialId)
+                          await handleVerify(redential)
+                        } else {
+                          signIn()
+                        }
+                      },
+                      10: () => {
+                        if (canUseWallect) {
+                          signCredential(redential)
+                        } else {
+                          connectWallect()
+                        }
+                      },
+                      12: () => {
+                        // 当前页面不需要登录
+                        window.open(
+                          `${
+                            isUsingSubdomain ? '' : `/${projectName}`
+                          }/snapshot/${campaignId}/${
+                            redential.credentialId
+                          }/${snapshotId}`,
+                          pc ? '_blank' : '_self'
+                        )
+                      }
+                    }
+                    return (
+                      <div
+                        key={index}
+                        className='border border-[#904BF6] lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5'
+                      >
+                        <div className='flex items-start justify-between w-full'>
+                          <div className='flex items-start gap-x-1 pt-[3px] flex-auto w-[calc(100%_-_45px)]'>
+                            <img
+                              src={redential.picUrl}
+                              className='w-5 h-5 object-contain mt-0.5'
+                            />
+                            <div
+                              onClick={
+                                typeof taskMap[redential.labelType] ===
+                                'function'
+                                  ? taskMap[redential.labelType]
+                                  : null
+                              }
+                              className='text-sm max-w-[calc(100%_-_26px)] lg:max-w-[430px]'
+                              dangerouslySetInnerHTML={{
+                                __html: pc
+                                  ? redential.intentDisplayExp
+                                  : redential.displayExp
+                              }}
+                            />
+                          </div>
+                          {redential.isVerified ? (
+                            <span className='flex items-center gap-x-1 text-md whitespace-nowrap'>
+                              <VerifyStatus status={verifyStatusEnum.Sucess} />
+                              Verified
+                            </span>
+                          ) : campaignNotStart || campaignEnd ? null : (
+                            <WithVerify
+                              sysConnectedMap={sysConnectedMap}
+                              sycLoginFnMap={sycLoginFnMap}
+                              credentialType={credentialType}
+                              handleFn={() => handleVerify(redential)}
+                            />
+                          )}
+                        </div>
+                        {isSnapshotType && snapshotId && (
+                          <Link
+                            target='_blank'
+                            className='text-base font-medium'
+                            to={`${
+                              isUsingSubdomain ? '' : `/${projectName}`
+                            }/snapshot/${campaignId}/${
+                              redential.credentialId
+                            }/${snapshotId}`}
+                          >
+                            <div className='border-t mt-4 pt-5 border-[#281545]'>
+                              <Preview id={snapshotId} />
+                            </div>
+                          </Link>
+                        )}
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
 
