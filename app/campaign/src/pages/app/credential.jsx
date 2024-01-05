@@ -127,7 +127,7 @@ export default function Credential ({ redential, showVerify, signCredential }) {
     }
   }, [count])
   const showErrorTip = count > 0
-
+  const showSnapshot = isSnapshotType && snapshotId
   return (
     <div className='border border-[#904BF6] lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5'>
       <div className='flex items-start justify-between w-full'>
@@ -178,31 +178,35 @@ export default function Credential ({ redential, showVerify, signCredential }) {
             task, then verify in {count}s later.
           </div>
 
-          <div
-            onClick={
-              typeof taskMap[redential.labelType] === 'function'
-                ? taskMap[redential.labelType]
-                : () => window.open(redential.link, pc ? '_blank' : '_self')
-            }
-            className='cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
-          >
-            Go to finish
-            <svg
-              width='16'
-              height='16'
-              viewBox='0 0 17 16'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
+          {
+            !isSnapshotType &&
+            <div
+              onClick={
+                typeof taskMap[redential.labelType] === 'function'
+                  ? taskMap[redential.labelType]
+                  : () => window.open(redential.link, pc ? '_blank' : '_self')
+              }
+              className='cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
             >
-              <path
-                d='M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z'
-                fill='white'
-              />
-            </svg>
-          </div>
+              Go to finish
+              <svg
+                width='16'
+                height='16'
+                viewBox='0 0 17 16'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  d='M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z'
+                  fill='white'
+                />
+              </svg>
+            </div>
+          }
+
         </div>
       )}
-      {isSnapshotType && snapshotId && (
+      {showSnapshot && (
         <Link
           target='_blank'
           className='text-base font-medium'
