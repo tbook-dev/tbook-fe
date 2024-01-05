@@ -17,7 +17,7 @@ const modalConf = {
     desc: {
       twitter: 'Authorize your Twitter account to verify.',
       discord: 'Authorize your Discord account to verify.',
-      telegram: 'Authorize your Discord account to verify.'
+      telegram: 'Authorize your Telegram account to verify.'
     }
   },
   step2: {
