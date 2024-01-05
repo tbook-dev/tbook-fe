@@ -11,7 +11,7 @@ export default function ({ src, alt, className }) {
       setLoaded(true)
     }
   }, [src])
-  return loaded ? (
+  return src && loaded ? (
     <img src={src} alt={alt} className={className} />
   ) : (
     <div className={clsx('animate-pulse bg-[#1f1f1f]', className)} />
