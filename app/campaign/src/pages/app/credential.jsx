@@ -21,7 +21,7 @@ import clsx from 'clsx'
 // const errorMsg =
 //   'It seems you have not finished the task.Please click and finish the task, then verify in 30s later.'
 
-export default function Credential ({ redential, showVerify, signCredential }) {
+export default function Credential({ redential, showVerify, signCredential }) {
   const { isUsingSubdomain } = useLoaderData()
   const { campaignId, projectName } = useParams()
   const queryClient = useQueryClient()
@@ -107,19 +107,24 @@ export default function Credential ({ redential, showVerify, signCredential }) {
     12: () => {
       // 当前页面不需要登录
       window.open(
-        `${isUsingSubdomain ? '' : `/${projectName}`}/snapshot/${campaignId}/${
-          redential.credentialId
+        `${isUsingSubdomain ? '' : `/${projectName}`}/snapshot/${campaignId}/${redential.credentialId
         }/${snapshotId}`,
         pc ? '_blank' : '_self'
       )
     }
   }
   const isRedentialNotLink = redential.labelType === 10
-  const getTaskFn = (redential) => {
-    if(isRedentialNotLink){
-      taskMap[redential.labelType]()
-    }else{
-      window.open(redential.link, pc ? '_blank' : '_self')
+  // const getTaskFn = (redential) => {
+  //   if (isRedentialNotLink) {
+  //     taskMap[redential.labelType]()
+  //   } else {
+  //     window.open(redential.link, pc ? '_blank' : '_self')
+  //   }
+  // }
+  const handleManualFn = async() => {
+    if(redential.labelType === 8){
+      await verifyTbook(redential.credentialId)
+      await handleVerify(redential)
     }
   }
 
@@ -135,7 +140,7 @@ export default function Credential ({ redential, showVerify, signCredential }) {
       clearInterval(clearInterIdRef.current)
     }
   }, [count])
-  const showErrorTip = count > 0
+  const showErrorTip = count > 0 && !redential.isVerified
   const showSnapshot = isSnapshotType && snapshotId
   return (
     <div className='border border-[#904BF6] lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5'>
@@ -189,24 +194,47 @@ export default function Credential ({ redential, showVerify, signCredential }) {
 
           {
             !isSnapshotType &&
-            <div
-              onClick={()=>getTaskFn(redential)}
-              className='cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
-            >
-              Go to finish
-              <svg
-                width='16'
-                height='16'
-                viewBox='0 0 17 16'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
+              isRedentialNotLink ?
+              <div
+                onClick={taskMap[redential.labelType]}
+                className='cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
               >
-                <path
-                  d='M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z'
-                  fill='white'
-                />
-              </svg>
-            </div>
+                Go to finish
+                <svg
+                  width='16'
+                  height='16'
+                  viewBox='0 0 17 16'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    d='M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z'
+                    fill='white'
+                  />
+                </svg>
+              </div>
+              :
+              <Link
+                onClick={handleManualFn}
+                to={redential.link}
+                target='_blank'
+                rel='nofollow noopener noreferrer'
+                className='cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
+              >
+                Go to finish
+                <svg
+                  width='16'
+                  height='16'
+                  viewBox='0 0 17 16'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    d='M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z'
+                    fill='white'
+                  />
+                </svg>
+              </Link>
           }
 
         </div>
@@ -215,9 +243,8 @@ export default function Credential ({ redential, showVerify, signCredential }) {
         <Link
           target='_blank'
           className='text-base font-medium'
-          to={`${
-            isUsingSubdomain ? '' : `/${projectName}`
-          }/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
+          to={`${isUsingSubdomain ? '' : `/${projectName}`
+            }/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
         >
           <div
             className={clsx(

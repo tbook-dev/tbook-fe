@@ -51,7 +51,7 @@ export default function useSocial() {
           a.href = res["url"];
           a.setAttribute("target", pc ? "_blank" : "_self");
           a.setAttribute("mc-deep-link", "false");
-          a.setAttribute("ref", "nofollow noopener noreferrer");
+          a.setAttribute("rel", "nofollow noopener noreferrer");
           // rel='nofollow noopener noreferrer'
           a.click();
           // setTwCallbackUrl(() => res["url"]);
