@@ -19,6 +19,9 @@ export const authenticate = async function (address, sign) {
     console.log(key, value);
   });
   console.log(document.cookie);
+  // await new Promise(r => {
+  //   setTimeout(r, 10000)
+  // })
 };
 export const getUserInfo = async function () {
   return await request(`${host}/info`);
