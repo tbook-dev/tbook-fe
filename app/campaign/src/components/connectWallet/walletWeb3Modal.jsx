@@ -64,28 +64,14 @@ const ConnectWalletModal = () => {
           setLoading(false)
           handleCloseModal()
           return
+        }else{
+          await queryClient.refetchQueries('userInfo')
         }
       } else {
         await authenticate(address, sign)
+        await queryClient.refetchQueries('userInfo')
       }
-      // const d = new URLSearchParams();
-      // d.append("address", address);
-      // d.append("sign", sign);
-      // const response = await fetch(`${host}/authenticate`, {
-      //   credentials: "include",
-      //   method: "POST",
-      //   headers: {
-      //     "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-      //   },
-      //   body: d,
-      // });
-      // console.log("status:", response.status);
-      // response.text().then((b) => console.log("body", b));
-      // response.headers.forEach((value, key) => {
-      //   console.log(key, value);
-      // });
-      // console.log(document.cookie);
-      await queryClient.refetchQueries('userInfo')
+  
       // cast the userInfo event
       broadcast('userInfo')
       handleCloseModal()
