@@ -3,7 +3,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import ConnectWalletModal from '@/components/connectWallet'
 import PageFallBack from '@/components/pageFallback'
 import { configResponsive, useEventListener } from 'ahooks'
-import routes from './router'
+// import routes from './router'
+import hostRoutes from '@/router/campaign.host'
+import pathRoutes from '@/router/campaign.pathname'
+
 import { useQueryClient } from 'react-query'
 import { WagmiConfig } from 'wagmi'
 import { watchAccount, getAccount } from 'wagmi/actions'
@@ -17,24 +20,25 @@ import {
   isIOS
 } from '@/utils/web3'
 import { receive } from '@/utils/channel'
+import { isUsingSubdomain } from '@/utils/common'
 
 configResponsive({
   pc: 1200
 })
 
-function App () {
+function App() {
   const queryClient = useQueryClient()
   useEventListener('storage', ev => {
     receive(ev, msg => {
       queryClient.refetchQueries(msg)
     })
   })
-
+  
   return (
     <>
       <WagmiConfig config={wagmiConfig}>
         <RouterProvider
-          router={createBrowserRouter(routes)}
+          router={createBrowserRouter(isUsingSubdomain ? hostRoutes : pathRoutes)}
           fallbackElement={<PageFallBack />}
         />
         <ConnectWalletModal />

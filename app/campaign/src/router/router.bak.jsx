@@ -15,7 +15,7 @@ import TwitterLoginCallback from '@/pages/twitter/login_callback'
 import TwLoginIndex from '@/pages/twitter/tw_login'
 import PageFallBack from '@/components/pageFallback'
 import { getProjectId } from '@/api/incentive'
-import queryClient from './query-client'
+import queryClient from '../query-client'
 import logo from '@/images/icon/logo.svg'
 
 const Snapshot = lazy(() => import('@/pages/snapshot'))
