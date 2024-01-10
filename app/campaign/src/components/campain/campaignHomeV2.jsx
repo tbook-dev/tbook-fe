@@ -34,7 +34,7 @@ function Compaign ({
 
   return (
     <Link
-      to={`${isUsingSubdomain ? '' : `/${project?.projectName}`}/${campaignId}`}
+      to={`${isUsingSubdomain ? '' : `/${project?.projectUrl}`}/${campaignId}`}
       className='relative rounded-xl overflow-hidden flex flex-col shadow-s2 bg-[#0e0819]'
       target='_blank'
     >

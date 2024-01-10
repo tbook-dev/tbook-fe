@@ -8,7 +8,7 @@ import pointIcon from '@/images/icon/point.svg'
 import arrow3Icon from '@/images/icon/arrow2.svg'
 
 export default function Point () {
-  const { projectId, projectName, isUsingSubdomain } = useLoaderData()
+  const { projectId, projectUrl, isUsingSubdomain } = useLoaderData()
   const { data: assets, isLoading } = useAssetQuery(projectId)
   const data = assets?.points || []
   const total = _.sum(data.map(v => v.number))
@@ -43,7 +43,7 @@ export default function Point () {
                   <div className='w-[250px] lg:w-[1000px] flex flex-col'>
                     <Link
                       className='text-sm font-medium'
-                      to={`${isUsingSubdomain ? '' : `/${projectName}`}/${
+                      to={`${isUsingSubdomain ? '' : `/${projectUrl}`}/${
                         v.campaignId
                       }`}
                     >

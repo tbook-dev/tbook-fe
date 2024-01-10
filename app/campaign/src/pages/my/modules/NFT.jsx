@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useLoaderData } from 'react-router-dom'
 
 export default function NFT () {
-  const { projectId, projectName } = useLoaderData()
+  const { projectId, projectUrl } = useLoaderData()
   const { data: assets, isLoading } = useAssetQuery(projectId)
   const data = assets?.nfts || []
 
@@ -24,7 +24,7 @@ export default function NFT () {
         data.map(v => {
           return (
             <Link
-              to={`${isUsingSubdomain ? '' : `/${projectName}`}/nft/${
+              to={`${isUsingSubdomain ? '' : `/${projectUrl}`}/nft/${
                 v.groupId
               }/${v.nftId}`}
               className='rounded-lg block bg-[#0e0819] overflow-hidden'

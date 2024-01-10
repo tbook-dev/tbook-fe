@@ -16,29 +16,29 @@ const NFT = lazy(() => import('@/pages/my/nft'))
 const getProjectIdFn = async () => {
   const host = location.hostname
   const subDomain = host.split('.')?.[0]
-  const projectName = subDomain
+  const projectUrl = subDomain
 
   const defaultValues = {
-    projectName,
+    projectUrl,
     isUsingSubdomain: true,
     projectId: '',
     project: {
-      projectName: projectName,
+      projectUrl,
       avatarUrl: logo
     }
   }
 
   try {
     const res = await queryClient.fetchQuery(
-      ['project', projectName],
-      () => getProjectId(projectName),
+      ['project', projectUrl],
+      () => getProjectId(projectUrl),
       {
         staleTime: Infinity,
         cacheTime: Infinity
       }
     )
     return {
-      projectName,
+      projectUrl,
       isUsingSubdomain: true,
       projectId: res?.projectId,
       project: res

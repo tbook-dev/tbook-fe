@@ -10,12 +10,12 @@ export default function CampaignCard ({
   project,
   participantNum = 0
 }) {
-  const { isUsingSubdomain, projectName } = useLoaderData()
+  const { isUsingSubdomain, projectUrl } = useLoaderData()
 
   return (
     <Link
       to={`/${
-        isUsingSubdomain ? '' : `${project?.project || projectName}`
+        isUsingSubdomain ? '' : `${project?.projectUrl || projectUrl}`
       }/${campaignId}`}
       target='__blank'
       className='rounded-xl bg-[rgb(144,75,246)]/[0.1] p-5 flex flex-col gap-y-8 justify-between'

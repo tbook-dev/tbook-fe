@@ -103,11 +103,11 @@ function PlanList() {
             <Spin />
           </div>
         ) : !authUser ? (
-          <NoConnect pc={pc} list={infoList} projectName={grantTotal?.project?.projectName} />
+          <NoConnect pc={pc} list={infoList} projectName={grantTotal?.project?.projectUrl} />
         ) : (
           <div className="flex flex-col justify-between h-full px-4 pt-6 pb-3 text-black rounded-xl lg:rounded-2xl lg:p-10 bg-cw1 lg:shadow-d6">
             <div className="flex">
-              <h2 className="font-bold text-cwh5 lg:ch2">{grantTotal?.project?.projectName}</h2>
+              <h2 className="font-bold text-cwh5 lg:ch2">{grantTotal?.project?.projectUrl}</h2>
             </div>
 
             <div className="block space-y-1 lg:space-y-0 lg:flex lg:justify-between">

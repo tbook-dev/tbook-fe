@@ -28,8 +28,8 @@ import clsx from "clsx";
 //   'It seems you have not finished the task.Please click and finish the task, then verify in 30s later.'
 
 export default function Credential({ redential, showVerify, signCredential }) {
-  const { isUsingSubdomain } = useLoaderData();
-  const { campaignId, projectName } = useParams();
+  const { isUsingSubdomain, projectUrl } = useLoaderData();
+  const { campaignId } = useParams();
   const queryClient = useQueryClient();
   const {
     twitterConnected,
@@ -113,7 +113,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
     12: () => {
       // 当前页面不需要登录
       window.open(
-        `${isUsingSubdomain ? "" : `/${projectName}`}/snapshot/${campaignId}/${
+        `${isUsingSubdomain ? "" : `/${projectUrl}`}/snapshot/${campaignId}/${
           redential.credentialId
         }/${snapshotId}`,
         pc ? "_blank" : "_self"
@@ -249,7 +249,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
           target="_blank"
           className="text-base font-medium"
           to={`${
-            isUsingSubdomain ? "" : `/${projectName}`
+            isUsingSubdomain ? "" : `/${projectUrl}`
           }/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
         >
           <div

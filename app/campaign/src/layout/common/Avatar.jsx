@@ -20,7 +20,7 @@ export default function Avatar () {
   const { socialList } = useSocial()
   const { isConnected } = useAccount()
   const dispatch = useDispatch()
-  const { projectName } = useParams()
+  const { projectUrl } = useParams()
   const { isUsingSubdomain } = useLoaderData()
   const handleConnectWallet = useCallback(() => {
     setOpen(false)
@@ -37,14 +37,14 @@ export default function Avatar () {
     return [
       {
         name: 'Campaigns',
-        path: `${isUsingSubdomain ? '' : `/${projectName}`}/campaign`
+        path: `${isUsingSubdomain ? '' : `/${projectUrl}`}/campaign`
       },
       {
         name: 'Assets',
-        path: `${isUsingSubdomain ? '' : `/${projectName}`}/asset`
+        path: `${isUsingSubdomain ? '' : `/${projectUrl}`}/asset`
       }
     ]
-  }, [projectName])
+  }, [projectUrl])
 
   const Content = () => {
     return (

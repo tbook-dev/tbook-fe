@@ -54,7 +54,7 @@ export default function Layout ({ children }) {
               // validatorSucessIdx === 0 && 'rounded-br-2xl'
             )}
           >
-            {project?.projectName}
+            {project?.projectUrl}
           </div>
 
           <div className='bg-black'>

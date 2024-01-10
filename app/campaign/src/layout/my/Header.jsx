@@ -10,7 +10,7 @@ import Avatar from '../common/Avatar'
 import logo from '@/images/icon/logo.svg'
 
 function Header () {
-  const { project, projectName, isUsingSubdomain } = useLoaderData()
+  const { project, projectUrl, isUsingSubdomain } = useLoaderData()
   const { userLogined, firstLoad } = useUserInfo()
   const dispath = useDispatch()
   const handleClick = () => {
@@ -28,7 +28,7 @@ function Header () {
         <div className='flex items-center justify-between h-10'>
           <div className='flex items-center'>
             <Link
-              to={`${isUsingSubdomain ? '' : `/${projectName}`}`}
+              to={`${isUsingSubdomain ? '' : `/${projectUrl}`}`}
               className='mr-1 lg:mr-16'
             >
               {!logoUrl ? (

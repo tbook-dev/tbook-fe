@@ -16,11 +16,11 @@ const TwLoginIndex = lazy(() => import('@/pages/twitter/tw_login'))
 
 const getProjectIdFn = async () => {
   const defaultValues = {
-    projectName: 'tbook',
+    projectUrl: 'tbook',
     isUsingSubdomain,
     projectId: '',
     project: {
-      projectName: 'tbook',
+      projectUrl: 'tbook',
       avatarUrl: logo
     }
   }
@@ -29,17 +29,17 @@ const getProjectIdFn = async () => {
     try {
       const host = location.hostname
       const subDomain = host.split('.')?.[0]
-      const projectName = subDomain
+      const projectUrl = subDomain
       const res = await queryClient.fetchQuery(
-        ['project', projectName],
-        () => getProjectId(projectName),
+        ['project', projectUrl],
+        () => getProjectId(projectUrl),
         {
           staleTime: Infinity,
           cacheTime: Infinity
         }
       )
       return {
-        projectName,
+        projectUrl,
         isUsingSubdomain: true,
         projectId: res?.projectId,
         project: res

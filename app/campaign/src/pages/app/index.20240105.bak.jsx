@@ -46,7 +46,7 @@ export default function () {
   const { open } = useWeb3Modal()
   // const { handleSignIn } = useSignIn();
   const { isUsingSubdomain } = useLoaderData()
-  const { campaignId, projectName } = useParams()
+  const { campaignId, projectUrl } = useParams()
   const queryClient = useQueryClient()
   const {
     user,
@@ -333,7 +333,7 @@ export default function () {
                         // 当前页面不需要登录
                         window.open(
                           `${
-                            isUsingSubdomain ? '' : `/${projectName}`
+                            isUsingSubdomain ? '' : `/${projectUrl}`
                           }/snapshot/${campaignId}/${
                             redential.credentialId
                           }/${snapshotId}`,
@@ -386,7 +386,7 @@ export default function () {
                             target='_blank'
                             className='text-base font-medium'
                             to={`${
-                              isUsingSubdomain ? '' : `/${projectName}`
+                              isUsingSubdomain ? '' : `/${projectUrl}`
                             }/snapshot/${campaignId}/${
                               redential.credentialId
                             }/${snapshotId}`}

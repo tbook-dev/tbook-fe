@@ -10,12 +10,12 @@ export default function CampaignCard ({
   nfts = [],
   points
 }) {
-  const { isUsingSubdomain, projectName } = useLoaderData()
+  const { isUsingSubdomain, projectUrl } = useLoaderData()
 
   return (
     <Link
       to={`${
-        isUsingSubdomain ? '' : `/${project?.projectName || projectName}`
+        isUsingSubdomain ? '' : `/${project?.projectUrl || projectUrl}`
       }/${campaignId}`}
       className='flex items-center gap-x-3'
     >

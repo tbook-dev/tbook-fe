@@ -23,7 +23,7 @@ const formatIPFS = src => {
 
 export default function Snapshot() {
   const { snapshotId, campaignId } = useParams()
-  const { projectName, isUsingSubdomain } = useLoaderData()
+  const { projectUrl, isUsingSubdomain } = useLoaderData()
   const { data, isLoading } = useProposal(snapshotId)
   const { pc } = useResponsive()
 
@@ -36,7 +36,7 @@ export default function Snapshot() {
               <div className='space-y-3 lg:space-y-4'>
                 <div>
                   <Link
-                    to={`${isUsingSubdomain ? '' : `/${projectName}`
+                    to={`${isUsingSubdomain ? '' : `/${projectUrl}`
                       }/${campaignId}`}
                     className='flex items-center gap-x-1 text-sm font-semibold py-2.5 text-[#717374] group hover:text-white'
                   >

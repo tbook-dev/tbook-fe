@@ -10,7 +10,7 @@ import { Spin } from 'antd'
 import useSupportChainsQuery from '@/hooks/useSupportChainsQuery'
 
 export default function NFT () {
-  const { projectName, isUsingSubdomain } = useLoaderData()
+  const { projectUrl, isUsingSubdomain } = useLoaderData()
   const { groupId, nftId } = useParams()
   const navigate = useNavigate()
   const { data = {}, isLoading } = useNftQuery(groupId, nftId)
@@ -47,7 +47,7 @@ export default function NFT () {
         title: 'Campaign',
         com: (
           <Link
-            to={`${ isUsingSubdomain ? '': `/${projectName}`}/${data.campaignId}`}
+            to={`${ isUsingSubdomain ? '': `/${projectUrl}`}/${data.campaignId}`}
             className='flex items-center flex-wrap gap-x-1'
           >
             {data.campaignName}
@@ -82,7 +82,7 @@ export default function NFT () {
           if (window.history.length > 1) {
             navigate(-1)
           } else {
-            navigate(`${isUsingSubdomain ? '' : `/${projectName}`}/${data.campaignId}`)
+            navigate(`${isUsingSubdomain ? '' : `/${projectUrl}`}/${data.campaignId}`)
           }
         }}
       >

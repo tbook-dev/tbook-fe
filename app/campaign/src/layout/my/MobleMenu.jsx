@@ -7,7 +7,7 @@ import { useCallback } from 'react'
 import { useLoaderData, Link } from 'react-router-dom'
 
 export default function MobleMenu ({ hideLink = false }) {
-  const { project, projectName, isUsingSubdomain } = useLoaderData()
+  const { project, projectUrl, isUsingSubdomain } = useLoaderData()
   const [open, setOpen] = useState(false)
   const handleCancel = useCallback(() => {
     setOpen(false)
@@ -19,7 +19,7 @@ export default function MobleMenu ({ hideLink = false }) {
         <div className='flex items-center justify-between h-10 mb-10'>
           <div className='flex items-center'>
             <Link
-              to={`${isUsingSubdomain ? '' : `/${projectName}`}`}
+              to={`${isUsingSubdomain ? '' : `/${projectUrl}`}`}
               className='mr-1 lg:mr-16'
             >
               <img src={project?.avatarUrl} className='h-6 object-contain' />

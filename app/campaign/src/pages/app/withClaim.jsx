@@ -6,7 +6,7 @@ const typeMap = {
   point: 3
 }
 export default function WithClaim ({ handleFn, item, loading, type }) {
-  const { projectName, isUsingSubdomain } = useLoaderData()
+  const { projectUrl, isUsingSubdomain } = useLoaderData()
 
   //const [loading, updateLoading] = useState(false);
   const handleClick = async function () {
@@ -52,7 +52,7 @@ export default function WithClaim ({ handleFn, item, loading, type }) {
       {item.value === 4 && (
         <Link
           className='text-sm text-[#C0ABD9]  lg:hover:text-white flex items-center gap-x-0.5'
-          to={`${isUsingSubdomain ? '' : `/${projectName}`}/asset?type=${
+          to={`${isUsingSubdomain ? '' : `/${projectUrl}`}/asset?type=${
             typeMap[type]
           }`}
           target='_blank'
