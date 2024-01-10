@@ -1,7 +1,6 @@
 import Loading from '@/components/loading'
 import CampaignCardV2 from '@/components/campain/campaignHomeV2'
 import { useState, useEffect } from 'react'
-import { useResponsive } from 'ahooks'
 import { campaignStatus } from '@/utils/conf'
 import { useLoaderData } from 'react-router-dom'
 import useCampaignList from '@/hooks/useCampaignList'
@@ -10,7 +9,7 @@ import clsx from 'clsx'
 import Banner from './Banner'
 import { useMemo } from 'react'
 import { sum } from 'lodash'
-import Empty from '@/components/Empty'
+import Empty from '@/components/empty'
 
 export default function Expore () {
   const [selectStatus, setSelectedStatus] = useState(-1)
