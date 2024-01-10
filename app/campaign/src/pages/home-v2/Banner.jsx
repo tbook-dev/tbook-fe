@@ -113,10 +113,14 @@ export default function Banner({
           )}
         </div>
       </div>
-      <div className="flex justify-end flex-auto">
+      <div className="lg:flex justify-end flex-auto hidden">
         <div className="text-sm flex pt-[54px] gap-16 text-right">
           {isLoading ? (
-            <Skeleton active paragraph={{ rows: 1 }} title={false} />
+            <Skeleton
+              active
+              paragraph={{ rows: 2, width: 206 }}
+              title={false}
+            />
           ) : (
             users.map((v) => {
               return (
