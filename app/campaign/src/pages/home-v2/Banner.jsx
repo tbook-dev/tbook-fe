@@ -11,6 +11,8 @@ import { Skeleton } from "antd";
 export default function Banner({
   avatarUrl,
   projectName,
+  twitterLink,
+  telegramLink,
   tags,
   projectDescription,
   campaignNum,
@@ -22,19 +24,19 @@ export default function Banner({
       {
         name: "x",
         picUrl: x,
-        link: "",
+        link: twitterLink,
       },
       {
         name: "tg",
         picUrl: tg,
-        link: "",
+        link: telegramLink,
       },
-      {
-        name: "dc",
-        picUrl: dc,
-        link: "",
-      },
-    ];
+      // {
+      //   name: "dc",
+      //   picUrl: dc,
+      //   link: "",
+      // },
+    ].filter((v) => !!v.link);
   }, []);
   const users = useMemo(() => {
     return [
