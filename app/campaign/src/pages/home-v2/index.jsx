@@ -40,7 +40,7 @@ export default function Expore () {
   }, [defaultLoaded, isLoading])
 
   const participantNum = useMemo(() => {
-    return sum(list.map(v => v.participation?.length ?? 0))
+    return sum(list.map(v => v.participantNum ?? 0))
   }, [list])
 
   return (
@@ -96,7 +96,7 @@ export default function Expore () {
                     <CampaignCardV2
                       key={v.campaign?.campaignId}
                       project={project}
-                      users={v.participation ?? []}
+                      usersNum={v.participantNum ?? 0}
                       groups={v.groups ?? []}
                       {...v.campaign}
                     />

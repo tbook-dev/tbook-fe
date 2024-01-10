@@ -17,7 +17,7 @@ function Compaign ({
   picUrl,
   endAt,
   project,
-  users,
+  usersNum,
   groups,
   status
 }) {
@@ -65,8 +65,8 @@ function Compaign ({
 
         <div className='space-y-3'>
           <div className='flex items-center gap-x-1 text-[#C0ABD9]'>
-            <span className='font-zen-dot'>{formatDollar(users.length)}</span>
-            {users.length > 1 ? 'Participants' : 'Participant'}
+            <span className='font-zen-dot'>{formatDollar(usersNum)}</span>
+            {usersNum > 1 ? 'Participants' : 'Participant'}
           </div>
 
           <div className='flex flex-wrap text-xs font-medium space-x-3'>
