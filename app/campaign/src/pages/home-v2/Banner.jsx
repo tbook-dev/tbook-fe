@@ -114,7 +114,7 @@ export default function Banner({
         </div>
       </div>
       <div className="flex justify-end flex-auto">
-        <div className="text-sm flex items-center gap-16 text-right">
+        <div className="text-sm flex pt-[54px] gap-16 text-right">
           {isLoading ? (
             <Skeleton active paragraph={{ rows: 1 }} title={false} />
           ) : (
