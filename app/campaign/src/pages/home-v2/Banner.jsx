@@ -80,26 +80,30 @@ export default function Banner({
             }}
           />
         </div>
-        <div className="flex items-center gap-x-3">
-          {socialList.map((v) => {
-            return (
-              <a
-                key={v.name}
-                target="_blank"
-                href={v.link}
-                rel="nofollow noopener noreferrer"
-              >
-                <Tooltip title={v.link} placement="top">
-                  <img
-                    src={v.picUrl}
-                    className="w-6 h-6 object-center"
-                    alt={v.name + " logo"}
-                  />
-                </Tooltip>
-              </a>
-            );
-          })}
-        </div>
+
+        {socialList.length > 0 && (
+          <div className="flex items-center gap-x-3">
+            {socialList.map((v) => {
+              return (
+                <a
+                  key={v.name}
+                  target="_blank"
+                  href={v.link}
+                  rel="nofollow noopener noreferrer"
+                >
+                  <Tooltip title={v.link} placement="top">
+                    <img
+                      src={v.picUrl}
+                      className="w-6 h-6 object-center"
+                      alt={v.name + " logo"}
+                    />
+                  </Tooltip>
+                </a>
+              );
+            })}
+          </div>
+        )}
+
         <div className="text-sm flex items-center gap-8 lg:hidden">
           {isLoading ? (
             <Skeleton active paragraph={{ rows: 1 }} title={false} />
