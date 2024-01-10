@@ -14,13 +14,13 @@ function Compaign ({ title, campaignId, picUrl, project, users, groups }) {
   return (
     <Link
       to={`${isUsingSubdomain ? '' : `/${project?.projectName}`}/${campaignId}`}
-      className='rounded-xl overflow-hidden  flex flex-col shadow-s2 bg-[#0e0819]'
+      className='rounded-xl overflow-hidden flex flex-col shadow-s2 bg-[#0e0819]'
     >
       <LazyImage
         src={picUrl}
         className='w-full h-[160px] lg:h-[140px] object-cover object-center  hover:scale-105 transition-all transition-2000'
       />
-      <div className='p-5 flex flex-col gap-y-3'>
+      <div className='p-5 flex-auto flex flex-col justify-between gap-y-3'>
         <h2 className='font-medium text-base'>{title}</h2>
 
         <div className='space-y-3'>

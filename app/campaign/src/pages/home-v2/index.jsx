@@ -10,6 +10,7 @@ import Banner from './Banner'
 import { useMemo } from 'react'
 import { sum } from 'lodash'
 import Empty from '@/components/empty'
+import { Affix } from 'antd'
 
 export default function Expore () {
   const [selectStatus, setSelectedStatus] = useState(-1)
@@ -53,26 +54,30 @@ export default function Expore () {
         />
 
         <div className='space-y-8'>
-          <div className='flex items-center justify-between lg:justify-start lg:gap-x-20 h-10 border-b border-[#904BF6]'>
-            {campaignStatus.map(v => {
-              return (
-                <button
-                  key={v.value}
-                  className={clsx(
-                    selectStatus === v.value
-                      ? 'before:absolute before:w-full before:h-0.5 before:left-0 before:-bottom-[7px] before:bg-[#904BF6]'
-                      : 'text-[#A1A1A2]',
-                    'text-xl relative w-[120px] h-7'
-                  )}
-                  onClick={() => {
-                    setSelectedStatus(v.value)
-                  }}
-                >
-                  {v.label}
-                </button>
-              )
-            })}
-          </div>
+          <Affix offsetTop={0}>
+            <div className='py-5 bg-black'>
+              <div className='flex items-center justify-between lg:justify-start lg:gap-x-20 h-10 border-b border-[#160b25]'>
+                {campaignStatus.map(v => {
+                  return (
+                    <button
+                      key={v.value}
+                      className={clsx(
+                        selectStatus === v.value
+                          ? 'before:absolute before:w-full before:h-0.5 before:left-0 before:-bottom-[7px] before:bg-[#904BF6]'
+                          : 'text-[#A1A1A2]',
+                        'text-xl relative w-[120px] h-7'
+                      )}
+                      onClick={() => {
+                        setSelectedStatus(v.value)
+                      }}
+                    >
+                      {v.label}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          </Affix>
 
           <section className='mb-20'>
             {isLoading ? (
