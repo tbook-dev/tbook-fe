@@ -8,7 +8,7 @@ import useUserCampaignQuery from '@/hooks/useUserCampaignQuery'
 import { useMemo } from 'react'
 import NotConnect from './modules/NotConnect'
 import Loading from '@/components/loading'
-import Empty from './modules/Empty'
+import Empty from '@/components/Empty'
 import { useResponsive } from 'ahooks'
 const moduleConf = {
   tab: [

@@ -5,6 +5,7 @@ import dc from '@/images/icon/dc.svg'
 import tg from '@/images/icon/tg.svg'
 import { Tooltip } from 'antd'
 import { formatDollar } from '@tbook/utils/lib/conf'
+import LazyImage from '@/components/lazyImage'
 
 export default function Banner ({
   avatarUrl,
@@ -45,12 +46,13 @@ export default function Banner ({
       }
     ]
   }, [campaignNum, participantNum])
+
   return (
     <div className='flex flex-col gap-8 lg:flex-row'>
-      <img
+      <LazyImage
         src={avatarUrl}
         alt={projectName + 'logo'}
-        className='w-20 h-20 border-2 border-black'
+        className='w-20 h-20 lg:w-[108px] lg:h-[108px] object-contain object-center rounded-full flex-none'
       />
 
       <div className='space-y-4'>
