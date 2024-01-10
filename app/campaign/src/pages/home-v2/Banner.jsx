@@ -54,7 +54,7 @@ export default function Banner ({
       <LazyImage
         src={avatarUrl}
         alt={projectName + 'logo'}
-        className='w-20 h-20 lg:w-[108px] lg:h-[108px] object-contain object-center rounded-full flex-none'
+        className='w-20 h-20 hidden lg:block lg:w-[108px] lg:h-[108px] object-contain object-center rounded-full flex-none'
       />
 
       <div className='space-y-4'>

@@ -64,7 +64,7 @@ export default function Expore() {
                         selectStatus === v.value
                           ? "before:absolute before:w-full before:h-0.5 before:left-0 before:-bottom-[7px] before:bg-[#904BF6]"
                           : "text-[#A1A1A2]",
-                        "text-xl relative w-[120px] h-7 lg:hover:text-white"
+                        "text-base lg:text-xl relative w-[120px] h-7 lg:hover:text-white"
                       )}
                       onClick={() => {
                         setSelectedStatus(v.value);

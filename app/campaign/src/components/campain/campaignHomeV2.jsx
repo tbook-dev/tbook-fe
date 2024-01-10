@@ -9,6 +9,10 @@ const colorMap = {
   1: {
     color: '#F87171',
     backgroundColor: 'rgba(248, 113, 113, 0.1)'
+  },
+  2: {
+    color: 'rgb(234,179,8)',
+    backgroundColor: 'rgba(250,204,21,0.1)'
   }
 }
 function Compaign ({
@@ -34,10 +38,10 @@ function Compaign ({
       className='relative rounded-xl overflow-hidden flex flex-col shadow-s2 bg-[#0e0819]'
       target='_blank'
     >
-      {status === 1 && (
+      {[1,2].includes(status) && (
         <div
           className='absolute top-3 right-3 px-2 py-0.5 flex items-center gap-x-1.5 rounded '
-          style={colorMap[1]}
+          style={colorMap[status]}
         >
           <span
             className='w-2 h-2 rounded-full'
