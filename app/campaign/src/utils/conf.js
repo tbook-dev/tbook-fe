@@ -226,3 +226,34 @@ export const credentialStatus = [
     // nft置灰
   },
 ];
+
+export const campaignStatus = [
+  {
+    label: "Ongoing",
+    value: 1,
+    color: "#65C467",
+  },
+  {
+    label: "Scheduled",
+    value: 2,
+    color: "#3A82F7",
+  },
+  // {
+  //   label: "Draft",
+  //   value: 0,
+  //   color: '#999999'
+  // },
+  {
+    label: "Completed",
+    value: 3,
+    color: "#666",
+  },
+  // {
+  //   label: "Suspended",
+  //   value: 4,
+  // },
+  // {
+  //   label: "Terminated",
+  //   value: 5,
+  // },
+];

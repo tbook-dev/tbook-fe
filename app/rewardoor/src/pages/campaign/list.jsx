@@ -2,12 +2,11 @@ import clsx from 'clsx'
 import { useState } from 'react'
 import Button from '@/components/button'
 import { Link } from 'react-router-dom'
-import { getCampaign } from '@/api/incentive'
-import { useQuery } from 'react-query'
 import Loading from '@/components/loading'
 import { PlusOutlined } from '@ant-design/icons'
 import Compaign from '@/components/compaign'
 import useUserInfo from '@/hooks/queries/useUserInfo'
+import useCampaignList from '@/hooks/queries/useCampaignList'
 
 //0: 草稿, 1：进行中, 2：计划中，3: 已完成, 16: 已删除
 import { campaignStatus } from '@/utils/conf'
@@ -18,15 +17,8 @@ const pageTitle = 'Incentive Campaign'
 export default function () {
   const [selectStatus, setSelectedStatus] = useState(campaignStatus[0].value)
   const { projectId } = useUserInfo()
+  const { data: list = [], isLoading } = useCampaignList(projectId)
 
-  const { data: list = [], isLoading } = useQuery(
-    ['campaignList', projectId],
-    () => getCampaign(projectId),
-    {
-      staleTime: 1000 * 60 * 10,
-      enabled: !!projectId
-    }
-  )
   const listFilter = list
     .filter(v => v.campaign?.status === selectStatus)
     .sort((a, b) =>

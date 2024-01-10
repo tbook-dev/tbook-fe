@@ -254,6 +254,7 @@ export default function Settings () {
                   <Input.TextArea
                     placeholder='This is a project introduction'
                     className='w-[420px]'
+                    autoSize
                   />
                 </Form.Item>
               </FormSection>

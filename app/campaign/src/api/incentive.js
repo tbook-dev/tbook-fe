@@ -185,3 +185,6 @@ export const logUserReport = async function (data) {
 export const getProjectId = async function (projectName) {
   return await request(`${host}/project/byUrl/${encodeURI(projectName)}`);
 };
+export const getCampaign = async function (projectId) {
+  return await request(`${host}/campaignNew/project/${projectId}`);
+};
