@@ -47,6 +47,7 @@ export default function Expore () {
       <div className='lg:w-bx mx-auto px-4 space-y-16 lg:px-0'>
         <Banner
           {...project}
+          isLoading={isLoading}
           campaignNum={list?.length ?? 0}
           participantNum={participantNum}
         />

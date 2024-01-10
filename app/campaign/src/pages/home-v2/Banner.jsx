@@ -6,6 +6,7 @@ import tg from '@/images/icon/tg.svg'
 import { Tooltip } from 'antd'
 import { formatDollar } from '@tbook/utils/lib/conf'
 import LazyImage from '@/components/lazyImage'
+import { Skeleton } from 'antd'
 
 export default function Banner ({
   avatarUrl,
@@ -13,7 +14,8 @@ export default function Banner ({
   tags,
   projectDescription,
   campaignNum,
-  participantNum
+  participantNum,
+  isLoading
 }) {
   const socialList = useMemo(() => {
     return [
@@ -97,14 +99,18 @@ export default function Banner ({
           })}
         </div>
         <div className='text-sm flex items-center gap-8'>
-          {users.map(v => {
-            return (
-              <div key={v.text}>
-                <span className='font-zen-dot mr-1'>{v.num}</span>
-                {v.text}
-              </div>
-            )
-          })}
+          {isLoading ? (
+            <Skeleton active paragraph={{ rows: 1 }} title={false} />
+          ) : (
+            users.map(v => {
+              return (
+                <div key={v.text}>
+                  <span className='font-zen-dot mr-1'>{v.num}</span>
+                  {v.text}
+                </div>
+              )
+            })
+          )}
         </div>
       </div>
     </div>
