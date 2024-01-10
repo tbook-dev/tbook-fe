@@ -2,8 +2,25 @@ import { Link, useLoaderData } from 'react-router-dom'
 import { memo, useMemo } from 'react'
 import { formatDollar } from '@tbook/utils/lib/conf'
 import LazyImage from '@/components/lazyImage'
+import { Statistic } from 'antd'
+const { Countdown } = Statistic
 
-function Compaign ({ title, campaignId, picUrl, project, users, groups }) {
+const colorMap = {
+  1: {
+    color: '#F87171',
+    backgroundColor: 'rgba(248, 113, 113, 0.1)'
+  }
+}
+function Compaign ({
+  title,
+  campaignId,
+  picUrl,
+  endAt,
+  project,
+  users,
+  groups,
+  status
+}) {
   const { isUsingSubdomain } = useLoaderData()
   const rewardOpt = useMemo(() => {
     const hasNFT = groups.some(v => v.nftList.length > 0)
@@ -14,11 +31,34 @@ function Compaign ({ title, campaignId, picUrl, project, users, groups }) {
   return (
     <Link
       to={`${isUsingSubdomain ? '' : `/${project?.projectName}`}/${campaignId}`}
-      className='rounded-xl overflow-hidden flex flex-col shadow-s2 bg-[#0e0819]'
+      className='relative rounded-xl overflow-hidden flex flex-col shadow-s2 bg-[#0e0819]'
+      target='_blank'
     >
+      {status === 1 && (
+        <div
+          className='absolute top-3 right-3 px-2 py-0.5 flex items-center gap-x-1.5 rounded '
+          style={colorMap[1]}
+        >
+          <span
+            className='w-2 h-2 rounded-full'
+            style={{ background: colorMap[status].color }}
+          />
+          <Countdown
+            value={endAt}
+            format='D[d] H[h] m[m] s[s]'
+            valueStyle={{
+              fontWeight: 500,
+              color: colorMap[status].color,
+              fontSize: '14px',
+              lineHeight: '20px'
+            }}
+          />
+        </div>
+      )}
+
       <LazyImage
         src={picUrl}
-        className='w-full h-[160px] lg:h-[140px] object-cover object-center  hover:scale-105 transition-all transition-2000'
+        className='w-full h-[160px] lg:h-[140px] object-cover object-center'
       />
       <div className='p-5 flex-auto flex flex-col justify-between gap-y-3'>
         <h2 className='font-medium text-base'>{title}</h2>

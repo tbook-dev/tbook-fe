@@ -53,7 +53,7 @@ export default function Expore () {
           participantNum={participantNum}
         />
 
-        <div className='space-y-8'>
+        <div className='space-y-3'>
           <Affix offsetTop={0}>
             <div className='py-5 bg-black'>
               <div className='flex items-center justify-between lg:justify-start lg:gap-x-20 h-10 border-b border-[#160b25]'>
@@ -65,7 +65,7 @@ export default function Expore () {
                         selectStatus === v.value
                           ? 'before:absolute before:w-full before:h-0.5 before:left-0 before:-bottom-[7px] before:bg-[#904BF6]'
                           : 'text-[#A1A1A2]',
-                        'text-xl relative w-[120px] h-7'
+                        'text-xl relative w-[120px] h-7 lg:hover:text-white'
                       )}
                       onClick={() => {
                         setSelectedStatus(v.value)
