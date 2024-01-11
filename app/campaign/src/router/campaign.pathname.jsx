@@ -130,6 +130,7 @@ const routes = [
       },
       {
         path: ':projectName/snapshot/:campaignId/:credentialId/:snapshotId',
+        loader: getProjectIdFn,
         element: (
           <Suspense fallback={<PageFallBack />}>
             <Snapshot />
