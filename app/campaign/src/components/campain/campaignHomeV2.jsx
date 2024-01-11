@@ -40,7 +40,7 @@ function Compaign ({
     >
       {[1,2].includes(status) && (
         <div
-          className='absolute top-3 right-3 px-2 py-0.5 flex items-center gap-x-1.5 rounded '
+          className='absolute top-3 right-3 px-2 py-0.5 flex items-center gap-x-1.5 rounded'
           style={colorMap[status]}
         >
           <span
@@ -49,7 +49,7 @@ function Compaign ({
           />
           <Countdown
             value={endAt}
-            format='D[d] H[h] m[m] s[s]'
+            format='D[d] H[h] m[m]'
             valueStyle={{
               fontWeight: 500,
               color: colorMap[status].color,
