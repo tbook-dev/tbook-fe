@@ -41,6 +41,7 @@ export default function useUserInfo() {
     firstLoad,
     userLogined,
     user,
+    address: data?.user?.wallet,
     ...props,
   };
 }

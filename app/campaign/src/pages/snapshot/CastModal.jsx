@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Spin, message } from 'antd'
-import { verifyTbook } from '@/api/incentive'
+// import { verifyTbook } from '@/api/incentive'
 
 const moduleConf = {
   title: 'Cast your vote',
@@ -72,7 +72,7 @@ export default function CastModal () {
       .then(r => {
         messageApi.success(moduleConf.voteSucess)
         // 上报
-        verifyTbook(credentialId)
+        // verifyTbook(credentialId)
         refetch()
         refetchVote()
       })

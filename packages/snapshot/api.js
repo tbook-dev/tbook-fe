@@ -107,7 +107,7 @@ export const useSpace = (id) => {
 };
 
 // 获取当前的投票情况
-export const useUserVotes = (proposalId, voter) => {
+export const useUserVotes = (proposalId, voter, disable = false) => {
   return useQuery(
     ["vote", proposalId, voter],
     async () => {
@@ -128,7 +128,7 @@ export const useUserVotes = (proposalId, voter) => {
       return votes;
     },
     {
-      enabled: !!proposalId && !!voter,
+      enabled: !!proposalId && !!voter && !disable,
     }
   );
 };

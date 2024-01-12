@@ -1,6 +1,6 @@
 import Preview from "../snapshot/Preview";
 import { getCrenditialType } from "@/utils/conf";
-import { getSnapshotIdBylink } from "@tbook/snapshot/api";
+import { getSnapshotIdBylink, useUserVotes } from "@tbook/snapshot/api";
 import WithVerify from "@/components/withVerify";
 import { verifyCredential } from "@/api/incentive";
 import VerifyStatus, {
@@ -37,6 +37,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
     discordConnected,
     telegramConnected,
     wallectConnected,
+    address,
   } = useUserInfo();
   const { getSocialByName } = useSocial();
   const { pc } = useResponsive();
@@ -44,10 +45,19 @@ export default function Credential({ redential, showVerify, signCredential }) {
   const credentialType = getCrenditialType(redential.labelType);
   const isSnapshotType = redential.labelType === 12;
   const snapshotId = getSnapshotIdBylink(redential.link);
+  const { data: votes = [] } = useUserVotes(
+    snapshotId,
+    address,
+    redential.isVerified
+  );
+  // console.log({isVerified: redential.isVerified ,votes,isLoading})
   const { isConnected } = useAccount();
   const [count, setCount] = useState(0);
   const clearInterIdRef = useRef();
-
+  const hasVoted = useMemo(() => {
+    if (!votes) return;
+    return !!votes?.find((v) => v.voter === address);
+  }, [votes]);
   const sysConnectedMap = {
     twitter: twitterConnected,
     discord: discordConnected,
@@ -72,7 +82,16 @@ export default function Credential({ redential, showVerify, signCredential }) {
     dispath(setLoginModal(true));
   }, []);
   const handleVerify = useCallback(async (redential) => {
+    // 如果是snapshot，先坚持上报然后
     let hasError = false;
+    if (isSnapshotType && hasVoted) {
+      //先上报
+      await verifyTbook(redential.credentialId);
+    } else {
+      hasError = true;
+      resetCount();
+      throw new Error(true);
+    }
     try {
       const res = await verifyCredential(redential.credentialId);
       if (res.isVerified) {
