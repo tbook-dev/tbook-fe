@@ -34,10 +34,10 @@ export default function Preview ({ id }) {
           choices.map((v, idx) => (
             <div
               key={idx}
-              className='flex justify-between items-center bg-linear5 shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
+              className='flex justify-between items-start gap-x-1 bg-linear5 shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
             >
               <span>{v.choiceDesc}</span>
-              <span>
+              <span className='flex-none'>
                 {formatDollar(v.voteNum, 6)} {data?.symbol}
                 <span className='m-1' />
                 {v.percent}%
