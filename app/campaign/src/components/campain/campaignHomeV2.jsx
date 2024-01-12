@@ -19,6 +19,7 @@ function Compaign ({
   title,
   campaignId,
   picUrl,
+  startAt,
   endAt,
   project,
   usersNum,
@@ -48,7 +49,7 @@ function Compaign ({
             style={{ background: colorMap[status].color }}
           />
           <Countdown
-            value={endAt}
+            value={status === 2 ? startAt :endAt}
             format='D[d] H[h] m[m]'
             valueStyle={{
               fontWeight: 500,
