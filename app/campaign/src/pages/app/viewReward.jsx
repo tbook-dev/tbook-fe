@@ -147,7 +147,7 @@ export default function ViewReward ({ data, open, onCancel }) {
             <h1 className='text-lg font-medium'>{data.name}</h1>
             <img
               src={data.picUrl}
-              className='w-40 h-40 rounded-lg object-center object-contain'
+              className='w-40 h-40 mx-auto rounded-lg object-center object-contain'
             />
           </div>
         ) : (
