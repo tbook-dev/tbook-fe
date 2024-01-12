@@ -85,14 +85,17 @@ export default function Credential({ redential, showVerify, signCredential }) {
   const handleVerify = useCallback(async (redential) => {
     // 如果是snapshot，先坚持上报然后
     let hasError = false;
-    if (isSnapshotType && hasVoted) {
+    if (isSnapshotType) {
+      if(hasVoted){
       //先上报
-      await verifyTbook(redential.credentialId);
-    } else {
-      hasError = true;
-      resetCount();
-      throw new Error(true);
+        await verifyTbook(redential.credentialId);
+      } else {
+        hasError = true;
+        resetCount();
+        throw new Error(true);
+      }
     }
+    
     try {
       const res = await verifyCredential(redential.credentialId);
       if (res.isVerified) {
