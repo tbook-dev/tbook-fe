@@ -73,7 +73,7 @@ export default function BasicInfo({ form: setUpForm }) {
         name="schedule"
         rules={[{ required: true, message: "Schedule is required" }]}
       >
-        <RangePicker showTime className="w-full" />
+        <RangePicker showTime className="w-full" format="YYYY-MM-DD HH:mm:ss (UTCZ)"/>
       </Form.Item>
     </Form>
   );

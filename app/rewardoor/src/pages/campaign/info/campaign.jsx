@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 import Loading from '@/components/loading'
 import useCampaign from '@/hooks/queries/useCampaign'
 
-const dateFormat = `YYYY-MM-DD HH:mm:ss`
+const dateFormat = `YYYY-MM-DD HH:mm:ss (UTCZ)`
 const { Paragraph } = Typography
 
 export default function Campaign () {
