@@ -8,6 +8,7 @@ export default function useUserInfo() {
     "userInfo",
     getUserInfo,
     {
+      staleTime: 5000,
       retry: false,
     }
   );

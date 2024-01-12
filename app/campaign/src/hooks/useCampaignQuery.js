@@ -8,7 +8,7 @@ const endList = [3, 4, 5];
 
 export default function useCampaignQuery(campaignId) {
   const [firstLoad, setFirstLoad] = useState(false);
-  const { userLogined } = useUserInfoQuery();
+  const { userLogined, firstLoad: userLoaded } = useUserInfoQuery();
   const {
     isLoading,
     data: page,
@@ -18,7 +18,7 @@ export default function useCampaignQuery(campaignId) {
     () => getCampaignDetail(campaignId),
     {
       staleTime: 50000,
-      enabled: !!campaignId,
+      enabled: !!campaignId && userLoaded,
     }
   );
   const campaignNotStart = notStartList.includes(page?.campaign?.status);
@@ -34,7 +34,7 @@ export default function useCampaignQuery(campaignId) {
     ...props,
     data: page,
     firstLoad,
-    isLoading,
+    isLoading: !userLoaded || isLoading,
     campaignNotStart,
     campaignEnd,
   };
