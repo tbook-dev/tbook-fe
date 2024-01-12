@@ -36,8 +36,8 @@ export default function Preview ({ id }) {
               key={idx}
               className='flex justify-between items-start gap-x-1 bg-linear5 shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
             >
-              <span>{v.choiceDesc}</span>
-              <span className='flex-none'>
+              <span className='flex-none truncate max-w-[calc(100%_-_104px)]'>{v.choiceDesc}</span>
+              <span className='flex-none truncate max-w-[100px]'>
                 {formatImpact(v.voteNum)} {data?.symbol}
                 <span className='m-1' />
                 {v.percent}%

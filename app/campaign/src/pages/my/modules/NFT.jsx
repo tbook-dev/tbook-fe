@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useLoaderData } from 'react-router-dom'
 
 export default function NFT () {
-  const { projectId, projectUrl } = useLoaderData()
+  const { projectId, projectUrl, isUsingSubdomain } = useLoaderData()
   const { data: assets, isLoading } = useAssetQuery(projectId)
   const data = assets?.nfts || []
 
