@@ -55,9 +55,10 @@ export default function Credential({ redential, showVerify, signCredential }) {
   const [count, setCount] = useState(0);
   const clearInterIdRef = useRef();
   const hasVoted = useMemo(() => {
-    if (!votes) return;
-    return !!votes?.find((v) => v.voter === address);
+    if (!votes) return false;
+    return !!votes?.find((v) => v.voter?.toLowerCase() === address?.toLowerCase());
   }, [votes]);
+  
   const sysConnectedMap = {
     twitter: twitterConnected,
     discord: discordConnected,
@@ -109,7 +110,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
       resetCount();
       throw new Error(hasError);
     }
-  }, []);
+  }, [isSnapshotType, hasVoted]);
 
   // 点击任务，除了跳转外的额外处理。
   const taskMap = {

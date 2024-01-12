@@ -168,8 +168,10 @@ export default function CastModal () {
                   {moduleConf.noVotingPower(data?.snapshot)}
                 </p>
                 <a
+                  rel='nofollow noopener noreferrer'
+                  target='_blank'
                   href={moduleConf.votingPowerLink}
-                  className='underline hover:underline'
+                  className='text-[#78589e] hover:text-white underline hover:underline'
                 >
                   {moduleConf.votingPowerText}
                 </a>

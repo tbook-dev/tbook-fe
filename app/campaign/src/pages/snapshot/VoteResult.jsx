@@ -49,9 +49,9 @@ export default function VoteResult({ snapshotId }) {
         {choices.map((v, idx) => {
           return (
             <div key={idx} className='space-y-2'>
-              <div className='flex justify-between items-center text-sm font-medium'>
+              <div className='flex justify-between items-start gap-x-1 text-sm font-medium'>
                 <p>{v.choiceDesc}</p>
-                <p>
+                <p className='flex-none'>
                   {formatDollar(v.voteNum, 6)} {data?.symbol}<span className='m-1' />{v.percent}%
                 </p>
               </div>
