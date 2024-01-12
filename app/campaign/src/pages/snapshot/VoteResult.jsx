@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { useProposal } from '@tbook/snapshot/api'
 import clsx from 'clsx'
 import { useMemo } from 'react'
-import { formatDollar } from '@tbook/utils/lib/conf'
+import { formatImpact } from '@tbook/utils/lib/conf'
 import { Skeleton } from 'antd'
 
 export default function VoteResult({ snapshotId }) {
@@ -38,8 +38,8 @@ export default function VoteResult({ snapshotId }) {
                 arriveQuorum ? 'text-[#76DF9A] flex items-center gap-x-1' : ''
               )}
             >
-              {formatDollar(BigNumber(data?.scores_total).toFixed(6), 6)}/
-              <span className='text-white'>{formatDollar(data?.quorum, 6)}</span>
+              {formatImpact(BigNumber(data?.scores_total).toFixed(6))}/
+              <span className='text-white'>{formatImpact(data?.quorum)}</span>
             </span>
           </h2>
         </div>
@@ -52,7 +52,7 @@ export default function VoteResult({ snapshotId }) {
               <div className='flex justify-between items-start gap-x-1 text-sm font-medium'>
                 <p>{v.choiceDesc}</p>
                 <p className='flex-none'>
-                  {formatDollar(v.voteNum, 6)} {data?.symbol}<span className='m-1' />{v.percent}%
+                  {formatImpact(v.voteNum)} {data?.symbol}<span className='m-1' />{v.percent}%
                 </p>
               </div>
 

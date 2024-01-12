@@ -1,7 +1,7 @@
 import { useProposal } from '@tbook/snapshot/api'
 import BigNumber from 'bignumber.js'
 import { useMemo } from 'react'
-import { formatDollar } from '@tbook/utils/lib/conf'
+import { formatImpact } from '@tbook/utils/lib/conf'
 import { Skeleton } from 'antd'
 
 export default function Preview ({ id }) {
@@ -38,7 +38,7 @@ export default function Preview ({ id }) {
             >
               <span>{v.choiceDesc}</span>
               <span className='flex-none'>
-                {formatDollar(v.voteNum, 6)} {data?.symbol}
+                {formatImpact(v.voteNum)} {data?.symbol}
                 <span className='m-1' />
                 {v.percent}%
               </span>
