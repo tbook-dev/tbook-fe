@@ -6,8 +6,8 @@ import Loading from '@/components/loading'
 import NftGiveAway from './modules/NftGiveAway'
 
 const NftDetail = () => {
-  const { nftId } = useParams()
-  const { data, isLoading } = useNft(nftId)
+  const { nftId, groupId } = useParams()
+  const { data, isLoading } = useNft(nftId, groupId)
 
   return isLoading ? (
     <Loading h='h-40' />

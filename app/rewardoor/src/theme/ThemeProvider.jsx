@@ -10,7 +10,7 @@ export default function ({ children, ...props }) {
         // theme.defaultAlgorithm,
         components,
         token: {
-          colorPrimary: '#fff',
+          colorPrimary: '#4D0BEF',
           borderRadiusLG: 16,
           fontFamily: "'Red Hat Display', sans-serif;"
         }

@@ -51,7 +51,7 @@ export default function WithClaim ({ handleFn, item, loading, type }) {
       </p>
       {item.value === 4 && (
         <Link
-          className='text-sm text-[#C0ABD9]  lg:hover:text-white flex items-center gap-x-0.5'
+          className='text-sm text-[#C0ABD9] hover:text-white flex items-center gap-x-0.5'
           to={`${isUsingSubdomain ? '' : `/${projectUrl}`}/asset?type=${
             typeMap[type]
           }`}
