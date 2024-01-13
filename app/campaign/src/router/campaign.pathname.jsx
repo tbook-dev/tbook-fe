@@ -28,7 +28,10 @@ const getProjectIdFn = async ({ params }) => {
       avatarUrl: logo
     }
   }
-
+  if(!projectUrl){
+    // official home 、explore
+    return defaultValues
+  }
   try {
     const res = await queryClient.fetchQuery(
       ['project', projectUrl],
