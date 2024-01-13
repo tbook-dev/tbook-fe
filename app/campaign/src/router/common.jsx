@@ -13,6 +13,8 @@ const TwitterLoginCallback = lazy(() =>
   import('@/pages/twitter/login_callback')
 )
 const TwLoginIndex = lazy(() => import('@/pages/twitter/tw_login'))
+const ZkLoginIndex = lazy(() => import("@/pages/zklogin/zk_login"));
+const ZkLoginCallback = lazy(() => import("@/pages/zklogin/zk_login_callback"));
 
 const getProjectIdFn = async () => {
   const defaultValues = {
@@ -136,9 +138,40 @@ const routes = [
     ]
   },
   {
+    path: "/zklogin",
+    loader: getProjectIdFn,
+    element: <MyLayout />,
+    children: [
+      {
+        index: true,
+        loader: getProjectIdFn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <ZkLoginIndex />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+  {
+    path: "/zklogin/callback",
+    loader: getProjectIdFn,
+    element: <MyLayout />,
+    children: [
+      {
+        index: true,
+        loader: getProjectIdFn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <ZkLoginCallback />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+  {
     path: '*',
     element: <div className='w-full h-screen bg-black text-white'>404</div>
   }
 ]
-
 export default routes

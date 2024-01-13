@@ -188,3 +188,26 @@ export const getProjectId = async function (projectName) {
 export const getCampaign = async function (projectId) {
   return await request(`${host}/campaignNew/project/${projectId}`);
 };
+
+export const getZKSalt = async function (jwtToken) {
+  return await request.Post(`${host}/zk/salt`, {payload: jwtToken})
+}
+
+export const updateZKAddress = async function (address) {
+  const d = new URLSearchParams();
+  d.append("address", address);
+  const bindResult = await fetch(`${host}/zk/address`, {
+    credentials: "include",
+    method: "POST",
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    },
+    body: d,
+  });
+  return bindResult;
+}
+
+export const doZKProof = async function (address, proof) {
+  const data = {proof: JSON.stringify(proof), address}
+  return await request.Post(`${host}/zk/proof`, data);
+}
