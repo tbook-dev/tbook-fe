@@ -28,6 +28,8 @@ export default function useUserInfo() {
   const wallectConnected = !!data?.user?.wallet;
   const user = data?.user ?? {};
   const userLogined = isSuccess;
+  const isZK = Boolean(data?.user?.zk?.binded)
+
   return {
     data,
     isLoading,
@@ -42,7 +44,8 @@ export default function useUserInfo() {
     firstLoad,
     userLogined,
     user,
-    address: data?.user?.wallet,
+    address: data?.user?.wallet || data?.user?.zk?.address,
+    isZK,
     ...props,
   };
 }
