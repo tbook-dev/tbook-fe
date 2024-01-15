@@ -27,21 +27,21 @@ const moduleConf = {
   wallet: {
     title: 'Log in with wallet',
     list: [
-      {
-        type: 'metamask',
-        picUrl: metamaskSVG,
-        text: 'Metamask'
-      },
+      // {
+      //   type: 'metamask',
+      //   picUrl: metamaskSVG,
+      //   text: 'Metamask'
+      // },
       {
         type: 'walletconnect',
         picUrl: walletconnectSVG,
         text: 'WalletConnect'
       },
-      {
-        type: 'sui',
-        picUrl: suiSVG,
-        text: 'Sui Wallet'
-      }
+      // {
+      //   type: 'sui',
+      //   picUrl: suiSVG,
+      //   text: 'Sui Wallet'
+      // }
     ]
   },
   social: {

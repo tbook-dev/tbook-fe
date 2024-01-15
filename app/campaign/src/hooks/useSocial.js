@@ -21,7 +21,9 @@ const domain = curHost.split(".")[0];
 const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=https%3A%2F%2F${tgCallbackHost}%2Ftg%2Fcallback%2F${domain}&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg%2Fcallback%2F${domain}`;
 
 const socialNameList = ["discord", "twitter", "telegram"];
-const zkNameList = ["google", "facebook", "talk"];
+// const zkNameList = ["google", "facebook", "talk"];
+const zkNameList = ["google"];
+
 
 export default function useSocial() {
   const { twitterConnected, discordConnected, telegramConnected, data } =
@@ -120,7 +122,7 @@ export default function useSocial() {
   );
   const getfnByName = useCallback(
     (name) => {
-      return zkList.find((v) => v.name === name);
+      return allList.find((v) => v.name === name);
     },
     [allList]
   );

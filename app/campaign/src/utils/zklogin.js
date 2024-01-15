@@ -141,8 +141,9 @@ export const zkLoginCallback = async () => {
     salt: userSalt,
     keyClaimName: "sub",
   });
+  // console.log({proof})
   window.sessionStorage.setItem(ZK_PROOF_KEY, proof.proof);
-
+  return proof
   // const txb = new TransactionBlock()
   // txb.setSender(zkLoginUserAddress)
 };
