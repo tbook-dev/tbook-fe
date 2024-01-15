@@ -20,7 +20,7 @@ import walletconnectSVG from '@/images/zkLogin/walletconnect.svg'
 import suiSVG from '@/images/zkLogin/sui.svg'
 import xSVG from '@/images/icon/x-white.svg'
 import ActionBution from './actionButton'
-import useZklogin from '@tbook/wallet/useZklogin'
+import useSocial from '@/hooks/useSocial'
 
 const moduleConf = {
   zkLogin: {
@@ -65,7 +65,7 @@ const ConnectWalletModal = () => {
   const showConnectWalletModal = useSelector(
     s => s.global.showConnectWalletModal
   )
-  const { zkList, getZkfnByName } = useZklogin()
+  const { zkList, getZkfnByName } = useSocial()
   const showLoginModal = useSelector(s => s.global.showLoginModal)
   const dispath = useDispatch()
   const { pc } = useResponsive()
@@ -152,7 +152,7 @@ const ConnectWalletModal = () => {
                       <ActionBution
                         key={v.name}
                         replace
-                        handleAsync={() => getZkfnByName(v.name)}
+                        handleAsync={async () => v.loginFn(false)}
                       >
                         <img
                           src={v.picUrl}

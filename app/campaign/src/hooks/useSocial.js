@@ -7,6 +7,10 @@ import dcGray from "@/images/icon/dc-gray.svg";
 import dc from "@/images/icon/dc.svg";
 import tgGray from "@/images/icon/tg-gray.svg";
 import tg from "@/images/icon/tg.svg";
+import googleSVG from "@/images/zkLogin/google.svg";
+import facebookSVG from "@/images/zkLogin/facebook.svg";
+import talkSVG from "@/images/zkLogin/talk.svg";
+import { getGoogleLoginUrl } from "@/utils/zklogin";
 import { useResponsive } from "ahooks";
 
 const curHost = new URL(window.location.href).host;
@@ -16,11 +20,14 @@ const tgBotId = import.meta.env.VITE_TG_BOT_ID;
 const domain = curHost.split(".")[0];
 const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=https%3A%2F%2F${tgCallbackHost}%2Ftg%2Fcallback%2F${domain}&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg%2Fcallback%2F${domain}`;
 
+const socialNameList = ["discord", "twitter", "telegram"];
+const zkNameList = ["google", "facebook", "talk"];
+
 export default function useSocial() {
   const { twitterConnected, discordConnected, telegramConnected, data } =
     useUserInfoQuery();
   const { pc } = useResponsive();
-  const socialList = useMemo(() => {
+  const allList = useMemo(() => {
     return [
       {
         name: "discord",
@@ -72,15 +79,57 @@ export default function useSocial() {
         },
         userName: data?.userTg?.username ?? "",
         failText:
-          "Please authorize your telegram account and continue to verify.",
+          "Please authorize your Telegram account and continue to verify.",
+      },
+      {
+        name: "google",
+        picUrl: googleSVG,
+        async loginFn(skip = false) {
+          console.log("google==");
+          !skip && localStorage.setItem("redirect_url", location.href);
+          location.href = await getGoogleLoginUrl();
+        },
+        failText:
+          "Please authorize your Google account and continue to verify.",
+      },
+      {
+        name: "facebook",
+        picUrl: facebookSVG,
+        async loginFn() {},
+      },
+      {
+        name: "talk",
+        picUrl: talkSVG,
+        async loginFn() {},
       },
     ];
   }, [twitterConnected, discordConnected, telegramConnected, data]);
+  const socialList = allList.filter((v) => socialNameList.includes(v.name));
+  const zkList = allList.filter((v) => zkNameList.includes(v.name));
   const getSocialByName = useCallback(
-    (socialName) => {
-      return socialList.find((v) => v.name === socialName);
+    (name) => {
+      return socialList.find((v) => v.name === name);
     },
     [socialList]
   );
-  return { socialList, getSocialByName };
+  const getZkfnByName = useCallback(
+    (name) => {
+      return zkList.find((v) => v.name === name);
+    },
+    [zkList]
+  );
+  const getfnByName = useCallback(
+    (name) => {
+      return zkList.find((v) => v.name === name);
+    },
+    [allList]
+  );
+  return {
+    socialList,
+    allList,
+    zkList,
+    getSocialByName,
+    getZkfnByName,
+    getfnByName,
+  };
 }

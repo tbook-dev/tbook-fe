@@ -31,8 +31,8 @@ export default function RedirectSocial ({
 }) {
   const navigate = useNavigate()
 
-  const { getSocialByName } = useSocial()
-  const { failText, loginFn } = getSocialByName(type)
+  const { getfnByName } = useSocial()
+  const { failText, loginFn } = getfnByName(type)
 
   return (
     <div className='pt-[100px] lg:pt-[200px]'>

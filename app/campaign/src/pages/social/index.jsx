@@ -7,7 +7,8 @@ import { delay } from '@/utils/common'
 const displayName = {
   twitter: 'X',
   discard: 'Discord',
-  telegram: 'Telegram'
+  telegram: 'Telegram',
+  google: 'Google'
 }
 export default function ({ authCallback, type }) {
   const navigate = useNavigate()
