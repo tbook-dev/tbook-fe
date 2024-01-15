@@ -21,8 +21,7 @@ export default function Avatar() {
   const { socialList } = useSocial();
   const { isConnected } = useAccount();
   const dispatch = useDispatch();
-  const { projectUrl } = useParams();
-  const { isUsingSubdomain } = useLoaderData();
+  const { isUsingSubdomain, projectUrl } = useLoaderData();
   const handleConnectWallet = useCallback(() => {
     setOpen(false);
     dispatch(setConnectWalletModal(true));
@@ -50,7 +49,6 @@ export default function Avatar() {
   const isUsingWallet = useMemo(() => {
     return Boolean(address);
   }, [address]);
-  console.log({ isZK });
   const Content = () => {
     return (
       <div className="lg:w-[375px] text-white">
