@@ -36,7 +36,7 @@ const moduleConf = {
       // }
     ]
   },
-  copyright: '© 2023 TBOOK All rights reserved'
+  copyright: '© 2024 TBOOK All rights reserved'
 }
 
 export default function Footer () {

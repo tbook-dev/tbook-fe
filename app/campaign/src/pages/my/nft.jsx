@@ -39,7 +39,7 @@ export default function NFT () {
         col: 1
       },
       {
-        title: 'ID',
+        title: 'Token ID',
         com: `#${data.nftId}`,
         col: 2
       },

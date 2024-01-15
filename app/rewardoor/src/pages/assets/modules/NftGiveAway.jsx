@@ -30,7 +30,7 @@ export default function NftGiveAway ({ list = [] }) {
               align='right'
               className='pb-4 text-sm text-c-9 font-medium'
             >
-              NFT ID
+              Token ID
             </th>
 
             <th
