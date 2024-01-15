@@ -7,9 +7,9 @@ import dcGray from "@/images/icon/dc-gray.svg";
 import dc from "@/images/icon/dc.svg";
 import tgGray from "@/images/icon/tg-gray.svg";
 import tg from "@/images/icon/tg.svg";
-import googleSVG from "@/images/zkLogin/google.svg";
-import facebookSVG from "@/images/zkLogin/facebook.svg";
-import talkSVG from "@/images/zkLogin/talk.svg";
+import googleSVG from "@/images/zklogin/google.svg";
+import facebookSVG from "@/images/zklogin/facebook.svg";
+import talkSVG from "@/images/zklogin/talk.svg";
 import { getGoogleLoginUrl } from "@/utils/zklogin";
 import { useResponsive } from "ahooks";
 
