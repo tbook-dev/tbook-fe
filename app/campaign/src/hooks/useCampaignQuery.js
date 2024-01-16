@@ -23,6 +23,8 @@ export default function useCampaignQuery(campaignId) {
   );
   const campaignNotStart = notStartList.includes(page?.campaign?.status);
   const campaignEnd = endList.includes(page?.campaign?.status);
+  const campaignOngoing = page?.campaign?.status === 1;
+
   useEffect(() => {
     if (!firstLoad && !isLoading) {
       setFirstLoad(true);
@@ -37,5 +39,6 @@ export default function useCampaignQuery(campaignId) {
     isLoading: !userLoaded || isLoading,
     campaignNotStart,
     campaignEnd,
+    campaignOngoing,
   };
 }

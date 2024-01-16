@@ -32,7 +32,8 @@ export default function () {
     data: page,
     isLoading,
     campaignNotStart,
-    campaignEnd
+    campaignEnd,
+    campaignOngoing
   } = useCampaignQuery(campaignId)
 
   const { signMessageAsync } = useSignMessage()
@@ -137,18 +138,19 @@ export default function () {
       })
     }
   }, [page])
-
   useEffect(() => {
-    if (userLogined) {
-      // 上报数据
-      logUserReport({
-        userId: user?.userId,
-        campaignId,
-        address: user?.wallet,
-        isTwitterLogin: twitterConnected
-      })
+    if (userLogined && campaignOngoing) {
+      if (localStorage.getItem('1')) {
+        logUserReport({
+          userId: user?.userId,
+          campaignId,
+          address: user?.wallet,
+          isTwitterLogin: twitterConnected
+        })
+        localStorage.setItem('logUserCampaignLogin', '1')
+      }
     }
-  }, [userLogined])
+  }, [userLogined, campaignOngoing])
 
   return (
     <div className='space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-t-1'>
