@@ -22,6 +22,6 @@ export default {
     borderRadius: 24,
   },
   Modal: {
-    // contentBg: `unset`,
+    contentBg: `#0b0c0e`,
   },
 };
