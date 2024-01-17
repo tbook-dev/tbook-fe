@@ -158,7 +158,7 @@ export default function Avatar() {
                     {isZK && (
                       <img src={suiSVG} className="w-5 h-5 object-center" />
                     )}
-                    <Address address={address} className="font-zen-dot" />
+                    <Address address={address} className="font-zen-dot text-base" />
                   </div>
                 ) : (
                   data?.userTwitter?.connected && (
@@ -234,14 +234,14 @@ export default function Avatar() {
                 </button>
               )}
             </div>
-            <div className="flex flex-col px-6 py-4 gap-y-2 text-lg">
+            <div className="flex flex-col px-6 py-4 gap-y-2 text-sm">
               {links.map((v) => {
                 return (
                   <Link
                     key={v.name}
                     to={v.path}
                     style={{ backgroundImage: `url(${shapeLink})` }}
-                    className="text-[#C0ABD9] h-8 w-[220px] font-medium  text-center hover:text-white"
+                    className="text-[#C0ABD9] h-8 w-[220px] font-medium flex items-center justify-center hover:text-white"
                     target="_blank"
                     onClick={() => {
                       setOpen(false);
