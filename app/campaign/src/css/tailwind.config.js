@@ -24,12 +24,14 @@ module.exports = {
           "linear-gradient(179deg, rgba(0, 0, 0, 0.00) 58.87%, rgba(0, 0, 0, 0.90) 91.27%, #000 104.31%)",
         linear5:
           "linear-gradient(280deg, rgba(144, 75, 246, 0.10) 49.68%, rgba(207, 0, 99, 0.10) 108.87%)",
+        linear6: "radial-gradient(364.17% 143% at 96.13% 4.31%, #7535C4 0%, #1B0B2D 44.67%, #220F3A 91.12%)"
       },
       boxShadow: {
         s1: " 0px 0px 6px 0px rgba(0, 0, 0, 0.10)",
         s2: "0px 0px 8px 0px rgba(0, 0, 0, 0.08)",
         s3: "0px 0px 4px 0px rgba(0, 0, 0, 0.08)",
         s4: "0px 4px 20px 0px rgba(0, 110, 233, 0.02)",
+        s5: " 0px 10px 10px -5px rgba(0, 0, 0, 0.04), 0px 20px 25px -5px rgba(0, 0, 0, 0.10)"
       },
       fontFamily: {
         rhd: ["Red Hat Display", "sans-serif"],
