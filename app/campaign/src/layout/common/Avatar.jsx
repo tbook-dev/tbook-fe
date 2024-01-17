@@ -17,7 +17,8 @@ import shapeLink from "@/images/shape-link.svg";
 
 export default function Avatar() {
   const [open, setOpen] = useState(false);
-  const { user, isZK, address, twitterConnected, data } = useUserInfo();
+  const { user, isZK, isGoogle, address, twitterConnected, data } =
+    useUserInfo();
   const { socialList, getZkfnByName, getSocialByName } = useSocial();
   const { isConnected } = useAccount();
   const dispatch = useDispatch();
@@ -68,7 +69,7 @@ export default function Avatar() {
   const { logo, userInfo } = useMemo(() => {
     if (isZK) {
       // 如果是zk
-      const isGoogle = true;
+      const isGoogle = data?.userZk.issuer === "Google";
       return {
         logo: isGoogle ? (
           <img
@@ -77,7 +78,7 @@ export default function Avatar() {
             className="w-6 h-6"
           />
         ) : null,
-        userInfo: <p>{data?.userZk?.email}</p>,
+        userInfo: <p>{data?.user?.zk?.identity}</p>,
       };
     } else if (twitterConnected) {
       // 如果是tw
@@ -227,6 +228,18 @@ export default function Avatar() {
                     </button>
                   );
                 })}
+              {!isGoogle && (
+                <button
+                  key="google"
+                  onClick={() => getZkfnByName("google")?.loginFn(false)}
+                  rel="nofollow noopener noreferrer"
+                >
+                  <img
+                    src={getZkfnByName("google")?.picUrl}
+                    className="w-6 h-6 object-contain object-center"
+                  />
+                </button>
+              )}
             </div>
             <div className="flex flex-col px-6 py-4 gap-y-2 text-lg">
               {links.map((v) => {

@@ -8,6 +8,8 @@ import dc from "@/images/icon/dc.svg";
 import tgGray from "@/images/icon/tg-gray.svg";
 import tg from "@/images/icon/tg.svg";
 import googleSVG from "@/images/zklogin/google.svg";
+import googleGarySVG from "@/images/zklogin/google-gray.svg";
+
 import facebookSVG from "@/images/zklogin/facebook.svg";
 import talkSVG from "@/images/zklogin/talk.svg";
 import { getGoogleLoginUrl } from "@/utils/zklogin";
@@ -85,7 +87,7 @@ export default function useSocial() {
       },
       {
         name: "google",
-        picUrl: googleSVG,
+        picUrl: googleGarySVG,
         activePic: googleSVG,
         ready: true,
         async loginFn(skip = false) {
