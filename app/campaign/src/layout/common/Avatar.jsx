@@ -154,18 +154,11 @@ export default function Avatar() {
               <div className="text-center">
                 {/* 优先展示wallet,然后就是tw */}
                 {isUsingWallet ? (
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-x-1.5 font-zen-dot">
-                      {isZK && (
-                        <img src={suiSVG} className="w-5 h-5 object-center" />
-                      )}
-                      <Address address={address} className="font-zen-dot" />
-                    </div>
+                  <div className="flex items-center gap-x-1.5 font-zen-dot">
                     {isZK && (
-                      <p className="text-[#C0ABD9] text-sm max-w-[256px] truncate">
-                        {data?.user?.zk?.identity}
-                      </p>
+                      <img src={suiSVG} className="w-5 h-5 object-center" />
                     )}
+                    <Address address={address} className="font-zen-dot" />
                   </div>
                 ) : (
                   data?.userTwitter?.connected && (
@@ -184,7 +177,7 @@ export default function Avatar() {
               </div>
             </div>
 
-            <div className="flex items-center justify-center gap-x-3 pb-4">
+            <div className="flex items-center justify-center gap-x-3 pb-5">
               {!isUsingWallet && (
                 <button
                   onClick={handleConnectWallet}
