@@ -117,7 +117,7 @@ export default function Avatar() {
         }}
       >
         <div className="px-6 py-4 flex-none">
-          <button
+          <div
             className="text-[#C0ABD9] flex items-center group hover:text-white gap-x-1 text-base"
             onClick={handleLogout}
           >
@@ -138,12 +138,12 @@ export default function Avatar() {
               />
             </svg>
             Logout
-          </button>
+          </div>
         </div>
 
         <div className="flex-auto flex flex-col justify-center text-white">
           <div
-            className="w-full h-[460px] flex flex-col justify-center items-center bg-cover"
+            className="w-[375px] mx-auto lg:w-full h-[460px] flex flex-col justify-center items-center bg-cover bg-center"
             style={{ backgroundImage: `url(${passportlg})` }}
           >
             <div className="flex flex-col items-center gap-y-2  text-lg font-medium mb-4">
@@ -162,7 +162,7 @@ export default function Avatar() {
                       <Address address={address} className="font-zen-dot" />
                     </div>
                     {isZK && (
-                      <p className="text-[#C0ABD9] text-sm">
+                      <p className="text-[#C0ABD9] text-sm max-w-[256px] truncate">
                         {data?.user?.zk?.identity}
                       </p>
                     )}

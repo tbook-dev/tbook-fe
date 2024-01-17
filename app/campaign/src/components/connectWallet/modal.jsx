@@ -14,7 +14,7 @@ export default function Modal({ children, open, onCancel, title }) {
       <Dialog as="div" className="relative z-10" onClose={onCancel}>
         <div className="fixed inset-0" />
         <div className="fixed inset-0 overflow-hidden">
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-[rgb(0,0,0)]/[0.8] overflow-hidden">
             <div
               className={clsx(
                 "pointer-events-none fixed flex max-w-full",
@@ -23,10 +23,10 @@ export default function Modal({ children, open, onCancel, title }) {
             >
               <Transition.Child
                 as={Fragment}
-                enter="transform transition ease-in-out duration-500 sm:duration-700"
+                enter="transform transition ease-in-out duration-500"
                 enterFrom={pc ? "translate-x-full" : "translate-y-full"}
                 enterTo={pc ? "translate-x-0" : "translate-y-0"}
-                leave="transform transition ease-in-out duration-500 sm:duration-700"
+                leave="transform transition ease-in-out duration-500"
                 leaveFrom={pc ? "translate-x-0" : "translate-y-0"}
                 leaveTo={pc ? "translate-x-full" : "translate-y-full"}
               >
