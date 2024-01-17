@@ -86,6 +86,7 @@ export default function useSocial() {
       {
         name: "google",
         picUrl: googleSVG,
+        activePic: googleSVG,
         ready: true,
         async loginFn(skip = false) {
           console.log("google==");

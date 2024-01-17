@@ -22,7 +22,7 @@ import lockSVG from "@/images/lock.svg";
 
 const moduleConf = {
   title: "Log in or create a wallet with",
-  passport: "Log in to unlock your passport",
+  passport: "Log in to unlock incentive passport",
   zkLogin: {
     name: "zkLogin",
     bg: suiBg,
@@ -116,7 +116,11 @@ const ConnectWalletModal = () => {
 
   return (
     <>
-      <Modal open={showLoginModal} onCancel={handleCloseModal}>
+      <Modal
+        title={<div className="text-base font-zen-dot text-white">Log in</div>}
+        open={showLoginModal}
+        onCancel={handleCloseModal}
+      >
         <div className="flex-none px-5 py-4 space-y-6 text-white">
           <h2 className="text-white text-sm">{moduleConf.title}</h2>
 
@@ -147,7 +151,7 @@ const ConnectWalletModal = () => {
                         />
                       </ActionBution>
                     ) : (
-                      <Tooltip title="Stay tuned">
+                      <Tooltip title="Stay tuned" key={v.name}>
                         <img
                           src={v.picUrl}
                           className="w-8 h-8 object-center"

@@ -6,7 +6,7 @@ import clsx from "clsx";
 // use tailiwind to create slide-over in pc on the right side
 // use tailwind to  create slide-over in moble at bottom
 
-export default function Modal({ children, open, onCancel }) {
+export default function Modal({ children, open, onCancel, title }) {
   const { pc } = useResponsive();
 
   return (
@@ -34,9 +34,7 @@ export default function Modal({ children, open, onCancel }) {
                   <div className="flex h-full flex-col overflow-y-auto bg-linear6 pb-6 shadow-s5 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none">
                     <div className="p-6 border-b border-[rgb(255,255,255)]/[0.1]">
                       <div className="flex items-start justify-between ">
-                        <Dialog.Title className="text-base font-zen-dot text-white">
-                          Log in
-                        </Dialog.Title>
+                        <Dialog.Title>{title}</Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <CloseOutlined
                             className="text-white cursor-pointer w-6"
@@ -45,7 +43,9 @@ export default function Modal({ children, open, onCancel }) {
                         </div>
                       </div>
                     </div>
-                    <div className="relative flex-1 flex flex-col">{children}</div>
+                    <div className="relative flex-1 flex flex-col">
+                      {children}
+                    </div>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
