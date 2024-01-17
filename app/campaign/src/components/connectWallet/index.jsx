@@ -117,7 +117,7 @@ const ConnectWalletModal = () => {
   return (
     <>
       <Modal open={showLoginModal} onCancel={handleCloseModal}>
-        <div className="px-5 py-4 space-y-6 text-white">
+        <div className="flex-none px-5 py-4 space-y-6 text-white">
           <h2 className="text-white text-sm">{moduleConf.title}</h2>
 
           <div className="space-y-5">
@@ -203,14 +203,17 @@ const ConnectWalletModal = () => {
             </div>
           </div>
         </div>
-        <div
-          className="w-full h-[267px] lg:h-[460px] flex flex-col justify-center items-center"
-          style={{ backgroundImage: pc ? `url(${passportlg})` : "none" }}
-        >
-          <img src={lockSVG} className="w-20 h-20" />
-          <span className="text-sm font-zen-dot text-white mb-6 text-color2">
-            {moduleConf.passport}
-          </span>
+
+        <div className="flex-1 flex flex-col justify-center">
+          <div
+            className="w-full h-[267px] lg:h-[460px] flex flex-col justify-center items-center bg-cover"
+            style={{ backgroundImage: pc ? `url(${passportlg})` : "none" }}
+          >
+            <img src={lockSVG} className="w-20 h-20" />
+            <span className="text-sm font-zen-dot text-white mb-6 text-color2">
+              {moduleConf.passport}
+            </span>
+          </div>
         </div>
       </Modal>
       <WalletWeb3Modal />
