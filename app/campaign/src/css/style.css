@@ -31,6 +31,13 @@
     background-clip: text;
     text-fill-color: transparent;
   }
+  .text-color2{
+    background: linear-gradient(270deg, rgba(255, 255, 255, 0.40) 0.93%, #FFF 46.84%, rgba(255, 255, 255, 0.40) 99.81%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+  }
   .bx {
     @apply px-4 lg:px-0 lg:w-[1280px] mx-auto;
   }

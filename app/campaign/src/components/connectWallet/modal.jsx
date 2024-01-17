@@ -30,8 +30,8 @@ export default function Modal({ children, open, onCancel }) {
                 leaveFrom={pc ? "translate-x-0" : "translate-y-0"}
                 leaveTo={pc ? "translate-x-full" : "translate-y-full"}
               >
-                <Dialog.Panel className="pointer-events-auto w-screen max-w-xl">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-linear6 pb-6 shadow-s5">
+                <Dialog.Panel className="pointer-events-auto w-screen lg:w-[448px]">
+                  <div className="flex h-full flex-col overflow-y-scroll bg-linear6 pb-6 shadow-s5 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none">
                     <div className="p-6 border-b border-[rgb(255,255,255)]/[0.1]">
                       <div className="flex items-start justify-between ">
                         <Dialog.Title className="text-base font-zen-dot text-white">

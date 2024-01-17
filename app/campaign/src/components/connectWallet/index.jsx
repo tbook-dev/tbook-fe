@@ -17,9 +17,12 @@ import ActionBution from "./actionButton";
 import useSocial from "@/hooks/useSocial";
 import Modal from "./modal";
 import { Tooltip } from "antd";
+import passportlg from "@/images/passport-lg.png";
+import lockSVG from "@/images/lock.svg";
 
 const moduleConf = {
   title: "Log in or create a wallet with",
+  passport: "Log in to unlock your passport",
   zkLogin: {
     name: "zkLogin",
     bg: suiBg,
@@ -199,6 +202,15 @@ const ConnectWalletModal = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div
+          className="w-full h-[267px] lg:h-[460px] flex flex-col justify-center items-center"
+          style={{ backgroundImage: pc ? `url(${passportlg})` : "none" }}
+        >
+          <img src={lockSVG} className="w-20 h-20" />
+          <span className="text-sm font-zen-dot text-white mb-6 text-color2">
+            {moduleConf.passport}
+          </span>
         </div>
       </Modal>
       <WalletWeb3Modal />
