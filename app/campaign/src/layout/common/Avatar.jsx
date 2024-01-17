@@ -73,7 +73,7 @@ export default function Avatar() {
       return {
         logo: isGoogle ? (
           <img
-            src={getZkfnByName("google")?.picUrl}
+            src={getZkfnByName("google")?.activePic}
             alt="google"
             className="w-6 h-6"
           />
@@ -118,7 +118,7 @@ export default function Avatar() {
       >
         <div className="px-6 py-4 flex-none">
           <div
-            className="text-[#C0ABD9] flex items-center group hover:text-white gap-x-1 text-base"
+            className="text-[#C0ABD9] cursor-pointer flex items-center group hover:text-white gap-x-1 text-base"
             onClick={handleLogout}
           >
             <svg
@@ -143,7 +143,7 @@ export default function Avatar() {
 
         <div className="flex-auto flex flex-col justify-center text-white">
           <div
-            className="w-[375px] mx-auto lg:w-full h-[460px] flex flex-col justify-center items-center bg-cover bg-center"
+            className="w-[375px] h-[390px] mx-auto overflow-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center bg-cover bg-center"
             style={{ backgroundImage: `url(${passportlg})` }}
           >
             <div className="flex flex-col items-center gap-y-2  text-lg font-medium mb-4">
