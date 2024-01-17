@@ -211,7 +211,7 @@ const ConnectWalletModal = () => {
 
         <div className="flex-1 flex flex-col justify-center">
           <div
-            className="w-[375px] h-[267px] mx-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center bg-cover"
+            className="w-[375px] h-[264px] mx-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center bg-cover"
             style={{
               backgroundImage: `url(${
                 !pc && userLogined ? passportUnlogin : passportlg

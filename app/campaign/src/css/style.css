@@ -57,7 +57,7 @@
     ),
     linear-gradient(11deg, #c4b1d8 15.48%, #f4d597 100%);
 }
-
+.ant-modal-content,
 .ant-drawer-content {
   @apply !bg-linear2;
 }
