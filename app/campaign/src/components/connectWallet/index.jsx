@@ -18,6 +18,7 @@ import useSocial from "@/hooks/useSocial";
 import Modal from "./modal";
 import { Tooltip } from "antd";
 import passportlg from "@/images/passport-lg.png";
+import passportUnlogin from "@/images/passport-unlogin.png";
 import lockSVG from "@/images/lock.svg";
 
 const moduleConf = {
@@ -210,13 +211,17 @@ const ConnectWalletModal = () => {
 
         <div className="flex-1 flex flex-col justify-center">
           <div
-            className="w-full h-[267px] lg:h-[460px] flex flex-col justify-center items-center bg-cover"
-            style={{ backgroundImage: pc ? `url(${passportlg})` : "none" }}
+            className="w-[375px] h-[267px] mx-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center bg-cover"
+            style={{
+              backgroundImage: `url(${
+                !pc && userLogined ? passportUnlogin : passportlg
+              })`,
+            }}
           >
             <img src={lockSVG} className="w-20 h-20" />
-            <span className="text-sm font-zen-dot text-white mb-6 text-color2">
+            <p className="text-xs text-center font-zen-dot text-white lg:mb-6 text-color2 max-w-[175px]">
               {moduleConf.passport}
-            </span>
+            </p>
           </div>
         </div>
       </Modal>
