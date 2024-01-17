@@ -115,17 +115,17 @@ const ConnectWalletModal = () => {
     <>
       <Modal open={showLoginModal} onCancel={handleCloseModal}>
         <div className="px-5 py-4 space-y-6 text-white">
-          <h2 className="text-white text-xs font-medium">{moduleConf.title}</h2>
+          <h2 className="text-white text-sm">{moduleConf.title}</h2>
 
           <div className="space-y-5">
             {/* zkLogin */}
             <div className="space-y-5">
-              <div className="bg-[rgb(99,161,248)]/[0.10] border border-[rgb(99,161,248)]/[0.40] p-4 rounded-lg relative space-y-4 overflow-hidden">
+              <div className="bg-[rgb(99,161,248)]/[0.10] border border-[rgb(99,161,248)]/[0.40] p-4 rounded-lg relative overflow-hidden">
                 <img
                   src={moduleConf.zkLogin.bg}
                   className="w-12 absolute right-4 top-0 rotate-12"
                 />
-                <div className="text-[#63A1F8] flex items-center gap-x-2 text-sm font-medium">
+                <div className="text-[#63A1F8] flex items-center gap-x-2 text-sm font-medium space-y-4">
                   <img src={suiSVG} className="w-5 h-5 object-center" />
                   {moduleConf.zkLogin.name}
                 </div>
@@ -139,12 +139,12 @@ const ConnectWalletModal = () => {
                       >
                         <img
                           src={v.picUrl}
-                          className="w-8 h-8 object-center"
+                          className="w-8 h-8 object-center hover:opacity-60"
                           alt={v.name}
                         />
                       </ActionBution>
                     ) : (
-                      <Tooltip title="not ready">
+                      <Tooltip title="Stay tuned">
                         <img
                           src={v.picUrl}
                           className="w-8 h-8 object-center"
@@ -164,7 +164,7 @@ const ConnectWalletModal = () => {
                   <button
                     onClick={() => handleWallet(v.type)}
                     key={v.type}
-                    className="h-[52px] flex items-center justify-center relative w-full bg-[rgb(255,255,255)]/[0.05] rounded px-4 py-3 text-sm font-medium border border-[rgb(255,255,255)]/[0.20]"
+                    className="h-[52px] flex items-center justify-center relative w-full bg-[rgb(255,255,255)]/[0.05] rounded px-4 py-3 text-sm font-medium border border-[rgb(255,255,255)]/[0.20] hover:border-white hover:bg-[rgb(255,255,255)]/[0.2]"
                   >
                     <img
                       src={v.picUrl}
@@ -185,7 +185,7 @@ const ConnectWalletModal = () => {
                     <ActionBution
                       handleAsync={() => handleSocial(v.type)}
                       key={v.type}
-                      className="h-[52px] flex items-center justify-center relative w-full bg-[rgb(255,255,255)]/[0.05] rounded px-4 py-3 text-sm font-medium border border-[rgb(255,255,255)]/[0.20]"
+                      className="h-[52px] flex items-center justify-center relative w-full bg-[rgb(255,255,255)]/[0.05] rounded px-4 py-3 text-sm font-medium border border-[rgb(255,255,255)]/[0.20] hover:border-white hover:bg-[rgb(255,255,255)]/[0.2]"
                     >
                       <img
                         src={v.picUrl}

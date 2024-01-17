@@ -2,6 +2,7 @@ import { useResponsive } from "ahooks";
 import { Fragment, useState } from "react";
 import { CloseOutlined } from "@ant-design/icons";
 import { Dialog, Transition } from "@headlessui/react";
+import clsx from "clsx";
 // use tailiwind to create slide-over in pc on the right side
 // use tailwind to  create slide-over in moble at bottom
 
@@ -14,15 +15,20 @@ export default function Modal({ children, open, onCancel }) {
         <div className="fixed inset-0" />
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16">
+            <div
+              className={clsx(
+                "pointer-events-none fixed flex max-w-full",
+                pc ? "inset-y-0 right-0" : "inset-x-0 bottom-0"
+              )}
+            >
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"
-                enterFrom="translate-x-full"
-                enterTo="translate-x-0"
+                enterFrom={pc ? "translate-x-full" : "translate-y-full"}
+                enterTo={pc ? "translate-x-0" : "translate-y-0"}
                 leave="transform transition ease-in-out duration-500 sm:duration-700"
-                leaveFrom="translate-x-0"
-                leaveTo="translate-x-full"
+                leaveFrom={pc ? "translate-x-0" : "translate-y-0"}
+                leaveTo={pc ? "translate-x-full" : "translate-y-full"}
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-xl">
                   <div className="flex h-full flex-col overflow-y-scroll bg-linear6 pb-6 shadow-s5">
