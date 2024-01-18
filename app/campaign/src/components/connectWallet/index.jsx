@@ -242,12 +242,10 @@ const ConnectWalletModal = () => {
                   className="absolute inset-0 bg-no-repeat bg-contain bg-right-top"
                   style={{ backgroundImage: `url(${passportright_half})` }}
                 />
+                <p className="absolute text-color3 font-zen-dot text-white top-7">
+                  incentive passport
+                </p>
               </>
-            )}
-            {pc ? null : (
-              <p className="absolute text-color3 font-zen-dot text-white top-7">
-                incentive passport
-              </p>
             )}
             <div className="relative flex flex-col justify-center items-center">
               <img src={lockSVG} className="w-20 h-20" />

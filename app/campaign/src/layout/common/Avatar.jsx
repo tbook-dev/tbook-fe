@@ -14,8 +14,14 @@ import suiSVG from "@/images/zklogin/sui.svg";
 import Modal from "@/components/connectWallet/modal";
 import passportlg from "@/images/passport-lg.png";
 import shapeLink from "@/images/shape-link.svg";
+import passportleft from "@/images/passport/left.png";
+import passportmiddle from "@/images/passport/middle.png";
+import passportright from "@/images/passport/right.png";
+import { useResponsive, useSize } from "ahooks";
 
 export default function Avatar() {
+  const { pc } = useResponsive();
+  const size = useSize(document.documentElement);
   const [open, setOpen] = useState(false);
   const { user, isZK, isGoogle, address, twitterConnected, data } =
     useUserInfo();
@@ -143,10 +149,35 @@ export default function Avatar() {
 
         <div className="flex-auto flex flex-col justify-center text-white">
           <div
-            className="w-[375px] h-[390px] mx-auto overflow-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center bg-cover bg-center"
-            style={{ backgroundImage: `url(${passportlg})` }}
+            className="h-[456px] mx-auto overflow-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center bg-cover bg-center"
+            style={{ backgroundImage: pc ? `url(${passportlg})` : null }}
           >
-            <div className="flex flex-col items-center gap-y-2  text-lg font-medium mb-4">
+            {pc ? null : (
+              <>
+                <div
+                  className="absolute inset-0 bg-no-repeat bg-contain bg-left-top"
+                  style={{ backgroundImage: `url(${passportleft})` }}
+                />
+                {size?.width > 374 && (
+                  <div
+                    className="absolute inset-y-0 left-[190px] right-[184px] bg-repeat-x bg-center-top"
+                    style={{
+                      backgroundImage: `url(${passportmiddle})`,
+                      backgroundSize: size?.width > 394 ? "contain" : "cover",
+                    }}
+                  />
+                )}
+
+                <div
+                  className="absolute inset-0 bg-no-repeat bg-contain bg-right-top"
+                  style={{ backgroundImage: `url(${passportright})` }}
+                />
+                <p className="absolute text-color3 font-zen-dot text-white top-8">
+                  incentive passport
+                </p>
+              </>
+            )}
+            <div className="relative flex flex-col items-center gap-y-2  text-lg font-medium mb-4">
               <img
                 src={user?.avatar}
                 className="w-10 h-10 border-2 border-[rgb(255,255,255)]/[0.2] rounded-full object-center"
@@ -158,7 +189,10 @@ export default function Avatar() {
                     {isZK && (
                       <img src={suiSVG} className="w-5 h-5 object-center" />
                     )}
-                    <Address address={address} className="font-zen-dot text-base" />
+                    <Address
+                      address={address}
+                      className="font-zen-dot text-base"
+                    />
                   </div>
                 ) : (
                   data?.userTwitter?.connected && (
@@ -177,7 +211,7 @@ export default function Avatar() {
               </div>
             </div>
 
-            <div className="flex items-center justify-center gap-x-3 pb-5">
+            <div className="relative flex items-center justify-center gap-x-3 pb-5">
               {!isUsingWallet && (
                 <button
                   onClick={handleConnectWallet}
@@ -234,7 +268,7 @@ export default function Avatar() {
                 </button>
               )}
             </div>
-            <div className="flex flex-col px-6 py-4 gap-y-2 text-sm">
+            <div className="relative flex flex-col px-6 py-4 gap-y-2 text-sm">
               {links.map((v) => {
                 return (
                   <Link
