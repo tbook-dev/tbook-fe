@@ -149,7 +149,7 @@ export default function Avatar() {
 
         <div className="flex-auto flex flex-col justify-center text-white">
           <div
-            className="h-[456px] mx-auto overflow-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center bg-cover bg-center"
+            className="relative  h-[456px] lg:w-full lg:h-[460px] flex flex-col justify-center items-center bg-cover bg-center"
             style={{ backgroundImage: pc ? `url(${passportlg})` : null }}
           >
             {pc ? null : (
@@ -172,7 +172,7 @@ export default function Avatar() {
                   className="absolute inset-0 bg-no-repeat bg-contain bg-right-top"
                   style={{ backgroundImage: `url(${passportright})` }}
                 />
-                <p className="absolute text-color3 font-zen-dot text-white top-8">
+                <p className="absolute text-color3 font-zen-dot text-white top-7">
                   incentive passport
                 </p>
               </>
