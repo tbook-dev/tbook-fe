@@ -172,7 +172,7 @@ export default function Avatar() {
                   className="absolute inset-0 bg-no-repeat bg-contain bg-right-top"
                   style={{ backgroundImage: `url(${passportright})` }}
                 />
-                <p className="absolute text-sm text-color3 font-zen-dot text-white top-[30px]">
+                <p className="absolute text-xs text-color3 font-zen-dot text-white top-8">
                   incentive passport
                 </p>
               </>
