@@ -112,7 +112,7 @@ export default function Avatar() {
       <AvatarLine />
       <Modal
         title={
-          <div className="text-base font-zen-dot text-white flex items-center gap-x-1">
+          <div className="text-sm font-zen-dot text-white flex items-center gap-x-1">
             {logo}
             {userInfo}
           </div>
@@ -172,12 +172,12 @@ export default function Avatar() {
                   className="absolute inset-0 bg-no-repeat bg-contain bg-right-top"
                   style={{ backgroundImage: `url(${passportright})` }}
                 />
-                <p className="absolute text-color3 font-zen-dot text-white top-7">
+                <p className="absolute text-sm text-color3 font-zen-dot text-white top-[30px]">
                   incentive passport
                 </p>
               </>
             )}
-            <div className="relative flex flex-col items-center gap-y-2  text-lg font-medium mb-4">
+            <div className="relative flex flex-col items-center gap-y-5  text-lg font-medium mb-3">
               <img
                 src={user?.avatar}
                 className="w-10 h-10 border-2 border-[rgb(255,255,255)]/[0.2] rounded-full object-center"

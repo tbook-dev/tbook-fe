@@ -242,7 +242,7 @@ const ConnectWalletModal = () => {
                   className="absolute inset-0 bg-no-repeat bg-contain bg-right-top"
                   style={{ backgroundImage: `url(${passportright_half})` }}
                 />
-                <p className="absolute text-color3 font-zen-dot text-white top-7">
+                <p className="absolute text-sm text-color3 font-zen-dot text-white top-[30px]">
                   incentive passport
                 </p>
               </>
