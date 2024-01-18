@@ -24,7 +24,7 @@ export default function Modal({ children, open, onCancel, title }) {
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500"
-                enterFrom={pc ? "translate-x-full" : "translate-y-fulsl"}
+                enterFrom={pc ? "translate-x-full" : "translate-y-full"}
                 enterTo={pc ? "translate-x-0" : "translate-y-0"}
                 leave="transform transition ease-in-out duration-500"
                 leaveFrom={pc ? "translate-x-0" : "translate-y-0"}
