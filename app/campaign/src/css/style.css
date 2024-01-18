@@ -38,6 +38,13 @@
     -webkit-text-fill-color: transparent;
     text-fill-color: transparent;
   }
+  .text-color3{
+    background: linear-gradient(90deg, #FDAAD8 53.91%, #FFF 103.51%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+  }
   .bx {
     @apply px-4 lg:px-0 lg:w-[1280px] mx-auto;
   }

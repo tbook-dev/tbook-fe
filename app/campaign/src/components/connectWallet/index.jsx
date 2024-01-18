@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useResponsive } from "ahooks";
+import { useResponsive, useSize } from "ahooks";
 import { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { setLoginModal, setConnectWalletModal } from "@/store/global";
@@ -19,6 +19,10 @@ import Modal from "./modal";
 import { Tooltip } from "antd";
 import passportlg from "@/images/passport-lg.png";
 import passportUnlogin from "@/images/passport-unlogin.png";
+import passportleft_half from "@/images/passport/left_half.png";
+import passportmiddle_half from "@/images/passport/middle_half.png";
+import passportright_half from "@/images/passport/right_half.png";
+
 import lockSVG from "@/images/lock.svg";
 
 const moduleConf = {
@@ -60,6 +64,7 @@ const ConnectWalletModal = () => {
   const showConnectWalletModal = useSelector(
     (s) => s.global.showConnectWalletModal
   );
+  const size = useSize(document.documentElement);
   const { zkList, getZkfnByName } = useSocial();
   const showLoginModal = useSelector((s) => s.global.showLoginModal);
   const dispath = useDispatch();
@@ -211,17 +216,45 @@ const ConnectWalletModal = () => {
 
         <div className="flex-1 flex flex-col justify-center">
           <div
-            className="w-[375px] h-[264px] mx-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center bg-cover"
+            // className="w-[375px] h-[264px] mx-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center bg-cover"
+            className="w-full relative h-[264px] mx-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center lg:bg-cover"
             style={{
-              backgroundImage: `url(${
-                !pc && userLogined ? passportUnlogin : passportlg
-              })`,
+              backgroundImage: pc ? `url(${passportlg})` : null,
             }}
           >
-            <img src={lockSVG} className="w-20 h-20" />
-            <p className="text-xs text-center font-zen-dot text-white lg:mb-6 text-color2 max-w-[175px]">
-              {moduleConf.passport}
-            </p>
+            {pc ? null : (
+              <>
+                <div
+                  className="absolute inset-0 bg-no-repeat bg-contain bg-left-top"
+                  style={{ backgroundImage: `url(${passportleft_half})` }}
+                />
+                {size?.width > 374 && (
+                  <div
+                    className="absolute inset-y-0 left-[190px] right-[184px] bg-repeat-x bg-center-top"
+                    style={{
+                      backgroundImage: `url(${passportmiddle_half})`,
+                      backgroundSize: size?.width > 394 ? "contain" : "cover",
+                    }}
+                  />
+                )}
+
+                <div
+                  className="absolute inset-0 bg-no-repeat bg-contain bg-right-top"
+                  style={{ backgroundImage: `url(${passportright_half})` }}
+                />
+              </>
+            )}
+            {pc ? null : (
+              <p className="absolute text-color3 font-zen-dot text-white top-7">
+                incentive passport
+              </p>
+            )}
+            <div className="relative flex flex-col justify-center items-center">
+              <img src={lockSVG} className="w-20 h-20" />
+              <p className="text-xs text-center font-zen-dot text-white lg:mb-6 text-color2 max-w-[175px]">
+                {moduleConf.passport}
+              </p>
+            </div>
           </div>
         </div>
       </Modal>

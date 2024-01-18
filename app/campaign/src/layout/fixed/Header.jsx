@@ -27,7 +27,7 @@ function Header () {
   return (
     <header
       className={clsx(
-        'top-0 z-30 fixed inset-x-0',
+        'top-0 z-10 fixed inset-x-0',
         'transition duration-300 ease-in-out',
         pc && headerTransparent ? 'bg-transpant ' : 'bg-black'
       )}
