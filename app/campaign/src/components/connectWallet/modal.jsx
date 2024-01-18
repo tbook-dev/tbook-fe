@@ -24,7 +24,7 @@ export default function Modal({ children, open, onCancel, title }) {
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500"
-                enterFrom={pc ? "translate-x-full" : "translate-y-full"}
+                enterFrom={pc ? "translate-x-full" : "translate-y-fulsl"}
                 enterTo={pc ? "translate-x-0" : "translate-y-0"}
                 leave="transform transition ease-in-out duration-500"
                 leaveFrom={pc ? "translate-x-0" : "translate-y-0"}
@@ -32,7 +32,7 @@ export default function Modal({ children, open, onCancel, title }) {
               >
                 <Dialog.Panel className="pointer-events-auto w-screen lg:w-[448px]">
                   <div className="flex h-full flex-col overflow-y-auto bg-linear6 lg:pb-6 shadow-s5 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none">
-                    <div className="p-6 border-b border-[rgb(255,255,255)]/[0.1]">
+                    <div className="px-6 pt-6 pb-4 lg:pb-6 border-b border-[rgb(255,255,255)]/[0.1]">
                       <div className="flex items-start justify-between ">
                         <Dialog.Title>{title}</Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">

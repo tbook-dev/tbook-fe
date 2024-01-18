@@ -191,7 +191,7 @@ export default function Avatar() {
                     )}
                     <Address
                       address={address}
-                      className="font-zen-dot text-base"
+                      className="font-zen-dot text-xl"
                     />
                   </div>
                 ) : (
