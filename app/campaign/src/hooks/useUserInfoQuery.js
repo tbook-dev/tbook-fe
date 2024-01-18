@@ -30,7 +30,7 @@ export default function useUserInfo() {
   const userLogined = isSuccess;
   const isZK = Boolean(data?.user?.zk?.binded)
   const isGoogle = data?.userZk.issuer === 'Google';
-
+  const googleConnected = isGoogle
   return {
     data,
     isLoading,
@@ -47,6 +47,7 @@ export default function useUserInfo() {
     user,
     address: data?.user?.wallet || data?.user?.zk?.address,
     isZK,
+    googleConnected,
     isGoogle,
     ...props,
   };

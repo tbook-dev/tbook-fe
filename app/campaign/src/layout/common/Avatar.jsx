@@ -75,7 +75,7 @@ export default function Avatar() {
   const { logo, userInfo } = useMemo(() => {
     if (isZK) {
       // 如果是zk
-      const isGoogle = data?.userZk.issuer === "Google";
+      // const isGoogle = data?.userZk.issuer === "Google";
       return {
         logo: isGoogle ? (
           <img
@@ -225,6 +225,7 @@ export default function Avatar() {
                 </button>
               )}
               {socialList
+                .concat(getZkfnByName("google"))
                 .filter((v) => {
                   if (v.name === "twitter") {
                     return data?.userTwitter?.connected && !user?.wallet
@@ -236,7 +237,7 @@ export default function Avatar() {
                 })
                 .map((v) => {
                   return v.connected ? (
-                    <Tooltip key={v.name} title={`@${v.userName}`}>
+                    <Tooltip key={v.name} title={`${v.userName}`}>
                       <img
                         src={v.connected ? v.activePic : v.picUrl}
                         className="w-6 h-6 object-contain object-center"
@@ -255,18 +256,6 @@ export default function Avatar() {
                     </button>
                   );
                 })}
-              {!isGoogle && (
-                <button
-                  key="google"
-                  onClick={() => getZkfnByName("google")?.loginFn(false)}
-                  rel="nofollow noopener noreferrer"
-                >
-                  <img
-                    src={getZkfnByName("google")?.picUrl}
-                    className="w-6 h-6 object-contain object-center"
-                  />
-                </button>
-              )}
             </div>
             <div className="relative flex flex-col px-6 py-4 gap-y-2 text-sm">
               {links.map((v) => {

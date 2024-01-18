@@ -26,10 +26,14 @@ const socialNameList = ["discord", "twitter", "telegram"];
 const zkNameList = ["google", "facebook", "talk"];
 // const zkNameList = ["google"];
 
-
 export default function useSocial() {
-  const { twitterConnected, discordConnected, telegramConnected, data } =
-    useUserInfoQuery();
+  const {
+    twitterConnected,
+    discordConnected,
+    telegramConnected,
+    googleConnected,
+    data,
+  } = useUserInfoQuery();
   const { pc } = useResponsive();
   const allList = useMemo(() => {
     return [
@@ -87,6 +91,7 @@ export default function useSocial() {
       },
       {
         name: "google",
+        connected: googleConnected,
         picUrl: googleGarySVG,
         activePic: googleSVG,
         ready: true,
@@ -95,6 +100,7 @@ export default function useSocial() {
           !skip && localStorage.setItem("redirect_url", location.href);
           location.href = await getGoogleLoginUrl();
         },
+        userName: data?.userZk?.email ?? '',
         failText:
           "Please authorize your Google account and continue to verify.",
       },
