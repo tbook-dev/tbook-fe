@@ -26,7 +26,7 @@ import passportright_half from "@/images/passport/right_half.png";
 import lockSVG from "@/images/lock.svg";
 
 const moduleConf = {
-  title: "Log in or create a wallet with",
+  title: "Log in with",
   passport: "Log in to unlock incentive passport",
   zkLogin: {
     name: "zkLogin",
