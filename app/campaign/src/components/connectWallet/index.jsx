@@ -132,7 +132,7 @@ const ConnectWalletModal = () => {
 
           <div className="space-y-5">
             {/* zkLogin */}
-            <div className="space-y-5">
+            {/* <div className="space-y-5">
               <div className="bg-[rgb(99,161,248)]/[0.10] border border-[rgb(99,161,248)]/[0.40] p-4 rounded-lg relative overflow-hidden">
                 <img
                   src={moduleConf.zkLogin.bg}
@@ -168,7 +168,7 @@ const ConnectWalletModal = () => {
                   })}
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* wallet */}
             <div className="space-y-5">
@@ -214,9 +214,8 @@ const ConnectWalletModal = () => {
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col justify-center">
+        <div className="flex-1 flex flex-col justify-start lg:pt-16">
           <div
-            // className="w-[375px] h-[264px] mx-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center bg-cover"
             className="w-full relative h-[264px] mx-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center lg:bg-cover"
             style={{
               backgroundImage: pc ? `url(${passportlg})` : null,
