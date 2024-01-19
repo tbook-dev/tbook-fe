@@ -9,6 +9,7 @@ import tgGray from "@/images/icon/tg-gray.svg";
 import tg from "@/images/icon/tg.svg";
 import googleSVG from "@/images/zklogin/google.svg";
 import googleGarySVG from "@/images/zklogin/google-gray.svg";
+import googleColorSvg from "@/images/zklogin/google-color.svg";
 
 import facebookSVG from "@/images/zklogin/facebook.svg";
 import talkSVG from "@/images/zklogin/talk.svg";
@@ -94,6 +95,7 @@ export default function useSocial() {
         connected: googleConnected,
         picUrl: googleGarySVG,
         activePic: googleSVG,
+        picColorUrl: googleColorSvg,
         ready: true,
         async loginFn(skip = false) {
           console.log("google==");

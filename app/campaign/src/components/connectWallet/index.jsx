@@ -151,7 +151,7 @@ const ConnectWalletModal = () => {
                         handleAsync={async () => v.loginFn(false)}
                       >
                         <img
-                          src={v.activePic}
+                          src={v.picColorUrl}
                           className="w-8 h-8 object-center hover:opacity-60"
                           alt={v.name}
                         />

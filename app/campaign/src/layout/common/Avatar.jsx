@@ -79,7 +79,7 @@ export default function Avatar() {
       return {
         logo: isGoogle ? (
           <img
-            src={getZkfnByName("google")?.activePic}
+            src={getZkfnByName("google")?.picColorUrl}
             alt="google"
             className="w-6 h-6"
           />
