@@ -38,14 +38,15 @@ export default function Admins() {
     setAddAdminLoading(true);
     try {
       await addAdmin(projectId, newAdmin?.toLowerCase());
+      await refetch();
+      setAddAdminLoading(false);
       api.success({ message: "add admin sucess!" });
+      setAddAdminLoading(false);
+      setNewAdmin("");
     } catch (e) {
       api.error({ message: "add admin error!" });
       setAddAdminLoading(false);
-      return;
     }
-    await refetch();
-    setAddAdminLoading(false);
   };
 
   const handleMenuClick = async (action, item) => {
@@ -121,6 +122,7 @@ export default function Admins() {
             </Popover>
           </div>
           <Input
+            value={newAdmin}
             className="w-[380px]"
             placeholder={moduleConf.actionNameTip}
             onChange={(e) => setNewAdmin(e.target.value)}
