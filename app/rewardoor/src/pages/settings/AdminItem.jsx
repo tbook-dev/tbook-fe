@@ -24,7 +24,7 @@ export default function AdminItem({ name, item, handleMenuClick, isOwner }) {
         <LoadingOutlined />
       ) : item.isOwner ? (
         <div className="flex item-center gap-x-6">
-          Ower
+          Owner
           <EllipsisOutlined className={"text-[#fff]/[0.1]"} />
         </div>
       ) : isOwner ? (
