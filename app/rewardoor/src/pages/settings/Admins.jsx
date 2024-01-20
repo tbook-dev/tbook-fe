@@ -22,8 +22,9 @@ const moduleConf = {
   ],
   actionName: "Add Admin",
   actionNameTip: "Paste an address to add an admin",
+  addErrorTip: "add admin error! Please try it later!",
+  addSucessTip: "add admin sucess!",
 };
-
 export default function Admins() {
   const [api, contextHolder] = notification.useNotification();
 
@@ -31,20 +32,25 @@ export default function Admins() {
   const [addAdminLoading, setAddAdminLoading] = useState(false);
   const [newAdmin, setNewAdmin] = useState();
   const { data, refetch } = useAdmins();
-  const ownerAddress = data?.find(v => v.isOwner)?.wallet
-//   console.log({ data, ownerAddress });
+  const ownerAddress = data?.find((v) => v.isOwner)?.wallet;
+  //   console.log({ data, ownerAddress });
 
   const handleAddAdmin = async () => {
     setAddAdminLoading(true);
     try {
-      await addAdmin(projectId, newAdmin?.toLowerCase());
-      await refetch();
-      setAddAdminLoading(false);
-      api.success({ message: "add admin sucess!" });
-      setAddAdminLoading(false);
-      setNewAdmin("");
+      const res = await addAdmin(projectId, newAdmin?.toLowerCase());
+      if (res.success) {
+        await refetch();
+        setAddAdminLoading(false);
+        api.success({ message: moduleConf.addSucessTip });
+        setAddAdminLoading(false);
+        setNewAdmin("");
+      } else {
+        api.error({ message: res.message });
+        setAddAdminLoading(false);
+      }
     } catch (e) {
-      api.error({ message: "add admin error!" });
+      api.error({ message: moduleConf.addErrorTip });
       setAddAdminLoading(false);
     }
   };

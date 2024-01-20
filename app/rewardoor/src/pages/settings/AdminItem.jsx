@@ -10,14 +10,14 @@ const menus = [
 ];
 export default function AdminItem({ name, item, handleMenuClick, isOwner }) {
   const [loading, setLoading] = useState(false);
-  
+
   return (
     <div
       className="px-5 py-4 flex items-center justify-between"
       key={item.userId}
     >
       <div className="flex items-center gap-x-6">
-        <span className="w-[200px] flex-none">{name}</span>
+        <span className="w-[200px] flex-none font-zen-dot">{name}</span>
         <span className="w-[400px] flex-none">{item.wallet}</span>
       </div>
       {loading ? (
