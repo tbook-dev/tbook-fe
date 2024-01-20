@@ -82,8 +82,10 @@ export const getCampaignParticipation = async function (campaignId) {
 export const getAsset = async function (projectId) {
   return await request(`${host}/project/${projectId}/assets`);
 };
-export const getNft = async function (nftId,groupId) {
-  return await request(`${host}/nft/giveaways?nftId=${nftId}&groupId=${groupId}`);
+export const getNft = async function (nftId, groupId) {
+  return await request(
+    `${host}/nft/giveaways?nftId=${nftId}&groupId=${groupId}`
+  );
 };
 export const createCredential = async function (values) {
   return await request.Post(`${host}/credentials/create`, values);
@@ -135,11 +137,14 @@ export const updateProject = async function (values) {
   return await request.Post(`${host}/project/update`, values);
 };
 export const genAppKey = async function (projectId) {
-  return request.Post(`${host}/project/${projectId}/key`)
+  return request.Post(`${host}/project/${projectId}/key`);
 };
-export const updateProjectExt = async function(projectId, values){
-  return await request.Post(`${host}/project/${projectId}/callback/update`, values)
-}
+export const updateProjectExt = async function (projectId, values) {
+  return await request.Post(
+    `${host}/project/${projectId}/callback/update`,
+    values
+  );
+};
 // export const updateProjectValuation = async function (projectId, values) {
 //   return request.PostFormV1(
 //     `${host}/projects/${projectId}/valuationUpdate`,
@@ -268,10 +273,28 @@ export const getTwLoginUrl = async function () {
   return await res.json();
 };
 
-export const getReward = async function(campaignId){
-  return await request(`${host}/campaignNew/reward/${campaignId}`)
-}
+export const getReward = async function (campaignId) {
+  return await request(`${host}/campaignNew/reward/${campaignId}`);
+};
 
-export const getNFTSupportedChains = async function() {
-  return await request(`${host}/nft/supportedChains`)
-}
+export const getNFTSupportedChains = async function () {
+  return await request(`${host}/nft/supportedChains`);
+};
+
+export const getAdmins = async function (projectId) {
+  return await request(`${host}/project/admins/${projectId}`);
+};
+
+export const deleteAdmin = async function (projectId, wallet) {
+  return await request.Post(`${host}/project/deleteAdmin`, {
+    projectId,
+    wallet,
+  });
+};
+
+export const addAdmin = async function (projectId, wallet) {
+  return await request.Post(`${host}/project/addAdmin`, {
+    projectId,
+    wallet,
+  });
+};

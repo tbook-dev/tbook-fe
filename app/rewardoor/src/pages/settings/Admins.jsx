@@ -1,9 +1,11 @@
 import clsx from "clsx";
 import useAdmins from "@/hooks/queries/useAdmins";
-import { Skeleton, Input, Popover, Dropdown } from "antd";
+import useUserInfo from "@/hooks/queries/useUserInfo";
+import { notification, Skeleton, Input, Popover, Dropdown } from "antd";
 import { InfoCircleOutlined, EllipsisOutlined } from "@ant-design/icons";
 import Button from "@/components/button";
 import { useState } from "react";
+import { addAdmin } from "@/api/incentive";
 
 const moduleConf = {
   name: "Administrators",
@@ -22,19 +24,32 @@ const moduleConf = {
 };
 
 export default function Admins() {
+  const [api, contextHolder] = notification.useNotification();
+
+  const { projectId } = useUserInfo();
   const [addAdminLoading, setAddAdminLoading] = useState(false);
   const [newAdmin, setNewAdmin] = useState();
-  const { data } = useAdmins();
+  const { data, refetch } = useAdmins();
   const menus = [
     {
       key: "delete",
       label: <button className="mx-4">Delete</button>,
     },
   ];
+  console.log({ data });
 
-  const handleAddAdmin = () => {
+  const handleAddAdmin = async () => {
     setAddAdminLoading(true);
+    try {
+      await addAdmin(projectId, newAdmin?.toLowerCase());
+      api.success("add admin sucess!");
+    } catch (e) {
+      api.error("add admin error!");
+      setAddAdminLoading(false);
+      return;
+    }
     console.log("handleAddAdmin->newAdmin", newAdmin);
+    await refetch();
     setAddAdminLoading(false);
   };
 
@@ -57,7 +72,7 @@ export default function Admins() {
               <div className="w-[485px] space-y-4">
                 {moduleConf.roles.map((role) => {
                   return (
-                    <div className="text-sm space-y-0.5">
+                    <div className="text-sm space-y-0.5" key={role.title}>
                       <h2 className="font-medium text-white">{role.title}</h2>
                       <p className="text-[#A1A1A2]">{role.desc}</p>
                     </div>
@@ -79,60 +94,43 @@ export default function Admins() {
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="px-5 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-x-6">
-                  <span className="w-[200px] flex-none">Admin1</span>
-                  <span className="w-[400px] flex-none">
-                    0xb89E5f4811da62886a304cf990d59E618df467F7
-                  </span>
-                </div>
-                <div className="space-x-10">
-                  <span>Owner</span>
-                  {true ? (
-                    <EllipsisOutlined className={"text-[#fff]/[0.1]"} />
-                  ) : (
-                    <Dropdown
-                      placement="bottomRight"
-                      menu={{
-                        items: menus,
-                        onClick: handleMenuClick,
-                      }}
-                    >
-                      <EllipsisOutlined
-                        className={"cursor-pointer hover:text-white"}
-                      />
-                    </Dropdown>
-                  )}
-                </div>
-              </div>
-
-              <div className="px-5 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-x-6">
-                  <span className="w-[200px] flex-none">Admin2</span>
-                  <span className="w-[400px] flex-none">
-                    0xb89E5f4811da62886a304cf990d59E618df467F7
-                  </span>
-                </div>
-                {false ? (
-                  <EllipsisOutlined className={"text-[#fff]/[0.1]"} />
-                ) : (
-                  <Dropdown
-                    placement="bottomRight"
-                    menu={{
-                      items: menus,
-                      onClick: () =>
-                        handleMenuClick({
-                          address: "address",
-                          userId: "userId",
-                        }),
-                    }}
+              {data.map((v, idx) => {
+                return (
+                  <div
+                    className="px-5 py-4 flex items-center justify-between"
+                    key={v.userId}
                   >
-                    <EllipsisOutlined
-                      className={"cursor-pointer hover:text-white"}
-                    />
-                  </Dropdown>
-                )}
-              </div>
+                    <div className="flex items-center gap-x-6">
+                      <span className="w-[200px] flex-none">
+                        Admin{idx + 1}
+                      </span>
+                      <span className="w-[400px] flex-none">{v.wallet}</span>
+                    </div>
+                    {v.isOwner ? (
+                      <div className="flex item-center gap-x-6">
+                        Ower
+                        <EllipsisOutlined className={"text-[#fff]/[0.1]"} />
+                      </div>
+                    ) : (
+                      <Dropdown
+                        placement="bottomRight"
+                        menu={{
+                          items: menus,
+                          onClick: () =>
+                            handleMenuClick({
+                              address: "address",
+                              userId: "userId",
+                            }),
+                        }}
+                      >
+                        <EllipsisOutlined
+                          className={"cursor-pointer hover:text-white"}
+                        />
+                      </Dropdown>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
@@ -153,7 +151,7 @@ export default function Admins() {
             onChange={(e) => setNewAdmin(e.target.value)}
           />
           <Button
-            disabled={!newAdmin}
+            disabled={!newAdmin || addAdminLoading}
             type="primary"
             onClick={handleAddAdmin}
             loading={addAdminLoading}
@@ -163,6 +161,7 @@ export default function Admins() {
           </Button>
         </div>
       </div>
+      {contextHolder}
     </div>
   );
 }
