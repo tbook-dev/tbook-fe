@@ -5,7 +5,8 @@ import { notification, Skeleton, Input, Popover, Dropdown } from "antd";
 import { InfoCircleOutlined, EllipsisOutlined } from "@ant-design/icons";
 import Button from "@/components/button";
 import { useState } from "react";
-import { addAdmin } from "@/api/incentive";
+import { addAdmin, deleteAdmin } from "@/api/incentive";
+import AdminItem from "./AdminItem";
 
 const moduleConf = {
   name: "Administrators",
@@ -30,31 +31,32 @@ export default function Admins() {
   const [addAdminLoading, setAddAdminLoading] = useState(false);
   const [newAdmin, setNewAdmin] = useState();
   const { data, refetch } = useAdmins();
-  const menus = [
-    {
-      key: "delete",
-      label: <button className="mx-4">Delete</button>,
-    },
-  ];
+
   console.log({ data });
 
   const handleAddAdmin = async () => {
     setAddAdminLoading(true);
     try {
       await addAdmin(projectId, newAdmin?.toLowerCase());
-      api.success("add admin sucess!");
+      api.success({ message: "add admin sucess!" });
     } catch (e) {
-      api.error("add admin error!");
+      api.error({ message: "add admin error!" });
       setAddAdminLoading(false);
       return;
     }
-    console.log("handleAddAdmin->newAdmin", newAdmin);
     await refetch();
     setAddAdminLoading(false);
   };
 
-  const handleMenuClick = (item) => {
-    console.log("handleMenuClick", item);
+  const handleMenuClick = async (action, item) => {
+    try {
+      if (action.key === "delete") {
+        await deleteAdmin(projectId, item.wallet, item.isOwner);
+      }
+      await refetch();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -96,39 +98,12 @@ export default function Admins() {
             <div className="space-y-4">
               {data.map((v, idx) => {
                 return (
-                  <div
-                    className="px-5 py-4 flex items-center justify-between"
+                  <AdminItem
                     key={v.userId}
-                  >
-                    <div className="flex items-center gap-x-6">
-                      <span className="w-[200px] flex-none">
-                        Admin{idx + 1}
-                      </span>
-                      <span className="w-[400px] flex-none">{v.wallet}</span>
-                    </div>
-                    {v.isOwner ? (
-                      <div className="flex item-center gap-x-6">
-                        Ower
-                        <EllipsisOutlined className={"text-[#fff]/[0.1]"} />
-                      </div>
-                    ) : (
-                      <Dropdown
-                        placement="bottomRight"
-                        menu={{
-                          items: menus,
-                          onClick: () =>
-                            handleMenuClick({
-                              address: "address",
-                              userId: "userId",
-                            }),
-                        }}
-                      >
-                        <EllipsisOutlined
-                          className={"cursor-pointer hover:text-white"}
-                        />
-                      </Dropdown>
-                    )}
-                  </div>
+                    name={"Admin" + (idx + 1)}
+                    item={v}
+                    handleMenuClick={handleMenuClick}
+                  />
                 );
               })}
             </div>

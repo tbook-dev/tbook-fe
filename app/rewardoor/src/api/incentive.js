@@ -285,10 +285,11 @@ export const getAdmins = async function (projectId) {
   return await request(`${host}/project/admins/${projectId}`);
 };
 
-export const deleteAdmin = async function (projectId, wallet) {
+export const deleteAdmin = async function (projectId, wallet, isOwner) {
   return await request.Post(`${host}/project/deleteAdmin`, {
     projectId,
     wallet,
+    isOwner,
   });
 };
 
