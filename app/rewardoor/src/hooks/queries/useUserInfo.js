@@ -18,6 +18,7 @@ export default function useUserInfo() {
   const userTwitter = data?.userTwitter;
   const user = data?.user;
   const userLogined = isSuccess;
+  const address = user?.wallet
 
   return {
     data,
@@ -32,6 +33,7 @@ export default function useUserInfo() {
     user,
     userLogined,
     isSuccess,
+    address,
     ...props,
   };
 }

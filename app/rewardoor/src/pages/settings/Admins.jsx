@@ -27,12 +27,12 @@ const moduleConf = {
 export default function Admins() {
   const [api, contextHolder] = notification.useNotification();
 
-  const { projectId } = useUserInfo();
+  const { projectId, address: currentUserAddress } = useUserInfo();
   const [addAdminLoading, setAddAdminLoading] = useState(false);
   const [newAdmin, setNewAdmin] = useState();
   const { data, refetch } = useAdmins();
-
-  console.log({ data });
+  const ownerAddress = data?.find(v => v.isOwner)?.wallet
+//   console.log({ data, ownerAddress });
 
   const handleAddAdmin = async () => {
     setAddAdminLoading(true);
@@ -104,6 +104,7 @@ export default function Admins() {
                     name={"Admin" + (idx + 1)}
                     item={v}
                     handleMenuClick={handleMenuClick}
+                    isOwner={currentUserAddress === ownerAddress}
                   />
                 );
               })}

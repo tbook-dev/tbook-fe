@@ -8,8 +8,9 @@ const menus = [
     label: <button className="mx-4">Delete</button>,
   },
 ];
-export default function AdminItem({ name, item, handleMenuClick }) {
+export default function AdminItem({ name, item, handleMenuClick, isOwner }) {
   const [loading, setLoading] = useState(false);
+  
   return (
     <div
       className="px-5 py-4 flex items-center justify-between"
@@ -26,7 +27,7 @@ export default function AdminItem({ name, item, handleMenuClick }) {
           Ower
           <EllipsisOutlined className={"text-[#fff]/[0.1]"} />
         </div>
-      ) : (
+      ) : isOwner ? (
         <Dropdown
           placement="bottomRight"
           menu={{
@@ -45,6 +46,8 @@ export default function AdminItem({ name, item, handleMenuClick }) {
         >
           <EllipsisOutlined className={"cursor-pointer hover:text-white"} />
         </Dropdown>
+      ) : (
+        <EllipsisOutlined className={"text-[#fff]/[0.1]"} />
       )}
     </div>
   );
