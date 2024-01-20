@@ -6,7 +6,8 @@ import {
   notification,
   Radio,
   ConfigProvider,
-  Popover
+  Popover,
+  Skeleton
 } from 'antd'
 import {
   InfoCircleOutlined,
@@ -38,6 +39,8 @@ import { Popconfirm } from 'antd'
 import { useQueryClient } from 'react-query'
 import Loading from '@/components/loading'
 import clsx from 'clsx'
+import Admins from './Admins'
+
 
 const pageTitle = 'Settings'
 const { Paragraph } = Typography
@@ -169,8 +172,8 @@ export default function Settings () {
           }
         }}
       >
-        <div className='mb-10'>
-          <h2 className='text-3xl font-bold text-[#C8C8C8] mb-9'>
+        <div className='mb-10 space-y-9'>
+          <h2 className='text-3xl font-bold text-[#C8C8C8]'>
             {pageTitle}
           </h2>
 
@@ -332,8 +335,11 @@ export default function Settings () {
               </div>
             </div>
           </Form>
+
+          <Admins />
+          
           {!projectExt ? (
-            <Loading h='h-[100px]' />
+            <Skeleton />
           ) : (
             <Form
               form={formAdvance}
@@ -376,7 +382,7 @@ export default function Settings () {
                             content={popoverMap.credentialCallback}
                             className='cursor-pointer'
                           >
-                            <InfoCircleOutlined />
+                            <InfoCircleOutlined className='hover:text-white'/>
                           </Popover>
                         </div>
                       }
@@ -428,7 +434,7 @@ export default function Settings () {
                             content={popoverMap.appId}
                             className='cursor-pointer'
                           >
-                            <InfoCircleOutlined />
+                            <InfoCircleOutlined className='hover:text-white'/>
                           </Popover>
                         </div>
                       }
@@ -462,7 +468,7 @@ export default function Settings () {
                             content={popoverMap.appKey}
                             className='cursor-pointer'
                           >
-                            <InfoCircleOutlined />
+                            <InfoCircleOutlined className='hover:text-white'/>
                           </Popover>
                         </div>
                       }

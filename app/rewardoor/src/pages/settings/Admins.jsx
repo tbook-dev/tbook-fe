@@ -1,0 +1,168 @@
+import clsx from "clsx";
+import useAdmins from "@/hooks/queries/useAdmins";
+import { Skeleton, Input, Popover, Dropdown } from "antd";
+import { InfoCircleOutlined, EllipsisOutlined } from "@ant-design/icons";
+import Button from "@/components/button";
+import { useState } from "react";
+
+const moduleConf = {
+  name: "Administrators",
+  roles: [
+    {
+      title: "Owner",
+      desc: "Able to modify the project setting, manage incentive campaigns, manage incentive assets and create campaigns, manage administrators.",
+    },
+    {
+      title: "Admin",
+      desc: "Able to modify the project setting, manage incentive campaigns, manage incentive assets and create campaigns.",
+    },
+  ],
+  actionName: "Add Admin",
+  actionNameTip: "Paste an address to add an admin",
+};
+
+export default function Admins() {
+  const [addAdminLoading, setAddAdminLoading] = useState(false);
+  const [newAdmin, setNewAdmin] = useState();
+  const { data } = useAdmins();
+  const menus = [
+    {
+      key: "delete",
+      label: <button className="mx-4">Delete</button>,
+    },
+  ];
+
+  const handleAddAdmin = () => {
+    setAddAdminLoading(true);
+    console.log("handleAddAdmin->newAdmin", newAdmin);
+    setAddAdminLoading(false);
+  };
+
+  const handleMenuClick = (item) => {
+    console.log("handleMenuClick", item);
+  };
+
+  return (
+    <div className="bg-[#121212] w-full rounded-xl">
+      <div
+        className={clsx(
+          "py-4 px-5 text-[18px] font-medium",
+          "border-b border-b-1"
+        )}
+      >
+        <div className="flex items-center gap-x-1 text-[#F0F0F0]">
+          {moduleConf.name}
+          <Popover
+            content={
+              <div className="w-[485px] space-y-4">
+                {moduleConf.roles.map((role) => {
+                  return (
+                    <div className="text-sm space-y-0.5">
+                      <h2 className="font-medium text-white">{role.title}</h2>
+                      <p className="text-[#A1A1A2]">{role.desc}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            }
+            className="cursor-pointer"
+          >
+            <InfoCircleOutlined className="text-[#A1A1A2] hover:text-white" />
+          </Popover>
+        </div>
+      </div>
+      <div>
+        <div className="text-base text-[#A1A1A2]">
+          {!data ? (
+            <div className="px-5 py-4">
+              <Skeleton />
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div className="px-5 py-4 flex items-center justify-between">
+                <div className="flex items-center gap-x-6">
+                  <span className="w-[200px] flex-none">Admin1</span>
+                  <span className="w-[400px] flex-none">
+                    0xb89E5f4811da62886a304cf990d59E618df467F7
+                  </span>
+                </div>
+                <div className="space-x-10">
+                  <span>Owner</span>
+                  {true ? (
+                    <EllipsisOutlined className={"text-[#fff]/[0.1]"} />
+                  ) : (
+                    <Dropdown
+                      placement="bottomRight"
+                      menu={{
+                        items: menus,
+                        onClick: handleMenuClick,
+                      }}
+                    >
+                      <EllipsisOutlined
+                        className={"cursor-pointer hover:text-white"}
+                      />
+                    </Dropdown>
+                  )}
+                </div>
+              </div>
+
+              <div className="px-5 py-4 flex items-center justify-between">
+                <div className="flex items-center gap-x-6">
+                  <span className="w-[200px] flex-none">Admin2</span>
+                  <span className="w-[400px] flex-none">
+                    0xb89E5f4811da62886a304cf990d59E618df467F7
+                  </span>
+                </div>
+                {false ? (
+                  <EllipsisOutlined className={"text-[#fff]/[0.1]"} />
+                ) : (
+                  <Dropdown
+                    placement="bottomRight"
+                    menu={{
+                      items: menus,
+                      onClick: () =>
+                        handleMenuClick({
+                          address: "address",
+                          userId: "userId",
+                        }),
+                    }}
+                  >
+                    <EllipsisOutlined
+                      className={"cursor-pointer hover:text-white"}
+                    />
+                  </Dropdown>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="text-[#A1A1A2] px-5 py-4 text-base border-t border-b-1 flex items-center justify-between">
+          <div className="flex items-center gap-x-1 flex-none">
+            {moduleConf.actionName}
+            <Popover
+              content={moduleConf.actionNameTip}
+              className="cursor-pointer"
+            >
+              <InfoCircleOutlined className="text-[#A1A1A2] hover:text-white" />
+            </Popover>
+          </div>
+          <Input
+            className="w-[380px]"
+            placeholder={moduleConf.actionNameTip}
+            onChange={(e) => setNewAdmin(e.target.value)}
+          />
+          <Button
+            disabled={!newAdmin}
+            type="primary"
+            onClick={handleAddAdmin}
+            loading={addAdminLoading}
+            className="flex-none"
+          >
+            Save
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
