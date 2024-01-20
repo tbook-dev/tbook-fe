@@ -29,7 +29,7 @@ export default function Point () {
     return {
       totalNum,
       tableData,
-      total: AllData.length
+      total: AllData?.length
     }
   }, [info, current])
 

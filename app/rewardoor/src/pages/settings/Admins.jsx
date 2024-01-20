@@ -32,7 +32,7 @@ export default function Admins() {
   const [addAdminLoading, setAddAdminLoading] = useState(false);
   const [newAdmin, setNewAdmin] = useState();
   const { data, refetch } = useAdmins();
-  const ownerAddress = data?.find((v) => v.isOwner)?.wallet;
+  const ownerAddress = data?.find?.((v) => v.isOwner)?.wallet;
   //   console.log({ data, ownerAddress });
 
   const handleAddAdmin = async () => {
@@ -103,7 +103,7 @@ export default function Admins() {
             </div>
           ) : (
             <div className="space-y-4">
-              {data.map((v, idx) => {
+              {data?.map?.((v, idx) => {
                 return (
                   <AdminItem
                     key={v.userId}
