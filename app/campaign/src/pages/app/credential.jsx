@@ -23,6 +23,7 @@ import { useAccount } from "wagmi";
 import { useQueryClient } from "react-query";
 import warningSvg from "@/images/icon/warning.svg";
 import clsx from "clsx";
+import AirDrop from "./airdrop";
 
 // const errorMsg =
 //   'It seems you have not finished the task.Please click and finish the task, then verify in 30s later.'
@@ -41,9 +42,11 @@ export default function Credential({ redential, showVerify, signCredential }) {
   } = useUserInfo();
   const { getSocialByName } = useSocial();
   const { pc } = useResponsive();
+  const [showAirdop, setShowAirdop] = useState(true);
 
   const credentialType = getCrenditialType(redential.labelType);
   const isSnapshotType = redential.labelType === 12;
+  const isAirdopType = redential.labelType === 13;
   const snapshotId = getSnapshotIdBylink(redential.link);
   const { data: votes = [] } = useUserVotes(
     snapshotId,
@@ -56,9 +59,11 @@ export default function Credential({ redential, showVerify, signCredential }) {
   const clearInterIdRef = useRef();
   const hasVoted = useMemo(() => {
     if (!votes) return false;
-    return !!votes?.find((v) => v.voter?.toLowerCase() === address?.toLowerCase());
+    return !!votes?.find(
+      (v) => v.voter?.toLowerCase() === address?.toLowerCase()
+    );
   }, [votes]);
-  
+
   const sysConnectedMap = {
     twitter: twitterConnected,
     discord: discordConnected,
@@ -82,38 +87,44 @@ export default function Credential({ redential, showVerify, signCredential }) {
   const signIn = useCallback(() => {
     dispath(setLoginModal(true));
   }, []);
-  const handleVerify = useCallback(async (redential) => {
-    // 如果是snapshot，先坚持上报然后
-    let hasError = false;
-    if (isSnapshotType) {
-      if(hasVoted){
-      //先上报
-        await verifyTbook(redential.credentialId);
-      } else {
-        hasError = true;
-        resetCount();
-        throw new Error(true);
+  const handleVerify = useCallback(
+    async (redential) => {
+      // 如果是snapshot，先坚持上报然后
+      let hasError = false;
+      if (isSnapshotType) {
+        if (hasVoted) {
+          //先上报
+          await verifyTbook(redential.credentialId);
+        } else {
+          hasError = true;
+          resetCount();
+          throw new Error(true);
+        }
       }
-    }
-    
-    try {
-      const res = await verifyCredential(redential.credentialId);
-      if (res.isVerified) {
-        hasError = false;
-        await queryClient.refetchQueries(["campaignDetail", campaignId]);
-      } else {
+      if(isAirdopType){
+        // 如果是snapshot，直接提交表单， 不在此处验证
+        console.log("auto exe")
+      }
+      try {
+        const res = await verifyCredential(redential.credentialId);
+        if (res.isVerified) {
+          hasError = false;
+          await queryClient.refetchQueries(["campaignDetail", campaignId]);
+        } else {
+          hasError = true;
+        }
+      } catch (error) {
+        console.log(error);
         hasError = true;
       }
-    } catch (error) {
-      console.log(error);
-      hasError = true;
-    }
 
-    if (hasError) {
-      resetCount();
-      throw new Error(hasError);
-    }
-  }, [isSnapshotType, hasVoted]);
+      if (hasError) {
+        resetCount();
+        throw new Error(hasError);
+      }
+    },
+    [isSnapshotType, hasVoted]
+  );
 
   // 点击任务，除了跳转外的额外处理。
   const taskMap = {
@@ -141,6 +152,9 @@ export default function Credential({ redential, showVerify, signCredential }) {
         }/${snapshotId}`,
         pc ? "_blank" : "_self"
       );
+    },
+    13: () => {
+      setShowAirdop(v => !v);
     },
   };
   const isRedentialNotLink = redential.labelType === 10;
@@ -172,8 +186,9 @@ export default function Credential({ redential, showVerify, signCredential }) {
   }, [count]);
   const showErrorTip = count > 0 && !redential.isVerified;
   const showSnapshot = isSnapshotType && snapshotId;
+
   return (
-    <div className="border border-[#904BF6] lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5">
+    <div className="border border-[#904BF6] transition-all duration-300 ease-in-out lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5">
       <div className="flex items-start justify-between w-full">
         <div className="flex items-start gap-x-1 pt-[3px] flex-auto w-[calc(100%_-_45px)]">
           <img
@@ -285,6 +300,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
           </div>
         </Link>
       )}
+      {showAirdop && <AirDrop {...redential} errorHandle={resetCount}/>}
     </div>
   );
 }

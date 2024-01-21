@@ -190,8 +190,8 @@ export const getCampaign = async function (projectId) {
 };
 
 export const getZKSalt = async function (jwtToken) {
-  return await request.Post(`${host}/zk/salt`, {payload: jwtToken})
-}
+  return await request.Post(`${host}/zk/salt`, { payload: jwtToken });
+};
 
 export const updateZKAddress = async function (address) {
   const d = new URLSearchParams();
@@ -205,9 +205,13 @@ export const updateZKAddress = async function (address) {
     body: d,
   });
   return bindResult;
-}
+};
 
 export const doZKProof = async function (address, proof) {
-  const data = {proof: JSON.stringify(proof), address}
+  const data = { proof: JSON.stringify(proof), address };
   return await request.Post(`${host}/zk/proof`, data);
-}
+};
+
+export const submitAddress = async function (data) {
+  return await request.Post(`${host}/campaignAddress/submitAddress`, data);
+};
