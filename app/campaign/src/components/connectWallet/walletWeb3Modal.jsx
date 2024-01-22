@@ -41,7 +41,7 @@ const ConnectWalletModal = () => {
   const showConnectWalletModal = useSelector(
     s => s.global.showConnectWalletModal
   )
-  const { twitterConnected } = useUserInfo()
+  const { twitterConnected, refetch } = useUserInfo()
   const queryClient = useQueryClient()
   const dispath = useDispatch()
   const { isConnected, address } = useAccount()
@@ -65,11 +65,11 @@ const ConnectWalletModal = () => {
           handleCloseModal()
           return
         }else{
-          await queryClient.refetchQueries('userInfo')
+          await refetch()
         }
       } else {
         await authenticate(address, sign)
-        await queryClient.refetchQueries('userInfo')
+        await refetch()
       }
   
       // cast the userInfo event
