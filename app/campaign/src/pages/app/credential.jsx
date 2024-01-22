@@ -45,8 +45,9 @@ export default function Credential({ redential, showVerify, signCredential }) {
   const [showAirdop, setShowAirdop] = useState(false);
 
   const credentialType = getCrenditialType(redential.labelType);
-  const isSnapshotType = redential.labelType === 12;
+  const hiddenGotoButton = [12, 13].includes(redential.labelType);
   const isAirdopType = redential.labelType === 13;
+  const isSnapshotType = redential.labelType === 12;
   const snapshotId = getSnapshotIdBylink(redential.link);
   const { data: votes = [] } = useUserVotes(
     snapshotId,
@@ -241,7 +242,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
             task, then verify in {count}s later.
           </div>
 
-          {!isSnapshotType &&
+          {!hiddenGotoButton &&
             (isRedentialNotLink ? (
               <div
                 onClick={taskMap[redential.labelType]}

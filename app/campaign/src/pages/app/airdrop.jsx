@@ -19,12 +19,13 @@ export default function AirDrop({
   const [isLoading, setLoading] = useState(false);
   const { user } = useUserInfo();
   const clearInterIdRef = useRef();
+  const [errTip, setErrTip] = useState("");
 
   console.log({ credential, user, count });
   const { data: userAirdopData } = useAirdrop({
     userId: user?.userId,
     credentialId,
-    enabled: !!user?.userId,
+    enabled: !!user?.userId && isVerified,
     // enabled: !!user?.userId && isVerified,
   });
 
@@ -37,6 +38,7 @@ export default function AirDrop({
         userId: user?.userId,
       });
       if (!res.sucess) {
+        setErrTip(res?.message);
         setCount(30);
       }
       console.log("handleSubmit", res);
@@ -75,8 +77,8 @@ export default function AirDrop({
             className="w-5 h-5 object-center"
             alt="verify error"
           />
-          It seems you have not finished the task.Please click and finish the
-          task, then verify in {count}s later.
+          {errTip || "It seems you have not finished the task. "} Please click
+          and finish the task, then verify in {count}s later.
         </div>
       )}
       {description && <div className="text-sm">{description}</div>}
