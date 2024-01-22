@@ -82,7 +82,7 @@ export default function AirDrop({
       {description && <div className="text-sm">{description}</div>}
       <div className="flex text-sm items-center justify-between gap-x-6">
         <input
-          value={value}
+          value={isVerified ? userAirdopData?.entity?.address : value}
           onChange={(e) => {
             setValue(e.target.value);
           }}
