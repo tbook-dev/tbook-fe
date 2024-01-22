@@ -215,3 +215,7 @@ export const doZKProof = async function (address, proof) {
 export const submitAddress = async function (data) {
   return await request.Post(`${host}/campaignAddress/submitAddress`, data);
 };
+
+export const getAirdropAddress = async function (data) {
+  return await request.Post(`${host}/campaignAddress/address`, data);
+};
