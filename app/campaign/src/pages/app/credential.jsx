@@ -101,9 +101,9 @@ export default function Credential({ redential, showVerify, signCredential }) {
           throw new Error(true);
         }
       }
-      if(isAirdopType){
+      if (isAirdopType) {
         // 如果是snapshot，直接提交表单， 不在此处验证
-        console.log("auto exe")
+        console.log("auto exe");
       }
       try {
         const res = await verifyCredential(redential.credentialId);
@@ -154,7 +154,11 @@ export default function Credential({ redential, showVerify, signCredential }) {
       );
     },
     13: () => {
-      setShowAirdop(v => !v);
+      if (userLogined) {
+        setShowAirdop((v) => !v);
+      } else {
+        signIn();
+      }
     },
   };
   const isRedentialNotLink = redential.labelType === 10;
@@ -300,7 +304,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
           </div>
         </Link>
       )}
-      {showAirdop && <AirDrop {...redential} errorHandle={resetCount}/>}
+      {showAirdop && <AirDrop {...redential} errorHandle={resetCount} />}
     </div>
   );
 }

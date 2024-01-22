@@ -96,7 +96,7 @@ export default function AirDrop({
           )}
           placeholder="Fill in your exchange address here"
         />
-        {pc && (
+        {pc && !isVerified && (
           <button
             onClick={handleSubmit}
             disabled={!value || isLoading || showWarning}
@@ -117,7 +117,7 @@ export default function AirDrop({
         Please ensure the accuracy of the address, as it cannot be modified once
         submitted.
       </div>
-      {!pc && (
+      {!pc && !isVerified && (
         <button
           onClick={handleSubmit}
           disabled={!value || isLoading || showWarning}
