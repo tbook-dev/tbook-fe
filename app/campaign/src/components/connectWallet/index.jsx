@@ -132,7 +132,7 @@ const ConnectWalletModal = () => {
 
           <div className="space-y-5">
             {/* zkLogin */}
-            {/* <div className="space-y-5">
+            <div className="space-y-5">
               <div className="bg-[rgb(99,161,248)]/[0.10] border border-[rgb(99,161,248)]/[0.40] p-4 rounded-lg relative overflow-hidden">
                 <img
                   src={moduleConf.zkLogin.bg}
@@ -168,7 +168,7 @@ const ConnectWalletModal = () => {
                   })}
                 </div>
               </div>
-            </div> */}
+            </div>
 
             {/* wallet */}
             <div className="space-y-5">
