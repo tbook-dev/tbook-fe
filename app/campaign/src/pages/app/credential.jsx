@@ -24,6 +24,7 @@ import { useQueryClient } from "react-query";
 import warningSvg from "@/images/icon/warning.svg";
 import clsx from "clsx";
 import AirDrop from "./airdrop";
+import { useDispatch } from "react-redux";
 
 // const errorMsg =
 //   'It seems you have not finished the task.Please click and finish the task, then verify in 30s later.'
@@ -32,6 +33,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
   const { isUsingSubdomain, projectUrl } = useLoaderData();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
   const {
     twitterConnected,
     userLogined,
@@ -83,10 +85,10 @@ export default function Credential({ redential, showVerify, signCredential }) {
     setCount(30);
   }, []);
   const connectWallect = useCallback(() => {
-    dispath(setConnectWalletModal(true));
+    dispatch(setConnectWalletModal(true));
   }, []);
   const signIn = useCallback(() => {
-    dispath(setLoginModal(true));
+    dispatch(setLoginModal(true));
   }, []);
   const handleVerify = useCallback(
     async (redential) => {
