@@ -7,12 +7,14 @@ import useUserInfo from "@/hooks/useUserInfoQuery";
 import useAirdrop from "@/hooks/useAirdrop";
 import warningSvg from "@/images/icon/warning.svg";
 import useCampaignQuery from "@/hooks/useCampaignQuery";
+import { Skeleton } from "antd";
 
 export default function AirDrop({
   description,
   isVerified,
   credentialId,
   campaignId,
+  successHandle
 }) {
   const { refetch } = useCampaignQuery(campaignId);
   const [count, setCount] = useState(0);
@@ -23,7 +25,7 @@ export default function AirDrop({
   const clearInterIdRef = useRef();
   const [errTip, setErrTip] = useState("");
 
-  const { data: userAirdopData } = useAirdrop({
+  const { data: userAirdopData, isLoading: airDropLoading } = useAirdrop({
     userId: user?.userId,
     credentialId,
     enabled: Boolean(!!user?.userId && isVerified),
@@ -44,6 +46,7 @@ export default function AirDrop({
       } else {
         const v = await verifyCredential(credentialId);
         const c = await refetch();
+        successHandle()
         console.log({ v, c });
       }
     } catch (e) {
@@ -80,21 +83,29 @@ export default function AirDrop({
       )}
       {description && <div className="text-sm">{description}</div>}
       <div className="flex text-sm items-center justify-between gap-x-6">
-        <input
-          value={isVerified ? userAirdopData?.entity?.address : value}
-          onChange={(e) => {
-            setValue(e.target.value);
-          }}
-          disabled={isVerified || showWarning}
-          className={clsx(
-            "h-10 px-4 py-2 flex-auto bg-black rounded-lg text-white placeholder:text-[#666]",
-            "border-0 outline-0 ring-1 ring-inset ",
-            showWarning
-              ? "ring-[#DC2626]"
-              : "ring-[rgb(255,255,255)]/[0.1]  focus:ring-white"
-          )}
-          placeholder="Fill in your exchange address here"
-        />
+        {airDropLoading ? (
+          <Skeleton paragraph={{ rows: 1 }} title={false} />
+        ) : (
+          <input
+            value={isVerified ? userAirdopData?.entity?.address : value}
+            onChange={
+              isVerified
+                ? null
+                : (e) => {
+                    setValue(e.target.value);
+                  }
+            }
+            disabled={isVerified || showWarning}
+            className={clsx(
+              "h-10 px-4 py-2 flex-auto bg-black rounded-lg text-white placeholder:text-[#666]",
+              "border-0 outline-0 ring-1 ring-inset ",
+              showWarning
+                ? "ring-[#DC2626]"
+                : "ring-[rgb(255,255,255)]/[0.1]  focus:ring-white"
+            )}
+            placeholder="Fill in your exchange address here"
+          />
+        )}
         {pc && !isVerified && (
           <button
             onClick={handleSubmit}

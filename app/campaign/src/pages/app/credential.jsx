@@ -112,7 +112,11 @@ export default function Credential({ redential, showVerify, signCredential }) {
         const res = await verifyCredential(redential.credentialId);
         if (res.isVerified) {
           hasError = false;
-          await queryClient.refetchQueries(["campaignDetail", campaignId, true]);
+          await queryClient.refetchQueries([
+            "campaignDetail",
+            campaignId,
+            true,
+          ]);
         } else {
           hasError = true;
         }
@@ -307,7 +311,15 @@ export default function Credential({ redential, showVerify, signCredential }) {
           </div>
         </Link>
       )}
-      {showAirdop && <AirDrop {...redential} errorHandle={resetCount} />}
+      {showAirdop && (
+        <AirDrop
+          {...redential}
+          errorHandle={resetCount}
+          successHandle={() => {
+            setShowAirdop(false);
+          }}
+        />
+      )}
     </div>
   );
 }
