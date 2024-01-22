@@ -2,7 +2,7 @@ import { InfoCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 import clsx from "clsx";
 import { useResponsive } from "ahooks";
 import { useState, useEffect, useRef } from "react";
-import { submitAddress } from "@/api/incentive";
+import { submitAddress, verifyCredential } from "@/api/incentive";
 import useUserInfo from "@/hooks/useUserInfoQuery";
 import useAirdrop from "@/hooks/useAirdrop";
 import warningSvg from "@/images/icon/warning.svg";
@@ -13,7 +13,6 @@ export default function AirDrop({
   isVerified,
   credentialId,
   campaignId,
-  ...credential
 }) {
   const queryClient = useQueryClient();
   const [count, setCount] = useState(0);
@@ -24,7 +23,6 @@ export default function AirDrop({
   const clearInterIdRef = useRef();
   const [errTip, setErrTip] = useState("");
 
-  console.log({ credential, user, count });
   const { data: userAirdopData } = useAirdrop({
     userId: user?.userId,
     credentialId,
@@ -44,6 +42,7 @@ export default function AirDrop({
         setErrTip(res?.message);
         setCount(30);
       } else {
+        await verifyCredential(credentialId);
         await queryClient.refetchQueries(["campaignDetail", campaignId]);
       }
       console.log("handleSubmit", res);
@@ -65,13 +64,6 @@ export default function AirDrop({
       clearInterval(clearInterIdRef.current);
     };
   }, [count]);
-  console.log({
-    userAirdopData,
-    description,
-    isVerified,
-    showWarning,
-    disabled: !value || isLoading || showWarning,
-  });
 
   return (
     <div className="pt-5 space-y-6 border-t border-[#904BF6]">
