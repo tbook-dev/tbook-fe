@@ -140,14 +140,15 @@ export default function () {
   }, [page])
   useEffect(() => {
     if (userLogined && campaignOngoing) {
-      if (localStorage.getItem('1')) {
+      const key=`logUserCampaignLogin-${campaignId}`
+      if (!localStorage.getItem(key)) {
         logUserReport({
           userId: user?.userId,
           campaignId,
           address: user?.wallet,
           isTwitterLogin: twitterConnected
         })
-        localStorage.setItem('logUserCampaignLogin', '1')
+        localStorage.setItem(key, '1')
       }
     }
   }, [userLogined, campaignOngoing])
