@@ -6,13 +6,16 @@ import { submitAddress } from "@/api/incentive";
 import useUserInfo from "@/hooks/useUserInfoQuery";
 import useAirdrop from "@/hooks/useAirdrop";
 import warningSvg from "@/images/icon/warning.svg";
+import { useQueryClient } from "react-query";
 
 export default function AirDrop({
   description,
   isVerified,
   credentialId,
+  campaignId,
   ...credential
 }) {
+  const queryClient = useQueryClient();
   const [count, setCount] = useState(0);
   const { pc } = useResponsive();
   const [value, setValue] = useState("");
@@ -25,7 +28,7 @@ export default function AirDrop({
   const { data: userAirdopData } = useAirdrop({
     userId: user?.userId,
     credentialId,
-    enabled: !!user?.userId && isVerified,
+    enabled: Boolean(!!user?.userId && isVerified),
     // enabled: !!user?.userId && isVerified,
   });
 
@@ -37,9 +40,11 @@ export default function AirDrop({
         address: value,
         userId: user?.userId,
       });
-      if (!res.sucess) {
+      if (!res.success) {
         setErrTip(res?.message);
         setCount(30);
+      } else {
+        await queryClient.refetchQueries(["campaignDetail", campaignId]);
       }
       console.log("handleSubmit", res);
     } catch (e) {
