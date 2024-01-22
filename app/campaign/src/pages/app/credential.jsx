@@ -42,7 +42,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
   } = useUserInfo();
   const { getSocialByName } = useSocial();
   const { pc } = useResponsive();
-  const [showAirdop, setShowAirdop] = useState(true);
+  const [showAirdop, setShowAirdop] = useState(false);
 
   const credentialType = getCrenditialType(redential.labelType);
   const isSnapshotType = redential.labelType === 12;
