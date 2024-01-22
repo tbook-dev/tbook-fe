@@ -6,7 +6,7 @@ import { submitAddress, verifyCredential } from "@/api/incentive";
 import useUserInfo from "@/hooks/useUserInfoQuery";
 import useAirdrop from "@/hooks/useAirdrop";
 import warningSvg from "@/images/icon/warning.svg";
-import { useQueryClient } from "react-query";
+import useCampaignQuery from "@/hooks/useCampaignQuery";
 
 export default function AirDrop({
   description,
@@ -14,7 +14,7 @@ export default function AirDrop({
   credentialId,
   campaignId,
 }) {
-  const queryClient = useQueryClient();
+  const { refetch } = useCampaignQuery(campaignId);
   const [count, setCount] = useState(0);
   const { pc } = useResponsive();
   const [value, setValue] = useState("");
@@ -42,10 +42,10 @@ export default function AirDrop({
         setErrTip(res?.message);
         setCount(30);
       } else {
-        await verifyCredential(credentialId);
-        await queryClient.refetchQueries(["campaignDetail", campaignId]);
+        const v = await verifyCredential(credentialId);
+        const c = await refetch();
+        console.log({ v, c });
       }
-      console.log("handleSubmit", res);
     } catch (e) {
       console.log(e);
     }

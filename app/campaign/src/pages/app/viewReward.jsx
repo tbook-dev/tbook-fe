@@ -64,7 +64,7 @@ export default function ViewReward ({ data, open, onCancel }) {
     } catch (error) {
       console.log(error)
     }
-    await queryClient.refetchQueries(['campaignDetail', campaignId])
+    await queryClient.refetchQueries(['campaignDetail', campaignId, true])
     updateLoading(false)
   }
   const canUseWallect = useMemo(() => {

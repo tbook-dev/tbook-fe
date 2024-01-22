@@ -14,7 +14,7 @@ export default function useCampaignQuery(campaignId) {
     data: page,
     ...props
   } = useQuery(
-    ["campaignDetail", campaignId, userLogined],
+    ["campaignDetail", `${campaignId}`, userLogined],
     () => getCampaignDetail(campaignId),
     {
       staleTime: 50000,
