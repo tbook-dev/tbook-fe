@@ -33,6 +33,7 @@ export default function Admins() {
   const [newAdmin, setNewAdmin] = useState();
   const { data, refetch } = useAdmins();
   const ownerAddress = data?.find?.((v) => v.isOwner)?.wallet;
+  const isOwner = currentUserAddress === ownerAddress;
   //   console.log({ data, ownerAddress });
 
   const handleAddAdmin = async () => {
@@ -110,40 +111,41 @@ export default function Admins() {
                     name={"Admin" + (idx + 1)}
                     item={v}
                     handleMenuClick={handleMenuClick}
-                    isOwner={currentUserAddress === ownerAddress}
+                    isOwner={isOwner}
                   />
                 );
               })}
             </div>
           )}
         </div>
-
-        <div className="text-[#A1A1A2] px-5 py-4 text-base border-t border-b-1 flex items-center justify-between">
-          <div className="flex items-center gap-x-1 flex-none">
-            {moduleConf.actionName}
-            <Popover
-              content={moduleConf.actionNameTip}
-              className="cursor-pointer"
+        {isOwner && (
+          <div className="text-[#A1A1A2] px-5 py-4 text-base border-t border-b-1 flex items-center justify-between">
+            <div className="flex items-center gap-x-1 flex-none">
+              {moduleConf.actionName}
+              <Popover
+                content={moduleConf.actionNameTip}
+                className="cursor-pointer"
+              >
+                <InfoCircleOutlined className="text-[#A1A1A2] hover:text-white" />
+              </Popover>
+            </div>
+            <Input
+              value={newAdmin}
+              className="w-[380px]"
+              placeholder={moduleConf.actionNameTip}
+              onChange={(e) => setNewAdmin(e.target.value)}
+            />
+            <Button
+              disabled={!newAdmin || addAdminLoading}
+              type="primary"
+              onClick={handleAddAdmin}
+              loading={addAdminLoading}
+              className="flex-none"
             >
-              <InfoCircleOutlined className="text-[#A1A1A2] hover:text-white" />
-            </Popover>
+              Save
+            </Button>
           </div>
-          <Input
-            value={newAdmin}
-            className="w-[380px]"
-            placeholder={moduleConf.actionNameTip}
-            onChange={(e) => setNewAdmin(e.target.value)}
-          />
-          <Button
-            disabled={!newAdmin || addAdminLoading}
-            type="primary"
-            onClick={handleAddAdmin}
-            loading={addAdminLoading}
-            className="flex-none"
-          >
-            Save
-          </Button>
-        </div>
+        )}
       </div>
       {contextHolder}
     </div>
