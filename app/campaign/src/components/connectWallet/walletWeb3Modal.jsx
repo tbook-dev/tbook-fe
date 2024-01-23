@@ -71,6 +71,7 @@ const ConnectWalletModal = () => {
         }
       } else {
         await authenticate(address, sign)
+        await delay(100)
         await refetch()
       }
   
