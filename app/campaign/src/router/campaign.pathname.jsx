@@ -18,7 +18,7 @@ const NFT = lazy(() => import('@/pages/my/nft'))
 const Snapshot = lazy(() => import('@/pages/snapshot'))
 
 const getProjectIdFn = async ({ params }) => {
-  let projectUrl = params.projectName
+  let projectUrl = encodeURIComponent(params.projectName)
   const defaultValues = {
     projectUrl: 'tbook',
     isUsingSubdomain: false,
