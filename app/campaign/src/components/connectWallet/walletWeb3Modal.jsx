@@ -17,6 +17,7 @@ import { disconnect } from '@wagmi/core'
 import { broadcast } from '@/utils/channel'
 import useUserInfo from '@/hooks/useUserInfoQuery'
 import { CheckOutlined } from '@ant-design/icons'
+import { delay } from '@/utils/common'
 
 const { shortAddress } = conf
 const { Paragraph } = Typography
@@ -65,10 +66,12 @@ const ConnectWalletModal = () => {
           handleCloseModal()
           return
         }else{
+          await delay(100)
           await refetch()
         }
       } else {
         await authenticate(address, sign)
+        await delay(100)
         await refetch()
       }
   

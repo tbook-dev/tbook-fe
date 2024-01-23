@@ -1,11 +1,9 @@
 import { useQuery } from "react-query";
 import { getUserInfo } from "@/api/incentive";
 import { useEffect, useState } from "react";
-import { useResponsive } from "ahooks";
 
 export default function useUserInfo() {
   const [firstLoad, setFirstLoad] = useState(false);
-  const { pc } = useResponsive();
   const { data, isLoading, error, isSuccess, ...props } = useQuery(
     "userInfo",
     getUserInfo,
@@ -14,7 +12,7 @@ export default function useUserInfo() {
       retry: false,
       retryOnMount: false,
       // metamask 设置之后会有并发问题，在pc上为false, 手机上跳转app 为true
-      refetchOnWindowFocus: pc ? false : true,
+      // refetchOnWindowFocus: pc ? false : true,
     }
   );
   useEffect(() => {
