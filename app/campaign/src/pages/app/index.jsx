@@ -242,7 +242,7 @@ export default function () {
                   {group.credentialList?.map(redential => (
                     <Credential
                       redential={redential}
-                      key={redential.campaignId}
+                      key={redential.credentialId}
                       showVerify={!(campaignNotStart || campaignEnd)}
                       signCredential={signCredential}
                     />

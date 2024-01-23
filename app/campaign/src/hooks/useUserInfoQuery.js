@@ -8,8 +8,10 @@ export default function useUserInfo() {
     "userInfo",
     getUserInfo,
     {
-      staleTime: 5000,
+      staleTime: 0,
       retry: false,
+      retryOnMount: false,
+      // refetchOnWindowFocus: false,
     }
   );
   useEffect(() => {
@@ -28,9 +30,9 @@ export default function useUserInfo() {
   const wallectConnected = !!data?.user?.wallet;
   const user = data?.user ?? {};
   const userLogined = isSuccess;
-  const isZK = Boolean(data?.user?.zk?.binded)
-  const isGoogle = data?.userZk.issuer === 'Google';
-  const googleConnected = isGoogle
+  const isZK = Boolean(data?.user?.zk?.binded);
+  const isGoogle = data?.userZk.issuer === "Google";
+  const googleConnected = isGoogle;
   return {
     data,
     isLoading,
