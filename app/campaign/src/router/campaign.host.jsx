@@ -16,7 +16,7 @@ const NFT = lazy(() => import('@/pages/my/nft'))
 const getProjectIdFn = async () => {
   const host = location.hostname
   const subDomain = host.split('.')?.[0]
-  const projectUrl = encodeURIComponent(subDomain)
+  const projectUrl = subDomain
 
   const defaultValues = {
     projectUrl,
