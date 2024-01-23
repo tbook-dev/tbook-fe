@@ -172,6 +172,7 @@ export default function () {
             <Input
               placeholder="Enter a Project URL"
               prefix={projectUrlPrefix}
+              className="input-prefix-impact"
             />
           </Form.Item>
           <Form.Item

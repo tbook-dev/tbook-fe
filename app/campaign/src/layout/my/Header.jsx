@@ -28,7 +28,7 @@ function Header () {
         <div className='flex items-center justify-between h-10'>
           <div className='flex items-center'>
             <Link
-              to={`${isUsingSubdomain ? '' : `/${projectUrl}`}`}
+              to={`${isUsingSubdomain ? '' : `/${projectUrl}/`}`}
               className='mr-1 lg:mr-16'
             >
               {!logoUrl ? (

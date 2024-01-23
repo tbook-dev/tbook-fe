@@ -13,7 +13,7 @@ import { host } from '@/api/incentive'
 import { useDispatch } from 'react-redux'
 import { setLoginModal } from '@/store/global'
 import LazyImage from '@/components/lazyImage'
-
+import { formatImpact } from '@tbook/utils/lib/conf'
 import ColorCaptial from '@/components/colorCaptial'
 import { formatDollar } from '@tbook/utils/lib/conf'
 import ViewReward from './viewReward'
@@ -299,7 +299,7 @@ export default function () {
                               points
                             </h2>
                             <h3 className='text-base lg:text-lg font-medium'>
-                              {point.number}
+                              {formatImpact(point.number)}
                               <span className='ml-1'>points</span>
                             </h3>
                           </div>

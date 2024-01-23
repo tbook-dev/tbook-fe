@@ -19,6 +19,9 @@
 }
 
 @layer components { 
+    .input-prefix-impact .ant-input-prefix{
+        margin-inline-end: 0;
+    }
     .text-colorful1{
         background: linear-gradient(280deg, #904BF6 49.68%, #CF0063 108.87%);;
         -webkit-background-clip: text;
