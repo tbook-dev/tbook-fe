@@ -26,6 +26,7 @@ import WithClaim from './withClaim'
 import useUserInfoQuery from '@/hooks/useUserInfoQuery'
 import { useDispatch } from 'react-redux'
 import { setConnectWalletModal } from '@/store/global'
+import { formatImpact } from '@tbook/utils/lib/conf'
 
 const moduleConf = {
   typeTitleEnum: {
@@ -153,7 +154,7 @@ export default function ViewReward ({ data, open, onCancel }) {
         ) : (
           <div className='pt-4 flex items-center justify-center gap-x-4 w-full'>
             <span className='text-[60px] font-bold font-zen-dot'>
-              {data.number}
+              {formatImpact(data.number)}
             </span>
             <img src={multiplyIcon} className='w-8 h-8' alt='multiply icon' />
             <img
@@ -177,14 +178,14 @@ export default function ViewReward ({ data, open, onCancel }) {
             {incentiveMethodItem?.title}
             <Popover
               content={
-                <div className='max-w-[calc(100vw_-_60px)]'>
+                <div className='max-w-[calc(100vw_-_60px)] lg:max-w-[400px]'>
                   {incentiveMethodItem?.pop}
                 </div>
               }
               trigger='click'
               placement='top'
             >
-              <img src={noticeSvg} className='w-3 h-3' alt='notice' />
+              <img src={noticeSvg} className='w-3 h-3 cursor-pointer' alt='notice' />
             </Popover>
           </div>
         )}

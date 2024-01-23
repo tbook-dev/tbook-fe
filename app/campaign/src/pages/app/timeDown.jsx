@@ -14,7 +14,7 @@ export default function TimeDown () {
   return (
     <Popover
       content={
-        <div className='max-w-[calc(100vw_-_60px)]'>{finishTaskText}</div>
+        <div className='max-w-[calc(100vw_-_60px)] lg:max-w-[400px]'>{finishTaskText}</div>
       }
       trigger='click'
       placement='top'
