@@ -46,7 +46,8 @@ export default function useSocial() {
         activeColor: "#5865F2",
         loginFn: async (skip = false) => {
           !skip && localStorage.setItem("redirect_url", location.href);
-          location.href = dcCallbackUrl;
+          // location.href = dcCallbackUrl;
+          window.open(dcCallbackUrl, pc ? "_blank" : "_self");
         },
         userName: data?.userDc?.username ?? "",
         failText:
@@ -84,7 +85,8 @@ export default function useSocial() {
         activeColor: "#2AABEE",
         loginFn: async (skip = false) => {
           !skip && localStorage.setItem("redirect_url", location.href);
-          location.href = tgCallbackUrl;
+          // location.href = tgCallbackUrl;
+          window.open(tgCallbackUrl, pc ? "_blank" : "_self");
         },
         userName: data?.userTg?.username ?? "",
         failText:
@@ -100,9 +102,11 @@ export default function useSocial() {
         async loginFn(skip = false) {
           console.log("google==");
           !skip && localStorage.setItem("redirect_url", location.href);
-          location.href = await getGoogleLoginUrl();
+          // location.href = await getGoogleLoginUrl();
+          const link =  await getGoogleLoginUrl();
+          window.open(link, pc ? "_blank" : "_self");
         },
-        userName: data?.userZk?.email ?? '',
+        userName: data?.userZk?.email ?? "",
         failText:
           "Please authorize your Google account and continue to verify.",
       },

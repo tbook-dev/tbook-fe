@@ -271,7 +271,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
             ) : (
               <Link
                 onClick={handleManualFn}
-                to={redential.link}
+                to={pc ? redential.intentDisplayLink : redential.displayLink}
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 className="cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
