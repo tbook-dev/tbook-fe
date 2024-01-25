@@ -1,6 +1,6 @@
 import useUserInfoQuery from "@/hooks/useUserInfoQuery";
 import { useMemo, useCallback } from "react";
-import { getTwLoginUrl } from "@/api/incentive";
+import { getTwLoginUrl, authTgCallback } from "@/api/incentive";
 import xGray from "@/images/icon/x-gray.svg";
 import x from "@/images/icon/x-white.svg";
 import dcGray from "@/images/icon/dc-gray.svg";
@@ -10,7 +10,8 @@ import tg from "@/images/icon/tg.svg";
 import googleSVG from "@/images/zklogin/google.svg";
 import googleGarySVG from "@/images/zklogin/google-gray.svg";
 import googleColorSvg from "@/images/zklogin/google-color.svg";
-
+import { useDispatch } from 'react-redux'
+import { setShowSocicalModal } from '@/store/global'
 import facebookSVG from "@/images/zklogin/facebook.svg";
 import talkSVG from "@/images/zklogin/talk.svg";
 import { getGoogleLoginUrl } from "@/utils/zklogin";
@@ -34,7 +35,9 @@ export default function useSocial() {
     telegramConnected,
     googleConnected,
     data,
+    refetch
   } = useUserInfoQuery();
+  const dispath = useDispatch()
   const { pc } = useResponsive();
   const allList = useMemo(() => {
     return [
@@ -86,7 +89,20 @@ export default function useSocial() {
         loginFn: async (skip = false) => {
           !skip && localStorage.setItem("redirect_url", location.href);
           // location.href = tgCallbackUrl;
-          window.open(tgCallbackUrl, pc ? "_blank" : "_self");
+          // window.open(tgCallbackUrl, pc ? "_blank" : "_self");
+          window?.Telegram.Login.auth(
+            { bot_id: tgBotId },
+            async function callback(user) {
+              console.log({ user });
+              try{
+                await authTgCallback(user)
+              }catch(e){
+                console.log(e)
+              }
+              await refetch();
+              dispath(setShowSocicalModal(false))
+            }
+          );
         },
         userName: data?.userTg?.username ?? "",
         failText:
@@ -103,7 +119,7 @@ export default function useSocial() {
           console.log("google==");
           !skip && localStorage.setItem("redirect_url", location.href);
           // location.href = await getGoogleLoginUrl();
-          const link =  await getGoogleLoginUrl();
+          const link = await getGoogleLoginUrl();
           window.open(link, pc ? "_blank" : "_self");
         },
         userName: data?.userZk?.email ?? "",

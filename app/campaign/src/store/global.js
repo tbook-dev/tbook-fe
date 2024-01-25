@@ -6,6 +6,7 @@ const initialState = {
   showConnectWalletModal: false,
   showLoginModal: false,
   showSnapshotCastModal: false,
+  showSocicalModal: false,
   snapshotData: null,
 };
 
@@ -25,6 +26,9 @@ export const globalSlice = createSlice({
     setSnapshotCastModal: (state, action) => {
       state.showSnapshotCastModal = action.payload;
     },
+    setShowSocicalModal: (state, action) => {
+      state.showSocicalModal = action.payload;
+    },
     setSnapshotData: (state, action) => {
       state.snapshotData = action.payload;
     },
@@ -38,6 +42,7 @@ export const {
   setLoginModal,
   setSnapshotCastModal,
   setSnapshotData,
+  setShowSocicalModal
 } = globalSlice.actions;
 
 export default globalSlice.reducer;
