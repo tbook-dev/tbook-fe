@@ -119,6 +119,9 @@ export default function Credential({ redential, showVerify, signCredential }) {
           ]);
         } else {
           hasError = true;
+          if(isAirdopType && !showAirdop){
+            setShowAirdop(true);
+          }
         }
       } catch (error) {
         console.log(error);
