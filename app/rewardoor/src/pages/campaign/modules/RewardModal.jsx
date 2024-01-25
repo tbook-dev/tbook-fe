@@ -3,16 +3,13 @@ import { InputNumber, Select, Modal, Input, Form, Upload, Switch } from "antd";
 import { PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import closeIcon from "@/images/icon/close.svg";
 import { useCallback, useEffect, useState } from "react";
-import {
-  incentiveMethodList,
-  incentiveAssetsTypeList,
-} from "@/utils/conf";
+import { incentiveMethodList, incentiveAssetsTypeList } from "@/utils/conf";
 import NFTModal from "./NFTModal";
 import uploadFile, { fileValidator } from "@/utils/upload";
 import uploadIcon from "@/images/icon/upload.svg";
 import clsx from "clsx";
 import SelectNFT from "@/components/SelectNFT";
-import useSupportChains from '@/hooks/queries/useSupportChains'
+import useSupportChains from "@/hooks/queries/useSupportChains";
 
 const title = "Set Up Reward";
 const defaultIncentive = { rewardType: 1, unlimited: false };
@@ -31,9 +28,8 @@ export default function CredentialModal({
   const reward = Form.useWatch("reward", rewardForm);
   const [showContractModal, setShowContractModal] = useState(false);
   const [selectOpen, setSelectOpen] = useState(false);
-  const { data: supportChains } = useSupportChains()
-
-  // console.log({ credentialsFormValues, conf })
+  const { data: supportChains } = useSupportChains();
+  // console.log({ credentialsFormValues, reward })
   const handleOk = async () => {
     rewardForm
       .validateFields()
@@ -77,10 +73,16 @@ export default function CredentialModal({
       maskClosable={false}
       destroyOnClose
       centered
-      title={<div className="text-2xl font-black text-white font-zen-dot mb-8">{title}</div>}
+      title={
+        <div className="text-2xl font-black text-white font-zen-dot mb-8">
+          {title}
+        </div>
+      }
       footer={
         <div className="flex justify-end" onClick={handleOk}>
-          <Button type="primary">Save</Button>
+          <Button type="primary" disabled={reward?.length === 0}>
+            Save
+          </Button>
         </div>
       }
     >
@@ -187,7 +189,7 @@ export default function CredentialModal({
                         />
                       </div>
 
-                      {rewardType === 1 ? (
+                      {rewardType === 1 && (
                         <>
                           <Form.Item
                             {...restField}
@@ -300,7 +302,8 @@ export default function CredentialModal({
                             </Upload.Dragger>
                           </Form.Item>
                         </>
-                      ) : (
+                      )}
+                      {rewardType === 2 && (
                         <>
                           <Form.Item
                             name={[name, "number"]}

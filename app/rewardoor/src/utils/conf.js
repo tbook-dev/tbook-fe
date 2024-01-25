@@ -7,6 +7,7 @@ import ldIcon from "@/images/icon/ld.svg";
 export const incentiveAssetsTypeList = [
   { label: "🎁  NFT", icon: nftIcon, text: "NFT", value: 1 },
   { label: "💎 POINTS", icon: pointIcon, text: "Points", value: 2 },
+  { label: "TOKENS", icon: pointIcon, text: "Tokens", value: 3 },
 ];
 
 export const rewardDistributionMethod = [
