@@ -1,8 +1,8 @@
 import Lottie from "lottie-react";
 import redirectJSON from "@/images/social/loading.json";
 // import tbook from '@/images/social/tbook.svg'
-import failedSvg from "@/images/social/logo-error.svg";
-import sucessSvg from "@/images/social/logo-ok.svg";
+import failedSvg from "@/images/social/logo-error2.svg";
+import sucessSvg from "@/images/social/logo-ok2.svg";
 import useSocial from "@/hooks/useSocial";
 import { useSelector } from "react-redux";
 import { Modal } from "antd";
