@@ -1,47 +1,51 @@
-import { React } from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import ConnectWalletModal from '@/components/connectWallet'
-import PageFallBack from '@/components/pageFallback'
-import { configResponsive, useEventListener } from 'ahooks'
+import { React } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ConnectWalletModal from "@/components/connectWallet";
+import PageFallBack from "@/components/pageFallback";
+import { configResponsive, useEventListener } from "ahooks";
 // import routes from './router'
-import hostRoutes from '@/router/campaign.host'
-import pathRoutes from '@/router/campaign.pathname'
+import hostRoutes from "@/router/campaign.host";
+import pathRoutes from "@/router/campaign.pathname";
 
-import { useQueryClient } from 'react-query'
-import { WagmiConfig } from 'wagmi'
-import { watchAccount, getAccount } from 'wagmi/actions'
-import { getWalletClient } from '@wagmi/core'
+import { useQueryClient } from "react-query";
+import { WagmiConfig } from "wagmi";
+import { watchAccount, getAccount } from "wagmi/actions";
+import { getWalletClient } from "@wagmi/core";
+import SocialModal from "./components/withVerify/social";
 import {
   wagmiConfig,
   changeAccountSignIn,
   logout,
   preGetNonce,
   // signLoginMetaMask,
-  isIOS
-} from '@/utils/web3'
-import { receive } from '@/utils/channel'
-import { isUsingSubdomain } from '@/utils/common'
+  isIOS,
+} from "@/utils/web3";
+import { receive } from "@/utils/channel";
+import { isUsingSubdomain } from "@/utils/common";
 
 configResponsive({
-  pc: 1200
-})
+  pc: 1200,
+});
 
 function App() {
-  const queryClient = useQueryClient()
-  useEventListener('storage', ev => {
-    receive(ev, msg => {
-      queryClient.refetchQueries(msg)
-    })
-  })
-  
+  const queryClient = useQueryClient();
+  useEventListener("storage", (ev) => {
+    receive(ev, (msg) => {
+      queryClient.refetchQueries(msg);
+    });
+  });
+
   return (
     <>
       <WagmiConfig config={wagmiConfig}>
         <RouterProvider
-          router={createBrowserRouter(isUsingSubdomain ? hostRoutes : pathRoutes)}
+          router={createBrowserRouter(
+            isUsingSubdomain ? hostRoutes : pathRoutes
+          )}
           fallbackElement={<PageFallBack />}
         />
         <ConnectWalletModal />
+        <SocialModal />
       </WagmiConfig>
       {/* <Web3Modal
         projectId={import.meta.env.VITE_WC_PROJECT_ID}
@@ -56,7 +60,7 @@ function App() {
         }}
       /> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;

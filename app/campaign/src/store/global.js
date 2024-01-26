@@ -7,6 +7,12 @@ const initialState = {
   showLoginModal: false,
   showSnapshotCastModal: false,
   showSocicalModal: false,
+  showSocialRedirectModal: false,
+  socialRedirectModalData: {
+    type: "telegram",
+    status: "loading",
+    desc: ""
+  },
   snapshotData: null,
 };
 
@@ -29,6 +35,12 @@ export const globalSlice = createSlice({
     setShowSocicalModal: (state, action) => {
       state.showSocicalModal = action.payload;
     },
+    setShowSocialRedirectModal: (state, action) => {
+      state.showSocialRedirectModal = action.payload;
+    },
+    setsocialRedirectModalData: (state, action) => {
+      state.socialRedirectModalData = action.payload;
+    },
     setSnapshotData: (state, action) => {
       state.snapshotData = action.payload;
     },
@@ -42,7 +54,9 @@ export const {
   setLoginModal,
   setSnapshotCastModal,
   setSnapshotData,
-  setShowSocicalModal
+  setShowSocicalModal,
+  setShowSocialRedirectModal,
+  setsocialRedirectModalData
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

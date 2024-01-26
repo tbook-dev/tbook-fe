@@ -10,12 +10,17 @@ import tg from "@/images/icon/tg.svg";
 import googleSVG from "@/images/zklogin/google.svg";
 import googleGarySVG from "@/images/zklogin/google-gray.svg";
 import googleColorSvg from "@/images/zklogin/google-color.svg";
-import { useDispatch } from 'react-redux'
-import { setShowSocicalModal } from '@/store/global'
+import { useDispatch } from "react-redux";
+import {
+  setShowSocicalModal,
+  setsocialRedirectModalData,
+  setShowSocialRedirectModal,
+} from "@/store/global";
 import facebookSVG from "@/images/zklogin/facebook.svg";
 import talkSVG from "@/images/zklogin/talk.svg";
 import { getGoogleLoginUrl } from "@/utils/zklogin";
 import { useResponsive } from "ahooks";
+import { delay } from "@/utils/common";
 
 const curHost = new URL(window.location.href).host;
 const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`;
@@ -35,9 +40,9 @@ export default function useSocial() {
     telegramConnected,
     googleConnected,
     data,
-    refetch
+    refetch,
   } = useUserInfoQuery();
-  const dispath = useDispatch()
+  const dispath = useDispatch();
   const { pc } = useResponsive();
   const allList = useMemo(() => {
     return [
@@ -87,20 +92,66 @@ export default function useSocial() {
         activePic: tg,
         activeColor: "#2AABEE",
         loginFn: async (skip = false) => {
-          !skip && localStorage.setItem("redirect_url", location.href);
+          // !skip && localStorage.setItem("redirect_url", location.href);
           // location.href = tgCallbackUrl;
           // window.open(tgCallbackUrl, pc ? "_blank" : "_self");
+          dispath(setShowSocicalModal(false));
+          dispath(
+            setsocialRedirectModalData({
+              type: "telegram",
+              status: "loading",
+              desc: "",
+            })
+          );
+          dispath(setShowSocialRedirectModal(true));
           window?.Telegram.Login.auth(
             { bot_id: tgBotId },
             async function callback(user) {
-              console.log({ user });
-              try{
-                await authTgCallback(user)
-              }catch(e){
-                console.log(e)
+              try {
+                const authRes = await authTgCallback(user);
+                console.log({ user, authRes });
+                if (authRes.code === 4004) {
+                  dispath(
+                    setsocialRedirectModalData({
+                      type: "telegram",
+                      status: "occupied",
+                      desc: `Telegram account @${authRes.socialName} has been
+                          connected to another address
+                          ${authRes.address}`,
+                    })
+                  );
+                } else if (authRes.code === 500) {
+                  dispath(
+                    setsocialRedirectModalData({
+                      type: "telegram",
+                      status: "failed",
+                      desc: authRes.msg,
+                    })
+                  );
+                } else {
+                  dispath(
+                    setsocialRedirectModalData({
+                      type: "telegram",
+                      status: "sucess",
+                      desc: `Telegram account @${d.socialName} has been authorized. `,
+                    })
+                  );
+                  await refetch();
+                  await delay(1000);
+                  dispath(setShowSocialRedirectModal(false));
+                }
+              } catch (e) {
+                console.log(e);
+                dispath(
+                  setsocialRedirectModalData({
+                    type: "telegram",
+                    status: "failed",
+                    desc: "",
+                  })
+                );
               }
-              await refetch();
-              dispath(setShowSocicalModal(false))
+              // await refetch();
+              // dispath(setShowSocicalModal(false))
             }
           );
         },
