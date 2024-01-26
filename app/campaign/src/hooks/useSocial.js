@@ -143,7 +143,7 @@ export default function useSocial() {
                     setsocialRedirectModalData({
                       type: "telegram",
                       status: "sucess",
-                      desc: `Telegram account @${d.socialName} has been authorized. `,
+                      desc: `Telegram account @${authRes.socialName} has been authorized. `,
                     })
                   );
                   await refetch();
