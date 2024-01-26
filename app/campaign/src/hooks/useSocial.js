@@ -107,9 +107,19 @@ export default function useSocial() {
           window?.Telegram.Login.auth(
             { bot_id: tgBotId },
             async function callback(user) {
+              if(!user){
+                dispath(
+                  setsocialRedirectModalData({
+                    type: "telegram",
+                    status: "failed",
+                    desc: "",
+                  })
+                );
+                return;
+              }
               try {
                 const authRes = await authTgCallback(user);
-                console.log({ user, authRes });
+                console.log({ authRes, user });
                 if (authRes.code === 4004) {
                   dispath(
                     setsocialRedirectModalData({

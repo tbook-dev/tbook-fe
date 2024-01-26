@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import redirectJSON from "@/images/social/redirect.json";
+import redirectJSON from "@/images/social/loading.json";
 // import tbook from '@/images/social/tbook.svg'
 import failedSvg from "@/images/social/logo-error.svg";
 import sucessSvg from "@/images/social/logo-ok.svg";
