@@ -1,3 +1,4 @@
+import { json } from "react-router-dom";
 import request from "./request";
 
 export const host = import.meta.env.VITE_API_HOST;
@@ -138,15 +139,19 @@ export const authTwitterLoginCallback = async function () {
   });
 };
 
-export const authTgCallback = async function () {
-  const url = new URL(window.location.href);
-  let authResult = url.searchParams.get("tgAuthResult");
-  if (!authResult) {
-    authResult = url.hash.split("=")[1];
-  }
-  return await request.PostFormV1(`${host}/tg/callback`, {
-    originAuthResult: authResult,
-  });
+// export const authTgCallback = async function () {
+//   const url = new URL(window.location.href);
+//   let authResult = url.searchParams.get("tgAuthResult");
+//   if (!authResult) {
+//     authResult = url.hash.split("=")[1];
+//   }
+//   return await request.PostFormV1(`${host}/tg/callback`, {
+//     originAuthResult: authResult,
+//   });
+// };
+
+export const authTgCallback = async function (data) {
+  return await request.Post(`${host}/tg/callback/v2`, data);
 };
 
 export const authDcCallback = async function () {
