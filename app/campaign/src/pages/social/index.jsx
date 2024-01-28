@@ -6,7 +6,7 @@ import { delay } from '@/utils/common'
 
 const displayName = {
   twitter: 'X',
-  discard: 'Discord',
+  discord: 'Discord',
   telegram: 'Telegram',
   google: 'Google'
 }
