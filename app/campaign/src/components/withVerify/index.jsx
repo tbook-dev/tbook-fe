@@ -3,8 +3,8 @@ import clsx from 'clsx'
 import useSocial from '@/hooks/useSocial'
 import VerifyStatus, { verifyStatusEnum } from './VerifyStatus'
 import useUserInfo from '@/hooks/useUserInfoQuery'
-import { useDispatch, useSelector } from 'react-redux'
-import { setLoginModal, setConnectWalletModal, setShowSocicalModal } from '@/store/global'
+import { useDispatch } from 'react-redux'
+import { setLoginModal, setConnectWalletModal } from '@/store/global'
 import { Modal } from 'antd'
 import { useResponsive } from 'ahooks'
 
@@ -22,7 +22,8 @@ const modalConf = {
 
 export default function WithVerify ({ handleFn, count, credentialType }) {
   const { pc } = useResponsive()
-  const open = useSelector(v => v.global.showSocicalModal)
+  // const open = useSelector(v => v.global.showSocicalModal)
+  const [open, setOpen] = useState(false)
   const { getSocialByName } = useSocial()
   const [status, setStatus] = useState(verifyStatusEnum.NotStarted)
   const { userLogined, wallectConnected } = useUserInfo()
@@ -39,7 +40,7 @@ export default function WithVerify ({ handleFn, count, credentialType }) {
     }
   }
   const handleCancel = useCallback(() => {
-    dispath(setShowSocicalModal(false))
+    setOpen(false)
   }, [])
 
   // console.log({social})
@@ -68,7 +69,8 @@ export default function WithVerify ({ handleFn, count, credentialType }) {
             dispath(setConnectWalletModal(true))
           } else {
             if (isSocial && !social.connected) {
-              dispath(setShowSocicalModal(true))
+              // dispath(setShowSocicalModal(true))
+              setOpen(true)
             } else {
               handleVerify(evt)
             }
