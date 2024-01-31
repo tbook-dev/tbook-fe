@@ -31,6 +31,7 @@
     "@reduxjs/toolkit": "^1.9.1",
     "@snapshot-labs/snapshot.js": "^0.9.5",
     "@tailwindcss/forms": "^0.5.2",
+    "@tinymce/tinymce-react": "^4.3.2",
     "@types/react": "^18.2.20",
     "@wagmi/core": "^1.4.3",
     "@web3modal/wagmi": "^3.5.3",

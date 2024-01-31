@@ -17,6 +17,7 @@ importers:
       '@reduxjs/toolkit': ^1.9.1
       '@snapshot-labs/snapshot.js': ^0.9.5
       '@tailwindcss/forms': ^0.5.2
+      '@tinymce/tinymce-react': ^4.3.2
       '@types/react': ^18.2.20
       '@vitejs/plugin-react': ^3.0.0
       '@wagmi/core': ^1.4.3
@@ -77,6 +78,7 @@ importers:
       '@reduxjs/toolkit': 1.9.3_k4ae6lp43ej6mezo3ztvx6pykq
       '@snapshot-labs/snapshot.js': 0.9.5
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.3.3
+      '@tinymce/tinymce-react': 4.3.2_biqbaboplfbrettd7655fr4n2y
       '@types/react': 18.2.20
       '@wagmi/core': 1.4.3_cmpz3o4ztdmlionsvb2muedud4
       '@web3modal/wagmi': 3.5.3_5bhmq5tzr6ganggrcjnp4kxyra
@@ -2156,6 +2158,18 @@ packages:
 
   /@tanstack/virtual-core/3.0.0:
     resolution: {integrity: sha512-SYXOBTjJb05rXa2vl55TTwO40A6wKu0R5i1qQwhJYNDIqaIGF7D0HsLw+pJAyi2OvntlEIVusx3xtbbgSUi6zg==}
+    dev: false
+
+  /@tinymce/tinymce-react/4.3.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-wJHZhPf2Mk3yTtdVC/uIGh+kvDgKuTw/qV13uzdChTNo68JI1l7jYMrSQOpyimDyn5LHAw0E1zFByrm1WHAVeA==}
+    peerDependencies:
+      react: ^18.0.0 || ^17.0.1 || ^16.7.0
+      react-dom: ^18.0.0 || ^17.0.1 || ^16.7.0
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      tinymce: 6.8.2
     dev: false
 
   /@types/connect/3.4.35:
@@ -7697,6 +7711,10 @@ packages:
 
   /through/2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
+    dev: false
+
+  /tinymce/6.8.2:
+    resolution: {integrity: sha512-Lho79o2Y1Yn+XdlTEkHTEkEmzwYWTXz7IUsvPwxJF3VTtgHUIAAuBab29kik+f2KED3rZvQavr9D7sHVMJ9x4A==}
     dev: false
 
   /titleize/3.0.0:

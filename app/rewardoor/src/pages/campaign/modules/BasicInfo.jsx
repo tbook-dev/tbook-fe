@@ -1,6 +1,7 @@
 import { Form, Input, Upload, DatePicker } from "antd";
 import uploadFile, { fileValidator } from "@/utils/upload";
 import uploadIcon from "@/images/icon/upload.svg";
+import Mce from "@/components/mce/FormItem";
 
 const { RangePicker } = DatePicker;
 export default function BasicInfo({ form: setUpForm }) {
@@ -66,7 +67,8 @@ export default function BasicInfo({ form: setUpForm }) {
         name="description"
         rules={[{ required: true, message: "Description is required" }]}
       >
-        <Input.TextArea autoSize placeholder="Enter" />
+        {/* <Input.TextArea autoSize placeholder="Enter" /> */}
+        <Mce />
       </Form.Item>
       <Form.Item
         label="Schedule"
