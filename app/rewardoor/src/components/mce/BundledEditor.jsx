@@ -1,5 +1,5 @@
 import { Editor } from "@tinymce/tinymce-react";
-
+import uploadFile from '@/utils/upload'
 // TinyMCE so the global var exists
 // eslint-disable-next-line no-unused-vars
 import tinymce from "tinymce/tinymce";
@@ -101,6 +101,9 @@ export default function BundledEditor(props) {
       
           input.click();
         },
+        // images_upload_handler(blobInfo, progress){
+        //   return uploadFile(blobInfo)
+        // },
         // content_style: [contentCss, init.content_style || ""].join("\n"),
         plugins: [
           "advlist",
