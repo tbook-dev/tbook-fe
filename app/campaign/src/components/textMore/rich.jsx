@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import clsx from "clsx";
 import { useEventListener } from "ahooks";
+import "./rich.css"
 
 export default function Markdown({ value }) {
   const [showMore, setShowMore] = useState(false);
@@ -28,7 +29,7 @@ export default function Markdown({ value }) {
     <div className={clsx(hasMore ? "mb-[104px]" : "mb-16", " relative")}>
       <div
         className={clsx(
-          "relative",
+          "relative mce-content-body",
           showMore ? "" : "max-h-[180px] overflow-hidden",
           hasMore &&
             !showMore &&
