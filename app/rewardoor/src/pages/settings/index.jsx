@@ -37,7 +37,7 @@ import { useRef } from 'react'
 import DevDoc from './DevelopDoc'
 import { Popconfirm } from 'antd'
 import { useQueryClient } from 'react-query'
-import Loading from '@/components/loading'
+import Mce from '@/components/mce/FormItem'
 import clsx from 'clsx'
 import Admins from './Admins'
 
@@ -254,11 +254,12 @@ export default function Settings () {
 
               <FormSection title='Project Introduction'>
                 <Form.Item name='projectDescription'>
-                  <Input.TextArea
+                  {/* <Input.TextArea
                     placeholder='This is a project introduction'
                     className='w-[420px]'
                     autoSize
-                  />
+                  /> */}
+                  <Mce />
                 </Form.Item>
               </FormSection>
 
