@@ -506,6 +506,10 @@ div.mce-footnotes li > a.mce-footnotes-backlink {
   background: #39f;
   color: #fff;
 }
+.mce-content-body{
+  padding: 8px 11px;
+  border-radius: 24px;
+}
 .mce-content-body img[data-mce-selected],
 .mce-content-body video[data-mce-selected],
 .mce-content-body audio[data-mce-selected],
@@ -513,33 +517,34 @@ div.mce-footnotes li > a.mce-footnotes-backlink {
 .mce-content-body embed[data-mce-selected],
 .mce-content-body table[data-mce-selected],
 .mce-content-body details[data-mce-selected] {
-  outline: 3px solid #b4d7ff;
+  outline: 3px solid #2582df;
 }
 .mce-content-body hr[data-mce-selected] {
-  outline: 3px solid #b4d7ff;
+  outline: 3px solid #2582df;
   outline-offset: 1px;
 }
 .mce-content-body *[contentEditable=false] *[contentEditable=true]:focus {
-  outline: 3px solid #b4d7ff;
+  outline: 3px solid #2582df;
 }
 .mce-content-body *[contentEditable=false] *[contentEditable=true]:hover {
-  outline: 3px solid #b4d7ff;
+  outline: 3px solid #2582df;
 }
 .mce-content-body *[contentEditable=false][data-mce-selected] {
   cursor: not-allowed;
-  outline: 3px solid #b4d7ff;
+  outline: 3px solid #2582df;
 }
 .mce-content-body.mce-content-readonly *[contentEditable=true]:focus,
 .mce-content-body.mce-content-readonly *[contentEditable=true]:hover {
   outline: none;
 }
 .mce-content-body *[data-mce-selected="inline-boundary"] {
-  background-color: #b4d7ff;
+  background-color: #2582df;
 }
-.mce-content-body .mce-edit-focus {
+.mce-content-body.mce-edit-focus {
   //outline: 3px solid #b4d7ff;
   outline: 3px solid #2582df;
 }
+
 .mce-content-body td[data-mce-selected],
 .mce-content-body th[data-mce-selected] {
   position: relative;
