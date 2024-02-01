@@ -66,6 +66,7 @@
     "remark-gfm": "^4.0.0",
     "rollup": "2.79.1",
     "swiper": "^8.4.5",
+    "tinymce": "^6.8.2",
     "tslib": "^2.4.1",
     "viem": "^1.16.5",
     "vite-raw-plugin": "^1.0.2",
