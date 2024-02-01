@@ -509,6 +509,7 @@ div.mce-footnotes li > a.mce-footnotes-backlink {
 .mce-content-body{
   padding: 8px 11px;
   border-radius: 24px;
+  outline: 1px solid #424242;
 }
 .mce-content-body img[data-mce-selected],
 .mce-content-body video[data-mce-selected],
@@ -542,7 +543,7 @@ div.mce-footnotes li > a.mce-footnotes-backlink {
 }
 .mce-content-body.mce-edit-focus {
   //outline: 3px solid #b4d7ff;
-  outline: 3px solid #2582df;
+  outline: 1px solid #2582df;
 }
 
 .mce-content-body td[data-mce-selected],
