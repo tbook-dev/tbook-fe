@@ -68,7 +68,7 @@ export default function BasicInfo({ form: setUpForm }) {
         rules={[{ required: true, message: "Description is required" }]}
       >
         {/* <Input.TextArea autoSize placeholder="Enter" /> */}
-        <Mce />
+        <Mce placeholder='Enter'/>
       </Form.Item>
       <Form.Item
         label="Schedule"

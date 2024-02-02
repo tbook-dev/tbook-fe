@@ -41,7 +41,6 @@ import Mce from '@/components/mce/FormItem'
 import clsx from 'clsx'
 import Admins from './Admins'
 
-
 const pageTitle = 'Settings'
 const { Paragraph } = Typography
 const FormSection = ({ title, children }) => (
@@ -165,133 +164,121 @@ export default function Settings () {
   }
   return (
     <div className='text-white relative flex flex-col justify-between min-h-full w-[880px]'>
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimary: '#006EE9'
-          }
-        }}
-      >
-        <div className='mb-10 space-y-9'>
-          <h2 className='text-3xl font-bold text-[#C8C8C8]'>
-            {pageTitle}
-          </h2>
+      <div className='mb-10 space-y-9'>
+        <h2 className='text-3xl font-bold text-[#C8C8C8]'>{pageTitle}</h2>
 
-          <Form
-            form={form}
-            layout='inline'
-            initialValues={{
-              avatarUrl: project.avatarUrl,
-              projectName: project.projectName,
-              projectUrl: project.projectUrl,
-              projectDescription: project.projectDescription,
-              websiteUrl: project?.websiteUrl,
-              telegramUrl: project?.telegramUrl
-            }}
-          >
-            <div className='bg-[#121212] w-full rounded-xl mb-4'>
-              <div className='py-4 px-5 text-[18px] font-medium border-b border-b-1'>
-                Project info
-              </div>
-              <FormSection title='Project logo'>
-                <div className='flex items-center gap-x-6'>
-                  <img
-                    src={avatarUrl}
-                    className='w-20 h-20 object-center object-cover rounded-full'
-                  />
-                  <Upload
-                    maxCount={1}
-                    customRequest={hanleUpload}
-                    showUploadList={false}
-                  >
-                    <button className='px-6 py-2 bg-b-1 text-c-9 text-sm rounded-2.5xl shadow-s2'>
-                      Upload
-                      {uplading && <LoadingOutlined className='ml-1' />}
-                    </button>
-                  </Upload>
-                </div>
-              </FormSection>
-
-              <FormSection title='Project Name'>
-                <Form.Item name='projectName'>
-                  <Input className='w-[420px]' />
-                </Form.Item>
-              </FormSection>
-
-              <FormSection title='Project URL'>
-                <Paragraph
-                  style={{
-                    marginBottom: 0,
-                    color: '#C8C8C8',
-                    fontWeight: 500,
-                    fontSize: 14,
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}
-                  copyable={{
-                    icon: [
-                      <CopyOutlined style={{ color: '#717374' }} />,
-                      <CheckOutlined style={{ color: '#717374' }} />
-                    ]
-                  }}
+        <Form
+          form={form}
+          layout='inline'
+          initialValues={{
+            avatarUrl: project.avatarUrl,
+            projectName: project.projectName,
+            projectUrl: project.projectUrl,
+            projectDescription: project.projectDescription,
+            websiteUrl: project?.websiteUrl,
+            telegramUrl: project?.telegramUrl
+          }}
+        >
+          <div className='bg-[#121212] w-full rounded-xl mb-4'>
+            <div className='py-4 px-5 text-[18px] font-medium border-b border-b-1'>
+              Project info
+            </div>
+            <FormSection title='Project logo'>
+              <div className='flex items-center gap-x-6'>
+                <img
+                  src={avatarUrl}
+                  className='w-20 h-20 object-center object-cover rounded-full'
+                />
+                <Upload
+                  maxCount={1}
+                  customRequest={hanleUpload}
+                  showUploadList={false}
                 >
-                  {projectUrlPrefix + encodeURIComponent(project?.projectUrl)}
-                </Paragraph>
-              </FormSection>
+                  <button className='px-6 py-2 bg-b-1 text-c-9 text-sm rounded-2.5xl shadow-s2'>
+                    Upload
+                    {uplading && <LoadingOutlined className='ml-1' />}
+                  </button>
+                </Upload>
+              </div>
+            </FormSection>
 
-              <FormSection title='Project Category'>
-                <div className='flex items-center gap-2'>
-                  {project.tags.map((tag, index) => (
-                    <div
-                      key={index}
-                      className='px-4 py-0.5 rounded-xl border border-white'
-                    >
-                      {tag}
-                    </div>
-                  ))}
-                </div>
-              </FormSection>
+            <FormSection title='Project Name'>
+              <Form.Item name='projectName'>
+                <Input className='w-[420px]' />
+              </Form.Item>
+            </FormSection>
 
-              <FormSection title='Project Introduction'>
-                <Form.Item name='projectDescription'>
-                  {/* <Input.TextArea
+            <FormSection title='Project URL'>
+              <Paragraph
+                style={{
+                  marginBottom: 0,
+                  color: '#C8C8C8',
+                  fontWeight: 500,
+                  fontSize: 14,
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+                copyable={{
+                  icon: [
+                    <CopyOutlined style={{ color: '#717374' }} />,
+                    <CheckOutlined style={{ color: '#717374' }} />
+                  ]
+                }}
+              >
+                {projectUrlPrefix + encodeURIComponent(project?.projectUrl)}
+              </Paragraph>
+            </FormSection>
+
+            <FormSection title='Project Category'>
+              <div className='flex items-center gap-2'>
+                {project.tags.map((tag, index) => (
+                  <div
+                    key={index}
+                    className='px-4 py-0.5 rounded-xl border border-white'
+                  >
+                    {tag}
+                  </div>
+                ))}
+              </div>
+            </FormSection>
+
+            <FormSection title='Project Introduction'>
+              <Form.Item name='projectDescription'>
+                {/* <Input.TextArea
                     placeholder='This is a project introduction'
                     className='w-[420px]'
                     autoSize
                   /> */}
-                  <Mce />
-                </Form.Item>
-              </FormSection>
+                <Mce placeholder='This is a project introduction'/>
+              </Form.Item>
+            </FormSection>
 
-              <FormSection title='Website'>
-                <Form.Item name='websiteUrl'>
-                  <Input
-                    placeholder='Enter website URL'
-                    className='w-[420px]'
-                  />
-                </Form.Item>
-              </FormSection>
+            <FormSection title='Website'>
+              <Form.Item name='websiteUrl'>
+                <Input placeholder='Enter website URL' className='w-[420px]' />
+              </Form.Item>
+            </FormSection>
 
-              <FormSection title='Official Links'>
-                <div className='grid grid-cols-2 gap-x-5 gap-y-3'>
-                  {userTwitter?.connected ? (
-                    <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#1DA1F2] text-white'>
-                      <img src={xGray} className='w-[18px] h-[18px]' />
-                      {userTwitter?.twitterName}
-                    </button>
-                  ) : (
-                    <a
-                      href={twCallbackUrl}
-                      target='_blank'
-                      ref={twLinkRef}
-                      className='h-10 rounded-2.5xl flex items-center px-5 bg-[#1A1A1A] text-[#C8C8C8] hover:text-[#C8C8C8] gap-x-2'
-                      onClick={twAuth}
-                    >
-                      <img src={xGray} className='w-[18px] h-[18px]' />
-                      Connect with Twitter
-                    </a>
-                  )}
-                  {/* {userDc?.connected ? (
+            <FormSection title='Official Links'>
+              <div className='grid grid-cols-2 gap-x-5 gap-y-3'>
+                {userTwitter?.connected ? (
+                  <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#1DA1F2] text-white'>
+                    <img src={xGray} className='w-[18px] h-[18px]' />
+                    {userTwitter?.twitterName}
+                  </button>
+                ) : (
+                  <a
+                    href={twCallbackUrl}
+                    target='_blank'
+                    ref={twLinkRef}
+                    className='h-10 rounded-2.5xl flex items-center px-5 bg-[#1A1A1A] text-[#C8C8C8] hover:text-[#C8C8C8] gap-x-2'
+                    onClick={twAuth}
+                  >
+                    <img src={xGray} className='w-[18px] h-[18px]' />
+                    Connect with Twitter
+                  </a>
+                )}
+                {/* {userDc?.connected ? (
                     <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#5865F2] text-white'>
                       <img src={dcGray} className='w-[18px] h-[18px]' />
                       {userDc?.username}
@@ -305,249 +292,242 @@ export default function Settings () {
                       Connect with Discord
                     </a>
                   )} */}
-                  {userTg?.connected ? (
-                    <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#00A2F3] text-white'>
-                      <img src={tgGray} className='w-[18px] h-[18px]' />@
-                      {userTg?.username}
-                    </button>
-                  ) : (
-                    <a
-                      href={tgCallbackUrl}
-                      target='_blank'
-                      className='h-10 rounded-2.5xl flex items-center px-5 bg-[#1A1A1A] text-[#C8C8C8] hover:text-[#C8C8C8] gap-x-2'
-                    >
-                      <img src={tgGray} className='w-[18px] h-[18px]' />
-                      Connect with Telegram
-                    </a>
-                  )}
-                </div>
-              </FormSection>
-              <div className='flex justify-end py-3 px-5'>
-                <div className='max-content'>
-                  <Button
-                    type='primary'
-                    onClick={handleUpdate}
-                    loading={confirmLoading}
-                    className='w-full'
+                {userTg?.connected ? (
+                  <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#00A2F3] text-white'>
+                    <img src={tgGray} className='w-[18px] h-[18px]' />@
+                    {userTg?.username}
+                  </button>
+                ) : (
+                  <a
+                    href={tgCallbackUrl}
+                    target='_blank'
+                    className='h-10 rounded-2.5xl flex items-center px-5 bg-[#1A1A1A] text-[#C8C8C8] hover:text-[#C8C8C8] gap-x-2'
                   >
-                    Save
-                  </Button>
-                </div>
+                    <img src={tgGray} className='w-[18px] h-[18px]' />
+                    Connect with Telegram
+                  </a>
+                )}
+              </div>
+            </FormSection>
+            <div className='flex justify-end py-3 px-5'>
+              <div className='max-content'>
+                <Button
+                  type='primary'
+                  onClick={handleUpdate}
+                  loading={confirmLoading}
+                  className='w-full'
+                >
+                  Save
+                </Button>
               </div>
             </div>
-          </Form>
+          </div>
+        </Form>
 
-          {/* <Admins /> */}
-          
-          {!projectExt ? (
-            <Skeleton />
-          ) : (
-            <Form
-              form={formAdvance}
-              layout='inline'
-              initialValues={{
-                credentialCallbackEnabled: projectExt?.enable || false,
-                callbackUrl: projectExt?.callbackUrl
-              }}
-            >
-              <div className='bg-[#121212] w-full rounded-xl'>
-                <div
-                  className={clsx(
-                    'py-4 px-5 text-[18px] font-medium flex items-center justify-between text-[#006EE9]',
-                    advancedOpen && 'border-b border-b-1'
-                  )}
-                >
-                  <div className='flex items-center gap-x-1'>
-                    <SettingOutlined /> Advanced settings
-                  </div>
-                  <button
-                    onClick={() => {
-                      setAdvancedOpen(v => !v)
-                    }}
-                  >
-                    <DownOutlined
-                      className={clsx(
-                        advancedOpen && 'rotate-180',
-                        'text-white'
-                      )}
-                    />
-                  </button>
+        {/* <Admins /> */}
+
+        {!projectExt ? (
+          <Skeleton />
+        ) : (
+          <Form
+            form={formAdvance}
+            layout='inline'
+            initialValues={{
+              credentialCallbackEnabled: projectExt?.enable || false,
+              callbackUrl: projectExt?.callbackUrl
+            }}
+          >
+            <div className='bg-[#121212] w-full rounded-xl'>
+              <div
+                className={clsx(
+                  'py-4 px-5 text-[18px] font-medium flex items-center justify-between text-[#006EE9]',
+                  advancedOpen && 'border-b border-b-1'
+                )}
+              >
+                <div className='flex items-center gap-x-1'>
+                  <SettingOutlined /> Advanced settings
                 </div>
-                {advancedOpen && (
-                  <>
-                    <FormSection
-                      title={
-                        <div className='flex items-center gap-x-1'>
-                          Credential callback
-                          <Popover
-                            content={popoverMap.credentialCallback}
-                            className='cursor-pointer'
-                          >
-                            <InfoCircleOutlined className='hover:text-white'/>
-                          </Popover>
-                        </div>
+                <button
+                  onClick={() => {
+                    setAdvancedOpen(v => !v)
+                  }}
+                >
+                  <DownOutlined
+                    className={clsx(advancedOpen && 'rotate-180', 'text-white')}
+                  />
+                </button>
+              </div>
+              {advancedOpen && (
+                <>
+                  <FormSection
+                    title={
+                      <div className='flex items-center gap-x-1'>
+                        Credential callback
+                        <Popover
+                          content={popoverMap.credentialCallback}
+                          className='cursor-pointer'
+                        >
+                          <InfoCircleOutlined className='hover:text-white' />
+                        </Popover>
+                      </div>
+                    }
+                  >
+                    <Form.Item name='credentialCallbackEnabled'>
+                      <Radio.Group>
+                        <Radio value={true}>Enable</Radio>
+                        <Radio value={false}>Disable</Radio>
+                      </Radio.Group>
+                    </Form.Item>
+                    <p className='text-xs text-[#A1A1A2]'>
+                      Disabling the credential callback means that no further
+                      callback data will be received until it is enabled.
+                    </p>
+                  </FormSection>
+
+                  <FormSection title='Callback url'>
+                    <Form.Item
+                      dependencies={['credentialCallbackEnabled']}
+                      name='callbackUrl'
+                      rules={
+                        credentialCallbackEnabled
+                          ? [
+                              {
+                                required: true,
+                                message: 'Please input the Callback url!'
+                              },
+                              {
+                                type: 'url',
+                                message: 'Please input an valid url!'
+                              }
+                            ]
+                          : null
                       }
                     >
-                      <Form.Item name='credentialCallbackEnabled'>
-                        <Radio.Group>
-                          <Radio value={true}>Enable</Radio>
-                          <Radio value={false}>Disable</Radio>
-                        </Radio.Group>
-                      </Form.Item>
-                      <p className='text-xs text-[#A1A1A2]'>
-                        Disabling the credential callback means that no further
-                        callback data will be received until it is enabled.
-                      </p>
-                    </FormSection>
+                      <Input
+                        placeholder='Enter callback url'
+                        className='w-[420px]'
+                        disabled={!credentialCallbackEnabled}
+                      />
+                    </Form.Item>
+                  </FormSection>
 
-                    <FormSection title='Callback url'>
-                      <Form.Item
-                        dependencies={['credentialCallbackEnabled']}
-                        name='callbackUrl'
-                        rules={
-                          credentialCallbackEnabled
-                            ? [
-                                {
-                                  required: true,
-                                  message: 'Please input the Callback url!'
-                                },
-                                {
-                                  type: 'url',
-                                  message: 'Please input an valid url!'
-                                }
-                              ]
-                            : null
-                        }
-                      >
-                        <Input
-                          placeholder='Enter callback url'
-                          className='w-[420px]'
-                          disabled={!credentialCallbackEnabled}
-                        />
-                      </Form.Item>
-                    </FormSection>
-
-                    <FormSection
-                      title={
-                        <div className='flex items-center gap-x-1'>
-                          AppId
-                          <Popover
-                            content={popoverMap.appId}
-                            className='cursor-pointer'
-                          >
-                            <InfoCircleOutlined className='hover:text-white'/>
-                          </Popover>
-                        </div>
-                      }
+                  <FormSection
+                    title={
+                      <div className='flex items-center gap-x-1'>
+                        AppId
+                        <Popover
+                          content={popoverMap.appId}
+                          className='cursor-pointer'
+                        >
+                          <InfoCircleOutlined className='hover:text-white' />
+                        </Popover>
+                      </div>
+                    }
+                  >
+                    <Paragraph
+                      style={{
+                        marginBottom: 0,
+                        color: '#F0F0F0',
+                        fontWeight: 500,
+                        fontSize: 14,
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}
+                      copyable={{
+                        text: project?.appId,
+                        icon: [
+                          <CopyOutlined style={{ color: '#717374' }} />,
+                          <CheckOutlined style={{ color: '#717374' }} />
+                        ]
+                      }}
                     >
-                      <Paragraph
-                        style={{
-                          marginBottom: 0,
-                          color: '#F0F0F0',
-                          fontWeight: 500,
-                          fontSize: 14,
-                          display: 'flex',
-                          alignItems: 'center'
-                        }}
-                        copyable={{
-                          text: project?.appId,
-                          icon: [
-                            <CopyOutlined style={{ color: '#717374' }} />,
-                            <CheckOutlined style={{ color: '#717374' }} />
-                          ]
-                        }}
-                      >
-                        {projectId}
-                      </Paragraph>
-                    </FormSection>
+                      {projectId}
+                    </Paragraph>
+                  </FormSection>
 
-                    <FormSection
-                      title={
-                        <div className='flex items-center gap-x-1'>
-                          AppKey
-                          <Popover
-                            content={popoverMap.appKey}
-                            className='cursor-pointer'
-                          >
-                            <InfoCircleOutlined className='hover:text-white'/>
-                          </Popover>
-                        </div>
-                      }
-                    >
-                      {projectExt?.appKey ? (
-                        <>
-                          <Paragraph
-                            style={{
-                              marginBottom: 0,
-                              color: '#F0F0F0',
-                              fontWeight: 500,
-                              fontSize: 14,
-                              display: 'flex',
-                              alignItems: 'center'
-                            }}
-                            copyable={{
-                              text: project?.appId,
-                              icon: [
-                                <CopyOutlined style={{ color: '#717374' }} />,
-                                <CheckOutlined style={{ color: '#717374' }} />
-                              ]
-                            }}
-                          >
-                            {projectExt?.appKey}
-                          </Paragraph>
-                          <Popconfirm
-                            description='Are you sure to generate a new appKey?'
-                            icon={
-                              <QuestionCircleOutlined
-                                style={{ color: 'red' }}
-                              />
-                            }
-                            onConfirm={handleGenerate}
-                          >
-                            <button className='text-sm text-[#006EE9]'>
-                              Generate
-                            </button>
-                          </Popconfirm>
-                        </>
-                      ) : (
+                  <FormSection
+                    title={
+                      <div className='flex items-center gap-x-1'>
+                        AppKey
+                        <Popover
+                          content={popoverMap.appKey}
+                          className='cursor-pointer'
+                        >
+                          <InfoCircleOutlined className='hover:text-white' />
+                        </Popover>
+                      </div>
+                    }
+                  >
+                    {projectExt?.appKey ? (
+                      <>
+                        <Paragraph
+                          style={{
+                            marginBottom: 0,
+                            color: '#F0F0F0',
+                            fontWeight: 500,
+                            fontSize: 14,
+                            display: 'flex',
+                            alignItems: 'center'
+                          }}
+                          copyable={{
+                            text: project?.appId,
+                            icon: [
+                              <CopyOutlined style={{ color: '#717374' }} />,
+                              <CheckOutlined style={{ color: '#717374' }} />
+                            ]
+                          }}
+                        >
+                          {projectExt?.appKey}
+                        </Paragraph>
                         <Popconfirm
-                          description='Are you sure to generate an appKey?'
+                          description='Are you sure to generate a new appKey?'
                           icon={
                             <QuestionCircleOutlined style={{ color: 'red' }} />
                           }
                           onConfirm={handleGenerate}
                         >
-                          <button className='text-sm text-[#006EE9]'>
+                          <button className='text-sm text-[#6a32e5]'>
                             Generate
                           </button>
                         </Popconfirm>
-                      )}
-                    </FormSection>
+                      </>
+                    ) : (
+                      <Popconfirm
+                        description='Are you sure to generate an appKey?'
+                        icon={
+                          <QuestionCircleOutlined style={{ color: 'red' }} />
+                        }
+                        onConfirm={handleGenerate}
+                      >
+                        <button className='text-sm text-[#6a32e5]'>
+                          Generate
+                        </button>
+                      </Popconfirm>
+                    )}
+                  </FormSection>
 
-                    <FormSection title='Developer documentation'>
-                      <DevDoc />
-                    </FormSection>
+                  <FormSection title='Developer documentation'>
+                    <DevDoc />
+                  </FormSection>
 
-                    <div className='flex justify-end py-3 px-5'>
-                      <div className='max-content'>
-                        <Button
-                          type='primary'
-                          onClick={handleUpdateProjectExt}
-                          loading={confirmExtLoading}
-                          className='w-full'
-                        >
-                          Save
-                        </Button>
-                      </div>
+                  <div className='flex justify-end py-3 px-5'>
+                    <div className='max-content'>
+                      <Button
+                        type='primary'
+                        onClick={handleUpdateProjectExt}
+                        loading={confirmExtLoading}
+                        className='w-full'
+                      >
+                        Save
+                      </Button>
                     </div>
-                  </>
-                )}
-              </div>
-            </Form>
-          )}
-        </div>
-      </ConfigProvider>
-
+                  </div>
+                </>
+              )}
+            </div>
+          </Form>
+        )}
+      </div>
       {contextHolder}
     </div>
   )
