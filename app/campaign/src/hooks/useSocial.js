@@ -212,8 +212,8 @@ export default function useSocial() {
             redirectUrl: googleCallbackUrl,
             extraParams: { scope: ["email"] },
           });
-          // window.open(link, pc ? "_blank" : "_self");
-          window.open(link, pc ? "_self" : "_self");
+          window.open(link, pc ? "_blank" : "_self");
+          // window.open(link, pc ? "_self" : "_self");
         },
         async logOut() {
           flow?.logout();
