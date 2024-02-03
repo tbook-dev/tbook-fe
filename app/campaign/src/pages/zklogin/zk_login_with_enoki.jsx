@@ -10,6 +10,16 @@ export default function Home() {
     const [result, setResult] = useState(null);
     const host = new URL(location.href).host;
     const callback_url = `https://${host}/zklogin/callback`;
+    flow.enokiClient.getZkLogin = function (input) {
+        debugger
+        return this.fetch('zklogin', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'zklogin-jwt': input.jwt,
+            },
+        });
+    }.bind(flow.enokiClient);
 
     useAuthCallback();
 
@@ -24,7 +34,7 @@ export default function Home() {
                             provider: 'google',
                             clientId: googleClientId,
                             redirectUrl: callback_url,
-                            extraParams: {scope: ['email']}
+                            extraParams: { scope: ['email'] }
                         });
                     }}
                 >
