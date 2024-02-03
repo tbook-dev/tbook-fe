@@ -21,8 +21,7 @@ import talkSVG from "@/images/zklogin/talk.svg";
 // import { getGoogleLoginUrl } from "@/utils/zklogin";
 import { useResponsive } from "ahooks";
 import { delay } from "@/utils/common";
-import { useEnokiFlow, useZkLogin, useAuthCallback } from "@mysten/enoki/react";
-
+import { useEnokiFlow } from "@mysten/enoki/react";
 
 const curHost = new URL(window.location.href).host;
 const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`;
@@ -61,11 +60,9 @@ export default function useSocial() {
     }
 
     const { data } = await res.json();
-    const userInfo = await refetch();
-    console.log(data, userInfo);
     return data;
   };
-  useAuthCallback();
+  // useAuthCallback();
   const dispath = useDispatch();
   const { pc } = useResponsive();
   const allList = useMemo(() => {
@@ -218,7 +215,7 @@ export default function useSocial() {
           // window.open(link, pc ? "_blank" : "_self");
           window.open(link, pc ? "_self" : "_self");
         },
-        async logOut(){
+        async logOut() {
           flow?.logout();
         },
         userName: data?.userZk?.email ?? "",
