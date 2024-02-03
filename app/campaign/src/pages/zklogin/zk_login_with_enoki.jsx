@@ -4,22 +4,29 @@ import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const baseUrl = import.meta.env.VITE_API_HOST
 export default function Home() {
     const flow = useEnokiFlow();
     const zkLogin = useZkLogin();
     const [result, setResult] = useState(null);
     const host = new URL(location.href).host;
     const callback_url = `https://${host}/zklogin/callback`;
-    flow.enokiClient.getZkLogin = function (input) {
-        debugger
-        return this.fetch('zklogin', {
+
+    flow.enokiClient.getZkLogin = async function (input) {
+        const res = await fetch(`${baseUrl}/zkproxy/v1/zklogin`, {
             method: 'GET',
             credentials: 'include',
             headers: {
                 'zklogin-jwt': input.jwt,
             },
         });
-    }.bind(flow.enokiClient);
+        if (!res.ok) {
+            throw new Error('Failed to fetch');
+        }
+
+        const { data } = await res.json();
+        return data
+    }
 
     useAuthCallback();
 
