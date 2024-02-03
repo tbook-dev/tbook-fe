@@ -164,7 +164,7 @@ const routes = [
         loader: getProjectIdFn,
         element: (
           <Suspense fallback={<PageFallBack />}>
-            <ZkLoginEnoki />
+            <ZkLoginCallback />
           </Suspense>
         ),
       },

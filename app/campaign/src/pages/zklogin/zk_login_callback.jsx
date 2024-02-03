@@ -1,6 +1,17 @@
-import AuthSocial from "../social";
-import { zkLoginCallback } from "@/utils/zklogin";
+import AuthSocial from '../social'
+// import { zkLoginCallback } from "@/utils/zklogin";
+import { useEnokiFlow, useZkLogin, useAuthCallback } from '@mysten/enoki/react'
 
 export default function () {
-  return <AuthSocial authCallback={zkLoginCallback} type="google" />;
+  useAuthCallback()
+  return (
+    <AuthSocial
+      authCallback={async() => {
+        return {
+          socialName: 'lake'
+        }
+      }}
+      type='google'
+    />
+  )
 }
