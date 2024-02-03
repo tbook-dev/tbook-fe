@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useEnokiFlow, useZkLogin, useAuthCallback } from '@mysten/enoki/react';
 import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
+import { useZkAuthCallback } from '@/hooks/useZkAuthCallback'
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const baseUrl = import.meta.env.VITE_API_HOST
@@ -28,7 +29,7 @@ export default function Home() {
         return data
     }
 
-    useAuthCallback();
+    const { error } = useZkAuthCallback();
 
     return (
         <div>
@@ -49,6 +50,9 @@ export default function Home() {
                 </button>
             ) : (
                 <button onClick={() => flow.logout()}>Sign Out</button>
+            )}
+            {error && (
+                <div>ERROR: {error}</div>
             )}
 
             {zkLogin.address && (
