@@ -61,6 +61,8 @@ export default function useSocial() {
     }
 
     const { data } = await res.json();
+    const userInfo = await refetch();
+    console.log(data, userInfo);
     return data;
   };
   useAuthCallback();

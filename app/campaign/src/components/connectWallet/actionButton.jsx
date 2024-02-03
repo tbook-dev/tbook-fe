@@ -10,10 +10,7 @@ export default function ActionBution ({
 }) {
   const [loading, setLoad] = useState(false)
   const handleClick = () => {
-    console.log('aaa')
     setLoad(true)
-    console.log({handleAsync
-})
     handleAsync()
       .then(() => {
         setLoad(false)

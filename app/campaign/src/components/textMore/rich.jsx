@@ -7,7 +7,6 @@ export default function Markdown({ value }) {
   const [showMore, setShowMore] = useState(false);
   const [hasMore, setHasMore] = useState(false);
   const textRef = useRef(null);
-  console.log({value})
   useEffect(() => {
     calcFn();
   }, []);
