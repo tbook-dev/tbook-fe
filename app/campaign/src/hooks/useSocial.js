@@ -76,7 +76,7 @@ export default function useSocial() {
         loginFn: async (skip = false) => {
           !skip && localStorage.setItem("redirect_url", location.href);
           // location.href = dcCallbackUrl;
-          window.open(dcCallbackUrl, pc ? "_blank" : "_self");
+          window.open(dcCallbackUrl, "_self");
         },
         userName: data?.userDc?.username ?? "",
         failText:
@@ -95,7 +95,7 @@ export default function useSocial() {
           document.body.appendChild(a);
           a.style = "display: none";
           a.href = res["url"];
-          a.setAttribute("target", pc ? "_blank" : "_self");
+          a.setAttribute("target", "_self");
           a.setAttribute("mc-deep-link", "false");
           a.setAttribute("rel", "nofollow noopener noreferrer");
           // rel='nofollow noopener noreferrer'
@@ -212,7 +212,7 @@ export default function useSocial() {
             redirectUrl: googleCallbackUrl,
             extraParams: { scope: ["email"] },
           });
-          window.open(link, pc ? "_blank" : "_self");
+          window.open(link, "_self");
           // window.open(link, pc ? "_self" : "_self");
         },
         async logOut() {

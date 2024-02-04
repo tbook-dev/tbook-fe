@@ -10,6 +10,9 @@ const displayName = {
   telegram: 'Telegram',
   google: 'Google'
 }
+const emailTypeList = ['google']
+const isEmailType = type => emailTypeList.includes(type)
+
 export default function ({ authCallback, type }) {
   const navigate = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
@@ -29,7 +32,7 @@ export default function ({ authCallback, type }) {
           // }
           setStatus('occupied')
           setErrorMessage(
-            `${displayName[type]} account @${d.socialName}  has been connected to another address ${d.address}`
+            `${displayName[type]} account ${isEmailType(type)?'':"@"}${d.socialName}  has been connected to another address ${d.address}`
           )
         } else if (d.code === 500) {
           // 失败
@@ -39,7 +42,7 @@ export default function ({ authCallback, type }) {
           // 成功停留2s，然后跳转
           setStatus('sucess')
           setErrorMessage(
-            `${displayName[type]} account @${d.socialName} has been authorized. `
+            `${displayName[type]} account ${isEmailType(type)?'':"@"}${d.socialName} has been authorized. `
           )
           await delay(2000)
           redirectLocalStorageOnce(navigate)
