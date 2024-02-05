@@ -1,4 +1,4 @@
-import TextMore from "@/components/textMore";
+import RichMore from "@/components/textMore/rich";
 import { useMemo } from "react";
 import x from "@/images/icon/x-white.svg";
 import dc from "@/images/icon/dc.svg";
@@ -72,13 +72,7 @@ export default function Banner({
           ))}
         </div>
         <div className="text-[#A1A1A2] text-sm">
-          <TextMore
-            text={projectDescription}
-            textConf={{
-              pc: "line-clamp-3",
-              moble: "line-clamp-4",
-            }}
-          />
+          <RichMore value={projectDescription} />
         </div>
 
         {socialList.length > 0 && (

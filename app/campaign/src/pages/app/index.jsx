@@ -5,7 +5,7 @@ import pointIcon from '@/images/icon/point.svg'
 import arrow3Icon from '@/images/icon/arrow3.svg'
 import useUserInfo from '@/hooks/useUserInfoQuery'
 import useCampaignQuery from '@/hooks/useCampaignQuery'
-import TextMore from '@/components/textMore'
+import RichMore from "@/components/textMore/rich";
 import { Skeleton, Statistic } from 'antd'
 import { message } from 'antd'
 import { useSignMessage } from 'wagmi'
@@ -174,7 +174,7 @@ export default function () {
               </h2>
 
               <div className='text-sm lg:text-base font-normal mb-8 text-[#C4C4C4]'>
-                <TextMore text={page?.campaign?.description} />
+                <RichMore value={page?.campaign?.description} />
               </div>
               <div className='flex items-center text-sm text-[#A1A1A2] mb-4'>
                 <span className='mr-1 text-sm font-medium text-white'>

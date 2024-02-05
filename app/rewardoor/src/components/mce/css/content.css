@@ -1,0 +1,146 @@
+/*
+body {
+  background-color: #222f3e;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.4;
+  margin: 1rem;
+}*/
+.mce-content-body h1,
+.mce-content-body h2,
+.mce-content-body h3,
+.mce-content-body h4,
+.mce-content-body h5,
+.mce-content-body h6 {
+  font-weight: bold;
+  line-height: 1em;
+}
+.mce-content-body h1 {
+  font-size: 2em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+}
+.mce-content-body h2 {
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+}
+.mce-content-body h3 {
+  font-size: 1.17em;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+}
+.mce-content-body h4 {
+  font-size: 1.2em;
+  margin-block-start: 1.33em;
+  margin-block-end: 1.33em;
+}
+.mce-content-body h5 {
+  font-size: 1.1em;
+  margin-block-start: 1.67em;
+  margin-block-end: 1.67em;
+}
+.mce-content-body h6 {
+  font-size: 1em;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+}
+
+.mce-content-body p {
+  margin: 1em 0;
+}
+.mce-content-body small {
+  font-size: 0.833em;
+}
+.mce-content-body em,
+.mce-content-body i {
+  font-style: italic;
+}
+.mce-content-body strong,
+.mce-content-body b {
+  font-weight: bold;
+}
+.mce-content-body blockquote {
+  padding: 0.2em 1em 0.2em 2em;
+  border-left: 3px solid #eee;
+}
+.mce-content-body ul {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+.mce-content-body ol {
+  display: block;
+  list-style-type: decimal;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+
+.mce-content-body a {
+  color: #4099ff;
+}
+.mce-content-body table {
+  border-collapse: collapse;
+}
+
+/* Apply a default padding if legacy cellpadding attribute is missing */
+.mce-content-body table:not([cellpadding]) th,
+table:not([cellpadding]) td {
+  padding: 0.4rem;
+}
+/* Set default table styles if a table has a positive border attribute
+   and no inline css */
+.mce-content-body table[border]:not([border="0"]):not([style*="border-width"]) th,
+.mce-content-body table[border]:not([border="0"]):not([style*="border-width"]) td {
+  border-width: 1px;
+}
+/* Set default table styles if a table has a positive border attribute
+   and no inline css */
+.mce-content-body table[border]:not([border="0"]):not([style*="border-style"]) th,
+.mce-content-body table[border]:not([border="0"]):not([style*="border-style"]) td {
+  border-style: solid;
+}
+/* Set default table styles if a table has a positive border attribute
+   and no inline css */
+.mce-content-body table[border]:not([border="0"]):not([style*="border-color"]) th,
+.mce-content-body table[border]:not([border="0"]):not([style*="border-color"]) td {
+  border-color: #6d737b;
+}
+.mce-content-body figure {
+  display: table;
+  margin: 1rem auto;
+}
+.mce-content-body figure figcaption {
+  color: #8a8f97;
+  display: block;
+  margin-top: 0.25rem;
+  text-align: center;
+}
+.mce-content-body hr {
+  border-color: #6d737b;
+  border-style: solid;
+  border-width: 1px 0 0 0;
+}
+.mce-content-body code,
+.mce-content-body pre {
+  background-color: #6d737b;
+  border-radius: 3px;
+  padding: 0.1rem 0.2rem;
+}
+.mce-content-body:not([dir=rtl]) blockquote {
+  border-left: 2px solid #6d737b;
+  margin-left: 1.5rem;
+  padding-left: 1rem;
+}
+.mce-content-body[dir=rtl] blockquote {
+  border-right: 2px solid #6d737b;
+  margin-right: 1.5rem;
+  padding-right: 1rem;
+}
