@@ -7,10 +7,10 @@ export default function Markdown({ value }) {
   const [showMore, setShowMore] = useState(false);
   const [hasMore, setHasMore] = useState(false);
   const textRef = useRef(null);
-  console.log({value})
+
   useEffect(() => {
     calcFn();
-  }, []);
+  }, [value]);
 
   const calcFn = () => {
     if (textRef.current && !showMore) {
@@ -29,7 +29,7 @@ export default function Markdown({ value }) {
     <div className={clsx(hasMore ? "mb-[104px]" : "mb-16", " relative")}>
       <div
         className={clsx(
-          "relative mce-content-body",
+          "relative mce-content-body break-all",
           showMore ? "" : "max-h-[180px] overflow-hidden",
           hasMore &&
             !showMore &&
