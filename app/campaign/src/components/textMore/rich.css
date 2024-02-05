@@ -77,6 +77,7 @@
 
 .mce-content-body a {
   color: #4099ff;
+  word-break: break-all;
 }
 .mce-content-body table {
   border-collapse: collapse;
