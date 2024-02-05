@@ -29,7 +29,7 @@ export default function Markdown({ value }) {
     <div className={clsx(hasMore ? "mb-[104px]" : "mb-16", " relative")}>
       <div
         className={clsx(
-          "relative mce-content-body break-all",
+          "relative mce-content-body",
           showMore ? "" : "max-h-[180px] overflow-hidden",
           hasMore &&
             !showMore &&
