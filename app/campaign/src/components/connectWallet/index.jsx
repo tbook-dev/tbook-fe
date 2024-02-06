@@ -27,6 +27,8 @@ import googleBg from '@/images/zklogin/google-bg.svg'
 import facebookBg from '@/images/zklogin/facebook-bg.svg'
 import twitchBg from '@/images/zklogin/twitch-bg.svg'
 import talkBg from '@/images/zklogin/talk-bg.svg'
+import passport_locked_h5 from '@/images/passport/passport_locked_h5.png'
+import passport_locked from '@/images/passport/passport_locked.png'
 
 import lockSVG from '@/images/lock.svg'
 import Back from '../back'
@@ -175,7 +177,7 @@ const ConnectWalletModal = () => {
         open={showLoginModal}
         onCancel={handleCloseModal}
       >
-        <div className='flex-none px-5 py-4 space-y-6 text-white'>
+        <div className='flex-none px-5 py-4 space-y-6 text-white h-[420px]'>
           <h2 className='text-white text-sm'>
             {loginStep === 1 ? (
               moduleConf.title
@@ -234,7 +236,7 @@ const ConnectWalletModal = () => {
                       >
                         <img
                           src={v.picColorUrl}
-                          className='w-8 h-8 object-center hover:opacity-60'
+                          className='w-8 h-8 object-center hover:opacity-70'
                           alt={v.name}
                         />
                       </ActionBution>
@@ -257,7 +259,7 @@ const ConnectWalletModal = () => {
                     <button
                       onClick={() => handleWallet(v.type)}
                       key={v.type}
-                      className='h-10 flex items-center justify-center relative w-full bg-white px-4 py-3 text-sm font-medium text-black rounded-lg'
+                      className='h-10 hover:opacity-70 flex items-center justify-center relative w-full bg-white px-4 py-3 text-sm font-medium text-black rounded-lg'
                     >
                       <img
                         src={v.picUrl}
@@ -274,7 +276,7 @@ const ConnectWalletModal = () => {
                     <ActionBution
                       handleAsync={() => handleSocial(v.type)}
                       key={v.type}
-                      className='h-10 flex items-center justify-center relative w-full rounded-lg px-4 py-3 text-sm font-medium border border-white'
+                      className='h-10 hover:opacity-70 flex items-center justify-center relative w-full rounded-lg px-4 py-3 text-sm font-medium border border-white'
                     >
                       <img
                         src={v.picUrl}
@@ -289,46 +291,15 @@ const ConnectWalletModal = () => {
             ))}
         </div>
 
-        <div className='flex-1 flex flex-col justify-start lg:pt-16'>
-          <div
-            className='w-full relative h-[264px] mx-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center lg:bg-cover'
-            style={{
-              backgroundImage: pc ? `url(${passportlg})` : null
-            }}
-          >
-            {pc ? null : (
-              <>
-                <div
-                  className='absolute inset-0 bg-no-repeat bg-contain bg-left-top'
-                  style={{ backgroundImage: `url(${passportleft_half})` }}
-                />
-                {size?.width > 374 && (
-                  <div
-                    className='absolute inset-y-0 left-[190px] right-[184px] bg-repeat-x bg-center-top'
-                    style={{
-                      backgroundImage: `url(${passportmiddle_half})`,
-                      backgroundSize: size?.width > 394 ? 'contain' : 'cover'
-                    }}
-                  />
-                )}
-
-                <div
-                  className='absolute inset-0 bg-no-repeat bg-contain bg-right-top'
-                  style={{ backgroundImage: `url(${passportright_half})` }}
-                />
-                <p className='absolute text-xs text-color3 font-zen-dot text-white top-8'>
-                  incentive passport
-                </p>
-              </>
-            )}
-            <div className='relative flex flex-col justify-center items-center'>
-              <img src={lockSVG} className='w-20 h-20' />
-              <p className='text-xs text-center font-zen-dot text-white lg:mb-6 text-color2 max-w-[175px]'>
-                {moduleConf.passport}
-              </p>
-            </div>
+        {!pc && (
+          <div className='absolute bottom-0 left-0 w-full h-[216px]'>
+            <img
+              src={passport_locked_h5}
+              alt='passport'
+              className='h-full w-[317px] mx-auto'
+            />
           </div>
-        </div>
+        )}
       </Modal>
       <WalletWeb3Modal />
     </>
