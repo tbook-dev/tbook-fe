@@ -22,6 +22,11 @@ import passportUnlogin from '@/images/passport-unlogin.png'
 import passportleft_half from '@/images/passport/left_half.png'
 import passportmiddle_half from '@/images/passport/middle_half.png'
 import passportright_half from '@/images/passport/right_half.png'
+import suiBlackSVG from '@/images/zklogin/sui-black.svg'
+import googleBg from '@/images/zklogin/google-bg.svg'
+import facebookBg from '@/images/zklogin/facebook-bg.svg'
+import twitchBg from '@/images/zklogin/twitch-bg.svg'
+import talkBg from '@/images/zklogin/talk-bg.svg'
 
 import lockSVG from '@/images/lock.svg'
 import Back from '../back'
@@ -31,7 +36,45 @@ const moduleConf = {
   passport: 'Log in to unlock incentive passport',
   zkLogin: {
     name: 'zkLogin',
-    bg: suiBg
+    bg: suiBg,
+    logoBgList: [
+      {
+        name: 'google',
+        url: googleBg,
+        style: {
+          left: 0,
+          top: 0,
+          transform: 'rotate(7deg)'
+        }
+      },
+      {
+        name: 'facebook',
+        url: facebookBg,
+        style: {
+          left: 58,
+          top: 12,
+          transform: 'rotate(7deg)'
+        }
+      },
+      {
+        name: 'twitch',
+        url: twitchBg,
+        style: {
+          right: 70,
+          top: -4,
+          transform: 'rotate(-6.995deg)'
+        }
+      },
+      {
+        name: 'talk',
+        url: talkBg,
+        style: {
+          right: 5,
+          top: 8,
+          transform: 'rotate(0deg)'
+        }
+      }
+    ]
   },
 
   wallet: [
@@ -143,9 +186,17 @@ const ConnectWalletModal = () => {
           {loginStep === 1 && (
             <div className='space-y-5 text-sm'>
               <button
-                className='h-[52px] w-full rounded-lg bg-white text-black font-medium'
+                className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden'
                 onClick={handleMainLogin}
               >
+                {moduleConf.zkLogin.logoBgList.map(v => (
+                  <img src={v.url} style={v.style} alt={`${v.name} logo`} className='absolute'/>
+                ))}
+                <img
+                  src={suiBlackSVG}
+                  className='w-[14px] h-5'
+                  alt='sui logo'
+                />
                 zkLogin
               </button>
               <button
@@ -158,13 +209,13 @@ const ConnectWalletModal = () => {
           )}
           {loginStep === 2 &&
             (loginType === 'zklogin' ? (
-              <div className='bg-[rgb(99,161,248)]/[0.10] border border-[rgb(99,161,248)]/[0.40] p-4 rounded-lg relative overflow-hidden'>
+              <div className='bg-[#63A1F8] border border-[rgb(99,161,248)]/[0.40] py-4 px-5 rounded-lg relative overflow-hidden'>
                 <img
                   src={moduleConf.zkLogin.bg}
                   className='w-12 absolute right-4 top-0 rotate-12'
                 />
-                <div className='text-[#63A1F8] flex items-center gap-x-2 text-sm font-medium space-y-4'>
-                  <img src={suiSVG} className='w-5 h-5 object-center' />
+                <div className='text-white flex items-center gap-x-2 text-sm font-medium space-y-4 mb-4'>
+                  <img src={suiSVG} className='w-4 h-5 object-center' />
                   {moduleConf.zkLogin.name}
                 </div>
                 <div className='flex items-center justify-center gap-x-8'>
@@ -195,18 +246,39 @@ const ConnectWalletModal = () => {
               </div>
             ) : (
               <div className='space-y-5 text-sm'>
-                <button
-                  className='h-[52px] w-full rounded-lg bg-white text-black font-medium'
-                  onClick={handleMainLogin}
-                >
-                  zkLogin
-                </button>
-                <button
-                  className='h-[52px] w-full rounded-lg border border-white text-white font-medium'
-                  onClick={handleOptionLogin}
-                >
-                  More options
-                </button>
+                {moduleConf.wallet.map(v => {
+                  return (
+                    <button
+                      onClick={() => handleWallet(v.type)}
+                      key={v.type}
+                      className='h-[52px] flex items-center justify-center relative w-full bg-[rgb(255,255,255)]/[0.05] rounded px-4 py-3 text-sm font-medium border border-[rgb(255,255,255)]/[0.20] hover:border-white hover:bg-[rgb(255,255,255)]/[0.2]'
+                    >
+                      <img
+                        src={v.picUrl}
+                        className='w-5 h-5 object-center absolute left-4'
+                        alt={v.type}
+                      />
+                      {v.text}
+                    </button>
+                  )
+                })}
+
+                {moduleConf.social.map(v => {
+                  return (
+                    <ActionBution
+                      handleAsync={() => handleSocial(v.type)}
+                      key={v.type}
+                      className='h-[52px] flex items-center justify-center relative w-full bg-[rgb(255,255,255)]/[0.05] rounded px-4 py-3 text-sm font-medium border border-[rgb(255,255,255)]/[0.20] hover:border-white hover:bg-[rgb(255,255,255)]/[0.2]'
+                    >
+                      <img
+                        src={v.picUrl}
+                        className='w-5 h-5 object-center absolute left-4'
+                        alt={v.type}
+                      />
+                      {v.text}
+                    </ActionBution>
+                  )
+                })}
               </div>
             ))}
         </div>
