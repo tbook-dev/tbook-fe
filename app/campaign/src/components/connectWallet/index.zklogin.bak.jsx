@@ -24,10 +24,9 @@ import passportmiddle_half from '@/images/passport/middle_half.png'
 import passportright_half from '@/images/passport/right_half.png'
 
 import lockSVG from '@/images/lock.svg'
-import Back from '../back'
 
 const moduleConf = {
-  title: 'Log in or create a wallet with',
+  title: 'Log in with',
   passport: 'Log in to unlock incentive passport',
   zkLogin: {
     name: 'zkLogin',
@@ -35,11 +34,21 @@ const moduleConf = {
   },
 
   wallet: [
+    // {
+    //   type: 'metamask',
+    //   picUrl: metamaskSVG,
+    //   text: 'Metamask'
+    // },
     {
       type: 'walletconnect',
       picUrl: walletconnectSVG,
       text: 'WalletConnect'
     }
+    // {
+    //   type: 'sui',
+    //   picUrl: suiSVG,
+    //   text: 'Sui Wallet'
+    // }
   ],
 
   social: [
@@ -63,8 +72,6 @@ const ConnectWalletModal = () => {
   const [currentAddress, setCurrentAddress] = useState('')
   const { walletClient } = useWalletClient()
   const { userLogined, user } = useUserInfo()
-  const [loginStep, setLoginStep] = useState(1)
-  const [loginType, setLoginType] = useState(null)
   const { address } = useAccount({
     onConnect ({ address, connector, isReconnected }) {
       console.log('Connected', { address, connector, isReconnected })
@@ -112,18 +119,6 @@ const ConnectWalletModal = () => {
       await loginUsingTwitterUrl()
     }
   }, [])
-  const handleBackToInitLogin = useCallback(() => {
-    setLoginStep(1)
-    setLoginType(null)
-  }, [])
-  const handleMainLogin = useCallback(() => {
-    setLoginStep(2)
-    setLoginType('zklogin')
-  }, [])
-  const handleOptionLogin = useCallback(() => {
-    setLoginStep(2)
-    setLoginType('option')
-  }, [])
 
   return (
     <>
@@ -133,31 +128,11 @@ const ConnectWalletModal = () => {
         onCancel={handleCloseModal}
       >
         <div className='flex-none px-5 py-4 space-y-6 text-white'>
-          <h2 className='text-white text-sm'>
-            {loginStep === 1 ? (
-              moduleConf.title
-            ) : (
-              <Back onClick={handleBackToInitLogin} />
-            )}
-          </h2>
-          {loginStep === 1 && (
-            <div className='space-y-5 text-sm'>
-              <button
-                className='h-[52px] w-full rounded-lg bg-white text-black font-medium'
-                onClick={handleMainLogin}
-              >
-                zkLogin
-              </button>
-              <button
-                className='h-[52px] w-full rounded-lg border border-white text-white font-medium'
-                onClick={handleOptionLogin}
-              >
-                More options
-              </button>
-            </div>
-          )}
-          {loginStep === 2 &&
-            (loginType === 'zklogin' ? (
+          <h2 className='text-white text-sm'>{moduleConf.title}</h2>
+
+          <div className='space-y-5'>
+            {/* zkLogin */}
+            <div className='space-y-5'>
               <div className='bg-[rgb(99,161,248)]/[0.10] border border-[rgb(99,161,248)]/[0.40] p-4 rounded-lg relative overflow-hidden'>
                 <img
                   src={moduleConf.zkLogin.bg}
@@ -193,22 +168,50 @@ const ConnectWalletModal = () => {
                   })}
                 </div>
               </div>
-            ) : (
-              <div className='space-y-5 text-sm'>
-                <button
-                  className='h-[52px] w-full rounded-lg bg-white text-black font-medium'
-                  onClick={handleMainLogin}
-                >
-                  zkLogin
-                </button>
-                <button
-                  className='h-[52px] w-full rounded-lg border border-white text-white font-medium'
-                  onClick={handleOptionLogin}
-                >
-                  More options
-                </button>
+            </div>
+
+            {/* wallet */}
+            <div className='space-y-5'>
+              {moduleConf.wallet.map(v => {
+                return (
+                  <button
+                    onClick={() => handleWallet(v.type)}
+                    key={v.type}
+                    className='h-[52px] flex items-center justify-center relative w-full bg-[rgb(255,255,255)]/[0.05] rounded px-4 py-3 text-sm font-medium border border-[rgb(255,255,255)]/[0.20] hover:border-white hover:bg-[rgb(255,255,255)]/[0.2]'
+                  >
+                    <img
+                      src={v.picUrl}
+                      className='w-5 h-5 object-center absolute left-4'
+                      alt={v.type}
+                    />
+                    {v.text}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* social */}
+            <div className='space-y-5'>
+              <div className='flex items-center justify-center gap-x-8'>
+                {moduleConf.social.map(v => {
+                  return (
+                    <ActionBution
+                      handleAsync={() => handleSocial(v.type)}
+                      key={v.type}
+                      className='h-[52px] flex items-center justify-center relative w-full bg-[rgb(255,255,255)]/[0.05] rounded px-4 py-3 text-sm font-medium border border-[rgb(255,255,255)]/[0.20] hover:border-white hover:bg-[rgb(255,255,255)]/[0.2]'
+                    >
+                      <img
+                        src={v.picUrl}
+                        className='w-5 h-5 object-center absolute left-4'
+                        alt={v.type}
+                      />
+                      {v.text}
+                    </ActionBution>
+                  )
+                })}
               </div>
-            ))}
+            </div>
+          </div>
         </div>
 
         <div className='flex-1 flex flex-col justify-start lg:pt-16'>
