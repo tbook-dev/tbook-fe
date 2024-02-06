@@ -28,7 +28,6 @@ import facebookBg from '@/images/zklogin/facebook-bg.svg'
 import twitchBg from '@/images/zklogin/twitch-bg.svg'
 import talkBg from '@/images/zklogin/talk-bg.svg'
 import passport_locked_h5 from '@/images/passport/passport_locked_h5.png'
-import passport_locked from '@/images/passport/passport_locked.png'
 
 import lockSVG from '@/images/lock.svg'
 import Back from '../back'

@@ -1,49 +1,67 @@
-import { useResponsive } from "ahooks";
-import { Fragment, useState } from "react";
-import { CloseOutlined } from "@ant-design/icons";
-import { Dialog, Transition } from "@headlessui/react";
-import clsx from "clsx";
+import { useResponsive } from 'ahooks'
+import { Fragment } from 'react'
+import { CloseOutlined } from '@ant-design/icons'
+import { Dialog, Transition } from '@headlessui/react'
+import clsx from 'clsx'
+import passport_locked from '@/images/passport/passport_locked.png'
+
 // use tailiwind to create slide-over in pc on the right side
 // use tailwind to  create slide-over in moble at bottom
 
-export default function Modal({ children, open, onCancel, title }) {
-  const { pc } = useResponsive();
+export default function Modal ({ children, open, onCancel, title }) {
+  const { pc } = useResponsive()
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={onCancel}>
-        <div className="fixed inset-0" />
-        <div className="fixed inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-[rgb(0,0,0)]/[0.8] overflow-hidden">
+      <Dialog as='div' className='relative z-10' onClose={onCancel}>
+        <div className='fixed inset-0' />
+        <div className='fixed inset-0 overflow-hidden'>
+          <div className='absolute inset-0 bg-[rgb(0,0,0)]/[0.8] overflow-hidden backdrop-blur-sm'>
+            {pc && (
+              <div className='hidden fixed inset-y-0 left-0 right-[448px] lg:flex items-center justify-center'>
+                <Transition.Child
+                  as={Fragment}
+                  enter='transform transition ease-in-out duration-500'
+                  enterFrom={'translate-x-full'}
+                  enterTo={'translate-x-0'}
+                  leave='transform transition ease-in-out duration-500'
+                  leaveFrom={'translate-x-0'}
+                  leaveTo={'translate-x-full'}
+                >
+                  <img src={passport_locked} className='w-[317px] h-[452px]' />
+                </Transition.Child>
+              </div>
+            )}
+
             <div
               className={clsx(
-                "pointer-events-none fixed flex max-w-full",
-                pc ? "inset-y-0 right-0" : "inset-x-0 bottom-0"
+                'pointer-events-none fixed flex max-w-full',
+                pc ? 'inset-y-0 right-0' : 'inset-x-0 bottom-0'
               )}
             >
               <Transition.Child
                 as={Fragment}
-                enter="transform transition ease-in-out duration-500"
-                enterFrom={pc ? "translate-x-full" : "translate-y-full"}
-                enterTo={pc ? "translate-x-0" : "translate-y-0"}
-                leave="transform transition ease-in-out duration-500"
-                leaveFrom={pc ? "translate-x-0" : "translate-y-0"}
-                leaveTo={pc ? "translate-x-full" : "translate-y-full"}
+                enter='transform transition ease-in-out duration-500'
+                enterFrom={pc ? 'translate-x-full' : 'translate-y-full'}
+                enterTo={pc ? 'translate-x-0' : 'translate-y-0'}
+                leave='transform transition ease-in-out duration-500'
+                leaveFrom={pc ? 'translate-x-0' : 'translate-y-0'}
+                leaveTo={pc ? 'translate-x-full' : 'translate-y-full'}
               >
-                <Dialog.Panel className="pointer-events-auto w-screen lg:w-[448px]">
-                  <div className="flex h-full flex-col overflow-y-auto bg-linear6 lg:pb-6 shadow-s5 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none">
-                    <div className="px-6 pt-6 pb-4 lg:pb-6 border-b border-[rgb(255,255,255)]/[0.1]">
-                      <div className="flex items-start justify-between ">
+                <Dialog.Panel className='pointer-events-auto w-screen lg:w-[448px]'>
+                  <div className='flex h-full flex-col overflow-y-auto bg-linear6 lg:pb-6 shadow-s5 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
+                    <div className='px-6 pt-6 pb-4 lg:pb-6 border-b border-[rgb(255,255,255)]/[0.1]'>
+                      <div className='flex items-start justify-between '>
                         <Dialog.Title>{title}</Dialog.Title>
-                        <div className="ml-3 flex h-7 items-center">
+                        <div className='ml-3 flex h-7 items-center'>
                           <CloseOutlined
-                            className="text-white cursor-pointer w-6"
+                            className='text-white cursor-pointer w-6'
                             onClick={onCancel}
                           />
                         </div>
                       </div>
                     </div>
-                    <div className="relative flex-1 flex flex-col">
+                    <div className='relative flex-1 flex flex-col'>
                       {children}
                     </div>
                   </div>
@@ -54,5 +72,5 @@ export default function Modal({ children, open, onCancel, title }) {
         </div>
       </Dialog>
     </Transition.Root>
-  );
+  )
 }
