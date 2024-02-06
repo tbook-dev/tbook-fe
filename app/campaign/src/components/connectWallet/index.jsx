@@ -139,10 +139,6 @@ const ConnectWalletModal = () => {
     setCurrentAddress(address)
   }, [address, setCurrentAddress])
 
-  const handleCloseModal = useCallback(() => {
-    dispath(setLoginModal(false))
-  }, [])
-
   const handleWallet = useCallback(type => {
     if (type === 'walletconnect') {
       dispath(setConnectWalletModal(true))
@@ -167,6 +163,10 @@ const ConnectWalletModal = () => {
     setLoginStep(2)
     setLoginType('option')
   }, [])
+  const handleCloseModal = useCallback(() => {
+    dispath(setLoginModal(false))
+    setTimeout(handleBackToInitLogin, 1000)
+  }, [])
 
   return (
     <>
@@ -186,11 +186,17 @@ const ConnectWalletModal = () => {
           {loginStep === 1 && (
             <div className='space-y-5 text-sm'>
               <button
-                className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden'
+                className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
                 onClick={handleMainLogin}
               >
                 {moduleConf.zkLogin.logoBgList.map(v => (
-                  <img src={v.url} style={v.style} alt={`${v.name} logo`} className='absolute'/>
+                  <img
+                    key={v.name}
+                    src={v.url}
+                    style={v.style}
+                    alt={`${v.name} logo`}
+                    className='absolute'
+                  />
                 ))}
                 <img
                   src={suiBlackSVG}
@@ -200,7 +206,7 @@ const ConnectWalletModal = () => {
                 zkLogin
               </button>
               <button
-                className='h-[52px] w-full rounded-lg border border-white text-white font-medium'
+                className='h-[52px] w-full rounded-lg border border-white text-white font-medium hover:opacity-70'
                 onClick={handleOptionLogin}
               >
                 More options
@@ -251,7 +257,7 @@ const ConnectWalletModal = () => {
                     <button
                       onClick={() => handleWallet(v.type)}
                       key={v.type}
-                      className='h-[52px] flex items-center justify-center relative w-full bg-[rgb(255,255,255)]/[0.05] rounded px-4 py-3 text-sm font-medium border border-[rgb(255,255,255)]/[0.20] hover:border-white hover:bg-[rgb(255,255,255)]/[0.2]'
+                      className='h-10 flex items-center justify-center relative w-full bg-white px-4 py-3 text-sm font-medium text-black rounded-lg'
                     >
                       <img
                         src={v.picUrl}
@@ -268,7 +274,7 @@ const ConnectWalletModal = () => {
                     <ActionBution
                       handleAsync={() => handleSocial(v.type)}
                       key={v.type}
-                      className='h-[52px] flex items-center justify-center relative w-full bg-[rgb(255,255,255)]/[0.05] rounded px-4 py-3 text-sm font-medium border border-[rgb(255,255,255)]/[0.20] hover:border-white hover:bg-[rgb(255,255,255)]/[0.2]'
+                      className='h-10 flex items-center justify-center relative w-full rounded-lg px-4 py-3 text-sm font-medium border border-white'
                     >
                       <img
                         src={v.picUrl}
