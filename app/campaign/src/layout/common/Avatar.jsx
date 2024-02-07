@@ -12,7 +12,7 @@ import { Link, useLoaderData } from 'react-router-dom'
 import Address from '@tbook/ui/src/Address'
 import suiSVG from '@/images/zklogin/sui.svg'
 import Modal from '@/components/connectWallet/modal'
-import passportlg from '@/images/passport/passport_active.png'
+import passportlg from '@/images/passport/passport.png'
 import shapeLink from '@/images/shape-link.svg'
 import { useResponsive, useSize } from 'ahooks'
 
