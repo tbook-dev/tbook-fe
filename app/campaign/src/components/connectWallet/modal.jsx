@@ -12,65 +12,79 @@ export default function Modal ({ children, open, onCancel, title }) {
   const { pc } = useResponsive()
 
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as='div' className='relative z-10' onClose={onCancel}>
-        <div className='fixed inset-0' />
-        <div className='fixed inset-0 overflow-hidden'>
-          <div className='absolute inset-0 bg-[rgb(0,0,0)]/[0.8] overflow-hidden backdrop-blur-sm'>
-            {pc && (
-              <div className='hidden fixed inset-y-0 left-0 right-[448px] lg:flex items-center justify-center'>
+    <>
+      {pc && (
+        <Transition.Root show={open} as={Fragment}>
+          <Dialog as='div' className='relative z-10' onClose={onCancel}>
+            <div className='fixed inset-0' />
+            <div className='fixed inset-0 overflow-hidden'>
+              <div className='absolute inset-y-0 left-0 w-[calc(100%_-_448px)] bg-[rgb(0,0,0)]/[0.8] overflow-hidden'>
                 <Transition.Child
                   as={Fragment}
                   enter='transform transition ease-in-out duration-500'
-                  enterFrom={'translate-x-full'}
-                  enterTo={'translate-x-0'}
-                  leave='transform transition ease-in-out duration-500'
-                  leaveFrom={'translate-x-0'}
-                  leaveTo={'translate-x-full'}
+                  enterFrom={'opacity-0'}
+                  enterTo={'opacity-100'}
+                  leave='transform transition ease-in-out duration-300'
+                  leaveFrom='opacity-100'
+                  leaveTo='opacity-0'
                 >
-                  <img src={passport_locked} className='w-[317px] h-[452px]' />
+                  <div className='absolute inset-0 flex items-center justify-center'>
+                    <img
+                      src={passport_locked}
+                      className='w-[317px] h-[452px]'
+                    />
+                  </div>
                 </Transition.Child>
               </div>
-            )}
+            </div>
+          </Dialog>
+        </Transition.Root>
+      )}
 
-            <div
-              className={clsx(
-                'pointer-events-none fixed flex max-w-full',
-                pc ? 'inset-y-0 right-0' : 'inset-x-0 bottom-0'
-              )}
-            >
-              <Transition.Child
-                as={Fragment}
-                enter='transform transition ease-in-out duration-500'
-                enterFrom={pc ? 'translate-x-full' : 'translate-y-full'}
-                enterTo={pc ? 'translate-x-0' : 'translate-y-0'}
-                leave='transform transition ease-in-out duration-500'
-                leaveFrom={pc ? 'translate-x-0' : 'translate-y-0'}
-                leaveTo={pc ? 'translate-x-full' : 'translate-y-full'}
+      <Transition.Root show={open} as={Fragment}>
+        <Dialog as='div' className='relative z-10' onClose={onCancel}>
+          <div className='fixed inset-0' />
+          <div className='fixed inset-0 overflow-hidden'>
+            <div className='absolute inset-0 overflow-hidden'>
+              <div
+                className={clsx(
+                  'pointer-events-none fixed flex max-w-full',
+                  pc ? 'inset-y-0 right-0' : 'inset-x-0 bottom-0'
+                )}
               >
-                <Dialog.Panel className='pointer-events-auto w-screen lg:w-[448px]'>
-                  <div className='flex h-full flex-col overflow-y-auto bg-linear6 lg:pb-6 shadow-s5 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
-                    <div className='px-6 pt-6 pb-4 lg:pb-6 border-b border-[rgb(255,255,255)]/[0.1]'>
-                      <div className='flex items-start justify-between '>
-                        <Dialog.Title>{title}</Dialog.Title>
-                        <div className='ml-3 flex h-7 items-center'>
-                          <CloseOutlined
-                            className='text-white cursor-pointer w-6'
-                            onClick={onCancel}
-                          />
+                <Transition.Child
+                  as={Fragment}
+                  enter='transform transition ease-in-out duration-500'
+                  enterFrom={pc ? 'translate-x-full' : 'translate-y-full'}
+                  enterTo={pc ? 'translate-x-0' : 'translate-y-0'}
+                  leave='transform transition ease-in-out duration-500'
+                  leaveFrom={pc ? 'translate-x-0' : 'translate-y-0'}
+                  leaveTo={pc ? 'translate-x-full' : 'translate-y-full'}
+                >
+                  <Dialog.Panel className='pointer-events-auto w-screen lg:w-[448px]'>
+                    <div className='flex h-full flex-col overflow-y-auto bg-linear6 lg:pb-6 shadow-s5 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
+                      <div className='px-6 pt-6 pb-4 lg:pb-6 border-b border-[rgb(255,255,255)]/[0.1]'>
+                        <div className='flex items-start justify-between '>
+                          <Dialog.Title>{title}</Dialog.Title>
+                          <div className='ml-3 flex h-7 items-center'>
+                            <CloseOutlined
+                              className='text-white cursor-pointer w-6'
+                              onClick={onCancel}
+                            />
+                          </div>
                         </div>
                       </div>
+                      <div className='relative flex-1 flex flex-col'>
+                        {children}
+                      </div>
                     </div>
-                    <div className='relative flex-1 flex flex-col'>
-                      {children}
-                    </div>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
             </div>
           </div>
-        </div>
-      </Dialog>
-    </Transition.Root>
+        </Dialog>
+      </Transition.Root>
+    </>
   )
 }
