@@ -4,27 +4,29 @@ import { CloseOutlined } from '@ant-design/icons'
 import { Dialog, Transition } from '@headlessui/react'
 import clsx from 'clsx'
 import passport_locked from '@/images/passport/passport_locked.png'
+import useUserInfo from '@/hooks/useUserInfoQuery'
 
 // use tailiwind to create slide-over in pc on the right side
 // use tailwind to  create slide-over in moble at bottom
 
 export default function Modal ({ children, open, onCancel, title }) {
   const { pc } = useResponsive()
+  const { userLogined } = useUserInfo()
 
   return (
     <>
-      {pc && (
+      {pc && !userLogined && (
         <Transition.Root show={open} as={Fragment}>
-          <Dialog as='div' className='relative z-10' onClose={onCancel}>
+          <Dialog as='div' className='relative z-10' onClose={() => undefined}>
             <div className='fixed inset-0' />
             <div className='fixed inset-0 overflow-hidden'>
-              <div className='absolute inset-y-0 left-0 w-[calc(100%_-_448px)] bg-[rgb(0,0,0)]/[0.8] overflow-hidden'>
+              <div className='absolute inset-y-0 left-0 w-[calc(100vw_-_448px)] bg-[rgb(0,0,0)]/[0.8] overflow-hidden'>
                 <Transition.Child
                   as={Fragment}
                   enter='transform transition ease-in-out duration-500'
                   enterFrom={'opacity-0'}
                   enterTo={'opacity-100'}
-                  leave='transform transition ease-in-out duration-300'
+                  leave='transform transition ease-in-out duration-500'
                   leaveFrom='opacity-100'
                   leaveTo='opacity-0'
                 >
@@ -45,7 +47,11 @@ export default function Modal ({ children, open, onCancel, title }) {
         <Dialog as='div' className='relative z-10' onClose={onCancel}>
           <div className='fixed inset-0' />
           <div className='fixed inset-0 overflow-hidden'>
-            <div className='absolute inset-0 overflow-hidden'>
+            <div
+              className={clsx('absolute inset-0 overflow-hidden', {
+                'bg-black/[0.8]': userLogined
+              })}
+            >
               <div
                 className={clsx(
                   'pointer-events-none fixed flex max-w-full',

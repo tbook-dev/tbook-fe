@@ -40,11 +40,11 @@ export default function Avatar () {
   const links = useMemo(() => {
     return [
       {
-        name: 'Campaigns',
+        name: 'Incentive Campaigns',
         path: `${isUsingSubdomain ? '' : `/${projectUrl}`}/campaign`
       },
       {
-        name: 'Assets',
+        name: 'Incentive Assets',
         path: `${isUsingSubdomain ? '' : `/${projectUrl}`}/asset`
       }
     ]
@@ -144,7 +144,7 @@ export default function Avatar () {
           </div>
         </div>
 
-        <div className='flex-auto flex flex-col justify-start lg:pt-16 text-white'>
+        <div className='flex-auto flex flex-col justify-start pb-16 lg:pt-16 text-white'>
           <div
             className='relative mx-auto  h-[452px] w-[317px] flex flex-col justify-center items-center bg-cover bg-center'
             style={{ backgroundImage: `url(${passportlg})` }}
@@ -152,7 +152,7 @@ export default function Avatar () {
             <div className='relative flex flex-col items-center gap-y-5  text-lg font-medium mb-3'>
               <img
                 src={user?.avatar}
-                className='w-10 h-10 border-2 border-[rgb(255,255,255)]/[0.2] rounded-full object-center'
+                className='w-20 h-20 rounded-full object-center'
               />
               <div className='text-center'>
                 {/* 优先展示wallet,然后就是tw */}
@@ -228,14 +228,14 @@ export default function Avatar () {
                   )
                 })}
             </div>
-            <div className='relative flex flex-col px-6 py-4 gap-y-2 text-sm'>
+            <div className='relative flex flex-col px-6 py-4 gap-y-2 text-sm font-medium'>
               {links.map(v => {
                 return (
                   <Link
                     key={v.name}
                     to={v.path}
                     style={{ backgroundImage: `url(${shapeLink})` }}
-                    className='text-[#C0ABD9] h-8 w-[220px] font-medium flex items-center justify-center hover:text-white'
+                    className='text-[#FFBCDC] h-9 w-[230px] font-medium flex items-center justify-center hover:text-white backdrop-blur-sm'
                     target='_blank'
                     onClick={() => {
                       setOpen(false)
