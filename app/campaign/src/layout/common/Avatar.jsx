@@ -164,6 +164,7 @@ export default function Avatar () {
                     <Address
                       address={address}
                       className='font-zen-dot text-xl'
+                      style={{textShadow: '0px 0px 2px #CF0063'}}
                     />
                   </div>
                 ) : (
