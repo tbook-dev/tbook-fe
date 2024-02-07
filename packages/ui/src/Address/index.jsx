@@ -11,21 +11,26 @@ export default function Address ({
   style = {}
 }) {
   return (
-    <Paragraph
-      copyable={{
-        text: address,
-        icon: [
-          <CopyOutlined style={{ color: '#717374' }} />,
-          <CheckOutlined style={{ color: '#717374' }} />
-        ]
-      }}
-      style={{ margin: 0 }}
+    <Tooltip
+      title={
+        <Paragraph
+          copyable={{
+            text: address,
+            icon: [
+              <CopyOutlined style={{ color: 'rgba(255,255,255,0.8)' }} />,
+              <CheckOutlined style={{ color: 'rgba(255,255,255,0.8)' }} />
+            ]
+          }}
+          style={{ margin: 0 }}
+        >
+          {address}
+        </Paragraph>
+      }
+      placement={placement}
     >
-      <Tooltip title={address} placement={placement}>
-        <span className={className} style={style}>
-          {shortAddress(address)}
-        </span>
-      </Tooltip>
-    </Paragraph>
+      <span className={className} style={style}>
+        {shortAddress(address)}
+      </span>
+    </Tooltip>
   )
 }
