@@ -13,7 +13,7 @@ import Address from '@tbook/ui/src/Address'
 import suiSVG from '@/images/zklogin/sui.svg'
 import Modal from '@/components/connectWallet/modal'
 import passportlg from '@/images/passport/passport.png'
-import shapeLink from '@/images/shape-link.svg'
+import shapeLink from '@/images/shape-link.png'
 import { useResponsive, useSize } from 'ahooks'
 
 export default function Avatar () {
@@ -228,14 +228,14 @@ export default function Avatar () {
                   )
                 })}
             </div>
-            <div className='relative flex flex-col px-6 py-4 gap-y-2 text-sm font-medium'>
+            <div className='relative flex flex-col px-6 py-4 gap-y-1 text-sm font-medium'>
               {links.map(v => {
                 return (
                   <Link
                     key={v.name}
                     to={v.path}
                     style={{ backgroundImage: `url(${shapeLink})` }}
-                    className='text-[#FFBCDC] h-9 w-[230px] font-medium flex items-center justify-center hover:text-white backdrop-blur-sm'
+                    className='text-[#FFBCDC] h-12 w-[240px] font-medium flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm'
                     target='_blank'
                     onClick={() => {
                       setOpen(false)
