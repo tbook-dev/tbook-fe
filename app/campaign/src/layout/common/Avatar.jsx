@@ -144,7 +144,7 @@ export default function Avatar () {
           </div>
         </div>
 
-        <div className='flex-auto flex flex-col justify-start pb-16 lg:pt-16 text-white'>
+        <div className='flex-auto flex flex-col justify-start pb-16 pt-6 lg:py-0 lg:justify-center text-white'>
           <div
             className='relative mx-auto  h-[452px] w-[317px] flex flex-col justify-center items-center bg-cover bg-center'
             style={{ backgroundImage: `url(${passportlg})` }}
