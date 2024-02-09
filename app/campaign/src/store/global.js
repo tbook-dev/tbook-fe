@@ -14,6 +14,7 @@ const initialState = {
     desc: ""
   },
   snapshotData: null,
+  showPassportGeneratingModal: true
 };
 
 export const globalSlice = createSlice({
@@ -44,6 +45,9 @@ export const globalSlice = createSlice({
     setSnapshotData: (state, action) => {
       state.snapshotData = action.payload;
     },
+    setShowPassportGeneratingModal:(state, action) => {
+      state.showPassportGeneratingModal = action.payload;
+    },
   },
 });
 
@@ -56,7 +60,8 @@ export const {
   setSnapshotData,
   setShowSocicalModal,
   setShowSocialRedirectModal,
-  setsocialRedirectModalData
+  setsocialRedirectModalData,
+  setShowPassportGeneratingModal
 } = globalSlice.actions;
 
 export default globalSlice.reducer;
