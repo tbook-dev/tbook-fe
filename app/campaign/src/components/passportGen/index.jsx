@@ -1,5 +1,4 @@
 import passport_generating from "@/images/passport/passport_generating.png";
-import { useResponsive } from "ahooks";
 import { useDispatch, useSelector } from "react-redux";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useCallback, useState } from "react";
@@ -7,14 +6,12 @@ import { setShowPassportGeneratingModal } from "@/store/global";
 import Card from "./card";
 
 export default function PassportGen() {
-  const { pc } = useResponsive();
   const open = useSelector((s) => s.global.showPassportGeneratingModal);
   const dispatch = useDispatch();
-  const [genPending, setGenPending] = useState(true);
+  const [genPending, setGenPending] = useState(false);
   const setClose = useCallback(() => {
     dispatch(setShowPassportGeneratingModal(false));
   }, []);
-  console.log({ open });
 
   return (
     <Transition.Root show={open} as={Fragment}>

@@ -1,6 +1,5 @@
 import { React } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ConnectWalletModal from "@/components/connectWallet";
 import PageFallBack from "@/components/pageFallback";
 import { configResponsive, useEventListener } from "ahooks";
 import hostRoutes from "@/router/campaign.host";
@@ -9,8 +8,6 @@ import pathRoutes from "@/router/campaign.pathname";
 import { useQueryClient } from "react-query";
 import { WagmiConfig } from "wagmi";
 
-import SocialModal from "./components/withVerify/social";
-import PassportGen from "./components/passportGen";
 import { wagmiConfig } from "@/utils/web3";
 import { receive } from "@/utils/channel";
 import { isUsingSubdomain } from "@/utils/common";
@@ -36,9 +33,7 @@ function App() {
           )}
           fallbackElement={<PageFallBack />}
         />
-        <ConnectWalletModal />
-        <SocialModal />
-        <PassportGen />
+        {/* all modal move into avator components */}
       </WagmiConfig>
     </>
   );
