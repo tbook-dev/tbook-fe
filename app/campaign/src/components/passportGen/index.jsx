@@ -1,17 +1,33 @@
 import passport_generating from "@/images/passport/passport_generating.png";
 import { useDispatch, useSelector } from "react-redux";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useCallback, useState } from "react";
+import { Fragment, useCallback, useState, useRef } from "react";
 import { setShowPassportGeneratingModal } from "@/store/global";
 import Card from "./card";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 export default function PassportGen() {
+  const proccessRef = useRef();
   const open = useSelector((s) => s.global.showPassportGeneratingModal);
   const dispatch = useDispatch();
-  const [genPending, setGenPending] = useState(false);
+  const [genPending, setGenPending] = useState(true);
   const setClose = useCallback(() => {
     dispatch(setShowPassportGeneratingModal(false));
   }, []);
+  useGSAP(() => {
+    if (open) {
+      setTimeout(() => {
+        gsap.to(proccessRef.current, {
+          duration: 3,
+          width: 190,
+          onComplete: () => {
+            setGenPending(false);
+          },
+        });
+      }, 400);
+    }
+  }, [open]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -46,6 +62,12 @@ export default function PassportGen() {
                     src={passport_generating}
                     alt="passport gennerat"
                   />
+                  <div className="w-[190px] h-0.5 absolute left-1/2 bottom-[174px] -translate-x-1/2 overflow-hidden bg-[#FFBCEC] rounded-full">
+                    <div
+                      ref={proccessRef}
+                      className="absolute left-0 inset-y-0 w-0 bg-red-700"
+                    />
+                  </div>
                 </Dialog.Panel>
               </Transition.Child>
             ) : (
@@ -76,7 +98,7 @@ export default function PassportGen() {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <Card onClose={setClose}/>
+                  <Card onClose={setClose} />
                 </Dialog.Panel>
               </Transition.Child>
             )}
