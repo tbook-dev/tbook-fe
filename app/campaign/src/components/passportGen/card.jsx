@@ -78,10 +78,7 @@ export default function PassportCard({ onClose }) {
 
         <div className="relative flex items-center justify-center gap-x-3 pb-5">
           {!isUsingWallet && (
-            <button
-              onClick={handleConnectWallet}
-              rel="nofollow noopener noreferrer"
-            >
+            <button onClick={handleConnectWallet}>
               <img
                 src={walletGrayIcon}
                 alt="wallet connect"
@@ -109,11 +106,7 @@ export default function PassportCard({ onClose }) {
                   />
                 </Tooltip>
               ) : (
-                <button
-                  key={v.name}
-                  onClick={() => v.loginFn(false)}
-                  rel="nofollow noopener noreferrer"
-                >
+                <button key={v.name} onClick={() => v.loginFn(false)}>
                   <img
                     src={v.connected ? v.activePic : v.picUrl}
                     className="w-6 h-6 object-contain object-center"
