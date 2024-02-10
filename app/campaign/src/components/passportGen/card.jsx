@@ -4,26 +4,20 @@ import useUserInfo from "@/hooks/useUserInfoQuery";
 import walletGrayIcon from "@/images/icon/wallet-gray.svg";
 import useSocial from "@/hooks/useSocial";
 import { useDispatch } from "react-redux";
-import {
-  setConnectWalletModal,
-  setShowPassportGeneratingModal,
-} from "@/store/global";
+import { setConnectWalletModal } from "@/store/global";
 import { Link, useLoaderData } from "react-router-dom";
 import Address from "@tbook/ui/src/Address";
 import suiSVG from "@/images/zklogin/sui.svg";
-import Modal from "@/components/connectWallet/modal";
 import passportlg from "@/images/passport/passport.png";
 import shapeLink from "@/images/shape-link.png";
-import { useResponsive, useSize } from "ahooks";
 
-export default function PassportCard() {
-  const { user, isZK, isGoogle, address, twitterConnected, data } =
-    useUserInfo();
-  const { socialList, getZkfnByName, getSocialByName } = useSocial();
+export default function PassportCard({ onClose }) {
+  const { user, isZK, address, data } = useUserInfo();
+  const { socialList, getZkfnByName } = useSocial();
   const dispatch = useDispatch();
   const { isUsingSubdomain, projectUrl } = useLoaderData();
   const handleConnectWallet = useCallback(() => {
-    dispatch(setShowPassportGeneratingModal(false));
+    onClose();
     dispatch(setConnectWalletModal(true));
   }, []);
 
@@ -137,9 +131,7 @@ export default function PassportCard() {
                 style={{ backgroundImage: `url(${shapeLink})` }}
                 className="text-[#FFBCDC] h-12 w-[240px] font-medium flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm"
                 target="_blank"
-                onClick={() => {
-                  dispatch(setShowPassportGeneratingModal(false));
-                }}
+                onClick={onClose}
               >
                 {v.name}
               </Link>

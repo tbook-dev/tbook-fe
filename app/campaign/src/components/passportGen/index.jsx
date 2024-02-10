@@ -76,7 +76,7 @@ export default function PassportGen() {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <Card />
+                  <Card onClose={setClose}/>
                 </Dialog.Panel>
               </Transition.Child>
             )}
