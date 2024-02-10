@@ -6,32 +6,43 @@ import { setShowPassportGeneratingModal } from "@/store/global";
 import Card from "./card";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useEffect } from "react";
 
 export default function PassportGen() {
   const proccessRef = useRef();
   const open = useSelector((s) => s.global.showPassportGeneratingModal);
   const dispatch = useDispatch();
-  const [genPending, setGenPending] = useState(true);
+  const [genPending, setGenPending] = useState(false);
   const setClose = useCallback(() => {
     dispatch(setShowPassportGeneratingModal(false));
   }, []);
   useGSAP(() => {
     if (open) {
       setTimeout(() => {
-        gsap.to(proccessRef.current, {
-          duration: 3,
-          width: 190,
-          onComplete: () => {
-            setGenPending(false);
-          },
-        });
+        if (proccessRef.current) {
+          gsap.to(proccessRef.current, {
+            duration: 3,
+            width: 190,
+            onComplete: () => {
+              setGenPending(false);
+            },
+          });
+        }
       }, 400);
     }
+  }, [genPending]);
+
+  useEffect(() => {
+    setGenPending(open);
   }, [open]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setClose}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={genPending ? () => undefined : setClose}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -43,7 +54,6 @@ export default function PassportGen() {
         >
           <div className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity" />
         </Transition.Child>
-        <button onClick={() => setGenPending((v) => !v)}>switch</button>
         <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen">
             {genPending ? (
@@ -56,7 +66,7 @@ export default function PassportGen() {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-4"
               >
-                <Dialog.Panel className="relative rounded-lg">
+                <Dialog.Panel className="relative rounded-lg select-nones">
                   <img
                     className="w-[317px] h-[452px]"
                     src={passport_generating}

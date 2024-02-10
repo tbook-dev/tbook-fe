@@ -14,7 +14,7 @@ const initialState = {
     desc: ""
   },
   snapshotData: null,
-  showPassportGeneratingModal: true
+  showPassportGeneratingModal: false
 };
 
 export const globalSlice = createSlice({
