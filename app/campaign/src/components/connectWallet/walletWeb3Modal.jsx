@@ -7,7 +7,7 @@ import copyIcon from '@/images/icon/copy.svg'
 import disconnectIcon from '@/images/icon/disconnect.svg'
 import { useState, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { setConnectWalletModal, setLoginModal } from '@/store/global'
+import { setConnectWalletModal, setLoginModal, setShowPassportGeneratingModal } from '@/store/global'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { useAccount, useSignMessage } from 'wagmi'
 import { getNonce } from '@/utils/web3'
@@ -70,9 +70,12 @@ const ConnectWalletModal = () => {
           await refetch()
         }
       } else {
-        await authenticate(address, sign)
+        const res = await authenticate(address, sign)
         await delay(100)
         await refetch()
+        if(res.newUser){
+          dispath(setShowPassportGeneratingModal(true))
+        }
       }
   
       // cast the userInfo event

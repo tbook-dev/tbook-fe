@@ -6,9 +6,6 @@ import { useAccount } from "wagmi";
 import { disconnect } from "@wagmi/core";
 import Address from "@tbook/ui/src/Address";
 import Modal from "@/components/connectWallet/modal";
-import ConnectWalletModal from "@/components/connectWallet";
-import SocialModal from "@/components/withVerify/social";
-import PassportGen from "@/components/passportGen";
 import PassportCard from "@/components/passportGen/card";
 
 export default function Avatar() {
@@ -78,12 +75,6 @@ export default function Avatar() {
 
   return (
     <>
-      <>
-        <ConnectWalletModal />
-        <SocialModal />
-        <PassportGen />
-      </>
-
       <AvatarLine />
       <Modal
         title={

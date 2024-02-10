@@ -14,15 +14,16 @@ export const authenticate = async function (address, sign) {
     },
     body: d,
   });
-  console.log("status:", response.status);
-  response.text().then((b) => console.log("body", b));
-  response.headers.forEach((value, key) => {
-    console.log(key, value);
-  });
-  console.log(document.cookie);
+  // console.log("status:", response.status);
+  // response.text().then((b) => console.log("body", b));
+  // response.headers.forEach((value, key) => {
+  //   console.log(key, value);
+  // });
+  // console.log(document.cookie);
   // await new Promise(r => {
   //   setTimeout(r, 10000)
   // })
+  return await response.json();
 };
 export const getUserInfo = async function () {
   return await request(`${host}/info`);
@@ -188,7 +189,9 @@ export const logUserReport = async function (data) {
 };
 
 export const getProjectId = async function (projectName) {
-  return await request(`${host}/project/byUrl/${encodeURIComponent(projectName)}`);
+  return await request(
+    `${host}/project/byUrl/${encodeURIComponent(projectName)}`
+  );
 };
 export const getCampaign = async function (projectId) {
   return await request(`${host}/campaignNew/project/${projectId}`);
