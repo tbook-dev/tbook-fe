@@ -1,18 +1,25 @@
 import { useQuery } from "react-query";
 import { getUserInfo } from "@/api/incentive";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowPassportGeneratingModal } from "@/store/global";
 
 export default function useUserInfo() {
   const [firstLoad, setFirstLoad] = useState(false);
+  const dispatch = useDispatch();
+  const showPassportGeneratingModal = useSelector(
+    (s) => s.global.showPassportGeneratingModal
+  );
   const { data, isLoading, error, isSuccess, ...props } = useQuery(
     "userInfo",
     getUserInfo,
     {
-      staleTime: 5000,
+      staleTime: Infinity,
       retry: false,
       retryOnMount: false,
       // metamask 设置之后会有并发问题，在pc上为false, 手机上跳转app 为true
       // refetchOnWindowFocus: pc ? false : true,
+      // refetchOnWindowFocus: false
     }
   );
   useEffect(() => {
@@ -34,6 +41,10 @@ export default function useUserInfo() {
   const isZK = Boolean(data?.user?.zk?.binded);
   const isGoogle = data?.userZk.issuer === "Google";
   const googleConnected = isGoogle;
+  const newUser = !!data?.newUser;
+  if (data &&  !showPassportGeneratingModal && newUser) {
+    dispatch(setShowPassportGeneratingModal(true));
+  }
   return {
     data,
     isLoading,
@@ -52,6 +63,7 @@ export default function useUserInfo() {
     isZK,
     googleConnected,
     isGoogle,
+    newUser,
     ...props,
   };
 }

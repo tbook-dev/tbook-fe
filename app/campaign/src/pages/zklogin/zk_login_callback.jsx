@@ -1,19 +1,18 @@
 import AuthSocial from "../social";
 // import { zkLoginCallback } from "@/utils/zklogin";
-import useUserInfoQuery from "@/hooks/useUserInfoQuery";
 import { useEnokiFlow } from "@mysten/enoki/react";
+import { getUserInfo } from "@/api/incentive"
 
 export default function () {
   const flow = useEnokiFlow();
-  const { refetch } = useUserInfoQuery();
   // useAuthCallback()
   const authCallback = async () => {
     const hash = window.location.hash.slice(1).trim();
     try {
       await flow.handleAuthCallback(hash);
-      const res = await refetch();
+      const data = await getUserInfo();
       return {
-        socialName: res?.data?.userZk?.email,
+        socialName: data?.userZk?.email,
       };
     } catch (e) {
       return {

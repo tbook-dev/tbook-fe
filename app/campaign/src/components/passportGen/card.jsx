@@ -106,7 +106,7 @@ export default function PassportCard({ onClose }) {
                   />
                 </Tooltip>
               ) : (
-                <button key={v.name} onClick={() => v.loginFn(false)}>
+                <button className="focus-visible:outline-none" key={v.name} onClick={() => v.loginFn(false)}>
                   <img
                     src={v.connected ? v.activePic : v.picUrl}
                     className="w-6 h-6 object-contain object-center"

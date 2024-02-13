@@ -1,4 +1,3 @@
-import { json } from "react-router-dom";
 import request from "./request";
 
 export const host = import.meta.env.VITE_API_HOST;
@@ -227,3 +226,7 @@ export const submitAddress = async function (data) {
 export const getAirdropAddress = async function (data) {
   return await request.Post(`${host}/campaignAddress/address`, data);
 };
+
+export const markNewUser = async function(){
+  return await request.Post(`${host}/markNewUser`);
+}
