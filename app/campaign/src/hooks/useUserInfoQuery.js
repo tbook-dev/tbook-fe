@@ -14,7 +14,7 @@ export default function useUserInfo() {
     "userInfo",
     getUserInfo,
     {
-      staleTime: Infinity,
+      staleTime: 300000,
       retry: false,
       retryOnMount: false,
       // metamask 设置之后会有并发问题，在pc上为false, 手机上跳转app 为true
