@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { getUserInfo } from "@/api/incentive";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowPassportGeneratingModal } from "@/store/global";
 
@@ -19,7 +19,7 @@ export default function useUserInfo() {
       retryOnMount: false,
       // metamask 设置之后会有并发问题，在pc上为false, 手机上跳转app 为true
       // refetchOnWindowFocus: pc ? false : true,
-      // refetchOnWindowFocus: false
+      // refetchOnWindowFocus: false,
     }
   );
   useEffect(() => {
@@ -28,7 +28,6 @@ export default function useUserInfo() {
       return;
     }
   }, [isLoading]);
-
   const projects = data?.projects;
   const project = data?.projects?.[data?.projects?.length - 1];
   const projectId = project?.projectId;
@@ -42,7 +41,13 @@ export default function useUserInfo() {
   const isGoogle = data?.userZk.issuer === "Google";
   const googleConnected = isGoogle;
   const newUser = !!data?.newUser;
-  if (data &&  !showPassportGeneratingModal && newUser) {
+  if (
+    data &&
+    !showPassportGeneratingModal &&
+    newUser &&
+    !sessionStorage.getItem("markNewUser")
+  ) {
+    sessionStorage.setItem("markNewUser", "1");
     dispatch(setShowPassportGeneratingModal(true));
   }
   return {

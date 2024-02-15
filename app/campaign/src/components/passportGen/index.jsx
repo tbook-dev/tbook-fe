@@ -7,7 +7,7 @@ import Card from "./card";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useEffect } from "react";
-import { markNewUser } from "@/api/incentive"
+import { markNewUser } from "@/api/incentive";
 
 export default function PassportGen() {
   const proccessRef = useRef();
@@ -18,7 +18,7 @@ export default function PassportGen() {
     dispatch(setShowPassportGeneratingModal(false));
     markNewUser()
   }, []);
-  
+
   useGSAP(() => {
     if (open) {
       setTimeout(() => {
@@ -28,7 +28,6 @@ export default function PassportGen() {
             width: 190,
             onComplete: () => {
               setGenPending(false);
-
             },
           });
         }

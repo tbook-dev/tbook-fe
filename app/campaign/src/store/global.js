@@ -46,7 +46,10 @@ export const globalSlice = createSlice({
       state.snapshotData = action.payload;
     },
     setShowPassportGeneratingModal:(state, action) => {
-      state.showPassportGeneratingModal = action.payload;
+      // 手动比较 
+      if( state.showPassportGeneratingModal !== action.payload){
+        state.showPassportGeneratingModal = action.payload;
+      }
     },
   },
 });
