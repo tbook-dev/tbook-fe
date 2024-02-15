@@ -19,7 +19,7 @@ import {
 import facebookSVG from "@/images/zklogin/facebook.svg";
 import talkSVG from "@/images/zklogin/talk.svg";
 import { getGoogleLoginUrl } from "@/utils/zklogin";
-import { useResponsive } from "ahooks";
+// import { useResponsive } from "ahooks";
 import { delay } from "@/utils/common";
 
 const curHost = new URL(window.location.href).host;
@@ -43,7 +43,7 @@ export default function useSocial() {
     refetch,
   } = useUserInfoQuery();
   const dispath = useDispatch();
-  const { pc } = useResponsive();
+  // const { pc } = useResponsive();
   const allList = useMemo(() => {
     return [
       {
@@ -55,7 +55,7 @@ export default function useSocial() {
         loginFn: async (skip = false) => {
           !skip && localStorage.setItem("redirect_url", location.href);
           // location.href = dcCallbackUrl;
-          window.open(dcCallbackUrl, pc ? "_blank" : "_self");
+          window.open(dcCallbackUrl, "_self");
         },
         userName: data?.userDc?.username ?? "",
         failText:
@@ -70,15 +70,16 @@ export default function useSocial() {
         loginFn: async (skip = false) => {
           !skip && localStorage.setItem("redirect_url", location.href);
           const res = await getTwLoginUrl();
-          const a = document.createElement("a");
-          document.body.appendChild(a);
-          a.style = "display: none";
-          a.href = res["url"];
-          a.setAttribute("target", pc ? "_blank" : "_self");
-          a.setAttribute("mc-deep-link", "false");
-          a.setAttribute("rel", "nofollow noopener noreferrer");
-          // rel='nofollow noopener noreferrer'
-          a.click();
+          // const a = document.createElement("a");
+          // document.body.appendChild(a);
+          // a.style = "display: none";
+          // a.href = res["url"];
+          // a.setAttribute("target", "_self");
+          // a.setAttribute("mc-deep-link", "false");
+          // a.setAttribute("rel", "nofollow noopener noreferrer");
+          // // rel='nofollow noopener noreferrer'
+          // a.click();
+          window.open(res["url"], "_self");
           // setTwCallbackUrl(() => res["url"]);
           // location.href = res["url"];
         },
@@ -181,7 +182,7 @@ export default function useSocial() {
           !skip && localStorage.setItem("redirect_url", location.href);
           // location.href = await getGoogleLoginUrl();
           const link = await getGoogleLoginUrl();
-          window.open(link, pc ? "_blank" : "_self");
+          window.open(link, "_self");
         },
         userName: data?.userZk?.email ?? "",
         failText:
