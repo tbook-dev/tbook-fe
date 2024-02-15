@@ -79,7 +79,7 @@ export default function PassportGen() {
                   <div className="w-[190px] h-0.5 absolute left-1/2 bottom-[174px] -translate-x-1/2 overflow-hidden bg-[#FFBCEC]/70 rounded-full">
                     <div
                       ref={proccessRef}
-                      className="absolute left-0 inset-y-0 w-0 bg-red-700"
+                      className="absolute left-0 inset-y-0 w-0 bg-[#EA8EBA]"
                     />
                   </div>
                 </Dialog.Panel>
