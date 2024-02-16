@@ -100,7 +100,7 @@ export default function PassportGen() {
                     height="40"
                     viewBox="0 0 40 40"
                     fill="none"
-                    className="hidden lg:block absolute right-0 -top-8 cursor-pointer group"
+                    className="absolute right-0 -top-8 cursor-pointer group"
                     onClick={setClose}
                   >
                     <path
