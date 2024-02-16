@@ -41,13 +41,15 @@ export default function useUserInfo() {
   const isGoogle = data?.userZk.issuer === "Google";
   const googleConnected = isGoogle;
   const newUser = !!data?.newUser;
+  const address = data?.user?.wallet || data?.user?.zk?.address
+  const sessionKey = `markNewUser-${address ?? ''}`
   if (
     data &&
     !showPassportGeneratingModal &&
     newUser &&
-    !sessionStorage.getItem("markNewUser")
+    !sessionStorage.getItem(sessionKey)
   ) {
-    sessionStorage.setItem("markNewUser", "1");
+    sessionStorage.setItem(sessionKey, "1");
     dispatch(setShowPassportGeneratingModal(true));
   }
   return {
@@ -64,7 +66,7 @@ export default function useUserInfo() {
     firstLoad,
     userLogined,
     user,
-    address: data?.user?.wallet || data?.user?.zk?.address,
+    address,
     isZK,
     googleConnected,
     isGoogle,
