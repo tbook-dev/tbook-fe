@@ -38,6 +38,7 @@ export default function Modal ({ children, open, onCancel, title }) {
                   </div>
                 </Transition.Child>
               </div>
+              <div className='absolute inset-y-0 right-0 w-[448px] bg-[rgb(0,0,0)]/[0.8]' />
             </div>
           </Dialog>
         </Transition.Root>
