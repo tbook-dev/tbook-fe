@@ -1,12 +1,14 @@
 import clsx from "clsx";
 import useAdmins from "@/hooks/queries/useAdmins";
 import useUserInfo from "@/hooks/queries/useUserInfo";
-import { notification, Skeleton, Input, Popover, Dropdown } from "antd";
-import { InfoCircleOutlined, EllipsisOutlined } from "@ant-design/icons";
+import { notification, Skeleton, Input, Popover } from "antd";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import Button from "@/components/button";
 import { useState } from "react";
 import { addAdmin, deleteAdmin } from "@/api/incentive";
 import AdminItem from "./AdminItem";
+import { getAdminNonce } from "@/api/incentive";
+import { getWalletClient } from '@wagmi/core'
 
 const moduleConf = {
   name: "Administrators",
@@ -24,6 +26,8 @@ const moduleConf = {
   actionNameTip: "Paste an address to add an admin",
   addErrorTip: "add admin error! Please try it later!",
   addSucessTip: "add admin sucess!",
+  delSucessTip: "del admin sucess!",
+  delErrorTip: "add admin error! Please try it later!",
 };
 export default function Admins() {
   const [api, contextHolder] = notification.useNotification();
@@ -39,7 +43,14 @@ export default function Admins() {
   const handleAddAdmin = async () => {
     setAddAdminLoading(true);
     try {
-      const res = await addAdmin(projectId, newAdmin?.toLowerCase());
+      const nonce = await getAdminNonce({
+        projectId,
+        address: newAdmin?.toLowerCase(),
+        op: 'ADD'
+      })
+      const signer = await getWalletClient()
+      const sign = await signer.signMessage({ message: nonce.entity })
+      const res = await addAdmin(projectId, newAdmin?.toLowerCase(), sign);
       if (res.success) {
         await refetch();
         setAddAdminLoading(false);
@@ -51,7 +62,7 @@ export default function Admins() {
         setAddAdminLoading(false);
       }
     } catch (e) {
-      api.error({ message: moduleConf.addErrorTip });
+      api.error({ message: e?.shortMessage ||  moduleConf.addErrorTip });
       setAddAdminLoading(false);
     }
   };
@@ -59,11 +70,19 @@ export default function Admins() {
   const handleMenuClick = async (action, item) => {
     try {
       if (action.key === "delete") {
-        await deleteAdmin(projectId, item.wallet, item.isOwner);
+        const nonce = await getAdminNonce({ projectId, address: currentUserAddress, op: 'DEL' })
+        const signer = await getWalletClient()
+        const sign = await signer.signMessage({ message: nonce.entity })
+        const res =  await deleteAdmin(projectId, item.wallet, item.isOwner, sign);
+        if (res.success) {
+          await refetch()
+          api.success({ message: moduleConf.delSucessTip })
+        }else{
+          api.error({ message: res.message })
+        }
       }
-      await refetch();
     } catch (e) {
-      console.log(e);
+      api.error({ message: e?.shortMessage || moduleConf.delErrorTip })
     }
   };
 
