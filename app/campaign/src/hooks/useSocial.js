@@ -2,7 +2,7 @@ import useUserInfoQuery from "@/hooks/useUserInfoQuery";
 import { useMemo, useCallback } from "react";
 import { getTwLoginUrl, authTgCallback } from "@/api/incentive";
 import xGray from "@/images/icon/x-gray.svg";
-import x from "@/images/icon/x-white.svg";
+import x from "@/images/icon/x.svg";
 import dcGray from "@/images/icon/dc-gray.svg";
 import dc from "@/images/icon/dc.svg";
 import tgGray from "@/images/icon/tg-gray.svg";
