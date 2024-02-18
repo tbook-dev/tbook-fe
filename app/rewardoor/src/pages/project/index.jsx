@@ -72,7 +72,7 @@ export default function () {
             return;
           }
           console.log(res);
-          queryClient.refetchQueries("userInfo");
+          await queryClient.refetchQueries("userInfo");
           navigate(dashboardOverView);
         } catch (err) {
           messageApi.error(err?.data?.message || defaultErrorMsg);
