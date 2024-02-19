@@ -1,38 +1,20 @@
 import { useState, useCallback, useMemo } from "react";
-import { Tooltip } from "antd";
 import useUserInfo from "@/hooks/useUserInfoQuery";
-import walletGrayIcon from "@/images/icon/wallet-gray.svg";
 import useSocial from "@/hooks/useSocial";
-import { useDispatch } from "react-redux";
-import { setConnectWalletModal } from "@/store/global";
 import { logout } from "@/utils/web3";
 import { useAccount } from "wagmi";
 import { disconnect } from "@wagmi/core";
-import { Link, useLoaderData } from "react-router-dom";
 import Address from "@tbook/ui/src/Address";
-import suiSVG from "@/images/zklogin/sui.svg";
 import Modal from "@/components/connectWallet/modal";
-import passportlg from "@/images/passport-lg.png";
-import shapeLink from "@/images/shape-link.svg";
-import passportleft from "@/images/passport/left.png";
-import passportmiddle from "@/images/passport/middle.png";
-import passportright from "@/images/passport/right.png";
-import { useResponsive, useSize } from "ahooks";
+import PassportCard from "@/components/passportGen/card";
 
 export default function Avatar() {
-  const { pc } = useResponsive();
-  const size = useSize(document.documentElement);
   const [open, setOpen] = useState(false);
   const { user, isZK, isGoogle, address, twitterConnected, data } =
     useUserInfo();
-  const { socialList, getZkfnByName, getSocialByName } = useSocial();
+  const { getZkfnByName, getSocialByName } = useSocial();
   const { isConnected } = useAccount();
-  const dispatch = useDispatch();
-  const { isUsingSubdomain, projectUrl } = useLoaderData();
-  const handleConnectWallet = useCallback(() => {
-    setOpen(false);
-    dispatch(setConnectWalletModal(true));
-  }, []);
+
   const handleLogout = useCallback(async () => {
     await logout();
     if (isConnected) {
@@ -40,22 +22,6 @@ export default function Avatar() {
     }
     location.href = location;
   }, [isConnected]);
-  const links = useMemo(() => {
-    return [
-      {
-        name: "Campaigns",
-        path: `${isUsingSubdomain ? "" : `/${projectUrl}`}/campaign`,
-      },
-      {
-        name: "Assets",
-        path: `${isUsingSubdomain ? "" : `/${projectUrl}`}/asset`,
-      },
-    ];
-  }, [projectUrl]);
-
-  const isUsingWallet = useMemo(() => {
-    return Boolean(address);
-  }, [address]);
 
   const AvatarLine = () => {
     return (
@@ -147,138 +113,11 @@ export default function Avatar() {
           </div>
         </div>
 
-        <div className="flex-auto flex flex-col justify-start lg:pt-16 text-white">
-          <div
-            className="relative  h-[456px] lg:w-full lg:h-[460px] flex flex-col justify-center items-center bg-cover bg-center"
-            style={{ backgroundImage: pc ? `url(${passportlg})` : null }}
-          >
-            {pc ? null : (
-              <>
-                <div
-                  className="absolute inset-0 bg-no-repeat bg-contain bg-left-top"
-                  style={{ backgroundImage: `url(${passportleft})` }}
-                />
-                {size?.width > 374 && (
-                  <div
-                    className="absolute inset-y-0 left-[190px] right-[184px] bg-repeat-x bg-center-top"
-                    style={{
-                      backgroundImage: `url(${passportmiddle})`,
-                      backgroundSize: size?.width > 394 ? "contain" : "cover",
-                    }}
-                  />
-                )}
-
-                <div
-                  className="absolute inset-0 bg-no-repeat bg-contain bg-right-top"
-                  style={{ backgroundImage: `url(${passportright})` }}
-                />
-                <p className="absolute text-xs text-color3 font-zen-dot text-white top-8">
-                  incentive passport
-                </p>
-              </>
-            )}
-            <div className="relative flex flex-col items-center gap-y-5  text-lg font-medium mb-3">
-              <img
-                src={user?.avatar}
-                className="w-10 h-10 border-2 border-[rgb(255,255,255)]/[0.2] rounded-full object-center"
-              />
-              <div className="text-center">
-                {/* 优先展示wallet,然后就是tw */}
-                {isUsingWallet ? (
-                  <div className="flex items-center gap-x-1.5 font-zen-dot">
-                    {isZK && (
-                      <img src={suiSVG} className="w-5 h-5 object-center" />
-                    )}
-                    <Address
-                      address={address}
-                      className="font-zen-dot text-xl"
-                    />
-                  </div>
-                ) : (
-                  data?.userTwitter?.connected && (
-                    <div className="flex items-center gap-x-0.5 text-[#717374] text-base">
-                      {`@${data?.userTwitter?.twitterUserName}`}
-                      <img
-                        src={
-                          socialList.find((v) => v.name === "twitter")
-                            ?.activePic
-                        }
-                        className="w-5 h-5 object-center"
-                      />
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
-
-            <div className="relative flex items-center justify-center gap-x-3 pb-5">
-              {!isUsingWallet && (
-                <button
-                  onClick={handleConnectWallet}
-                  rel="nofollow noopener noreferrer"
-                >
-                  <img
-                    src={walletGrayIcon}
-                    alt="wallet connect"
-                    className="w-6 h-6 object-contain object-center"
-                  />
-                </button>
-              )}
-              {
-                // socialList
-                // .concat(getZkfnByName("google"))
-                socialList
-                .filter((v) => {
-                  if (v.name === "twitter") {
-                    return data?.userTwitter?.connected && !user?.wallet
-                      ? false
-                      : true;
-                  } else {
-                    return true;
-                  }
-                })
-                .map((v) => {
-                  return v.connected ? (
-                    <Tooltip key={v.name} title={`${v.userName}`}>
-                      <img
-                        src={v.connected ? v.activePic : v.picUrl}
-                        className="w-6 h-6 object-contain object-center"
-                      />
-                    </Tooltip>
-                  ) : (
-                    <button
-                      key={v.name}
-                      onClick={() => v.loginFn(false)}
-                      rel="nofollow noopener noreferrer"
-                    >
-                      <img
-                        src={v.connected ? v.activePic : v.picUrl}
-                        className="w-6 h-6 object-contain object-center"
-                      />
-                    </button>
-                  );
-                })}
-            </div>
-            <div className="relative flex flex-col px-6 py-4 gap-y-2 text-sm">
-              {links.map((v) => {
-                return (
-                  <Link
-                    key={v.name}
-                    to={v.path}
-                    style={{ backgroundImage: `url(${shapeLink})` }}
-                    className="text-[#C0ABD9] h-8 w-[220px] font-medium flex items-center justify-center hover:text-white"
-                    target="_blank"
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    {v.name}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+        <PassportCard
+          onClose={() => {
+            setOpen(false);
+          }}
+        />
       </Modal>
     </>
   );

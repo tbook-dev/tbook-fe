@@ -63,10 +63,20 @@ export default function WithVerify ({ handleFn, count, credentialType }) {
           }
         )}
         onClick={evt => {
+          // if (!userLogined) {
+          //   dispath(setLoginModal(true))
+          // } else if (!wallectConnected) {
+          //   dispath(setConnectWalletModal(true))
+          // } else {
+          //   if (isSocial && !social.connected) {
+          //     // dispath(setShowSocicalModal(true))
+          //     setOpen(true)
+          //   } else {
+          //     handleVerify(evt)
+          //   }
+          // }
           if (!userLogined) {
-            dispath(setLoginModal(true))
-          } else if (!wallectConnected) {
-            dispath(setConnectWalletModal(true))
+              dispath(setLoginModal(true))
           } else {
             if (isSocial && !social.connected) {
               // dispath(setShowSocicalModal(true))

@@ -14,6 +14,7 @@ const initialState = {
     desc: ""
   },
   snapshotData: null,
+  showPassportGeneratingModal: false
 };
 
 export const globalSlice = createSlice({
@@ -44,6 +45,12 @@ export const globalSlice = createSlice({
     setSnapshotData: (state, action) => {
       state.snapshotData = action.payload;
     },
+    setShowPassportGeneratingModal:(state, action) => {
+      // 手动比较 
+      if( state.showPassportGeneratingModal !== action.payload){
+        state.showPassportGeneratingModal = action.payload;
+      }
+    },
   },
 });
 
@@ -56,7 +63,8 @@ export const {
   setSnapshotData,
   setShowSocicalModal,
   setShowSocialRedirectModal,
-  setsocialRedirectModalData
+  setsocialRedirectModalData,
+  setShowPassportGeneratingModal
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

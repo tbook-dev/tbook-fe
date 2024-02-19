@@ -15,6 +15,7 @@ const TwitterLoginCallback = lazy(() =>
 const TwLoginIndex = lazy(() => import('@/pages/twitter/tw_login'))
 const ZkLoginIndex = lazy(() => import("@/pages/zklogin/zk_login"));
 const ZkLoginCallback = lazy(() => import("@/pages/zklogin/zk_login_callback"));
+const ZkLoginEnoki = lazy(() => import("@/pages/zklogin/zk_login_with_enoki"));
 
 const getProjectIdFn = async () => {
   const defaultValues = {
@@ -147,7 +148,7 @@ const routes = [
         loader: getProjectIdFn,
         element: (
           <Suspense fallback={<PageFallBack />}>
-            <ZkLoginIndex />
+            <ZkLoginEnoki />
           </Suspense>
         ),
       },

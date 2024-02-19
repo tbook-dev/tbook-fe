@@ -17,67 +17,38 @@ import ActionBution from './actionButton'
 import useSocial from '@/hooks/useSocial'
 import Modal from './modal'
 import { Tooltip } from 'antd'
-import suiBlackSVG from '@/images/zklogin/sui-black.svg'
-import googleBg from '@/images/zklogin/google-bg.svg'
-import facebookBg from '@/images/zklogin/facebook-bg.svg'
-import twitchBg from '@/images/zklogin/twitch-bg.svg'
-import talkBg from '@/images/zklogin/talk-bg.svg'
-import passport_locked_h5 from '@/images/passport/passport_locked_h5.png'
+import passportlg from '@/images/passport-lg.png'
+import passportUnlogin from '@/images/passport-unlogin.png'
+import passportleft_half from '@/images/passport/left_half.png'
+import passportmiddle_half from '@/images/passport/middle_half.png'
+import passportright_half from '@/images/passport/right_half.png'
 
-import Back from '../back'
+import lockSVG from '@/images/lock.svg'
 
 const moduleConf = {
-  title: 'Log in or create a wallet with',
+  title: 'Log in with',
   passport: 'Log in to unlock incentive passport',
   zkLogin: {
     name: 'zkLogin',
-    bg: suiBg,
-    logoBgList: [
-      {
-        name: 'google',
-        url: googleBg,
-        style: {
-          left: 0,
-          top: 0,
-          transform: 'rotate(7deg)'
-        }
-      },
-      {
-        name: 'facebook',
-        url: facebookBg,
-        style: {
-          left: 58,
-          top: 12,
-          transform: 'rotate(7deg)'
-        }
-      },
-      {
-        name: 'twitch',
-        url: twitchBg,
-        style: {
-          right: 70,
-          top: -4,
-          transform: 'rotate(-6.995deg)'
-        }
-      },
-      {
-        name: 'talk',
-        url: talkBg,
-        style: {
-          right: 5,
-          top: 8,
-          transform: 'rotate(0deg)'
-        }
-      }
-    ]
+    bg: suiBg
   },
 
   wallet: [
+    // {
+    //   type: 'metamask',
+    //   picUrl: metamaskSVG,
+    //   text: 'Metamask'
+    // },
     {
       type: 'walletconnect',
       picUrl: walletconnectSVG,
       text: 'WalletConnect'
     }
+    // {
+    //   type: 'sui',
+    //   picUrl: suiSVG,
+    //   text: 'Sui Wallet'
+    // }
   ],
 
   social: [
@@ -101,12 +72,6 @@ const ConnectWalletModal = () => {
   const [currentAddress, setCurrentAddress] = useState('')
   const { walletClient } = useWalletClient()
   const { userLogined, user } = useUserInfo()
-  // const [loginStep, setLoginStep] = useState(1)
-  const [loginStep, setLoginStep] = useState(2)
-
-  // const [loginType, setLoginType] = useState(null)
-  const [loginType, setLoginType] = useState('option')
-
   const { address } = useAccount({
     onConnect ({ address, connector, isReconnected }) {
       console.log('Connected', { address, connector, isReconnected })
@@ -138,6 +103,10 @@ const ConnectWalletModal = () => {
     setCurrentAddress(address)
   }, [address, setCurrentAddress])
 
+  const handleCloseModal = useCallback(() => {
+    dispath(setLoginModal(false))
+  }, [])
+
   const handleWallet = useCallback(type => {
     if (type === 'walletconnect') {
       dispath(setConnectWalletModal(true))
@@ -150,22 +119,6 @@ const ConnectWalletModal = () => {
       await loginUsingTwitterUrl()
     }
   }, [])
-  const handleBackToInitLogin = useCallback(() => {
-    setLoginStep(1)
-    setLoginType(null)
-  }, [])
-  const handleMainLogin = useCallback(() => {
-    setLoginStep(2)
-    setLoginType('zklogin')
-  }, [])
-  const handleOptionLogin = useCallback(() => {
-    setLoginStep(2)
-    setLoginType('option')
-  }, [])
-  const handleCloseModal = useCallback(() => {
-    dispath(setLoginModal(false))
-    // setTimeout(handleBackToInitLogin, 1000)
-  }, [])
 
   return (
     <>
@@ -174,53 +127,19 @@ const ConnectWalletModal = () => {
         open={showLoginModal}
         onCancel={handleCloseModal}
       >
-        <div className='flex-none px-5 py-4 space-y-6 text-white h-[420px]'>
-          {/* <h2 className='text-white text-sm'>
-            {loginStep === 1 ? (
-              moduleConf.title
-            ) : (
-              <Back onClick={handleBackToInitLogin} />
-            )}
-          </h2> */}
-          {loginStep === 1 && (
-            <div className='space-y-5 text-sm'>
-              <button
-                className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
-                onClick={handleMainLogin}
-              >
-                {moduleConf.zkLogin.logoBgList.map(v => (
-                  <img
-                    key={v.name}
-                    src={v.url}
-                    style={v.style}
-                    alt={`${v.name} logo`}
-                    className='absolute'
-                  />
-                ))}
-                <img
-                  src={suiBlackSVG}
-                  className='w-[14px] h-5'
-                  alt='sui logo'
-                />
-                zkLogin
-              </button>
-              <button
-                className='h-[52px] w-full rounded-lg border border-white text-white font-medium hover:opacity-70'
-                onClick={handleOptionLogin}
-              >
-                More options
-              </button>
-            </div>
-          )}
-          {loginStep === 2 &&
-            (loginType === 'zklogin' ? (
-              <div className='bg-[#63A1F8] border border-[rgb(99,161,248)]/[0.40] py-4 px-5 rounded-lg relative overflow-hidden'>
+        <div className='flex-none px-5 py-4 space-y-6 text-white'>
+          <h2 className='text-white text-sm'>{moduleConf.title}</h2>
+
+          <div className='space-y-5'>
+            {/* zkLogin */}
+            <div className='space-y-5'>
+              <div className='bg-[rgb(99,161,248)]/[0.10] border border-[rgb(99,161,248)]/[0.40] p-4 rounded-lg relative overflow-hidden'>
                 <img
                   src={moduleConf.zkLogin.bg}
                   className='w-12 absolute right-4 top-0 rotate-12'
                 />
-                <div className='text-white flex items-center gap-x-2 text-sm font-medium space-y-4 mb-4'>
-                  <img src={suiSVG} className='w-4 h-5 object-center' />
+                <div className='text-[#63A1F8] flex items-center gap-x-2 text-sm font-medium space-y-4'>
+                  <img src={suiSVG} className='w-5 h-5 object-center' />
                   {moduleConf.zkLogin.name}
                 </div>
                 <div className='flex items-center justify-center gap-x-8'>
@@ -233,7 +152,7 @@ const ConnectWalletModal = () => {
                       >
                         <img
                           src={v.picColorUrl}
-                          className='w-8 h-8 object-center hover:opacity-70'
+                          className='w-8 h-8 object-center hover:opacity-60'
                           alt={v.name}
                         />
                       </ActionBution>
@@ -249,31 +168,37 @@ const ConnectWalletModal = () => {
                   })}
                 </div>
               </div>
-            ) : (
-              <div className='space-y-5 text-sm'>
-                {moduleConf.wallet.map(v => {
-                  return (
-                    <button
-                      onClick={() => handleWallet(v.type)}
-                      key={v.type}
-                      className='h-10 hover:opacity-70 flex items-center justify-center relative w-full bg-white px-4 py-3 text-sm font-medium text-black rounded-lg'
-                    >
-                      <img
-                        src={v.picUrl}
-                        className='w-5 h-5 object-center absolute left-4'
-                        alt={v.type}
-                      />
-                      {v.text}
-                    </button>
-                  )
-                })}
+            </div>
 
+            {/* wallet */}
+            <div className='space-y-5'>
+              {moduleConf.wallet.map(v => {
+                return (
+                  <button
+                    onClick={() => handleWallet(v.type)}
+                    key={v.type}
+                    className='h-[52px] flex items-center justify-center relative w-full bg-[rgb(255,255,255)]/[0.05] rounded px-4 py-3 text-sm font-medium border border-[rgb(255,255,255)]/[0.20] hover:border-white hover:bg-[rgb(255,255,255)]/[0.2]'
+                  >
+                    <img
+                      src={v.picUrl}
+                      className='w-5 h-5 object-center absolute left-4'
+                      alt={v.type}
+                    />
+                    {v.text}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* social */}
+            <div className='space-y-5'>
+              <div className='flex items-center justify-center gap-x-8'>
                 {moduleConf.social.map(v => {
                   return (
                     <ActionBution
                       handleAsync={() => handleSocial(v.type)}
                       key={v.type}
-                      className='h-10 hover:opacity-70 flex items-center justify-center relative w-full rounded-lg px-4 py-3 text-sm font-medium border border-white'
+                      className='h-[52px] flex items-center justify-center relative w-full bg-[rgb(255,255,255)]/[0.05] rounded px-4 py-3 text-sm font-medium border border-[rgb(255,255,255)]/[0.20] hover:border-white hover:bg-[rgb(255,255,255)]/[0.2]'
                     >
                       <img
                         src={v.picUrl}
@@ -285,18 +210,50 @@ const ConnectWalletModal = () => {
                   )
                 })}
               </div>
-            ))}
+            </div>
+          </div>
         </div>
 
-        {!pc && (
-          <div className='absolute bottom-0 left-0 w-full h-[216px]'>
-            <img
-              src={passport_locked_h5}
-              alt='passport'
-              className='h-full w-[317px] mx-auto'
-            />
+        <div className='flex-1 flex flex-col justify-start lg:pt-16'>
+          <div
+            className='w-full relative h-[264px] mx-auto lg:w-full lg:h-[460px] flex flex-col justify-center items-center lg:bg-cover'
+            style={{
+              backgroundImage: pc ? `url(${passportlg})` : null
+            }}
+          >
+            {pc ? null : (
+              <>
+                <div
+                  className='absolute inset-0 bg-no-repeat bg-contain bg-left-top'
+                  style={{ backgroundImage: `url(${passportleft_half})` }}
+                />
+                {size?.width > 374 && (
+                  <div
+                    className='absolute inset-y-0 left-[190px] right-[184px] bg-repeat-x bg-center-top'
+                    style={{
+                      backgroundImage: `url(${passportmiddle_half})`,
+                      backgroundSize: size?.width > 394 ? 'contain' : 'cover'
+                    }}
+                  />
+                )}
+
+                <div
+                  className='absolute inset-0 bg-no-repeat bg-contain bg-right-top'
+                  style={{ backgroundImage: `url(${passportright_half})` }}
+                />
+                <p className='absolute text-xs text-color3 font-zen-dot text-white top-8'>
+                  incentive passport
+                </p>
+              </>
+            )}
+            <div className='relative flex flex-col justify-center items-center'>
+              <img src={lockSVG} className='w-20 h-20' />
+              <p className='text-xs text-center font-zen-dot text-white lg:mb-6 text-color2 max-w-[175px]'>
+                {moduleConf.passport}
+              </p>
+            </div>
           </div>
-        )}
+        </div>
       </Modal>
       <WalletWeb3Modal />
     </>

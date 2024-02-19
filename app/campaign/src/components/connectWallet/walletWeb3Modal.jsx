@@ -11,7 +11,7 @@ import { setConnectWalletModal, setLoginModal } from '@/store/global'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { useAccount, useSignMessage } from 'wagmi'
 import { getNonce } from '@/utils/web3'
-import { useQueryClient } from 'react-query'
+// import { useQueryClient } from 'react-query'
 import { authenticate, bindEvm } from '@/api/incentive'
 import { disconnect } from '@wagmi/core'
 import { broadcast } from '@/utils/channel'
@@ -43,7 +43,7 @@ const ConnectWalletModal = () => {
     s => s.global.showConnectWalletModal
   )
   const { twitterConnected, refetch } = useUserInfo()
-  const queryClient = useQueryClient()
+  // const queryClient = useQueryClient()
   const dispath = useDispatch()
   const { isConnected, address } = useAccount()
   const { pc } = useResponsive()
