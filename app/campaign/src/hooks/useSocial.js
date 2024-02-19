@@ -64,7 +64,7 @@ export default function useSocial() {
   };
   // useAuthCallback();
   const dispath = useDispatch();
-  const { pc } = useResponsive();
+  // const { pc } = useResponsive();
   const allList = useMemo(() => {
     return [
       {
@@ -76,6 +76,7 @@ export default function useSocial() {
         loginFn: async (skip = false) => {
           !skip && localStorage.setItem("redirect_url", location.href);
           // location.href = dcCallbackUrl;
+          window.open(dcCallbackUrl, "_self");
           window.open(dcCallbackUrl, "_self");
         },
         userName: data?.userDc?.username ?? "",
@@ -91,15 +92,16 @@ export default function useSocial() {
         loginFn: async (skip = false) => {
           !skip && localStorage.setItem("redirect_url", location.href);
           const res = await getTwLoginUrl();
-          const a = document.createElement("a");
-          document.body.appendChild(a);
-          a.style = "display: none";
-          a.href = res["url"];
-          a.setAttribute("target", "_self");
-          a.setAttribute("mc-deep-link", "false");
-          a.setAttribute("rel", "nofollow noopener noreferrer");
-          // rel='nofollow noopener noreferrer'
-          a.click();
+          // const a = document.createElement("a");
+          // document.body.appendChild(a);
+          // a.style = "display: none";
+          // a.href = res["url"];
+          // a.setAttribute("target", "_self");
+          // a.setAttribute("mc-deep-link", "false");
+          // a.setAttribute("rel", "nofollow noopener noreferrer");
+          // // rel='nofollow noopener noreferrer'
+          // a.click();
+          window.open(res["url"], "_self");
           // setTwCallbackUrl(() => res["url"]);
           // location.href = res["url"];
         },

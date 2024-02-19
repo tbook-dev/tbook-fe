@@ -51,7 +51,7 @@ import "tinymce/plugins/emoticons/js/emojis";
 // import contentCss from 'tinymce/skins/content/dark/content.min.css?raw';
 // import contentUiCss from 'tinymce/skins/ui/oxide-dark/content.inline.min.css?raw';
 // import skinCss from 'tinymce/skins/ui/oxide-dark/skin.css?url'
-import contentCss from "./css/content.css?url";
+import "./css/content.css";
 // import contentUiCss from './css/content.inline.css?raw'
 import "./css/content.inline.css";
 import "./css/skin.css";
@@ -68,7 +68,7 @@ export default function BundledEditor(props) {
         ...init,
         inline: true,
         skin: false,
-        content_css: contentCss,
+        // content_css: contentCss,
         browser_spellcheck: true,
         contextmenu: false,
         image_title: true,
