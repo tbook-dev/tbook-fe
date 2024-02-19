@@ -86,8 +86,10 @@ export default function PassportCard({ onClose }) {
               />
             </button>
           )}
-          {socialList
-            .concat(getZkfnByName("google"))
+          {
+            //socialList
+            // .concat(getZkfnByName("google"))
+            socialList
             .filter((v) => {
               if (v.name === "twitter") {
                 return data?.userTwitter?.connected && !user?.wallet
