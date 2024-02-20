@@ -5,7 +5,8 @@ const moduleConf = {
   title: 'Delete the campaign',
   desc: 'Are you sure you want to delete your account? All of data in the campaign will be removed. This action cannot be undone.',
 };
-export default function DeleteModal ({ open, onClose }) {
+
+export default function DeleteModal ({ loading, open, onClose, onConfirm }) {
   return (
     <Modal
       open={open}
@@ -16,7 +17,9 @@ export default function DeleteModal ({ open, onClose }) {
           <Button type='white' onClick={onClose}>
             Cancel
           </Button>
-          <Button type='danger'>Delete</Button>
+          <Button type='danger' onClick={onConfirm} loading={loading}>
+            Delete
+          </Button>
         </div>
       }
     >

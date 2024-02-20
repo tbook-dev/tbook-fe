@@ -201,13 +201,8 @@ export default function () {
         </div>
       </div>
 
-      <div className='fixed bottom-10 inset-x-0 pl-[280px]'>
-        <div className='flex justify-between w-[1080px] mx-auto'>
-          <div className='flex justify-center space-x-6'>
-            {/* <Button type='text'>Save Draft</Button>
-          <Button type='text'>Preview</Button> */}
-          </div>
-
+      <div className='fixed bottom-0 inset-x-0 pl-[280px]'>
+        <div className='flex justify-end items-center w-[1080px] h-20 mx-auto relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur'>
           <div className='flex justify-center space-x-6'>
             {step === '1' && (
               <>

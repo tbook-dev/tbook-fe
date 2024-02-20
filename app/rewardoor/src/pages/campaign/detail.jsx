@@ -62,8 +62,14 @@ export default function () {
   const handleDelete = useCallback(() => {
     setDeteleModal(true);
   }, []);
+  const handleDelelteConfirm = useCallback(() => {
+    console.log('delete...');
+    setDeletePending(true);
+  }, []);
   const handleHideDeleteModal = useCallback(() => {
+    // if (deletePenging) return;
     setDeteleModal(false);
+    setDeletePending(false);
   }, []);
   useLayoutEffect(() => {
     if (tabList.length === 1) {
@@ -134,16 +140,23 @@ export default function () {
 
       {isInScheduleStatus && (
         <>
-          <DeleteModal open={showDeleteModal} onClose={handleHideDeleteModal} />
+          <DeleteModal
+            open={showDeleteModal}
+            onClose={handleHideDeleteModal}
+            loading={deletePenging}
+            onConfirm={handleDelelteConfirm}
+          />
 
-          <footer className='absolute inset-x-0 bg-black/20 bottom-0 h-20 flex items-center justify-end gap-x-10'>
-            <Button onClick={handleDelete} isLoading={deletePenging}>
-              Delete
-            </Button>
+          <footer className='fixed bottom-0 inset-x-0 pl-[280px]'>
+            <div className='w-[1080px] mx-auto h-20 flex items-center justify-end gap-x-10 relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur'>
+              <Button onClick={handleDelete} loading={deletePenging}>
+                Delete
+              </Button>
 
-            <Button type='primary' onClick={handleEdit}>
-              Edit
-            </Button>
+              <Button type='primary' onClick={handleEdit}>
+                Edit
+              </Button>
+            </div>
           </footer>
         </>
       )}
