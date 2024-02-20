@@ -1,8 +1,8 @@
-import clsx from 'clsx'
-import useUserInfo from '@/hooks/queries/useUserInfo'
-import { useNavigate, Outlet, NavLink } from 'react-router-dom'
-import Account from '@/components/account'
-import Logo from '@/components/logo'
+import clsx from 'clsx';
+import useUserInfo from '@/hooks/queries/useUserInfo';
+import { useNavigate, Outlet, NavLink } from 'react-router-dom';
+import Account from '@/components/account';
+import Logo from '@/components/logo';
 
 const sideMenu = [
   // {
@@ -13,12 +13,12 @@ const sideMenu = [
   {
     title: 'Incentive Campaign',
     link: '/',
-    key: 'campaign'
+    key: 'campaign',
   },
   {
     title: 'Incentive Asset',
     link: '/assets',
-    key: 'assets'
+    key: 'assets',
   },
   // {
   //   title: 'User Profiling',
@@ -31,22 +31,22 @@ const sideMenu = [
     title: 'Settings',
     link: '/settings',
     disabled: true,
-    key: 'settings'
-  }
-]
+    key: 'settings',
+  },
+];
 
 export default function Layout ({ children }) {
-  const { project } = useUserInfo()
+  const { project } = useUserInfo();
 
   // const validatorSucessIdx = sideMenu.findIndex(v => v.validator(useMatch))
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div className='w-full min-h-screen text-white flex pl-[280px]'>
       <div className='w-[240px] bg-b-1 pl-2 pb-20 rounded-r-4xl fixed left-0 inset-y-0 select-none overflow-hidden flex flex-col justify-between'>
         <div className='bg-black'>
           <div className='absolute top-8 left-10'>
-            <Logo className="inline-block w-8 h-8"/>
+            <Logo className='inline-block w-8 h-8' />
           </div>
           <div
             className={clsx(
@@ -87,10 +87,10 @@ export default function Layout ({ children }) {
                           {v.title}
                         </div>
                       </div>
-                    )
+                    );
                   }}
                 </NavLink>
-              )
+              );
             })}
           </div>
         </div>
@@ -98,10 +98,10 @@ export default function Layout ({ children }) {
         <Account />
       </div>
 
-      <div className='w-[1080px] mx-auto pt-20 flex flex-col'>
+      <div className='w-[1080px] mx-auto pt-20 flex flex-col relative'>
         {children}
         <Outlet />
       </div>
     </div>
-  )
+  );
 }
