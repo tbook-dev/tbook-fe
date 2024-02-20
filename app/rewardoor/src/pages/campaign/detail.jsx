@@ -1,7 +1,5 @@
 import clsx from 'clsx';
-import { getCampaignDetail } from '@/api/incentive';
-import { useParams } from 'react-router-dom';
-import { useQuery } from 'react-query';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 import Breadcrumb from '@/components/breadcrumb';
 import { campaignStatus } from '@/utils/conf';
@@ -14,6 +12,7 @@ import Reward from './info/reward';
 import Button from '@/components/button';
 import { useCallback } from 'react';
 import DeleteModal from './modal/delete';
+import useCampaign from '@/hooks/queries/useCampaign';
 
 const moduleMap = {
   0: <CampaignInfo />,
@@ -24,18 +23,12 @@ const hasParticipationList = [1, 3, 4, 5];
 
 export default function () {
   const { id } = useParams();
-  const { data: pageInfo = {}, isLoading } = useQuery(
-    ['campaignDetail', id],
-    () => getCampaignDetail(id),
-    {
-      staleTime: Infinity,
-      refetchOnWindowFocus: true,
-    }
-  );
+  const { data: pageInfo = {}, isLoading } = useCampaign(id);
+  console.log({ pageInfo });
   const [showDeleteModal, setDeteleModal] = useState(false);
   const [deletePenging, setDeletePending] = useState(false);
   const [selectStatus, setSelectedStatus] = useState(1);
-
+  const navigate = useNavigate();
   const tabList = useMemo(() => {
     const baseInfo = {
       label: 'Campaign Info',
@@ -57,8 +50,8 @@ export default function () {
   }, [pageInfo]);
   const isInScheduleStatus = pageInfo?.campaign?.status === 2;
   const handleEdit = useCallback(() => {
-    console.log('edit');
-  }, []);
+    navigate(`/campaign/${id}/update`);
+  }, [id]);
   const handleDelete = useCallback(() => {
     setDeteleModal(true);
   }, []);
@@ -106,8 +99,8 @@ export default function () {
         <div
           className='px-4 py-0.5 rounded-xl border'
           style={{
-            color: campaignCurrentStatus.color,
-            borderColor: campaignCurrentStatus.color,
+            color: campaignCurrentStatus?.color,
+            borderColor: campaignCurrentStatus?.color,
           }}
         >
           {campaignCurrentStatus?.label}

@@ -2,18 +2,10 @@ import { Form, message } from 'antd';
 import Breadcrumb from '@/components/breadcrumb';
 import { useRef, useState, useEffect } from 'react';
 import Button from '@/components/button';
-import { useNavigate } from 'react-router-dom';
-import {
-  getNFTList,
-  getCredentials,
-  getCampaignDetail,
-  createCampaign,
-  updateCampaign,
-  getNFTcontracts,
-} from '@/api/incentive';
-import { useQuery, useQueryClient } from 'react-query';
+import { useNavigate, useParams } from 'react-router-dom';
+import { createCampaign } from '@/api/incentive';
+import { useQueryClient } from 'react-query';
 import CredentialReward from './modules/CredentialReward';
-import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { conf } from '@tbook/utils';
 import BasicInfo from './modules/BasicInfo';
@@ -22,6 +14,8 @@ import useUserInfo from '@/hooks/queries/useUserInfo';
 import SucessModal from './modules/SucessModal';
 import { get } from 'lodash';
 import { getUrl } from '@/utils/conf';
+import useNFTcontract from '@/hooks/queries/useNFTcontract';
+import useCredential from '@/hooks/queries/useCredential';
 
 const title = 'Set up an Incentive Campaign';
 const textMap = {
@@ -58,36 +52,19 @@ export default function () {
   const { projectId, project } = useUserInfo();
   const [sucessData, setSucessData] = useState(false);
   const queryClient = useQueryClient();
-  const { data: NFTcontracts = [] } = useQuery(
-    ['NFTcontracts', projectId],
-    () => getNFTcontracts(projectId),
-    {
-      enabled: !!projectId,
-      staleTime: 60 * 1000 * 60,
-    }
-  );
-  console.log({ NFTcontracts });
-
-  const { data: credentialList = [] } = useQuery(
-    ['credentialList', projectId],
-    () => getCredentials(projectId),
-    {
-      enabled: !!projectId,
-      staleTime: 60 * 1000 * 60,
-    }
-  );
-  // console.log({ credentialList })
+  const { data: NFTcontracts = [] } = useNFTcontract;
+  const { data: credentialList = [] } = useCredential;
   const [credentialReward, setCredentialReward] = useState([
     { ...defaultCredentialReward },
   ]);
-  console.log({ credentialReward });
   const [setupSubmittable, setSetUpSubmittable] = useState(false);
   const [setUpForm] = Form.useForm();
-  const { campaignId } = useParams();
+  const { id: campaignId } = useParams();
   const fd = useRef({});
   const navigate = useNavigate();
 
   const editMode = !!campaignId;
+  console.log({ editMode });
   const setUpFormValues = Form.useWatch([], setUpForm);
 
   useEffect(() => {

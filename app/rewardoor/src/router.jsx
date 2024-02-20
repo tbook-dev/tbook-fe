@@ -1,7 +1,7 @@
-import LayoutAdmin from './layout'
-import LeftNavLayout from './layout/LeftNavLayout'
+import LayoutAdmin from './layout';
+import LeftNavLayout from './layout/LeftNavLayout';
 // import Home from '@/pages/dashboard/overview'
-import Home from '@/pages/campaign/list'
+import Home from '@/pages/campaign/list';
 
 const routes = [
   {
@@ -17,7 +17,7 @@ const routes = [
           <LeftNavLayout>
             <Home />
           </LeftNavLayout>
-        )
+        ),
       },
       {
         path: 'campaign',
@@ -37,29 +37,29 @@ const routes = [
             async lazy () {
               const { default: Component } = await import(
                 '@/pages/campaign/create'
-              )
-              return { Component }
-            }
+              );
+              return { Component };
+            },
           },
           {
             path: ':id/detail',
             async lazy () {
               const { default: Component } = await import(
                 '@/pages/campaign/detail'
-              )
-              return { Component }
-            }
+              );
+              return { Component };
+            },
           },
           {
-            path: ':id/edit',
+            path: ':id/update',
             async lazy () {
               const { default: Component } = await import(
                 '@/pages/campaign/create'
-              )
-              return { Component }
-            }
-          }
-        ]
+              );
+              return { Component };
+            },
+          },
+        ],
       },
       {
         path: 'assets',
@@ -68,34 +68,34 @@ const routes = [
           {
             index: true,
             async lazy () {
-              const { default: Component } = await import('@/pages/assets')
-              return { Component }
-            }
+              const { default: Component } = await import('@/pages/assets');
+              return { Component };
+            },
           },
           {
             path: 'nft/:nftId/:groupId',
             async lazy () {
               const { default: Component } = await import(
                 '@/pages/assets/nftDetail'
-              )
-              return { Component }
-            }
-          }
-        ]
+              );
+              return { Component };
+            },
+          },
+        ],
       },
       {
         path: '/new-project',
         async lazy () {
-          const { default: Component } = await import('@/pages/project')
-          return { Component }
-        }
+          const { default: Component } = await import('@/pages/project');
+          return { Component };
+        },
       },
       {
         path: 'aboard',
         async lazy () {
-          const { default: Component } = await import('@/pages/aboard')
-          return { Component }
-        }
+          const { default: Component } = await import('@/pages/aboard');
+          return { Component };
+        },
       },
       {
         path: 'settings',
@@ -104,11 +104,11 @@ const routes = [
           {
             index: true,
             async lazy () {
-              const { default: Component } = await import('@/pages/settings')
-              return { Component }
-            }
-          }
-        ]
+              const { default: Component } = await import('@/pages/settings');
+              return { Component };
+            },
+          },
+        ],
       },
       /*------------------------------------------------------------------------------------------*/
 
@@ -117,51 +117,51 @@ const routes = [
         async lazy () {
           const { default: Component } = await import(
             '@/pages/twitter/callback'
-          )
-          return { Component }
-        }
+          );
+          return { Component };
+        },
       },
       {
         path: '/nft/deploy',
         async lazy () {
-          const { default: Component } = await import('@/pages/nft/deploy')
-          return { Component }
-        }
+          const { default: Component } = await import('@/pages/nft/deploy');
+          return { Component };
+        },
       },
       {
         path: '/old-login',
         async lazy () {
-          const { default: Component } = await import('@/pages/home')
-          return { Component }
-        }
+          const { default: Component } = await import('@/pages/home');
+          return { Component };
+        },
       },
       {
         path: '/nft',
         async lazy () {
-          const { default: Component } = await import('@/pages/nft/deploy')
-          return { Component }
-        }
+          const { default: Component } = await import('@/pages/nft/deploy');
+          return { Component };
+        },
       },
       {
         path: '/dc_callback',
         async lazy () {
-          const { default: Component } = await import('@/pages/social/dc')
-          return { Component }
-        }
+          const { default: Component } = await import('@/pages/social/dc');
+          return { Component };
+        },
       },
       {
         path: '/tg_callback',
         async lazy () {
-          const { default: Component } = await import('@/pages/social/tg')
-          return { Component }
-        }
-      }
-    ]
-  }
+          const { default: Component } = await import('@/pages/social/tg');
+          return { Component };
+        },
+      },
+    ],
+  },
   // {
   //   path: "*",
   //   element: <NoMatch />,
   // },
-]
+];
 
-export default routes
+export default routes;
