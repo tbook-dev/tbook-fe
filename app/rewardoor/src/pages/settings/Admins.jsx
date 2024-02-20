@@ -70,7 +70,7 @@ export default function Admins() {
   const handleMenuClick = async (action, item) => {
     try {
       if (action.key === "delete") {
-        const nonce = await getAdminNonce({ projectId, address: currentUserAddress, op: 'DEL' })
+        const nonce = await getAdminNonce({ projectId, address: item.wallet, op: 'DEL' })
         const signer = await getWalletClient()
         const sign = await signer.signMessage({ message: nonce.entity })
         const res =  await deleteAdmin(projectId, item.wallet, item.isOwner, sign);
