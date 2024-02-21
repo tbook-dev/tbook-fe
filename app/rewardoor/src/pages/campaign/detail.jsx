@@ -24,7 +24,6 @@ const hasParticipationList = [1, 3, 4, 5];
 export default function () {
   const { id } = useParams();
   const { data: pageInfo = {}, isLoading } = useCampaign(id);
-  console.log({ pageInfo });
   const [showDeleteModal, setDeteleModal] = useState(false);
   const [deletePenging, setDeletePending] = useState(false);
   const [selectStatus, setSelectedStatus] = useState(1);

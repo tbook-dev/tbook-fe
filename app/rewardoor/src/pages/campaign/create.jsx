@@ -16,6 +16,8 @@ import { get } from 'lodash';
 import { getUrl } from '@/utils/conf';
 import useNFTcontract from '@/hooks/queries/useNFTcontract';
 import useCredential from '@/hooks/queries/useCredential';
+import useCampaign from '@/hooks/queries/useCampaign';
+import Loading from '@/components/loading';
 
 const title = 'Set up an Incentive Campaign';
 const textMap = {
@@ -33,7 +35,6 @@ const textMap = {
   },
 };
 const { defaultErrorMsg } = conf;
-const successMsg = `draft saved successfully`;
 const defaultStep = '1';
 
 const checkFormValidte = conf => {
@@ -62,22 +63,9 @@ export default function () {
   const { id: campaignId } = useParams();
   const fd = useRef({});
   const navigate = useNavigate();
-
   const editMode = !!campaignId;
-  console.log({ editMode });
-  const setUpFormValues = Form.useWatch([], setUpForm);
-
-  useEffect(() => {
-    setUpForm.validateFields({ validateOnly: true }).then(
-      () => {
-        setSetUpSubmittable(true);
-      },
-      () => {
-        setSetUpSubmittable(false);
-      }
-    );
-  }, [setUpFormValues]);
-
+  const { data: pageInfo = {}, isLoading: isCampaignLoading } =
+    useCampaign(campaignId);
   const handleStepUp = async () => {
     const values = await setUpForm.validateFields();
     fd.current = {
@@ -148,6 +136,43 @@ export default function () {
       console.log(error);
     }
   };
+
+  const setUpFormValues = Form.useWatch([], setUpForm);
+  useEffect(() => {
+    setUpForm.validateFields({ validateOnly: true }).then(
+      () => {
+        setSetUpSubmittable(true);
+      },
+      () => {
+        setSetUpSubmittable(false);
+      }
+    );
+  }, [setUpFormValues]);
+
+  useEffect(() => {
+    if (editMode && !isCampaignLoading) {
+      setUpForm.setFieldsValue({
+        title: pageInfo?.campaign?.title,
+        picUrl: [
+          {
+            uid: '-1',
+            status: 'done',
+            url: pageInfo?.campaign?.picUrl,
+            response: pageInfo?.campaign?.picUrl,
+          },
+        ],
+        description: pageInfo?.campaign?.description,
+        schedule: [
+          dayjs(pageInfo?.campaign?.startAt),
+          dayjs(pageInfo?.campaign?.endAt),
+        ],
+      });
+    }
+  }, [editMode, isCampaignLoading]);
+
+  if (editMode && isCampaignLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className='text-white relative min-h-full'>
