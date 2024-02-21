@@ -100,8 +100,9 @@ export default function CredentialModal ({
           );
           return {
             ...v,
-            groupType: credential.groupType,
-            groupName: credential.groupName,
+            ...credential,
+            // groupType: credential.groupType,
+            // groupName: credential.groupName,
           };
         });
         handleSave(values);

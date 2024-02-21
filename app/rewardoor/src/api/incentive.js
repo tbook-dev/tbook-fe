@@ -1,8 +1,8 @@
-import request from "./request";
-import { Network, Alchemy } from "alchemy-sdk";
+import request from './request';
+import { Network, Alchemy } from 'alchemy-sdk';
 // import mockData from './a'
 const settings = {
-  apiKey: "8s2Swo7n62XYd3ApkcnentYuEi5BI1Yj",
+  apiKey: '8s2Swo7n62XYd3ApkcnentYuEi5BI1Yj',
   network: Network.ETH_MAINNET,
 };
 const alchemy = new Alchemy(settings);
@@ -37,8 +37,9 @@ export const getNFTList = async function (projectId) {
 export const createCampaign = async function (values) {
   return await request.Post(`${host}/campaignNew/createCampaign`, values);
 };
+
 export const updateCampaign = async function (values) {
-  return await request.Post(`${host}/campaign/update`, values);
+  return await request.Post(`${host}/campaignNew/update`, values);
 };
 export const getCampaign = async function (projectId) {
   return await request(`${host}/campaignNew/project/${projectId}`);
@@ -66,7 +67,7 @@ export const getNFTcontracts = async function (projectId) {
 export const handleCreateNFTcontract = async function (projectId, values) {
   return {
     contractId: 124,
-    name: "TBOOK NFT Contract Optimism",
+    name: 'TBOOK NFT Contract Optimism',
     chainId: 10,
   };
 };
@@ -267,8 +268,8 @@ export const updateProjectExt = async function (projectId, values) {
 
 export const getTwLoginUrl = async function () {
   const res = await fetch(`${host}/twitter/auth`, {
-    method: "GET",
-    credentials: "include",
+    method: 'GET',
+    credentials: 'include',
   });
   return await res.json();
 };

@@ -47,7 +47,8 @@ export default function () {
       ? [...participationInfo, baseInfo]
       : [baseInfo];
   }, [pageInfo]);
-  const isInScheduleStatus = pageInfo?.campaign?.status === 2;
+  const isInScheduleStatus = true;
+  // const isInScheduleStatus = pageInfo?.campaign?.status === 2;
   const handleEdit = useCallback(() => {
     navigate(`/campaign/${id}/update`);
   }, [id]);

@@ -3,7 +3,7 @@ import Breadcrumb from '@/components/breadcrumb';
 import { useRef, useState, useEffect } from 'react';
 import Button from '@/components/button';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createCampaign } from '@/api/incentive';
+import { createCampaign, updateCampaign } from '@/api/incentive';
 import { useQueryClient } from 'react-query';
 import CredentialReward from './modules/CredentialReward';
 import dayjs from 'dayjs';
@@ -81,16 +81,36 @@ export default function () {
       const remoteCredentialReward = pageInfo.groups.map(v => {
         const reward = [];
         if (Array.isArray(v.pointList) && v.pointList.length > 0) {
-          console.log(v.pointList.map(p => ({ ...p, rewardType: 2 })));
-          reward.push(...v.pointList.map(p => ({ ...p, rewardType: 2 })));
+          //////////// point type
+          reward.push(
+            ...v.pointList.map(p => ({
+              ...p,
+              rewardType: 2,
+              // unlimited: !v.unlimited,
+            }))
+          );
         }
         if (Array.isArray(v.nftList) && v.nftList.length > 0) {
-          reward.push(...v.nftList.map(p => ({ ...p, rewardType: 1 })));
+          //////////// nft type
+          reward.push(
+            ...v.nftList.map(p => ({
+              ...p,
+              rewardType: 1,
+              // unlimited: !v.unlimited,
+              picUrl: [
+                {
+                  uid: '-1',
+                  status: 'done',
+                  url: p.picUrl,
+                  response: p.picUrl,
+                },
+              ],
+            }))
+          );
         }
-        console.log({ reward });
         return {
           credential: v.credentialList,
-          reward,
+          reward: reward,
         };
       });
       console.log({ remoteCredentialReward });
@@ -143,10 +163,18 @@ export default function () {
         };
       }),
     };
-    return;
-    // console.log(credentialReward, data)
+    console.log(credentialReward, data);
     try {
-      const res = await createCampaign(data);
+      const res = editMode
+        ? await updateCampaign({
+            ...data,
+            campaign: {
+              ...data.campaign,
+              status: 16,
+              campaignId,
+            },
+          })
+        : await createCampaign(data);
       setConfirmCreateLoading(false);
       // navigate(listLink)
       setSucessData(res);
@@ -159,7 +187,7 @@ export default function () {
   };
 
   const setUpFormValues = Form.useWatch([], setUpForm);
-  useEffect(() => {
+  const validateBasicFormFields = () => {
     setUpForm.validateFields({ validateOnly: true }).then(
       () => {
         setSetUpSubmittable(true);
@@ -168,6 +196,9 @@ export default function () {
         setSetUpSubmittable(false);
       }
     );
+  };
+  useEffect(() => {
+    validateBasicFormFields();
   }, [setUpFormValues]);
 
   useEffect(() => {
