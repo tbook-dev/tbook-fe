@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { logUserReport } from '@/api/incentive'
 import { useParams } from 'react-router-dom'
-import pointIcon from '@/images/icon/point.svg'
+import pointIcon from '@/images/icon/point-modal.svg'
 import arrow3Icon from '@/images/icon/arrow3.svg'
 import useUserInfo from '@/hooks/useUserInfoQuery'
 import useCampaignQuery from '@/hooks/useCampaignQuery'
