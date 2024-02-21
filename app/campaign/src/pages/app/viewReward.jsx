@@ -159,7 +159,7 @@ export default function ViewReward({ data, open, onCancel }) {
             <span
               className={clsx("lg:text-[60px] font-bold font-zen-dot", {
                 "text-[30px]": ponitValLen >= 4,
-                "text-[44px]": ponitValLen <= 3,
+                "text-[40px]": ponitValLen <= 3,
               })}
             >
               {ponitVal}
