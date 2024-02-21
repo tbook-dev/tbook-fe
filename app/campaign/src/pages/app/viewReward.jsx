@@ -158,7 +158,7 @@ export default function ViewReward({ data, open, onCancel }) {
           <div className="pt-4 flex items-center justify-center gap-x-4 w-full">
             <span
               className={clsx("lg:text-[60px] font-bold font-zen-dot", {
-                "text-[34px]": ponitValLen >= 4,
+                "text-[32px]": ponitValLen >= 4,
                 "text-[44px]": ponitValLen <= 3,
               })}
             >
