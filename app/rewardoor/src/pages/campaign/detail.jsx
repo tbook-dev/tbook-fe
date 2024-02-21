@@ -47,8 +47,8 @@ export default function () {
       ? [...participationInfo, baseInfo]
       : [baseInfo];
   }, [pageInfo]);
-  const isInScheduleStatus = true;
-  // const isInScheduleStatus = pageInfo?.campaign?.status === 2;
+  // const isInScheduleStatus = true;
+  const isInScheduleStatus = pageInfo?.campaign?.status === 2;
   const handleEdit = useCallback(() => {
     navigate(`/campaign/${id}/update`);
   }, [id]);
@@ -76,7 +76,7 @@ export default function () {
     return <Spin />;
   }
   const campaignCurrentStatus = campaignStatus.find(
-    v => v.value === pageInfo?.campaign?.status
+    (v) => v.value === pageInfo?.campaign?.status
   );
 
   return (
@@ -92,12 +92,12 @@ export default function () {
           },
         ]}
       />
-      <section className='mb-10 pt-0.5 flex items-center gap-x-4'>
-        <h2 className='font-bold text-5xl mb-0.5 text-t-1'>
+      <section className="mb-10 pt-0.5 flex items-center gap-x-4">
+        <h2 className="font-bold text-5xl mb-0.5 text-t-1">
           {pageInfo?.campaign?.name}
         </h2>
         <div
-          className='px-4 py-0.5 rounded-xl border'
+          className="px-4 py-0.5 rounded-xl border"
           style={{
             color: campaignCurrentStatus?.color,
             borderColor: campaignCurrentStatus?.color,
@@ -108,8 +108,8 @@ export default function () {
       </section>
 
       <section>
-        <div className='mb-8 flex gap-x-20'>
-          {tabList.map(v => {
+        <div className="mb-8 flex gap-x-20">
+          {tabList.map((v) => {
             return (
               <button
                 key={v.value}
@@ -140,13 +140,13 @@ export default function () {
             onConfirm={handleDelelteConfirm}
           />
 
-          <footer className='fixed bottom-0 inset-x-0 pl-[280px]'>
-            <div className='w-[1080px] mx-auto h-20 flex items-center justify-end gap-x-10 relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur'>
+          <footer className="fixed bottom-0 inset-x-0 pl-[280px]">
+            <div className="w-[1080px] mx-auto h-20 flex items-center justify-end gap-x-10 relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur">
               <Button onClick={handleDelete} loading={deletePenging}>
                 Delete
               </Button>
 
-              <Button type='primary' onClick={handleEdit}>
+              <Button type="primary" onClick={handleEdit}>
                 Edit
               </Button>
             </div>
