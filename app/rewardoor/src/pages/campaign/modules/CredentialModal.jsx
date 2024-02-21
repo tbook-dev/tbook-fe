@@ -1,6 +1,6 @@
-import Button from '@/components/button'
-import { useState, createElement } from 'react'
-import SearchIcon from '@/images/icon/search.svg'
+import Button from '@/components/button';
+import { useState, createElement } from 'react';
+import SearchIcon from '@/images/icon/search.svg';
 import {
   Modal,
   Checkbox,
@@ -13,19 +13,19 @@ import {
   Slider,
   Switch,
   TimePicker,
-  Tabs
-} from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
-import x from '@/images/icon/x.svg'
-import closeIcon from '@/images/icon/close.svg'
-import { useCallback, useEffect } from 'react'
-import { twParttern, groupTypeMap } from '@/utils/conf'
-import { parseLinkParams } from '@/api/incentive'
+  Tabs,
+} from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import x from '@/images/icon/x.svg';
+import closeIcon from '@/images/icon/close.svg';
+import { useCallback, useEffect } from 'react';
+import { twParttern, groupTypeMap } from '@/utils/conf';
+import { parseLinkParams } from '@/api/incentive';
 
-const title = 'Set Up Credential Group'
-const placeholder = 'Enter Credential Title to search for Cred'
-const titleGroup = 'Edit Credential Group'
-const emptyPrompt = 'The selected credential will be displayed here.'
+const title = 'Set Up Credential Group';
+const placeholder = 'Enter Credential Title to search for Cred';
+const titleGroup = 'Edit Credential Group';
+const emptyPrompt = 'The selected credential will be displayed here.';
 const ComponentMap = {
   Button,
   Checkbox,
@@ -37,29 +37,28 @@ const ComponentMap = {
   Select,
   Slider,
   Switch,
-  TimePicker
-}
+  TimePicker,
+};
 export default function CredentialModal ({
   open,
   setOpen,
   handleSave,
   credentialList,
-  conf
+  conf,
 }) {
-  const [confirmaLoading, setConfirmaLoading] = useState(false)
-  const [form] = Form.useForm()
-  const [searchVal, setSearchVal] = useState('')
-  const credentialsFormValues = Form.useWatch('credential', form)
-  console.log({ credentialsFormValues })
+  const [confirmaLoading, setConfirmaLoading] = useState(false);
+  const [form] = Form.useForm();
+  const [searchVal, setSearchVal] = useState('');
+  const credentialsFormValues = Form.useWatch('credential', form);
   const credentialSet = credentialList
     .map(v =>
       v.credentialList.map(m => ({
         ...m,
         groupType: v.groupType,
-        groupName: v.name
+        groupName: v.name,
       }))
     )
-    .flat()
+    .flat();
   const formatCredential = credentialList
     .map(v => {
       return {
@@ -68,68 +67,74 @@ export default function CredentialModal ({
         credentialList: v.credentialList.filter(c => {
           return c?.name
             .toLowerCase()
-            .includes(searchVal?.toLowerCase()?.trim())
-        })
-      }
+            .includes(searchVal?.toLowerCase()?.trim());
+        }),
+      };
     })
-    .filter(v => v.credentialList.length > 0)
+    .filter(v => v.credentialList.length > 0);
 
   const handleOk = async () => {
     form
       .validateFields()
       .then(async values => {
-        setConfirmaLoading(true)
+        setConfirmaLoading(true);
         // parse
         const parseResult = await Promise.all(
           values.credential.map(async c => {
-            console.log(c)
+            console.log(c);
             const res = await parseLinkParams({
               url: c.link,
-              credentialId: c.credentialId
-            })
+              credentialId: credentialSet.find(v => v.labelType === c.labelType)
+                .credentialId,
+            });
             return {
               ...c,
-              options: res
-            }
+              options: res,
+            };
           })
-        )
+        );
         // format
         values.credential = parseResult.map(v => {
           const credential = credentialSet.find(
-            n => n.credentialId === v.credentialId
-          )
+            n => n.labelType === v.labelType
+          );
           return {
             ...v,
             groupType: credential.groupType,
-            groupName: credential.groupName
-          }
-        })
-        handleSave(values)
-        setConfirmaLoading(false)
-        closeModal()
+            groupName: credential.groupName,
+          };
+        });
+        handleSave(values);
+        setConfirmaLoading(false);
+        closeModal();
       })
       .catch(err => {
-        console.log(err)
-        setConfirmaLoading(false)
-      })
-  }
+        console.log(err);
+        setConfirmaLoading(false);
+      });
+  };
   useEffect(() => {
     if (open) {
-      const useDefaultValue = conf?.length === 0
-      form.setFieldsValue({ credential: useDefaultValue ? [] : conf })
+      const useDefaultValue = conf?.length === 0;
+      form.setFieldsValue({ credential: useDefaultValue ? [] : conf });
     }
-  }, [open])
+  }, [open]);
+
   const closeModal = useCallback(() => {
-    setOpen(false)
-    form.resetFields()
-  }, [])
+    setOpen(false);
+    form.resetFields();
+  }, []);
+  // console.log('user conf', conf);
   return (
     <Modal
       width={1160}
-      title={<div className='text-2xl font-black font-zen-dot pt-3'>{title}</div>}
+      title={
+        <div className='text-2xl font-black font-zen-dot pt-3'>{title}</div>
+      }
       open={open}
       onCancel={closeModal}
       maskStyle={{ backdropFilter: 'blur(7.5px)' }}
+      maskClosable={false}
       centered
       footer={
         <div className='flex justify-end' onClick={handleOk}>
@@ -172,11 +177,11 @@ export default function CredentialModal ({
                               form.setFieldsValue({
                                 credential: [
                                   ...(form.getFieldValue('credential') ?? []),
-                                  {
-                                    credentialId: c.credentialId
-                                  }
-                                ]
-                              })
+                                  credentialSet.find(
+                                    v => v.labelType === c.labelType
+                                  ),
+                                ],
+                              });
                             }}
                           >
                             <img
@@ -186,11 +191,11 @@ export default function CredentialModal ({
                             {c.name}
                             <PlusOutlined />
                           </div>
-                        )
+                        );
                       })}
                     </div>
-                  )
-                }
+                  ),
+                };
               })}
             />
           </div>
@@ -206,9 +211,9 @@ export default function CredentialModal ({
                       fields.map(({ key, name, ...restField }) => {
                         const credential = credentialSet.find(
                           v =>
-                            v.credentialId ===
-                            credentialsFormValues?.[name]?.credentialId
-                        )
+                            v.labelType ===
+                            credentialsFormValues?.[name]?.labelType
+                        );
                         return (
                           <div
                             key={key}
@@ -266,10 +271,10 @@ export default function CredentialModal ({
                                     v.componentProps
                                   )}
                                 </Form.Item>
-                              )
+                              );
                             })}
                           </div>
-                        )
+                        );
                       })
                     ) : (
                       <div className='h-20 rounded-2.5xl flex items-center justify-center bg-gray text-center'>
@@ -277,12 +282,12 @@ export default function CredentialModal ({
                       </div>
                     )}
                   </>
-                )
+                );
               }}
             </Form.List>
           </Form>
         </div>
       </div>
     </Modal>
-  )
+  );
 }

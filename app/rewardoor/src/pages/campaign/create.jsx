@@ -53,8 +53,8 @@ export default function () {
   const { projectId, project } = useUserInfo();
   const [sucessData, setSucessData] = useState(false);
   const queryClient = useQueryClient();
-  const { data: NFTcontracts = [] } = useNFTcontract;
-  const { data: credentialList = [] } = useCredential;
+  const { data: NFTcontracts = [] } = useNFTcontract();
+  const { data: credentialList = [] } = useCredential();
   const [credentialReward, setCredentialReward] = useState([
     { ...defaultCredentialReward },
   ]);
@@ -77,6 +77,26 @@ export default function () {
       projectId,
       status: 0,
     };
+    if (editMode) {
+      const remoteCredentialReward = pageInfo.groups.map(v => {
+        const reward = [];
+        if (Array.isArray(v.pointList) && v.pointList.length > 0) {
+          console.log(v.pointList.map(p => ({ ...p, rewardType: 2 })));
+          reward.push(...v.pointList.map(p => ({ ...p, rewardType: 2 })));
+        }
+        if (Array.isArray(v.nftList) && v.nftList.length > 0) {
+          reward.push(...v.nftList.map(p => ({ ...p, rewardType: 1 })));
+        }
+        console.log({ reward });
+        return {
+          credential: v.credentialList,
+          reward,
+        };
+      });
+      console.log({ remoteCredentialReward });
+      setCredentialReward(remoteCredentialReward);
+    }
+    console.log({ credentialReward, pageInfo });
     setStep('2');
   };
   const handleCreate = async () => {
@@ -123,6 +143,7 @@ export default function () {
         };
       }),
     };
+    return;
     // console.log(credentialReward, data)
     try {
       const res = await createCampaign(data);

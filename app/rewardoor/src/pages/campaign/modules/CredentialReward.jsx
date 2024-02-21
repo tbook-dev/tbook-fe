@@ -1,50 +1,49 @@
-import { useState } from 'react'
-import credentialCreatepng from '@/images/campaign-credential.png'
-import rewardCreatepng from '@/images/campaign-reward.png'
-import editIcon from '@/images/icon/edit.svg'
-import Button from '@/components/button'
-import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
-import CredentialModal from './CredentialModal'
-import RewardModal from './RewardModal'
-import { incentiveAssetsTypeList } from '@/utils/conf'
-import x from '@/images/icon/x.svg'
-import { defaultCredentialReward } from '../conf'
-import { template } from 'lodash'
+import { useState } from 'react';
+import credentialCreatepng from '@/images/campaign-credential.png';
+import rewardCreatepng from '@/images/campaign-reward.png';
+import editIcon from '@/images/icon/edit.svg';
+import Button from '@/components/button';
+import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
+import CredentialModal from './CredentialModal';
+import RewardModal from './RewardModal';
+import { incentiveAssetsTypeList } from '@/utils/conf';
+import x from '@/images/icon/x.svg';
+import { defaultCredentialReward } from '../conf';
+import { template } from 'lodash';
 
 const textConf = {
   credential: {
     title: 'Credential Group',
-    desc: 'Set up one or more Credential Groups to define different groups of behavior, achievement, or qualification which correspond to different rewards in one Campaign.'
+    desc: 'Set up one or more Credential Groups to define different groups of behavior, achievement, or qualification which correspond to different rewards in one Campaign.',
   },
   reward: {
     title: 'Reward',
-    desc: 'Set up one or more rewards for each Credential Group.'
-  }
-}
-const credentialPrompt = 'Set Up Credential Group'
-const rewardPrompt = 'Please set up the Credential Group first.'
-const rewardReadyPrompt = 'Set Up Reward'
-const addText = 'Add Credential Group & Reward'
-const editCredentialText = 'Edit Credential Group'
-const editRewardText = 'Edit Rewards'
+    desc: 'Set up one or more rewards for each Credential Group.',
+  },
+};
+const credentialPrompt = 'Set Up Credential Group';
+const rewardPrompt = 'Please set up the Credential Group first.';
+const rewardReadyPrompt = 'Set Up Reward';
+const addText = 'Add Credential Group & Reward';
+const editCredentialText = 'Edit Credential Group';
+const editRewardText = 'Edit Rewards';
 
 function CredentialReward ({
   credentialReward,
   setCredentialReward,
   NFTcontracts,
-  credentialList
+  credentialList,
 }) {
-  const credentialSet = credentialList.map(v => v.credentialList).flat()
+  const credentialSet = credentialList.map(v => v.credentialList).flat();
 
-  const [editCredentialIndex, setEditCredentialIndex] = useState(0)
-  const [showCredentialModal, setShowCredentialModal] = useState(false)
-  const [showRewardModal, setShowRewardModal] = useState(false)
-  const [editRewardIndex, setEditRewardIndex] = useState(0)
+  const [editCredentialIndex, setEditCredentialIndex] = useState(0);
+  const [showCredentialModal, setShowCredentialModal] = useState(false);
+  const [showRewardModal, setShowRewardModal] = useState(false);
+  const [editRewardIndex, setEditRewardIndex] = useState(0);
 
   const handleDelete = c => {
-    setCredentialReward(credentialReward.filter((_, idx) => idx !== c))
-  }
-  console.log({ credentialReward })
+    setCredentialReward(credentialReward.filter((_, idx) => idx !== c));
+  };
   return (
     <div>
       <div className='grid grid-cols-2 space-x-5 mb-5'>
@@ -54,7 +53,7 @@ function CredentialReward ({
               <h3 className='text-base font-bold text-t-1'>{item.title}</h3>
               <p className='mt-0.5 text-c-9 text-xs'>{item.desc}</p>
             </div>
-          )
+          );
         })}
       </div>
 
@@ -80,7 +79,17 @@ function CredentialReward ({
                     {cr.credential.map((v, idx) => {
                       const m = credentialSet.find(
                         item => item.credentialId === v.credentialId
-                      )
+                      );
+                      let html = '';
+                      try {
+                        html = template(m.templateExp)({
+                          ...v,
+                          ...v.options,
+                        });
+                      } catch (error) {
+                        // update model
+                        html = v.displayExp;
+                      }
                       return (
                         <div key={idx} className='flex gap-x-2.5 items-center'>
                           <img
@@ -89,20 +98,17 @@ function CredentialReward ({
                           />
                           <div
                             dangerouslySetInnerHTML={{
-                              __html: template(m.templateExp)({
-                                ...v,
-                                ...v.options
-                              })
+                              __html: html,
                             }}
                           />
                         </div>
-                      )
+                      );
                     })}
                     <p
                       className='text-c-9 underline font-medium text-xs cursor-pointer'
                       onClick={() => {
-                        setEditCredentialIndex(index)
-                        setShowCredentialModal(true)
+                        setEditCredentialIndex(index);
+                        setShowCredentialModal(true);
                       }}
                     >
                       {editCredentialText}
@@ -113,8 +119,8 @@ function CredentialReward ({
                     className='py-[30px] w-full	text-center bg-cover bg-no-repeat bg-center cursor-pointer'
                     style={{ backgroundImage: `url(${credentialCreatepng})` }}
                     onClick={() => {
-                      setEditCredentialIndex(index)
-                      setShowCredentialModal(true)
+                      setEditCredentialIndex(index);
+                      setShowCredentialModal(true);
                     }}
                   >
                     <img
@@ -131,8 +137,10 @@ function CredentialReward ({
                   <div className='space-y-6 w-full'>
                     <div className='space-y-6'>
                       {cr.reward.map((v, idx) => {
-                        const rewardType = v.rewardType
-                        const reward =incentiveAssetsTypeList.find(i => i.value === rewardType)
+                        const rewardType = v.rewardType;
+                        const reward = incentiveAssetsTypeList.find(
+                          i => i.value === rewardType
+                        );
 
                         return (
                           <div
@@ -140,21 +148,20 @@ function CredentialReward ({
                             className='px-6 py-2 text-xs font-medium text-t-1 border border-c-6 rounded-2.5xl flex justify-between items-center'
                           >
                             <span className='inline-flex items-center gap-x-1'>
-
-                              <img src={reward?.icon} className='w-6 h-6'/>
+                              <img src={reward?.icon} className='w-6 h-6' />
                               {reward?.text}
                             </span>
 
                             <span>{rewardType === 1 ? v.name : v.number}</span>
                           </div>
-                        )
+                        );
                       })}
                     </div>
                     <p
                       className='text-c-9 underline font-medium text-xs cursor-pointer'
                       onClick={() => {
-                        setEditRewardIndex(index)
-                        setShowRewardModal(true)
+                        setEditRewardIndex(index);
+                        setShowRewardModal(true);
                       }}
                     >
                       {editRewardText}
@@ -169,8 +176,8 @@ function CredentialReward ({
                     className='py-[30px] w-full flex items-center justify-center bg-cover bg-no-repeat bg-center cursor-pointer'
                     style={{ backgroundImage: `url(${rewardCreatepng})` }}
                     onClick={() => {
-                      setEditRewardIndex(index)
-                      setShowRewardModal(true)
+                      setEditRewardIndex(index);
+                      setShowRewardModal(true);
                     }}
                   >
                     <img src={editIcon} className='inline w-3 h-3 mr-3' />
@@ -179,7 +186,7 @@ function CredentialReward ({
                 )}
               </div>
             </div>
-          )
+          );
         })}
       </div>
       <CredentialModal
@@ -195,11 +202,11 @@ function CredentialReward ({
             setCredentialReward(
               credentialReward.map((v, idx) => {
                 if (idx === editCredentialIndex) {
-                  v.credential = values.credential
+                  v.credential = values.credential;
                 }
-                return v
+                return v;
               })
-            )
+            );
           }
         }}
       />
@@ -216,11 +223,11 @@ function CredentialReward ({
             setCredentialReward(
               credentialReward.map((v, idx) => {
                 if (idx === editRewardIndex) {
-                  v.reward = values.reward
+                  v.reward = values.reward;
                 }
-                return v
+                return v;
               })
-            )
+            );
           }
         }}
       />
@@ -231,8 +238,8 @@ function CredentialReward ({
           onClick={() => {
             setCredentialReward([
               ...credentialReward,
-              { ...defaultCredentialReward }
-            ])
+              { ...defaultCredentialReward },
+            ]);
           }}
         >
           <PlusOutlined className='mr-2' />
@@ -240,7 +247,7 @@ function CredentialReward ({
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
-export default CredentialReward
+export default CredentialReward;
