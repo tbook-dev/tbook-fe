@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const clsMap = {
   primary: 'bg-cw2 text-white',
@@ -34,9 +35,12 @@ export default function Button({
       {props.children}
       {loading && (
         <Spin
-          className={clsx('ml-2', {
-            'text-white': type === 'danger',
-          })}
+          indicator={
+            <LoadingOutlined
+              spin
+              style={{ fontSize: 18, color: 'white', marginLeft: 8 }}
+            />
+          }
         />
       )}
     </button>

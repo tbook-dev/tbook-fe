@@ -60,21 +60,19 @@ export default function () {
     setDeteleModal(true);
   }, []);
   const handleDelelteConfirm = useCallback(async () => {
-    console.log('delete...', pageInfo);
     setDeletePending(true);
     try {
-      const res = await deleteCampaign({
-        campaginId: id,
+      const res = await deleteCampaign(id);
+      api.success({
+        message: res.message ?? deleteMsg,
+        onClose: () => {
+          navigate(`/`);
+        },
       });
-      if (res.sucess) {
-        api.success({ message: res.message ?? deleteMsg });
-      } else {
-        api.error({ message: res.message ?? errorMsg });
-      }
     } catch (e) {
       api.error({ message: e.message ?? errorMsg });
-      setDeletePending(false);
     }
+    setDeletePending(false);
   }, [id]);
   const handleHideDeleteModal = useCallback(() => {
     // if (deletePenging) return;
