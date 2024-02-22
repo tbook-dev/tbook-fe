@@ -18,6 +18,7 @@ import useNFTcontract from '@/hooks/queries/useNFTcontract';
 import useCredential from '@/hooks/queries/useCredential';
 import useCampaign from '@/hooks/queries/useCampaign';
 import Loading from '@/components/loading';
+import useCampaignList from '@/hooks/queries/useCampaignList';
 
 const title = 'Set up an Incentive Campaign';
 const textMap = {
@@ -48,11 +49,12 @@ const checkFormValidte = (conf) => {
 
 export default function () {
   const [messageApi, contextHolder] = message.useMessage();
+  const { refetch: getCampaignList } = useCampaignList();
+
   const [step, setStep] = useState(defaultStep);
   const [confirmCreateLoading, setConfirmCreateLoading] = useState(false);
   const { projectId, project } = useUserInfo();
   const [sucessData, setSucessData] = useState(false);
-  const queryClient = useQueryClient();
   const { data: NFTcontracts = [] } = useNFTcontract();
   const { data: credentialList = [] } = useCredential();
   const [credentialReward, setCredentialReward] = useState([
@@ -64,11 +66,8 @@ export default function () {
   const fd = useRef({});
   const navigate = useNavigate();
   const editMode = !!campaignId;
-  const {
-    data: pageInfo = {},
-    isLoading: isCampaignLoading,
-    refetch: getCampaign,
-  } = useCampaign(campaignId);
+  const { data: pageInfo = {}, isLoading: isCampaignLoading } =
+    useCampaign(campaignId);
   const handleStepUp = async () => {
     const values = await setUpForm.validateFields();
     fd.current = {
@@ -190,8 +189,7 @@ export default function () {
       setConfirmCreateLoading(false);
       // navigate(listLink)
       setSucessData(res);
-      queryClient.refetchQueries(['campaignList', projectId]);
-      await getCampaign();
+      await getCampaignList();
     } catch (error) {
       setConfirmCreateLoading(false);
       messageApi.error(error?.msg || defaultErrorMsg);

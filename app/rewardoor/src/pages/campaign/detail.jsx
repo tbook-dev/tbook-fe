@@ -14,6 +14,9 @@ import { useCallback } from 'react';
 import DeleteModal from './modal/delete';
 import useCampaign from '@/hooks/queries/useCampaign';
 import { deleteCampaign } from '@/api/incentive';
+import useCampaignList from '@/hooks/queries/useCampaignList';
+// import useUserInfo from '@/hooks/queries/useUserInfo';
+// import { useQueryClient } from 'react-query';
 
 const moduleMap = {
   0: <CampaignInfo />,
@@ -25,9 +28,12 @@ const errorMsg = 'An error hanppens, please try it later!';
 const deleteMsg = 'Delete sucess!';
 
 export default function () {
+  // const { projectId } = useUserInfo();
   const { id } = useParams();
   const [api, contextHolder] = notification.useNotification();
   const { data: pageInfo = {}, isLoading } = useCampaign(id);
+  const { refetch: getCampaignList } = useCampaignList();
+  // const queryClient = useQueryClient();
   const [showDeleteModal, setDeteleModal] = useState(false);
   const [deletePenging, setDeletePending] = useState(false);
   const [selectStatus, setSelectedStatus] = useState(1);
@@ -59,21 +65,21 @@ export default function () {
   const handleDelete = useCallback(() => {
     setDeteleModal(true);
   }, []);
-  const handleDelelteConfirm = useCallback(async () => {
+  const handleDelelteConfirm = async () => {
     setDeletePending(true);
     try {
       const res = await deleteCampaign(id);
+      const resList = await getCampaignList();
+      console.log({ resList });
       api.success({
         message: res.message ?? deleteMsg,
-        onClose: () => {
-          navigate(`/`);
-        },
       });
+      navigate(`/`);
     } catch (e) {
       api.error({ message: e.message ?? errorMsg });
     }
     setDeletePending(false);
-  }, [id]);
+  };
   const handleHideDeleteModal = useCallback(() => {
     // if (deletePenging) return;
     setDeteleModal(false);
