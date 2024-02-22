@@ -41,6 +41,9 @@ export const createCampaign = async function (values) {
 export const updateCampaign = async function (values) {
   return await request.Post(`${host}/campaignNew/update`, values);
 };
+export const deleteCampaign = async function (campaignId) {
+  return await request.Get(`${host}/campaignNew/deleteCampaign/${campaignId}`);
+};
 export const getCampaign = async function (projectId) {
   return await request(`${host}/campaignNew/project/${projectId}`);
 };

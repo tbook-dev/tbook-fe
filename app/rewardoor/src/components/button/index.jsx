@@ -14,7 +14,7 @@ const disabledClsMap = {
     'disabled:bg-none disabled:text-[#333] disabled:bg-[#1A1A1A] disabled:hover:opacity-100',
 };
 
-export default function Button ({
+export default function Button({
   type = 'default',
   loading = false,
   className,
@@ -32,7 +32,13 @@ export default function Button ({
       {...props}
     >
       {props.children}
-      {loading && <Spin className='ml-2' />}
+      {loading && (
+        <Spin
+          className={clsx('ml-2', {
+            'text-white': type === 'danger',
+          })}
+        />
+      )}
     </button>
   );
 }

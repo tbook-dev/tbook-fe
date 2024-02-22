@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import Breadcrumb from '@/components/breadcrumb';
 import { campaignStatus } from '@/utils/conf';
 import { useState } from 'react';
-import { Spin } from 'antd';
+import { Spin, notification } from 'antd';
 import CampaignInfo from './info/campaign';
 import ParticipationInfo from './info/participation';
 import { useLayoutEffect } from 'react';
@@ -13,6 +13,7 @@ import Button from '@/components/button';
 import { useCallback } from 'react';
 import DeleteModal from './modal/delete';
 import useCampaign from '@/hooks/queries/useCampaign';
+import { deleteCampaign } from '@/api/incentive';
 
 const moduleMap = {
   0: <CampaignInfo />,
@@ -20,9 +21,12 @@ const moduleMap = {
   2: <ParticipationInfo />,
 };
 const hasParticipationList = [1, 3, 4, 5];
+const errorMsg = 'An error hanppens, please try it later!';
+const deleteMsg = 'Delete sucess!';
 
 export default function () {
   const { id } = useParams();
+  const [api, contextHolder] = notification.useNotification();
   const { data: pageInfo = {}, isLoading } = useCampaign(id);
   const [showDeleteModal, setDeteleModal] = useState(false);
   const [deletePenging, setDeletePending] = useState(false);
@@ -55,10 +59,23 @@ export default function () {
   const handleDelete = useCallback(() => {
     setDeteleModal(true);
   }, []);
-  const handleDelelteConfirm = useCallback(() => {
-    console.log('delete...');
+  const handleDelelteConfirm = useCallback(async () => {
+    console.log('delete...', pageInfo);
     setDeletePending(true);
-  }, []);
+    try {
+      const res = await deleteCampaign({
+        campaginId: id,
+      });
+      if (res.sucess) {
+        api.success({ message: res.message ?? deleteMsg });
+      } else {
+        api.error({ message: res.message ?? errorMsg });
+      }
+    } catch (e) {
+      api.error({ message: e.message ?? errorMsg });
+      setDeletePending(false);
+    }
+  }, [id]);
   const handleHideDeleteModal = useCallback(() => {
     // if (deletePenging) return;
     setDeteleModal(false);
@@ -153,6 +170,7 @@ export default function () {
           </footer>
         </>
       )}
+      {contextHolder}
     </>
   );
 }
