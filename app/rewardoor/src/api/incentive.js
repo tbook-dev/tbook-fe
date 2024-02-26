@@ -10,18 +10,18 @@ const alchemy = new Alchemy(settings);
 export const host = import.meta.env.VITE_API_HOST;
 
 export const getUserInfo = async function () {
-  return request(`${host}/info`);
+  return await request(`${host}/info`);
 };
 
 export const getUserAssets = async function () {
-  return request(`${host}/users/assets`);
+  return await request(`${host}/users/assets`);
 };
 
 export const createProject = async function (values) {
-  return request.Post(`${host}/project`, values);
+  return await request.Post(`${host}/project`, values);
 };
 export const createNFT = async function (values) {
-  return request.Post(`${host}/nft/create`, values);
+  return await request.Post(`${host}/nft/create`, values);
 };
 export const getNFTInfo = async function (contract) {
   const nftRes = await alchemy.nft.getNftsForContract(contract);
@@ -74,8 +74,8 @@ export const handleCreateNFTcontract = async function (projectId, values) {
     chainId: 10,
   };
 };
-export const parseLinkParams = function (values) {
-  return request.Post(`${host}/social/getInfo`, values);
+export const parseLinkParams = async function (values) {
+  return await request.Post(`${host}/social/getInfo`, values);
 };
 export const getCampaignParticipation = async function (campaignId) {
   return await request(`${host}/campaignNew/participation/${campaignId}`);
@@ -141,7 +141,7 @@ export const updateProject = async function (values) {
   return await request.Post(`${host}/project/update`, values);
 };
 export const genAppKey = async function (projectId) {
-  return request.Post(`${host}/project/${projectId}/key`);
+  return await request.Post(`${host}/project/${projectId}/key`);
 };
 export const updateProjectExt = async function (projectId, values) {
   return await request.Post(
