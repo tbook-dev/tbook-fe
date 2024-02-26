@@ -3,7 +3,7 @@ import Button from '@/components/button';
 
 const moduleConf = {
   title: 'Delete the campaign',
-  desc: 'Are you sure you want to delete your account? All of data in the campaign will be removed. This action cannot be undone.',
+  desc: 'Are you sure you want to delete the campaign? All of data in the campaign will be removed. This action cannot be undone.',
 };
 
 export default function DeleteModal({ loading, open, onClose, onConfirm }) {

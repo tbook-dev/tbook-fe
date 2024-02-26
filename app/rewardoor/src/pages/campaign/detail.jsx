@@ -132,7 +132,7 @@ export default function () {
         </div>
       </section>
 
-      <section>
+      <section className={isInScheduleStatus ? 'mb-36' : ''}>
         <div className="mb-8 flex gap-x-20">
           {tabList.map((v) => {
             return (
