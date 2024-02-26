@@ -1,7 +1,6 @@
 import BundledEditor from "./BundledEditor";
 
 export default function FormItem({ onChange, value, placeholder,...props }) {
-  console.log({props})
   return (
     <BundledEditor
       init={{

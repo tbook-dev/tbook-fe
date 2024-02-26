@@ -285,17 +285,25 @@ export const getAdmins = async function (projectId) {
   return await request(`${host}/project/admins/${projectId}`);
 };
 
-export const deleteAdmin = async function (projectId, wallet, isOwner) {
+export const deleteAdmin = async function (projectId, wallet, isOwner, sign) {
   return await request.Post(`${host}/project/deleteAdmin`, {
     projectId,
     wallet,
     isOwner,
+    op: "DEL",
+    sign,
   });
 };
 
-export const addAdmin = async function (projectId, wallet) {
+export const addAdmin = async function (projectId, wallet, sign) {
   return await request.Post(`${host}/project/addAdmin`, {
     projectId,
     wallet,
+    op: "ADD",
+    sign,
   });
 };
+
+export const getAdminNonce = async function (data){
+  return await request.Post(`${host}/project/admin/nonce`, data);
+}
