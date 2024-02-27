@@ -21,7 +21,10 @@ import closeIcon from '@/images/icon/close.svg';
 import { useCallback, useEffect } from 'react';
 import { twParttern, groupTypeMap } from '@/utils/conf';
 import { parseLinkParams } from '@/api/incentive';
-
+import {
+  credential as credentialList,
+  category as categoryList,
+} from '@tbook/credential';
 const title = 'Set Up Credential Group';
 const placeholder = 'Enter Credential Title to search for Cred';
 const titleGroup = 'Edit Credential Group';
@@ -39,42 +42,36 @@ const ComponentMap = {
   Switch,
   TimePicker,
 };
-export default function CredentialModal ({
-  open,
-  setOpen,
-  handleSave,
-  credentialList,
-  conf,
-}) {
+export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
   const [confirmaLoading, setConfirmaLoading] = useState(false);
   const [form] = Form.useForm();
   const [searchVal, setSearchVal] = useState('');
   const credentialsFormValues = Form.useWatch('credential', form);
-  const credentialSet = credentialList
-    .map(v =>
-      v.credentialList.map(m => ({
-        ...m,
-        groupType: v.groupType,
-        groupName: v.name,
-      }))
-    )
-    .flat();
-  console.log({ credentialSet });
+  const credentialSet = credentialList.map(c => {
+    const category = categoryList.find(v => v.groupType === c.groupType) || {};
+    return {
+      ...c,
+      ...category,
+    };
+  });
 
-  const formatCredential = credentialList
+  const formatCredential = categoryList
     .map(v => {
       return {
-        id: v.id,
+        id: v.groupType,
+        groupType: v.groupType,
         name: v.name,
-        credentialList: v.credentialList.filter(c => {
-          return c?.name
-            .toLowerCase()
-            .includes(searchVal?.toLowerCase()?.trim());
+        credentialList: credentialList.filter(c => {
+          return (
+            c.groupType === v.groupType &&
+            c?.name.toLowerCase().includes(searchVal?.toLowerCase()?.trim())
+          );
         }),
       };
     })
     .filter(v => v.credentialList.length > 0);
 
+  console.log({ formatCredential });
   const handleOk = async () => {
     form
       .validateFields()
@@ -174,7 +171,7 @@ export default function CredentialModal ({
                       {v.credentialList?.map(c => {
                         return (
                           <div
-                            key={c.credentialId}
+                            key={c.labelType}
                             className='px-4 py-2.5 rounded-2.5xl bg-gray flex items-center gap-x-2 cursor-pointer hover:opacity-70'
                             onClick={() => {
                               form.setFieldsValue({
