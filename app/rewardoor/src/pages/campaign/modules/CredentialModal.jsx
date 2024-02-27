@@ -25,6 +25,8 @@ import {
   credential as credentialList,
   category as categoryList,
 } from '@tbook/credential';
+import credentialMap from '@/components/Credential/form';
+
 const title = 'Set Up Credential Group';
 const placeholder = 'Enter Credential Title to search for Cred';
 const titleGroup = 'Edit Credential Group';
@@ -51,7 +53,8 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
     const category = categoryList.find(v => v.groupType === c.groupType) || {};
     return {
       ...c,
-      ...category,
+      groupType: category.groupType,
+      groupName: category.name,
     };
   });
 
@@ -203,21 +206,36 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
         <div>
           <h2 className='text-xl font-black text-t-1 mb-5'>{titleGroup}</h2>
           <Form form={form} layout='vertical'>
-            <Form.List name='credential'>
-              {(fields, { remove }) => {
+            <Form.List
+              name='credential'
+              // rules={[
+              //   {
+              //     validator: async (x, values) => {
+              //       console.log({ x, values });
+              //     },
+              //   },
+              // ]}
+            >
+              {(fields, { remove }, { errors }) => {
                 return (
-                  <>
+                  <div className='space-y-3'>
                     {fields.length > 0 ? (
                       fields.map(({ key, name, ...restField }) => {
+                        const currentLabelType =
+                          credentialsFormValues?.[name]?.labelType;
                         const credential = credentialSet.find(
-                          v =>
-                            v.labelType ===
-                            credentialsFormValues?.[name]?.labelType
+                          v => v.labelType === currentLabelType
                         );
+                        const CC = credentialMap[currentLabelType];
+                        console.log({
+                          credentialMap,
+                          currentLabelType,
+                          credential,
+                        });
                         return (
                           <div
                             key={key}
-                            className='px-4 py-2.5 rounded-2.5xl bg-gray mb-3 relative'
+                            className='px-4 py-2.5 rounded-2.5xl bg-gray relative'
                           >
                             <img
                               src={closeIcon}
@@ -236,22 +254,8 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                               </div>
                             </div>
 
-                            {/* <Form.Item
-                              {...restField}
-                              name={[name, 'link']}
-                              label={credential.tipText}
-                              rules={[
-                                {
-                                  required: true,
-                                  message: `Missing ${credential.tipText}`
-                                }
-                              ]}
-                            >
-                              <Input
-                                placeholder={`${credential.placeHolder}`}
-                              />
-                            </Form.Item> */}
-                            {credential.list.map((v, idx) => {
+                            <CC key={key} name={name} {...restField} />
+                            {/* {credential.list.map((v, idx) => {
                               return v.component === 'HTML' ? (
                                 <div
                                   key={name + v.name + idx}
@@ -272,7 +276,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                                   )}
                                 </Form.Item>
                               );
-                            })}
+                            })} */}
                           </div>
                         );
                       })
@@ -281,7 +285,8 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                         {emptyPrompt}
                       </div>
                     )}
-                  </>
+                    {errors && <p style={{ color: '#dc4446' }}>{errors}</p>}
+                  </div>
                 );
               }}
             </Form.List>
