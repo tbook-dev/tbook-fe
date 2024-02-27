@@ -15,6 +15,7 @@
     "@tbook/utils": "workspace:*",
     "@tbook/wallet": "workspace:*",
     "@tbook/snapshot": "workspace:*",
+    "@tbook/credential": "workspace:*",
     "alchemy-sdk": "^2.8.3"
   }
 }
