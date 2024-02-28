@@ -149,6 +149,7 @@ importers:
 
   app/campaign:
     specifiers:
+      '@tbook/credential': workspace:*
       '@tbook/hooks': workspace:*
       '@tbook/share': workspace:*
       '@tbook/snapshot': workspace:*
@@ -158,6 +159,7 @@ importers:
       '@tbook/wallet': workspace:*
       alchemy-sdk: ^2.8.3
     dependencies:
+      '@tbook/credential': link:../../packages/credential
       '@tbook/hooks': link:../../packages/hooks
       '@tbook/share': link:../../packages/share
       '@tbook/snapshot': link:../../packages/snapshot

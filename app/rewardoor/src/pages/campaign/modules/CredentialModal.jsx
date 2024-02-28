@@ -25,7 +25,7 @@ import {
   credential as credentialList,
   category as categoryList,
 } from '@tbook/credential';
-import credentialMap from '@/components/Credential/form';
+import credentialMap from '@/components/Credential/form.jsx';
 
 const title = 'Set Up Credential Group';
 const placeholder = 'Enter Credential Title to search for Cred';
@@ -231,6 +231,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                           credentialMap,
                           currentLabelType,
                           credential,
+                          CC,
                         });
                         return (
                           <div
