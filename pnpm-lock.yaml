@@ -216,16 +216,7 @@ importers:
       alchemy-sdk: 2.8.3
 
   packages/credential:
-    specifiers:
-      '@tbook/hooks': workspace:*
-      '@tbook/store': workspace:*
-      '@tbook/ui': workspace:*
-      '@tbook/utils': workspace:*
-    dependencies:
-      '@tbook/hooks': link:../hooks
-      '@tbook/store': link:../store
-      '@tbook/ui': link:../ui
-      '@tbook/utils': link:../utils
+    specifiers: {}
 
   packages/hooks:
     specifiers:

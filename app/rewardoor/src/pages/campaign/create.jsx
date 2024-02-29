@@ -38,10 +38,10 @@ const textMap = {
 const { defaultErrorMsg } = conf;
 const defaultStep = '2';
 
-const checkFormValidte = conf => {
+const checkFormValidte = (conf) => {
   return (
     conf &&
-    conf?.every(v => {
+    conf?.every((v) => {
       return v?.credential?.length > 0 && v?.reward?.length > 0;
     })
   );
@@ -80,12 +80,12 @@ export default function () {
       status: 0,
     };
     if (editMode) {
-      const remoteCredentialReward = pageInfo.groups.map(v => {
+      const remoteCredentialReward = pageInfo.groups.map((v) => {
         const reward = [];
         if (Array.isArray(v.pointList) && v.pointList.length > 0) {
           //////////// point type
           reward.push(
-            ...v.pointList.map(p => ({
+            ...v.pointList.map((p) => ({
               ...p,
               rewardType: 2,
               // unlimited: !v.unlimited,
@@ -95,7 +95,7 @@ export default function () {
         if (Array.isArray(v.nftList) && v.nftList.length > 0) {
           //////////// nft type
           reward.push(
-            ...v.nftList.map(p => ({
+            ...v.nftList.map((p) => ({
               ...p,
               rewardType: 1,
               // unlimited: !v.unlimited,
@@ -137,16 +137,16 @@ export default function () {
     // console.log({ credentialReward });
     const data = {
       campaign: fd.current,
-      groups: credentialReward.map(v => {
+      groups: credentialReward.map((v) => {
         const credentialList = v.credential;
         const pointList = v.reward
-          .filter(v => v.rewardType === 2)
-          .map(v => ({ ...v, unlimited: !v.unlimited }));
+          .filter((v) => v.rewardType === 2)
+          .map((v) => ({ ...v, unlimited: !v.unlimited }));
         const nftList = v.reward
-          .filter(v => v.rewardType === 1)
-          .map(v => ({ ...v, picUrl: v.picUrl?.[0]?.response }))
-          .map(v => {
-            const nft = NFTcontracts.find(n => n.nftId === v.nftId);
+          .filter((v) => v.rewardType === 1)
+          .map((v) => ({ ...v, picUrl: v.picUrl?.[0]?.response }))
+          .map((v) => {
+            const nft = NFTcontracts.find((n) => n.nftId === v.nftId);
             return {
               ...v,
               chainId: nft.chainId,
@@ -165,7 +165,7 @@ export default function () {
           name: credentialList[0]?.name,
         };
         if (editMode) {
-          const c = credentialList.find(v => !!v.groupId);
+          const c = credentialList.find((v) => !!v.groupId);
           if (c) {
             fdata.id = c.groupId;
           } else {
@@ -238,7 +238,7 @@ export default function () {
   }
 
   return (
-    <div className='text-white relative min-h-full'>
+    <div className="text-white relative min-h-full">
       <Breadcrumb
         items={[
           {
@@ -251,9 +251,9 @@ export default function () {
         ]}
       />
 
-      <div className='pt-1 mb-40'>
-        <h1 className='text-4xl  mb-10 font-bold'>{title}</h1>
-        <div className='relative'>
+      <div className="pt-1 mb-40">
+        <h1 className="text-4xl  mb-10 font-bold">{title}</h1>
+        <div className="relative">
           {step === '1' && <BasicInfo form={setUpForm} />}
           {step === '2' && (
             <CredentialReward
@@ -266,9 +266,9 @@ export default function () {
         </div>
       </div>
 
-      <div className='fixed bottom-0 inset-x-0 pl-[280px] flex'>
-        <div className='flex justify-end items-center w-[1080px] h-20 mx-auto relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur'>
-          <div className='flex justify-center space-x-6'>
+      <div className="fixed bottom-0 inset-x-0 pl-[280px] flex">
+        <div className="flex justify-end items-center w-[1080px] h-20 mx-auto relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur">
+          <div className="flex justify-center space-x-6">
             {step === '1' && (
               <>
                 <Button
@@ -280,7 +280,7 @@ export default function () {
                 </Button>
 
                 <Button
-                  type='primary'
+                  type="primary"
                   onClick={handleStepUp}
                   disabled={!setupSubmittable}
                 >
@@ -299,7 +299,7 @@ export default function () {
                   {textMap[2]?.back}
                 </Button>
                 <Button
-                  type='primary'
+                  type="primary"
                   onClick={handleCreate}
                   loading={confirmCreateLoading}
                   disabled={!checkFormValidte(credentialReward)}

@@ -1,30 +1,30 @@
-import Preview from "../snapshot/Preview";
-import { getCrenditialType } from "@/utils/conf";
-import { getSnapshotIdBylink, useUserVotes } from "@tbook/snapshot/api";
-import WithVerify from "@/components/withVerify";
-import { verifyCredential } from "@/api/incentive";
+import Preview from '../snapshot/Preview';
+import { getCrenditialType } from '@/utils/conf';
+import { getSnapshotIdBylink, useUserVotes } from '@tbook/snapshot/api';
+import WithVerify from '@/components/withVerify';
+import { verifyCredential } from '@/api/incentive';
 import VerifyStatus, {
   verifyStatusEnum,
-} from "@/components/withVerify/VerifyStatus";
-import { verifyTbook } from "@/api/incentive";
-import useUserInfo from "@/hooks/useUserInfoQuery";
-import useSocial from "@/hooks/useSocial";
-import { useParams, Link, useLoaderData } from "react-router-dom";
-import { useResponsive } from "ahooks";
+} from '@/components/withVerify/VerifyStatus';
+import { verifyTbook } from '@/api/incentive';
+import useUserInfo from '@/hooks/useUserInfoQuery';
+import useSocial from '@/hooks/useSocial';
+import { useParams, Link, useLoaderData } from 'react-router-dom';
+import { useResponsive } from 'ahooks';
 import React, {
   useState,
   useCallback,
   useEffect,
   useMemo,
   useRef,
-} from "react";
-import { setLoginModal, setConnectWalletModal } from "@/store/global";
-import { useAccount } from "wagmi";
-import { useQueryClient } from "react-query";
-import warningSvg from "@/images/icon/warning.svg";
-import clsx from "clsx";
-import AirDrop from "./airdrop";
-import { useDispatch } from "react-redux";
+} from 'react';
+import { setLoginModal, setConnectWalletModal } from '@/store/global';
+import { useAccount } from 'wagmi';
+import { useQueryClient } from 'react-query';
+import warningSvg from '@/images/icon/warning.svg';
+import clsx from 'clsx';
+import AirDrop from './airdrop';
+import { useDispatch } from 'react-redux';
 
 // const errorMsg =
 //   'It seems you have not finished the task.Please click and finish the task, then verify in 30s later.'
@@ -74,9 +74,9 @@ export default function Credential({ redential, showVerify, signCredential }) {
     tbook: userLogined,
   };
   const sycLoginFnMap = {
-    twitter: getSocialByName("twitter").loginFn,
-    discord: getSocialByName("discord").loginFn,
-    telegram: getSocialByName("telegram").loginFn,
+    twitter: getSocialByName('twitter').loginFn,
+    discord: getSocialByName('discord').loginFn,
+    telegram: getSocialByName('telegram').loginFn,
   };
   const canUseWallect = useMemo(() => {
     return isConnected && wallectConnected;
@@ -106,20 +106,20 @@ export default function Credential({ redential, showVerify, signCredential }) {
       }
       if (isAirdopType) {
         // 如果是snapshot，直接提交表单， 不在此处验证
-        console.log("auto exe");
+        console.log('auto exe');
       }
       try {
         const res = await verifyCredential(redential.credentialId);
         if (res.isVerified) {
           hasError = false;
           await queryClient.refetchQueries([
-            "campaignDetail",
+            'campaignDetail',
             campaignId,
             true,
           ]);
         } else {
           hasError = true;
-          if(isAirdopType && !showAirdop){
+          if (isAirdopType && !showAirdop) {
             setShowAirdop(true);
           }
         }
@@ -157,10 +157,10 @@ export default function Credential({ redential, showVerify, signCredential }) {
     12: () => {
       // 当前页面不需要登录
       window.open(
-        `${isUsingSubdomain ? "" : `/${projectUrl}`}/snapshot/${campaignId}/${
+        `${isUsingSubdomain ? '' : `/${projectUrl}`}/snapshot/${campaignId}/${
           redential.credentialId
         }/${snapshotId}`,
-        pc ? "_blank" : "_self"
+        pc ? '_blank' : '_self'
       );
     },
     13: () => {
@@ -211,7 +211,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
           />
           <div
             onClick={
-              typeof taskMap[redential.labelType] === "function"
+              typeof taskMap[redential.labelType] === 'function'
                 ? taskMap[redential.labelType]
                 : null
             }
@@ -301,13 +301,13 @@ export default function Credential({ redential, showVerify, signCredential }) {
           target="_blank"
           className="text-base font-medium"
           to={`${
-            isUsingSubdomain ? "" : `/${projectUrl}`
+            isUsingSubdomain ? '' : `/${projectUrl}`
           }/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
         >
           <div
             className={clsx(
-              "mt-4",
-              showErrorTip ? "" : "pt-5 border-t border-[#281545]"
+              'mt-4',
+              showErrorTip ? '' : 'pt-5 border-t border-[#281545]'
             )}
           >
             <Preview id={snapshotId} />
