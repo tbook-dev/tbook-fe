@@ -75,7 +75,7 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
     })
     .filter((v) => v.credentialList.length > 0);
 
-  console.log({ formatCredential });
+  // console.log({ formatCredential });
   const handleOk = async () => {
     form
       .validateFields()
@@ -84,19 +84,23 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
         // parse
         const parseResult = await Promise.all(
           values.credential.map(async (c) => {
-            console.log(c);
+            console.log(values, c, '--->');
             const res = await parseLinkParams({
-              url: c.link,
-              credentialId: credentialSet.find(
-                (v) => v.labelType === c.labelType
-              ).credentialId,
-            });
-            return {
               ...c,
-              options: res?.data || {},
-            };
+              url: c.link,
+              labelType: c.labelType,
+            });
+            if (res.code === 200) {
+              return {
+                ...c,
+                options: res?.data || {},
+              };
+            } else {
+              throw new Error(res.message);
+            }
           })
         );
+        console.log({ parseResult });
         // format
         values.credential = parseResult.map((v) => {
           const credential = credentialSet.find(
@@ -114,7 +118,13 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
         closeModal();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
+        form.setFields([
+          {
+            name: ['credential'],
+            errors: [err.message], // 错误消息
+          },
+        ]);
         setConfirmaLoading(false);
       });
   };

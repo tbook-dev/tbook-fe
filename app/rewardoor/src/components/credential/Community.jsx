@@ -6,7 +6,7 @@ export default {
   11: ({ name }) => {
     return (
       <FormItem
-        label='Tweet Link'
+        label="Tweet Link"
         name={[name, 'link']}
         rules={[
           {
@@ -20,14 +20,14 @@ export default {
           },
         ]}
       >
-        <Input placeholder='Paste tweet link here!' />
+        <Input placeholder="Paste tweet link here!" />
       </FormItem>
     );
   },
   1: ({ name }) => {
     return (
       <FormItem
-        label='Tweet Link'
+        label="Tweet Link"
         name={[name, 'link']}
         rules={[
           {
@@ -41,14 +41,14 @@ export default {
           },
         ]}
       >
-        <Input placeholder='Paste tweet link here!' />
+        <Input placeholder="Paste tweet link here!" />
       </FormItem>
     );
   },
   2: ({ name }) => {
     return (
       <FormItem
-        label='Tweet Link'
+        label="Tweet Link"
         name={[name, 'link']}
         rules={[
           {
@@ -62,14 +62,14 @@ export default {
           },
         ]}
       >
-        <Input placeholder='Paste tweet link here!' />
+        <Input placeholder="Paste tweet link here!" />
       </FormItem>
     );
   },
   3: ({ name }) => {
     return (
       <FormItem
-        label='Tweet Space Link'
+        label="Tweet Space Link"
         name={[name, 'link']}
         rules={[
           {
@@ -83,7 +83,7 @@ export default {
           },
         ]}
       >
-        <Input placeholder='Paste twitter space link here!' />
+        <Input placeholder="Paste twitter space link here!" />
       </FormItem>
     );
   },
@@ -92,7 +92,7 @@ export default {
   4: ({ name }) => {
     return (
       <FormItem
-        label='Discord Server URL'
+        label="Discord Server URL"
         name={[name, 'link']}
         rules={[
           {
@@ -106,24 +106,24 @@ export default {
           },
         ]}
       >
-        <Input placeholder='https://discord.gg/xxxx!' />
+        <Input placeholder="https://discord.gg/xxxx!" />
       </FormItem>
     );
   },
   5: ({ name }) => {
     return (
-      <div className='space-y-3'>
-        <div className='text-sm font-medium text-c-9'>
+      <div className="space-y-3">
+        <div className="text-sm font-medium text-c-9">
           <a
-            className='underline text-[#1D9BF0]'
-            href='https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord'
-            target='_blank'
+            className="underline text-[#1D9BF0]"
+            href="https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord"
+            target="_blank"
           >
             How to get Role ID in Discord
           </a>
         </div>
         <FormItem
-          label='Discord Server URL'
+          label="Discord Server URL"
           name={[name, 'link']}
           rules={[
             {
@@ -137,10 +137,10 @@ export default {
             },
           ]}
         >
-          <Input placeholder='https://discord.gg/xxxx!' />
+          <Input placeholder="https://discord.gg/xxxx!" />
         </FormItem>
         <FormItem
-          label='Role ID'
+          label="Role ID"
           name={[name, 'roleId']}
           rules={[
             {
@@ -149,10 +149,10 @@ export default {
             },
           ]}
         >
-          <Input placeholder='Enter Role ID' />
+          <Input placeholder="Enter Role ID" />
         </FormItem>
         <FormItem
-          label='Role Name'
+          label="Role Name"
           name={[name, 'roleName']}
           rules={[
             {
@@ -161,7 +161,7 @@ export default {
             },
           ]}
         >
-          <Input placeholder='Enter Role Name' />
+          <Input placeholder="Enter Role Name" />
         </FormItem>
       </div>
     );
@@ -169,19 +169,19 @@ export default {
   // tg
   6: ({ name }) => {
     return (
-      <div className='space-y-3'>
-        <div className='text-sm font-medium text-c-9'>
-          <p>Add TBOOK support bot as an admin to your group or channel</p>
+      <div className="space-y-3">
+        <div className="text-sm font-medium text-c-9">
+          <p>Add TBOOK support bot as an admin to your group</p>
           <a
-            href='https://t.me/tbook_sign_bot'
-            className='underline text-[#1D9BF0]'
-            target='_blank'
+            href="https://t.me/tbook_sign_bot"
+            className="underline text-[#1D9BF0]"
+            target="_blank"
           >
             Invite bot
           </a>
         </div>
         <FormItem
-          label='Group Invite Link'
+          label="Group Invite Link"
           name={[name, 'link']}
           rules={[
             {
@@ -195,26 +195,26 @@ export default {
             },
           ]}
         >
-          <Input placeholder='Please paste the invite link to your telegram group' />
+          <Input placeholder="Please paste the invite link to your telegram group" />
         </FormItem>
       </div>
     );
   },
   7: ({ name }) => {
     return (
-      <div className='space-y-3'>
-        <div className='text-sm font-medium text-c-9'>
-          <p>Add TBOOK support bot as an admin to your group or channel</p>
+      <div className="space-y-3">
+        <div className="text-sm font-medium text-c-9">
+          <p>Add TBOOK support bot as an admin to your channel</p>
           <a
-            href='https://t.me/tbook_sign_bot'
-            className='underline text-[#1D9BF0]'
-            target='_blank'
+            href="https://t.me/tbook_sign_bot"
+            className="underline text-[#1D9BF0]"
+            target="_blank"
           >
             Invite bot
           </a>
         </div>
         <FormItem
-          label='Channel Invite Link'
+          label="Channel Invite Link"
           name={[name, 'link']}
           rules={[
             {
@@ -228,7 +228,7 @@ export default {
             },
           ]}
         >
-          <Input placeholder='Please paste the invite link to your telegram channel' />
+          <Input placeholder="Please paste the invite link to your telegram channel" />
         </FormItem>
       </div>
     );

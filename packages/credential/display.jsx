@@ -18,7 +18,7 @@ export default function CredentialDisplay({
   const { isLink, link, actionName, actionTarget, actionHandle } = {
     isLink: actionMap[labelType].isLink,
     link: actionMap[labelType].getLink({ ...options, pc }),
-    actionName: actionMap[labelType].actionName,
+    actionName: actionMap[labelType].getActionName(options),
     actionTarget: actionMap[labelType].getActionTarget(options),
     actionHandle: typeof clickHandle === 'function' ? clickHandle : null,
   };

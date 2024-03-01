@@ -76,7 +76,7 @@ function CredentialReward({
 
               <div className="flex items-center w-full">
                 {cr.credential.length > 0 ? (
-                  <div className="space-y-6 w-max">
+                  <div className="space-y-6 w-full">
                     {cr.credential.map((v, idx) => {
                       return (
                         <Display
