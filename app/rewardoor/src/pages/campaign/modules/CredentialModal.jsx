@@ -1,20 +1,7 @@
 import Button from '@/components/button';
-import { useState, createElement } from 'react';
+import { useState } from 'react';
 import SearchIcon from '@/images/icon/search.svg';
-import {
-  Modal,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Slider,
-  Switch,
-  TimePicker,
-  Tabs,
-} from 'antd';
+import { Modal, Form, Input, Tabs, notification } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import x from '@/images/icon/x.svg';
 import closeIcon from '@/images/icon/close.svg';
@@ -31,20 +18,10 @@ const title = 'Set Up Credential Group';
 const placeholder = 'Enter Credential Title to search for Cred';
 const titleGroup = 'Edit Credential Group';
 const emptyPrompt = 'The selected credential will be displayed here.';
-const ComponentMap = {
-  Button,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Slider,
-  Switch,
-  TimePicker,
-};
+
 export default function CredentialModal({ open, setOpen, handleSave, conf }) {
+  const [api, contextHolder] = notification.useNotification();
+
   const [confirmaLoading, setConfirmaLoading] = useState(false);
   const [form] = Form.useForm();
   const [searchVal, setSearchVal] = useState('');
@@ -100,7 +77,6 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
             }
           })
         );
-        console.log({ parseResult });
         // format
         values.credential = parseResult.map((v) => {
           const credential = credentialSet.find(
@@ -119,12 +95,13 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
       })
       .catch((err) => {
         // console.log(err);
-        form.setFields([
-          {
-            name: ['credential'],
-            errors: [err.message], // 错误消息
-          },
-        ]);
+        // form.setFields([
+        //   {
+        //     name: ['credential'],
+        //     errors: [err.message], // 错误消息
+        //   },
+        // ]);
+        api.error({ message: err.message });
         setConfirmaLoading(false);
       });
   };
@@ -228,7 +205,7 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
               //   },
               // ]}
             >
-              {(fields, { remove }, { errors }) => {
+              {(fields, { remove }) => {
                 return (
                   <div className="space-y-3">
                     {fields.length > 0 ? (
@@ -298,7 +275,6 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
                         {emptyPrompt}
                       </div>
                     )}
-                    {errors && <p style={{ color: '#dc4446' }}>{errors}</p>}
                   </div>
                 );
               }}
@@ -306,6 +282,7 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
           </Form>
         </div>
       </div>
+      {contextHolder}
     </Modal>
   );
 }
