@@ -1,12 +1,13 @@
-import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
-import { getCredentials } from "@/api/incentive";
-import { incentiveAssetsTypeList, getUrl } from "@/utils/conf";
-import useUserInfo from "@/hooks/queries/useUserInfo";
-import { Typography } from "antd";
-import dayjs from "dayjs";
-import Loading from "@/components/loading";
-import useCampaign from "@/hooks/queries/useCampaign";
+import { useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { getCredentials } from '@/api/incentive';
+import { incentiveAssetsTypeList, getUrl } from '@/utils/conf';
+import useUserInfo from '@/hooks/queries/useUserInfo';
+import { Typography } from 'antd';
+import dayjs from 'dayjs';
+import Loading from '@/components/loading';
+import useCampaign from '@/hooks/queries/useCampaign';
+import { Display } from '@tbook/credential';
 
 const dateFormat = `YYYY-MM-DD HH:mm:ss (UTCZ)`;
 const { Paragraph } = Typography;
@@ -16,7 +17,7 @@ export default function Campaign() {
   const { projectId, project } = useUserInfo();
   const { data: pageInfo = {}, isLoading } = useCampaign(id);
   const { data: credentialList = [] } = useQuery(
-    ["credentialList", projectId],
+    ['credentialList', projectId],
     () => getCredentials(projectId),
     {
       enabled: !!projectId,
@@ -34,7 +35,7 @@ export default function Campaign() {
       <div>
         <h2 className="font-bold text-base mb-4 text-t-1">Campaign Sharing</h2>
         <Paragraph
-          style={{ marginBottom: 0, color: "#999", fontWeight: 500 }}
+          style={{ marginBottom: 0, color: '#999', fontWeight: 500 }}
           copyable={{
             text: link,
           }}
@@ -57,16 +58,28 @@ export default function Campaign() {
                 <div className="flex items-center w-full">
                   <div className="space-y-6 w-max">
                     {cr.credentialList.map((v, idx) => {
+                      let options = {};
+                      try {
+                        options = JSON.parse(v.options);
+                      } catch (error) {
+                        options = {};
+                      }
                       return (
-                        <div key={idx} className="flex gap-x-2.5 items-center">
-                          <img
-                            src={v.picUrl}
-                            className="w-5 h-5 object-contain"
-                          />
-                          <div
-                            dangerouslySetInnerHTML={{ __html: v.displayExp }}
-                          />
-                        </div>
+                        // <div key={idx} className="flex gap-x-2.5 items-center">
+                        //   <img
+                        //     src={v.picUrl}
+                        //     className="w-5 h-5 object-contain"
+                        //   />
+                        //   <div
+                        //     dangerouslySetInnerHTML={{ __html: v.displayExp }}
+                        //   />
+                        // </div>
+                        <Display
+                          key={idx}
+                          pc
+                          labelType={v.labelType}
+                          options={options}
+                        />
                       );
                     })}
                   </div>

@@ -8,19 +8,19 @@ export default {
   },
   1: {
     isLink: true,
-    getLink: ({ link }) => link,
+    getLink: ({ intentLink, link, pc }) => (pc ? intentLink : link),
     getActionName: () => 'Like',
     getActionTarget: ({ userName }) => `@${userName}`,
   },
   2: {
     isLink: true,
-    getLink: ({ link }) => link,
+    getLink: ({ intentLink, link, pc }) => (pc ? intentLink : link),
     getActionName: () => 'Retweet',
     getActionTarget: ({ userName }) => `@${userName}`,
   },
   3: {
     isLink: true,
-    getLink: ({ link }) => link,
+    getLink: ({ intentLink, link, pc }) => (pc ? intentLink : link),
     getActionName: () => 'Attend',
     getActionTarget: ({ userName }) => `@${userName} Space`,
   },

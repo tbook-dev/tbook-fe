@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import Button from '@/components/button';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createCampaign, updateCampaign } from '@/api/incentive';
-import { useQueryClient } from 'react-query';
+// import { useQueryClient } from 'react-query';
 import CredentialReward from './modules/CredentialReward';
 import dayjs from 'dayjs';
 import { conf } from '@tbook/utils';
@@ -66,8 +66,11 @@ export default function () {
   const fd = useRef({});
   const navigate = useNavigate();
   const editMode = !!campaignId;
-  const { data: pageInfo = {}, isLoading: isCampaignLoading } =
-    useCampaign(campaignId);
+  const {
+    data: pageInfo = {},
+    refetch: getCompaignDetail,
+    isLoading: isCampaignLoading,
+  } = useCampaign(campaignId);
   const handleStepUp = async () => {
     const values = await setUpForm.validateFields();
     fd.current = {
@@ -203,10 +206,14 @@ export default function () {
             },
           })
         : await createCampaign(data);
+      if (editMode) {
+        await getCompaignDetail();
+      } else {
+        await getCampaignList();
+      }
       setConfirmCreateLoading(false);
       // navigate(listLink)
       setSucessData(res);
-      await getCampaignList();
     } catch (error) {
       setConfirmCreateLoading(false);
       messageApi.error(error?.msg || defaultErrorMsg);
