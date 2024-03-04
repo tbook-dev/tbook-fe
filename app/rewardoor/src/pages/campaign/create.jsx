@@ -36,7 +36,7 @@ const textMap = {
   },
 };
 const { defaultErrorMsg } = conf;
-const defaultStep = '2';
+const defaultStep = '1';
 
 const checkFormValidte = (conf) => {
   return (
@@ -111,11 +111,22 @@ export default function () {
           );
         }
         return {
-          credential: v.credentialList,
+          credential: v.credentialList.map((c) => {
+            let options = {};
+            try {
+              options = JSON.parse(c.options);
+            } catch (error) {
+              console.log(error);
+            }
+            return {
+              ...c,
+              options,
+            };
+          }),
           reward: reward,
         };
       });
-      console.log({ remoteCredentialReward });
+      // console.log({ remoteCredentialReward });
       setCredentialReward(remoteCredentialReward);
     }
     console.log({ credentialReward, pageInfo });
@@ -138,7 +149,12 @@ export default function () {
     const data = {
       campaign: fd.current,
       groups: credentialReward.map((v) => {
-        const credentialList = v.credential;
+        const credentialList = v.credential.map((c) => {
+          return {
+            ...c,
+            options: JSON.stringify(c.options),
+          };
+        });
         const pointList = v.reward
           .filter((v) => v.rewardType === 2)
           .map((v) => ({ ...v, unlimited: !v.unlimited }));
@@ -175,7 +191,8 @@ export default function () {
         return fdata;
       }),
     };
-    // console.log(credentialReward, data);
+    console.log(credentialReward, data);
+
     try {
       const res = editMode
         ? await updateCampaign({
