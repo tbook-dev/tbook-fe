@@ -85,7 +85,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
     return isConnected && wallectConnected;
   }, [isConnected, wallectConnected]);
   const resetCount = useCallback(() => {
-    setCount(30);
+    setCount(60);
   }, []);
   const connectWallect = useCallback(() => {
     dispatch(setConnectWalletModal(true));
