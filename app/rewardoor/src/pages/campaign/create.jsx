@@ -93,7 +93,7 @@ export default function () {
             ...v.pointList.map(p => ({
               ...p,
               rewardType: 2,
-              // unlimited: !v.unlimited,
+              limited: !p.unlimited,
             }))
           );
         }
@@ -103,7 +103,7 @@ export default function () {
             ...v.nftList.map(p => ({
               ...p,
               rewardType: 1,
-              // unlimited: !v.unlimited,
+              limited: !p.unlimited,
               picUrl: [
                 {
                   uid: '-1',
@@ -137,7 +137,7 @@ export default function () {
       // console.log({ remoteCredentialReward });
       setCredentialReward(remoteCredentialReward);
     }
-    console.log({ credentialReward, pageInfo });
+    // console.log({ credentialReward, pageInfo });
     setStep('2');
   };
   const handleCreate = async () => {
@@ -165,7 +165,7 @@ export default function () {
         });
         const pointList = v.reward
           .filter(v => v.rewardType === 2)
-          .map(v => ({ ...v, unlimited: !v.unlimited }));
+          .map(v => ({ ...v, unlimited: !v.limited }));
         const nftList = v.reward
           .filter(v => v.rewardType === 1)
           .map(v => ({ ...v, picUrl: v.picUrl?.[0]?.response }))
@@ -176,7 +176,7 @@ export default function () {
               chainId: nft.chainId,
               contract: nft.contract,
               creatorId: nft.creatorId,
-              unlimited: !v.unlimited,
+              unlimited: !v.limited,
             };
           });
         const fdata = {
