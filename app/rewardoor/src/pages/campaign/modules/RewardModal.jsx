@@ -12,7 +12,7 @@ import SelectNFT from '@/components/SelectNFT';
 import useSupportChains from '@/hooks/queries/useSupportChains';
 
 const title = 'Set Up Reward';
-const defaultIncentive = { rewardType: 1, unlimited: false };
+const defaultIncentive = { rewardType: 1, limited: false };
 const nftText = {
   title: 'NFT Contracts List',
   desc: 'You could use the TBOOK contract to mint NFT items for incentive, or deploy your own NFT contract.',
