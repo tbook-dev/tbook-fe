@@ -45,7 +45,7 @@ export default {
       return (
         <FormItem
           label='Event Name'
-          name={[name, 'name']}
+          name={[name, 'eventName']}
           rules={[
             {
               required: true,
@@ -57,6 +57,6 @@ export default {
         </FormItem>
       );
     },
-    pick: ['name'],
+    pick: ['eventName'],
   },
 };

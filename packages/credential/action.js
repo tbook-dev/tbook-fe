@@ -62,7 +62,7 @@ export default {
     isLink: false,
     getLink: noop,
     getActionName: () => 'Register',
-    getActionTarget: ({ name }) => `${name}`,
+    getActionTarget: ({ eventName }) => `${eventName}`,
   },
   12: {
     isLink: true,

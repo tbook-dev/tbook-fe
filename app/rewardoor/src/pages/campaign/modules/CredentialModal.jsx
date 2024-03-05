@@ -124,7 +124,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
     setOpen(false);
     form.resetFields();
   }, []);
-  console.log('user conf', conf);
+  // console.log('user credentialsFormValues', credentialsFormValues);
   return (
     <Modal
       width={1160}
