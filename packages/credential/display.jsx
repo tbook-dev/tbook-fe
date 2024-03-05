@@ -7,19 +7,19 @@ import actionMap from './action';
  * pc: boolean, 是否是pc端
  * options: object, credential 配置解析结果展示
  */
-export default function CredentialDisplay({
+export default function CredentialDisplay ({
   labelType,
   clickHandle,
   pc,
   options = {},
 }) {
-  const credentialConf = credentialList.find((v) => v.labelType === labelType);
+  const credentialConf = credentialList.find(v => v.labelType === labelType);
 
   const { isLink, link, actionName, actionTarget, actionHandle } = {
-    isLink: actionMap[labelType].isLink,
-    link: actionMap[labelType].getLink({ ...options, pc }),
-    actionName: actionMap[labelType].getActionName(options),
-    actionTarget: actionMap[labelType].getActionTarget(options),
+    isLink: actionMap[labelType]?.isLink,
+    link: actionMap[labelType]?.getLink({ ...options, pc }),
+    actionName: actionMap[labelType]?.getActionName(options),
+    actionTarget: actionMap[labelType]?.getActionTarget(options),
     actionHandle: typeof clickHandle === 'function' ? clickHandle : null,
   };
   //   console.log({
@@ -34,24 +34,24 @@ export default function CredentialDisplay({
   return (
     <div
       onClick={actionHandle}
-      className="flex items-start gap-x-1 pt-[3px] flex-auto w-[calc(100%_-_45px)]"
+      className='flex items-start gap-x-1 pt-[3px] flex-auto w-[calc(100%_-_45px)]'
     >
       <img
         src={credentialConf.picUrl}
-        className="w-5 h-5 object-contain mt-0.5"
+        className='w-5 h-5 object-contain mt-0.5'
       />
       {isLink ? (
         <a
           href={link}
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          className="max-w-[calc(100%_-_26px)] lg:max-w-[430px] text-[#904BF6] text-base inline-flex"
+          target='_blank'
+          rel='nofollow noopener noreferrer'
+          className='max-w-[calc(100%_-_26px)] lg:max-w-[430px] text-[#904BF6] text-base inline-flex'
         >
-          {actionName} <span className="text-white ml-1">{actionTarget}</span>
+          {actionName} <span className='text-white ml-1'>{actionTarget}</span>
         </a>
       ) : (
-        <button className="max-w-[calc(100%_-_26px)] lg:max-w-[430px] text-[#904BF6] text-base inline-flex">
-          {actionName} <span className="text-white ml-1">{actionTarget}</span>
+        <button className='max-w-[calc(100%_-_26px)] lg:max-w-[430px] text-[#904BF6] text-base inline-flex'>
+          {actionName} <span className='text-white ml-1'>{actionTarget}</span>
         </button>
       )}
     </div>

@@ -1,3 +1,4 @@
+const noop = () => '';
 export default {
   // twitter
   11: {
@@ -39,15 +40,40 @@ export default {
   },
   // tg
   6: {
-    isLink: false,
+    isLink: true,
     getLink: ({ link }) => link,
     getActionName: () => 'Join',
     getActionTarget: ({ telegramGroup }) => `Group @${telegramGroup}`,
   },
   7: {
-    isLink: false,
+    isLink: true,
     getLink: ({ link }) => link,
     getActionName: () => 'Join',
     getActionTarget: ({ telegramChannel }) => `Channel @${telegramChannel}`,
+  },
+  //
+  8: {
+    isLink: true,
+    getLink: ({ link }) => link,
+    getActionName: () => 'Visit',
+    getActionTarget: ({ visitPageName }) => `${visitPageName}`,
+  },
+  10: {
+    isLink: false,
+    getLink: noop,
+    getActionName: () => 'Register',
+    getActionTarget: ({ name }) => `${name}`,
+  },
+  12: {
+    isLink: true,
+    getLink: ({ link }) => link,
+    getActionName: () => 'Visit',
+    getActionTarget: () => `for proposal`,
+  },
+  13: {
+    isLink: false,
+    getLink: noop,
+    getActionName: () => 'Submit',
+    getActionTarget: ({ title }) => title,
   },
 };
