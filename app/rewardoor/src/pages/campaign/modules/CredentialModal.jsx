@@ -12,7 +12,7 @@ import {
   credential as credentialList,
   category as categoryList,
 } from '@tbook/credential';
-import credentialMap from '@/components/Credential/form.jsx';
+import credentialMap from '@/components/credential/form.jsx';
 import { merge, pick } from 'lodash';
 
 const title = 'Set Up Credential Group';
