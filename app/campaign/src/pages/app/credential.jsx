@@ -30,7 +30,7 @@ import { useDispatch } from "react-redux";
 //   'It seems you have not finished the task.Please click and finish the task, then verify in 30s later.'
 
 export default function Credential({ redential, showVerify, signCredential }) {
-  const { isUsingSubdomain, projectUrl } = useLoaderData();
+  const { isUsingSubdomain, projectUrl, project } = useLoaderData();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
@@ -244,12 +244,13 @@ export default function Credential({ redential, showVerify, signCredential }) {
         ) : (
           showVerify && (
             <WithVerify
-              sysConnectedMap={sysConnectedMap}
-              sycLoginFnMap={sycLoginFnMap}
-              credentialType={credentialType}
+              // sysConnectedMap={sysConnectedMap}
+              // sycLoginFnMap={sycLoginFnMap}
+              // resetCount={resetCount}
               handleFn={() => handleVerify(redential)}
-              resetCount={resetCount}
+              evmRequire={!!project?.evmRequire}
               count={count}
+              credentialType={credentialType}
             />
           )
         )}
