@@ -178,9 +178,9 @@ export default function () {
               </div>
               <div className='flex items-center text-sm text-[#A1A1A2] mb-4'>
                 <span className='mr-1 text-sm font-medium text-white'>
-                  {formatDollar(page?.participation?.participantNum)}
+                  {formatDollar(page?.participantNum)}
                 </span>
-                participant{page?.participation?.participantNum > 1 ? 's' : ''}
+                participant{page?.participantNum > 1 ? 's' : ''}
               </div>
 
               <div className='flex items-center gap-x-1 text-sm text-[#A1A1A2]'>
