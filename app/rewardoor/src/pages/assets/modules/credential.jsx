@@ -42,14 +42,14 @@ export default function Credential() {
                           style={{ marginBottom: 0 }}
                           className="flex justify-center items-center"
                           copyable={{
-                            text: item.campaignId,
+                            text: item.credentialId,
                             icon: [
                               <img src={copyIcon} className="w-4 h-4" />,
                               <CheckOutlined style={{ color: "#3A82F7" }} />,
                             ],
                           }}
                         >
-                          {item.campaignId}
+                          {item.credentialId}
                         </Paragraph>
                       </div>
                     }
@@ -84,7 +84,7 @@ export default function Credential() {
                                         style={{ marginBottom: 0 }}
                                         className="flex justify-center items-center"
                                         copyable={{
-                                          text: item.campaignId,
+                                          text: item.credentialId,
                                           icon: [
                                             <img
                                               src={copyIcon}
@@ -96,7 +96,7 @@ export default function Credential() {
                                           ],
                                         }}
                                       >
-                                        {item.campaignId}
+                                        {item.credentialId}
                                       </Paragraph>
                                     </div>
                                   }
