@@ -78,6 +78,7 @@ export default function Credentials () {
                           labelType={item.labelType}
                           pc
                           options={options}
+                          theme='white'
                         />
                         _{`${item.credentialId}`.slice(-4)}
                       </div>
@@ -123,6 +124,7 @@ export default function Credentials () {
                 labelType={item.labelType}
                 pc
                 options={options}
+                theme='white'
               />
             </div>
           );

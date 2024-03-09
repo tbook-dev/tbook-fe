@@ -12,9 +12,9 @@ export default function CredentialDisplay ({
   clickHandle,
   pc,
   options = {},
+  theme = 'dark',
 }) {
   const credentialConf = credentialList.find(v => v.labelType === labelType);
-
   const { isLink, link, actionName, actionTarget, actionHandle } = {
     isLink: actionMap[labelType]?.isLink,
     link: actionMap[labelType]?.getLink({ ...options, pc }),
@@ -37,7 +37,7 @@ export default function CredentialDisplay ({
       className='flex items-start gap-x-1 pt-[3px] flex-auto w-[calc(100%_-_45px)]'
     >
       <img
-        src={credentialConf.picUrl}
+        src={theme === 'dark' ? credentialConf.picUrl : credentialConf.picUrl2}
         className='w-5 h-5 object-contain mt-0.5'
       />
       {isLink ? (
