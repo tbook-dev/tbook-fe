@@ -115,6 +115,6 @@ export default [
       'https://rd-worker.xgamma.workers.dev/img/55fdf68bcded4fcfacb9f103ade8ddfb',
     groupType: 7,
     picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/55fdf68bcded4fcfacb9f103ade8ddfb',
+      'https://rd-worker.xgamma.workers.dev/img/2916cb920a1446a6a4b3e40c04151825',
   },
 ];
