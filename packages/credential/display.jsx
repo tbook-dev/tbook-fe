@@ -45,13 +45,15 @@ export default function CredentialDisplay ({
           href={link}
           target='_blank'
           rel='nofollow noopener noreferrer'
-          className='max-w-[calc(100%_-_26px)] lg:max-w-[430px] text-[#904BF6] text-base inline-flex'
+          className='max-w-[calc(100%_-_26px)] lg:max-w-[430px] text-base inline-flex'
         >
-          {actionName} <span className='text-white ml-1'>{actionTarget}</span>
+          <span className='text-[#904BF6]'>{actionName}</span>
+          <span className='ml-1'>{actionTarget}</span>
         </a>
       ) : (
-        <button className='max-w-[calc(100%_-_26px)] lg:max-w-[430px] text-[#904BF6] text-base inline-flex'>
-          {actionName} <span className='text-white ml-1'>{actionTarget}</span>
+        <button className='max-w-[calc(100%_-_26px)] lg:max-w-[430px] text-base inline-flex'>
+          <span className='text-[#904BF6]'>{actionName}</span>
+          <span className='ml-1'>{actionTarget}</span>
         </button>
       )}
     </div>
