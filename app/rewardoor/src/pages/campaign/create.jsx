@@ -19,7 +19,7 @@ import useCredential from '@/hooks/queries/useCredential';
 import useCampaign from '@/hooks/queries/useCampaign';
 import Loading from '@/components/loading';
 import useCampaignList from '@/hooks/queries/useCampaignList';
-import credentialMap from '@/components/credential/form.jsx';
+import credentialMap from '@/components/credential/form';
 import { pick } from 'lodash';
 
 const title = 'Set up an Incentive Campaign';

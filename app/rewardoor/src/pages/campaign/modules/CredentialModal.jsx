@@ -12,7 +12,7 @@ import {
   credential as credentialList,
   category as categoryList,
 } from '@tbook/credential';
-import credentialMap from '@/components/credential/form.jsx';
+import credentialMap from '@/components/credential/form';
 import { merge, pick } from 'lodash';
 
 const title = 'Set Up Credential Group';
@@ -61,7 +61,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
         // parse
         const parseResult = await Promise.all(
           values.credential.map(async c => {
-            console.log(values, c, '--->');
+            // console.log(values, c, '--->');
             const res = await parseLinkParams({
               ...c,
               url: c.link,
@@ -250,28 +250,6 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                             </div>
 
                             <CC key={key} name={name} {...restField} />
-                            {/* {credential.list.map((v, idx) => {
-                              return v.component === 'HTML' ? (
-                                <div
-                                  key={name + v.name + idx}
-                                  className='text-sm font-medium text-c-9 mb-3'
-                                  dangerouslySetInnerHTML={{ __html: v.html }}
-                                />
-                              ) : (
-                                <Form.Item
-                                  {...restField}
-                                  name={[name, v.name]}
-                                  label={v.label}
-                                  rules={v.rules}
-                                  key={name + v.name + idx}
-                                >
-                                  {createElement(
-                                    ComponentMap[v.component],
-                                    v.componentProps
-                                  )}
-                                </Form.Item>
-                              );
-                            })} */}
                           </div>
                         );
                       })
