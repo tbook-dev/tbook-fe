@@ -2,6 +2,7 @@ import Footer from "@/layout/common/Footer";
 import { useResponsive } from "ahooks";
 import bgPc from "@/images/error/error-pc.svg";
 import bg from "@/images/error/error.svg";
+import LazyImage from '@/components/lazyImage'
 
 const moduleConf = {
   title: "Something went wrong!",
@@ -30,7 +31,11 @@ export default function GlobalError() {
         }
       >
         {pc && (
-          <img src={bgPc} className="absolute w-full h-full object-cover" />
+          <LazyImage 
+            src={bgPc}
+            alt='background'
+            className="absolute w-full h-full object-cover" 
+          />
         )}
         <div className="relative px-6 lg:px-0 lg:w-[1200px] mx-auto flex flex-col justify-end pb-10 lg:pb-0 lg:justify-center items-center lg:items-start gap-y-8 lg:gap-y-16">
           <div className="space-y-4 lg:space-y-7 text-center lg:text-start">
