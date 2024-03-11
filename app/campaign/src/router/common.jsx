@@ -185,6 +185,10 @@ const routes = [
     element: <Page404 />,
   },
   {
+    path: "/404",
+    element: <Page404 />,
+  },
+  {
     path: "/test-error/500",
     element: <RandomError />,
     errorElement: <GlobalError />,

@@ -17,7 +17,7 @@ export default function GlobalError() {
   return (
     <div className="flex flex-col  min-h-screen bg-black text-white">
       <div
-        className="relative flex-auto overflow-x-hidden overflow-y-auto flex"
+        className="relative flex-auto overflow-x-hidden overflow-y-auto flex pb-20"
         style={
           pc
             ? null
@@ -48,7 +48,9 @@ export default function GlobalError() {
           </button>
         </div>
       </div>
-      <Footer />
+      <div className="fixed bottom-0 inset-x-0">
+        <Footer />
+      </div>
     </div>
   );
 }
