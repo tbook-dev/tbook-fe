@@ -8,6 +8,7 @@ import queryClient from '../query-client'
 import logo from '@/images/icon/logo.svg'
 import App from '@/pages/app'
 import commonRoutes from './common'
+import GlobalError from '@/components/errorBoundary/GlobalError';
 
 const Home = lazy(() => import('@/pages/home'))
 const Explore = lazy(() => import('@/pages/explore'))
@@ -57,6 +58,7 @@ const routes = [
     path: '/',
     loader: getProjectIdFn,
     element: <HomeLayout />,
+    errorElement: <GlobalError />,
     children: [
       {
         index: true,
@@ -73,6 +75,7 @@ const routes = [
     path: '/explore',
     loader: getProjectIdFn,
     element: <Layout />,
+    errorElement: <GlobalError />,
     children: [
       {
         index: true,
@@ -89,13 +92,16 @@ const routes = [
     path: '/',
     element: <MyLayout />,
     loader: getProjectIdFn,
+    errorElement: <GlobalError />,
     children: [
       {
         path: ':projectName',
         loader: getProjectIdFn,
         element: (
           <Suspense fallback={<PageFallBack />}>
-            <HomeV2 />
+            {/* <ErrorBoundary fallbackComponent={<GlobalError/>}> */}
+              <HomeV2 />
+            {/* </ErrorBoundary> */}
           </Suspense>
         )
       },

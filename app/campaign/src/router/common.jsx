@@ -1,67 +1,71 @@
-import MyLayout from '@/layout/my/Layout'
-import logo from '@/images/icon/logo.svg'
-import { isUsingSubdomain } from '@/utils/common'
-import PageFallBack from '@/components/pageFallback'
-import { Suspense, lazy } from 'react'
-import queryClient from '../query-client'
-import { getProjectId } from '@/api/incentive'
+import MyLayout from "@/layout/my/Layout";
+import logo from "@/images/icon/logo.svg";
+import { isUsingSubdomain } from "@/utils/common";
+import PageFallBack from "@/components/pageFallback";
+import { Suspense, lazy } from "react";
+import queryClient from "../query-client";
+import { getProjectId } from "@/api/incentive";
+import GlobalError from "@/components/errorBoundary/GlobalError";
 
-const TwitterCallback = lazy(() => import('@/pages/twitter/callback'))
-const TgCallback = lazy(() => import('@/pages/social/tg'))
-const DcCallback = lazy(() => import('@/pages/social/dc'))
+const TwitterCallback = lazy(() => import("@/pages/twitter/callback"));
+const TgCallback = lazy(() => import("@/pages/social/tg"));
+const DcCallback = lazy(() => import("@/pages/social/dc"));
 const TwitterLoginCallback = lazy(() =>
-  import('@/pages/twitter/login_callback')
-)
-const TwLoginIndex = lazy(() => import('@/pages/twitter/tw_login'))
-const ZkLoginIndex = lazy(() => import("@/pages/zklogin/zk_login"));
+  import("@/pages/twitter/login_callback")
+);
+const TwLoginIndex = lazy(() => import("@/pages/twitter/tw_login"));
+// const ZkLoginIndex = lazy(() => import("@/pages/zklogin/zk_login"));
 const ZkLoginCallback = lazy(() => import("@/pages/zklogin/zk_login_callback"));
 const ZkLoginEnoki = lazy(() => import("@/pages/zklogin/zk_login_with_enoki"));
+const Page404 = lazy(() => import("@/pages/404"));
+const RandomError = lazy(() => import("@/components/randomError"));
 
 const getProjectIdFn = async () => {
   const defaultValues = {
-    projectUrl: 'tbook',
+    projectUrl: "tbook",
     isUsingSubdomain,
-    projectId: '',
+    projectId: "",
     project: {
-      projectUrl: 'tbook',
-      avatarUrl: logo
-    }
-  }
+      projectUrl: "tbook",
+      avatarUrl: logo,
+    },
+  };
 
   if (isUsingSubdomain) {
     try {
-      const host = location.hostname
-      const subDomain = host.split('.')?.[0]
-      const projectUrl = subDomain
+      const host = location.hostname;
+      const subDomain = host.split(".")?.[0];
+      const projectUrl = subDomain;
       const res = await queryClient.fetchQuery(
-        ['project', projectUrl],
+        ["project", projectUrl],
         () => getProjectId(projectUrl),
         {
           staleTime: Infinity,
-          cacheTime: Infinity
+          cacheTime: Infinity,
         }
-      )
+      );
       return {
         projectUrl,
         isUsingSubdomain: true,
         projectId: res?.projectId,
-        project: res
-      }
+        project: res,
+      };
     } catch (error) {
-      return defaultValues
+      return defaultValues;
     }
   } else {
-    return defaultValues
+    return defaultValues;
   }
-}
+};
 
 // import SocialConnect from '@/pages/social/index'
 
 const routes = [
   {
-    path: '/twitter/callback',
+    path: "/twitter/callback",
     loader: getProjectIdFn,
     element: <MyLayout />,
+    errorElement: <GlobalError />,
     children: [
       {
         index: true,
@@ -70,14 +74,15 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <TwitterCallback />
           </Suspense>
-        )
-      }
-    ]
+        ),
+      },
+    ],
   },
   {
-    path: '/twitter/login/callback',
+    path: "/twitter/login/callback",
     loader: getProjectIdFn,
     element: <MyLayout />,
+    errorElement: <GlobalError />,
     children: [
       {
         index: true,
@@ -86,14 +91,15 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <TwitterLoginCallback />
           </Suspense>
-        )
-      }
-    ]
+        ),
+      },
+    ],
   },
   {
-    path: '/tw_login',
+    path: "/tw_login",
     loader: getProjectIdFn,
     element: <MyLayout />,
+    errorElement: <GlobalError />,
     children: [
       {
         index: true,
@@ -102,14 +108,15 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <TwLoginIndex />
           </Suspense>
-        )
-      }
-    ]
+        ),
+      },
+    ],
   },
   {
-    path: '/tg_callback',
+    path: "/tg_callback",
     loader: getProjectIdFn,
     element: <MyLayout />,
+    errorElement: <GlobalError />,
     children: [
       {
         index: true,
@@ -118,14 +125,15 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <TgCallback />
           </Suspense>
-        )
-      }
-    ]
+        ),
+      },
+    ],
   },
   {
-    path: '/dc_callback',
+    path: "/dc_callback",
     loader: getProjectIdFn,
     element: <MyLayout />,
+    errorElement: <GlobalError />,
     children: [
       {
         index: true,
@@ -134,14 +142,15 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <DcCallback />
           </Suspense>
-        )
-      }
-    ]
+        ),
+      },
+    ],
   },
   {
     path: "/zklogin",
     loader: getProjectIdFn,
     element: <MyLayout />,
+    errorElement: <GlobalError />,
     children: [
       {
         index: true,
@@ -158,6 +167,7 @@ const routes = [
     path: "/zklogin/callback",
     loader: getProjectIdFn,
     element: <MyLayout />,
+    errorElement: <GlobalError />,
     children: [
       {
         index: true,
@@ -171,8 +181,13 @@ const routes = [
     ],
   },
   {
-    path: '*',
-    element: <div className='w-full h-screen bg-black text-white'>404</div>
-  }
-]
-export default routes
+    path: "*",
+    element: <Page404 />,
+  },
+  {
+    path: "/test-error/500",
+    element: <RandomError />,
+    errorElement: <GlobalError />,
+  },
+];
+export default routes;

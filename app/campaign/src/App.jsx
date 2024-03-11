@@ -1,7 +1,7 @@
 import { React } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PageFallBack from "@/components/pageFallback";
-import { configResponsive, useEventListener } from "ahooks";
+import { useEventListener } from "ahooks";
 import hostRoutes from "@/router/campaign.host";
 import pathRoutes from "@/router/campaign.pathname";
 
@@ -12,9 +12,6 @@ import { wagmiConfig } from "@/utils/web3";
 import { receive } from "@/utils/channel";
 import { isUsingSubdomain } from "@/utils/common";
 
-configResponsive({
-  pc: 1200,
-});
 
 function App() {
   const queryClient = useQueryClient();
