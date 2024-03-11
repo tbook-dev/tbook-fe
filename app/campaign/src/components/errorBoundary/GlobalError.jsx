@@ -1,7 +1,7 @@
 import Footer from "@/layout/common/Footer";
 import { useResponsive } from "ahooks";
-import bgPc from "@/images/error/error-pc.png";
-import bg from "@/images/error/error.png";
+import bgPc from "@/images/error/error-pc.svg";
+import bg from "@/images/error/error.svg";
 
 const moduleConf = {
   title: "Something went wrong!",

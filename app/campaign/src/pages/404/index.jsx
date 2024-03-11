@@ -1,7 +1,7 @@
 import Footer from "@/layout/common/Footer";
 import { useResponsive } from "ahooks";
-import bgPc from "@/images/error/404-pc.png";
-import bg from "@/images/error/404.png";
+import bgPc from "@/images/error/404-pc.svg";
+import bg from "@/images/error/404.svg";
 
 const moduleConf = {
   title1: "404",
@@ -36,7 +36,7 @@ export default function Global404() {
               <br />
               {moduleConf.title2}
             </h2>
-            <p className="text-lg lg:text-2xl">{moduleConf.desc}</p>
+            <p className="text-lg lg:text-2xl lg:w-[460px]">{moduleConf.desc}</p>
           </div>
         </div>
       </div>
