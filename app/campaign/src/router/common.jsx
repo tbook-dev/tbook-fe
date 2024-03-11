@@ -18,7 +18,7 @@ const TwLoginIndex = lazy(() => import("@/pages/twitter/tw_login"));
 const ZkLoginCallback = lazy(() => import("@/pages/zklogin/zk_login_callback"));
 const ZkLoginEnoki = lazy(() => import("@/pages/zklogin/zk_login_with_enoki"));
 const Page404 = lazy(() => import("@/pages/404"));
-const RandomError = lazy(() => import("@/components/randomError"));
+// const RandomError = lazy(() => import("@/components/randomError"));
 
 const getProjectIdFn = async () => {
   const defaultValues = {
@@ -188,10 +188,10 @@ const routes = [
     path: "/404",
     element: <Page404 />,
   },
-  {
-    path: "/test-error/500",
-    element: <RandomError />,
-    errorElement: <GlobalError />,
-  },
+  // {
+  //   path: "/test-error/500",
+  //   element: <RandomError />,
+  //   errorElement: <GlobalError />,
+  // },
 ];
 export default routes;
