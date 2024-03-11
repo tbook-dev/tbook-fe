@@ -6,6 +6,7 @@ import queryClient from '../query-client'
 import logo from '@/images/icon/logo.svg'
 import App from '@/pages/app'
 import commonRoutes from './common'
+import GlobalError from '@/components/errorBoundary/GlobalError';
 
 const HomeV2 = lazy(() => import('@/pages/home-v2'))
 const Snapshot = lazy(() => import('@/pages/snapshot'))
@@ -53,6 +54,7 @@ const routes = [
     path: '/',
     element: <MyLayout />,
     loader: getProjectIdFn,
+    errorElement: <GlobalError />,
     children: [
       {
         index: true,
