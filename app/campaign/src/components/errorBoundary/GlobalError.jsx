@@ -15,7 +15,7 @@ export default function GlobalError() {
   };
   
   return (
-    <div className="flex flex-col  min-h-screen bg-black text-white">
+    <div className="flex flex-col  min-h-dvh bg-black text-white">
       <div
         className="relative flex-auto overflow-x-hidden overflow-y-auto flex pb-20"
         style={
