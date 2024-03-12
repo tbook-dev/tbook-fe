@@ -34,7 +34,6 @@ export default function Credential({ redential, showVerify, signCredential }) {
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
-  const [twitterClicked, setTwitterClicked] = useState(false);
 
   const {
     twitterConnected,
@@ -43,6 +42,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
     telegramConnected,
     wallectConnected,
     address,
+    user
   } = useUserInfo();
   const { getSocialByName } = useSocial();
   const { pc } = useResponsive();
@@ -59,6 +59,8 @@ export default function Credential({ redential, showVerify, signCredential }) {
     address,
     redential.isVerified
   );
+  const unikey = `localkey-${user?.userId}-${redential?.credentialId}`
+  // console.log({user, redential, unikey})
   // console.log({isVerified: redential.isVerified ,votes,isLoading})
   const { isConnected } = useAccount();
   const [count, setCount] = useState(0);
@@ -85,7 +87,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
     return isConnected && wallectConnected;
   }, [isConnected, wallectConnected]);
   const resetCount = useCallback(() => {
-    setCount(60);
+    setCount(30);
   }, []);
   const connectWallect = useCallback(() => {
     dispatch(setConnectWalletModal(true));
@@ -110,6 +112,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
       // 如果是snapshot，直接提交表单， 不在此处验证
       console.log("auto exe");
     }
+    const twitterClicked = !!localStorage.getItem(unikey)
     if (isTwitterType && !twitterClicked) {
       // 如果是推特，点击了按钮就可以认为完成任务了, 这个逻辑由后端控制
       // 前端只控制先后次序，即：验证之前必须要先点击任务按钮
@@ -117,6 +120,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
       resetCount();
       throw new Error(true);
     }
+
     try {
       const res = await verifyCredential(redential.credentialId);
       if (res.isVerified) {
@@ -140,8 +144,9 @@ export default function Credential({ redential, showVerify, signCredential }) {
   };
   const localTwitterVerify = useCallback(() => {
     // 如果不是推特类型，根本不会走到这一步
-    setTwitterClicked(true);
-    // console.log("--> log");
+    // setTwitterClicked(true);
+    localStorage.setItem(unikey,'1')
+    // console.log("--> log", unikey);
   }, []);
   // 点击任务，除了跳转外的额外处理。
   const taskMap = {
