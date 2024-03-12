@@ -3,10 +3,13 @@ import { useQuery } from "react-query";
 import { getCredentials } from "@/api/incentive";
 import { incentiveAssetsTypeList, getUrl } from "@/utils/conf";
 import useUserInfo from "@/hooks/queries/useUserInfo";
-import { Typography } from "antd";
+import { Typography, Popover } from "antd";
 import dayjs from "dayjs";
 import Loading from "@/components/loading";
 import useCampaign from "@/hooks/queries/useCampaign";
+import copyIcon from '@/images/icon/copy.svg'
+import { CheckOutlined } from '@ant-design/icons'
+
 
 const dateFormat = `YYYY-MM-DD HH:mm:ss (UTCZ)`;
 const { Paragraph } = Typography;
@@ -66,6 +69,30 @@ export default function Campaign() {
                           <div
                             dangerouslySetInnerHTML={{ __html: v.displayExp }}
                           />
+                          <Popover
+                            content={
+                              <div className='text-sm text-[#FCFCFC] space-y-1'>
+                                <p>Credential ID</p>
+                                <Paragraph
+                                  style={{ marginBottom: 0 }}
+                                  className='flex justify-center items-center'
+                                  copyable={{
+                                    text: v.credentialId,
+                                    icon: [
+                                      <img src={copyIcon} className='w-4 h-4' />,
+                                      <CheckOutlined style={{ color: '#3A82F7' }} />
+                                    ]
+                                  }}
+                                >
+                                  {v.credentialId}
+                                </Paragraph>
+                              </div>
+                            }
+                          >
+                            <span className='text-xs inline-block p-1 bg-[#1a1a1a] rounded-sm cursor-pointer'>
+                              ID
+                            </span>
+                          </Popover>
                         </div>
                       );
                     })}
