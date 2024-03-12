@@ -95,6 +95,12 @@ export default function Credential({ redential, showVerify, signCredential }) {
   const signIn = useCallback(() => {
     dispatch(setLoginModal(true));
   }, []);
+  const localTwitterVerify = useCallback(() => {
+    // 如果不是推特类型，根本不会走到这一步
+    // setTwitterClicked(true);
+    localStorage.setItem(unikey,'1')
+    // console.log("--> log", unikey);
+  }, []);
   const handleVerify = async (redential) => {
     // 如果是snapshot，先坚持上报然后
     let hasError = false;
@@ -114,6 +120,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
     }
     const twitterClicked = !!localStorage.getItem(unikey)
     if (isTwitterType && !twitterClicked) {
+      localTwitterVerify();
       // 如果是推特，点击了按钮就可以认为完成任务了, 这个逻辑由后端控制
       // 前端只控制先后次序，即：验证之前必须要先点击任务按钮
       hasError = true;
@@ -142,12 +149,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
       throw new Error(hasError);
     }
   };
-  const localTwitterVerify = useCallback(() => {
-    // 如果不是推特类型，根本不会走到这一步
-    // setTwitterClicked(true);
-    localStorage.setItem(unikey,'1')
-    // console.log("--> log", unikey);
-  }, []);
+  
   // 点击任务，除了跳转外的额外处理。
   const taskMap = {
     1: localTwitterVerify,
