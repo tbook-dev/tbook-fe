@@ -7,7 +7,9 @@ import useSocial from '@/hooks/useSocial'
 import { useNavigate } from 'react-router-dom'
 import { redirectLocalStorageOnce } from '@/pages/social/conf'
 import Address from '@tbook/ui/src/Address'
-
+import { useDispatch } from 'react-redux'
+import { setShowMergeAccountModal } from '@/store/global'
+import { useCallback } from "react"
 // import sucessSvg from '@/images/social/sucess.svg'
 // import failedSvg from '@/images/social/fail.svg'
 // import occupiedSvg from '@/images/social/occupied.svg'
@@ -33,7 +35,11 @@ export default function RedirectSocial ({
 
   const { getfnByName } = useSocial()
   const { failText, loginFn } = getfnByName(type)
+  const dispath = useDispatch()
 
+  const handleMergeAccount = useCallback(() => {
+    dispath(setShowMergeAccountModal(true))
+  }, [])
   return (
     <div className='pt-[100px] lg:pt-[200px]'>
       {status === 'loading' && (
@@ -89,6 +95,29 @@ export default function RedirectSocial ({
               onClick={() => redirectLocalStorageOnce(navigate)}
             >
               Back to campaign page
+            </button>
+          </div>
+        </div>
+      )}
+      {status === 'occupied' && (
+        <div className='flex flex-col items-center'>
+          <img src={failedSvg} className='w-14 lg:w-20 h-14 lg:h-20' />
+          <Result
+            title='Failed to authorize'
+            desc={desc || 'Account occupied!'}
+          />
+          <div className='w-[312px] mx-auto text-white mt-8 space-y-3'>
+            <button
+              className='h-[42px] w-full shadow-s4 rounded border border-[rgb(255,255,255)]/[0.2] hover:opacity-70'
+              onClick={() => redirectLocalStorageOnce(navigate)}
+            >
+              Back to campaign page
+            </button>
+            <button
+              className='bg-[#904BF6] h-[42px] w-full shadow-s4 rounded hover:opacity-70'
+              onClick={handleMergeAccount}
+            >
+              Merge the accounts
             </button>
           </div>
         </div>

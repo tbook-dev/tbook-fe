@@ -28,6 +28,12 @@ export default function MergeAccount () {
 
   const handleMergeAccount = () => {
     console.log('confirm')
+    // api
+    
+    // callback
+    // if(typeof mergeAccountData.callback === "function"){
+    //   mergeAccountData.callback()
+    // }
   }
 
   return (

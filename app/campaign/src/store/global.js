@@ -13,9 +13,14 @@ const initialState = {
     status: "loading",
     desc: "",
   },
+  // socialRedirectModalData: {
+  //   type: "twitter",
+  //   status: "occupied-merge",
+  //   desc: "test",
+  // },
   snapshotData: null,
   showPassportGeneratingModal: false,
-  showMergeAccountModal: true,
+  showMergeAccountModal: false,
   mergeAccountData: {
     twitterName: "",
     address: "",

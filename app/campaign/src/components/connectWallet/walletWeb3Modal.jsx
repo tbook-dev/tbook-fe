@@ -70,6 +70,7 @@ const ConnectWalletModal = () => {
         const data = await r.json()
         if (data.code === 400) {
           // 400 merge
+          // setShowMergeAccountModal()
           openMergeAccountModal()
         } else {
           // 4004要解绑

@@ -45,7 +45,12 @@ export default function ({ authCallback, type }) {
           )
         } else if (d.code === 400) {
           // 检查到可以merge
-          openMergeAccountModal()
+          setStatus('occupied-merge')
+          setErrorMessage(
+            `${displayName[type]} account ${isEmailType(type) ? '' : '@'}${
+              d.socialName
+            } has been occupied.`
+          )
         } else if (d.code === 500) {
           // 失败
           setStatus('failed')
