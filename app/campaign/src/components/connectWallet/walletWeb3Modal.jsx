@@ -1,4 +1,4 @@
-import { Modal, Typography, Spin, message } from 'antd'
+import { Modal, Typography, Spin, message, App } from 'antd'
 import { useSelector } from 'react-redux'
 import { useResponsive } from 'ahooks'
 import clsx from 'clsx'
@@ -10,7 +10,8 @@ import { useDispatch } from 'react-redux'
 import {
   setConnectWalletModal,
   setLoginModal,
-  setShowMergeAccountModal
+  setShowMergeAccountModal,
+  setMergeAccountData
 } from '@/store/global'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { useAccount, useSignMessage } from 'wagmi'
@@ -46,6 +47,7 @@ const ConnectWalletModal = () => {
   const showConnectWalletModal = useSelector(
     s => s.global.showConnectWalletModal
   )
+  const [messageApi, contextHolder] = message.useMessage();
   const { twitterConnected, refetch } = useUserInfo()
   // const queryClient = useQueryClient()
   const dispath = useDispatch()
@@ -71,11 +73,17 @@ const ConnectWalletModal = () => {
         if (data.code === 400) {
           // 400 merge
           // setShowMergeAccountModal()
+          dispath(
+            setMergeAccountData({
+              address: shortAddress(data.address),
+              twitterName: data.twitterName
+            })
+          )
           openMergeAccountModal()
         } else {
           // 4004要解绑
           if (data.code != 200) {
-            message.error(data.message)
+            messageApi.error(data.message)
             setLoading(false)
             handleCloseModal()
             return
@@ -215,6 +223,7 @@ const ConnectWalletModal = () => {
           </div>
         </div>
       </div>
+      {contextHolder}
     </Modal>
   )
 }

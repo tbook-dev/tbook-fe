@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import RedirectSocial from '@/components/redirectSocial'
 import { redirectLocalStorageOnce } from '@/pages/social/conf'
 import { delay } from '@/utils/common'
-import { setShowMergeAccountModal } from '@/store/global'
+import { setShowMergeAccountModal, setMergeAccountData } from '@/store/global'
 import { useDispatch } from 'react-redux'
+import { conf } from '@tbook/utils'
+const { shortAddress } = conf
 
 const displayName = {
   twitter: 'X',
@@ -51,6 +53,13 @@ export default function ({ authCallback, type }) {
               d.socialName
             } has been occupied.`
           )
+          dispath(
+            setMergeAccountData({
+              address: shortAddress(data.address),
+              twitterName: data.twitterName
+            })
+          )
+          openMergeAccountModal()
         } else if (d.code === 500) {
           // 失败
           setStatus('failed')

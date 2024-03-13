@@ -230,3 +230,7 @@ export const getAirdropAddress = async function (data) {
 export const markNewUser = async function(){
   return await request.Post(`${host}/markNewUser`);
 }
+
+export const mergeTwitterAndAddressAccount = async function(data){
+  return await request.PostFormV1(`${host}/twitter/merge`, data)
+}

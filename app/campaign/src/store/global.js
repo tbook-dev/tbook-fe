@@ -64,6 +64,9 @@ export const globalSlice = createSlice({
     setShowMergeAccountModal: (state, action) => {
       state.showMergeAccountModal = action.payload;
     },
+    setMergeAccountData: (state, action) => {
+      state.mergeAccountData = action.payload;
+    },
     resetMergeAccountData: (state) => {
       state.mergeAccountData = {
         twitterName: "",
@@ -85,6 +88,7 @@ export const {
   setsocialRedirectModalData,
   setShowPassportGeneratingModal,
   setShowMergeAccountModal,
+  setMergeAccountData,
   resetMergeAccountData
 } = globalSlice.actions;
 
