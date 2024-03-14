@@ -10,9 +10,9 @@ const moduleConf = {
       return (
         <>
           All data from the incentive passport associated with X @
-          <span className='text-white font-medium'>{twitterName}</span>
-          and the incentive passport associated with address{" "}
-          <span className='text-white font-medium'>{address}</span> has be
+          <span className='text-white font-medium mr-1'>{twitterName}</span>
+          and the incentive passport associated with address
+          <span className='text-white font-medium mx-1'>{address}</span> has be
           merged successfully.
         </>
       )

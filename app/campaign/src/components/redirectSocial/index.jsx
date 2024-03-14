@@ -108,16 +108,16 @@ export default function RedirectSocial ({
           />
           <div className='w-[312px] mx-auto text-white mt-8 space-y-3'>
             <button
-              className='h-[42px] w-full shadow-s4 rounded border border-[rgb(255,255,255)]/[0.2] hover:opacity-70'
-              onClick={() => redirectLocalStorageOnce(navigate)}
-            >
-              Back to campaign page
-            </button>
-            <button
               className='bg-[#904BF6] h-[42px] w-full shadow-s4 rounded hover:opacity-70'
               onClick={handleMergeAccount}
             >
               I want to merge
+            </button>
+            <button
+              className='h-[42px] w-full shadow-s4 rounded border border-[rgb(255,255,255)]/[0.2] hover:opacity-70'
+              onClick={() => redirectLocalStorageOnce(navigate)}
+            >
+              Back to campaign page
             </button>
           </div>
         </div>
