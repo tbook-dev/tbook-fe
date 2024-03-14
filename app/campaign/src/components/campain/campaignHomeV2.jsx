@@ -83,7 +83,7 @@ function Compaign ({
 
             {rewardOpt.hasPoint && (
               <div className='px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]'>
-                Ponits
+                Points
               </div>
             )}
           </div>
