@@ -48,7 +48,7 @@ const ConnectWalletModal = () => {
     s => s.global.showConnectWalletModal
   )
   const [messageApi, contextHolder] = message.useMessage();
-  const { twitterConnected, refetch } = useUserInfo()
+  const { data: userData, twitterConnected, refetch } = useUserInfo()
   // const queryClient = useQueryClient()
   const dispath = useDispatch()
   const { isConnected, address } = useAccount()
@@ -76,7 +76,9 @@ const ConnectWalletModal = () => {
           dispath(
             setMergeAccountData({
               address: shortAddress(data.address),
-              twitterName: data.twitterName
+              twitterName: data.twitterName,
+              twitterId: userData?.userTwitter?.twitterId,
+              redirect: false
             })
           )
           openMergeAccountModal()

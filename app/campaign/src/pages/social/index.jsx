@@ -58,6 +58,7 @@ export default function ({ authCallback, type }) {
             setMergeAccountData({
               address: shortAddress(d.address),
               twitterName: d.socialName ?? d.twitterName,
+              twitterId:  d.twitterId,
               redirect: true 
             })
           )

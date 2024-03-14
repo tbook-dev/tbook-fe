@@ -23,6 +23,7 @@ const initialState = {
   showMergeAccountModal: false,
   mergeAccountData: {
     twitterName: "",
+    twitterId: "",
     address: "",
     redirect: false,
   },
@@ -71,6 +72,7 @@ export const globalSlice = createSlice({
     resetMergeAccountData: (state) => {
       state.mergeAccountData = {
         twitterName: "",
+        twitterId: "",
         address: "",
         redirect: false,
       };
@@ -91,7 +93,7 @@ export const {
   setShowPassportGeneratingModal,
   setShowMergeAccountModal,
   setMergeAccountData,
-  resetMergeAccountData
+  resetMergeAccountData,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;
