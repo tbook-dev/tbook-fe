@@ -51,7 +51,8 @@ export default function ({ authCallback, type }) {
           setErrorMessage(
             `${displayName[type]} account ${isEmailType(type) ? '' : '@'}${
               d.socialName ?? d.twitterName
-            } has been occupied.`
+            } been associated with another incentive passport.
+            Do you want to merge the incentive passport with your current incentive passport ?`
           )
           dispath(
             setMergeAccountData({

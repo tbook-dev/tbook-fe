@@ -21,9 +21,9 @@ const moduleConf = {
     return (
       <>
         All data from the incentive passport associated with X @
-        <span className="text-white font-medium">{twitterName}</span>
-        and the incentive passport associated with address{" "}
-        <span className="text-white font-medium">
+        <span className="text-white font-medium mr-1">{twitterName}</span>
+        and the incentive passport associated with address
+        <span className="text-white font-medium mx-1">
           {shortAddress(address)}
         </span>{" "}
         will be merged.

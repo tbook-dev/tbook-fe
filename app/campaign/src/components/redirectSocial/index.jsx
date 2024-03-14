@@ -16,7 +16,7 @@ import { useCallback } from "react"
 
 const Result = ({ title, desc }) => {
   return (
-    <div className='px-7 pt-4 text-center'>
+    <div className='px-7 pt-4 text-center w-[320px] mx-auto'>
       {title && (
         <h2 className='text-white text-lg font-medium mb-2'>{title}</h2>
       )}
@@ -117,7 +117,7 @@ export default function RedirectSocial ({
               className='bg-[#904BF6] h-[42px] w-full shadow-s4 rounded hover:opacity-70'
               onClick={handleMergeAccount}
             >
-              Merge the accounts
+              I want to merge
             </button>
           </div>
         </div>
