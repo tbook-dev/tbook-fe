@@ -68,7 +68,7 @@ export default function MergeAccount() {
           setMergeResult({
             status: "sucess",
             twitterName: res.mergeTwitterInfo?.twitterName,
-            address: res.address,
+            address: shortAddress(res.address),
           });
           setShowMergeResultModal(true);
           refetch();
@@ -90,10 +90,6 @@ export default function MergeAccount() {
         setLoading(false);
         resetMergeAccountData();
         hideMergeAccountModal();
-        // redirect callback
-        if (typeof mergeAccountData.callback === "function") {
-          mergeAccountData.callback();
-        }
       });
   };
 

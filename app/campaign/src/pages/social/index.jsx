@@ -24,9 +24,9 @@ export default function ({ authCallback, type }) {
   const [data, setData] = useState({})
   const dispath = useDispatch()
 
-  const openMergeAccountModal = useCallback(() => {
-    dispath(setShowMergeAccountModal(true))
-  }, [])
+  // const openMergeAccountModal = useCallback(() => {
+  //   dispath(setShowMergeAccountModal(true))
+  // }, [])
   useEffect(() => {
     authCallback()
       .then(async d => {
