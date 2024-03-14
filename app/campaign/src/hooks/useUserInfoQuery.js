@@ -42,7 +42,7 @@ export default function useUserInfo() {
   const googleConnected = isGoogle;
   const newUser = !!data?.newUser;
   const address = data?.user?.wallet || data?.user?.zk?.address
-  const sessionKey = `markNewUser-${address ?? ''}`
+  const sessionKey = `markNewUser-${user?.userId ?? ''}`
   if (
     data &&
     !showPassportGeneratingModal &&

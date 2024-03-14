@@ -78,7 +78,7 @@ export default function PassportCard({ onClose }) {
 
         <div className="relative flex items-center justify-center gap-x-3 pb-5">
           {!isUsingWallet && (
-            <button onClick={handleConnectWallet}>
+            <button onClick={handleConnectWallet} className="focus-visible:outline-none">
               <img
                 src={walletGrayIcon}
                 alt="wallet connect"
