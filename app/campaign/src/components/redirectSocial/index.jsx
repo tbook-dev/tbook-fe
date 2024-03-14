@@ -103,8 +103,8 @@ export default function RedirectSocial ({
         <div className='flex flex-col items-center'>
           <img src={failedSvg} className='w-14 lg:w-20 h-14 lg:h-20' />
           <Result
-            title='Failed to authorize'
-            desc={desc || 'Account occupied!'}
+            title='Account Occupied'
+            desc={desc || 'Account Occupied!'}
           />
           <div className='w-[312px] mx-auto text-white mt-8 space-y-3'>
             <button
