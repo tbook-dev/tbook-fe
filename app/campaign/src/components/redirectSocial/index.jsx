@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { redirectLocalStorageOnce } from '@/pages/social/conf'
 import Address from '@tbook/ui/src/Address'
 import { useDispatch } from 'react-redux'
-import { setShowMergeAccountModal } from '@/store/global'
+import { setShowMergeAccountModal, resetMergeAccountData } from '@/store/global'
 import { useCallback } from "react"
 // import sucessSvg from '@/images/social/sucess.svg'
 // import failedSvg from '@/images/social/fail.svg'
@@ -39,6 +39,7 @@ export default function RedirectSocial ({
 
   const handleMergeAccount = useCallback(() => {
     dispath(setShowMergeAccountModal(true))
+    dispath(resetMergeAccountData())
   }, [])
   return (
     <div className='pt-[100px] lg:pt-[200px]'>
@@ -99,7 +100,7 @@ export default function RedirectSocial ({
           </div>
         </div>
       )}
-      {status === 'occupied' && (
+      {status === 'occupied-merge' && (
         <div className='flex flex-col items-center'>
           <img src={failedSvg} className='w-14 lg:w-20 h-14 lg:h-20' />
           <Result

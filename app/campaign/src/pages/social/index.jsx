@@ -55,11 +55,13 @@ export default function ({ authCallback, type }) {
           )
           dispath(
             setMergeAccountData({
-              address: shortAddress(data.address),
-              twitterName: data.twitterName
+              address: shortAddress(d.address),
+              twitterName: d.twitterName,
+              callback: redirectLocalStorageOnce
             })
           )
-          openMergeAccountModal()
+          console.log('merge account')
+          // openMergeAccountModal()
         } else if (d.code === 500) {
           // 失败
           setStatus('failed')
