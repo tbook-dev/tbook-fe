@@ -39,7 +39,6 @@ export default function RedirectSocial ({
 
   const handleMergeAccount = useCallback(() => {
     dispath(setShowMergeAccountModal(true))
-    dispath(resetMergeAccountData())
   }, [])
   return (
     <div className='pt-[100px] lg:pt-[200px]'>

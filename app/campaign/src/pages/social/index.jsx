@@ -50,14 +50,14 @@ export default function ({ authCallback, type }) {
           setStatus('occupied-merge')
           setErrorMessage(
             `${displayName[type]} account ${isEmailType(type) ? '' : '@'}${
-              d.socialName
+              d.socialName ?? d.twitterName
             } has been occupied.`
           )
           dispath(
             setMergeAccountData({
               address: shortAddress(d.address),
-              twitterName: d.twitterName,
-              callback: redirectLocalStorageOnce
+              twitterName: d.socialName ?? d.twitterName,
+              redirect: true 
             })
           )
           console.log('merge account')

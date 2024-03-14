@@ -24,6 +24,7 @@ const initialState = {
   mergeAccountData: {
     twitterName: "",
     address: "",
+    redirect: false,
   },
 };
 
@@ -71,6 +72,7 @@ export const globalSlice = createSlice({
       state.mergeAccountData = {
         twitterName: "",
         address: "",
+        redirect: false,
       };
     },
   },

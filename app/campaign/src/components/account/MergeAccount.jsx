@@ -46,6 +46,17 @@ export default function MergeAccount() {
   const hideMergeAccountModal = useCallback(() => {
     dispath(setShowMergeAccountModal(false));
   }, []);
+  const onCancel = () => {
+    setShowMergeResultModal(false)
+    if(mergeAccountData?.redirect){
+      const key = 'redirect_url'
+      const redirect = localStorage.getItem(key);
+      if (redirect != null) {
+        localStorage.removeItem(key);
+        location.href = redirect;
+      }
+    }
+  }
   const handleMergeAccount = () => {
     setLoading(true);
     // api
@@ -79,7 +90,7 @@ export default function MergeAccount() {
         setLoading(false);
         resetMergeAccountData();
         hideMergeAccountModal();
-        // callback
+        // redirect callback
         if (typeof mergeAccountData.callback === "function") {
           mergeAccountData.callback();
         }
@@ -189,7 +200,7 @@ export default function MergeAccount() {
       </Transition.Root>
       <MergeResult
         open={showMergeResultModal}
-        onCancel={() => setShowMergeResultModal(false)}
+        onCancel={onCancel}
         data={mergeResult}
       />
     </>
