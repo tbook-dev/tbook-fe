@@ -21,7 +21,8 @@ const moduleConf = {
   failed: {
     title: 'Failed to merge',
     picUrl: failedSvg,
-    getDesc: () => `Passport merge failed. Please try again later.`
+    getDesc: ({ message }) =>
+      message ? message : `Passport merge failed. Please try again later.`
   }
 }
 export default function MergeResult ({
