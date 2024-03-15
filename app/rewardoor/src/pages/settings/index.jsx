@@ -5,7 +5,6 @@ import {
   Upload,
   notification,
   Radio,
-  ConfigProvider,
   Popover,
   Skeleton
 } from 'antd'
@@ -40,6 +39,8 @@ import { useQueryClient } from 'react-query'
 import Mce from '@/components/mce/FormItem'
 import clsx from 'clsx'
 import Admins from './Admins'
+import useOwnerInfo from "@/hooks/queries/useOwnerInfo"
+import { merge } from 'lodash'
 
 const pageTitle = 'Settings'
 const { Paragraph } = Typography
@@ -86,6 +87,8 @@ export default function Settings () {
   )
   const [api, contextHolder] = notification.useNotification()
   const { project, projectId, userDc, userTwitter, userTg } = useUserInfo()
+  const { ownerDc, ownerTg, ownerTwitter} = useOwnerInfo()
+  const [ dcInfo, tgInfo, twInfo] = [merge({}, userDc, ownerDc), merge({}, userTg, ownerTg), merge({}, userTwitter, ownerTwitter)]
   const { data: projectExt } = useProjectExt(projectId)
   const [confirmLoading, setConfirmLoading] = useState(false)
   const [confirmExtLoading, setConfirmExtLoading] = useState(false)
@@ -97,7 +100,7 @@ export default function Settings () {
   const queryClient = useQueryClient()
   const curHost = new URL(window.location.href).host
   const dcCallbackUrl = `https://discord.com/api/oauth2/authorize?client_id=1146414186566537288&redirect_uri=https%3A%2F%2F${curHost}%2Fdc_callback&response_type=code&scope=identify%20guilds%20guilds.members.read`
-
+  console.log({ownerDc, ownerTg, ownerTwitter})
   const tgCallbackHost = import.meta.env.VITE_TG_CALLBACK_HOST
   const tgBotId = import.meta.env.VITE_TG_BOT_ID
   const tgCallbackUrl = `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback.html&return_to=https%3A%2F%2F${tgCallbackHost}%2Ftg_callback.html`
@@ -261,10 +264,10 @@ export default function Settings () {
 
             <FormSection title='Official Links'>
               <div className='grid grid-cols-2 gap-x-5 gap-y-3'>
-                {userTwitter?.connected ? (
+                {twInfo?.connected ? (
                   <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#1DA1F2] text-white'>
                     <img src={xGray} className='w-[18px] h-[18px]' />
-                    {userTwitter?.twitterName}
+                    {twInfo?.twitterName}
                   </button>
                 ) : (
                   <a
@@ -278,10 +281,10 @@ export default function Settings () {
                     Connect with Twitter
                   </a>
                 )}
-                {/* {userDc?.connected ? (
+                {/* {dcInfo?.connected ? (
                     <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#5865F2] text-white'>
                       <img src={dcGray} className='w-[18px] h-[18px]' />
-                      {userDc?.username}
+                      {dcInfo?.username}
                     </button>
                   ) : (
                     <a
@@ -292,10 +295,10 @@ export default function Settings () {
                       Connect with Discord
                     </a>
                   )} */}
-                {userTg?.connected ? (
+                {tgInfo?.connected ? (
                   <button className='h-10 rounded-2.5xl flex items-center px-5 gap-x-2 bg-[#00A2F3] text-white'>
                     <img src={tgGray} className='w-[18px] h-[18px]' />@
-                    {userTg?.username}
+                    {tgInfo?.username}
                   </button>
                 ) : (
                   <a

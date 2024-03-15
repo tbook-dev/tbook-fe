@@ -307,3 +307,7 @@ export const addAdmin = async function (projectId, wallet, sign) {
 export const getAdminNonce = async function (data){
   return await request.Post(`${host}/project/admin/nonce`, data);
 }
+
+export const getOwnerInfo = async function(){
+  return await request(`${host}/ownerInfo`)
+}
