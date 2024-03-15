@@ -69,6 +69,13 @@ export default function MergeAccount () {
           })
           setShowMergeResultModal(true)
           refetch()
+        } else if (res.code === 400) {
+          setMergeSucess(false)
+          setShowMergeResultModal(true)
+          setMergeResult({
+            status: 'failed',
+            message: res.message
+          })
         } else {
           setMergeSucess(false)
           setShowMergeResultModal(true)
