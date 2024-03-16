@@ -73,17 +73,17 @@ export default function Credential({ redential, showVerify, signCredential }) {
     );
   }, [votes]);
 
-  const sysConnectedMap = {
-    twitter: twitterConnected,
-    discord: discordConnected,
-    telegram: telegramConnected,
-    tbook: userLogined,
-  };
-  const sycLoginFnMap = {
-    twitter: getSocialByName('twitter').loginFn,
-    discord: getSocialByName('discord').loginFn,
-    telegram: getSocialByName('telegram').loginFn,
-  };
+  // const sysConnectedMap = {
+  //   twitter: twitterConnected,
+  //   discord: discordConnected,
+  //   telegram: telegramConnected,
+  //   tbook: userLogined,
+  // };
+  // const sycLoginFnMap = {
+  //   twitter: getSocialByName('twitter').loginFn,
+  //   discord: getSocialByName('discord').loginFn,
+  //   telegram: getSocialByName('telegram').loginFn,
+  // };
   const canUseWallect = useMemo(() => {
     return isConnected && wallectConnected;
   }, [isConnected, wallectConnected]);
@@ -101,7 +101,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
     // setTwitterClicked(true);
     localStorage.setItem(unikey, '1');
     // console.log("--> log", unikey);
-  }, []);
+  }, [unikey]);
   const handleVerify = async (redential) => {
     // 如果是snapshot，先坚持上报然后
     let hasError = false;
@@ -191,7 +191,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
       }
     },
   };
-  const isRedentialNotLink = redential.labelType === 10;
+  // const isRedentialNotLink = redential.labelType === 10;
   // const getTaskFn = (redential) => {
   //   if (isRedentialNotLink) {
   //     taskMap[redential.labelType]()
@@ -199,15 +199,15 @@ export default function Credential({ redential, showVerify, signCredential }) {
   //     window.open(redential.link, pc ? '_blank' : '_self')
   //   }
   // }
-  const handleManualFn = async () => {
-    if (redential.labelType === 8) {
-      await verifyTbook(redential.credentialId);
-      await handleVerify(redential);
-    }
-    if (isTwitterType) {
-      localTwitterVerify();
-    }
-  };
+  // const handleManualFn = async () => {
+  //   if (redential.labelType === 8) {
+  //     await verifyTbook(redential.credentialId);
+  //     await handleVerify(redential);
+  //   }
+  //   if (isTwitterType) {
+  //     localTwitterVerify();
+  //   }
+  // };
 
   useEffect(() => {
     clearInterIdRef.current = setInterval(() => {
@@ -314,7 +314,8 @@ export default function Credential({ redential, showVerify, signCredential }) {
               </div>
             ) : (
               <Link
-                onClick={handleManualFn}
+                // onClick={handleManualFn}
+                onClick={taskMap[redential.labelType]}
                 // to={pc ? redential.intentDisplayLink : redential.displayLink}
                 to={actionMap[labelType]?.getLink({ ...options, pc })}
                 target="_blank"
