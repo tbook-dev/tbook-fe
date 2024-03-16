@@ -30,32 +30,36 @@ export default function CredentialDisplay ({
   //     actionHandle,
   //     options,
   //   });
-
-  return (
-    <div
+  return isLink ? (
+    <a
+      href={link}
+      target='_blank'
+      rel='nofollow noopener noreferrer'
       onClick={actionHandle}
-      className='flex items-start gap-x-1 pt-[3px] flex-auto w-[calc(100%_-_45px)]'
+      className='flex items-start flex-nowrap break-all gap-x-1 pt-[3px] flex-auto text-base'
     >
       <img
         src={theme === 'dark' ? credentialConf.picUrl : credentialConf.picUrl2}
-        className='w-5 h-5 object-contain mt-0.5'
+        className='w-5 h-5 object-contain mt-0.5 flex-none'
       />
-      {isLink ? (
-        <a
-          href={link}
-          target='_blank'
-          rel='nofollow noopener noreferrer'
-          className='max-w-[calc(100%_-_26px)] lg:max-w-[430px] text-base inline-flex'
-        >
-          <span className='text-[#904BF6]'>{actionName}</span>
-          <span className='ml-1'>{actionTarget}</span>
-        </a>
-      ) : (
-        <button className='max-w-[calc(100%_-_26px)] lg:max-w-[430px] text-base inline-flex'>
-          <span className='text-[#904BF6]'>{actionName}</span>
-          <span className='ml-1'>{actionTarget}</span>
-        </button>
-      )}
-    </div>
+      <span className='flex-auto'>
+        <span className='text-[#904BF6]'>{actionName}</span>
+        <span className='ml-1'>{actionTarget}</span>
+      </span>
+    </a>
+  ) : (
+    <button
+      onClick={actionHandle}
+      className='flex items-start flex-wrap break-all gap-x-1 pt-[3px] flex-auto text-base'
+    >
+      <img
+        src={theme === 'dark' ? credentialConf.picUrl : credentialConf.picUrl2}
+        className='w-5 h-5 object-contain mt-0.5 flex-none'
+      />
+      <span className='flex-auto'>
+        <span className='text-[#904BF6]'>{actionName}</span>
+        <span className='ml-1'>{actionTarget}</span>
+      </span>
+    </button>
   );
 }
