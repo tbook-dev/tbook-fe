@@ -1,4 +1,4 @@
-import { Modal, Typography, Spin, message } from 'antd'
+import { Modal, Typography, Spin, message, App } from 'antd'
 import { useSelector } from 'react-redux'
 import { useResponsive } from 'ahooks'
 import clsx from 'clsx'
@@ -7,7 +7,12 @@ import copyIcon from '@/images/icon/copy.svg'
 import disconnectIcon from '@/images/icon/disconnect.svg'
 import { useState, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { setConnectWalletModal, setLoginModal } from '@/store/global'
+import {
+  setConnectWalletModal,
+  setLoginModal,
+  setShowMergeAccountModal,
+  setMergeAccountData
+} from '@/store/global'
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { useAccount, useSignMessage } from 'wagmi'
 import { getNonce } from '@/utils/web3'
@@ -42,7 +47,8 @@ const ConnectWalletModal = () => {
   const showConnectWalletModal = useSelector(
     s => s.global.showConnectWalletModal
   )
-  const { twitterConnected, refetch } = useUserInfo()
+  const [messageApi, contextHolder] = message.useMessage();
+  const { data: userData, twitterConnected, refetch } = useUserInfo()
   // const queryClient = useQueryClient()
   const dispath = useDispatch()
   const { isConnected, address } = useAccount()
@@ -52,6 +58,10 @@ const ConnectWalletModal = () => {
   const { signMessageAsync } = useSignMessage()
   const [loading, setLoading] = useState(false)
 
+  const openMergeAccountModal = useCallback(() => {
+    dispath(setShowMergeAccountModal(true))
+  }, [])
+  
   const signIn = async () => {
     setLoading(true)
     try {
@@ -60,21 +70,36 @@ const ConnectWalletModal = () => {
       if (twitterConnected) {
         const r = await bindEvm(address, sign)
         const data = await r.json()
-        if (data.code != 200) {
-          message.error(data.message)
-          setLoading(false)
-          handleCloseModal()
-          return
-        }else{
-          await delay(100)
-          await refetch()
+        if (data.code === 400) {
+          // 400 merge
+          // setShowMergeAccountModal()
+          dispath(
+            setMergeAccountData({
+              address: shortAddress(data.address),
+              twitterName: data.twitterName,
+              twitterId: userData?.userTwitter?.twitterId,
+              redirect: false
+            })
+          )
+          openMergeAccountModal()
+        } else {
+          // 4004要解绑
+          if (data.code != 200) {
+            messageApi.error(data.message)
+            setLoading(false)
+            handleCloseModal()
+            return
+          } else {
+            await delay(100)
+            await refetch()
+          }
         }
       } else {
         await authenticate(address, sign)
         await delay(100)
         await refetch()
       }
-  
+
       // cast the userInfo event
       broadcast('userInfo')
       handleCloseModal()
@@ -200,6 +225,7 @@ const ConnectWalletModal = () => {
           </div>
         </div>
       </div>
+      {contextHolder}
     </Modal>
   )
 }

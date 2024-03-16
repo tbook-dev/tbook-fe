@@ -11,10 +11,22 @@ const initialState = {
   socialRedirectModalData: {
     type: "telegram",
     status: "loading",
-    desc: ""
+    desc: "",
   },
+  // socialRedirectModalData: {
+  //   type: "twitter",
+  //   status: "occupied-merge",
+  //   desc: "test",
+  // },
   snapshotData: null,
-  showPassportGeneratingModal: false
+  showPassportGeneratingModal: false,
+  showMergeAccountModal: false,
+  mergeAccountData: {
+    twitterName: "",
+    twitterId: "",
+    address: "",
+    redirect: false,
+  },
 };
 
 export const globalSlice = createSlice({
@@ -45,11 +57,25 @@ export const globalSlice = createSlice({
     setSnapshotData: (state, action) => {
       state.snapshotData = action.payload;
     },
-    setShowPassportGeneratingModal:(state, action) => {
-      // 手动比较 
-      if( state.showPassportGeneratingModal !== action.payload){
+    setShowPassportGeneratingModal: (state, action) => {
+      // 手动比较
+      if (state.showPassportGeneratingModal !== action.payload) {
         state.showPassportGeneratingModal = action.payload;
       }
+    },
+    setShowMergeAccountModal: (state, action) => {
+      state.showMergeAccountModal = action.payload;
+    },
+    setMergeAccountData: (state, action) => {
+      state.mergeAccountData = action.payload;
+    },
+    resetMergeAccountData: (state) => {
+      state.mergeAccountData = {
+        twitterName: "",
+        twitterId: "",
+        address: "",
+        redirect: false,
+      };
     },
   },
 });
@@ -64,7 +90,10 @@ export const {
   setShowSocicalModal,
   setShowSocialRedirectModal,
   setsocialRedirectModalData,
-  setShowPassportGeneratingModal
+  setShowPassportGeneratingModal,
+  setShowMergeAccountModal,
+  setMergeAccountData,
+  resetMergeAccountData,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

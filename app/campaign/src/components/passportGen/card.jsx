@@ -78,7 +78,7 @@ export default function PassportCard({ onClose }) {
 
         <div className="relative flex items-center justify-center gap-x-3 pb-5">
           {!isUsingWallet && (
-            <button onClick={handleConnectWallet}>
+            <button onClick={handleConnectWallet} className="focus-visible:outline-none">
               <img
                 src={walletGrayIcon}
                 alt="wallet connect"
@@ -124,7 +124,7 @@ export default function PassportCard({ onClose }) {
                 key={v.name}
                 to={v.path}
                 style={{ backgroundImage: `url(${shapeLink})` }}
-                className="text-[#FFBCDC] h-12 w-[240px] font-medium flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm"
+                className="text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm"
                 target="_blank"
                 onClick={onClose}
               >

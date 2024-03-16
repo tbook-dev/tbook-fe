@@ -20,7 +20,7 @@ const modalConf = {
   }
 }
 
-export default function WithVerify ({ handleFn, count, credentialType }) {
+export default function WithVerify ({ handleFn, evmRequire, count, credentialType }) {
   const { pc } = useResponsive()
   // const open = useSelector(v => v.global.showSocicalModal)
   const [open, setOpen] = useState(false)
@@ -43,7 +43,6 @@ export default function WithVerify ({ handleFn, count, credentialType }) {
     setOpen(false)
   }, [])
 
-  // console.log({social})
 
   return (
     <>
@@ -76,8 +75,10 @@ export default function WithVerify ({ handleFn, count, credentialType }) {
           //   }
           // }
           if (!userLogined) {
-              dispath(setLoginModal(true))
-          } else {
+            dispath(setLoginModal(true))
+          } else if(evmRequire && !wallectConnected){
+            dispath(setConnectWalletModal(true))
+          }else{
             if (isSocial && !social.connected) {
               // dispath(setShowSocicalModal(true))
               setOpen(true)

@@ -11,13 +11,11 @@ import { sum } from "lodash";
 import Empty from "@/components/empty";
 import { Affix, Skeleton } from "antd";
 
-export default function Expore() {
+export default function HomeProject() {
   const [selectStatus, setSelectedStatus] = useState(-1);
-
   const { projectId, project } = useLoaderData();
   const { data: list = [], isLoading } = useCampaignList(projectId);
   const [defaultLoaded, setDefaultLoaded] = useState(false);
-
   const listFilter = list
     .filter((v) => v.campaign?.status === selectStatus)
     .sort((a, b) =>

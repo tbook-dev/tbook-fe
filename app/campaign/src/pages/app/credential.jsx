@@ -31,10 +31,11 @@ import { Display } from '@tbook/credential';
 //   'It seems you have not finished the task.Please click and finish the task, then verify in 30s later.'
 
 export default function Credential({ redential, showVerify, signCredential }) {
-  const { isUsingSubdomain, projectUrl } = useLoaderData();
+  const { isUsingSubdomain, projectUrl, project } = useLoaderData();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
+
   const {
     twitterConnected,
     userLogined,
@@ -42,6 +43,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
     telegramConnected,
     wallectConnected,
     address,
+    user
   } = useUserInfo();
   const { getSocialByName } = useSocial();
   const { pc } = useResponsive();
@@ -51,12 +53,15 @@ export default function Credential({ redential, showVerify, signCredential }) {
   const hiddenGotoButton = [12, 13].includes(redential.labelType);
   const isAirdopType = redential.labelType === 13;
   const isSnapshotType = redential.labelType === 12;
+  const isTwitterType = [1, 2, 3, 11].includes(redential.labelType);
   const snapshotId = getSnapshotIdBylink(redential.link);
   const { data: votes = [] } = useUserVotes(
     snapshotId,
     address,
     redential.isVerified
   );
+  const unikey = `localkey-${user?.userId}-${redential?.credentialId}`
+  // console.log({user, redential, unikey})
   // console.log({isVerified: redential.isVerified ,votes,isLoading})
   const { isConnected } = useAccount();
   const [count, setCount] = useState(0);
@@ -91,54 +96,68 @@ export default function Credential({ redential, showVerify, signCredential }) {
   const signIn = useCallback(() => {
     dispatch(setLoginModal(true));
   }, []);
-  const handleVerify = useCallback(
-    async (redential) => {
-      // 如果是snapshot，先坚持上报然后
-      let hasError = false;
-      if (isSnapshotType) {
-        if (hasVoted) {
-          //先上报
-          await verifyTbook(redential.credentialId);
-        } else {
-          hasError = true;
-          resetCount();
-          throw new Error(true);
-        }
-      }
-      if (isAirdopType) {
-        // 如果是snapshot，直接提交表单， 不在此处验证
-        console.log('auto exe');
-      }
-      try {
-        const res = await verifyCredential(redential.credentialId);
-        if (res.isVerified) {
-          hasError = false;
-          await queryClient.refetchQueries([
-            'campaignDetail',
-            campaignId,
-            true,
-          ]);
-        } else {
-          hasError = true;
-          if (isAirdopType && !showAirdop) {
-            setShowAirdop(true);
-          }
-        }
-      } catch (error) {
-        console.log(error);
+  const localTwitterVerify = useCallback(() => {
+    // 如果不是推特类型，根本不会走到这一步
+    // setTwitterClicked(true);
+    localStorage.setItem(unikey,'1')
+    // console.log("--> log", unikey);
+  }, []);
+  const handleVerify = async (redential) => {
+    // 如果是snapshot，先坚持上报然后
+    let hasError = false;
+    if (isSnapshotType) {
+      if (hasVoted) {
+        //先上报
+        await verifyTbook(redential.credentialId);
+      } else {
         hasError = true;
-      }
-
-      if (hasError) {
         resetCount();
-        throw new Error(hasError);
+        throw new Error(true);
       }
-    },
-    [isSnapshotType, hasVoted]
-  );
+    }
+    if (isAirdopType) {
+      // 如果是snapshot，直接提交表单， 不在此处验证
+      console.log("auto exe");
+    }
+    const twitterClicked = !!localStorage.getItem(unikey)
+    if (isTwitterType && !twitterClicked) {
+      localTwitterVerify();
+      // 如果是推特，点击了按钮就可以认为完成任务了, 这个逻辑由后端控制
+      // 前端只控制先后次序，即：验证之前必须要先点击任务按钮
+      hasError = true;
+      resetCount();
+      throw new Error(true);
+    }
 
+    try {
+      const res = await verifyCredential(redential.credentialId);
+      if (res.isVerified) {
+        hasError = false;
+        await queryClient.refetchQueries(["campaignDetail", campaignId, true]);
+      } else {
+        hasError = true;
+        if (isAirdopType && !showAirdop) {
+          setShowAirdop(true);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      hasError = true;
+    }
+
+    if (hasError) {
+      resetCount();
+      throw new Error(hasError);
+    }
+  };
+  
   // 点击任务，除了跳转外的额外处理。
   const taskMap = {
+    1: localTwitterVerify,
+    2: localTwitterVerify,
+    3: localTwitterVerify,
+    11: localTwitterVerify,
+
     8: async () => {
       // log event, 需要任意登录即可
       if (userLogined) {
@@ -184,6 +203,9 @@ export default function Credential({ redential, showVerify, signCredential }) {
     if (redential.labelType === 8) {
       await verifyTbook(redential.credentialId);
       await handleVerify(redential);
+    }
+    if (isTwitterType) {
+      localTwitterVerify();
     }
   };
 
@@ -247,12 +269,13 @@ export default function Credential({ redential, showVerify, signCredential }) {
         ) : (
           showVerify && (
             <WithVerify
-              sysConnectedMap={sysConnectedMap}
-              sycLoginFnMap={sycLoginFnMap}
-              credentialType={credentialType}
+              // sysConnectedMap={sysConnectedMap}
+              // sycLoginFnMap={sycLoginFnMap}
+              // resetCount={resetCount}
               handleFn={() => handleVerify(redential)}
-              resetCount={resetCount}
+              evmRequire={!!project?.evmRequire}
               count={count}
+              credentialType={credentialType}
             />
           )
         )}

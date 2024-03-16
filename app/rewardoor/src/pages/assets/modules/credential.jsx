@@ -47,30 +47,31 @@ export default function Credential () {
                 <Display labelType={item.labelType} pc options={options} />
 
                 {v.length === 1 ? (
-                  <Popover
-                    content={
-                      <div className='text-sm text-[#FCFCFC] space-y-1'>
-                        <p>Credential ID</p>
-                        <Paragraph
-                          style={{ marginBottom: 0 }}
-                          className='flex justify-center items-center'
-                          copyable={{
-                            text: item.credentialId,
-                            icon: [
-                              <img src={copyIcon} className='w-4 h-4' />,
-                              <CheckOutlined style={{ color: '#3A82F7' }} />,
-                            ],
-                          }}
-                        >
-                          {item.credentialId}
-                        </Paragraph>
-                      </div>
-                    }
-                  >
-                    <span className='text-xs inline-block p-1 bg-[#1a1a1a] rounded-sm cursor-pointer'>
-                      ID
-                    </span>
-                  </Popover>
+                  <></>
+                  // <Popover
+                  //   content={
+                  //     <div className="text-sm text-[#FCFCFC] space-y-1">
+                  //       <p>Credential ID</p>
+                  //       <Paragraph
+                  //         style={{ marginBottom: 0 }}
+                  //         className="flex justify-center items-center"
+                  //         copyable={{
+                  //           text: item.credentialId,
+                  //           icon: [
+                  //             <img src={copyIcon} className="w-4 h-4" />,
+                  //             <CheckOutlined style={{ color: "#3A82F7" }} />,
+                  //           ],
+                  //         }}
+                  //       >
+                  //         {item.credentialId}
+                  //       </Paragraph>
+                  //     </div>
+                  //   }
+                  // >
+                  //   <span className="text-xs inline-block p-1 bg-[#1a1a1a] rounded-sm cursor-pointer">
+                  //     ID
+                  //   </span>
+                  // </Popover>
                 ) : (
                   <Popover
                     content={
@@ -96,7 +97,7 @@ export default function Credential () {
                                   pc
                                   options={options}
                                 />
-                                <Popover
+                                {/* <Popover
                                   content={
                                     <div className='text-sm text-[#FCFCFC] space-y-1'>
                                       <p>Credential ID</p>
@@ -124,7 +125,7 @@ export default function Credential () {
                                   <span className='text-xs inline-block p-1 bg-[#1a1a1a] rounded-sm cursor-pointer'>
                                     ID
                                   </span>
-                                </Popover>
+                                </Popover> */}
                               </div>
                               <div className='text-c-9 text-xs border border-[#666] rounded-2.5xl px-4 py-2'>
                                 Giveaway: {formatDollar(item.giveAway)}

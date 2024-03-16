@@ -324,7 +324,7 @@ export default function Settings () {
           </div>
         </Form>
 
-        {/* <Admins /> */}
+        <Admins />
 
         {!projectExt ? (
           <Skeleton />

@@ -1,8 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import RedirectSocial from '@/components/redirectSocial'
 import { redirectLocalStorageOnce } from '@/pages/social/conf'
 import { delay } from '@/utils/common'
+import { setShowMergeAccountModal, setMergeAccountData } from '@/store/global'
+import { useDispatch } from 'react-redux'
+import { conf } from '@tbook/utils'
+const { shortAddress } = conf
 
 const displayName = {
   twitter: 'X',
@@ -18,6 +22,11 @@ export default function ({ authCallback, type }) {
   const [errorMessage, setErrorMessage] = useState('')
   const [status, setStatus] = useState('loading')
   const [data, setData] = useState({})
+  const dispath = useDispatch()
+
+  // const openMergeAccountModal = useCallback(() => {
+  //   dispath(setShowMergeAccountModal(true))
+  // }, [])
   useEffect(() => {
     authCallback()
       .then(async d => {
@@ -32,8 +41,29 @@ export default function ({ authCallback, type }) {
           // }
           setStatus('occupied')
           setErrorMessage(
-            `${displayName[type]} account ${isEmailType(type)?'':"@"}${d.socialName}  has been connected to another address ${d.address}`
+            `${displayName[type]} account ${isEmailType(type) ? '' : '@'}${
+              d.socialName
+            }  has been connected to another address ${d.address}`
           )
+        } else if (d.code === 400) {
+          // 检查到可以merge
+          setStatus('occupied-merge')
+          setErrorMessage(
+            `${displayName[type]} account ${isEmailType(type) ? '' : '@'}${
+              d.socialName ?? d.twitterName
+            } been associated with another incentive passport.
+            Do you want to merge the incentive passport with your current incentive passport ?`
+          )
+          dispath(
+            setMergeAccountData({
+              address: shortAddress(d.address),
+              twitterName: d.socialName ?? d.twitterName,
+              twitterId:  d.twitterId,
+              redirect: true 
+            })
+          )
+          console.log('merge account')
+          // openMergeAccountModal()
         } else if (d.code === 500) {
           // 失败
           setStatus('failed')
@@ -42,7 +72,9 @@ export default function ({ authCallback, type }) {
           // 成功停留2s，然后跳转
           setStatus('sucess')
           setErrorMessage(
-            `${displayName[type]} account ${isEmailType(type)?'':"@"}${d.socialName} has been authorized. `
+            `${displayName[type]} account ${isEmailType(type) ? '' : '@'}${
+              d.socialName
+            } has been authorized. `
           )
           await delay(2000)
           redirectLocalStorageOnce(navigate)

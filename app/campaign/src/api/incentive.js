@@ -31,7 +31,7 @@ export const getProjectInfo = async function (projectId) {
   return await request(`${host}/project/${projectId}`);
 };
 export const getCampaignDetail = async function (id) {
-  return await request(`${host}/campaignNew/${id}`);
+  return await request(`${host}/campaignNew/consumer/${id}`);
 };
 export const claimCampaign = async function (campaignId) {
   return await request(`${host}/campaignNew/claim/${campaignId}`);
@@ -229,4 +229,8 @@ export const getAirdropAddress = async function (data) {
 
 export const markNewUser = async function(){
   return await request.Post(`${host}/markNewUser`);
+}
+
+export const mergeTwitterAndAddressAccount = async function(data){
+  return await request.PostFormV1(`${host}/twitter/merge`, data)
 }
