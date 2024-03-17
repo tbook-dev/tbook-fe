@@ -1,9 +1,10 @@
-import { getCampaign } from "@/api/incentive";
-import { useQuery } from "react-query";
+import { getCampaign } from '@/api/incentive';
+import { useQuery } from 'react-query';
+import useUserInfo from './useUserInfo';
 
-export default function useCampaignList(projectId) {
-  return useQuery(["campaignList", projectId], () => getCampaign(projectId), {
-    staleTime: 1000,
+export default function useCampaignList() {
+  const { projectId } = useUserInfo();
+  return useQuery(['campaignList', projectId], () => getCampaign(projectId), {
     enabled: !!projectId,
   });
 }

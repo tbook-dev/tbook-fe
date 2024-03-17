@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "keywords": [],
+  "type": "module",
   "author": "",
   "scripts": {
     "admin:dev": "pnpm --filter @tbook/admin  run dev",

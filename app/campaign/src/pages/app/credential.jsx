@@ -1,30 +1,31 @@
-import Preview from "../snapshot/Preview";
-import { getCrenditialType } from "@/utils/conf";
-import { getSnapshotIdBylink, useUserVotes } from "@tbook/snapshot/api";
-import WithVerify from "@/components/withVerify";
-import { verifyCredential } from "@/api/incentive";
+import Preview from '../snapshot/Preview';
+import { getCrenditialType } from '@/utils/conf';
+import { getSnapshotIdBylink, useUserVotes } from '@tbook/snapshot/api';
+import WithVerify from '@/components/withVerify';
+import { verifyCredential } from '@/api/incentive';
 import VerifyStatus, {
   verifyStatusEnum,
-} from "@/components/withVerify/VerifyStatus";
-import { verifyTbook } from "@/api/incentive";
-import useUserInfo from "@/hooks/useUserInfoQuery";
-import useSocial from "@/hooks/useSocial";
-import { useParams, Link, useLoaderData } from "react-router-dom";
-import { useResponsive } from "ahooks";
+} from '@/components/withVerify/VerifyStatus';
+import { verifyTbook } from '@/api/incentive';
+import useUserInfo from '@/hooks/useUserInfoQuery';
+import useSocial from '@/hooks/useSocial';
+import { useParams, Link, useLoaderData } from 'react-router-dom';
+import { useResponsive } from 'ahooks';
 import React, {
   useState,
   useCallback,
   useEffect,
   useMemo,
   useRef,
-} from "react";
-import { setLoginModal, setConnectWalletModal } from "@/store/global";
-import { useAccount } from "wagmi";
-import { useQueryClient } from "react-query";
-import warningSvg from "@/images/icon/warning.svg";
-import clsx from "clsx";
-import AirDrop from "./airdrop";
-import { useDispatch } from "react-redux";
+} from 'react';
+import { setLoginModal, setConnectWalletModal } from '@/store/global';
+import { useAccount } from 'wagmi';
+import { useQueryClient } from 'react-query';
+import warningSvg from '@/images/icon/warning.svg';
+import clsx from 'clsx';
+import AirDrop from './airdrop';
+import { useDispatch } from 'react-redux';
+import { Display, actionMap } from '@tbook/credential';
 
 // const errorMsg =
 //   'It seems you have not finished the task.Please click and finish the task, then verify in 30s later.'
@@ -42,12 +43,12 @@ export default function Credential({ redential, showVerify, signCredential }) {
     telegramConnected,
     wallectConnected,
     address,
-    user
+    user,
   } = useUserInfo();
   const { getSocialByName } = useSocial();
   const { pc } = useResponsive();
   const [showAirdop, setShowAirdop] = useState(false);
-
+  const labelType = redential.labelType;
   const credentialType = getCrenditialType(redential.labelType);
   const hiddenGotoButton = [12, 13].includes(redential.labelType);
   const isAirdopType = redential.labelType === 13;
@@ -59,7 +60,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
     address,
     redential.isVerified
   );
-  const unikey = `localkey-${user?.userId}-${redential?.credentialId}`
+  const unikey = `localkey-${user?.userId}-${redential?.credentialId}`;
   // console.log({user, redential, unikey})
   // console.log({isVerified: redential.isVerified ,votes,isLoading})
   const { isConnected } = useAccount();
@@ -72,17 +73,17 @@ export default function Credential({ redential, showVerify, signCredential }) {
     );
   }, [votes]);
 
-  const sysConnectedMap = {
-    twitter: twitterConnected,
-    discord: discordConnected,
-    telegram: telegramConnected,
-    tbook: userLogined,
-  };
-  const sycLoginFnMap = {
-    twitter: getSocialByName("twitter").loginFn,
-    discord: getSocialByName("discord").loginFn,
-    telegram: getSocialByName("telegram").loginFn,
-  };
+  // const sysConnectedMap = {
+  //   twitter: twitterConnected,
+  //   discord: discordConnected,
+  //   telegram: telegramConnected,
+  //   tbook: userLogined,
+  // };
+  // const sycLoginFnMap = {
+  //   twitter: getSocialByName('twitter').loginFn,
+  //   discord: getSocialByName('discord').loginFn,
+  //   telegram: getSocialByName('telegram').loginFn,
+  // };
   const canUseWallect = useMemo(() => {
     return isConnected && wallectConnected;
   }, [isConnected, wallectConnected]);
@@ -98,9 +99,9 @@ export default function Credential({ redential, showVerify, signCredential }) {
   const localTwitterVerify = useCallback(() => {
     // 如果不是推特类型，根本不会走到这一步
     // setTwitterClicked(true);
-    localStorage.setItem(unikey,'1')
+    localStorage.setItem(unikey, '1');
     // console.log("--> log", unikey);
-  }, []);
+  }, [unikey]);
   const handleVerify = async (redential) => {
     // 如果是snapshot，先坚持上报然后
     let hasError = false;
@@ -116,9 +117,9 @@ export default function Credential({ redential, showVerify, signCredential }) {
     }
     if (isAirdopType) {
       // 如果是snapshot，直接提交表单， 不在此处验证
-      console.log("auto exe");
+      console.log('auto exe');
     }
-    const twitterClicked = !!localStorage.getItem(unikey)
+    const twitterClicked = !!localStorage.getItem(unikey);
     if (isTwitterType && !twitterClicked) {
       localTwitterVerify();
       // 如果是推特，点击了按钮就可以认为完成任务了, 这个逻辑由后端控制
@@ -132,7 +133,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
       const res = await verifyCredential(redential.credentialId);
       if (res.isVerified) {
         hasError = false;
-        await queryClient.refetchQueries(["campaignDetail", campaignId, true]);
+        await queryClient.refetchQueries(['campaignDetail', campaignId, true]);
       } else {
         hasError = true;
         if (isAirdopType && !showAirdop) {
@@ -149,7 +150,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
       throw new Error(hasError);
     }
   };
-  
+
   // 点击任务，除了跳转外的额外处理。
   const taskMap = {
     1: localTwitterVerify,
@@ -176,10 +177,10 @@ export default function Credential({ redential, showVerify, signCredential }) {
     12: () => {
       // 当前页面不需要登录
       window.open(
-        `${isUsingSubdomain ? "" : `/${projectUrl}`}/snapshot/${campaignId}/${
+        `${isUsingSubdomain ? '' : `/${projectUrl}`}/snapshot/${campaignId}/${
           redential.credentialId
         }/${snapshotId}`,
-        pc ? "_blank" : "_self"
+        pc ? '_blank' : '_self'
       );
     },
     13: () => {
@@ -190,7 +191,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
       }
     },
   };
-  const isRedentialNotLink = redential.labelType === 10;
+  // const isRedentialNotLink = redential.labelType === 10;
   // const getTaskFn = (redential) => {
   //   if (isRedentialNotLink) {
   //     taskMap[redential.labelType]()
@@ -198,15 +199,15 @@ export default function Credential({ redential, showVerify, signCredential }) {
   //     window.open(redential.link, pc ? '_blank' : '_self')
   //   }
   // }
-  const handleManualFn = async () => {
-    if (redential.labelType === 8) {
-      await verifyTbook(redential.credentialId);
-      await handleVerify(redential);
-    }
-    if (isTwitterType) {
-      localTwitterVerify();
-    }
-  };
+  // const handleManualFn = async () => {
+  //   if (redential.labelType === 8) {
+  //     await verifyTbook(redential.credentialId);
+  //     await handleVerify(redential);
+  //   }
+  //   if (isTwitterType) {
+  //     localTwitterVerify();
+  //   }
+  // };
 
   useEffect(() => {
     clearInterIdRef.current = setInterval(() => {
@@ -222,18 +223,25 @@ export default function Credential({ redential, showVerify, signCredential }) {
   }, [count]);
   const showErrorTip = count > 0 && !redential.isVerified;
   const showSnapshot = isSnapshotType && snapshotId;
-
+  const options = useMemo(() => {
+    try {
+      return JSON.parse(redential.options);
+    } catch (error) {
+      return {};
+    }
+  }, [redential]);
+  // console.log({ options, redential });
   return (
     <div className="border border-[#904BF6] transition-all duration-300 ease-in-out lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5">
-      <div className="flex items-start justify-between w-full">
-        <div className="flex items-start gap-x-1 pt-[3px] flex-auto w-[calc(100%_-_45px)]">
+      <div className="flex items-start justify-between w-full gap-x-1">
+        {/* <div className="flex items-start gap-x-1 pt-[3px] flex-auto w-[calc(100%_-_45px)]">
           <img
             src={redential.picUrl}
             className="w-5 h-5 object-contain mt-0.5"
           />
           <div
             onClick={
-              typeof taskMap[redential.labelType] === "function"
+              typeof taskMap[redential.labelType] === 'function'
                 ? taskMap[redential.labelType]
                 : null
             }
@@ -242,7 +250,17 @@ export default function Credential({ redential, showVerify, signCredential }) {
               __html: pc ? redential.intentDisplayExp : redential.displayExp,
             }}
           />
-        </div>
+        </div> */}
+        <Display
+          pc={pc}
+          labelType={redential.labelType}
+          options={options}
+          clickHandle={
+            typeof taskMap[redential.labelType] === 'function'
+              ? taskMap[redential.labelType]
+              : null
+          }
+        />
         {redential.isVerified ? (
           <span className="flex items-center gap-x-1 text-md whitespace-nowrap">
             <VerifyStatus status={verifyStatusEnum.Sucess} />
@@ -275,7 +293,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
           </div>
 
           {!hiddenGotoButton &&
-            (isRedentialNotLink ? (
+            (!actionMap[labelType]?.isLink ? (
               <div
                 onClick={taskMap[redential.labelType]}
                 className="cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
@@ -296,8 +314,10 @@ export default function Credential({ redential, showVerify, signCredential }) {
               </div>
             ) : (
               <Link
-                onClick={handleManualFn}
-                to={pc ? redential.intentDisplayLink : redential.displayLink}
+                // onClick={handleManualFn}
+                onClick={taskMap[redential.labelType]}
+                // to={pc ? redential.intentDisplayLink : redential.displayLink}
+                to={actionMap[labelType]?.getLink({ ...options, pc })}
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 className="cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
@@ -324,13 +344,13 @@ export default function Credential({ redential, showVerify, signCredential }) {
           target="_blank"
           className="text-base font-medium"
           to={`${
-            isUsingSubdomain ? "" : `/${projectUrl}`
+            isUsingSubdomain ? '' : `/${projectUrl}`
           }/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
         >
           <div
             className={clsx(
-              "mt-4",
-              showErrorTip ? "" : "pt-5 border-t border-[#281545]"
+              'mt-4',
+              showErrorTip ? '' : 'pt-5 border-t border-[#281545]'
             )}
           >
             <Preview id={snapshotId} />

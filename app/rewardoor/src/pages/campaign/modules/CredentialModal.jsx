@@ -1,135 +1,140 @@
-import Button from '@/components/button'
-import { useState, createElement } from 'react'
-import SearchIcon from '@/images/icon/search.svg'
+import Button from '@/components/button';
+import { useState } from 'react';
+import SearchIcon from '@/images/icon/search.svg';
+import { Modal, Form, Input, Tabs, notification } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import x from '@/images/icon/x.svg';
+import closeIcon from '@/images/icon/close.svg';
+import { useCallback, useEffect } from 'react';
+// import { twParttern, groupTypeMap } from '@/utils/conf';
+import { parseLinkParams } from '@/api/incentive';
 import {
-  Modal,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Slider,
-  Switch,
-  TimePicker,
-  Tabs
-} from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
-import x from '@/images/icon/x.svg'
-import closeIcon from '@/images/icon/close.svg'
-import { useCallback, useEffect } from 'react'
-import { twParttern, groupTypeMap } from '@/utils/conf'
-import { parseLinkParams } from '@/api/incentive'
+  credential as credentialList,
+  category as categoryList,
+} from '@tbook/credential';
+import credentialMap from '@/components/credential/form';
+import { merge, pick } from 'lodash';
 
-const title = 'Set Up Credential Group'
-const placeholder = 'Enter Credential Title to search for Cred'
-const titleGroup = 'Edit Credential Group'
-const emptyPrompt = 'The selected credential will be displayed here.'
-const ComponentMap = {
-  Button,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Radio,
-  Select,
-  Slider,
-  Switch,
-  TimePicker
-}
-export default function CredentialModal ({
-  open,
-  setOpen,
-  handleSave,
-  credentialList,
-  conf
-}) {
-  const [confirmaLoading, setConfirmaLoading] = useState(false)
-  const [form] = Form.useForm()
-  const [searchVal, setSearchVal] = useState('')
-  const credentialsFormValues = Form.useWatch('credential', form)
-  console.log({ credentialsFormValues })
-  const credentialSet = credentialList
-    .map(v =>
-      v.credentialList.map(m => ({
-        ...m,
-        groupType: v.groupType,
-        groupName: v.name
-      }))
-    )
-    .flat()
-  const formatCredential = credentialList
+const title = 'Set Up Credential Group';
+const placeholder = 'Enter Credential Title to search for Cred';
+const titleGroup = 'Edit Credential Group';
+const emptyPrompt = 'The selected credential will be displayed here.';
+
+export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
+  const [api, contextHolder] = notification.useNotification();
+
+  const [confirmaLoading, setConfirmaLoading] = useState(false);
+  const [form] = Form.useForm();
+  const [searchVal, setSearchVal] = useState('');
+  const credentialsFormValues = Form.useWatch('credential', form);
+  const credentialSet = credentialList.map(c => {
+    const category = categoryList.find(v => v.groupType === c.groupType) || {};
+    return {
+      ...c,
+      groupType: category.groupType,
+      groupName: category.name,
+    };
+  });
+
+  const formatCredential = categoryList
     .map(v => {
       return {
-        id: v.id,
+        id: v.groupType,
+        groupType: v.groupType,
         name: v.name,
-        credentialList: v.credentialList.filter(c => {
-          return c?.name
-            .toLowerCase()
-            .includes(searchVal?.toLowerCase()?.trim())
-        })
-      }
+        credentialList: credentialList.filter(c => {
+          return (
+            c.groupType === v.groupType &&
+            c?.name.toLowerCase().includes(searchVal?.toLowerCase()?.trim())
+          );
+        }),
+      };
     })
-    .filter(v => v.credentialList.length > 0)
+    .filter(v => v.credentialList.length > 0);
 
+  // console.log({ formatCredential });
   const handleOk = async () => {
     form
       .validateFields()
       .then(async values => {
-        setConfirmaLoading(true)
+        setConfirmaLoading(true);
         // parse
         const parseResult = await Promise.all(
           values.credential.map(async c => {
-            console.log(c)
+            // console.log(values, c, '--->');
             const res = await parseLinkParams({
-              url: c.link,
-              credentialId: c.credentialId
-            })
-            return {
               ...c,
-              options: res
+              url: c.link,
+              labelType: c.labelType,
+            });
+            if (res.code === 200) {
+              const fieldValues = pick(c, credentialMap[c.labelType]?.pick);
+              // console.log({
+              //   fieldValues,
+              //   c,
+              //   pick: credentialMap[c.labelType]?.pick,
+              // });
+              return {
+                ...c,
+                options: merge({}, fieldValues, res?.data),
+              };
+            } else {
+              throw new Error(res.message);
             }
           })
-        )
+        );
         // format
         values.credential = parseResult.map(v => {
           const credential = credentialSet.find(
-            n => n.credentialId === v.credentialId
-          )
+            n => n.labelType === v.labelType
+          );
           return {
             ...v,
-            groupType: credential.groupType,
-            groupName: credential.groupName
-          }
-        })
-        handleSave(values)
-        setConfirmaLoading(false)
-        closeModal()
+            ...credential,
+            // groupType: credential.groupType,
+            // groupName: credential.groupName,
+          };
+        });
+        handleSave(values);
+        setConfirmaLoading(false);
+        closeModal();
       })
       .catch(err => {
-        console.log(err)
-        setConfirmaLoading(false)
-      })
-  }
+        // console.log(err);
+        // form.setFields([
+        //   {
+        //     name: ['credential'],
+        //     errors: [err.message], // 错误消息
+        //   },
+        // ]);
+        if (err.message) {
+          api.error({ message: err.message });
+        }
+        setConfirmaLoading(false);
+      });
+  };
   useEffect(() => {
     if (open) {
-      const useDefaultValue = conf?.length === 0
-      form.setFieldsValue({ credential: useDefaultValue ? [] : conf })
+      const useDefaultValue = conf?.length === 0;
+      form.setFieldsValue({ credential: useDefaultValue ? [] : conf });
     }
-  }, [open])
+  }, [open]);
+
   const closeModal = useCallback(() => {
-    setOpen(false)
-    form.resetFields()
-  }, [])
+    setOpen(false);
+    form.resetFields();
+  }, []);
+  // console.log('user credentialsFormValues', credentialsFormValues);
   return (
     <Modal
       width={1160}
-      title={<div className='text-2xl font-black font-zen-dot pt-3'>{title}</div>}
+      title={
+        <div className='text-2xl font-black font-zen-dot pt-3'>{title}</div>
+      }
       open={open}
       onCancel={closeModal}
       maskStyle={{ backdropFilter: 'blur(7.5px)' }}
+      maskClosable={false}
       centered
       footer={
         <div className='flex justify-end' onClick={handleOk}>
@@ -166,17 +171,17 @@ export default function CredentialModal ({
                       {v.credentialList?.map(c => {
                         return (
                           <div
-                            key={c.credentialId}
+                            key={c.labelType}
                             className='px-4 py-2.5 rounded-2.5xl bg-gray flex items-center gap-x-2 cursor-pointer hover:opacity-70'
                             onClick={() => {
                               form.setFieldsValue({
                                 credential: [
                                   ...(form.getFieldValue('credential') ?? []),
-                                  {
-                                    credentialId: c.credentialId
-                                  }
-                                ]
-                              })
+                                  credentialSet.find(
+                                    v => v.labelType === c.labelType
+                                  ),
+                                ],
+                              });
                             }}
                           >
                             <img
@@ -186,11 +191,11 @@ export default function CredentialModal ({
                             {c.name}
                             <PlusOutlined />
                           </div>
-                        )
+                        );
                       })}
                     </div>
-                  )
-                }
+                  ),
+                };
               })}
             />
           </div>
@@ -198,21 +203,34 @@ export default function CredentialModal ({
         <div>
           <h2 className='text-xl font-black text-t-1 mb-5'>{titleGroup}</h2>
           <Form form={form} layout='vertical'>
-            <Form.List name='credential'>
+            <Form.List
+              name='credential'
+              // rules={[
+              //   {
+              //     validator: async (x, values) => {
+              //       console.log({ x, values });
+              //     },
+              //   },
+              // ]}
+            >
               {(fields, { remove }) => {
                 return (
-                  <>
+                  <div className='space-y-3'>
                     {fields.length > 0 ? (
                       fields.map(({ key, name, ...restField }) => {
+                        const currentLabelType =
+                          credentialsFormValues?.[name]?.labelType;
                         const credential = credentialSet.find(
-                          v =>
-                            v.credentialId ===
-                            credentialsFormValues?.[name]?.credentialId
-                        )
+                          v => v.labelType === currentLabelType
+                        );
+                        const CC =
+                          credentialMap[currentLabelType]?.render ??
+                          (() => <div>wait</div>);
+
                         return (
                           <div
                             key={key}
-                            className='px-4 py-2.5 rounded-2.5xl bg-gray mb-3 relative'
+                            className='px-4 py-2.5 rounded-2.5xl bg-gray relative'
                           >
                             <img
                               src={closeIcon}
@@ -231,58 +249,23 @@ export default function CredentialModal ({
                               </div>
                             </div>
 
-                            {/* <Form.Item
-                              {...restField}
-                              name={[name, 'link']}
-                              label={credential.tipText}
-                              rules={[
-                                {
-                                  required: true,
-                                  message: `Missing ${credential.tipText}`
-                                }
-                              ]}
-                            >
-                              <Input
-                                placeholder={`${credential.placeHolder}`}
-                              />
-                            </Form.Item> */}
-                            {credential.list.map((v, idx) => {
-                              return v.component === 'HTML' ? (
-                                <div
-                                  key={name + v.name + idx}
-                                  className='text-sm font-medium text-c-9 mb-3'
-                                  dangerouslySetInnerHTML={{ __html: v.html }}
-                                />
-                              ) : (
-                                <Form.Item
-                                  {...restField}
-                                  name={[name, v.name]}
-                                  label={v.label}
-                                  rules={v.rules}
-                                  key={name + v.name + idx}
-                                >
-                                  {createElement(
-                                    ComponentMap[v.component],
-                                    v.componentProps
-                                  )}
-                                </Form.Item>
-                              )
-                            })}
+                            <CC key={key} name={name} {...restField} />
                           </div>
-                        )
+                        );
                       })
                     ) : (
                       <div className='h-20 rounded-2.5xl flex items-center justify-center bg-gray text-center'>
                         {emptyPrompt}
                       </div>
                     )}
-                  </>
-                )
+                  </div>
+                );
               }}
             </Form.List>
           </Form>
         </div>
       </div>
+      {contextHolder}
     </Modal>
-  )
+  );
 }

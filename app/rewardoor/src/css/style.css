@@ -12,6 +12,7 @@
 @import '@tbook/share/font/rhd.css';
 
 :root {
+    @apply bg-black;
     font-family: 'Red Hat Display', sans-serif;;
 }
 .swiper-wrapper{

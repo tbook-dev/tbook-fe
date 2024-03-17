@@ -1,12 +1,13 @@
-import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
-import { getCredentials } from "@/api/incentive";
-import { incentiveAssetsTypeList, getUrl } from "@/utils/conf";
-import useUserInfo from "@/hooks/queries/useUserInfo";
+import { useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { getCredentials } from '@/api/incentive';
+import { incentiveAssetsTypeList, getUrl } from '@/utils/conf';
+import useUserInfo from '@/hooks/queries/useUserInfo';
+import dayjs from 'dayjs';
+import Loading from '@/components/loading';
+import useCampaign from '@/hooks/queries/useCampaign';
+import { Display } from '@tbook/credential';
 import { Typography, Popover } from "antd";
-import dayjs from "dayjs";
-import Loading from "@/components/loading";
-import useCampaign from "@/hooks/queries/useCampaign";
 import copyIcon from '@/images/icon/copy.svg'
 import { CheckOutlined } from '@ant-design/icons'
 
@@ -14,12 +15,12 @@ import { CheckOutlined } from '@ant-design/icons'
 const dateFormat = `YYYY-MM-DD HH:mm:ss (UTCZ)`;
 const { Paragraph } = Typography;
 
-export default function Campaign() {
+export default function Campaign () {
   const { id } = useParams();
   const { projectId, project } = useUserInfo();
   const { data: pageInfo = {}, isLoading } = useCampaign(id);
   const { data: credentialList = [] } = useQuery(
-    ["credentialList", projectId],
+    ['credentialList', projectId],
     () => getCredentials(projectId),
     {
       enabled: !!projectId,
@@ -27,17 +28,17 @@ export default function Campaign() {
     }
   );
   // console.log({ pageInfo })
-  const credentialSet = credentialList.map((v) => v.credentialList).flat();
+  const credentialSet = credentialList.map(v => v.credentialList).flat();
   const link = `${getUrl()}/${encodeURIComponent(project.projectUrl)}/${id}`;
   if (isLoading) {
-    return <Loading h="h-[300px]" />;
+    return <Loading h='h-[300px]' />;
   }
   return (
-    <div className="space-y-10 mb-10">
+    <div className='space-y-10 mb-10'>
       <div>
-        <h2 className="font-bold text-base mb-4 text-t-1">Campaign Sharing</h2>
+        <h2 className='font-bold text-base mb-4 text-t-1'>Campaign Sharing</h2>
         <Paragraph
-          style={{ marginBottom: 0, color: "#999", fontWeight: 500 }}
+          style={{ marginBottom: 0, color: '#999', fontWeight: 500 }}
           copyable={{
             text: link,
           }}
@@ -46,28 +47,33 @@ export default function Campaign() {
         </Paragraph>
       </div>
 
-      <div className="space-y-3">
-        <h2 className="font-bold text-base text-t-1">
+      <div className='space-y-3'>
+        <h2 className='font-bold text-base text-t-1'>
           Credential Group & Reward
         </h2>
-        <div className="space-y-5 text-c-9">
+        <div className='space-y-5 text-c-9'>
           {pageInfo?.groups?.map((cr, index) => {
             return (
               <div
-                className="text-c-9 py-5 px-12 bg-gray rounded-2.5xl grid grid-cols-2 gap-x-10 relative before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-x-1/2 before:-translate-y-1/2 before:w-[1px] before:h-10 before:bg-c-6"
+                className='text-c-9 py-5 px-12 bg-gray rounded-2.5xl grid grid-cols-2 gap-x-10 relative before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-x-1/2 before:-translate-y-1/2 before:w-[1px] before:h-10 before:bg-c-6'
                 key={index}
               >
-                <div className="flex items-center w-full">
-                  <div className="space-y-6 w-max">
+                <div className='flex items-center w-full'>
+                  <div className='space-y-6 w-max'>
                     {cr.credentialList.map((v, idx) => {
+                      let options = {};
+                      try {
+                        options = JSON.parse(v.options);
+                      } catch (error) {
+                        options = {};
+                      }
                       return (
                         <div key={idx} className="flex gap-x-2.5 items-center">
-                          <img
-                            src={v.picUrl}
-                            className="w-5 h-5 object-contain"
-                          />
-                          <div
-                            dangerouslySetInnerHTML={{ __html: v.displayExp }}
+                          <Display
+                            key={idx}
+                            pc
+                            labelType={v.labelType}
+                            options={options}
                           />
                           <Popover
                             content={
@@ -99,20 +105,20 @@ export default function Campaign() {
                   </div>
                 </div>
 
-                <div className="flex items-center">
-                  <div className="space-y-6 w-full">
-                    <div className="space-y-6">
+                <div className='flex items-center'>
+                  <div className='space-y-6 w-full'>
+                    <div className='space-y-6'>
                       {cr.nftList.map((v, idx) => {
                         const m = incentiveAssetsTypeList.find(
-                          (i) => i.value === 1
+                          i => i.value === 1
                         );
                         return (
                           <div
                             key={idx}
-                            className="px-6 py-2 text-xs font-medium text-c-9 border border-c-6 rounded-2.5xl flex justify-between items-center"
+                            className='px-6 py-2 text-xs font-medium text-c-9 border border-c-6 rounded-2.5xl flex justify-between items-center'
                           >
-                            <div className="flex items-center gap-x-2">
-                              <img src={m?.icon} className="w-5 h-5" />
+                            <div className='flex items-center gap-x-2'>
+                              <img src={m?.icon} className='w-5 h-5' />
                               {m?.text}
                             </div>
                             <span>{v.name}</span>
@@ -121,15 +127,15 @@ export default function Campaign() {
                       })}
                       {cr.pointList.map((v, idx) => {
                         const m = incentiveAssetsTypeList.find(
-                          (i) => i.value === 2
+                          i => i.value === 2
                         );
                         return (
                           <div
                             key={idx}
-                            className="px-6 py-2 text-xs font-medium text-c-9 border border-c-6 rounded-2.5xl flex justify-between items-center"
+                            className='px-6 py-2 text-xs font-medium text-c-9 border border-c-6 rounded-2.5xl flex justify-between items-center'
                           >
-                            <div className="flex items-center gap-x-2">
-                              <img src={m?.icon} className="w-5 h-5" />
+                            <div className='flex items-center gap-x-2'>
+                              <img src={m?.icon} className='w-5 h-5' />
                               {m?.text}
                             </div>
                             <span>{v.number}</span>
@@ -146,8 +152,8 @@ export default function Campaign() {
       </div>
 
       <div>
-        <h2 className="font-bold text-base mb-4 text-t-1">Campaign Schedule</h2>
-        <div className="font-medium text-base text-c-9">
+        <h2 className='font-bold text-base mb-4 text-t-1'>Campaign Schedule</h2>
+        <div className='font-medium text-base text-c-9'>
           {`${dayjs(pageInfo?.campaign?.startAt).format(dateFormat)}-${dayjs(
             pageInfo?.campaign?.endAt
           ).format(dateFormat)}`}
@@ -155,11 +161,11 @@ export default function Campaign() {
       </div>
 
       <div>
-        <h2 className="font-bold text-base mb-4 text-t-1">
+        <h2 className='font-bold text-base mb-4 text-t-1'>
           Campaign Description
         </h2>
         <div
-          className="font-medium text-base text-c-9"
+          className='font-medium text-base text-c-9'
           dangerouslySetInnerHTML={{ __html: pageInfo?.campaign?.description }}
         />
       </div>

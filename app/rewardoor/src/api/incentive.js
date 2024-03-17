@@ -1,8 +1,8 @@
-import request from "./request";
-import { Network, Alchemy } from "alchemy-sdk";
+import request from './request';
+import { Network, Alchemy } from 'alchemy-sdk';
 // import mockData from './a'
 const settings = {
-  apiKey: "8s2Swo7n62XYd3ApkcnentYuEi5BI1Yj",
+  apiKey: '8s2Swo7n62XYd3ApkcnentYuEi5BI1Yj',
   network: Network.ETH_MAINNET,
 };
 const alchemy = new Alchemy(settings);
@@ -10,18 +10,18 @@ const alchemy = new Alchemy(settings);
 export const host = import.meta.env.VITE_API_HOST;
 
 export const getUserInfo = async function () {
-  return request(`${host}/info`);
+  return await request(`${host}/info`);
 };
 
 export const getUserAssets = async function () {
-  return request(`${host}/users/assets`);
+  return await request(`${host}/users/assets`);
 };
 
 export const createProject = async function (values) {
-  return request.Post(`${host}/project`, values);
+  return await request.Post(`${host}/project`, values);
 };
 export const createNFT = async function (values) {
-  return request.Post(`${host}/nft/create`, values);
+  return await request.Post(`${host}/nft/create`, values);
 };
 export const getNFTInfo = async function (contract) {
   const nftRes = await alchemy.nft.getNftsForContract(contract);
@@ -37,8 +37,12 @@ export const getNFTList = async function (projectId) {
 export const createCampaign = async function (values) {
   return await request.Post(`${host}/campaignNew/createCampaign`, values);
 };
+
 export const updateCampaign = async function (values) {
-  return await request.Post(`${host}/campaign/update`, values);
+  return await request.Post(`${host}/campaignNew/update`, values);
+};
+export const deleteCampaign = async function (campaignId) {
+  return await request.Get(`${host}/campaignNew/deleteCampaign/${campaignId}`);
 };
 export const getCampaign = async function (projectId) {
   return await request(`${host}/campaignNew/project/${projectId}`);
@@ -66,12 +70,12 @@ export const getNFTcontracts = async function (projectId) {
 export const handleCreateNFTcontract = async function (projectId, values) {
   return {
     contractId: 124,
-    name: "TBOOK NFT Contract Optimism",
+    name: 'TBOOK NFT Contract Optimism',
     chainId: 10,
   };
 };
-export const parseLinkParams = function (values) {
-  return request.Post(`${host}/social/getInfo`, values);
+export const parseLinkParams = async function (values) {
+  return await request.Post(`${host}/social/getInfo`, values);
 };
 export const getCampaignParticipation = async function (campaignId) {
   return await request(`${host}/campaignNew/participation/${campaignId}`);
@@ -137,7 +141,7 @@ export const updateProject = async function (values) {
   return await request.Post(`${host}/project/update`, values);
 };
 export const genAppKey = async function (projectId) {
-  return request.Post(`${host}/project/${projectId}/key`);
+  return await request.Post(`${host}/project/${projectId}/key`);
 };
 export const updateProjectExt = async function (projectId, values) {
   return await request.Post(
@@ -267,8 +271,8 @@ export const updateProjectExt = async function (projectId, values) {
 
 export const getTwLoginUrl = async function () {
   const res = await fetch(`${host}/twitter/auth`, {
-    method: "GET",
-    credentials: "include",
+    method: 'GET',
+    credentials: 'include',
   });
   return await res.json();
 };
