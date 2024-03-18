@@ -95,15 +95,15 @@ export default [
     picUrl2:
       'https://rd-worker.xgamma.workers.dev/img/e645e1f23f6f4d579f7278e411c7fd1e',
   },
-  {
-    name: 'Register an Event',
-    labelType: 10,
-    picUrl:
-      'https://rd-worker.xgamma.workers.dev/img/68cb86e9972a428c9e22a0e9d498e39f',
-    groupType: 6,
-    picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/b73e59ab481d423fbe50ee2e93e0ba2d',
-  },
+  // {
+  //   name: 'Register an Event',
+  //   labelType: 10,
+  //   picUrl:
+  //     'https://rd-worker.xgamma.workers.dev/img/68cb86e9972a428c9e22a0e9d498e39f',
+  //   groupType: 6,
+  //   picUrl2:
+  //     'https://rd-worker.xgamma.workers.dev/img/b73e59ab481d423fbe50ee2e93e0ba2d',
+  // },
 
   //  groupType: 1,
   {

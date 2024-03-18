@@ -124,7 +124,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
     setOpen(false);
     form.resetFields();
   }, []);
-  // console.log('user credentialsFormValues', credentialsFormValues);
+  console.log('user credentialsFormValues', credentialsFormValues);
   return (
     <Modal
       width={1160}
@@ -174,12 +174,21 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                             key={c.labelType}
                             className='px-4 py-2.5 rounded-2.5xl bg-gray flex items-center gap-x-2 cursor-pointer hover:opacity-70'
                             onClick={() => {
+                              const credential = credentialSet.find(
+                                v => v.labelType === c.labelType
+                              );
+                              const defaultOptions =
+                                credentialMap[c.labelType]?.defaultOptions ??
+                                {};
+                              const mergeValue = merge(
+                                {},
+                                defaultOptions,
+                                credential
+                              );
                               form.setFieldsValue({
                                 credential: [
                                   ...(form.getFieldValue('credential') ?? []),
-                                  credentialSet.find(
-                                    v => v.labelType === c.labelType
-                                  ),
+                                  mergeValue,
                                 ],
                               });
                             }}
@@ -254,6 +263,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                               name={name}
                               {...restField}
                               form={form}
+                              formName='credential'
                             />
                           </div>
                         );
