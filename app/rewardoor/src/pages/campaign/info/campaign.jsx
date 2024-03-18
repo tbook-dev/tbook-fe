@@ -1,34 +1,22 @@
 import { useParams } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import { getCredentials } from '@/api/incentive';
 import { incentiveAssetsTypeList, getUrl } from '@/utils/conf';
 import useUserInfo from '@/hooks/queries/useUserInfo';
 import dayjs from 'dayjs';
 import Loading from '@/components/loading';
 import useCampaign from '@/hooks/queries/useCampaign';
 import { Display } from '@tbook/credential';
-import { Typography, Popover } from "antd";
-import copyIcon from '@/images/icon/copy.svg'
-import { CheckOutlined } from '@ant-design/icons'
-
+import { Typography, Popover } from 'antd';
+import copyIcon from '@/images/icon/copy.svg';
+import { CheckOutlined } from '@ant-design/icons';
 
 const dateFormat = `YYYY-MM-DD HH:mm:ss (UTCZ)`;
 const { Paragraph } = Typography;
 
 export default function Campaign () {
   const { id } = useParams();
-  const { projectId, project } = useUserInfo();
+  const { project } = useUserInfo();
   const { data: pageInfo = {}, isLoading } = useCampaign(id);
-  const { data: credentialList = [] } = useQuery(
-    ['credentialList', projectId],
-    () => getCredentials(projectId),
-    {
-      enabled: !!projectId,
-      staleTime: Infinity,
-    }
-  );
   // console.log({ pageInfo })
-  const credentialSet = credentialList.map(v => v.credentialList).flat();
   const link = `${getUrl()}/${encodeURIComponent(project.projectUrl)}/${id}`;
   if (isLoading) {
     return <Loading h='h-[300px]' />;
@@ -68,7 +56,7 @@ export default function Campaign () {
                         options = {};
                       }
                       return (
-                        <div key={idx} className="flex gap-x-2.5 items-center">
+                        <div key={idx} className='flex gap-x-2.5 items-center'>
                           <Display
                             key={idx}
                             pc
@@ -85,9 +73,14 @@ export default function Campaign () {
                                   copyable={{
                                     text: v.credentialId,
                                     icon: [
-                                      <img src={copyIcon} className='w-4 h-4' />,
-                                      <CheckOutlined style={{ color: '#3A82F7' }} />
-                                    ]
+                                      <img
+                                        src={copyIcon}
+                                        className='w-4 h-4'
+                                      />,
+                                      <CheckOutlined
+                                        style={{ color: '#3A82F7' }}
+                                      />,
+                                    ],
                                   }}
                                 >
                                   {v.credentialId}
