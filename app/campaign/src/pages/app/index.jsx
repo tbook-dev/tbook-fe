@@ -139,8 +139,8 @@ export default function () {
     }
   }, [page])
   useEffect(() => {
-    if (userLogined && campaignOngoing) {
-      const key=`logUserCampaignLogin-${campaignId}`
+    if (userLogined && campaignOngoing && user?.userId) {
+      const key=`logUserCampaign-${user?.userId}-${campaignId}`
       if (!localStorage.getItem(key)) {
         logUserReport({
           userId: user?.userId,
@@ -151,7 +151,7 @@ export default function () {
         localStorage.setItem(key, '1')
       }
     }
-  }, [userLogined, campaignOngoing])
+  }, [userLogined, campaignOngoing, user])
 
   return (
     <div className='space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-t-1'>
