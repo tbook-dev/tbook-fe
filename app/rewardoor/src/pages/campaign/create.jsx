@@ -15,7 +15,6 @@ import SucessModal from './modules/SucessModal';
 import { get } from 'lodash';
 import { getUrl } from '@/utils/conf';
 import useNFTcontract from '@/hooks/queries/useNFTcontract';
-import useCredential from '@/hooks/queries/useCredential';
 import useCampaign from '@/hooks/queries/useCampaign';
 import Loading from '@/components/loading';
 import useCampaignList from '@/hooks/queries/useCampaignList';
@@ -38,7 +37,7 @@ const textMap = {
   },
 };
 const { defaultErrorMsg } = conf;
-const defaultStep = '1';
+const defaultStep = '2';
 
 const checkFormValidte = conf => {
   return (
@@ -58,7 +57,6 @@ export default function () {
   const { projectId, project } = useUserInfo();
   const [sucessData, setSucessData] = useState(false);
   const { data: NFTcontracts = [] } = useNFTcontract();
-  const { data: credentialList = [] } = useCredential();
   const [credentialReward, setCredentialReward] = useState([
     { ...defaultCredentialReward },
   ]);
@@ -289,7 +287,6 @@ export default function () {
               credentialReward={credentialReward}
               setCredentialReward={setCredentialReward}
               NFTcontracts={NFTcontracts}
-              credentialList={credentialList}
             />
           )}
         </div>

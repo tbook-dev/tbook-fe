@@ -35,7 +35,6 @@ function CredentialReward({
   NFTcontracts,
   credentialList,
 }) {
-  const credentialSet = credentialList.map((v) => v.credentialList).flat();
 
   const [editCredentialIndex, setEditCredentialIndex] = useState(0);
   const [showCredentialModal, setShowCredentialModal] = useState(false);

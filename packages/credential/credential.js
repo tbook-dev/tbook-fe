@@ -2,7 +2,7 @@
 // picUrl1 黑色背景，
 
 export default [
-  //  groupType: 2,
+  //  groupType: 2, Community
   {
     name: 'Follow',
     labelType: 11,
@@ -76,12 +76,21 @@ export default [
       'https://rd-worker.xgamma.workers.dev/img/2511aaa3efe44490a170c2c13b12fba7',
   },
 
-  // groupType: 6,
+  // groupType: 6, Activity
   {
     name: 'Visit a Page or Site',
     labelType: 8,
     picUrl:
       'https://rd-worker.xgamma.workers.dev/img/bd265e367217418eb8c1fcf4acbd97ac',
+    groupType: 6,
+    picUrl2:
+      'https://rd-worker.xgamma.workers.dev/img/e645e1f23f6f4d579f7278e411c7fd1e',
+  },
+  {
+    name: 'Attend an Event',
+    labelType: 14,
+    picUrl:
+      'https://rd-worker.xgamma.workers.dev/img/1176201a972647349a63be5a2fb102a3',
     groupType: 6,
     picUrl2:
       'https://rd-worker.xgamma.workers.dev/img/e645e1f23f6f4d579f7278e411c7fd1e',
@@ -93,7 +102,7 @@ export default [
       'https://rd-worker.xgamma.workers.dev/img/68cb86e9972a428c9e22a0e9d498e39f',
     groupType: 6,
     picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/9ea740903a8c415c85cfe3de5fa0f83b',
+      'https://rd-worker.xgamma.workers.dev/img/b73e59ab481d423fbe50ee2e93e0ba2d',
   },
 
   //  groupType: 1,
