@@ -161,6 +161,7 @@ export default function () {
             src={page?.campaign?.picUrl}
             alt='main banner'
             className='w-full h-full object-cover object-center'
+            fetchpriority="high"
           />
         </div>
 
