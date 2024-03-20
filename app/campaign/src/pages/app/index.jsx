@@ -276,12 +276,13 @@ export default function () {
                             }
                           >
                             <span className='text-color1'>View Rewards</span>
-                            <img src={arrow3Icon} />
+                            <img src={arrow3Icon} alt='view reward'/>
                           </button>
                         </div>
                         <img
                           src={nft.picUrl}
                           className='w-20 h-20 lg:w-[120px] lg:h-[120px] object-center rounded-lg flex-none'
+                          alt='nft reward'
                         />
                       </div>
                     )
@@ -310,12 +311,13 @@ export default function () {
                             }
                           >
                             <span className='text-color1'>View Rewards</span>
-                            <img src={arrow3Icon} />
+                            <img src={arrow3Icon} alt='view reward'/>
                           </button>
                         </div>
                         <img
                           src={pointIcon}
                           className='w-20 h-20 lg:w-[120px] lg:h-[120px] object-center rounded-lg flex-none'
+                          alt='point reward'
                         />
                       </div>
                     )
