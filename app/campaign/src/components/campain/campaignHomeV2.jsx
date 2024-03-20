@@ -64,6 +64,7 @@ function Compaign ({
       <LazyImage
         src={picUrl}
         className='w-full h-[160px] lg:h-[140px] object-cover object-center'
+        alt='campaign banner'
       />
       <div className='p-5 flex-auto flex flex-col justify-between gap-y-3'>
         <h2 className='font-medium text-base'>{title}</h2>

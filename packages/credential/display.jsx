@@ -41,6 +41,7 @@ export default function CredentialDisplay ({
       <img
         src={theme === 'dark' ? credentialConf.picUrl : credentialConf.picUrl2}
         className='w-5 h-5 object-contain mt-0.5 flex-none'
+        alt='credential logo'
       />
       <span className='flex-auto'>
         <span className='text-[#904BF6]'>{actionName}</span>
@@ -55,6 +56,7 @@ export default function CredentialDisplay ({
       <img
         src={theme === 'dark' ? credentialConf.picUrl : credentialConf.picUrl2}
         className='w-5 h-5 object-contain mt-0.5 flex-none'
+        alt='credential logo'
       />
       <span className='flex-auto'>
         <span className='text-[#904BF6]'>{actionName}</span>
