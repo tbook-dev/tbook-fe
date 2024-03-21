@@ -73,7 +73,6 @@ export default function useSocial() {
         connected: discordConnected,
         picUrl: dcGray,
         activePic: dc,
-        activeColor: '#5865F2',
         loginFn: async (skip = false) => {
           !skip && localStorage.setItem('redirect_url', location.href);
           // location.href = dcCallbackUrl;
@@ -90,7 +89,6 @@ export default function useSocial() {
         connected: twitterConnected,
         picUrl: xGray,
         activePic: x,
-        activeColor: '#1DA1F2',
         loginFn: async (skip = false) => {
           !skip && localStorage.setItem('redirect_url', location.href);
           const res = await getTwLoginUrl();
@@ -116,7 +114,6 @@ export default function useSocial() {
         connected: telegramConnected,
         picUrl: tgGray,
         activePic: tg,
-        activeColor: '#2AABEE',
         loginFn: async (skip = false) => {
           // !skip && localStorage.setItem("redirect_url", location.href);
           // location.href = tgCallbackUrl;

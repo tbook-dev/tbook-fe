@@ -6,22 +6,12 @@ import Address from './Address';
 import Line from './line';
 import { Skeleton } from 'antd';
 import LazyImage from '@/components/lazyImage';
-const moduleConf = {
-  name: 'Edit Attestation',
-  onChain: 'Onchain Attestation',
-  social: 'Social Attestation',
-};
+import clsx from 'clsx';
+import moduleConf from './conf';
+
 export default function PageAttestation () {
-  const {
-    user,
-    data,
-    isLoading,
-    twitterConnected,
-    discordConnected,
-    telegramConnected,
-  } = useUserInfoQuery();
+  const { user, data, isLoading } = useUserInfoQuery();
   const { socialList } = useSocial();
-  console.log({ socialList });
   const onChainConf = useMemo(() => {
     const isEvm = !!user?.evm?.evmWallet;
     // const isZk = !!user?.zk?.address;
@@ -66,7 +56,14 @@ export default function PageAttestation () {
             {v.userName}
           </div>
         ) : (
-          <button className='activeColor' onClick={v.loginFn}>
+          <button
+            className={clsx(
+              moduleConf.unconnectSocialConfMap[v.name]?.cls,
+              'flex items-center gap-x-2 w-[250px] px-5 py-2 rounded-2.5xl capitalize hover:opacity-70'
+            )}
+            onClick={() => v.loginFn(false)}
+          >
+            {moduleConf.unconnectSocialConfMap[v.name]?.pic}
             connect {v.displayName}
           </button>
         ),
