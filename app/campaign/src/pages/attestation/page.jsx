@@ -1,17 +1,23 @@
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import useSocial from '@/hooks/useSocial';
 import Box from './box';
-import { useMemo } from 'react';
 import Address from './Address';
 import Line from './line';
 import { Skeleton } from 'antd';
 import LazyImage from '@/components/lazyImage';
 import clsx from 'clsx';
 import moduleConf from './conf';
+import { useState, useCallback, useMemo } from 'react';
+import UnbindModal from './unbindModal';
 
 export default function PageAttestation () {
   const { user, data, isLoading } = useUserInfoQuery();
   const { socialList } = useSocial();
+  const [open, setOpen] = useState(false);
+  const [modalData, setModalData] = useState({
+    accountName: '',
+    accountType: '',
+  });
   const onChainConf = useMemo(() => {
     const isEvm = !!user?.evm?.evmWallet;
     // const isZk = !!user?.zk?.address;
@@ -51,9 +57,22 @@ export default function PageAttestation () {
         name: v.name,
         label: <span className='capitalize'>{v.displayName} Account</span>,
         render: v.connected ? (
-          <div className='flex items-center'>
-            <img src={v.picUrl} className='size-5' alt='social media gap-x-2' />
-            {v.userName}
+          <div className='flex items-center gap-x-5'>
+            <div className='flex items-center gap-x-2 w-[310px] px-5 py-2 rounded-2.5xl bg-[#1A1A1A]'>
+              {moduleConf.connectedSocialConfMap[v.name]}@{v.userName}
+            </div>
+            <button
+              className='text-[#904BF6] text-base font-medium'
+              onClick={() => {
+                setModalData({
+                  accountType: v.name,
+                  accountName: v.userName,
+                });
+                setOpen(true);
+              }}
+            >
+              Disconnect
+            </button>
           </div>
         ) : (
           <button
@@ -70,6 +89,16 @@ export default function PageAttestation () {
       };
     });
   }, [socialList]);
+
+  const onCancel = useCallback(() => {
+    setOpen(false);
+    setTimeout(() => {
+      setModalData({
+        accountName: '',
+        accountType: '',
+      });
+    }, 300);
+  }, []);
 
   return (
     <div className='w-[840px] mx-auto pb-16 py-2 text-white space-y-8'>
@@ -92,6 +121,14 @@ export default function PageAttestation () {
           </Box>
         </Skeleton>
       </div>
+      <UnbindModal
+        open={open}
+        onCancal={onCancel}
+        modalData={{
+          accountName: modalData.accountName,
+          accountType: modalData.accountType,
+        }}
+      />
     </div>
   );
 }

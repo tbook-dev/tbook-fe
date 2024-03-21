@@ -1,15 +1,15 @@
-import request from "./request";
+import request from './request';
 
 export const host = import.meta.env.VITE_API_HOST;
 export const authenticate = async function (address, sign) {
   const d = new URLSearchParams();
-  d.append("address", address);
-  d.append("sign", sign);
+  d.append('address', address);
+  d.append('sign', sign);
   const response = await fetch(`${host}/authenticate`, {
-    credentials: "include",
-    method: "POST",
+    credentials: 'include',
+    method: 'POST',
     headers: {
-      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
     },
     body: d,
   });
@@ -48,33 +48,33 @@ export const verifyTbook = async function (credentialId) {
 };
 export const twLogin = async function () {
   fetch(`${host}/twitter/auth`, {
-    method: "GET",
-    credentials: "include",
+    method: 'GET',
+    credentials: 'include',
   })
     .then((r) => r.json())
     .then((d) => {
-      localStorage.setItem("redirect_url", location.href);
-      window.location = d["url"];
+      localStorage.setItem('redirect_url', location.href);
+      window.location = d['url'];
     });
 };
 
 export const getTwLoginUrl = async function () {
   const res = await fetch(`${host}/twitter/auth`, {
-    method: "GET",
-    credentials: "include",
+    method: 'GET',
+    credentials: 'include',
   });
   return await res.json();
 };
 
 export const loginUsingTwitterUrl = async function () {
   const res = await fetch(`${host}/twitter/login/auth`, {
-    method: "GET",
-    credentials: "include",
+    method: 'GET',
+    credentials: 'include',
   });
   const data = await res.json();
-  localStorage.setItem("redirect_url", location.href);
+  localStorage.setItem('redirect_url', location.href);
   // window.location = data["url"];
-  window.open(data["url"], "_self")
+  window.open(data['url'], '_self');
   // const a = document.createElement("a");
   // document.body.appendChild(a);
   // a.style = "display: none";
@@ -92,8 +92,8 @@ export const getExporeCampain = async function () {
 
 export const getNftClaimInfo = async function (nftId, groupId) {
   return await request(`${host}/nft/claim/${nftId}/group/${groupId}`, {
-    method: "POST",
-    credentials: "include",
+    method: 'POST',
+    credentials: 'include',
   });
 };
 
@@ -105,14 +105,14 @@ export const getNft = async function (groupId, nftId) {
 };
 export const updateClaimed = async function (nftId, groupId, tx, dummyId) {
   const data = new URLSearchParams();
-  data.append("tx", tx);
-  data.append("dummyId", dummyId);
+  data.append('tx', tx);
+  data.append('dummyId', dummyId);
   const res = await fetch(`${host}/nft/claimed/${nftId}/group/${groupId}`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-    credentials: "include",
+    credentials: 'include',
     body: data,
   });
   return await res.text();
@@ -124,15 +124,15 @@ export const getUserCampaign = async function (projectId) {
 
 export const authTwitterCallback = async function () {
   const url = new URL(window.location.href);
-  const code = url.searchParams.get("code");
-  const state = url.searchParams.get("state");
+  const code = url.searchParams.get('code');
+  const state = url.searchParams.get('state');
   return await request.PostFormV1(`${host}/twitter/callback`, { code, state });
 };
 
 export const authTwitterLoginCallback = async function () {
   const url = new URL(window.location.href);
-  const code = url.searchParams.get("code");
-  const state = url.searchParams.get("state");
+  const code = url.searchParams.get('code');
+  const state = url.searchParams.get('state');
   return await request.PostFormV1(`${host}/twitter/login/callback`, {
     code,
     state,
@@ -156,7 +156,7 @@ export const authTgCallback = async function (data) {
 
 export const authDcCallback = async function () {
   const url = new URL(window.location.href);
-  const code = url.searchParams.get("code");
+  const code = url.searchParams.get('code');
   return await request.PostFormV1(`${host}/dc/callback`, { code });
 };
 
@@ -166,13 +166,13 @@ export const getNFTSupportedChains = async function () {
 
 export const bindEvm = async function (address, sign) {
   const d = new URLSearchParams();
-  d.append("address", address);
-  d.append("sign", sign);
+  d.append('address', address);
+  d.append('sign', sign);
   const bindResult = await fetch(`${host}/bindEvm`, {
-    credentials: "include",
-    method: "POST",
+    credentials: 'include',
+    method: 'POST',
     headers: {
-      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
     },
     body: d,
   });
@@ -202,12 +202,12 @@ export const getZKSalt = async function (jwtToken) {
 
 export const updateZKAddress = async function (address) {
   const d = new URLSearchParams();
-  d.append("address", address);
+  d.append('address', address);
   const bindResult = await fetch(`${host}/zk/address`, {
-    credentials: "include",
-    method: "POST",
+    credentials: 'include',
+    method: 'POST',
     headers: {
-      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
     },
     body: d,
   });
@@ -227,10 +227,14 @@ export const getAirdropAddress = async function (data) {
   return await request.Post(`${host}/campaignAddress/address`, data);
 };
 
-export const markNewUser = async function(){
+export const markNewUser = async function () {
   return await request.Post(`${host}/markNewUser`);
-}
+};
 
-export const mergeTwitterAndAddressAccount = async function(data){
-  return await request.PostFormV1(`${host}/twitter/merge`, data)
-}
+export const mergeTwitterAndAddressAccount = async function (data) {
+  return await request.PostFormV1(`${host}/twitter/merge`, data);
+};
+
+export const disConnectAccount = async function (data) {
+  return await request.PostFormV1(`${host}/social/disconnect`, data);
+};
