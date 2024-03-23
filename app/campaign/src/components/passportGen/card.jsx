@@ -51,6 +51,7 @@ export default function PassportCard ({ onClose }) {
                 ? `/edit-attestation`
                 : `/${projectUrl}/edit-attestation`
             }
+            onClick={onClose}
             className='text-[#B5859E] focus-visible:outline-none group hover:text-white w-max mx-auto flex items-center gap-x-1 bg-[rgb(244,140,193)]/[0.1] px-3 py-1 rounded-xl text-sm'
           >
             Edit Attestation
