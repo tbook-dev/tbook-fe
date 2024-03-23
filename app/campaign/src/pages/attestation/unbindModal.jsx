@@ -27,6 +27,8 @@ const moduleConf = {
     telegram: 2,
     discord: 3,
   },
+  successTip: 'Successfully disconnect',
+  errorTip: 'Failed to disconnect',
 };
 
 export default function UnbindModal ({ open, onCancal, modalData }) {
@@ -51,15 +53,18 @@ export default function UnbindModal ({ open, onCancal, modalData }) {
       id: userIdMap[type],
     };
     disConnectAccount(fd)
-      .then(res => {
+      .then(async res => {
         // console.log(res);
         if (res.code === 200) {
-          refetch();
+          messageApi.success(res.message ?? moduleConf.successTip);
+          await refetch();
         } else {
           messageApi.error(res.message);
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        messageApi.error(moduleConf.errorTip);
+      })
       .finally(() => {
         setLoading(false);
       });

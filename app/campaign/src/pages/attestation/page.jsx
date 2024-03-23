@@ -26,6 +26,19 @@ export default function PageAttestation () {
     dispatch(setConnectWalletModal(true));
   }, []);
 
+  const isMultAccount = useMemo(() => {
+    return (
+      [
+        // user
+        !!data?.user?.evm?.evmWallet,
+        // tw
+        !!data?.userTwitter?.connected,
+        !!data?.userDc?.connected,
+        !!data?.userTg?.connected,
+      ].filter(Boolean).length > 1
+    );
+  }, [data]);
+  // console.log({ isMultAccount });
   const onChainConf = useMemo(() => {
     const isEvm = !!user?.evm?.evmWallet;
     // const isZk = !!user?.zk?.address;
@@ -81,18 +94,20 @@ export default function PageAttestation () {
             <div className='flex items-center gap-x-2 w-[310px] px-5 py-2 rounded-2.5xl bg-[#1A1A1A]'>
               {moduleConf.connectedSocialConfMap[v.name]}@{v.userName}
             </div>
-            <button
-              className='text-[#904BF6] text-base font-medium'
-              onClick={() => {
-                setModalData({
-                  accountType: v.name,
-                  accountName: v.userName,
-                });
-                setOpen(true);
-              }}
-            >
-              Disconnect
-            </button>
+            {isMultAccount && (
+              <button
+                className='text-[#904BF6] text-base font-medium'
+                onClick={() => {
+                  setModalData({
+                    accountType: v.name,
+                    accountName: v.userName,
+                  });
+                  setOpen(true);
+                }}
+              >
+                Disconnect
+              </button>
+            )}
           </div>
         ) : (
           <button
@@ -108,7 +123,7 @@ export default function PageAttestation () {
         ),
       };
     });
-  }, [socialList]);
+  }, [socialList, isMultAccount]);
 
   const onCancel = useCallback(() => {
     setOpen(false);
