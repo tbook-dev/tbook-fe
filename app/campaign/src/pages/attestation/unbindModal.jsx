@@ -58,6 +58,7 @@ export default function UnbindModal ({ open, onCancal, modalData }) {
         if (res.code === 200) {
           messageApi.success(res.message ?? moduleConf.successTip);
           await refetch();
+          onCancal();
         } else {
           messageApi.error(res.message);
         }
