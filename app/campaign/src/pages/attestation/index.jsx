@@ -5,17 +5,20 @@ import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import emptyIcon from '@/images/icon/empty.svg';
 import { useDispatch } from 'react-redux';
 import { setLoginModal } from '@/store/global';
+import Loading from '@/components/pageFallback';
 
 export default function Attestation () {
   const { pc } = useResponsive();
-  const { userLogined } = useUserInfoQuery();
+  const { userLogined, isLoading } = useUserInfoQuery();
   const dispath = useDispatch();
 
   const handleClick = () => {
     dispath(setLoginModal(true));
   };
   return pc ? (
-    userLogined ? (
+    isLoading ? (
+      <Loading />
+    ) : userLogined ? (
       <Page />
     ) : (
       <div className='pt-[130px]'>

@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { disConnectAccount } from '@/api/incentive';
 import { useState } from 'react';
-import { Spin } from 'antd';
+import { Spin, message } from 'antd';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 
 const moduleConf = {
@@ -22,9 +22,16 @@ const moduleConf = {
       </>
     );
   },
+  mapSocialTypeToEnum: {
+    twitter: 1,
+    telegram: 2,
+    discord: 3,
+  },
 };
 
 export default function UnbindModal ({ open, onCancal, modalData }) {
+  const [messageApi, contextHolder] = message.useMessage();
+
   const { refetch, data } = useUserInfo();
   const [loading, setLoading] = useState(false);
   const userIdMap = {
@@ -33,21 +40,23 @@ export default function UnbindModal ({ open, onCancal, modalData }) {
     telegram: data?.userTg?.tgId,
   };
 
-  const handleDisconnect = type => {
+  const handleDisconnect = () => {
+    const type = modalData?.accountType;
+    console.log({ type, modalData });
     setLoading(true);
     // api
     // const twitterId = mergeAccountData.twitterId;
-    const fd = { accountType: type, accountId: userIdMap[type] };
+    const fd = {
+      socialType: moduleConf.mapSocialTypeToEnum[type],
+      id: userIdMap[type],
+    };
     disConnectAccount(fd)
       .then(res => {
         // console.log(res);
         if (res.code === 200) {
-          setMergeSucess(true);
           refetch();
-        } else if (res.code === 400) {
-          setMergeSucess(false);
         } else {
-          setMergeSucess(false);
+          messageApi.error(res.message);
         }
       })
       .catch(() => {})
@@ -144,6 +153,7 @@ export default function UnbindModal ({ open, onCancal, modalData }) {
             </Transition.Child>
           </div>
         </div>
+        {contextHolder}
       </Dialog>
     </Transition.Root>
   );

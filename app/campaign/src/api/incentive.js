@@ -236,5 +236,5 @@ export const mergeTwitterAndAddressAccount = async function (data) {
 };
 
 export const disConnectAccount = async function (data) {
-  return await request.PostFormV1(`${host}/social/disconnect`, data);
+  return await request.PostFormV1(`${host}/social/unbind`, data);
 };
