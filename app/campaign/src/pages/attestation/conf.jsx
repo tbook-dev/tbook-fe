@@ -1,7 +1,7 @@
 import walletconnectSVG from '@/images/zklogin/walletconnect.svg';
 
 export default {
-  name: 'Edit Attestation',
+  name: 'Edit Identity Attestation',
   onChain: 'Onchain Attestation',
   social: 'Social Attestation',
   unconnectSocialConfMap: {

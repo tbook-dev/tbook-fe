@@ -44,7 +44,7 @@ export default function PassportCard ({ onClose }) {
         className='relative mx-auto  h-[452px] w-[317px] flex flex-col justify-center items-center bg-cover bg-center'
         style={{ backgroundImage: `url(${passportlg})` }}
       >
-        <div className='absolute  inset-x-0 top-10'>
+        <div className='hidden lg:block absolute inset-x-0 top-10'>
           <Link
             to={
               isUsingSubdomain
@@ -54,7 +54,7 @@ export default function PassportCard ({ onClose }) {
             onClick={onClose}
             className='text-[#B5859E] focus-visible:outline-none group hover:text-white w-max mx-auto flex items-center gap-x-1 bg-[rgb(244,140,193)]/[0.1] px-3 py-1 rounded-xl text-sm'
           >
-            Edit Attestation
+            Edit Identity Attestation
             <svg
               width='12'
               height='13'
