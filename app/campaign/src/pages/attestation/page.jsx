@@ -1,7 +1,7 @@
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import useSocial from '@/hooks/useSocial';
 import Box from './box';
-import Address from './Address';
+import Address from './address';
 import Line from './line';
 import { Skeleton } from 'antd';
 import LazyImage from '@/components/lazyImage';
