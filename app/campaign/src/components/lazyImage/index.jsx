@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import clsx from 'clsx'
 
-export default function ({ src, alt, className }) {
+export default function ({ src, alt, className, ...props }) {
   const [loaded, setLoaded] = useState(false)
   useEffect(() => {
     if (!src) return
@@ -12,7 +12,7 @@ export default function ({ src, alt, className }) {
     }
   }, [src])
   return src && loaded ? (
-    <img src={src} alt={alt} className={className} />
+    <img src={src} alt={alt} className={className} {...props}/>
   ) : (
     <div className={clsx('animate-pulse bg-[#1f1f1f]', className)} />
   )

@@ -1,37 +1,38 @@
-import MyLayout from '@/layout/my/Layout'
-import Layout from '@/layout/normal/Layout'
-import HomeLayout from '@/layout/fixed/Layout'
-import { Suspense, lazy } from 'react'
-import PageFallBack from '@/components/pageFallback'
-import { getProjectId } from '@/api/incentive'
-import queryClient from '../query-client'
-import logo from '@/images/icon/logo.svg'
-import App from '@/pages/app'
-import commonRoutes from './common'
+import MyLayout from '@/layout/my/Layout';
+import Layout from '@/layout/normal/Layout';
+import HomeLayout from '@/layout/fixed/Layout';
+import { Suspense, lazy } from 'react';
+import PageFallBack from '@/components/pageFallback';
+import { getProjectId } from '@/api/incentive';
+import queryClient from '../query-client';
+import logo from '@/images/icon/logo.svg';
+import App from '@/pages/app';
+import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 
-const Home = lazy(() => import('@/pages/home'))
-const Explore = lazy(() => import('@/pages/explore'))
-const HomeV2 = lazy(() => import('@/pages/home-v2'))
-const Asset = lazy(() => import('@/pages/my/Asset'))
-const Campaign = lazy(() => import('@/pages/my/campaign'))
-const NFT = lazy(() => import('@/pages/my/nft'))
-const Snapshot = lazy(() => import('@/pages/snapshot'))
+const Home = lazy(() => import('@/pages/home'));
+const Explore = lazy(() => import('@/pages/explore'));
+const HomeV2 = lazy(() => import('@/pages/home-v2'));
+const Asset = lazy(() => import('@/pages/my/Asset'));
+const Campaign = lazy(() => import('@/pages/my/campaign'));
+const NFT = lazy(() => import('@/pages/my/nft'));
+const Snapshot = lazy(() => import('@/pages/snapshot'));
+const Attestation = lazy(() => import('@/pages/attestation'));
 
 const getProjectIdFn = async ({ params }) => {
-  let projectUrl = params.projectName
+  let projectUrl = params.projectName;
   const defaultValues = {
     projectUrl: 'tbook',
     isUsingSubdomain: false,
     projectId: '',
     project: {
       projectUrl,
-      avatarUrl: logo
-    }
-  }
-  if(!projectUrl){
+      avatarUrl: logo,
+    },
+  };
+  if (!projectUrl) {
     // official home 、explore
-    return defaultValues
+    return defaultValues;
   }
   try {
     const res = await queryClient.fetchQuery(
@@ -39,19 +40,19 @@ const getProjectIdFn = async ({ params }) => {
       () => getProjectId(projectUrl),
       {
         staleTime: Infinity,
-        cacheTime: Infinity
+        cacheTime: Infinity,
       }
-    )
+    );
     return {
       projectUrl,
       isUsingSubdomain: false,
       projectId: res?.projectId,
-      project: res
-    }
+      project: res,
+    };
   } catch (e) {
-    return defaultValues
+    return defaultValues;
   }
-}
+};
 
 const routes = [
   {
@@ -67,9 +68,9 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <Home />
           </Suspense>
-        )
-      }
-    ]
+        ),
+      },
+    ],
   },
   {
     path: '/explore',
@@ -84,9 +85,9 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <Explore />
           </Suspense>
-        )
-      }
-    ]
+        ),
+      },
+    ],
   },
   {
     path: '/',
@@ -100,10 +101,10 @@ const routes = [
         element: (
           <Suspense fallback={<PageFallBack />}>
             {/* <ErrorBoundary fallbackComponent={<GlobalError/>}> */}
-              <HomeV2 />
+            <HomeV2 />
             {/* </ErrorBoundary> */}
           </Suspense>
-        )
+        ),
       },
       {
         path: ':projectName/asset',
@@ -112,7 +113,7 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <Asset />
           </Suspense>
-        )
+        ),
       },
       {
         path: ':projectName/campaign',
@@ -121,12 +122,12 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <Campaign />
           </Suspense>
-        )
+        ),
       },
       {
         path: ':projectName/:campaignId',
         loader: getProjectIdFn,
-        element: <App />
+        element: <App />,
       },
       {
         path: ':projectName/nft/:groupId/:nftId',
@@ -135,7 +136,7 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <NFT />
           </Suspense>
-        )
+        ),
       },
       {
         path: ':projectName/snapshot/:campaignId/:credentialId/:snapshotId',
@@ -144,10 +145,18 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <Snapshot />
           </Suspense>
-        )
-      }
-    ]
-  }
-]
+        ),
+      },
+      {
+        path: ':projectName/edit-attestation',
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <Attestation />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+];
 
-export default [...routes, ...commonRoutes]
+export default [...routes, ...commonRoutes];

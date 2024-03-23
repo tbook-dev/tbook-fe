@@ -1,32 +1,33 @@
-import MyLayout from "@/layout/my/Layout";
-import logo from "@/images/icon/logo.svg";
-import { isUsingSubdomain } from "@/utils/common";
-import PageFallBack from "@/components/pageFallback";
-import { Suspense, lazy } from "react";
-import queryClient from "../query-client";
-import { getProjectId } from "@/api/incentive";
-import GlobalError from "@/components/errorBoundary/GlobalError";
+import MyLayout from '@/layout/my/Layout';
+import logo from '@/images/icon/logo.svg';
+import { isUsingSubdomain } from '@/utils/common';
+import PageFallBack from '@/components/pageFallback';
+import { Suspense, lazy } from 'react';
+import queryClient from '../query-client';
+import { getProjectId } from '@/api/incentive';
+import GlobalError from '@/components/errorBoundary/GlobalError';
 
-const TwitterCallback = lazy(() => import("@/pages/twitter/callback"));
-const TgCallback = lazy(() => import("@/pages/social/tg"));
-const DcCallback = lazy(() => import("@/pages/social/dc"));
+const TwitterCallback = lazy(() => import('@/pages/twitter/callback'));
+const TgCallback = lazy(() => import('@/pages/social/tg'));
+const DcCallback = lazy(() => import('@/pages/social/dc'));
 const TwitterLoginCallback = lazy(() =>
-  import("@/pages/twitter/login_callback")
+  import('@/pages/twitter/login_callback')
 );
-const TwLoginIndex = lazy(() => import("@/pages/twitter/tw_login"));
+const TwLoginIndex = lazy(() => import('@/pages/twitter/tw_login'));
 // const ZkLoginIndex = lazy(() => import("@/pages/zklogin/zk_login"));
-const ZkLoginCallback = lazy(() => import("@/pages/zklogin/zk_login_callback"));
-const ZkLoginEnoki = lazy(() => import("@/pages/zklogin/zk_login_with_enoki"));
-const Page404 = lazy(() => import("@/pages/404"));
+const ZkLoginCallback = lazy(() => import('@/pages/zklogin/zk_login_callback'));
+const ZkLoginEnoki = lazy(() => import('@/pages/zklogin/zk_login_with_enoki'));
+const Page404 = lazy(() => import('@/pages/404'));
+
 // const RandomError = lazy(() => import("@/components/randomError"));
 
 const getProjectIdFn = async () => {
   const defaultValues = {
-    projectUrl: "tbook",
+    projectUrl: 'tbook',
     isUsingSubdomain,
-    projectId: "",
+    projectId: '',
     project: {
-      projectUrl: "tbook",
+      projectUrl: 'tbook',
       avatarUrl: logo,
     },
   };
@@ -34,10 +35,10 @@ const getProjectIdFn = async () => {
   if (isUsingSubdomain) {
     try {
       const host = location.hostname;
-      const subDomain = host.split(".")?.[0];
+      const subDomain = host.split('.')?.[0];
       const projectUrl = subDomain;
       const res = await queryClient.fetchQuery(
-        ["project", projectUrl],
+        ['project', projectUrl],
         () => getProjectId(projectUrl),
         {
           staleTime: Infinity,
@@ -62,7 +63,7 @@ const getProjectIdFn = async () => {
 
 const routes = [
   {
-    path: "/twitter/callback",
+    path: '/twitter/callback',
     loader: getProjectIdFn,
     element: <MyLayout />,
     errorElement: <GlobalError />,
@@ -79,7 +80,7 @@ const routes = [
     ],
   },
   {
-    path: "/twitter/login/callback",
+    path: '/twitter/login/callback',
     loader: getProjectIdFn,
     element: <MyLayout />,
     errorElement: <GlobalError />,
@@ -96,7 +97,7 @@ const routes = [
     ],
   },
   {
-    path: "/tw_login",
+    path: '/tw_login',
     loader: getProjectIdFn,
     element: <MyLayout />,
     errorElement: <GlobalError />,
@@ -113,7 +114,7 @@ const routes = [
     ],
   },
   {
-    path: "/tg_callback",
+    path: '/tg_callback',
     loader: getProjectIdFn,
     element: <MyLayout />,
     errorElement: <GlobalError />,
@@ -130,7 +131,7 @@ const routes = [
     ],
   },
   {
-    path: "/dc_callback",
+    path: '/dc_callback',
     loader: getProjectIdFn,
     element: <MyLayout />,
     errorElement: <GlobalError />,
@@ -147,7 +148,7 @@ const routes = [
     ],
   },
   {
-    path: "/zklogin",
+    path: '/zklogin',
     loader: getProjectIdFn,
     element: <MyLayout />,
     errorElement: <GlobalError />,
@@ -164,7 +165,7 @@ const routes = [
     ],
   },
   {
-    path: "/zklogin/callback",
+    path: '/zklogin/callback',
     loader: getProjectIdFn,
     element: <MyLayout />,
     errorElement: <GlobalError />,
@@ -181,12 +182,20 @@ const routes = [
     ],
   },
   {
-    path: "*",
-    element: <Page404 />,
+    path: '*',
+    element: (
+      <Suspense fallback={<PageFallBack />}>
+        <Page404 />
+      </Suspense>
+    ),
   },
   {
-    path: "/404",
-    element: <Page404 />,
+    path: '/404',
+    element: (
+      <Suspense fallback={<PageFallBack />}>
+        <Page404 />
+      </Suspense>
+    ),
   },
   // {
   //   path: "/test-error/500",

@@ -1,23 +1,24 @@
-import MyLayout from '@/layout/my/Layout'
-import { Suspense, lazy } from 'react'
-import PageFallBack from '@/components/pageFallback'
-import { getProjectId } from '@/api/incentive'
-import queryClient from '../query-client'
-import logo from '@/images/icon/logo.svg'
-import App from '@/pages/app'
-import commonRoutes from './common'
+import MyLayout from '@/layout/my/Layout';
+import { Suspense, lazy } from 'react';
+import PageFallBack from '@/components/pageFallback';
+import { getProjectId } from '@/api/incentive';
+import queryClient from '../query-client';
+import logo from '@/images/icon/logo.svg';
+import App from '@/pages/app';
+import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 
-const HomeV2 = lazy(() => import('@/pages/home-v2'))
-const Snapshot = lazy(() => import('@/pages/snapshot'))
-const Asset = lazy(() => import('@/pages/my/Asset'))
-const Campaign = lazy(() => import('@/pages/my/campaign'))
-const NFT = lazy(() => import('@/pages/my/nft'))
+const HomeV2 = lazy(() => import('@/pages/home-v2'));
+const Snapshot = lazy(() => import('@/pages/snapshot'));
+const Asset = lazy(() => import('@/pages/my/Asset'));
+const Campaign = lazy(() => import('@/pages/my/campaign'));
+const NFT = lazy(() => import('@/pages/my/nft'));
+const Attestation = lazy(() => import('@/pages/attestation'));
 
 const getProjectIdFn = async () => {
-  const host = location.hostname
-  const subDomain = host.split('.')?.[0]
-  const projectUrl = subDomain
+  const host = location.hostname;
+  const subDomain = host.split('.')?.[0];
+  const projectUrl = subDomain;
 
   const defaultValues = {
     projectUrl,
@@ -25,9 +26,9 @@ const getProjectIdFn = async () => {
     projectId: '',
     project: {
       projectUrl,
-      avatarUrl: logo
-    }
-  }
+      avatarUrl: logo,
+    },
+  };
 
   try {
     const res = await queryClient.fetchQuery(
@@ -35,19 +36,19 @@ const getProjectIdFn = async () => {
       () => getProjectId(projectUrl),
       {
         staleTime: Infinity,
-        cacheTime: Infinity
+        cacheTime: Infinity,
       }
-    )
+    );
     return {
       projectUrl,
       isUsingSubdomain: true,
       projectId: res?.projectId,
-      project: res
-    }
+      project: res,
+    };
   } catch (e) {
-    return defaultValues
+    return defaultValues;
   }
-}
+};
 
 const routes = [
   {
@@ -63,7 +64,7 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <HomeV2 />
           </Suspense>
-        )
+        ),
       },
       {
         path: '/asset',
@@ -72,7 +73,7 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <Asset />
           </Suspense>
-        )
+        ),
       },
       {
         path: '/campaign',
@@ -81,13 +82,13 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <Campaign />
           </Suspense>
-        )
+        ),
       },
       {
         // path: ':projectId?/campaign/:campaignId',
         path: '/:campaignId',
         loader: getProjectIdFn,
-        element: <App />
+        element: <App />,
       },
       {
         path: '/nft/:groupId/:nftId',
@@ -96,7 +97,7 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <NFT />
           </Suspense>
-        )
+        ),
       },
       {
         path: '/snapshot/:campaignId/:credentialId/:snapshotId',
@@ -105,10 +106,18 @@ const routes = [
           <Suspense fallback={<PageFallBack />}>
             <Snapshot />
           </Suspense>
-        )
-      }
-    ]
-  }
-]
+        ),
+      },
+      {
+        path: '/edit-attestation',
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <Attestation />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+];
 
-export default [...routes, ...commonRoutes]
+export default [...routes, ...commonRoutes];
