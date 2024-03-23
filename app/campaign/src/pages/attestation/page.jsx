@@ -9,18 +9,28 @@ import clsx from 'clsx';
 import moduleConf from './conf';
 import { useState, useCallback, useMemo } from 'react';
 import UnbindModal from './unbindModal';
+import { useDispatch } from 'react-redux';
+import { setConnectWalletModal } from '@/store/global';
 
 export default function PageAttestation () {
   const { user, data, isLoading } = useUserInfoQuery();
+  const dispatch = useDispatch();
+
   const { socialList } = useSocial();
   const [open, setOpen] = useState(false);
   const [modalData, setModalData] = useState({
     accountName: '',
     accountType: '',
   });
+  const handleConnectWallet = useCallback(() => {
+    dispatch(setConnectWalletModal(true));
+  }, []);
+
   const onChainConf = useMemo(() => {
     const isEvm = !!user?.evm?.evmWallet;
     // const isZk = !!user?.zk?.address;
+    const evm = moduleConf.onChainList.find(v => v.type === 'walletconnect');
+
     return [
       {
         name: 'EVM Chain',
@@ -30,7 +40,17 @@ export default function PageAttestation () {
             <Address address={user?.evm?.evmWallet} />
           </div>
         ) : (
-          <button>connect wallet</button>
+          <button
+            className='h-10 w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
+            onClick={handleConnectWallet}
+          >
+            <img
+              src={evm.picUrl}
+              className='w-5 h-5 object-center absolute left-4'
+              alt={evm.type}
+            />
+            {evm.text}
+          </button>
         ),
       },
     ];

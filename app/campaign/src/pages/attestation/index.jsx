@@ -9,14 +9,15 @@ import Loading from '@/components/pageFallback';
 
 export default function Attestation () {
   const { pc } = useResponsive();
-  const { userLogined, isLoading } = useUserInfoQuery();
+  const { userLogined, firstLoad } = useUserInfoQuery();
   const dispath = useDispatch();
 
   const handleClick = () => {
     dispath(setLoginModal(true));
   };
+
   return pc ? (
-    isLoading ? (
+    !firstLoad ? (
       <Loading />
     ) : userLogined ? (
       <Page />

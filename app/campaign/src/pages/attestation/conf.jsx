@@ -1,3 +1,5 @@
+import walletconnectSVG from '@/images/zklogin/walletconnect.svg';
+
 export default {
   name: 'Edit Attestation',
   onChain: 'Onchain Attestation',
@@ -103,4 +105,11 @@ export default {
       </svg>
     ),
   },
+  onChainList: [
+    {
+      type: 'walletconnect',
+      picUrl: walletconnectSVG,
+      text: 'WalletConnect',
+    },
+  ],
 };
