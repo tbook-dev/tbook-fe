@@ -7,7 +7,7 @@ export default function DisableVerify () {
     <Tooltip title={tip}>
       <span>
         <button
-          disabled
+          // disabled
           className={clsx(
             'text-base whitespace-nowrap px-1.5 py-1 rounded',
             'flex items-center gap-x-1',
