@@ -18,6 +18,7 @@ const Campaign = lazy(() => import('@/pages/my/campaign'));
 const NFT = lazy(() => import('@/pages/my/nft'));
 const Snapshot = lazy(() => import('@/pages/snapshot'));
 const TonExplore = lazy(() => import('@/pages/ton-explore'));
+const Attestation = lazy(() => import('@/pages/attestation'));
 
 const getProjectIdFn = async ({ params }) => {
   let projectUrl = params.projectName;
@@ -161,6 +162,14 @@ const routes = [
         element: (
           <Suspense fallback={<PageFallBack />}>
             <Snapshot />
+          </Suspense>
+        ),
+      },
+      {
+        path: ':projectName/edit-attestation',
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <Attestation />
           </Suspense>
         ),
       },

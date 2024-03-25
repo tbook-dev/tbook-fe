@@ -343,3 +343,6 @@ export const getTopProjects = async function () {
     },
   ];
 };
+export const disConnectAccount = async function (data) {
+  return await request.PostFormV1(`${host}/social/unbind`, data);
+};

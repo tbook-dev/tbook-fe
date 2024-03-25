@@ -26,11 +26,12 @@ import clsx from 'clsx';
 import AirDrop from './airdrop';
 import { useDispatch } from 'react-redux';
 import { Display, actionMap } from '@tbook/credential';
+import DisableVerify from '@/components/withVerify/disableVerify';
 
 // const errorMsg =
 //   'It seems you have not finished the task.Please click and finish the task, then verify in 30s later.'
 
-export default function Credential({ redential, showVerify, signCredential }) {
+export default function Credential ({ redential, showVerify, signCredential }) {
   const { isUsingSubdomain, projectUrl, project } = useLoaderData();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
@@ -69,7 +70,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
   const hasVoted = useMemo(() => {
     if (!votes) return false;
     return !!votes?.find(
-      (v) => v.voter?.toLowerCase() === address?.toLowerCase()
+      v => v.voter?.toLowerCase() === address?.toLowerCase()
     );
   }, [votes]);
 
@@ -102,7 +103,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
     localStorage.setItem(unikey, '1');
     // console.log("--> log", unikey);
   }, [unikey]);
-  const handleVerify = async (redential) => {
+  const handleVerify = async redential => {
     // 如果是snapshot，先坚持上报然后
     let hasError = false;
     if (isSnapshotType) {
@@ -185,7 +186,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
     },
     13: () => {
       if (userLogined) {
-        setShowAirdop((v) => !v);
+        setShowAirdop(v => !v);
       } else {
         signIn();
       }
@@ -212,7 +213,7 @@ export default function Credential({ redential, showVerify, signCredential }) {
   useEffect(() => {
     clearInterIdRef.current = setInterval(() => {
       if (count > 0) {
-        setCount((v) => v - 1);
+        setCount(v => v - 1);
       } else {
         clearInterval(clearInterIdRef.current);
       }
@@ -232,8 +233,8 @@ export default function Credential({ redential, showVerify, signCredential }) {
   }, [redential]);
   // console.log({ options, redential });
   return (
-    <div className="border border-[#904BF6] transition-all duration-300 ease-in-out lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5">
-      <div className="flex items-start justify-between w-full gap-x-1">
+    <div className='border border-[#904BF6] transition-all duration-300 ease-in-out lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5'>
+      <div className='flex items-start justify-between w-full gap-x-1'>
         {/* <div className="flex items-start gap-x-1 pt-[3px] flex-auto w-[calc(100%_-_45px)]">
           <img
             src={redential.picUrl}
@@ -261,11 +262,13 @@ export default function Credential({ redential, showVerify, signCredential }) {
               : null
           }
         />
-        {redential.isVerified ? (
-          <span className="flex items-center gap-x-1 text-md whitespace-nowrap">
+        {redential.isVerified === 1 ? (
+          <span className='flex items-center gap-x-1 text-md whitespace-nowrap'>
             <VerifyStatus status={verifyStatusEnum.Sucess} />
             Verified
           </span>
+        ) : redential.isVerified === -1 ? (
+          <DisableVerify />
         ) : (
           showVerify && (
             <WithVerify
@@ -281,12 +284,12 @@ export default function Credential({ redential, showVerify, signCredential }) {
         )}
       </div>
       {showErrorTip && (
-        <div className="pt-5 border-t border-[#281545] space-y-4">
-          <div className="text-sm flex gap-x-3 items-start">
+        <div className='pt-5 border-t border-[#281545] space-y-4'>
+          <div className='text-sm flex gap-x-3 items-start'>
             <img
               src={warningSvg}
-              className="w-5 h-5 object-center"
-              alt="verify error"
+              className='w-5 h-5 object-center'
+              alt='verify error'
             />
             It seems you have not finished the task.Please click and finish the
             task, then verify in {count}s later.
@@ -296,19 +299,19 @@ export default function Credential({ redential, showVerify, signCredential }) {
             (!actionMap[labelType]?.isLink ? (
               <div
                 onClick={taskMap[redential.labelType]}
-                className="cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
+                className='cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
               >
                 Go to finish
                 <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 17 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                  width='16'
+                  height='16'
+                  viewBox='0 0 17 16'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
                 >
                   <path
-                    d="M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z"
-                    fill="white"
+                    d='M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z'
+                    fill='white'
                   />
                 </svg>
               </div>
@@ -318,21 +321,21 @@ export default function Credential({ redential, showVerify, signCredential }) {
                 onClick={taskMap[redential.labelType]}
                 // to={pc ? redential.intentDisplayLink : redential.displayLink}
                 to={actionMap[labelType]?.getLink({ ...options, pc })}
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                className="cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
+                target='_blank'
+                rel='nofollow noopener noreferrer'
+                className='cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
               >
                 Go to finish
                 <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 17 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                  width='16'
+                  height='16'
+                  viewBox='0 0 17 16'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
                 >
                   <path
-                    d="M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z"
-                    fill="white"
+                    d='M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z'
+                    fill='white'
                   />
                 </svg>
               </Link>
@@ -341,8 +344,8 @@ export default function Credential({ redential, showVerify, signCredential }) {
       )}
       {showSnapshot && (
         <Link
-          target="_blank"
-          className="text-base font-medium"
+          target='_blank'
+          className='text-base font-medium'
           to={`${
             isUsingSubdomain ? '' : `/${projectUrl}`
           }/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
