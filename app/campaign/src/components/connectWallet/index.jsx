@@ -7,7 +7,6 @@ import { loginUsingTwitterUrl } from '@/api/incentive';
 import WalletWeb3Modal from './walletWeb3Modal';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import { useAccount, useWalletClient } from 'wagmi';
-import { changeAccountSignIn, logout, preGetNonce, isIOS } from '@/utils/web3';
 import suiBg from '@/images/zklogin/suibg.svg';
 import metamaskSVG from '@/images/zklogin/metamask.svg';
 import walletconnectSVG from '@/images/zklogin/walletconnect.svg';
@@ -18,6 +17,7 @@ import useSocial from '@/hooks/useSocial';
 import Modal from './modal';
 import { Tooltip } from 'antd';
 import suiBlackSVG from '@/images/zklogin/sui-black.svg';
+import tonSVG from '@/images/icon/ton.svg';
 import googleBg from '@/images/zklogin/google-bg.svg';
 import facebookBg from '@/images/zklogin/facebook-bg.svg';
 import twitchBg from '@/images/zklogin/twitch-bg.svg';
@@ -72,6 +72,12 @@ const moduleConf = {
     ],
   },
 
+  tonWallet: {
+    type: 'tonWallet',
+    picUrl: tonSVG,
+    text: 'TON Connect',
+  },
+
   wallet: [
     {
       type: 'walletconnect',
@@ -98,45 +104,49 @@ const ConnectWalletModal = () => {
   const showLoginModal = useSelector(s => s.global.showLoginModal);
   const dispath = useDispatch();
   const { pc } = useResponsive();
-  const [currentAddress, setCurrentAddress] = useState('');
   const { walletClient } = useWalletClient();
   const { userLogined, user } = useUserInfo();
-  // const [loginStep, setLoginStep] = useState(1)
-  const [loginStep, setLoginStep] = useState(2);
-
+  const [loginStep, setLoginStep] = useState(1);
   // const [loginType, setLoginType] = useState(null)
+
   const [loginType, setLoginType] = useState('option');
 
-  const { address } = useAccount({
-    onConnect ({ address, connector, isReconnected }) {
-      console.log('Connected', { address, connector, isReconnected });
-      if (currentAddress == address) return;
-      if (currentAddress) {
-        // account change
-        changeAccountSignIn(address, walletClient).then(r => {
-          location.href = location;
-        });
-      } else {
-        // new account connect
-        if (isIOS) {
-          preGetNonce(address);
-        } else if (!/Mobi/i.test(window.navigator.userAgent)) {
-          // const signer = await getWalletClient()
-          // signLoginMetaMask(acc.address, signer)
-        }
-      }
-    },
-    onDisconnect () {
-      if (userLogined && user.evm.binded) {
-        logout().then(r => {
-          location.href = location;
-        });
-      }
-    },
-  });
-  useEffect(() => {
-    setCurrentAddress(address);
-  }, [address, setCurrentAddress]);
+  // const [currentAddress, setCurrentAddress] = useState('');
+  // const { address } = useAccount({
+  //   onConnect ({ address, connector, isReconnected }) {
+  //     console.log('Connected', { address, connector, isReconnected });
+  //     if (currentAddress == address) return;
+  //     if (currentAddress) {
+  //       // account change
+  //       changeAccountSignIn(address, walletClient).then(r => {
+  //         location.href = location;
+  //       });
+  //     } else {
+  //       // new account connect
+  //       if (isIOS) {
+  //         preGetNonce(address);
+  //       } else if (!/Mobi/i.test(window.navigator.userAgent)) {
+  //         // const signer = await getWalletClient()
+  //         // signLoginMetaMask(acc.address, signer)
+  //       }
+  //     }
+  //   },
+  //   onDisconnect () {
+  //     if (userLogined && user.evm.binded) {
+  //       logout().then(r => {
+  //         location.href = location;
+  //       });
+  //     }
+  //   },
+  // });
+
+  // useEffect(() => {
+  //   setCurrentAddress(address);
+  // }, [address, setCurrentAddress]);
+
+  const handleTonClick = useCallback(() => {
+    alert('clicked ton!');
+  }, []);
 
   const handleWallet = useCallback(type => {
     if (type === 'walletconnect') {
@@ -175,16 +185,16 @@ const ConnectWalletModal = () => {
         onCancel={handleCloseModal}
       >
         <div className='flex-none px-5 py-4 space-y-6 text-white h-[420px]'>
-          {/* <h2 className='text-white text-sm'>
+          <h2 className='text-white text-sm'>
             {loginStep === 1 ? (
               moduleConf.title
             ) : (
               <Back onClick={handleBackToInitLogin} />
             )}
-          </h2> */}
+          </h2>
           {loginStep === 1 && (
             <div className='space-y-5 text-sm'>
-              <button
+              {/* <button
                 className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
                 onClick={handleMainLogin}
               >
@@ -203,6 +213,17 @@ const ConnectWalletModal = () => {
                   alt='sui logo'
                 />
                 zkLogin
+              </button> */}
+              <button
+                className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
+                onClick={handleTonClick}
+              >
+                <img
+                  src={moduleConf.tonWallet.picUrl}
+                  className='size-5'
+                  alt='ton wallet logo'
+                />
+                {moduleConf.tonWallet.text}
               </button>
 
               <button
