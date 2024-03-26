@@ -50,7 +50,6 @@
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
-    "mockjs": "^1.1.0",
     "moment": "^2.29.4",
     "path-to-regexp": "^6.2.1",
     "rc-motion": "^2.6.2",

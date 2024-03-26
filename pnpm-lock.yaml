@@ -39,7 +39,6 @@ importers:
       jwt-decode: ^4.0.0
       lodash: ^4.17.21
       lottie-react: ^2.4.0
-      mockjs: ^1.1.0
       moment: ^2.29.4
       path-to-regexp: ^6.2.1
       postcss: ^8.4.14
@@ -99,7 +98,6 @@ importers:
       jwt-decode: 4.0.0
       lodash: 4.17.21
       lottie-react: 2.4.0_biqbaboplfbrettd7655fr4n2y
-      mockjs: 1.1.0
       moment: 2.29.4
       path-to-regexp: 6.2.1
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
@@ -3619,11 +3617,6 @@ packages:
     resolution: {integrity: sha512-Fu4hJdvzeylCfQPp9SGWidpzrMs7tTrlu6Vb8XGaRGck8QSNZJJp538Wrb60Lax4fPwR64ViY468OIUTbRlGZg==}
     dev: false
 
-  /commander/10.0.0:
-    resolution: {integrity: sha512-zS5PnTI22FIRM6ylNW8G4Ap0IEOyk62fhLSD0+uHRT9McRCLGpkVNvao4bjimpK/GShynyQkFFxHhwMcETmduA==}
-    engines: {node: '>=14'}
-    dev: false
-
   /commander/2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
     dev: false
@@ -5824,13 +5817,6 @@ packages:
 
   /minimist/1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
-    dev: false
-
-  /mockjs/1.1.0:
-    resolution: {integrity: sha512-eQsKcWzIaZzEZ07NuEyO4Nw65g0hdWAyurVol1IPl1gahRwY+svqzfgfey8U8dahLwG44d6/RwEzuK52rSa/JQ==}
-    hasBin: true
-    dependencies:
-      commander: 10.0.0
     dev: false
 
   /moment/2.29.4:

@@ -11,6 +11,7 @@ import { WagmiConfig } from 'wagmi';
 import { wagmiConfig } from '@/utils/web3';
 import { receive } from '@/utils/channel';
 import { isUsingSubdomain } from '@/utils/common';
+// import { useTelegram } from '@/hooks/useTg';
 
 function App () {
   const queryClient = useQueryClient();
@@ -19,7 +20,7 @@ function App () {
       queryClient.refetchQueries(msg);
     });
   });
-
+  // const { user, webApp, isTMA } = useTelegram();
   return (
     <>
       <WagmiConfig config={wagmiConfig}>

@@ -12,8 +12,7 @@ import { EnokiFlowProvider } from '@mysten/enoki/react';
 import ErrorBoundary from '@/components/errorBoundary';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import { configResponsive } from 'ahooks';
-import '@twa-dev/sdk';
-
+import { TelegramProvider } from '@/hooks/useTg';
 configResponsive({
   pc: 1200,
 });
@@ -23,14 +22,16 @@ const baseUrl = import.meta.env.VITE_API_HOST;
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ErrorBoundary fallbackComponent={<GlobalError />}>
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <Theme>
-          <EnokiFlowProvider apiKey={enoki_key} apiUrl={`${baseUrl}/zkproxy`}>
-            <App />
-          </EnokiFlowProvider>
-        </Theme>
-      </QueryClientProvider>
+      <TelegramProvider>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <Theme>
+            <EnokiFlowProvider apiKey={enoki_key} apiUrl={`${baseUrl}/zkproxy`}>
+              <App />
+            </EnokiFlowProvider>
+          </Theme>
+        </QueryClientProvider>
+      </TelegramProvider>
     </Provider>
   </ErrorBoundary>
 );
