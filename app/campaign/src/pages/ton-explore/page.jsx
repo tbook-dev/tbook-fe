@@ -11,11 +11,11 @@ export default function TonExplore () {
   const projects = data?.projects ?? [];
   const campaigns = data?.campaigns ?? [];
   return (
-    <div className='px-5 mt-3'>
+    <div className='px-5 mt-3 space-y-4'>
       <section>
         <h3 className='pt-4 pb-2 text-sm text-[#AAA]'>Projects</h3>
         <div className='overflow-x-auto'>
-          <Swiper slidesPerView='auto' spaceBetween={10}>
+          <Swiper slidesPerView='auto' spaceBetween={16}>
             {isLoading
               ? new Array(2)
                   .fill(undefined)
@@ -41,7 +41,7 @@ export default function TonExplore () {
                       <LazyImage
                         src={v.avatarUrl}
                         alt='project url'
-                        className='size-[60px] rounded-full'
+                        className='size-[60px] rounded-full object-cover object-center'
                       />
                     </SwiperSlide>
                   );

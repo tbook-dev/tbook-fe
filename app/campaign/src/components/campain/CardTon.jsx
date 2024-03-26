@@ -1,9 +1,8 @@
-import { Link, useLoaderData } from 'react-router-dom';
-import { memo, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { memo } from 'react';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import LazyImage from '@/components/lazyImage';
 import { Statistic } from 'antd';
-import { useTelegram } from '@/hooks/useTg';
 
 const { Countdown } = Statistic;
 
@@ -17,26 +16,25 @@ const colorMap = {
     backgroundColor: 'rgba(250,204,21,0.1)',
   },
 };
+// 目前只在tma里面展示
 function Compaign ({
   title,
   campaignId,
   picUrl,
   startAt,
   endAt,
-  project,
   participantNum,
   status,
   hasNFT,
   hasPoint,
+  projectLogoUrl,
+  projectName,
+  projectUrl,
 }) {
-  const { isUsingSubdomain } = useLoaderData();
-  const { isTMA } = useTelegram();
-
   return (
     <Link
-      to={`${isUsingSubdomain ? '' : `/${project?.projectUrl}`}/${campaignId}`}
+      to={`/${projectUrl}/${campaignId}`}
       className='relative rounded-xl overflow-hidden flex flex-col shadow-s2 bg-[#0e0819]'
-      target={isTMA ? '_self' : '_blank'}
     >
       {[1, 2].includes(status) && (
         <div
@@ -68,14 +66,8 @@ function Compaign ({
       <div className='p-5 flex-auto flex flex-col justify-between gap-y-3'>
         <div className='space-y-2'>
           <div className='flex items-center gap-x-2 text-sm'>
-            <img
-              className='size-4'
-              src={
-                'https://rd-worker.xgamma.workers.dev/img/b301db627b014feb94f10dcefbe21249'
-              }
-              alt='project logo'
-            />
-            {'project-name'}
+            <img className='size-4' src={projectLogoUrl} alt='project logo' />
+            {projectName}
           </div>
           <h2 className='font-medium text-base'>{title}</h2>
         </div>

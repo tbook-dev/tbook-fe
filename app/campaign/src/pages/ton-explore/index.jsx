@@ -5,7 +5,7 @@ import Layout from '@/layout/ton/Layout';
 
 export default function TonExplore () {
   const { isTMA } = useTelegram();
-  return !isTMA ? (
+  return isTMA ? (
     <Layout>
       <Page />
     </Layout>
