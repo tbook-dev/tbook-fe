@@ -1,33 +1,36 @@
-import WebApp from '@twa-dev/sdk';
-import Page404 from '@/pages/404';
 import useTopProjects from '@/hooks/useTopProjects';
 import { Skeleton } from 'antd';
 import LazyImage from '@/components/lazyImage';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import clsx from 'clsx';
+import ItemComponent from '@/components/campain/CardTon';
 
 export default function TonExplore () {
   const { data, isLoading } = useTopProjects();
   const projects = data?.projects ?? [];
   const campaigns = data?.campaigns ?? [];
-  console.log({ data, isLoading });
   return (
     <div className='px-5 mt-3'>
       <section>
         <h3 className='pt-4 pb-2 text-sm text-[#AAA]'>Projects</h3>
         <div className='overflow-x-auto'>
-          <div className='flex gap-x-4 flex-nowrap'>
+          <Swiper slidesPerView='auto' spaceBetween={10}>
             {isLoading
               ? new Array(2)
                   .fill(undefined)
                   .map((_, i) => (
-                    <div
-                      className='flex-none size-[60px] rounded-full animate-pulse bg-[#1f1f1f]'
+                    <SwiperSlide
+                      style={{ width: 60, height: 60 }}
+                      className='rounded-full animate-pulse bg-[#1f1f1f]'
                       key={i}
                     />
                   ))
               : projects?.map(v => {
                   return (
-                    <button
-                      className='flex-none'
+                    <SwiperSlide
+                      key={v.projectId}
+                      style={{ width: 60, height: 60 }}
                       onClick={() => {
                         window.open(
                           `https://campaign-staging.tbook.com/lake`,
@@ -40,16 +43,44 @@ export default function TonExplore () {
                         alt='project url'
                         className='size-[60px] rounded-full'
                       />
-                    </button>
+                    </SwiperSlide>
                   );
                 })}
-          </div>
+          </Swiper>
         </div>
       </section>
 
       <section>
-        <h3 className='pt-4 pb-2 text-sm text-[#AAA]'>Projects</h3>
-        <div>campaigns</div>
+        <h3 className='pt-4 pb-2 text-sm text-[#AAA]'>Caimpaigns</h3>
+        <div>
+          <Swiper slidesPerView={1.1} spaceBetween={10}>
+            {isLoading ? (
+              <SwiperSlide className='space-y-4'>
+                <div
+                  className={clsx(
+                    'animate-pulse bg-[#1f1f1f]',
+                    'w-full h-[160px] lg:h-[140px]'
+                  )}
+                />
+                <Skeleton />
+              </SwiperSlide>
+            ) : (
+              campaigns.map(campaign => {
+                return (
+                  <SwiperSlide key={campaign.campaignId}>
+                    <div style={{ padding: '4px 4px' }}>
+                      <ItemComponent
+                        {...campaign}
+                        hasNFT={campaign.nft > 0}
+                        hasPoint={campaign.points > 0}
+                      />
+                    </div>
+                  </SwiperSlide>
+                );
+              })
+            )}
+          </Swiper>
+        </div>
       </section>
     </div>
   );

@@ -1,6 +1,6 @@
-import { Link, useLoaderData } from 'react-router-dom'
-import { memo } from 'react'
-import { incentiveAssetsTypeList } from '@/utils/conf'
+import { Link, useLoaderData } from 'react-router-dom';
+import { memo } from 'react';
+import { incentiveAssetsTypeList } from '@/utils/conf';
 
 function Compaign ({
   campaignId,
@@ -9,9 +9,9 @@ function Compaign ({
   project,
   users,
   nfts = [],
-  points
+  points,
 }) {
-  const { isUsingSubdomain } = useLoaderData()
+  const { isUsingSubdomain } = useLoaderData();
 
   return (
     <Link
@@ -67,7 +67,7 @@ function Compaign ({
         </div>
       </div>
     </Link>
-  )
+  );
 }
 
-export default memo(Compaign)
+export default memo(Compaign);
