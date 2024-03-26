@@ -17,6 +17,7 @@ const Asset = lazy(() => import('@/pages/my/Asset'));
 const Campaign = lazy(() => import('@/pages/my/campaign'));
 const NFT = lazy(() => import('@/pages/my/nft'));
 const Snapshot = lazy(() => import('@/pages/snapshot'));
+const TonExplore = lazy(() => import('@/pages/ton-explore'));
 const Attestation = lazy(() => import('@/pages/attestation'));
 
 const getProjectIdFn = async ({ params }) => {
@@ -84,6 +85,23 @@ const routes = [
         element: (
           <Suspense fallback={<PageFallBack />}>
             <Explore />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+  {
+    path: '/ton-explore',
+    loader: getProjectIdFn,
+    element: <Layout />,
+    errorElement: <GlobalError />,
+    children: [
+      {
+        index: true,
+        loader: getProjectIdFn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <TonExplore />
           </Suspense>
         ),
       },

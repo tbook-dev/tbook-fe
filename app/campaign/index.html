@@ -1,10 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Incentive Passport</title>
+    <script
+      src="https://telegram.org/js/telegram-web-app.js"
+      strategy="beforeInteractive"
+    ></script>
   </head>
   <body class="antialiased bg-black">
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -12,13 +19,17 @@
     <script type="module" src="/src/main.jsx"></script>
     <script>
       (function () {
-        var src = "//cdn.jsdelivr.net/npm/eruda";
+        var src = '//cdn.jsdelivr.net/npm/eruda';
         if (/eruda=true/.test(window.location) && screen.width < 1000) {
-          document.write("<scr" + 'ipt src="' + src + '"></scr' + "ipt>");
-          document.write("<scr" + "ipt>eruda.init();</scr" + "ipt>");
+          document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
+          document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>');
         }
       })();
     </script>
-    <script src="https://telegram.org/js/telegram-widget.js" async type="text/javascript"></script>
+    <script
+      src="https://telegram.org/js/telegram-widget.js"
+      async
+      type="text/javascript"
+    ></script>
   </body>
 </html>
