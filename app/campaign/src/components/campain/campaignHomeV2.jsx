@@ -1,20 +1,22 @@
-import { Link, useLoaderData } from 'react-router-dom'
-import { memo, useMemo } from 'react'
-import { formatDollar } from '@tbook/utils/lib/conf'
-import LazyImage from '@/components/lazyImage'
-import { Statistic } from 'antd'
-const { Countdown } = Statistic
+import { Link, useLoaderData } from 'react-router-dom';
+import { memo, useMemo } from 'react';
+import { formatDollar } from '@tbook/utils/lib/conf';
+import LazyImage from '@/components/lazyImage';
+import { Statistic } from 'antd';
+import { useTelegram } from '@/hooks/useTg';
+
+const { Countdown } = Statistic;
 
 const colorMap = {
   1: {
     color: '#F87171',
-    backgroundColor: 'rgba(248, 113, 113, 0.1)'
+    backgroundColor: 'rgba(248, 113, 113, 0.1)',
   },
   2: {
     color: 'rgb(234,179,8)',
-    backgroundColor: 'rgba(250,204,21,0.1)'
-  }
-}
+    backgroundColor: 'rgba(250,204,21,0.1)',
+  },
+};
 function Compaign ({
   title,
   campaignId,
@@ -24,22 +26,24 @@ function Compaign ({
   project,
   usersNum,
   groups,
-  status
+  status,
 }) {
-  const { isUsingSubdomain } = useLoaderData()
+  const { isUsingSubdomain } = useLoaderData();
+  const { isTMA } = useTelegram();
+
   const rewardOpt = useMemo(() => {
-    const hasNFT = groups.some(v => v.nftList.length > 0)
-    const hasPoint = groups.some(v => v.pointList.length > 0)
-    return { hasNFT, hasPoint }
-  }, [groups])
+    const hasNFT = groups.some(v => v.nftList.length > 0);
+    const hasPoint = groups.some(v => v.pointList.length > 0);
+    return { hasNFT, hasPoint };
+  }, [groups]);
 
   return (
     <Link
       to={`${isUsingSubdomain ? '' : `/${project?.projectUrl}`}/${campaignId}`}
       className='relative rounded-xl overflow-hidden flex flex-col shadow-s2 bg-[#0e0819]'
-      target='_blank'
+      target={isTMA ? '_self' : '_blank'}
     >
-      {[1,2].includes(status) && (
+      {[1, 2].includes(status) && (
         <div
           className='absolute top-3 right-3 px-2 py-0.5 flex items-center gap-x-1.5 rounded'
           style={colorMap[status]}
@@ -49,13 +53,13 @@ function Compaign ({
             style={{ background: colorMap[status].color }}
           />
           <Countdown
-            value={status === 2 ? startAt :endAt}
+            value={status === 2 ? startAt : endAt}
             format='D[d] H[h] m[m]'
             valueStyle={{
               fontWeight: 500,
               color: colorMap[status].color,
               fontSize: '14px',
-              lineHeight: '20px'
+              lineHeight: '20px',
             }}
           />
         </div>
@@ -91,7 +95,7 @@ function Compaign ({
         </div>
       </div>
     </Link>
-  )
+  );
 }
 
-export default memo(Compaign)
+export default memo(Compaign);

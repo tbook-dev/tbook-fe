@@ -1,21 +1,24 @@
-import { NavLink } from 'react-router-dom'
-import clsx from 'clsx'
-import { useMemo } from 'react'
-import { useNavLink } from './conf'
-import { useParams } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
+import clsx from 'clsx';
+import { useMemo } from 'react';
+import { useNavLink } from './conf';
+import { useParams } from 'react-router-dom';
+import { useTelegram } from '@/hooks/useTg';
 
 export default function Links ({ inDrawer = false, hidden = false, onClose }) {
-  const links = useNavLink()
-  const parma = useParams()
+  const links = useNavLink();
+  const parma = useParams();
+  const { isTMA } = useTelegram();
+
   const displayNone = useMemo(() => {
     if (hidden) {
-      return true
+      return true;
     }
     if (inDrawer) {
-      return false
+      return false;
     }
-    return false
-  }, [inDrawer, hidden])
+    return false;
+  }, [inDrawer, hidden]);
 
   return (
     <div
@@ -29,7 +32,7 @@ export default function Links ({ inDrawer = false, hidden = false, onClose }) {
           key={v.text}
           to={v.link}
           onClick={onClose}
-          target={parma.campaignId ? '_blank' : '_self'}
+          target={parma.campaignId ? (isTMA ? '_self' : '_blank') : '_self'}
         >
           {({ isActive }) => (
             <span
@@ -43,5 +46,5 @@ export default function Links ({ inDrawer = false, hidden = false, onClose }) {
         </NavLink>
       ))}
     </div>
-  )
+  );
 }

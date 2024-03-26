@@ -1,28 +1,31 @@
-import clsx from 'clsx'
-import arrowIcon from '@/images/icon/arrow2.svg'
-import { Link, useLoaderData } from 'react-router-dom'
+import clsx from 'clsx';
+import arrowIcon from '@/images/icon/arrow2.svg';
+import { Link, useLoaderData } from 'react-router-dom';
+import { useTelegram } from '@/hooks/useTg';
+
 const typeMap = {
   nft: 2,
-  point: 3
-}
+  point: 3,
+};
 export default function WithClaim ({ handleFn, item, loading, type }) {
-  const { projectUrl, isUsingSubdomain } = useLoaderData()
+  const { projectUrl, isUsingSubdomain } = useLoaderData();
+  const { isTMA } = useTelegram();
 
   //const [loading, updateLoading] = useState(false);
   const handleClick = async function () {
-    if (item.disabled) return
+    if (item.disabled) return;
     //updateLoading(true);
     try {
       // await new Promise((resolve) =>{
       //   setTimeout(resolve, 10000)
       // })
-      await handleFn()
+      await handleFn();
       //updateLoading(false);
     } catch (e) {
       //updateLoading(false);
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
   return (
     <>
       {item.showBtn && (
@@ -31,7 +34,7 @@ export default function WithClaim ({ handleFn, item, loading, type }) {
           disabled={loading}
           style={{
             color: item.color,
-            backgroundColor: item.bgColor
+            backgroundColor: item.bgColor,
           }}
           onClick={handleClick}
         >
@@ -44,7 +47,7 @@ export default function WithClaim ({ handleFn, item, loading, type }) {
           'text-xs text-[#C0ABD9]': [0, 1, 2, 3].includes(item.value),
           'text-2xl text-white font-bold w-[260px] font-zen-dot mb-8':
             item.value === 4,
-          'text-xs text-[#C0ABD9] font-bold font-zen-dot': item.value === 5
+          'text-xs text-[#C0ABD9] font-bold font-zen-dot': item.value === 5,
         })}
       >
         {loading ? item.loadingText : item.desc}
@@ -55,12 +58,12 @@ export default function WithClaim ({ handleFn, item, loading, type }) {
           to={`${isUsingSubdomain ? '' : `/${projectUrl}`}/asset?type=${
             typeMap[type]
           }`}
-          target='_blank'
+          target={isTMA ? '_self' : '_blank'}
         >
           View your assets
           <img src={arrowIcon} className='w-4 h-4' alt='assets link' />
         </Link>
       )}
     </>
-  )
+  );
 }
