@@ -13,7 +13,7 @@ import shapeLink from '@/images/shape-link.png';
 import { useTelegram } from '@/hooks/useTg';
 
 export default function PassportCard ({ onClose }) {
-  const { user, isZK, address, data } = useUserInfo();
+  const { user, currentSocial, address, data, currentAddress } = useUserInfo();
   const { socialList, getZkfnByName } = useSocial();
   const dispatch = useDispatch();
   const { isUsingSubdomain, projectUrl } = useLoaderData();
@@ -37,8 +37,8 @@ export default function PassportCard ({ onClose }) {
   }, [projectUrl]);
 
   const isUsingWallet = useMemo(() => {
-    return Boolean(address);
-  }, [address]);
+    return Boolean(currentAddress);
+  }, [currentAddress]);
 
   return (
     <div className='flex-auto flex flex-col justify-start pb-16 pt-6 lg:py-0 lg:justify-center text-white'>
@@ -82,7 +82,9 @@ export default function PassportCard ({ onClose }) {
             {/* 优先展示wallet,然后就是tw */}
             {isUsingWallet ? (
               <div className='flex items-center gap-x-1.5 font-zen-dot'>
-                {isZK && <img src={suiSVG} className='w-5 h-5 object-center' />}
+                {currentAddress?.type === 'zk' && (
+                  <img src={suiSVG} className='w-5 h-5 object-center' />
+                )}
                 <Address
                   address={address}
                   className='font-zen-dot text-xl'
@@ -90,11 +92,14 @@ export default function PassportCard ({ onClose }) {
                 />
               </div>
             ) : (
-              data?.userTwitter?.connected && (
+              currentSocial && (
                 <div className='flex items-center gap-x-0.5 text-[#717374] text-base'>
-                  {`@${data?.userTwitter?.twitterUserName}`}
+                  {`@${currentSocial.name}`}
                   <img
-                    src={socialList.find(v => v.name === 'twitter')?.activePic}
+                    src={
+                      socialList.find(v => v.name === currentSocial.type)
+                        ?.activePic
+                    }
                     className='w-5 h-5 object-center'
                   />
                 </div>
