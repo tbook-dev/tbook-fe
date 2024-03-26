@@ -10,12 +10,14 @@ import Address from '@tbook/ui/src/Address';
 import suiSVG from '@/images/zklogin/sui.svg';
 import passportlg from '@/images/passport/passport.png';
 import shapeLink from '@/images/shape-link.png';
+import { useTelegram } from '@/hooks/useTg';
 
 export default function PassportCard ({ onClose }) {
   const { user, isZK, address, data } = useUserInfo();
   const { socialList, getZkfnByName } = useSocial();
   const dispatch = useDispatch();
   const { isUsingSubdomain, projectUrl } = useLoaderData();
+  const { isTMA } = useTelegram();
   const handleConnectWallet = useCallback(() => {
     onClose();
     dispatch(setConnectWalletModal(true));
@@ -158,7 +160,7 @@ export default function PassportCard ({ onClose }) {
                 to={v.path}
                 style={{ backgroundImage: `url(${shapeLink})` }}
                 className='text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm'
-                target='_blank'
+                target={isTMA ? '_self' : '_blank'}
                 onClick={onClose}
               >
                 {v.name}
