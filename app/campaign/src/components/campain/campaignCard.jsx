@@ -1,5 +1,5 @@
-import { Link, useLoaderData } from 'react-router-dom'
-import { incentiveAssetsTypeList } from '@/utils/conf'
+import { Link, useLoaderData } from 'react-router-dom';
+import { incentiveAssetsTypeList } from '@/utils/conf';
 
 export default function CampaignCard ({
   campaignId,
@@ -8,9 +8,9 @@ export default function CampaignCard ({
   project,
   users,
   nfts = [],
-  points
+  points,
 }) {
-  const { isUsingSubdomain, projectUrl } = useLoaderData()
+  const { isUsingSubdomain, projectUrl } = useLoaderData();
 
   return (
     <Link
@@ -58,5 +58,5 @@ export default function CampaignCard ({
         </div>
       </div>
     </Link>
-  )
+  );
 }

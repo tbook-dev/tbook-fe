@@ -93,19 +93,12 @@ const routes = [
   {
     path: '/ton-explore',
     loader: getProjectIdFn,
-    element: <Layout />,
+    element: (
+      <Suspense fallback={<PageFallBack />}>
+        <TonExplore />
+      </Suspense>
+    ),
     errorElement: <GlobalError />,
-    children: [
-      {
-        index: true,
-        loader: getProjectIdFn,
-        element: (
-          <Suspense fallback={<PageFallBack />}>
-            <TonExplore />
-          </Suspense>
-        ),
-      },
-    ],
   },
   {
     path: '/',
