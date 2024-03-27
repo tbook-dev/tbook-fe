@@ -23,6 +23,7 @@ import {
   useTonConnectModal,
   useTonAddress,
 } from '@tonconnect/ui-react';
+import { useIsConnectionRestored } from '@tonconnect/ui-react';
 import suiBlackSVG from '@/images/zklogin/sui-black.svg';
 import tonSVG from '@/images/icon/ton.svg';
 import googleBg from '@/images/zklogin/google-bg.svg';
@@ -107,15 +108,17 @@ const ConnectWalletModal = () => {
     s => s.global.showConnectWalletModal
   );
   const size = useSize(document.documentElement);
+  const { state, open, close } = useTonConnectModal();
   const { zkList, getZkfnByName } = useSocial();
   const showLoginModal = useSelector(s => s.global.showLoginModal);
   const dispath = useDispatch();
+  const [tonConnectUI] = useTonConnectUI();
+  const connectionRestored = useIsConnectionRestored();
   const { pc } = useResponsive();
   const { walletClient } = useWalletClient();
   const { userLogined, user } = useUserInfo();
   const [loginStep, setLoginStep] = useState(1);
   // const [loginType, setLoginType] = useState(null)
-
   const [loginType, setLoginType] = useState('option');
 
   // const [currentAddress, setCurrentAddress] = useState('');
@@ -151,9 +154,20 @@ const ConnectWalletModal = () => {
   //   setCurrentAddress(address);
   // }, [address, setCurrentAddress]);
 
-  const handleTonClick = useCallback(() => {
-    alert('clicked ton!');
-  }, []);
+  // const handleTonClick = useCallback(() => {
+  //   // alert('clicked ton!');
+  //   open()
+  //   console.log({state})
+  // }, []);
+  const handleTonClick = async() => {
+    // alert('clicked ton!');
+    console.log({state, connectionRestored})
+    // if(connectionRestored){
+    //   await tonConnectUI.disconnect()
+    //   console.log({connectionRestored})
+    // }
+    open()
+  }
 
   const handleWallet = useCallback(type => {
     if (type === 'walletconnect') {
@@ -221,7 +235,6 @@ const ConnectWalletModal = () => {
                 />
                 zkLogin
               </button> */}
-              <TonConnectButton>
 
               <button
                 className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
@@ -234,7 +247,6 @@ const ConnectWalletModal = () => {
                 />
                 {moduleConf.tonWallet.text}
               </button>
-              </TonConnectButton>
 
 
               <button
