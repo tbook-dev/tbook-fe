@@ -23,6 +23,7 @@ import {
   useTonConnectModal,
   useTonAddress,
 } from '@tonconnect/ui-react';
+import useTonLogin from '@/hooks/useTonLogin'
 import { useIsConnectionRestored } from '@tonconnect/ui-react';
 import suiBlackSVG from '@/images/zklogin/sui-black.svg';
 import tonSVG from '@/images/icon/ton.svg';
@@ -104,6 +105,7 @@ const moduleConf = {
 };
 
 const ConnectWalletModal = () => {
+  const { setVerify, isVerify } = useTonLogin();
   const showConnectWalletModal = useSelector(
     s => s.global.showConnectWalletModal
   );
@@ -120,7 +122,6 @@ const ConnectWalletModal = () => {
   const [loginStep, setLoginStep] = useState(1);
   // const [loginType, setLoginType] = useState(null)
   const [loginType, setLoginType] = useState('option');
-
   // const [currentAddress, setCurrentAddress] = useState('');
   // const { address } = useAccount({
   //   onConnect ({ address, connector, isReconnected }) {
@@ -161,12 +162,14 @@ const ConnectWalletModal = () => {
   // }, []);
   const handleTonClick = async() => {
     // alert('clicked ton!');
+    tonConnectUI.modal.open()
+    // setVerify(true)
     console.log({state, connectionRestored})
     // if(connectionRestored){
-    //   await tonConnectUI.disconnect()
+      // await tonConnectUI.disconnect()
     //   console.log({connectionRestored})
     // }
-    open()
+    // open()
   }
 
   const handleWallet = useCallback(type => {
@@ -195,7 +198,7 @@ const ConnectWalletModal = () => {
   }, []);
   const handleCloseModal = useCallback(() => {
     dispath(setLoginModal(false));
-    // setTimeout(handleBackToInitLogin, 1000)
+    setTimeout(handleBackToInitLogin, 1000)
   }, []);
 
   return (
@@ -235,8 +238,9 @@ const ConnectWalletModal = () => {
                 />
                 zkLogin
               </button> */}
-
+              {/* <TonConnectButton /> */}
               <button
+                // disabled={isVerify}
                 className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
                 onClick={handleTonClick}
               >

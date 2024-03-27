@@ -9,14 +9,16 @@ import {
 // import { CHAIN } from '@tonconnect/ui-react';
 import { Address } from 'ton';
 import { getTonPayload, verifyTonProof } from '@/api/incentive';
+import useUserInfoQuery from "./useUserInfoQuery";
 
-export default function TonLogin() {
+export default function useTonLogin() {
   const firstProofLoading = useRef(true);
-
-  const [data, setData] = useState({});
+  // const [data, setData] = useState({});
   const wallet = useTonWallet();
   const [authorized, setAuthorized] = useState(false);
   const [tonConnectUI] = useTonConnectUI();
+  const { refetch } = useUserInfoQuery();
+  const [ isVerify, setVerify]= useState(false);
 
   const recreateProofPayload = useCallback(async () => {
     if (firstProofLoading.current) {
@@ -43,11 +45,12 @@ export default function TonLogin() {
   useEffect(
     () =>
       tonConnectUI.onStatusChange(async (w) => {
+        console.log("xxx")
         if (!w) {
           setAuthorized(false);
+          setVerify(false);
           return;
         }
-
         if (w.connectItems?.tonProof && 'proof' in w.connectItems.tonProof) {
           const payload = {
             address: w.account.address,
@@ -60,6 +63,8 @@ export default function TonLogin() {
             },
           };
           await verifyTonProof(payload);
+          await refetch();
+          setVerify(false);
           //await TonProofDemoApi.checkProof(w.connectItems.tonProof.proof, w.account);
         }
         setAuthorized(true);
@@ -67,19 +72,20 @@ export default function TonLogin() {
     [tonConnectUI]
   );
 
-  const handleClick = useCallback(async () => {
-    if (!wallet) {
-      return;
-    }
-    //wallet.account.publicKey
-    //const response = await TonProofDemoApi.getAccountInfo(wallet.account);
+  // const handleClick = useCallback(async () => {
+  //   if (!wallet) {
+  //     return;
+  //   }
+  //   //wallet.account.publicKey
+  //   //const response = await TonProofDemoApi.getAccountInfo(wallet.account);
 
-    setData(wallet.account);
-  }, [wallet]);
+  //   setData(wallet.account);
+  // }, [wallet]);
   return {
     wallet,
-    data,
     authorized,
+    isVerify,
+    setVerify
   };
 
   // return (
