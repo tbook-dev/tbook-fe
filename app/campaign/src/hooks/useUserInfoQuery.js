@@ -37,6 +37,7 @@ export default function useUserInfo() {
   const discordConnected = !!data?.userDc?.connected;
   const telegramConnected = !!data?.userTg?.connected;
   const wallectConnected = !!data?.user?.wallet;
+  const tonConnected = !!data?.userTon?.binded;
   const user = data?.user ?? {};
   const userLogined = isSuccess;
   const isZK = Boolean(data?.user?.zk?.binded);
@@ -45,7 +46,8 @@ export default function useUserInfo() {
   const newUser = !!data?.newUser;
   const zkAddress = data?.userZk?.address;
   const evmAddress = data?.user?.wallet;
-  const tonAddress = data?.user?.tonAddress;
+  const tonAddress = data?.userTon?.address;
+
   // const address = data?.user?.zk?.address || data?.user?.wallet;
   const currentAddress = useMemo(() => {
     let addressList = [];
@@ -117,7 +119,6 @@ export default function useUserInfo() {
       .sort((a, b) => (a.weight - b.weight > 0 ? 1 : -1))
       .pop();
   }, [data]);
-
   const sessionKey = `markNewUser-${user?.userId ?? ''}`;
   if (
     data &&
@@ -139,6 +140,8 @@ export default function useUserInfo() {
     discordConnected,
     telegramConnected,
     wallectConnected,
+    evmConnected: wallectConnected,
+    tonConnected,
     firstLoad,
     userLogined,
     user,

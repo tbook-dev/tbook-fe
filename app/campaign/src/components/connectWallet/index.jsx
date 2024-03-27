@@ -119,7 +119,7 @@ const ConnectWalletModal = () => {
   const { pc } = useResponsive();
   const { walletClient } = useWalletClient();
   const { userLogined, user } = useUserInfo();
-  const [loginStep, setLoginStep] = useState(1);
+  const [loginStep, setLoginStep] = useState(2);
   // const [loginType, setLoginType] = useState(null)
   const [loginType, setLoginType] = useState('option');
   // const [currentAddress, setCurrentAddress] = useState('');
@@ -198,7 +198,7 @@ const ConnectWalletModal = () => {
   }, []);
   const handleCloseModal = useCallback(() => {
     dispath(setLoginModal(false));
-    setTimeout(handleBackToInitLogin, 1000)
+    // setTimeout(handleBackToInitLogin, 1000)
   }, []);
 
   return (
@@ -209,13 +209,13 @@ const ConnectWalletModal = () => {
         onCancel={handleCloseModal}
       >
         <div className='flex-none px-5 py-4 space-y-6 text-white h-[420px]'>
-          <h2 className='text-white text-sm'>
+          {/* <h2 className='text-white text-sm'>
             {loginStep === 1 ? (
               moduleConf.title
             ) : (
               <Back onClick={handleBackToInitLogin} />
             )}
-          </h2>
+          </h2> */}
           {loginStep === 1 && (
             <div className='space-y-5 text-sm'>
               {/* <button
