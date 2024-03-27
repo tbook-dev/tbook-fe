@@ -1,15 +1,21 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { tgTMAAuth } from '@/api/incentive';
+import PageFallBack from '@/components/pageFallback';
 
 export const TelegramContext = createContext({});
 
 export const TelegramProvider = ({ children }) => {
   const [webApp, setWebApp] = useState(window.Telegram?.WebApp ?? null);
+  const [tgAuthed, setTgAuthed] = useState(false);
   useEffect(() => {
     const app = window.Telegram?.WebApp;
     if (app?.initData) {
       app.ready();
       app.expand();
       setWebApp(app);
+      tgTMAAuth({payload: app?.initData}).then(() => {
+        setTgAuthed(true)
+      });
     }
   }, []);
 
@@ -25,10 +31,13 @@ export const TelegramProvider = ({ children }) => {
           isTMA: false,
         };
   }, [webApp]);
-
   return (
     <TelegramContext.Provider value={value}>
-      {children}
+      {
+        webApp?.initData ?
+          tgAuthed ? children: <PageFallBack />:
+          children
+      }
     </TelegramContext.Provider>
   );
 };

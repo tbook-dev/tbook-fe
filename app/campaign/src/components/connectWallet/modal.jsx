@@ -56,7 +56,7 @@ export default function Modal ({ children, open, onCancel, title }) {
               <div
                 className={clsx(
                   'pointer-events-none fixed flex max-w-full',
-                  pc ? 'inset-y-0 right-0' : 'inset-x-0 bottom-0'
+                  pc ? 'inset-y-0 right-0' : 'inset-x-0 bottom-0 max-h-[calc(100dvh_-_60px)]'
                 )}
               >
                 <Transition.Child

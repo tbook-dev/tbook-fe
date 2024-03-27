@@ -21,17 +21,17 @@ const enoki_key = import.meta.env.VITE_ENOKI_API_KEY;
 const baseUrl = import.meta.env.VITE_API_HOST;
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ErrorBoundary fallbackComponent={<GlobalError />}>
-    <Provider store={store}>
-      <TelegramProvider>
-        <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
-          <Theme>
-            <EnokiFlowProvider apiKey={enoki_key} apiUrl={`${baseUrl}/zkproxy`}>
-              <App />
-            </EnokiFlowProvider>
-          </Theme>
-        </QueryClientProvider>
-      </TelegramProvider>
-    </Provider>
+    <Theme>
+      <Provider store={store}>
+        <TelegramProvider>
+          <QueryClientProvider client={queryClient}>
+            <ReactQueryDevtools initialIsOpen={false} />
+              <EnokiFlowProvider apiKey={enoki_key} apiUrl={`${baseUrl}/zkproxy`}>
+                <App />
+              </EnokiFlowProvider>
+          </QueryClientProvider>
+        </TelegramProvider>
+      </Provider>
+    </Theme>
   </ErrorBoundary>
 );
