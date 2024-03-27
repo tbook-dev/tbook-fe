@@ -13,7 +13,7 @@ export const TelegramProvider = ({ children }) => {
       app.ready();
       app.expand();
       setWebApp(app);
-      tgTMAAuth({payload: app?.initData}).then(res => {
+      tgTMAAuth({payload: app?.initData}).then(() => {
         setTgAuthed(true)
       });
     }
@@ -31,11 +31,10 @@ export const TelegramProvider = ({ children }) => {
           isTMA: false,
         };
   }, [webApp]);
-
   return (
     <TelegramContext.Provider value={value}>
       {
-        webApp ?
+        webApp?.initData ?
           tgAuthed ? children: <PageFallBack />:
           children
       }
