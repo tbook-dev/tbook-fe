@@ -11,7 +11,8 @@ import { WagmiConfig } from "wagmi";
 import { wagmiConfig } from "@/utils/web3";
 import { receive } from "@/utils/channel";
 import { isUsingSubdomain } from "@/utils/common";
-
+import {THEME, TonConnectUIProvider} from "@tonconnect/ui-react";
+import { host } from '@/api/incentive'
 
 function App() {
   const queryClient = useQueryClient();
@@ -24,12 +25,17 @@ function App() {
   return (
     <>
       <WagmiConfig config={wagmiConfig}>
+      <TonConnectUIProvider
+          manifestUrl={`${host}/ton-proof/manifest.json`}
+          uiPreferences={{ theme: THEME.DARK }}
+        >
         <RouterProvider
           router={createBrowserRouter(
             isUsingSubdomain ? hostRoutes : pathRoutes
           )}
           fallbackElement={<PageFallBack />}
         />
+        </TonConnectUIProvider>
         {/* all modal move into avator components */}
       </WagmiConfig>
     </>

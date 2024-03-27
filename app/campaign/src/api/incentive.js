@@ -234,3 +234,11 @@ export const markNewUser = async function(){
 export const mergeTwitterAndAddressAccount = async function(data){
   return await request.PostFormV1(`${host}/twitter/merge`, data)
 }
+
+export const getTonPayload = async function(){
+  return await request(`${host}/ton-proof/generate-payload`)
+}
+
+export const verifyTonProof = async function(data){
+  return await request.Post(`${host}/ton-proof/verify`, data)
+}

@@ -19,6 +19,7 @@ const ZkLoginCallback = lazy(() => import("@/pages/zklogin/zk_login_callback"));
 const ZkLoginEnoki = lazy(() => import("@/pages/zklogin/zk_login_with_enoki"));
 const Page404 = lazy(() => import("@/pages/404"));
 // const RandomError = lazy(() => import("@/components/randomError"));
+const TonLogin = lazy(() => import("@/pages/ton/tonconnect"));
 
 const getProjectIdFn = async () => {
   const defaultValues = {
@@ -175,6 +176,23 @@ const routes = [
         element: (
           <Suspense fallback={<PageFallBack />}>
             <ZkLoginCallback />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+  {
+    path: "/ton",
+    loader: getProjectIdFn,
+    element: <MyLayout />,
+    errorElement: <GlobalError />,
+    children: [
+      {
+        index: true,
+        loader: getProjectIdFn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <TonLogin />
           </Suspense>
         ),
       },
