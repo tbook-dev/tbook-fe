@@ -244,3 +244,10 @@ export const disConnectAccount = async function (data) {
 export const tgTMAAuth = async function(data){
   return await request.Post(`${host}/tg/tma/auth`, data)
 }
+export const getTonPayload = async function(){
+  return await request(`${host}/ton-proof/generate-payload`)
+}
+
+export const verifyTonProof = async function(data){
+  return await request.Post(`${host}/ton-proof/verify`, data)
+}
