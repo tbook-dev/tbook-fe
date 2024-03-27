@@ -241,3 +241,6 @@ export const getTopProjects = async function () {
 export const disConnectAccount = async function (data) {
   return await request.PostFormV1(`${host}/social/unbind`, data);
 };
+export const tgTMAAuth = async function(data){
+  return await request.Post(`${host}/tg/tma/auth`, data)
+}
