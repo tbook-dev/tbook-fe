@@ -162,7 +162,8 @@ const ConnectWalletModal = () => {
   // }, []);
   const handleTonClick = async() => {
     // alert('clicked ton!');
-    tonConnectUI.modal.open()
+      await tonConnectUI.disconnect()
+      tonConnectUI.modal.open()
     // setVerify(true)
     console.log({state, connectionRestored})
     // if(connectionRestored){
