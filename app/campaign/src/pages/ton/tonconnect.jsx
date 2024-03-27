@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTonConnectUI, useTonWallet, TonConnectButton, useTonConnectModal, useTonAddress } from "@tonconnect/ui-react";
 import { CHAIN } from "@tonconnect/ui-react";
+import { Address } from 'ton'
 import { getTonPayload, verifyTonProof } from '@/api/incentive'
 
 export default function TonLogin() {
@@ -40,7 +41,8 @@ export default function TonLogin() {
             if (w.connectItems?.tonProof && 'proof' in w.connectItems.tonProof) {
                 const payload = {
                     address: w.account.address,
-                    network: w.network,
+                    network: w.account.chain,
+                    frAddress: Address.parse(w.account.address).toString(),
                     publicKey: w.account.publicKey,
                     tonProofItem: {
                         name: "ton_proof",
