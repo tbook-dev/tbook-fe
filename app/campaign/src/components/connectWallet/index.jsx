@@ -16,6 +16,13 @@ import ActionBution from './actionButton';
 import useSocial from '@/hooks/useSocial';
 import Modal from './modal';
 import { Tooltip } from 'antd';
+import {
+  useTonConnectUI,
+  useTonWallet,
+  TonConnectButton,
+  useTonConnectModal,
+  useTonAddress,
+} from '@tonconnect/ui-react';
 import suiBlackSVG from '@/images/zklogin/sui-black.svg';
 import tonSVG from '@/images/icon/ton.svg';
 import googleBg from '@/images/zklogin/google-bg.svg';
@@ -214,6 +221,8 @@ const ConnectWalletModal = () => {
                 />
                 zkLogin
               </button> */}
+              <TonConnectButton>
+
               <button
                 className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
                 onClick={handleTonClick}
@@ -225,6 +234,8 @@ const ConnectWalletModal = () => {
                 />
                 {moduleConf.tonWallet.text}
               </button>
+              </TonConnectButton>
+
 
               <button
                 className='h-[52px] w-full rounded-lg border border-white text-white font-medium hover:opacity-70'
