@@ -23,6 +23,9 @@ import { useTelegram } from '@/hooks/useTg';
 import { useLoaderData } from 'react-router-dom';
 const { Countdown } = Statistic;
 
+const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
+const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
+
 const prompt =
   'You may get the rewards once you have accomplished all tasks in the group!';
 
@@ -91,7 +94,7 @@ export default function () {
     },
     [userLogined]
   );
-  const signCredential = async (credential) => {
+  const signCredential = async credential => {
     if (signed[credential.credentialId]) {
       messageApi.warning('Already signed, verify please');
       return;
@@ -106,32 +109,33 @@ export default function () {
       body: d,
       credentials: 'include',
     })
-      .then((r) => r.json())
-      .then((d) => {
+      .then(r => r.json())
+      .then(d => {
         if (!d['success']) {
           alert(d['error']);
         }
       });
   };
   const TMAsahreLink = useMemo(() => {
-    return `https://t.me/tbook01_bot/tbook?startapp=${btoa(
+    const link = `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
       JSON.stringify({ projectUrl, campaignId, type: 'campaign' })
     )}`;
+    return `https://t.me/share/url?url=${encodeURIComponent(link)}`;
   }, [campaignId, projectUrl]);
   // console.log(TMAsahreLink);
   useEffect(() => {
     const gs = page?.groups;
     if (gs && gs.length > 0) {
       const signs = gs
-        .flatMap((g) => g.credentialList)
-        .filter((c) => c.labelType == 10);
-      signs.forEach((c) => {
+        .flatMap(g => g.credentialList)
+        .filter(c => c.labelType == 10);
+      signs.forEach(c => {
         fetch(`${host}/campaignSign/${c.credentialId}`, {
           method: 'GET',
           credentials: 'include',
         })
-          .then((r) => r.json())
-          .then((d) => {
+          .then(r => r.json())
+          .then(d => {
             if (d['code'] == 0) {
               setRawDatas(() => {
                 const nd = {};
@@ -163,46 +167,46 @@ export default function () {
   }, [userLogined, campaignOngoing, user]);
 
   return (
-    <div className="space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-t-1">
-      <section className="overflow-hidden mb-16 lg:flex lg:justify-between lg:gap-x-[80px]">
-        <div className="relative w-full h-[172px] lg:w-[566px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center">
+    <div className='space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-t-1'>
+      <section className='overflow-hidden mb-16 lg:flex lg:justify-between lg:gap-x-[80px]'>
+        <div className='relative w-full h-[172px] lg:w-[566px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center'>
           {isTMA && (
             <a
               href={TMAsahreLink}
-              className="size-10 fixed top-16 right-4 cursor-pointer "
+              className='size-10 fixed top-16 right-4 cursor-pointer z-10'
             >
-              <img alt="share icon" src={shareIcon} className="size-10" />
+              <img alt='share icon' src={shareIcon} className='size-10' />
             </a>
           )}
 
           <LazyImage
             src={page?.campaign?.picUrl}
-            alt="main banner"
-            className="w-full h-full object-cover object-center"
-            fetchpriority="high"
+            alt='main banner'
+            className='w-full h-full object-cover object-center'
+            fetchpriority='high'
           />
         </div>
 
-        <div className="p-4 lg:p-0 lg:flex-auto">
+        <div className='p-4 lg:p-0 lg:flex-auto'>
           {isLoading ? (
             <Skeleton active />
           ) : (
             <>
-              <h2 className="text-xl  font-bold  mb-5 lg:text-4xl lg:mb-8 font-zen-dot">
+              <h2 className='text-xl  font-bold  mb-5 lg:text-4xl lg:mb-8 font-zen-dot'>
                 <ColorCaptial text={page?.campaign?.name} />
               </h2>
 
-              <div className="text-sm lg:text-base font-normal mb-8 text-[#C4C4C4]">
+              <div className='text-sm lg:text-base font-normal mb-8 text-[#C4C4C4]'>
                 <RichMore value={page?.campaign?.description} />
               </div>
-              <div className="flex items-center text-sm text-[#A1A1A2] mb-4">
-                <span className="mr-1 text-sm font-medium text-white">
+              <div className='flex items-center text-sm text-[#A1A1A2] mb-4'>
+                <span className='mr-1 text-sm font-medium text-white'>
                   {formatDollar(page?.participantNum)}
                 </span>
                 participant{page?.participantNum > 1 ? 's' : ''}
               </div>
 
-              <div className="flex items-center gap-x-1 text-sm text-[#A1A1A2]">
+              <div className='flex items-center gap-x-1 text-sm text-[#A1A1A2]'>
                 {campaignEnd ? (
                   <div>This campaign has ended.</div>
                 ) : campaignNotStart ? (
@@ -210,7 +214,7 @@ export default function () {
                     <div>start in</div>
                     <Countdown
                       value={page?.campaign?.startAt}
-                      format="D[d] H[h] m[m] s[s]"
+                      format='D[d] H[h] m[m] s[s]'
                       valueStyle={{
                         color: '#fff',
                         fontSize: '14px',
@@ -224,7 +228,7 @@ export default function () {
                     <div>End in</div>
                     <Countdown
                       value={page?.campaign?.endAt}
-                      format="D[d] H[h] m[m] s[s]"
+                      format='D[d] H[h] m[m] s[s]'
                       valueStyle={{
                         color: '#fff',
                         fontSize: '14px',
@@ -241,25 +245,25 @@ export default function () {
       </section>
 
       {isLoading && (
-        <div className="px-5 lg:px-0 rounded-lg lg:rounded-2xl py-3">
+        <div className='px-5 lg:px-0 rounded-lg lg:rounded-2xl py-3'>
           <Skeleton />
         </div>
       )}
 
-      <section className="px-4 lg:px-0 space-y-4 lg:space-y-8">
+      <section className='px-4 lg:px-0 space-y-4 lg:space-y-8'>
         {page?.groups?.map((group, index) => {
           return (
             <div
               key={index}
-              className="rounded-lg flex flex-col lg:flex-row  lg:overflow-hidden lg:items-stretch"
+              className='rounded-lg flex flex-col lg:flex-row  lg:overflow-hidden lg:items-stretch'
             >
-              <div className="lg:w-[634px] lg:bg-[#160b25] lg:px-8 lg:py-5 lg:flex lg:flex-col">
-                <h3 className="text-base font-bold mb-8 lg:hidden font-zen-dot">
+              <div className='lg:w-[634px] lg:bg-[#160b25] lg:px-8 lg:py-5 lg:flex lg:flex-col'>
+                <h3 className='text-base font-bold mb-8 lg:hidden font-zen-dot'>
                   Tasks and Rewards
                 </h3>
-                <p className="hidden lg:block text-sm mb-4">{prompt}</p>
-                <div className="space-y-4 mb-8">
-                  {group.credentialList?.map((redential) => (
+                <p className='hidden lg:block text-sm mb-4'>{prompt}</p>
+                <div className='space-y-4 mb-8'>
+                  {group.credentialList?.map(redential => (
                     <Credential
                       redential={redential}
                       key={redential.credentialId}
@@ -270,73 +274,73 @@ export default function () {
                 </div>
               </div>
 
-              <div className="lg:w-[566px] pb-4  lg:bg-[#1c0e2f] lg:px-8 lg:pb-0 lg:flex lg:flex-col lg:justify-center">
-                <p className="text-xs mb-4 lg:hidden">{prompt}</p>
-                <div className="space-y-4 lg:space-y-0 lg:divide-y lg:divide-[#281545]">
+              <div className='lg:w-[566px] pb-4  lg:bg-[#1c0e2f] lg:px-8 lg:pb-0 lg:flex lg:flex-col lg:justify-center'>
+                <p className='text-xs mb-4 lg:hidden'>{prompt}</p>
+                <div className='space-y-4 lg:space-y-0 lg:divide-y lg:divide-[#281545]'>
                   {group.nftList?.map((nft, idx) => {
                     return (
                       <div
                         key={nft.nftId}
-                        className="p-5 rounded-lg bg-linear1 lg:bg-none lg:px-0 lg:py-8 flex lg:flex-row-reverse lg:gap-x-8 lg:rounded-none"
+                        className='p-5 rounded-lg bg-linear1 lg:bg-none lg:px-0 lg:py-8 flex lg:flex-row-reverse lg:gap-x-8 lg:rounded-none'
                       >
-                        <div className="flex-auto flex flex-col justify-between">
+                        <div className='flex-auto flex flex-col justify-between'>
                           <div>
-                            <h2 className="text-sm lg:text-base text-[#A1A1A2]">
+                            <h2 className='text-sm lg:text-base text-[#A1A1A2]'>
                               nft
                             </h2>
-                            <h3 className="text-base lg:text-lg font-medium">
+                            <h3 className='text-base lg:text-lg font-medium'>
                               {nft.name}
                             </h3>
                           </div>
                           <button
-                            className="flex items-center w-max text-sm font-medium"
+                            className='flex items-center w-max text-sm font-medium'
                             onClick={() =>
                               setViewModalDataCallbcak(index, idx, 'nft')
                             }
                           >
-                            <span className="text-color1">View Rewards</span>
-                            <img src={arrow3Icon} alt="view reward" />
+                            <span className='text-color1'>View Rewards</span>
+                            <img src={arrow3Icon} alt='view reward' />
                           </button>
                         </div>
                         <img
                           src={nft.picUrl}
-                          className="w-20 h-20 lg:w-[120px] lg:h-[120px] object-center rounded-lg flex-none"
-                          alt="nft reward"
+                          className='w-20 h-20 lg:w-[120px] lg:h-[120px] object-center rounded-lg flex-none'
+                          alt='nft reward'
                         />
                       </div>
                     );
                   })}
 
-                  {group.pointList?.map((point) => {
+                  {group.pointList?.map(point => {
                     return (
                       <div
                         key={point.pointId}
-                        className="p-5 rounded-lg  bg-linear1 lg:bg-none lg:px-0 lg:py-8 flex lg:flex-row-reverse lg:gap-x-8 lg:rounded-none"
+                        className='p-5 rounded-lg  bg-linear1 lg:bg-none lg:px-0 lg:py-8 flex lg:flex-row-reverse lg:gap-x-8 lg:rounded-none'
                       >
-                        <div className="flex-auto flex flex-col justify-between">
+                        <div className='flex-auto flex flex-col justify-between'>
                           <div>
-                            <h2 className="text-sm lg:text-base text-[#A1A1A2]">
+                            <h2 className='text-sm lg:text-base text-[#A1A1A2]'>
                               points
                             </h2>
-                            <h3 className="text-base lg:text-lg font-medium">
+                            <h3 className='text-base lg:text-lg font-medium'>
                               {formatImpact(point.number)}
-                              <span className="ml-1">points</span>
+                              <span className='ml-1'>points</span>
                             </h3>
                           </div>
                           <button
-                            className="flex items-center w-max text-sm font-medium"
+                            className='flex items-center w-max text-sm font-medium'
                             onClick={() =>
                               setViewModalDataCallbcak(index, 0, 'point')
                             }
                           >
-                            <span className="text-color1">View Rewards</span>
-                            <img src={arrow3Icon} alt="view reward" />
+                            <span className='text-color1'>View Rewards</span>
+                            <img src={arrow3Icon} alt='view reward' />
                           </button>
                         </div>
                         <img
                           src={pointIcon}
-                          className="w-20 h-20 lg:w-[120px] lg:h-[120px] object-center rounded-lg flex-none"
-                          alt="point reward"
+                          className='w-20 h-20 lg:w-[120px] lg:h-[120px] object-center rounded-lg flex-none'
+                          alt='point reward'
                         />
                       </div>
                     );
