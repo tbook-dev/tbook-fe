@@ -7,14 +7,18 @@ import { disconnect } from '@wagmi/core';
 import Address from '@tbook/ui/src/Address';
 import Modal from '@/components/connectWallet/modal';
 import PassportCard from '@/components/passportGen/card';
+import { useTonConnectUI } from '@tonconnect/ui-react';
 
 export default function Avatar () {
   const [open, setOpen] = useState(false);
   const { user, isZK, isGoogle, address, data, currentSocial } = useUserInfo();
   const { getZkfnByName, getSocialByName } = useSocial();
   const { isConnected } = useAccount();
-
+  const [tonConnectUI] = useTonConnectUI();
   const handleLogout = useCallback(async () => {
+    if (tonConnectUI.connected) {
+      await tonConnectUI.disconnect();
+    }
     await logout();
     if (isConnected) {
       await disconnect();
