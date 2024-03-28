@@ -15,7 +15,6 @@ export default function Avatar () {
   const { getZkfnByName, getSocialByName } = useSocial();
   const { isConnected } = useAccount();
   const [tonConnectUI] = useTonConnectUI();
-
   const handleLogout = useCallback(async () => {
     if (tonConnectUI.connected) {
       await tonConnectUI.disconnect();
