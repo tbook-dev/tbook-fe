@@ -3,9 +3,10 @@ import { useTelegram } from '@/hooks/useTg';
 import Page from './page';
 import Layout from '@/layout/ton/Layout';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useLayoutEffect, useState } from 'react';
+import PageFallBack from '@/components/pageFallback';
 
-function safeParse(start_param) {
+function safeParse (start_param) {
   try {
     const str = atob(start_param);
     return JSON.parse(str);
@@ -13,26 +14,30 @@ function safeParse(start_param) {
     return {};
   }
 }
-export default function TonExplore() {
+export default function TonExplore () {
   const { isTMA, webApp } = useTelegram();
   const navigate = useNavigate();
-  console.log({ webApp, initDataUnsafe: webApp?.initDataUnsafe });
-
-  useEffect(() => {
+  const [isSubpage, setSubpage] = useState(false);
+  useLayoutEffect(() => {
     if (webApp?.initDataUnsafe.start_param) {
       const { type, projectUrl, campaignId } = safeParse(
         webApp?.initDataUnsafe.start_param
       );
-      if (type === 'campaign' && !redirected) {
+      if (type === 'campaign') {
+        setSubpage(true);
         navigate(`/${projectUrl}/${campaignId}`);
       }
     }
   }, []);
-
+  // console.log({ isTMA, isSubpage });
   return isTMA ? (
-    <Layout>
-      <Page />
-    </Layout>
+    !isSubpage ? (
+      <Layout>
+        <Page />
+      </Layout>
+    ) : (
+      <PageFallBack />
+    )
   ) : (
     <Page404 />
   );
