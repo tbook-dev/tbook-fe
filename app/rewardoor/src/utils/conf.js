@@ -198,9 +198,12 @@ export const credentialStatus = [
 
 export const factoryContract = import.meta.env.VITE_FACTORY_CONTRACT;
 
-export const getTMAShareLink = ({ campaignId, projectUrl }) => {
-  const link = `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
+export const getTMALink = ({ campaignId, projectUrl }) => {
+  return `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
     JSON.stringify({ projectUrl, campaignId, type: 'campaign' })
   )}`;
+};
+export const getTMAShareLink = ({ campaignId, projectUrl }) => {
+  const link = getTMALink({ campaignId, projectUrl });
   return `https://t.me/share/url?url=${encodeURIComponent(link)}`;
 };

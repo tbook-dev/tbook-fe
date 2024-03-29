@@ -1,20 +1,6 @@
-import { Modal } from 'antd';
-import sucessIcon from '@/images/icon/sucess.svg';
-import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
-import ShareLink from '../info/shareLink';
 
-const sucessText = 'Successfully released!';
-const desc = `Share the campaign with your community and motivate them to actively participate!`;
-export default function sucessModal ({
-  open,
-  setOpen,
-  shareLink,
-  TMALink,
-  jumpLink,
-  TMAshareLink,
-}) {
-  const navigate = useNavigate();
+export default function ShareLink ({ shareLink, TMALink, TMAshareLink }) {
   const links = useMemo(() => {
     return [
       {
@@ -74,35 +60,40 @@ export default function sucessModal ({
         jumpLink: shareLink,
       },
     ];
-  }, [shareLink, TMALink, jumpLink, TMAshareLink]);
+  }, [shareLink, TMALink, TMAshareLink]);
   return (
-    <Modal
-      centered
-      width={580}
-      footer={null}
-      open={open}
-      maskClosable={false}
-      onCancel={() => {
-        setOpen(null);
-        navigate(jumpLink);
-      }}
-    >
-      <div className='flex flex-col gap-y-6 my-6 mx-1'>
-        <div className='flex items-center gap-x-4 mb-10'>
-          <img src={sucessIcon} className='size-10' />
-          <div className='sapce-y-2'>
-            <p className='font-medium text-lg text-white'>{sucessText}</p>
-            <p className='text-sm text-[#A1A1A2]'>{desc}</p>
+    <div className='space-y-2.5'>
+      {links.map(v => {
+        return (
+          <div className='group flex items-center gap-x-2.5' key={v.type}>
+            {v.pic}
+            <a
+              className='flex-none hover:text-white flex items-center'
+              href={v.jumpLink}
+              target='_blank'
+            >
+              <p className='w-[350px] truncate'>{v.displayLink}</p>
+              <svg
+                width='16'
+                height='16'
+                viewBox='0 0 16 16'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+                className='group'
+              >
+                <path
+                  d='M5 11L11 5M11 5H5M11 5V11'
+                  stroke='#A1A1A2'
+                  strokeWidth='0.8'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  className='group-hover:stroke-white'
+                />
+              </svg>
+            </a>
           </div>
-        </div>
-
-        <ShareLink
-          shareLink={shareLink}
-          TMALink={TMALink}
-          jumpLink={jumpLink}
-          TMAshareLink={TMAshareLink}
-        />
-      </div>
-    </Modal>
+        );
+      })}
+    </div>
   );
 }

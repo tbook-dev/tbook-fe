@@ -21,7 +21,7 @@ import Loading from '@/components/loading';
 import useCampaignList from '@/hooks/queries/useCampaignList';
 import credentialMap from '@/components/credential/form';
 import { pick } from 'lodash';
-import { getTMAShareLink } from '@/utils/conf';
+import { getTMAShareLink, getTMALink } from '@/utils/conf';
 
 const title = 'Set up an Incentive Campaign';
 const textMap = {
@@ -349,15 +349,19 @@ export default function () {
       </div>
       <SucessModal
         open={!!sucessData}
+        setOpen={setSucessData}
         shareLink={`${getUrl()}/${project?.projectUrl}/${get(
           sucessData,
           'campaign.campaignId'
         )}`}
-        TMALink={getTMAShareLink({
+        TMALink={getTMALink({
           projectUrl: project?.projectUrl,
           campaignId: get(sucessData, 'campaign.campaignId'),
         })}
-        setOpen={setSucessData}
+        TMAshareLink={getTMAShareLink({
+          projectUrl: project?.projectUrl,
+          campaignId: get(sucessData, 'campaign.campaignId'),
+        })}
         jumpLink={`/campaign/${get(sucessData, 'campaign.campaignId')}/detail`}
       />
       {contextHolder}
