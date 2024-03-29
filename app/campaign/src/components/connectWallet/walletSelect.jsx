@@ -27,6 +27,7 @@ import {
 } from '@tonconnect/ui-react';
 import Back from '../back';
 import { useIsConnectionRestored } from '@tonconnect/ui-react';
+import { useTelegram } from '@/hooks/useTg';
 
 const moduleConf = {
   title: 'Connect Wallet',
@@ -92,6 +93,7 @@ const WalletSelectModal = () => {
     s => s.global.showWalletConnectModal
   );
   const dispath = useDispatch();
+  const { isTMA } = useTelegram();
   const { pc } = useResponsive();
   const [loginStep, setLoginStep] = useState(1);
   const [loginType, setLoginType] = useState('option');
@@ -133,7 +135,36 @@ const WalletSelectModal = () => {
     dispath(setShowWalletConnectModal(false));
     setTimeout(handleBackToInitLogin, 100);
   }, []);
-
+  const mainButton = isTMA
+    ? {
+        type: 'ton',
+        text: moduleConf.tonWallet.text,
+        pic: moduleConf.tonWallet.picUrl,
+        handle: handleTonClick,
+      }
+    : {
+        type: 'evm',
+        text: moduleConf.walletconnect.text,
+        pic: moduleConf.walletconnect.picUrl,
+        handle: () => handleWallet('walletconnect'),
+      };
+  const subList = isTMA
+    ? [
+        {
+          type: 'evm',
+          text: moduleConf.walletconnect.text,
+          pic: moduleConf.walletconnect.picUrl,
+          handle: () => handleWallet('walletconnect'),
+        },
+      ]
+    : [
+        {
+          type: 'ton',
+          text: moduleConf.tonWallet.text,
+          pic: moduleConf.tonWallet.picUrl,
+          handle: handleTonClick,
+        },
+      ];
   return (
     <Modal
       title={null}
@@ -153,15 +184,12 @@ const WalletSelectModal = () => {
             <div className='space-y-5 text-sm'>
               <button
                 className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
-                onClick={handleTonClick}
+                onClick={mainButton.handle}
               >
-                <img
-                  src={moduleConf.tonWallet.picUrl}
-                  className='size-5'
-                  alt='sui logo'
-                />
-                {moduleConf.tonWallet.text}
+                <img src={mainButton.pic} className='size-5' alt='logo' />
+                {mainButton.text}
               </button>
+
               <button
                 className='h-[52px] w-full rounded-lg border border-white text-white font-medium hover:opacity-70'
                 onClick={handleOptionLogin}
@@ -177,17 +205,22 @@ const WalletSelectModal = () => {
               </div>
               {loginType === 'option' && (
                 <div className='space-y-5 text-sm'>
-                  <button
-                    onClick={() => handleWallet('walletconnect')}
-                    className='h-10 hover:opacity-70 flex items-center justify-center relative w-full bg-white px-4 py-3 text-sm font-medium text-black rounded-lg'
-                  >
-                    <img
-                      src={moduleConf.walletconnect.picUrl}
-                      className='w-5 h-5 object-center absolute left-4'
-                      alt={'walletconnect'}
-                    />
-                    {moduleConf.walletconnect.text}
-                  </button>
+                  {subList.map(v => {
+                    return (
+                      <button
+                        key={v.type}
+                        onClick={v.handle}
+                        className='h-10 hover:opacity-70 flex items-center justify-center relative w-full bg-white px-4 py-3 text-sm font-medium text-black rounded-lg'
+                      >
+                        <img
+                          src={v.pic}
+                          className='w-5 h-5 object-center absolute left-4'
+                          alt={v.type}
+                        />
+                        {v.text}
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </>
