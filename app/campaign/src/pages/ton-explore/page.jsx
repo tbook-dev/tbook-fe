@@ -33,7 +33,7 @@ export default function TonExplore () {
                       style={{ width: 60, height: 60 }}
                       onClick={() => {
                         window.open(
-                          `https://campaign-staging.tbook.com/lake`,
+                          `https://campaign-staging.tbook.com/${v.projectUrl}/`,
                           '_self'
                         );
                       }}
