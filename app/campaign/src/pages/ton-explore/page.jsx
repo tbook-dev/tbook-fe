@@ -54,7 +54,7 @@ export default function TonExplore () {
 
       <section>
         <h3 className='py-4 font-zen-dot text-base font-medium text-white'>
-          Caimpaigns
+          Campaigns
         </h3>
         <div>
           <Swiper slidesPerView={1.1} spaceBetween={10}>
