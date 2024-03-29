@@ -13,7 +13,9 @@ export default function TonExplore () {
   return (
     <div className='px-5 mt-3 space-y-4'>
       <section>
-        <h3 className='pt-4 pb-2 text-sm text-[#AAA]'>Projects</h3>
+        <h3 className='py-4 font-zen-dot text-base font-medium text-white'>
+          Projects
+        </h3>
         <div className='overflow-x-auto'>
           <Swiper slidesPerView='auto' spaceBetween={16}>
             {isLoading
@@ -51,7 +53,9 @@ export default function TonExplore () {
       </section>
 
       <section>
-        <h3 className='pt-4 pb-2 text-sm text-[#AAA]'>Caimpaigns</h3>
+        <h3 className='py-4 font-zen-dot text-base font-medium text-white'>
+          Caimpaigns
+        </h3>
         <div>
           <Swiper slidesPerView={1.1} spaceBetween={10}>
             {isLoading ? (
