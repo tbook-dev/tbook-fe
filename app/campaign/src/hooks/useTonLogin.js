@@ -9,21 +9,38 @@ import {
 // import { CHAIN } from '@tonconnect/ui-react';
 import { Address } from 'ton';
 import { getTonPayload, verifyTonProof } from '@/api/incentive';
-import useUserInfoQuery from "./useUserInfoQuery";
+import { useDispatch } from 'react-redux';
+import useUserInfoQuery from './useUserInfoQuery';
+import {
+  setConnectWalletModal,
+  setLoginModal,
+  setShowMergeAccountModal,
+  setMergeAccountData,
+} from '@/store/global';
+import { conf } from '@tbook/utils';
+import { message } from 'antd';
+import { delay } from '@/utils/common';
+
+const { shortAddress } = conf;
 
 export default function useTonLogin() {
   const firstProofLoading = useRef(true);
   // const [data, setData] = useState({});
+  const [messageApi, contextHolder] = message.useMessage();
   const wallet = useTonWallet();
   const [authorized, setAuthorized] = useState(false);
   const [tonConnectUI] = useTonConnectUI();
   const { refetch } = useUserInfoQuery();
-  const [ isVerify, setVerify]= useState(false);
-
+  const dispath = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const openMergeAccountModal = useCallback(() => {
+    dispath(setShowMergeAccountModal(true));
+  }, []);
   const recreateProofPayload = useCallback(async () => {
     if (firstProofLoading.current) {
       tonConnectUI.setConnectRequestParameters({ state: 'loading' });
       firstProofLoading.current = false;
+      setLoading(true);
     }
 
     const payload = await getTonPayload();
@@ -45,10 +62,10 @@ export default function useTonLogin() {
   useEffect(
     () =>
       tonConnectUI.onStatusChange(async (w) => {
-        console.log("xxx")
+        console.log('xxx', w);
         if (!w) {
           setAuthorized(false);
-          setVerify(false);
+          setLoading(false);
           return;
         }
         if (w.connectItems?.tonProof && 'proof' in w.connectItems.tonProof) {
@@ -62,9 +79,33 @@ export default function useTonLogin() {
               proof: w.connectItems.tonProof.proof,
             },
           };
-          await verifyTonProof(payload);
+          const data = await verifyTonProof(payload);
+          if (data.code === 400) {
+            // 400 merge
+            // setShowMergeAccountModal()
+            dispath(
+              setMergeAccountData({
+                address: shortAddress(data.address),
+                twitterName: data.twitterName ?? data.socialName,
+                twitterId: userData?.userTwitter?.twitterId,
+                redirect: false,
+              })
+            );
+            openMergeAccountModal();
+          } else {
+            // 4004要解绑
+            if (data.code != 200) {
+              messageApi.error(data.message);
+              setLoading(false);
+              // handleCloseModal();
+              return;
+            } else {
+              await delay(100);
+              await refetch();
+            }
+          }
           await refetch();
-          setVerify(false);
+          setLoading(false);
           //await TonProofDemoApi.checkProof(w.connectItems.tonProof.proof, w.account);
         }
         setAuthorized(true);
@@ -84,8 +125,8 @@ export default function useTonLogin() {
   return {
     wallet,
     authorized,
-    isVerify,
-    setVerify
+    loading,
+    contextHolder,
   };
 
   // return (

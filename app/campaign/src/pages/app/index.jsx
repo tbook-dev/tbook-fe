@@ -12,7 +12,7 @@ import { message } from 'antd';
 import { useSignMessage } from 'wagmi';
 import { host } from '@/api/incentive';
 import { useDispatch } from 'react-redux';
-import { setLoginModal } from '@/store/global';
+import { setLoginModal, setShowWalletConnectModal } from '@/store/global';
 import LazyImage from '@/components/lazyImage';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import ColorCaptial from '@/components/colorCaptial';
@@ -34,7 +34,7 @@ export default function () {
   const { isTMA } = useTelegram();
   const dispath = useDispatch();
   const { campaignId } = useParams();
-  const { user, twitterConnected, userLogined } = useUserInfo();
+  const { user, twitterConnected, userLogined, isUsingWallet } = useUserInfo();
   const {
     data: page,
     isLoading,
@@ -294,9 +294,13 @@ export default function () {
                           </div>
                           <button
                             className='flex items-center w-max text-sm font-medium'
-                            onClick={() =>
-                              setViewModalDataCallbcak(index, idx, 'nft')
-                            }
+                            onClick={() => {
+                              if (isUsingWallet) {
+                                setViewModalDataCallbcak(index, idx, 'nft');
+                              } else {
+                                dispath(setShowWalletConnectModal(true));
+                              }
+                            }}
                           >
                             <span className='text-color1'>View Rewards</span>
                             <img src={arrow3Icon} alt='view reward' />
@@ -329,9 +333,13 @@ export default function () {
                           </div>
                           <button
                             className='flex items-center w-max text-sm font-medium'
-                            onClick={() =>
-                              setViewModalDataCallbcak(index, 0, 'point')
-                            }
+                            onClick={() => {
+                              if (!isUsingWallet) {
+                                setViewModalDataCallbcak(index, 0, 'point');
+                              } else {
+                                dispath(setShowWalletConnectModal(true));
+                              }
+                            }}
                           >
                             <span className='text-color1'>View Rewards</span>
                             <img src={arrow3Icon} alt='view reward' />

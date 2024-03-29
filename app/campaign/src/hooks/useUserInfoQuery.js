@@ -99,6 +99,9 @@ export default function useUserInfo() {
   }, [isTMA, tonAddress, zkAddress, evmAddress]);
 
   const address = currentAddress?.address;
+  const isUsingWallet = useMemo(() => {
+    return Boolean(currentAddress);
+  }, [currentAddress]);
   const currentSocial = useMemo(() => {
     const twitterName = data?.userTwitter?.twitterName;
     const tgName = data?.userTg?.username;
@@ -155,6 +158,7 @@ export default function useUserInfo() {
     tonAddress,
     currentAddress,
     currentSocial,
+    isUsingWallet,
     ...props,
   };
 }

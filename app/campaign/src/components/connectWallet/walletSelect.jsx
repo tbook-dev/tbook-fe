@@ -18,8 +18,15 @@ import googleBg from '@/images/zklogin/google-bg.svg';
 import facebookBg from '@/images/zklogin/facebook-bg.svg';
 import twitchBg from '@/images/zklogin/twitch-bg.svg';
 import talkBg from '@/images/zklogin/talk-bg.svg';
-
+import {
+  useTonConnectUI,
+  useTonWallet,
+  TonConnectButton,
+  useTonConnectModal,
+  useTonAddress,
+} from '@tonconnect/ui-react';
 import Back from '../back';
+import { useIsConnectionRestored } from '@tonconnect/ui-react';
 
 const moduleConf = {
   title: 'Connect Wallet',
@@ -88,6 +95,11 @@ const WalletSelectModal = () => {
   const { pc } = useResponsive();
   const [loginStep, setLoginStep] = useState(1);
   const [loginType, setLoginType] = useState('option');
+  // useTonLogin();
+  const { state, open, close } = useTonConnectModal();
+  const connectionRestored = useIsConnectionRestored();
+
+  const [tonConnectUI] = useTonConnectUI();
 
   const handleWallet = useCallback(type => {
     if (type === 'walletconnect') {
@@ -101,16 +113,25 @@ const WalletSelectModal = () => {
     setLoginType(null);
   }, []);
 
-  const handleTonClick = useCallback(() => {
-    alert('clicked ton!');
-  }, []);
+  const handleTonClick = async () => {
+    // console.log({ tonConnectUI });
+    try {
+      await tonConnectUI.disconnect();
+    } catch (e) {
+      console.log(e);
+    }
+    open();
+    dispath(setShowWalletConnectModal(false));
+    // await tonConnectUI.disconnect();
+    // tonConnectUI.modal.open();
+  };
   const handleOptionLogin = useCallback(() => {
     setLoginType('option');
     setLoginStep(2);
   }, []);
   const handleCloseModal = useCallback(() => {
     dispath(setShowWalletConnectModal(false));
-    setTimeout(handleBackToInitLogin, 1000);
+    setTimeout(handleBackToInitLogin, 100);
   }, []);
 
   return (
@@ -121,6 +142,7 @@ const WalletSelectModal = () => {
       centered
       closable={pc ? true : false}
       onCancel={handleCloseModal}
+      zIndex={10}
     >
       <div className='-mx-6'>
         <h2 className='text-base font-medium border-b px-5 pb-3 border-[#8148C6]'>

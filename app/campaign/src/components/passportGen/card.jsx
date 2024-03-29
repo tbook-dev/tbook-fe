@@ -35,6 +35,7 @@ export default function PassportCard ({ onClose }) {
     evmAddress,
     currentAddress,
     tonAddress,
+    isUsingWallet,
   } = useUserInfo();
   const { socialList, getZkfnByName } = useSocial();
   const { open } = useTonConnectModal();
@@ -59,9 +60,6 @@ export default function PassportCard ({ onClose }) {
     ];
   }, [projectUrl]);
 
-  const isUsingWallet = useMemo(() => {
-    return Boolean(currentAddress);
-  }, [currentAddress]);
   const isTonExpore = useMemo(() => {
     return location.pathname === '/ton-explore';
   }, [location]);

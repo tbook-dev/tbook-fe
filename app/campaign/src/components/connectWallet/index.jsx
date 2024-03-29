@@ -23,7 +23,7 @@ import {
   useTonConnectModal,
   useTonAddress,
 } from '@tonconnect/ui-react';
-import useTonLogin from '@/hooks/useTonLogin'
+import useTonLogin from '@/hooks/useTonLogin';
 import { useIsConnectionRestored } from '@tonconnect/ui-react';
 import suiBlackSVG from '@/images/zklogin/sui-black.svg';
 import tonSVG from '@/images/icon/ton.svg';
@@ -105,12 +105,12 @@ const moduleConf = {
 };
 
 const ConnectWalletModal = () => {
-  const { setVerify, isVerify } = useTonLogin();
+  const { contextHolder } = useTonLogin();
   const showConnectWalletModal = useSelector(
     s => s.global.showConnectWalletModal
   );
   const size = useSize(document.documentElement);
-  const { state, open, close } = useTonConnectModal();
+  const { open } = useTonConnectModal();
   const { zkList, getZkfnByName } = useSocial();
   const showLoginModal = useSelector(s => s.global.showLoginModal);
   const dispath = useDispatch();
@@ -160,18 +160,22 @@ const ConnectWalletModal = () => {
   //   open()
   //   console.log({state})
   // }, []);
-  const handleTonClick = async() => {
+  const handleTonClick = async () => {
     // alert('clicked ton!');
-      await tonConnectUI.disconnect()
-    tonConnectUI.modal.open()
+    try {
+      await tonConnectUI.disconnect();
+    } catch (e) {
+      console.log(e);
+    }
+    open();
     // setVerify(true)
-    console.log({state, connectionRestored})
+    // console.log({state, connectionRestored})
     // if(connectionRestored){
-      // await tonConnectUI.disconnect()
+    // await tonConnectUI.disconnect()
     //   console.log({connectionRestored})
     // }
     // open()
-  }
+  };
 
   const handleWallet = useCallback(type => {
     if (type === 'walletconnect') {
@@ -252,7 +256,6 @@ const ConnectWalletModal = () => {
                 />
                 {moduleConf.tonWallet.text}
               </button>
-
 
               <button
                 className='h-[52px] w-full rounded-lg border border-white text-white font-medium hover:opacity-70'
@@ -352,6 +355,7 @@ const ConnectWalletModal = () => {
           </div>
         )}
       </Modal>
+      {contextHolder}
       <WalletWeb3Modal />
       <WalletSelectModal />
     </>
