@@ -1,9 +1,8 @@
-import { Link, useLoaderData } from 'react-router-dom';
-import { memo, useMemo } from 'react';
-import { formatDollar } from '@tbook/utils/lib/conf';
+import { Link } from 'react-router-dom';
+import { memo } from 'react';
+import { formatImpact } from '@tbook/utils/lib/conf';
 import LazyImage from '@/components/lazyImage';
 import { Statistic } from 'antd';
-import { useTelegram } from '@/hooks/useTg';
 
 const { Countdown } = Statistic;
 
@@ -17,31 +16,25 @@ const colorMap = {
     backgroundColor: 'rgba(250,204,21,0.1)',
   },
 };
+// 目前只在tma里面展示
 function Compaign ({
   title,
   campaignId,
   picUrl,
   startAt,
   endAt,
-  project,
-  usersNum,
-  groups,
+  participantNum,
   status,
+  hasNFT,
+  hasPoint,
+  projectLogoUrl,
+  projectName,
+  projectUrl,
 }) {
-  const { isUsingSubdomain } = useLoaderData();
-  const { isTMA } = useTelegram();
-
-  const rewardOpt = useMemo(() => {
-    const hasNFT = groups.some(v => v.nftList.length > 0);
-    const hasPoint = groups.some(v => v.pointList.length > 0);
-    return { hasNFT, hasPoint };
-  }, [groups]);
-
   return (
     <Link
-      to={`${isUsingSubdomain ? '' : `/${project?.projectUrl}`}/${campaignId}`}
+      to={`/${projectUrl}/${campaignId}`}
       className='relative rounded-xl overflow-hidden flex flex-col shadow-s2 bg-[#0e0819]'
-      target={isTMA ? '_self' : '_blank'}
     >
       {[1, 2].includes(status) && (
         <div
@@ -71,22 +64,28 @@ function Compaign ({
         alt='campaign banner'
       />
       <div className='p-5 flex-auto flex flex-col justify-between gap-y-3'>
-        <h2 className='font-medium text-base'>{title}</h2>
+        <div className='space-y-2'>
+          <div className='flex items-center gap-x-2 text-sm'>
+            <img className='size-4' src={projectLogoUrl} alt='project logo' />
+            {projectName}
+          </div>
+          <h2 className='font-medium text-base'>{title}</h2>
+        </div>
 
         <div className='space-y-3'>
           <div className='flex items-center gap-x-1 text-[#C0ABD9]'>
-            <span className='font-zen-dot'>{formatDollar(usersNum)}</span>
-            {usersNum > 1 ? 'Participants' : 'Participant'}
+            <span className='font-zen-dot'>{formatImpact(participantNum)}</span>
+            {participantNum > 1 ? 'Participants' : 'Participant'}
           </div>
 
           <div className='flex flex-wrap text-xs font-medium space-x-3'>
-            {rewardOpt.hasNFT && (
+            {hasNFT && (
               <div className='px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]'>
                 NFT
               </div>
             )}
 
-            {rewardOpt.hasPoint && (
+            {hasPoint && (
               <div className='px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]'>
                 Points
               </div>

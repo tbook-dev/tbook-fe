@@ -1,167 +1,189 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react'
-import { logUserReport } from '@/api/incentive'
-import { useParams } from 'react-router-dom'
-import pointIcon from '@/images/icon/point-modal.svg'
-import arrow3Icon from '@/images/icon/arrow3.svg'
-import useUserInfo from '@/hooks/useUserInfoQuery'
-import useCampaignQuery from '@/hooks/useCampaignQuery'
-import RichMore from "@/components/textMore/rich";
-import { Skeleton, Statistic } from 'antd'
-import { message } from 'antd'
-import { useSignMessage } from 'wagmi'
-import { host } from '@/api/incentive'
-import { useDispatch } from 'react-redux'
-import { setLoginModal } from '@/store/global'
-import LazyImage from '@/components/lazyImage'
-import { formatImpact } from '@tbook/utils/lib/conf'
-import ColorCaptial from '@/components/colorCaptial'
-import { formatDollar } from '@tbook/utils/lib/conf'
-import ViewReward from './viewReward'
-import Credential from './credential'
-const { Countdown } = Statistic
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import { logUserReport } from '@/api/incentive';
+import { useParams } from 'react-router-dom';
+import pointIcon from '@/images/icon/point-modal.svg';
+import shareIcon from '@/images/icon/share.svg';
+import arrow3Icon from '@/images/icon/arrow3.svg';
+import useUserInfo from '@/hooks/useUserInfoQuery';
+import useCampaignQuery from '@/hooks/useCampaignQuery';
+import RichMore from '@/components/textMore/rich';
+import { Skeleton, Statistic } from 'antd';
+import { message } from 'antd';
+import { useSignMessage } from 'wagmi';
+import { host } from '@/api/incentive';
+import { useDispatch } from 'react-redux';
+import { setLoginModal, setShowWalletConnectModal } from '@/store/global';
+import LazyImage from '@/components/lazyImage';
+import { formatImpact } from '@tbook/utils/lib/conf';
+import ColorCaptial from '@/components/colorCaptial';
+import { formatDollar } from '@tbook/utils/lib/conf';
+import ViewReward from './viewReward';
+import Credential from './credential';
+import { useTelegram } from '@/hooks/useTg';
+import { useLoaderData } from 'react-router-dom';
+const { Countdown } = Statistic;
+
+const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
+const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
 
 const prompt =
-  'You may get the rewards once you have accomplished all tasks in the group!'
+  'You may get the rewards once you have accomplished all tasks in the group!';
 
 export default function () {
-  const [messageApi, contextHolder] = message.useMessage()
-  const dispath = useDispatch()
-  const { campaignId } = useParams()
-  const { user, twitterConnected, userLogined } = useUserInfo()
+  const [messageApi, contextHolder] = message.useMessage();
+  const { isTMA } = useTelegram();
+  const dispath = useDispatch();
+  const { campaignId } = useParams();
+  const { user, twitterConnected, userLogined, isUsingWallet } = useUserInfo();
   const {
     data: page,
     isLoading,
     campaignNotStart,
     campaignEnd,
-    campaignOngoing
-  } = useCampaignQuery(campaignId)
+    campaignOngoing,
+  } = useCampaignQuery(campaignId);
+  const { projectUrl } = useLoaderData();
+  const { signMessageAsync } = useSignMessage();
+  const [viewIdx, setViewIdx] = useState(null);
+  const [subIdx, setSubIdx] = useState(null);
+  const [viewType, setViewType] = useState(null);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
 
-  const { signMessageAsync } = useSignMessage()
-  const [viewIdx, setViewIdx] = useState(null)
-  const [subIdx, setSubIdx] = useState(null)
-  const [viewType, setViewType] = useState(null)
-  const [viewModalOpen, setViewModalOpen] = useState(false)
-
-  const [rawDatas, setRawDatas] = useState({})
-  const [signed, setSigned] = useState({})
+  const [rawDatas, setRawDatas] = useState({});
+  const [signed, setSigned] = useState({});
 
   const signIn = useCallback(() => {
-    dispath(setLoginModal(true))
-  }, [])
+    dispath(setLoginModal(true));
+  }, []);
 
   const handleCancel = useCallback(() => {
-    setViewModalOpen(false)
-    setViewIdx(null)
-    setSubIdx(null)
-    setViewType(null)
-  }, [])
+    setViewModalOpen(false);
+    setViewIdx(null);
+    setSubIdx(null);
+    setViewType(null);
+  }, []);
   const viewModalData = useMemo(() => {
     if (viewIdx !== null && viewType !== null && subIdx !== null && page) {
       try {
-        const group = page?.groups?.[viewIdx]
-        let data = {}
+        const group = page?.groups?.[viewIdx];
+        let data = {};
         if (viewType === 'nft') {
-          data = group.nftList[subIdx]
+          data = group.nftList[subIdx];
         } else {
-          data = group.pointList[subIdx]
+          data = group.pointList[subIdx];
         }
-        return { ...data, type: viewType }
+        return { ...data, type: viewType };
       } catch (e) {
-        console.log(e)
-        return null
+        console.log(e);
+        return null;
       }
     } else {
-      return null
+      return null;
     }
-  }, [viewIdx, subIdx, viewType, page])
+  }, [viewIdx, subIdx, viewType, page]);
   const setViewModalDataCallbcak = useCallback(
     (idx, subIdx, type) => {
       if (userLogined) {
-        setViewIdx(idx)
-        setSubIdx(subIdx)
-        setViewType(type)
-        setViewModalOpen(true)
+        setViewIdx(idx);
+        setSubIdx(subIdx);
+        setViewType(type);
+        setViewModalOpen(true);
       } else {
-        signIn()
+        signIn();
       }
     },
     [userLogined]
-  )
+  );
   const signCredential = async credential => {
     if (signed[credential.credentialId]) {
-      messageApi.warning('Already signed, verify please')
-      return
+      messageApi.warning('Already signed, verify please');
+      return;
     }
-    const m = rawDatas[credential.credentialId]
-    const sign = await signMessageAsync({ message: m })
-    const d = new URLSearchParams()
-    d.append('sign', sign)
+    const m = rawDatas[credential.credentialId];
+    const sign = await signMessageAsync({ message: m });
+    const d = new URLSearchParams();
+    d.append('sign', sign);
     fetch(`${host}/campaignSign/${credential.credentialId}/verify`, {
       method: 'POST',
       'content-type': 'application/x-www-form-urlencoded',
       body: d,
-      credentials: 'include'
+      credentials: 'include',
     })
       .then(r => r.json())
       .then(d => {
         if (!d['success']) {
-          alert(d['error'])
+          alert(d['error']);
         }
-      })
-  }
-
+      });
+  };
+  const TMAsahreLink = useMemo(() => {
+    const link = `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
+      JSON.stringify({ projectUrl, campaignId, type: 'campaign' })
+    )}`;
+    return `https://t.me/share/url?url=${encodeURIComponent(link)}`;
+  }, [campaignId, projectUrl]);
+  // console.log(TMAsahreLink);
   useEffect(() => {
-    const gs = page?.groups
+    const gs = page?.groups;
     if (gs && gs.length > 0) {
       const signs = gs
         .flatMap(g => g.credentialList)
-        .filter(c => c.labelType == 10)
+        .filter(c => c.labelType == 10);
       signs.forEach(c => {
         fetch(`${host}/campaignSign/${c.credentialId}`, {
           method: 'GET',
-          credentials: 'include'
+          credentials: 'include',
         })
           .then(r => r.json())
           .then(d => {
             if (d['code'] == 0) {
               setRawDatas(() => {
-                const nd = {}
-                nd[c.credentialId] = d['data']
-                return { ...rawDatas, ...nd }
-              })
+                const nd = {};
+                nd[c.credentialId] = d['data'];
+                return { ...rawDatas, ...nd };
+              });
             } else {
               setSigned(() => {
-                return { ...signed, [c.credentialId]: true }
-              })
+                return { ...signed, [c.credentialId]: true };
+              });
             }
-          })
-      })
+          });
+      });
     }
-  }, [page])
+  }, [page]);
   useEffect(() => {
     if (userLogined && campaignOngoing && user?.userId) {
-      const key=`logUserCampaign-${user?.userId}-${campaignId}`
+      const key = `logUserCampaign-${user?.userId}-${campaignId}`;
       if (!localStorage.getItem(key)) {
         logUserReport({
           userId: user?.userId,
           campaignId,
           address: user?.wallet,
-          isTwitterLogin: twitterConnected
-        })
-        localStorage.setItem(key, '1')
+          isTwitterLogin: twitterConnected,
+        });
+        localStorage.setItem(key, '1');
       }
     }
-  }, [userLogined, campaignOngoing, user])
+  }, [userLogined, campaignOngoing, user]);
 
   return (
     <div className='space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-t-1'>
       <section className='overflow-hidden mb-16 lg:flex lg:justify-between lg:gap-x-[80px]'>
-        <div className='w-full h-[172px] lg:w-[566px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center'>
+        <div className='relative w-full h-[172px] lg:w-[566px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center'>
+          {isTMA && (
+            <a
+              href={TMAsahreLink}
+              className='size-10 fixed top-16 right-4 cursor-pointer z-10'
+            >
+              <img alt='share icon' src={shareIcon} className='size-10' />
+            </a>
+          )}
+
           <LazyImage
             src={page?.campaign?.picUrl}
             alt='main banner'
             className='w-full h-full object-cover object-center'
-            fetchpriority="high"
+            fetchpriority='high'
           />
         </div>
 
@@ -197,7 +219,7 @@ export default function () {
                         color: '#fff',
                         fontSize: '14px',
                         lineHeight: '20px',
-                        fontWeight: 500
+                        fontWeight: 500,
                       }}
                     />
                   </>
@@ -211,7 +233,7 @@ export default function () {
                         color: '#fff',
                         fontSize: '14px',
                         lineHeight: '20px',
-                        fontWeight: 500
+                        fontWeight: 500,
                       }}
                     />
                   </>
@@ -272,12 +294,16 @@ export default function () {
                           </div>
                           <button
                             className='flex items-center w-max text-sm font-medium'
-                            onClick={() =>
-                              setViewModalDataCallbcak(index, idx, 'nft')
-                            }
+                            onClick={() => {
+                              if (isUsingWallet) {
+                                setViewModalDataCallbcak(index, idx, 'nft');
+                              } else {
+                                dispath(setShowWalletConnectModal(true));
+                              }
+                            }}
                           >
                             <span className='text-color1'>View Rewards</span>
-                            <img src={arrow3Icon} alt='view reward'/>
+                            <img src={arrow3Icon} alt='view reward' />
                           </button>
                         </div>
                         <img
@@ -286,7 +312,7 @@ export default function () {
                           alt='nft reward'
                         />
                       </div>
-                    )
+                    );
                   })}
 
                   {group.pointList?.map(point => {
@@ -307,12 +333,16 @@ export default function () {
                           </div>
                           <button
                             className='flex items-center w-max text-sm font-medium'
-                            onClick={() =>
-                              setViewModalDataCallbcak(index, 0, 'point')
-                            }
+                            onClick={() => {
+                              if (isUsingWallet) {
+                                setViewModalDataCallbcak(index, 0, 'point');
+                              } else {
+                                dispath(setShowWalletConnectModal(true));
+                              }
+                            }}
                           >
                             <span className='text-color1'>View Rewards</span>
-                            <img src={arrow3Icon} alt='view reward'/>
+                            <img src={arrow3Icon} alt='view reward' />
                           </button>
                         </div>
                         <img
@@ -321,12 +351,12 @@ export default function () {
                           alt='point reward'
                         />
                       </div>
-                    )
+                    );
                   })}
                 </div>
               </div>
             </div>
-          )
+          );
         })}
       </section>
 
@@ -340,5 +370,5 @@ export default function () {
 
       {contextHolder}
     </div>
-  )
+  );
 }

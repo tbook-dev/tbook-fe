@@ -4,6 +4,9 @@ import nftIcon from '@/images/icon/nft.svg';
 import fcfsIcon from '@/images/icon/fcfs.svg';
 import ldIcon from '@/images/icon/ld.svg';
 
+const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
+const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
+
 export const incentiveAssetsTypeList = [
   { label: '🎁  NFT', icon: nftIcon, text: 'NFT', value: 1 },
   { label: '💎 POINTS', icon: pointIcon, text: 'Points', value: 2 },
@@ -194,3 +197,13 @@ export const credentialStatus = [
 ];
 
 export const factoryContract = import.meta.env.VITE_FACTORY_CONTRACT;
+
+export const getTMALink = ({ campaignId, projectUrl }) => {
+  return `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
+    JSON.stringify({ projectUrl, campaignId, type: 'campaign' })
+  )}`;
+};
+export const getTMAShareLink = ({ campaignId, projectUrl }) => {
+  const link = getTMALink({ campaignId, projectUrl });
+  return `https://t.me/share/url?url=${encodeURIComponent(link)}`;
+};

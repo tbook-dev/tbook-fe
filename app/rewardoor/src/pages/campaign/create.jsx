@@ -21,6 +21,7 @@ import Loading from '@/components/loading';
 import useCampaignList from '@/hooks/queries/useCampaignList';
 import credentialMap from '@/components/credential/form';
 import { pick } from 'lodash';
+import { getTMAShareLink, getTMALink } from '@/utils/conf';
 
 const title = 'Set up an Incentive Campaign';
 const textMap = {
@@ -227,6 +228,12 @@ export default function () {
   };
 
   const setUpFormValues = Form.useWatch([], setUpForm);
+  // const getTMAShareLink = ({ campaignId, projectUrl }) => {
+  //   const link = `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
+  //     JSON.stringify({ projectUrl, campaignId, type: 'campaign' })
+  //   )}`;
+  //   return `https://t.me/share/url?url=${encodeURIComponent(link)}`;
+  // };
   const validateBasicFormFields = () => {
     setUpForm.validateFields({ validateOnly: true }).then(
       () => {
@@ -342,11 +349,19 @@ export default function () {
       </div>
       <SucessModal
         open={!!sucessData}
+        setOpen={setSucessData}
         shareLink={`${getUrl()}/${project?.projectUrl}/${get(
           sucessData,
           'campaign.campaignId'
         )}`}
-        setOpen={setSucessData}
+        TMALink={getTMALink({
+          projectUrl: project?.projectUrl,
+          campaignId: get(sucessData, 'campaign.campaignId'),
+        })}
+        TMAshareLink={getTMAShareLink({
+          projectUrl: project?.projectUrl,
+          campaignId: get(sucessData, 'campaign.campaignId'),
+        })}
         jumpLink={`/campaign/${get(sucessData, 'campaign.campaignId')}/detail`}
       />
       {contextHolder}

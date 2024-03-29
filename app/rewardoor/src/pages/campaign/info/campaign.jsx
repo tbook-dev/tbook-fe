@@ -7,10 +7,11 @@ import dayjs from 'dayjs';
 import Loading from '@/components/loading';
 import useCampaign from '@/hooks/queries/useCampaign';
 import { Display } from '@tbook/credential';
-import { Typography, Popover } from "antd";
-import copyIcon from '@/images/icon/copy.svg'
-import { CheckOutlined } from '@ant-design/icons'
-
+import { Typography, Popover } from 'antd';
+import copyIcon from '@/images/icon/copy.svg';
+import { CheckOutlined } from '@ant-design/icons';
+import ShareLink from './shareLink';
+import { getTMAShareLink, getTMALink } from '@/utils/conf';
 
 const dateFormat = `YYYY-MM-DD HH:mm:ss (UTCZ)`;
 const { Paragraph } = Typography;
@@ -37,14 +38,17 @@ export default function Campaign () {
     <div className='space-y-10 mb-10'>
       <div>
         <h2 className='font-bold text-base mb-4 text-t-1'>Campaign Sharing</h2>
-        <Paragraph
-          style={{ marginBottom: 0, color: '#999', fontWeight: 500 }}
-          copyable={{
-            text: link,
-          }}
-        >
-          {link}
-        </Paragraph>
+        <ShareLink
+          shareLink={`${getUrl()}/${project?.projectUrl}/${id}`}
+          TMALink={getTMALink({
+            projectUrl: project?.projectUrl,
+            campaignId: id,
+          })}
+          TMAshareLink={getTMAShareLink({
+            projectUrl: project?.projectUrl,
+            campaignId: id,
+          })}
+        />
       </div>
 
       <div className='space-y-3'>
@@ -68,7 +72,7 @@ export default function Campaign () {
                         options = {};
                       }
                       return (
-                        <div key={idx} className="flex gap-x-2.5 items-center">
+                        <div key={idx} className='flex gap-x-2.5 items-center'>
                           <Display
                             key={idx}
                             pc
@@ -85,9 +89,14 @@ export default function Campaign () {
                                   copyable={{
                                     text: v.credentialId,
                                     icon: [
-                                      <img src={copyIcon} className='w-4 h-4' />,
-                                      <CheckOutlined style={{ color: '#3A82F7' }} />
-                                    ]
+                                      <img
+                                        src={copyIcon}
+                                        className='w-4 h-4'
+                                      />,
+                                      <CheckOutlined
+                                        style={{ color: '#3A82F7' }}
+                                      />,
+                                    ],
                                   }}
                                 >
                                   {v.credentialId}

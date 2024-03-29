@@ -27,6 +27,7 @@ import AirDrop from './airdrop';
 import { useDispatch } from 'react-redux';
 import { Display, actionMap } from '@tbook/credential';
 import DisableVerify from '@/components/withVerify/disableVerify';
+import { useTelegram } from '@/hooks/useTg';
 
 // const errorMsg =
 //   'It seems you have not finished the task.Please click and finish the task, then verify in 30s later.'
@@ -36,6 +37,7 @@ export default function Credential ({ redential, showVerify, signCredential }) {
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
+  const { isTMA } = useTelegram();
 
   const {
     twitterConnected,
@@ -181,7 +183,7 @@ export default function Credential ({ redential, showVerify, signCredential }) {
         `${isUsingSubdomain ? '' : `/${projectUrl}`}/snapshot/${campaignId}/${
           redential.credentialId
         }/${snapshotId}`,
-        pc ? '_blank' : '_self'
+        pc ? (isTMA ? '_self' : '_blank') : '_self'
       );
     },
     13: () => {
@@ -321,7 +323,7 @@ export default function Credential ({ redential, showVerify, signCredential }) {
                 onClick={taskMap[redential.labelType]}
                 // to={pc ? redential.intentDisplayLink : redential.displayLink}
                 to={actionMap[labelType]?.getLink({ ...options, pc })}
-                target='_blank'
+                target={isTMA ? '_self' : '_blank'}
                 rel='nofollow noopener noreferrer'
                 className='cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
               >
@@ -344,7 +346,7 @@ export default function Credential ({ redential, showVerify, signCredential }) {
       )}
       {showSnapshot && (
         <Link
-          target='_blank'
+          target={isTMA ? '_self' : '_blank'}
           className='text-base font-medium'
           to={`${
             isUsingSubdomain ? '' : `/${projectUrl}`

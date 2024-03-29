@@ -5,22 +5,48 @@ import walletGrayIcon from '@/images/icon/wallet-gray.svg';
 import useSocial from '@/hooks/useSocial';
 import { useDispatch } from 'react-redux';
 import { setConnectWalletModal } from '@/store/global';
-import { Link, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData, useLocation } from 'react-router-dom';
 import Address from '@tbook/ui/src/Address';
 import suiSVG from '@/images/zklogin/sui.svg';
+import tonSVG from '@/images/wallet/ton.svg';
+import tonUnlockSVG from '@/images/wallet/ton-unlock.svg';
+import evmUnlockSVG from '@/images/wallet/evm-unlock.svg';
+import evmSVG from '@/images/wallet/evm.svg';
 import passportlg from '@/images/passport/passport.png';
 import shapeLink from '@/images/shape-link.png';
+import { useTelegram } from '@/hooks/useTg';
+import {
+  useTonConnectUI,
+  useTonWallet,
+  TonConnectButton,
+  useTonConnectModal,
+  useTonAddress,
+} from '@tonconnect/ui-react';
+import TipAddress from './TipAddress';
 
 export default function PassportCard ({ onClose }) {
-  const { user, isZK, address, data } = useUserInfo();
+  const {
+    user,
+    currentSocial,
+    tonConnected,
+    address,
+    data,
+    evmConnected,
+    evmAddress,
+    currentAddress,
+    tonAddress,
+    isUsingWallet,
+  } = useUserInfo();
   const { socialList, getZkfnByName } = useSocial();
+  const { open } = useTonConnectModal();
   const dispatch = useDispatch();
   const { isUsingSubdomain, projectUrl } = useLoaderData();
+  const { isTMA } = useTelegram();
   const handleConnectWallet = useCallback(() => {
     onClose();
     dispatch(setConnectWalletModal(true));
   }, []);
-
+  let location = useLocation();
   const links = useMemo(() => {
     return [
       {
@@ -34,10 +60,60 @@ export default function PassportCard ({ onClose }) {
     ];
   }, [projectUrl]);
 
-  const isUsingWallet = useMemo(() => {
-    return Boolean(address);
-  }, [address]);
-
+  const isTonExpore = useMemo(() => {
+    return location.pathname === '/ton-explore';
+  }, [location]);
+  const walletIconList = useMemo(() => {
+    return [
+      {
+        render: tonConnected ? (
+          <TipAddress address={tonAddress} key='evm-t'>
+            <img src={tonUnlockSVG} className='w-5 h-5 object-center' />
+          </TipAddress>
+        ) : (
+          <button
+            onClick={open}
+            className='focus-visible:outline-none'
+            key='evm-b'
+          >
+            <img
+              src={tonUnlockSVG}
+              alt='ton connect'
+              className='w-5 h-5 object-center'
+            />
+          </button>
+        ),
+        name: 'ton',
+        connected: tonConnected,
+      },
+      {
+        render: evmConnected ? (
+          <TipAddress address={evmAddress} key='ton-t'>
+            <img
+              src={evmUnlockSVG}
+              alt='wallet connect'
+              className='w-6 h-6 object-contain object-center focus-visible:outline-none'
+            />
+          </TipAddress>
+        ) : (
+          <button
+            key='ton-b'
+            onClick={handleConnectWallet}
+            className='focus-visible:outline-none'
+          >
+            <img
+              src={walletGrayIcon}
+              alt='wallet connect'
+              className='w-6 h-6 object-contain object-center'
+            />
+          </button>
+        ),
+        name: 'evm',
+        connected: evmConnected,
+      },
+    ];
+  }, [tonConnected, evmConnected]);
+  console.log({ currentAddress });
   return (
     <div className='flex-auto flex flex-col justify-start pb-16 pt-6 lg:py-0 lg:justify-center text-white'>
       <div
@@ -77,22 +153,48 @@ export default function PassportCard ({ onClose }) {
             className='w-20 h-20 rounded-full object-center'
           />
           <div className='text-center'>
-            {/* 优先展示wallet,然后就是tw */}
+            {/* 优先展示wallet,然后就是social */}
             {isUsingWallet ? (
               <div className='flex items-center gap-x-1.5 font-zen-dot'>
-                {isZK && <img src={suiSVG} className='w-5 h-5 object-center' />}
+                {currentAddress?.type === 'zk' && (
+                  <img
+                    src={suiSVG}
+                    alt='zk'
+                    className='w-5 h-5 object-center'
+                  />
+                )}
+                {currentAddress?.type === 'ton' && (
+                  <img
+                    src={tonSVG}
+                    alt='ton'
+                    className='w-5 h-5 object-center'
+                  />
+                )}
+                {currentAddress?.type === 'evm' && (
+                  <img
+                    src={evmSVG}
+                    alt='evm'
+                    className='w-5 h-5 object-center'
+                  />
+                )}
                 <Address
                   address={address}
                   className='font-zen-dot text-xl'
-                  style={{ textShadow: '0px 0px 2px #CF0063' }}
+                  style={{
+                    textShadow: '0px 0px 2px #CF0063',
+                    color: currentAddress?.type === 'ton' ? '#1AC9FF' : '',
+                  }}
                 />
               </div>
             ) : (
-              data?.userTwitter?.connected && (
+              currentSocial && (
                 <div className='flex items-center gap-x-0.5 text-[#717374] text-base'>
-                  {`@${data?.userTwitter?.twitterUserName}`}
+                  {`@${currentSocial.name}`}
                   <img
-                    src={socialList.find(v => v.name === 'twitter')?.activePic}
+                    src={
+                      socialList.find(v => v.name === currentSocial.type)
+                        ?.activePic
+                    }
                     className='w-5 h-5 object-center'
                   />
                 </div>
@@ -102,63 +204,58 @@ export default function PassportCard ({ onClose }) {
         </div>
 
         <div className='relative flex items-center justify-center gap-x-3 pb-5'>
-          {!isUsingWallet && (
-            <button
-              onClick={handleConnectWallet}
-              className='focus-visible:outline-none'
-            >
-              <img
-                src={walletGrayIcon}
-                alt='wallet connect'
-                className='w-6 h-6 object-contain object-center'
-              />
-            </button>
-          )}
-          {
-            //socialList
-            // .concat(getZkfnByName("google"))
-            socialList
-              .filter(v => {
-                if (v.name === 'twitter') {
-                  return data?.userTwitter?.connected && !user?.wallet
-                    ? false
-                    : true;
-                } else {
-                  return true;
-                }
-              })
-              .map(v => {
-                return v.connected ? (
-                  <Tooltip key={v.name} title={`${v.userName}`}>
-                    <img
-                      src={v.connected ? v.activePic : v.picUrl}
-                      className='w-6 h-6 object-contain object-center'
-                    />
-                  </Tooltip>
-                ) : (
-                  <button
-                    className='focus-visible:outline-none'
-                    key={v.name}
-                    onClick={() => v.loginFn(false)}
-                  >
-                    <img
-                      src={v.connected ? v.activePic : v.picUrl}
-                      className='w-6 h-6 object-contain object-center'
-                    />
-                  </button>
-                );
-              })
-          }
+          {walletIconList
+            .filter(v =>
+              isUsingWallet ? currentAddress.type !== v.name : false
+            )
+            .map(v => {
+              return v.render;
+            })}
+
+          {socialList
+            .filter(v => (isUsingWallet ? true : currentSocial.type !== v.name))
+            .map(v => {
+              return v.connected ? (
+                <Tooltip key={v.name} title={`${v.userName}`}>
+                  <img
+                    src={v.connected ? v.activePic : v.picUrl}
+                    className='w-6 h-6 object-contain object-center'
+                  />
+                </Tooltip>
+              ) : (
+                <button
+                  className='focus-visible:outline-none'
+                  key={v.name}
+                  onClick={() => v.loginFn(false)}
+                >
+                  <img
+                    src={v.connected ? v.activePic : v.picUrl}
+                    className='w-6 h-6 object-contain object-center'
+                  />
+                </button>
+              );
+            })}
         </div>
         <div className='relative flex flex-col px-6 py-4 gap-y-1 text-sm font-medium'>
           {links.map(v => {
-            return (
+            return isTonExpore ? (
+              <span
+                key={v.name}
+                to={v.path}
+                style={{ backgroundImage: `url(${shapeLink})` }}
+                className='text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm'
+                target={isTMA ? '_self' : '_blank'}
+                onClick={onClose}
+              >
+                {v.name}
+              </span>
+            ) : (
               <Link
                 key={v.name}
                 to={v.path}
                 style={{ backgroundImage: `url(${shapeLink})` }}
                 className='text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm'
-                target='_blank'
+                target={isTMA ? '_self' : '_blank'}
                 onClick={onClose}
               >
                 {v.name}

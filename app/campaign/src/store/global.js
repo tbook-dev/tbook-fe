@@ -1,17 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   headerTransparent: true,
-  theme: "light",
+  theme: 'light',
   showConnectWalletModal: false,
   showLoginModal: false,
   showSnapshotCastModal: false,
   showSocicalModal: false,
   showSocialRedirectModal: false,
   socialRedirectModalData: {
-    type: "telegram",
-    status: "loading",
-    desc: "",
+    type: 'telegram',
+    status: 'loading',
+    desc: '',
   },
   // socialRedirectModalData: {
   //   type: "twitter",
@@ -22,15 +22,16 @@ const initialState = {
   showPassportGeneratingModal: false,
   showMergeAccountModal: false,
   mergeAccountData: {
-    twitterName: "",
-    twitterId: "",
-    address: "",
+    twitterName: '',
+    twitterId: '',
+    address: '',
     redirect: false,
   },
+  showWalletConnectModal: false,
 };
 
 export const globalSlice = createSlice({
-  name: "global",
+  name: 'global',
   initialState,
   reducers: {
     updateHeaderTransparent: (state, action) => {
@@ -71,11 +72,14 @@ export const globalSlice = createSlice({
     },
     resetMergeAccountData: (state) => {
       state.mergeAccountData = {
-        twitterName: "",
-        twitterId: "",
-        address: "",
+        twitterName: '',
+        twitterId: '',
+        address: '',
         redirect: false,
       };
+    },
+    setShowWalletConnectModal: (state, action) => {
+      state.showWalletConnectModal = action.payload;
     },
   },
 });
@@ -94,6 +98,7 @@ export const {
   setShowMergeAccountModal,
   setMergeAccountData,
   resetMergeAccountData,
+  setShowWalletConnectModal,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

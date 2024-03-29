@@ -1,31 +1,32 @@
-import { Modal, Typography, Spin, message, App } from 'antd'
-import { useSelector } from 'react-redux'
-import { useResponsive } from 'ahooks'
-import clsx from 'clsx'
-import { conf } from '@tbook/utils'
-import copyIcon from '@/images/icon/copy.svg'
-import disconnectIcon from '@/images/icon/disconnect.svg'
-import { useState, useEffect, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+import { Modal, Typography, Spin, message, App } from 'antd';
+import { useSelector } from 'react-redux';
+import { useResponsive } from 'ahooks';
+import clsx from 'clsx';
+import { conf } from '@tbook/utils';
+import copyIcon from '@/images/icon/copy.svg';
+import disconnectIcon from '@/images/icon/disconnect.svg';
+import { useState, useEffect, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   setConnectWalletModal,
   setLoginModal,
   setShowMergeAccountModal,
-  setMergeAccountData
-} from '@/store/global'
-import { useWeb3Modal } from '@web3modal/wagmi/react'
-import { useAccount, useSignMessage } from 'wagmi'
-import { getNonce } from '@/utils/web3'
+  setMergeAccountData,
+} from '@/store/global';
+import { useWeb3Modal } from '@web3modal/wagmi/react';
+import { useAccount, useSignMessage } from 'wagmi';
+import { getNonce } from '@/utils/web3';
 // import { useQueryClient } from 'react-query'
-import { authenticate, bindEvm } from '@/api/incentive'
-import { disconnect } from '@wagmi/core'
-import { broadcast } from '@/utils/channel'
-import useUserInfo from '@/hooks/useUserInfoQuery'
-import { CheckOutlined } from '@ant-design/icons'
-import { delay } from '@/utils/common'
+import { authenticate, bindEvm } from '@/api/incentive';
+import { disconnect } from '@wagmi/core';
+import { broadcast } from '@/utils/channel';
+import useUserInfo from '@/hooks/useUserInfoQuery';
+import { CheckOutlined } from '@ant-design/icons';
+import { delay } from '@/utils/common';
+import { changeAccountSignIn, logout, preGetNonce, isIOS } from '@/utils/web3';
 
-const { shortAddress } = conf
-const { Paragraph } = Typography
+const { shortAddress } = conf;
+const { Paragraph } = Typography;
 
 const pageConf = {
   title: 'Connect Wallet',
@@ -33,43 +34,43 @@ const pageConf = {
     name: 'STEP 1',
     title: 'Connect your wallet',
     desc: 'Connect wallet with TBOOK to see your on-chain identifier.',
-    button: 'Connect'
+    button: 'Connect',
   },
   step2: {
     name: 'STEP 2',
     title: 'Sign in',
     desc: 'Verify your wallet to validate your ownership of the address.',
-    button: 'Sign in'
-  }
-}
+    button: 'Sign in',
+  },
+};
 
 const ConnectWalletModal = () => {
   const showConnectWalletModal = useSelector(
     s => s.global.showConnectWalletModal
-  )
+  );
   const [messageApi, contextHolder] = message.useMessage();
-  const { data: userData, twitterConnected, refetch } = useUserInfo()
+  const { data: userData, twitterConnected, refetch } = useUserInfo();
   // const queryClient = useQueryClient()
-  const dispath = useDispatch()
-  const { isConnected, address } = useAccount()
-  const { pc } = useResponsive()
-  const { open } = useWeb3Modal()
-  const [nonce, setNonce] = useState('')
-  const { signMessageAsync } = useSignMessage()
-  const [loading, setLoading] = useState(false)
+  const dispath = useDispatch();
+  // const { isConnected, address } = useAccount()
+  const { pc } = useResponsive();
+  const { open } = useWeb3Modal();
+  const [nonce, setNonce] = useState('');
+  const { signMessageAsync } = useSignMessage();
+  const [loading, setLoading] = useState(false);
 
   const openMergeAccountModal = useCallback(() => {
-    dispath(setShowMergeAccountModal(true))
-  }, [])
-  
+    dispath(setShowMergeAccountModal(true));
+  }, []);
+
   const signIn = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       // const nonce = await getNonce(address)
-      const sign = await signMessageAsync({ message: nonce })
+      const sign = await signMessageAsync({ message: nonce });
       if (twitterConnected) {
-        const r = await bindEvm(address, sign)
-        const data = await r.json()
+        const r = await bindEvm(address, sign);
+        const data = await r.json();
         if (data.code === 400) {
           // 400 merge
           // setShowMergeAccountModal()
@@ -78,50 +79,82 @@ const ConnectWalletModal = () => {
               address: shortAddress(data.address),
               twitterName: data.twitterName,
               twitterId: userData?.userTwitter?.twitterId,
-              redirect: false
+              redirect: false,
             })
-          )
-          openMergeAccountModal()
+          );
+          openMergeAccountModal();
         } else {
           // 4004要解绑
           if (data.code != 200) {
-            messageApi.error(data.message)
-            setLoading(false)
-            handleCloseModal()
-            return
+            messageApi.error(data.message);
+            setLoading(false);
+            handleCloseModal();
+            return;
           } else {
-            await delay(100)
-            await refetch()
+            await delay(100);
+            await refetch();
           }
         }
       } else {
-        await authenticate(address, sign)
-        await delay(100)
-        await refetch()
+        await authenticate(address, sign);
+        await delay(100);
+        await refetch();
       }
 
       // cast the userInfo event
-      broadcast('userInfo')
-      handleCloseModal()
+      broadcast('userInfo');
+      handleCloseModal();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    setLoading(false)
-  }
+    setLoading(false);
+  };
+  const [currentAddress, setCurrentAddress] = useState('');
+  const { isConnected, address } = useAccount({
+    onConnect ({ address, connector, isReconnected }) {
+      console.log('Connected', { address, connector, isReconnected });
+      if (currentAddress == address) return;
+      if (currentAddress) {
+        // account change
+        changeAccountSignIn(address, walletClient).then(r => {
+          location.href = location;
+        });
+      } else {
+        // new account connect
+        if (isIOS) {
+          preGetNonce(address);
+        } else if (!/Mobi/i.test(window.navigator.userAgent)) {
+          // const signer = await getWalletClient()
+          // signLoginMetaMask(acc.address, signer)
+        }
+      }
+    },
+    onDisconnect () {
+      if (userLogined && user.evm.binded) {
+        logout().then(r => {
+          location.href = location;
+        });
+      }
+    },
+  });
+
+  useEffect(() => {
+    setCurrentAddress(address);
+  }, [address, setCurrentAddress]);
 
   useEffect(() => {
     if (isConnected) {
       getNonce(address).then(r => {
-        setNonce(() => r)
-      })
+        setNonce(() => r);
+      });
     }
-  }, [isConnected, address])
+  }, [isConnected, address]);
   // console.log(nonce)
 
   const handleCloseModal = useCallback(() => {
-    dispath(setConnectWalletModal(false))
-    dispath(setLoginModal(false))
-  }, [])
+    dispath(setConnectWalletModal(false));
+    dispath(setLoginModal(false));
+  }, []);
 
   return (
     <Modal
@@ -166,8 +199,8 @@ const ConnectWalletModal = () => {
                           alt='copy icon'
                           className='w-5 h-5 object-cover'
                         />,
-                        <CheckOutlined className='text-white' />
-                      ]
+                        <CheckOutlined className='text-white' />,
+                      ],
                     }}
                   >
                     <span className='font-medium text-sm mr-1'>
@@ -227,7 +260,7 @@ const ConnectWalletModal = () => {
       </div>
       {contextHolder}
     </Modal>
-  )
-}
+  );
+};
 
-export default ConnectWalletModal
+export default ConnectWalletModal;

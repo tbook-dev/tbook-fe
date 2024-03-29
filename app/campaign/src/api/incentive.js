@@ -235,6 +235,19 @@ export const mergeTwitterAndAddressAccount = async function (data) {
   return await request.PostFormV1(`${host}/twitter/merge`, data);
 };
 
+export const getTopProjects = async function () {
+  return await request.Get(`${host}/project/home`);
+};
 export const disConnectAccount = async function (data) {
   return await request.PostFormV1(`${host}/social/unbind`, data);
 };
+export const tgTMAAuth = async function(data){
+  return await request.Post(`${host}/tg/tma/auth`, data)
+}
+export const getTonPayload = async function(){
+  return await request(`${host}/ton-proof/generate-payload`)
+}
+
+export const verifyTonProof = async function(data){
+  return await request.Post(`${host}/ton-proof/verify`, data)
+}
