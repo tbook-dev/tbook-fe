@@ -58,11 +58,11 @@ export default function useUserInfo() {
         address: tonAddress,
         weight: 3,
       },
-      {
-        type: 'zk',
-        address: zkAddress,
-        weight: 2,
-      },
+      // {
+      //   type: 'zk',
+      //   address: zkAddress,
+      //   weight: 2,
+      // },
       {
         type: 'evm',
         address: evmAddress,
@@ -76,11 +76,11 @@ export default function useUserInfo() {
         address: tonAddress,
         weight: 2,
       },
-      {
-        type: 'zk',
-        address: zkAddress,
-        weight: 3,
-      },
+      // {
+      //   type: 'zk',
+      //   address: zkAddress,
+      //   weight: 3,
+      // },
       {
         type: 'evm',
         address: evmAddress,
@@ -106,19 +106,19 @@ export default function useUserInfo() {
       {
         type: 'twitter',
         name: twitterName,
-        weight: 1,
+        weight: isTMA ? 2 : 1,
       },
       {
         type: 'telegram',
         name: tgName,
-        weight: 2,
+        weight: isTMA ? 2 : 1,
       },
     ];
     return socialList
       .filter((v) => Boolean(v.name))
       .sort((a, b) => (a.weight - b.weight > 0 ? 1 : -1))
       .pop();
-  }, [data]);
+  }, [data, isTMA]);
   const sessionKey = `markNewUser-${user?.userId ?? ''}`;
   if (
     data &&

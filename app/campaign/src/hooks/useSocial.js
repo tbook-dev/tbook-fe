@@ -33,7 +33,7 @@ const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const baseUrl = import.meta.env.VITE_API_HOST;
 const googleCallbackUrl = `https://${curHost}/zklogin/callback`;
 
-const socialNameList = ['discord', 'twitter', 'telegram'];
+const socialNameList = ['twitter', 'discord', 'telegram'];
 const zkNameList = ['google', 'facebook', 'talk'];
 // const zkNameList = ["google"];
 
