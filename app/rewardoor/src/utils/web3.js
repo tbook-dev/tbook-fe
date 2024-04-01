@@ -106,3 +106,10 @@ export async function loginSui (wallet) {
     wallet.account.publicKey.toString('hex')
   )
 }
+
+export async function getNonce(address) {
+  const r = await fetch(`${host}/nonce?address=${address}`, {
+    credentials: 'include'
+  })
+  return await r.text()
+}

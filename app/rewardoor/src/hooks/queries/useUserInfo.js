@@ -8,6 +8,9 @@ export default function useUserInfo() {
     {
       // staleTime: 1000 * 60 * 10,
       retry: false,
+      retryOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
     }
   );
   const projects = data?.projects;
