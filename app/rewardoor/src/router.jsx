@@ -129,13 +129,6 @@ const routes = [
         },
       },
       {
-        path: '/old-login',
-        async lazy () {
-          const { default: Component } = await import('@/pages/home');
-          return { Component };
-        },
-      },
-      {
         path: '/nft',
         async lazy () {
           const { default: Component } = await import('@/pages/nft/deploy');

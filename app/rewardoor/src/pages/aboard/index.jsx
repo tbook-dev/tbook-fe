@@ -1,17 +1,17 @@
 import logoSvg from '@/images/icon/logo.svg';
-import bannerUrl from '@/images/aboard-banner.png';
-import bannerBg from '@/images/aboard-bg.png';
 import metaMask from '@/images/icon/metamask.svg';
 import walletconnect from '@/images/icon/walletconnect.svg';
-import useSignIn from '@/hooks/useSignIn';
 import Button from '@/components/button';
 import { useNavigate } from 'react-router-dom';
 import { authenticate } from '@/api/incentive';
 import Slide from './slide';
 import { getNonce } from '@/utils/web3';
-import { useAccount, useSignMessage } from 'wagmi';
+import { useAccount, useConnect, useSignMessage } from 'wagmi';
 import useUserInfo from '@/hooks/queries/useUserInfo';
 import { useState, useCallback } from 'react';
+import { mainnet } from 'wagmi/chains';
+import { useWeb3Modal } from '@web3modal/wagmi/react';
+import { disconnect, getAccount, signMessage } from '@wagmi/core';
 
 const h1 = 'Get Started on TBOOK';
 const h1Text = [
@@ -19,7 +19,7 @@ const h1Text = [
   'Connect your wallet and start setting up Campaigns.',
 ];
 
-const evmWalletType = {
+const connectWalletType = {
   metaMask: 1,
   walletconnect: 2,
 };
@@ -27,43 +27,51 @@ const defaultWalletStatus = {
   type: 0,
   isLoading: false,
 };
+window.disconnect = disconnect;
 export default function Aboard() {
-  const { isConnected, address } = useAccount();
+  const { isDisconnected, address } = useAccount();
   const navigate = useNavigate();
-  const { handleSignIn } = useSignIn();
+  const { connectAsync, connectors } = useConnect();
   const { signMessageAsync } = useSignMessage();
   const { refetch, projects } = useUserInfo();
   const [loading, setLoading] = useState({
     ...defaultWalletStatus,
   });
+  const { open } = useWeb3Modal();
   const enableMM = useCallback(() => {
-    setLoading({ type: evmWalletType.metaMask, isLoading: true });
+    setLoading({ type: connectWalletType.metaMask, isLoading: true });
   }, []);
   const enableWC = useCallback(() => {
-    setLoading({ type: evmWalletType.walletconnect, isLoading: true });
+    setLoading({ type: connectWalletType.walletconnect, isLoading: true });
   }, []);
   const resetWallet = useCallback(() => {
     setLoading({ ...defaultWalletStatus });
   });
 
   const clickSignIn = async (useWc) => {
-    if (!isConnected) {
-      useWc ? enableWC() : enableMM();
-      try {
-        await handleSignIn(useWc);
-      } catch (error) {
-        console.log('conect error', error);
-        resetWallet();
+    // connect step1
+    const loadfn = useWc ? enableWC : enableMM;
+    loadfn();
+    if (isDisconnected) {
+      if (useWc) {
+        open('ConnectWallet');
+      } else if (window.ethereum) {
+        await connectAsync({
+          connector: connectors.find((c) => c.id == 'injected'),
+          chainId: mainnet.id,
+        });
+      } else {
+        open('ConnectWallet');
       }
     }
-    if (!address) return;
-    useWc ? enableWC() : enableMM();
+    // sign step2
+    const { address } = getAccount();
     const nonce = await getNonce(address);
     let sign = '';
     try {
-      sign = await signMessageAsync({ message: nonce });
+      sign = await signMessage({ message: nonce });
     } catch (error) {
-      console.log('sign error', error);
+      console.log('sign error--->', error);
       resetWallet();
       return;
     }
@@ -99,7 +107,7 @@ export default function Aboard() {
               className="w-full text-base font-bold text-white"
               onClick={() => clickSignIn(false)}
               loading={
-                loading.type === evmWalletType.metaMask && loading.isLoading
+                loading.type === connectWalletType.metaMask && loading.isLoading
               }
             >
               <img src={metaMask} className="mr-3 w-5 h-5 object-contain" />
@@ -109,7 +117,7 @@ export default function Aboard() {
               className="w-full text-base font-bold text-white"
               onClick={() => clickSignIn(true)}
               loading={
-                loading.type === evmWalletType.walletconnect &&
+                loading.type === connectWalletType.walletconnect &&
                 loading.isLoading
               }
             >

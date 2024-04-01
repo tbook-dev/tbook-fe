@@ -14,11 +14,12 @@ export default function LayoutAdmin () {
   const [firstLoad, setFirstLoad] = useState(false);
   useEffect(() => {
     if (error && error.code === 401 && location.pathname !== aboardPath) {
-      navigate(
-        `${aboardPath}?redirect=${encodeURIComponent(
-          location.pathname + location.search
-        )}`
-      );
+      // navigate(
+      //   `${aboardPath}?redirect=${encodeURIComponent(
+      //     location.pathname + location.search
+      //   )}`
+      // );
+      navigate(aboardPath)
     }
   }, [error]);
 

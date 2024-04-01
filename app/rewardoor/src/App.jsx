@@ -29,10 +29,10 @@ watchAccount(async acc => {
       location.href = location
     })
   } else {
-    const signer = await getWalletClient()
-    changeAccountSignIn(acc.address, signer).then(r => {
-      location.href = location
-    })
+    // const signer = await getWalletClient()
+    // changeAccountSignIn(acc.address, signer).then(r => {
+    //   location.href = location
+    // })
   }
 })
 
