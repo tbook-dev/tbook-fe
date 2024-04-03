@@ -23,6 +23,13 @@ import { delay } from '@/utils/common';
 
 const { shortAddress } = conf;
 
+const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
+const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
+
+const getCurrentDirectLink = () =>{
+  const start_param = window.Telegram?.WebApp?.initDataUnsafe?.start_param
+  return start_param ?  `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${start_param}`: null
+}
 export default function useTonLogin() {
   const firstProofLoading = useRef(true);
   // const [data, setData] = useState({});
@@ -44,7 +51,9 @@ export default function useTonLogin() {
     }
 
     const payload = await getTonPayload();
-
+    if(getCurrentDirectLink()){
+      tonConnectUI.uiOptions={twaReturnUrl: getCurrentDirectLink()}
+    }
     if (payload) {
       tonConnectUI.setConnectRequestParameters({
         state: 'ready',

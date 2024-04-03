@@ -19,7 +19,11 @@ export default function Avatar () {
   const { isTMA } = useTelegram();
   const handleLogout = useCallback(async () => {
     if (tonConnectUI.connected) {
-      await tonConnectUI.disconnect();
+      try {
+        await tonConnectUI.disconnect();
+      } catch (e) {
+        console.log(e);
+      }
     }
     await logout();
     if (isConnected) {
