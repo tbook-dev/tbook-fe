@@ -113,7 +113,7 @@ export default function PassportCard ({ onClose }) {
       },
     ];
   }, [tonConnected, evmConnected]);
-  console.log({ currentAddress });
+  // console.log({ currentAddress, isUsingWallet });
   return (
     <div className='flex-auto flex flex-col justify-start pb-16 pt-6 lg:py-0 lg:justify-center text-white'>
       <div
@@ -206,7 +206,7 @@ export default function PassportCard ({ onClose }) {
         <div className='relative flex items-center justify-center gap-x-3 pb-5'>
           {walletIconList
             .filter(v =>
-              isUsingWallet ? currentAddress.type !== v.name : false
+              isUsingWallet ? currentAddress.type !== v.name : true
             )
             .map(v => {
               return v.render;
