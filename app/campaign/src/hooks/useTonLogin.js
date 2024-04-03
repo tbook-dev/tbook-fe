@@ -28,7 +28,8 @@ const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
 
 const getCurrentDirectLink = () =>{
   const start_param = window.Telegram?.WebApp?.initDataUnsafe?.start_param
-  return start_param ?  `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${start_param}`: null
+  const tmaHome = `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}`
+  return start_param ?  `${tmaHome}?startapp=${start_param}`: tmaHome
 }
 export default function useTonLogin() {
   const firstProofLoading = useRef(true);
@@ -51,7 +52,7 @@ export default function useTonLogin() {
     }
 
     const payload = await getTonPayload();
-    if(getCurrentDirectLink()){
+    if(window.Telegram?.WebApp?.initData){
       tonConnectUI.uiOptions={twaReturnUrl: getCurrentDirectLink()}
     }
     if (payload) {
