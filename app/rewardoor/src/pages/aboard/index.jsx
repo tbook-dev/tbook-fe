@@ -12,12 +12,8 @@ import { useState, useCallback } from 'react';
 import { mainnet } from 'wagmi/chains';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { disconnect, getAccount, signMessage } from '@wagmi/core';
-
-const h1 = 'Get Started on TBOOK';
-const h1Text = [
-  'Build a collaborative community with TBOOK from now.',
-  'Connect your wallet and start setting up Campaigns.',
-];
+import moduleConf from './moduleConf';
+import clsx from 'clsx';
 
 const connectWalletType = {
   metaMask: 1,
@@ -28,7 +24,12 @@ const defaultWalletStatus = {
   isLoading: false,
 };
 window.disconnect = disconnect;
+const networkType = {
+  evm: 1,
+  ton: 2,
+};
 export default function Aboard() {
+  const [selectNetworkType, setSelectNetworkType] = useState(networkType.evm);
   const { isDisconnected, address } = useAccount();
   const navigate = useNavigate();
   const { connectAsync, connectors } = useConnect();
@@ -92,41 +93,98 @@ export default function Aboard() {
 
       <div className="w-1/2  flex items-center justify-center">
         <div className="w-[560px]">
-          <img src={logoSvg} className="w-8 h-8 mb-8" alt="logo" />
-          <h1 className="text-5xl font-extrabold mb-4">{h1}</h1>
-          {h1Text.map((v, idx) => {
-            return (
-              <p className="text-base font-medium" key={idx}>
-                {v}
-              </p>
-            );
-          })}
+          <div className="flex items-center flex-col gap-y-4 mb-8">
+            <img
+              src={moduleConf.page.logo}
+              className="w-10 h-10 mb-8"
+              alt="logo"
+            />
+            <h1 className="text-2xl font-medium self-start">
+              {moduleConf.page.title}
+            </h1>
+          </div>
 
-          <div className="mt-10 space-y-6">
-            <Button
-              className="w-full text-base font-bold text-white"
-              onClick={() => clickSignIn(false)}
-              loading={
-                loading.type === connectWalletType.metaMask && loading.isLoading
-              }
-            >
-              <img src={metaMask} className="mr-3 w-5 h-5 object-contain" />
-              MetaMask
-            </Button>
-            <Button
-              className="w-full text-base font-bold text-white"
-              onClick={() => clickSignIn(true)}
-              loading={
-                loading.type === connectWalletType.walletconnect &&
-                loading.isLoading
-              }
-            >
-              <img
-                src={walletconnect}
-                className="mr-3 w-5 h-5 object-contain"
-              />
-              WalletConnect
-            </Button>
+          <div className="space-y-8">
+            <div className="space-y-3">
+              <h2 className="text-base text-[#A1A1AA]">Network</h2>
+              <div className="flex items-center gap-x-4 text-white text-sm">
+                {[moduleConf.evm.network, moduleConf.ton.network].map((v) => {
+                  return (
+                    <button
+                      key={v.value}
+                      onClick={() => {
+                        setSelectNetworkType(v.value);
+                      }}
+                      className={clsx(
+                        'bg-gradient-to-br from-purple-500 to-pink-500 flex-auto inline-flex rounded-lg hover:opacity-70',
+                        v.value === selectNetworkType && 'p-px'
+                      )}
+                    >
+                      <span className="h-10 w-full rounded-lg bg-[#1E1E1E] inline-flex items-center justify-center gap-x-2 ">
+                        <img
+                          src={v.picUrl}
+                          className="h-4"
+                          alt="network logo"
+                        />
+                        {v.displayName}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <h2 className="text-base text-[#A1A1AA]">Wallet</h2>
+              {selectNetworkType === networkType.evm && (
+                <div className="space-y-4">
+                  {moduleConf.evm.connector.map((v) => {
+                    return (
+                      <Button
+                        key={v.value}
+                        className="w-full text-base font-bold text-white"
+                        onClick={() => {
+                          if (v.value === 1) {
+                            clickSignIn(false);
+                          } else if (v.value === 2) {
+                            clickSignIn(true);
+                          }
+                        }}
+                        loading={loading.type === v.value && loading.isLoading}
+                      >
+                        <img
+                          src={v.picUrl}
+                          className="mr-3 w-5 h-5 object-contain"
+                        />
+                        {v.displayName}
+                      </Button>
+                    );
+                  })}
+                </div>
+              )}
+              {selectNetworkType === networkType.ton && (
+                <div className="space-y-4">
+                  {moduleConf.ton.connector.map((v) => {
+                    return (
+                      <Button
+                        key={v.value}
+                        className="w-full text-base font-bold text-white"
+                        onClick={() => {
+                          console.log('click');
+                        }}
+                        loading={loading.type === v.value && loading.isLoading}
+                      >
+                        <img
+                          src={v.picUrl}
+                          className="mr-3 w-5 h-5 object-contain"
+                        />
+                        {v.displayName}
+                      </Button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
