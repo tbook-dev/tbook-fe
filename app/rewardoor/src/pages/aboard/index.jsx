@@ -14,6 +14,8 @@ import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { disconnect, getAccount, signMessage } from '@wagmi/core';
 import moduleConf from './moduleConf';
 import clsx from 'clsx';
+import useTonLogin from '@/hooks/useTonLogin';
+import { useTonConnectUI, useTonConnectModal } from '@tonconnect/ui-react';
 
 const connectWalletType = {
   metaMask: 1,
@@ -32,6 +34,9 @@ export default function Aboard() {
   const [selectNetworkType, setSelectNetworkType] = useState(networkType.evm);
   const { isDisconnected, address } = useAccount();
   const navigate = useNavigate();
+  const { loading: tonLoading } = useTonLogin();
+  const [tonConnectUI] = useTonConnectUI();
+  const { open: openTon } = useTonConnectModal();
   const { connectAsync, connectors } = useConnect();
   const { signMessageAsync } = useSignMessage();
   const { refetch, projects } = useUserInfo();
@@ -48,7 +53,14 @@ export default function Aboard() {
   const resetWallet = useCallback(() => {
     setLoading({ ...defaultWalletStatus });
   });
-
+  const handleTonOpen = async () => {
+    try {
+      await tonConnectUI.disconnect();
+    } catch (e) {
+      console.log(e);
+    }
+    openTon();
+  };
   const clickSignIn = async (useWc) => {
     // connect step1
     const loadfn = useWc ? enableWC : enableMM;
@@ -169,10 +181,8 @@ export default function Aboard() {
                       <Button
                         key={v.value}
                         className="w-full text-base font-bold text-white"
-                        onClick={() => {
-                          console.log('click');
-                        }}
-                        loading={loading.type === v.value && loading.isLoading}
+                        onClick={handleTonOpen}
+                        // loading={tonLoading}
                       >
                         <img
                           src={v.picUrl}

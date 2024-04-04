@@ -239,15 +239,14 @@ export const updateProjectExt = async function (projectId, values) {
 //     (res) => res.json()
 //   );
 // };
+export const getTonPayload = async function(){
+  return await request(`${host}/ton-proof/generate-payload`)
+}
 
-// export const getTags = async function () {
-//   return fetch(`${host}/projects/tagList`).then((res) => res.json());
-// };
-// export const getTemplateDetail = async function (templateId) {
-//   return fetch(`${host}/projects/template?templateId=${templateId}`).then(
-//     (res) => res.json()
-//   );
-// };
+export const verifyTonProof = async function(data){
+  return await request.Post(`${host}/ton-proof/verify`, data)
+}
+;
 
 export const getTwLoginUrl = async function () {
   const res = await fetch(`${host}/twitter/auth`, {

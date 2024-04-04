@@ -38,7 +38,7 @@ export default {
     connector: [
       {
         name: 'tonConnect',
-        value: 1,
+        value: 3,
         picUrl: ton2Icon,
         displayName: 'TON Connect',
       },
