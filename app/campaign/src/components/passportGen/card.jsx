@@ -42,10 +42,22 @@ export default function PassportCard ({ onClose }) {
   const dispatch = useDispatch();
   const { isUsingSubdomain, projectUrl } = useLoaderData();
   const { isTMA } = useTelegram();
+  const [tonConnectUI] = useTonConnectUI();
+
   const handleConnectWallet = useCallback(() => {
     onClose();
     dispatch(setConnectWalletModal(true));
   }, []);
+  const handleTonClick = async () => {
+    try {
+      await tonConnectUI.disconnect();
+    } catch (e) {
+      console.log(e);
+    }
+    open();
+    // await tonConnectUI.disconnect();
+    // tonConnectUI.modal.open();
+  };
   let location = useLocation();
   const links = useMemo(() => {
     return [
@@ -72,7 +84,7 @@ export default function PassportCard ({ onClose }) {
           </TipAddress>
         ) : (
           <button
-            onClick={open}
+            onClick={handleTonClick}
             className='focus-visible:outline-none'
             key='evm-b'
           >
@@ -112,7 +124,7 @@ export default function PassportCard ({ onClose }) {
         connected: evmConnected,
       },
     ];
-  }, [tonConnected, evmConnected]);
+  }, [tonConnected, evmConnected, tonConnectUI]);
   // console.log({ currentAddress, isUsingWallet });
   return (
     <div className='flex-auto flex flex-col justify-start pb-16 pt-6 lg:py-0 lg:justify-center text-white'>
