@@ -114,29 +114,9 @@ export const getProjectExternalConfig = async function (projectId) {
 export const getPreSignedUrl = async function () {
   return await request(`${host}/signedUploadUrl`);
 };
-// export const getIncentiveListWithGrants = async function (projectId) {
-//   try {
-//     const res = await request(`${host}/projects/${projectId}/planWithGrants`);
-//     return (Array.isArray(res) ? res : []).slice();
-//   } catch (error) {
-//     return [];
-//   }
-// };
-
-// export const getTIPInfo = async function (incentivePlanId) {
-//   return request(`${host}/tip/tipInfo?incentivePlanId=${incentivePlanId}`);
-// };
-
-// export const getTipGrantees = async function (incentivePlanId) {
-//   return request(`${host}/tip/grantees?incentivePlanId=${incentivePlanId}`);
-// };
-
-// export const getProjectUsers = async function (projectId) {
-//   return request(`${host}/projects/${projectId}/users`);
-// };
-// export const addProjectUser = async function (projectId, values) {
-//   return request.PostFormV1(`${host}/projects/${projectId}/userAdd`, values);
-// };
+export const authenticate = async function (address, sign) {
+  return request.PostFormV1(`${host}/authenticate`, { address, sign });
+};
 export const updateProject = async function (values) {
   return await request.Post(`${host}/project/update`, values);
 };
@@ -259,15 +239,14 @@ export const updateProjectExt = async function (projectId, values) {
 //     (res) => res.json()
 //   );
 // };
+export const getTonPayload = async function(){
+  return await request(`${host}/ton-proof/generate-payload`)
+}
 
-// export const getTags = async function () {
-//   return fetch(`${host}/projects/tagList`).then((res) => res.json());
-// };
-// export const getTemplateDetail = async function (templateId) {
-//   return fetch(`${host}/projects/template?templateId=${templateId}`).then(
-//     (res) => res.json()
-//   );
-// };
+export const verifyTonProof = async function(data){
+  return await request.Post(`${host}/ton-proof/verify`, data)
+}
+;
 
 export const getTwLoginUrl = async function () {
   const res = await fetch(`${host}/twitter/auth`, {
@@ -294,7 +273,7 @@ export const deleteAdmin = async function (projectId, wallet, isOwner, sign) {
     projectId,
     wallet,
     isOwner,
-    op: "DEL",
+    op: 'DEL',
     sign,
   });
 };
@@ -303,11 +282,11 @@ export const addAdmin = async function (projectId, wallet, sign) {
   return await request.Post(`${host}/project/addAdmin`, {
     projectId,
     wallet,
-    op: "ADD",
+    op: 'ADD',
     sign,
   });
 };
 
-export const getAdminNonce = async function (data){
+export const getAdminNonce = async function (data) {
   return await request.Post(`${host}/project/admin/nonce`, data);
-}
+};

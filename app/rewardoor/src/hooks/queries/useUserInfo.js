@@ -1,13 +1,17 @@
-import { useQuery } from "react-query";
-import { getUserInfo } from "@/api/incentive";
+import { useQuery } from 'react-query';
+import { getUserInfo } from '@/api/incentive';
+import { useMemo } from 'react';
 
 export default function useUserInfo() {
   const { data, isLoading, isSuccess, error, ...props } = useQuery(
-    "userInfo",
+    'userInfo',
     getUserInfo,
     {
       // staleTime: 1000 * 60 * 10,
       retry: false,
+      retryOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
     }
   );
   const projects = data?.projects;
@@ -18,8 +22,27 @@ export default function useUserInfo() {
   const userTwitter = data?.userTwitter;
   const user = data?.user;
   const userLogined = isSuccess;
-  const address = user?.wallet
-
+  const address = user?.wallet;
+  const evmConnected = !!data?.user?.wallet;
+  const tonConnected = !!data?.userTon?.binded;
+  const evmAddress = data?.user?.wallet;
+  const tonAddress = data?.userTon?.address;
+  const currentAddress = useMemo(() => {
+    return [
+      {
+        type: 'evm',
+        connected: evmConnected,
+        address: evmAddress,
+      },
+      {
+        type: 'ton',
+        connected: tonConnected,
+        address: tonAddress,
+      },
+    ]
+      .filter((v) => v.connected)
+      .pop();
+  }, [data]);
   return {
     data,
     isLoading,
@@ -34,6 +57,11 @@ export default function useUserInfo() {
     userLogined,
     isSuccess,
     address,
+    evmConnected,
+    tonConnected,
+    evmAddress,
+    tonAddress,
+    currentAddress,
     ...props,
   };
 }
