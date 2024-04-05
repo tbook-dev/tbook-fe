@@ -31,7 +31,7 @@ const networkType = {
   ton: 2,
 };
 export default function Aboard() {
-  const [selectNetworkType, setSelectNetworkType] = useState(networkType.evm);
+  const [selectNetworkType, setSelectNetworkType] = useState(networkType.ton);
   const { isDisconnected, address } = useAccount();
   const navigate = useNavigate();
   const { loading: tonLoading } = useTonLogin();
@@ -111,7 +111,7 @@ export default function Aboard() {
               className="w-10 h-10 mb-8"
               alt="logo"
             />
-            <h1 className="text-2xl font-medium self-start">
+            <h1 className="text-2xl font-medium">
               {moduleConf.page.title}
             </h1>
           </div>
@@ -120,7 +120,7 @@ export default function Aboard() {
             <div className="space-y-3">
               <h2 className="text-base text-[#A1A1AA]">Network</h2>
               <div className="flex items-center gap-x-4 text-white text-sm">
-                {[moduleConf.evm.network, moduleConf.ton.network].map((v) => {
+                {[moduleConf.ton.network, moduleConf.evm.network].map((v) => {
                   return (
                     <button
                       key={v.value}
