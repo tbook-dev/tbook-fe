@@ -104,7 +104,10 @@ export default function useUserInfo() {
   }, [currentAddress]);
   const currentSocial = useMemo(() => {
     const twitterName = data?.userTwitter?.twitterName;
-    const tgName = data?.userTg?.username;
+    const tgName = data?.userTg?.connected
+      ? data?.userTg?.username ||
+        `${data?.userTg?.firstName}_${data?.userTg?.lastName}`
+      : '';
     const socialList = [
       {
         type: 'twitter',
