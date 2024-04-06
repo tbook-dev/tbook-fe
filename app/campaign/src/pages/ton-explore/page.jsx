@@ -6,29 +6,29 @@ import 'swiper/css';
 import clsx from 'clsx';
 import ItemComponent from '@/components/campain/CardTon';
 
-export default function TonExplore () {
+export default function TonExplore() {
   const { data, isLoading } = useTopProjects();
   const projects = data?.projects ?? [];
   const campaigns = data?.campaigns ?? [];
   return (
-    <div className='px-5 mt-3 space-y-4'>
+    <div className="px-5 mt-3 space-y-4">
       <section>
-        <h3 className='py-4 font-zen-dot text-base font-medium text-white'>
+        <h3 className="py-4 font-zen-dot text-base font-medium text-white">
           Popular Projects
         </h3>
-        <div className='overflow-x-auto'>
-          <Swiper slidesPerView='auto' spaceBetween={16}>
+        <div className="overflow-x-auto">
+          <Swiper slidesPerView="auto" spaceBetween={16}>
             {isLoading
               ? new Array(2)
                   .fill(undefined)
                   .map((_, i) => (
                     <SwiperSlide
                       style={{ width: 60, height: 60 }}
-                      className='rounded-full animate-pulse bg-[#1f1f1f]'
+                      className="rounded-full animate-pulse bg-[#1f1f1f]"
                       key={i}
                     />
                   ))
-              : projects?.map(v => {
+              : projects?.map((v) => {
                   return (
                     <SwiperSlide
                       key={v.projectId}
@@ -42,8 +42,8 @@ export default function TonExplore () {
                     >
                       <LazyImage
                         src={v.avatarUrl}
-                        alt='project url'
-                        className='size-[60px] rounded-full object-cover object-center'
+                        alt="project url"
+                        className="size-[60px] rounded-full object-cover object-center"
                       />
                     </SwiperSlide>
                   );
@@ -53,13 +53,13 @@ export default function TonExplore () {
       </section>
 
       <section>
-        <h3 className='py-4 font-zen-dot text-base font-medium text-white'>
+        <h3 className="py-4 font-zen-dot text-base font-medium text-white">
           Trending Campaigns
         </h3>
         <div>
           <Swiper slidesPerView={1.1} spaceBetween={10}>
             {isLoading ? (
-              <SwiperSlide className='space-y-4'>
+              <SwiperSlide className="space-y-4">
                 <div
                   className={clsx(
                     'animate-pulse bg-[#1f1f1f]',
@@ -69,16 +69,19 @@ export default function TonExplore () {
                 <Skeleton />
               </SwiperSlide>
             ) : (
-              campaigns.map(campaign => {
+              campaigns.map((campaign) => {
                 return (
                   <SwiperSlide key={campaign.campaignId}>
-                    <div style={{ padding: '4px 4px' }}>
-                      <ItemComponent
-                        {...campaign}
-                        hasNFT={campaign.nft > 0}
-                        hasPoint={campaign.points > 0}
-                      />
-                    </div>
+                    {({ isActive }) => (
+                      <div style={{ padding: '4px 4px' }}>
+                        <ItemComponent
+                          {...campaign}
+                          isActive={isActive}
+                          hasNFT={campaign.nft > 0}
+                          hasPoint={campaign.points > 0}
+                        />
+                      </div>
+                    )}
                   </SwiperSlide>
                 );
               })
