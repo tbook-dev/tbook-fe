@@ -30,7 +30,7 @@ module.exports = {
       },
       boxShadow: {
         s1: ' 0px 0px 6px 0px rgba(0, 0, 0, 0.10)',
-        s2: '0px 0px 8px 0px rgba(0, 0, 0, 0.08)',
+        s2: '0px 0px 2px 0px rgba(177, 125, 255, 0.60)',
         s3: '0px 0px 4px 0px rgba(0, 0, 0, 0.08)',
         s4: '0px 4px 20px 0px rgba(0, 110, 233, 0.02)',
         s5: ' 0px 10px 10px -5px rgba(0, 0, 0, 0.04), 0px 20px 25px -5px rgba(0, 0, 0, 0.10)',
