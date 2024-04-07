@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import clsx from 'clsx';
 import ItemComponent from '@/components/campain/CardTon';
+import { Link } from 'react-router-dom';
 
 export default function TonExplore() {
   const { data, isLoading } = useTopProjects();
@@ -33,18 +34,14 @@ export default function TonExplore() {
                     <SwiperSlide
                       key={v.projectId}
                       style={{ width: 60, height: 60 }}
-                      onClick={() => {
-                        window.open(
-                          `https://${window.self.location.host}/${v.projectUrl}/`,
-                          '_self'
-                        );
-                      }}
                     >
-                      <LazyImage
-                        src={v.avatarUrl}
-                        alt="project url"
-                        className="size-[60px] rounded-full object-cover object-center"
-                      />
+                      <Link to={`/${v.projectUrl}/`}>
+                        <LazyImage
+                          src={v.avatarUrl}
+                          alt="project url"
+                          className="size-[60px] rounded-full object-cover object-center"
+                        />
+                      </Link>
                     </SwiperSlide>
                   );
                 })}
