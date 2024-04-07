@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLayoutEffect, useState } from 'react';
 import PageFallBack from '@/components/pageFallback';
 
-function safeParse (start_param) {
+function safeParse(start_param) {
   try {
     const str = atob(start_param);
     return JSON.parse(str);
@@ -14,7 +14,7 @@ function safeParse (start_param) {
     return {};
   }
 }
-export default function TonExplore () {
+export default function TonExplore() {
   const { isTMA, webApp } = useTelegram();
   const navigate = useNavigate();
   const [isSubpage, setSubpage] = useState(false);
@@ -25,6 +25,7 @@ export default function TonExplore () {
       );
       if (type === 'campaign') {
         setSubpage(true);
+        window.sessionRoutesCount -= 1;
         navigate(`/${projectUrl}/${campaignId}`);
       }
     }
