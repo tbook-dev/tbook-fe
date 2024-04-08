@@ -1,3 +1,3 @@
 export default function TonWiseLeaderboard() {
-  return <div>x</div>;
+  return <div className="text-white">x</div>;
 }

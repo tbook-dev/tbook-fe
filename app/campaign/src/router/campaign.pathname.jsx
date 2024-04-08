@@ -18,8 +18,8 @@ const Campaign = lazy(() => import('@/pages/my/campaign'));
 const NFT = lazy(() => import('@/pages/my/nft'));
 const Snapshot = lazy(() => import('@/pages/snapshot'));
 const TonExplore = lazy(() => import('@/pages/ton-explore'));
-const WiseScore = lazy(() => import('@/pages/wise-score/wise-score'));
-const WiseLeaderboard = lazy(() => import('@/pages/wise-score/wise-leaderboard'));
+const WiseScore = lazy(() => import('@/pages/ton-wise/wise-score'));
+const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/wise-leaderboard'));
 
 
 const Attestation = lazy(() => import('@/pages/attestation'));
