@@ -14,6 +14,7 @@ import evmUnlockSVG from '@/images/wallet/evm-unlock.svg';
 import evmSVG from '@/images/wallet/evm.svg';
 import passportlg from '@/images/passport/passport.png';
 import shapeLink from '@/images/shape-link.png';
+import wiseScoreSVG from '@/images/icon/wise-score.svg';
 import { useTelegram } from '@/hooks/useTg';
 import {
   useTonConnectUI,
@@ -23,8 +24,9 @@ import {
   useTonAddress,
 } from '@tonconnect/ui-react';
 import TipAddress from './TipAddress';
+import clsx from 'clsx';
 
-export default function PassportCard ({ onClose }) {
+export default function PassportCard({ onClose }) {
   const {
     user,
     currentSocial,
@@ -79,19 +81,19 @@ export default function PassportCard ({ onClose }) {
     return [
       {
         render: tonConnected ? (
-          <TipAddress address={tonAddress} key='evm-t'>
-            <img src={tonUnlockSVG} className='w-5 h-5 object-center' />
+          <TipAddress address={tonAddress} key="evm-t">
+            <img src={tonUnlockSVG} className="w-5 h-5 object-center" />
           </TipAddress>
         ) : (
           <button
             onClick={handleTonClick}
-            className='focus-visible:outline-none'
-            key='evm-b'
+            className="focus-visible:outline-none"
+            key="evm-b"
           >
             <img
               src={tonUnlockSVG}
-              alt='ton connect'
-              className='w-5 h-5 object-center'
+              alt="ton connect"
+              className="w-5 h-5 object-center"
             />
           </button>
         ),
@@ -100,23 +102,23 @@ export default function PassportCard ({ onClose }) {
       },
       {
         render: evmConnected ? (
-          <TipAddress address={evmAddress} key='ton-t'>
+          <TipAddress address={evmAddress} key="ton-t">
             <img
               src={evmUnlockSVG}
-              alt='wallet connect'
-              className='w-6 h-6 object-contain object-center focus-visible:outline-none'
+              alt="wallet connect"
+              className="w-6 h-6 object-contain object-center focus-visible:outline-none"
             />
           </TipAddress>
         ) : (
           <button
-            key='ton-b'
+            key="ton-b"
             onClick={handleConnectWallet}
-            className='focus-visible:outline-none'
+            className="focus-visible:outline-none"
           >
             <img
               src={walletGrayIcon}
-              alt='wallet connect'
-              className='w-6 h-6 object-contain object-center'
+              alt="wallet connect"
+              className="w-6 h-6 object-contain object-center"
             />
           </button>
         ),
@@ -125,14 +127,120 @@ export default function PassportCard ({ onClose }) {
       },
     ];
   }, [tonConnected, evmConnected, tonConnectUI]);
-  // console.log({ currentAddress, isUsingWallet });
+  // console.log({ currentAddress, isTMA });
   return (
-    <div className='flex-auto flex flex-col justify-start pb-16 pt-6 lg:py-0 lg:justify-center text-white'>
+    <div className="flex-auto flex flex-col justify-start pb-16 pt-6 lg:py-0 lg:justify-center text-white">
       <div
-        className='relative mx-auto  h-[452px] w-[317px] flex flex-col justify-center items-center bg-cover bg-center'
+        className="relative mx-auto h-[452px] w-[317px] flex flex-col justify-center items-center bg-cover bg-center"
         style={{ backgroundImage: `url(${passportlg})` }}
       >
-        <div className='hidden lg:block absolute inset-x-0 top-10'>
+        <div
+          className={clsx(
+            'mb-3',
+            isTMA ? '' : 'invisible'
+          )}
+        >
+          <Link
+            to={isUsingSubdomain ? `/wise-score` : `/${projectUrl}/wise-score`}
+            style={{ backgroundImage: `url("${wiseScoreSVG}")` }}
+            onClick={onClose}
+            className="focus-visible:outline-none w-[135px] h-6 block mx-auto bg-center bg-contain"
+          />
+        </div>
+        <div className="relative flex flex-col items-center gap-y-5  text-lg font-medium mb-3">
+          <img
+            src={user?.avatar}
+            className="w-20 h-20 rounded-full object-center"
+          />
+          <div className="space-y-2">
+            <div className="text-center">
+              {/* 优先展示wallet,然后就是social */}
+              {isUsingWallet ? (
+                <div className="flex items-center gap-x-1.5 font-zen-dot">
+                  {currentAddress?.type === 'zk' && (
+                    <img
+                      src={suiSVG}
+                      alt="zk"
+                      className="w-5 h-5 object-center"
+                    />
+                  )}
+                  {currentAddress?.type === 'ton' && (
+                    <img
+                      src={tonSVG}
+                      alt="ton"
+                      className="w-5 h-5 object-center"
+                    />
+                  )}
+                  {currentAddress?.type === 'evm' && (
+                    <img
+                      src={evmSVG}
+                      alt="evm"
+                      className="w-5 h-5 object-center"
+                    />
+                  )}
+                  <Address
+                    address={address}
+                    className="font-zen-dot text-xl"
+                    style={{
+                      textShadow: '0px 0px 2px #CF0063',
+                      color: currentAddress?.type === 'ton' ? '#1AC9FF' : '',
+                    }}
+                  />
+                </div>
+              ) : (
+                currentSocial && (
+                  <div className="flex items-center gap-x-0.5 text-[#717374] text-base">
+                    {`@${currentSocial.name}`}
+                    <img
+                      src={
+                        socialList.find((v) => v.name === currentSocial.type)
+                          ?.activePic
+                      }
+                      className="w-5 h-5 object-center"
+                    />
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-2 mb-5">
+          <div className="relative flex items-center justify-center gap-x-3">
+            {walletIconList
+              .filter((v) =>
+                isUsingWallet ? currentAddress.type !== v.name : true
+              )
+              .map((v) => {
+                return v.render;
+              })}
+
+            {socialList
+              .filter((v) =>
+                isUsingWallet ? true : currentSocial.type !== v.name
+              )
+              .map((v) => {
+                return v.connected ? (
+                  <Tooltip key={v.name} title={`${v.userName}`}>
+                    <img
+                      src={v.connected ? v.activePic : v.picUrl}
+                      className="w-6 h-6 object-contain object-center"
+                    />
+                  </Tooltip>
+                ) : (
+                  <button
+                    className="focus-visible:outline-none"
+                    key={v.name}
+                    onClick={() => v.loginFn(false)}
+                  >
+                    <img
+                      src={v.connected ? v.activePic : v.picUrl}
+                      className="w-6 h-6 object-contain object-center"
+                    />
+                  </button>
+                );
+              })}
+          </div>
           <Link
             to={
               isUsingSubdomain
@@ -140,122 +248,35 @@ export default function PassportCard ({ onClose }) {
                 : `/${projectUrl}/edit-attestation`
             }
             onClick={onClose}
-            className='text-[#B5859E] focus-visible:outline-none group hover:text-white w-max mx-auto flex items-center gap-x-1 bg-[rgb(244,140,193)]/[0.1] px-3 py-1 rounded-xl text-sm'
+            className="text-[#B5859E] invisible lg:visible font-zen-dot focus-visible:outline-none group hover:text-white w-max mx-auto flex items-center gap-x-1 bg-[rgb(244,140,193)]/[0.1] px-3 py-1 rounded-xl text-xs"
           >
             Edit Identity Attestation
             <svg
-              width='12'
-              height='13'
-              viewBox='0 0 12 13'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d='M2.25 10.25L9.75 2.75M9.75 2.75H4.125M9.75 2.75V8.375'
-                className='stroke-[#B5859E] group-hover:stroke-white'
-                strokeLinecap='round'
-                strokeLinejoin='round'
+                d="M6.75 2.25L10.5 6M10.5 6L6.75 9.75M10.5 6H1.5"
+                className="stroke-[#B5859E] group-hover:stroke-white"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </Link>
         </div>
-        <div className='relative flex flex-col items-center gap-y-5  text-lg font-medium mb-3'>
-          <img
-            src={user?.avatar}
-            className='w-20 h-20 rounded-full object-center'
-          />
-          <div className='text-center'>
-            {/* 优先展示wallet,然后就是social */}
-            {isUsingWallet ? (
-              <div className='flex items-center gap-x-1.5 font-zen-dot'>
-                {currentAddress?.type === 'zk' && (
-                  <img
-                    src={suiSVG}
-                    alt='zk'
-                    className='w-5 h-5 object-center'
-                  />
-                )}
-                {currentAddress?.type === 'ton' && (
-                  <img
-                    src={tonSVG}
-                    alt='ton'
-                    className='w-5 h-5 object-center'
-                  />
-                )}
-                {currentAddress?.type === 'evm' && (
-                  <img
-                    src={evmSVG}
-                    alt='evm'
-                    className='w-5 h-5 object-center'
-                  />
-                )}
-                <Address
-                  address={address}
-                  className='font-zen-dot text-xl'
-                  style={{
-                    textShadow: '0px 0px 2px #CF0063',
-                    color: currentAddress?.type === 'ton' ? '#1AC9FF' : '',
-                  }}
-                />
-              </div>
-            ) : (
-              currentSocial && (
-                <div className='flex items-center gap-x-0.5 text-[#717374] text-base'>
-                  {`@${currentSocial.name}`}
-                  <img
-                    src={
-                      socialList.find(v => v.name === currentSocial.type)
-                        ?.activePic
-                    }
-                    className='w-5 h-5 object-center'
-                  />
-                </div>
-              )
-            )}
-          </div>
-        </div>
 
-        <div className='relative flex items-center justify-center gap-x-3 pb-5'>
-          {walletIconList
-            .filter(v =>
-              isUsingWallet ? currentAddress.type !== v.name : true
-            )
-            .map(v => {
-              return v.render;
-            })}
-
-          {socialList
-            .filter(v => (isUsingWallet ? true : currentSocial.type !== v.name))
-            .map(v => {
-              return v.connected ? (
-                <Tooltip key={v.name} title={`${v.userName}`}>
-                  <img
-                    src={v.connected ? v.activePic : v.picUrl}
-                    className='w-6 h-6 object-contain object-center'
-                  />
-                </Tooltip>
-              ) : (
-                <button
-                  className='focus-visible:outline-none'
-                  key={v.name}
-                  onClick={() => v.loginFn(false)}
-                >
-                  <img
-                    src={v.connected ? v.activePic : v.picUrl}
-                    className='w-6 h-6 object-contain object-center'
-                  />
-                </button>
-              );
-            })}
-        </div>
-        <div className='relative flex flex-col px-6 py-4 gap-y-1 text-sm font-medium'>
-          {links.map(v => {
+        <div className="relative flex flex-col px-6 py-4 gap-y-1 text-sm font-medium">
+          {links.map((v) => {
             return isTonExpore ? (
               <span
                 key={v.name}
                 to={v.path}
                 style={{ backgroundImage: `url(${shapeLink})` }}
-                className='text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm'
+                className="text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm"
                 target={isTMA ? '_self' : '_blank'}
                 onClick={onClose}
               >
@@ -266,7 +287,7 @@ export default function PassportCard ({ onClose }) {
                 key={v.name}
                 to={v.path}
                 style={{ backgroundImage: `url(${shapeLink})` }}
-                className='text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm'
+                className="text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm"
                 target={isTMA ? '_self' : '_blank'}
                 onClick={onClose}
               >
