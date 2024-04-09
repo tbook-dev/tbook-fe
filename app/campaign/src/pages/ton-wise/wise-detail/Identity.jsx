@@ -22,7 +22,7 @@ export default function Identity() {
       socialList.map((v) => ({
         ...v,
         handle: () => {
-          v.loginFn(true);
+          v.loginFn(false);
         },
         type: v.name,
       }))

@@ -229,5 +229,17 @@ export const getWiseScore = async function () {
     identity: 3233933,
     social: 429922,
     engagement: 5333,
+    record: [
+      {
+        type: 1,
+        name: 'TBook Incentive',
+        fans: 5000,
+      },
+      {
+        type: 2,
+        name: 'TBook Core Community',
+        fans: 5000,
+      },
+    ],
   };
 };

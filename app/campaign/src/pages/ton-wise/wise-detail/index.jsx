@@ -5,6 +5,7 @@ import Wealth from './Wealth';
 import Identity from './Identity';
 import Social from './Social';
 import Engagement from './Engagement';
+import useWiseScore from '@/hooks/useWiseScore';
 
 const wiseType = {
   wealth: 1,
@@ -41,7 +42,9 @@ const modlueConf = {
   ],
 };
 
-export default function WiseDetail({ wealth, identity, social, engagement }) {
+export default function WiseDetail() {
+  const { data } = useWiseScore();
+  const { wealth, identity, social, engagement } = data || {};
   const [currentBtn, setCurrentBtn] = useState(wiseType.wealth);
   const wiseScoreMap = {
     [wiseType.wealth]: formatImpact(wealth),
@@ -49,6 +52,7 @@ export default function WiseDetail({ wealth, identity, social, engagement }) {
     [wiseType.social]: formatImpact(social),
     [wiseType.engagement]: formatImpact(engagement),
   };
+
   const CurrentComponent = modlueConf.btnList.find(
     (v) => v.value === currentBtn
   )?.component;
