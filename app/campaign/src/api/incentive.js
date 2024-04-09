@@ -222,26 +222,27 @@ export const verifyTonProof = async function (data) {
   return await request.Post(`${host}/ton-proof/verify`, data);
 };
 
-export const getWiseScore = async function () {
-  return {
-    score: 123292924,
-    wealth: 200000,
-    identity: 3233933,
-    social: 429922,
-    engagement: 5333,
-    record: [
-      {
-        type: 1,
-        name: 'TBook Incentive',
-        fans: 5000,
-      },
-      {
-        type: 2,
-        name: 'TBook Core Community',
-        fans: 5000,
-      },
-    ],
-  };
+export const getWiseScore = async function (uid) {
+  // return {
+  //   score: 123292924,
+  //   wealth: 200000,
+  //   identity: 3233933,
+  //   social: 429922,
+  //   engagement: 5333,
+  //   record: [
+  //     {
+  //       type: 1,
+  //       name: 'TBook Incentive',
+  //       fans: 5000,
+  //     },
+  //     {
+  //       type: 2,
+  //       name: 'TBook Core Community',
+  //       fans: 5000,
+  //     },
+  //   ],
+  // };
+  return await request.Get(`${host}/wiseScore/${uid}`)
 };
 
 export const getTopBoard = async function () {

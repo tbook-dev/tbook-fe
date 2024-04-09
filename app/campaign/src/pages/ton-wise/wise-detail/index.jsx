@@ -44,13 +44,14 @@ const modlueConf = {
 
 export default function WiseDetail() {
   const { data } = useWiseScore();
-  const { wealth, identity, social, engagement } = data || {};
+  const { wealthScore, identityScore, socialScore, engagementScore } =
+    data || {};
   const [currentBtn, setCurrentBtn] = useState(wiseType.wealth);
   const wiseScoreMap = {
-    [wiseType.wealth]: formatImpact(wealth),
-    [wiseType.identity]: formatImpact(identity),
-    [wiseType.social]: formatImpact(social),
-    [wiseType.engagement]: formatImpact(engagement),
+    [wiseType.wealth]: formatImpact(wealthScore),
+    [wiseType.identity]: formatImpact(identityScore),
+    [wiseType.social]: formatImpact(socialScore),
+    [wiseType.engagement]: formatImpact(engagementScore),
   };
 
   const CurrentComponent = modlueConf.btnList.find(
