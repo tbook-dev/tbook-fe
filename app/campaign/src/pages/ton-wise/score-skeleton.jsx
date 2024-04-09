@@ -12,7 +12,7 @@ export default function ScoreSkeleton() {
         loop
         autoplay={true}
         animationData={dataJSON}
-        style={{ height: '293px', width: '251px', margin: '0 auto' }}
+        style={{ height: '393px', width: '251px', margin: '0 auto' }}
       />
     </div>
   );
