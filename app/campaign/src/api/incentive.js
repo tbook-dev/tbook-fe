@@ -245,15 +245,5 @@ export const getWiseScore = async function () {
 };
 
 export const getTopBoard = async function () {
-  return {
-    updateAt: 'October 13, 2031 ',
-    data: [
-      {
-        rank: 1,
-        picUrl: '',
-        address: '',
-        score: 1000,
-      },
-    ],
-  };
+  return await request.Get(`${host}/wiseScore/leaderBoard`);
 };
