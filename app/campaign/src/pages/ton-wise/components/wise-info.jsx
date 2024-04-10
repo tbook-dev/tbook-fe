@@ -1,11 +1,42 @@
 import { Link } from 'react-router-dom';
-
+import ReactECharts from 'echarts-for-react';
+import useWiseScore from '@/hooks/useWiseScore';
 const modlueConf = {
   title: 'WISE score',
   linktext: 'TOP 1,000',
 };
 
 export default function WiseInfo() {
+  const { data } = useWiseScore();
+
+  const option = {
+    radar: {
+      indicator: [
+        { name: 'Engagement' },
+        { name: 'Wealth' },
+        { name: 'Identity' },
+        { name: 'Social' },
+      ],
+      radius: 80,
+      // center: ['50%', '60%']
+    },
+    series: [
+      {
+        name: 'wise score',
+        type: 'radar',
+        data: [
+          {
+            value: [
+              data?.engagementScore,
+              data?.socialScore,
+              data?.identityScore,
+              data?.wealthScore,
+            ],
+          },
+        ],
+      },
+    ],
+  };
   return (
     <div className="space-y-20">
       <div className="flex text-white items-center justify-between">
@@ -38,7 +69,7 @@ export default function WiseInfo() {
         </Link>
       </div>
 
-      <div className="w-[290px] h-[250px] mx-auto bg-green-400">todo</div>
+      <ReactECharts className="w-[290px] h-[250px] mx-auto " option={option} />
     </div>
   );
 }

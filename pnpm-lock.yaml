@@ -31,6 +31,8 @@ importers:
       bignumber.js: ^9.1.2
       clsx: ^1.2.1
       dayjs: ^1.11.7
+      echarts: ^5.4.2
+      echarts-for-react: ^3.0.2
       eslint-plugin-prettier: ^5.0.0
       flatpickr: ^4.6.13
       github-markdown-css: ^5.3.0
@@ -94,6 +96,8 @@ importers:
       bignumber.js: 9.1.2
       clsx: 1.2.1
       dayjs: 1.11.7
+      echarts: 5.4.2
+      echarts-for-react: 3.0.2_echarts@5.4.2+react@18.2.0
       github-markdown-css: 5.3.0
       graphql: 16.8.1
       graphql-request: 6.1.0_graphql@16.8.1
@@ -451,7 +455,7 @@ packages:
     resolution: {integrity: sha512-KnPEaAH+XNJMjax9U35W67nzPI+QQ2x27pYlzmSIWrbj4/k8PGrARXfzDTjwoozHJY8qG62Z+Ww6Alhu2FctXQ==}
     dependencies:
       '@antv/util': 2.0.17
-      tslib: 2.5.0
+      tslib: 2.6.1
     dev: false
 
   /@antv/component/0.8.28:
@@ -465,7 +469,7 @@ packages:
       '@antv/scale': 0.3.18
       '@antv/util': 2.0.17
       fecha: 4.2.3
-      tslib: 2.5.0
+      tslib: 2.6.1
     dev: false
 
   /@antv/coord/0.3.1:
@@ -473,13 +477,13 @@ packages:
     dependencies:
       '@antv/matrix-util': 3.1.0-beta.3
       '@antv/util': 2.0.17
-      tslib: 2.5.0
+      tslib: 2.6.1
     dev: false
 
   /@antv/dom-util/2.0.4:
     resolution: {integrity: sha512-2shXUl504fKwt82T3GkuT4Uoc6p9qjCKnJ8gXGLSW4T1W37dqf9AV28aCfoVPHp2BUXpSsB+PAJX2rG/jLHsLQ==}
     dependencies:
-      tslib: 2.5.0
+      tslib: 2.6.1
     dev: false
 
   /@antv/event-emitter/0.1.3:
@@ -499,7 +503,7 @@ packages:
       d3-interpolate: 3.0.1
       d3-timer: 1.0.10
       detect-browser: 5.3.0
-      tslib: 2.5.0
+      tslib: 2.6.1
     dev: false
 
   /@antv/g-canvas/0.5.13:
@@ -511,7 +515,7 @@ packages:
       '@antv/path-util': 2.0.15
       '@antv/util': 2.0.17
       gl-matrix: 3.4.3
-      tslib: 2.5.0
+      tslib: 2.6.1
     dev: false
 
   /@antv/g-math/0.1.9:
@@ -528,7 +532,7 @@ packages:
       '@antv/g-math': 0.1.9
       '@antv/util': 2.0.17
       detect-browser: 5.3.0
-      tslib: 2.5.0
+      tslib: 2.6.1
     dev: false
 
   /@antv/g2/4.2.9:
@@ -548,7 +552,7 @@ packages:
       '@antv/path-util': 2.0.15
       '@antv/scale': 0.3.18
       '@antv/util': 2.0.17
-      tslib: 2.5.0
+      tslib: 2.6.1
     dev: false
 
   /@antv/g2plot/2.4.25:
@@ -575,7 +579,7 @@ packages:
     dependencies:
       '@antv/util': 2.0.17
       gl-matrix: 3.4.3
-      tslib: 2.5.0
+      tslib: 2.6.1
     dev: false
 
   /@antv/matrix-util/3.1.0-beta.3:
@@ -583,7 +587,7 @@ packages:
     dependencies:
       '@antv/util': 2.0.17
       gl-matrix: 3.4.3
-      tslib: 2.5.0
+      tslib: 2.6.1
     dev: false
 
   /@antv/path-util/2.0.15:
@@ -591,7 +595,7 @@ packages:
     dependencies:
       '@antv/matrix-util': 3.0.4
       '@antv/util': 2.0.17
-      tslib: 2.5.0
+      tslib: 2.6.1
     dev: false
 
   /@antv/path-util/3.0.1:
@@ -599,7 +603,7 @@ packages:
     dependencies:
       gl-matrix: 3.4.3
       lodash-es: 4.17.21
-      tslib: 2.5.0
+      tslib: 2.6.1
     dev: false
 
   /@antv/scale/0.3.18:
@@ -607,7 +611,7 @@ packages:
     dependencies:
       '@antv/util': 2.0.17
       fecha: 4.2.3
-      tslib: 2.5.0
+      tslib: 2.6.1
     dev: false
 
   /@antv/util/2.0.17:
@@ -3956,6 +3960,18 @@ packages:
       inherits: 2.0.4
       readable-stream: 3.6.1
       stream-shift: 1.0.1
+    dev: false
+
+  /echarts-for-react/3.0.2_echarts@5.4.2+react@18.2.0:
+    resolution: {integrity: sha512-DRwIiTzx8JfwPOVgGttDytBqdp5VzCSyMRIxubgU/g2n9y3VLUmF2FK7Icmg/sNVkv4+rktmrLN9w22U2yy3fA==}
+    peerDependencies:
+      echarts: ^3.0.0 || ^4.0.0 || ^5.0.0
+      react: ^15.0.0 || >=16.0.0
+    dependencies:
+      echarts: 5.4.2
+      fast-deep-equal: 3.1.3
+      react: 18.2.0
+      size-sensor: 1.0.1
     dev: false
 
   /echarts/5.4.2:
