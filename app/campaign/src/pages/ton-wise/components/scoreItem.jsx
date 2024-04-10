@@ -18,7 +18,7 @@ export default function ScoreItem({ user }) {
         </span>
       </div>
 
-      <span className="text-[#904BF6] text-sm">
+      <span className="text-[#904BF6] text-sm font-zen-dot">
         {formatImpact(user.totalScore)}
       </span>
     </div>

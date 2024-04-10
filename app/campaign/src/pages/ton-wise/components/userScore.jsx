@@ -6,15 +6,15 @@ export default function UserScore({ user }) {
     <div className="flex items-center justify-between px-5 py-2 bg-[rgba(144,75,246)]/[0.10]">
       <div className="flex items-center gap-x-2.5">
         <span className="size-9 text-black text-xs text-center flex items-center justify-center">
-          {user.rank}
+          {user.rank ?? ''}
         </span>
         <img src={user.avatar} className="size-[42px] rounded-full" />
         <span className="bg-gradient-to-r text-transparent bg-clip-text font-medium text-sm from-[#2D83EC] to-[#1AC9FF]">
-          {shortAddressV1(user.address)}(me)
+          {shortAddressV1(user.address ?? '')}(me)
         </span>
       </div>
 
-      <span className="text-[#904BF6] text-sm">
+      <span className="text-[#904BF6] text-sm font-zen-dot">
         {formatImpact(user.totalScore)}
       </span>
     </div>

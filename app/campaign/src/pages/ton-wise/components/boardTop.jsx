@@ -27,7 +27,7 @@ export default function BoardTop({ rank = 1, className, address, score ,avatar})
         <Star rank={rank} className={starMap[rank]} />
       </div>
       <div className="text-sm text-center">
-        <p className="font-medium">{shortAddressV1(address)}</p>
+        <p className="font-medium">{shortAddressV1(address ?? '')}</p>
         <p className="font-zen-dot text-[#FFB800]">{formatImpact(score)}</p>
       </div>
     </div>
