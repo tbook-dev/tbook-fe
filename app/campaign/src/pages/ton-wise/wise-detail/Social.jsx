@@ -1,14 +1,16 @@
 import useWiseScore from '@/hooks/useWiseScore';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import Telegram from '../modal/telegram';
+import Discord from '../modal/discord';
+
 import { useState } from 'react';
 import { useCallback } from 'react';
 
 const modlueConf = {
   title: 'Improve your WISE Score',
   acionMap: {
-    discord: 'your telegram group/channel subscribers',
-    telegram: 'your discord server subscribers',
+    telegram: 'your telegram group/channel subscribers',
+    discord: 'your discord server subscribers',
   },
   recordTitle: 'Submission Record',
   recordMap: {
@@ -21,22 +23,27 @@ const modlueConf = {
 export default function Social() {
   const { data } = useWiseScore();
   const [tgOpen, setTg] = useState(false);
+  const [dcOpen, setDc] = useState(false);
+
   const handleTgClose = useCallback(() => {
     setTg(false);
   }, []);
+  const handleDcClose = useCallback(() => {
+    setDc(false);
+  }, []);
   const actionList = [
     {
-      type: 'discord',
-      actionName: modlueConf.acionMap.discord,
+      type: 'telegram',
+      actionName: modlueConf.acionMap.telegram,
       handle: () => {
         setTg(true);
       },
     },
     {
-      type: 'telegram',
-      actionName: modlueConf.acionMap.telegram,
+      type: 'discord',
+      actionName: modlueConf.acionMap.discord,
       handle: () => {
-        alert(1);
+        setDc(true);
       },
     },
   ];
@@ -44,7 +51,7 @@ export default function Social() {
   return (
     <>
       <Telegram open={tgOpen} onClose={handleTgClose} />
-
+      <Discord  open={dcOpen} onClose={handleDcClose} />
       <div className="pt-6 space-y-16">
         <div className="space-y-5">
           <h2 className="text-base font-zen-dot">{modlueConf.title}</h2>

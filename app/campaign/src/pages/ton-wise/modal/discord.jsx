@@ -1,19 +1,19 @@
 import { Modal, Form, Input } from 'antd';
 import useSocial from '@/hooks/useSocial';
-import tgSVG from '@/images/wise/tg.svg';
+import dcSVG from '@/images/wise/dc.svg';
 
 const moduleConf = {
-  title: 'Submit Telegram Group/Channel link',
-  connectText: 'Connect telegram',
-  botLink: 'https://t.me/tbook_sign_bot',
-  tip1: 'Invite TBook support bot as an admin to your Telegram group/channel',
-  tip2: 'Paste telegram group/channel share link',
-  tip3: 'https://t.me/tbookincentive',
+  title: 'Submit Discord Server',
+  connectText: 'Connect Discord',
+  botLink: 'https://discord.com/oauth2/authorize?client_id=1146414186566537288&permissions=2417034321&scope=bot',
+  tip1: 'Invite Tbook support bot as an admin to your Discord server',
+  tip2: 'Discord Server Invite Link',
+  tip3: 'Enter the Discord Server Invite Link',
 };
-export default function Telegram({ open, onClose }) {
+export default function Discord({ open, onClose }) {
   const [form] = Form.useForm();
   const { getSocialByName } = useSocial();
-  const telegram = getSocialByName('telegram');
+  const discord = getSocialByName('discord');
   const validateUrl = (_, value) => {
     if (!value) {
       return Promise.reject('link is required');
@@ -24,14 +24,15 @@ export default function Telegram({ open, onClose }) {
       return Promise.reject('link must be a valid URL');
     }
 
-    if (!value.startsWith('https://t.me/')) {
-      return Promise.reject('link must start with "https://t.me/"');
+    if (!value.startsWith('https://discord.com/')) {
+      return Promise.reject('link must start with "https://discord.com/"');
     }
     return Promise.resolve();
   };
   const handleSumbit = (values) => {
-    console.log({ values, telegram });
+    console.log({ values, discord });
   };
+  
   return (
     <Modal
       open={open}
@@ -52,7 +53,7 @@ export default function Telegram({ open, onClose }) {
               <div className="space-y-2">
                 <p className="text-sm text-white">{moduleConf.connectText}</p>
                 <button className="flex items-center gap-x-1 pl-3 pr-4 h-8 rounded-md bg-white text-black text-sm font-medium leading-none">
-                  <img src={tgSVG} />@{telegram.userName}
+                  <img src={dcSVG} />{ discord.connected ? `@${discord.userName}`: 'Connet Discord'}
                 </button>
               </div>
             </div>
