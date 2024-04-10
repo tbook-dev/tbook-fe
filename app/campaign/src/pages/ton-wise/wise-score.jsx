@@ -1,7 +1,7 @@
 import Layout from '@/layout/ton/Layout';
 import useWiseScore from '@/hooks/useWiseScore';
-import ScoreSkeleton from './score-skeleton';
-import WiseInfo from './wise-info';
+import ScoreSkeleton from './components/score-skeleton';
+import WiseInfo from './components/wise-info';
 import WiseDetail from './wise-detail';
 
 export default function TonWiseScore() {

@@ -4,7 +4,6 @@ import useUserInfoQuery from './useUserInfoQuery';
 
 export default function useWiseScore() {
   const { user } = useUserInfoQuery();
-  console.log({ user });
   return useQuery('wise-score', () => getWiseScore(user.userId), {
     retry: false,
     enabled: !!user.userId,
