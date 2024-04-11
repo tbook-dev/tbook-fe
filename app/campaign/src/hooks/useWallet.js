@@ -2,12 +2,13 @@ import { useCallback } from 'react';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import { useDispatch } from 'react-redux';
 import { setConnectWalletModal } from '@/store/global';
-import { useTonConnectUI } from '@tonconnect/ui-react';
+import { useTonConnectUI, useTonConnectModal } from '@tonconnect/ui-react';
 
 export default function useWallet() {
   const { evmConnected, tonConnected } = useUserInfoQuery();
   const dispath = useDispatch();
   const [tonConnectUI] = useTonConnectUI();
+  const { open } = useTonConnectModal();
 
   const getWallets = useCallback(
     (typeList) => {
