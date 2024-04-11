@@ -76,9 +76,12 @@ export default function Telegram({ open, onClose, mutation }) {
               <span className="font-zen-dot text-4xl w-7 text-center">2</span>
               <div className="space-y-2 text-white">
                 <p className="text-sm">{moduleConf.tip1}</p>
-                <button className="flex items-center gap-x-1 pl-3 pr-4 py-2 h-8 rounded-md bg-white text-black text-sm font-medium leading-none">
+                <a
+                  href={moduleConf.botLink}
+                  className="flex items-center w-max pl-3 pr-4 py-2 h-8 rounded-md bg-white text-black text-sm font-medium leading-none"
+                >
                   Invite Bot
-                </button>
+                </a>
               </div>
             </div>
             <div className="flex gap-x-2">
