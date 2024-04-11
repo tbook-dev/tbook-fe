@@ -5,7 +5,8 @@ import dcSVG from '@/images/wise/dc.svg';
 const moduleConf = {
   title: 'Submit Discord Server',
   connectText: 'Connect Discord',
-  botLink: 'https://discord.com/oauth2/authorize?client_id=1146414186566537288&permissions=2417034321&scope=bot',
+  botLink:
+    'https://discord.com/oauth2/authorize?client_id=1146414186566537288&permissions=2417034321&scope=bot',
   tip1: 'Invite Tbook support bot as an admin to your Discord server',
   tip2: 'Discord Server Invite Link',
   tip3: 'Enter the Discord Server Invite Link',
@@ -32,7 +33,7 @@ export default function Discord({ open, onClose }) {
   const handleSumbit = (values) => {
     console.log({ values, discord });
   };
-  
+
   return (
     <Modal
       open={open}
@@ -52,8 +53,14 @@ export default function Discord({ open, onClose }) {
               <span className="font-zen-dot text-4xl w-7 text-center">1</span>
               <div className="space-y-2">
                 <p className="text-sm text-white">{moduleConf.connectText}</p>
-                <button className="flex items-center gap-x-1 pl-3 pr-4 h-8 rounded-md bg-white text-black text-sm font-medium leading-none">
-                  <img src={dcSVG} />{ discord.connected ? `@${discord.userName}`: 'Connet Discord'}
+                <button
+                  onClick={discord.connected ? null : () => discord.loginFn()}
+                  className="flex items-center gap-x-1 pl-3 pr-4 h-8 rounded-md bg-white text-black text-sm font-medium leading-none"
+                >
+                  <img src={dcSVG} />
+                  {discord.connected
+                    ? `@${discord.userName}`
+                    : 'Connet Discord'}
                 </button>
               </div>
             </div>

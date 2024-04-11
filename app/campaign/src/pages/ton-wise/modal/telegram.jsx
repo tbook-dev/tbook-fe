@@ -51,8 +51,14 @@ export default function Telegram({ open, onClose }) {
               <span className="font-zen-dot text-4xl w-7 text-center">1</span>
               <div className="space-y-2">
                 <p className="text-sm text-white">{moduleConf.connectText}</p>
-                <button className="flex items-center gap-x-1 pl-3 pr-4 h-8 rounded-md bg-white text-black text-sm font-medium leading-none">
-                  <img src={tgSVG} />@{telegram.userName}
+                <button
+                  onClick={telegram.connected ? null : () => telegram.loginFn()}
+                  className="flex items-center gap-x-1 pl-3 pr-4 h-8 rounded-md bg-white text-black text-sm font-medium leading-none"
+                >
+                  <img src={tgSVG} />
+                  {telegram.connected
+                    ? `@${telegram.userName}`
+                    : 'Connet Telegram'}
                 </button>
               </div>
             </div>
