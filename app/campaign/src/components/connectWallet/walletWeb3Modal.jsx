@@ -49,7 +49,7 @@ const ConnectWalletModal = () => {
     s => s.global.showConnectWalletModal
   );
   const [messageApi, contextHolder] = message.useMessage();
-  const { data: userData, twitterConnected, refetch } = useUserInfo();
+  const { data: userData, twitterConnected, refetch, userLogined, user } = useUserInfo();
   // const queryClient = useQueryClient()
   const dispath = useDispatch();
   // const { isConnected, address } = useAccount()
