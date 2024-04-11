@@ -15,7 +15,7 @@ function Header () {
   return (
     <header
       className={clsx(
-        'top-0 z-30  text-white',
+        'top-0 z-10  text-white',
         'transition duration-300 ease-in-out',
         'sticky bg-black'
       )}
