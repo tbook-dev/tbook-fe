@@ -2,9 +2,13 @@
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import clsx from 'clsx';
+import { useTelegram } from '@/hooks/useTg';
+import Page404 from '@/pages/404';
 
 export default function Layout({ children, className }) {
-  return (
+  const { isTMA } = useTelegram();
+  const isTest = location.href.includes('t=1');
+  return isTMA || isTest ? (
     <div className="flex flex-col  min-h-dvh bg-black text-white ">
       <Header type="ton" />
       <div
@@ -17,5 +21,7 @@ export default function Layout({ children, className }) {
       </div>
       <Footer />
     </div>
+  ) : (
+    <Page404 />
   );
 }

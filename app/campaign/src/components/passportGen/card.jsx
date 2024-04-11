@@ -141,7 +141,7 @@ export default function PassportCard({ onClose }) {
           )}
         >
           <Link
-            to={isUsingSubdomain ? `/wise-score` : `/${projectUrl}/wise-score`}
+            to="/wise-score"
             style={{ backgroundImage: `url("${wiseScoreSVG}")` }}
             onClick={onClose}
             className="focus-visible:outline-none w-[135px] h-6 block mx-auto bg-center bg-contain"
