@@ -5,6 +5,7 @@ import Discord from '../modal/discord';
 import useWiseSocialMutation from '@/hooks/useWiseSocialMutation';
 import { useState, useCallback } from 'react';
 import { message } from 'antd';
+import Empty from '@/components/empty';
 
 const modlueConf = {
   title: 'Improve your WISE Score',
@@ -14,8 +15,8 @@ const modlueConf = {
   },
   recordTitle: 'Submission Record',
   recordMap: {
-    1: 'Telegram Channel',
-    2: 'Telegram Group',
+    // 1: 'Telegram Channel',
+    2: 'Telegram Channel/Telegram Group',
     3: 'Discord Server',
   },
 };
@@ -49,7 +50,7 @@ export default function Social() {
       },
     },
   ];
-  const recordList = data?.record ?? [];
+  const recordList = data?.userDcTgShareLink ?? [];
   return (
     <>
       {contextHolder}
@@ -60,43 +61,39 @@ export default function Social() {
           <h2 className="text-base font-zen-dot">{modlueConf.title}</h2>
 
           <div className="flex flex-col gap-y-4">
-            {actionList.length > 0 ? (
-              actionList.map((v) => {
-                return (
-                  <button
-                    key={v.type}
-                    className="bg-gradient-to-br from-purple-500 to-pink-500 p-px flex font-medium text-sm rounded-lg"
-                    onClick={v.handle}
-                  >
-                    <span className="bg-[#0E0819] flex items-center justify-between flex-1 p-4 gap-x-[30px] rounded-lg">
-                      <span className="text-[#904BF6] text-left">
-                        Submit
-                        <span className="text-white ms-1">
-                          {modlueConf.acionMap[v.type]}
-                        </span>
+            {actionList.map((v) => {
+              return (
+                <button
+                  key={v.type}
+                  className="bg-gradient-to-br from-purple-500 to-pink-500 p-px flex font-medium text-sm rounded-lg"
+                  onClick={v.handle}
+                >
+                  <span className="bg-[#0E0819] flex items-center justify-between flex-1 p-4 gap-x-[30px] rounded-lg">
+                    <span className="text-[#904BF6] text-left">
+                      Submit
+                      <span className="text-white ms-1">
+                        {modlueConf.acionMap[v.type]}
                       </span>
-                      <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M13.5 4.5L21 12M21 12L13.5 19.5M21 12H3"
-                          stroke="#A1A1AA"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
                     </span>
-                  </button>
-                );
-              })
-            ) : (
-              <div>all done</div>
-            )}
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M13.5 4.5L21 12M21 12L13.5 19.5M21 12H3"
+                        stroke="#A1A1AA"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -108,7 +105,7 @@ export default function Social() {
               recordList.map((v) => {
                 return (
                   <div
-                    key={v.type}
+                    key={v.socialType}
                     className="bg-[rgb(144,75,246)]/[0.10] p-5 flex items-center justify-between gap-x-[30px] text-sm rounded-lg"
                   >
                     <div className="flex flex-col gap-y-0.5">
@@ -116,7 +113,7 @@ export default function Social() {
                         {v.name}
                       </span>
                       <span className="text-[#C0ABD9] text-xs">
-                        {modlueConf.recordMap[v.type]}
+                        {modlueConf.recordMap[v.socialType]}
                       </span>
                     </div>
                     <div className="text-[#C0ABD9]">
@@ -130,7 +127,7 @@ export default function Social() {
                 );
               })
             ) : (
-              <div>all done</div>
+              <Empty text="There’s no record yet." />
             )}
           </div>
         </div>
