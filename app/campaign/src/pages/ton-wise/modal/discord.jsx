@@ -1,6 +1,7 @@
 import { Modal, Form, Input, Spin } from 'antd';
 import useSocial from '@/hooks/useSocial';
 import dcSVG from '@/images/wise/dc.svg';
+import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 
 const moduleConf = {
   title: 'Submit Discord Server',
@@ -12,6 +13,7 @@ const moduleConf = {
   tip3: 'Enter the Discord Server Invite Link',
 };
 export default function Discord({ open, onClose, mutation }) {
+  const { user } = useUserInfoQuery();
   const [form] = Form.useForm();
   const { getSocialByName } = useSocial();
   const discord = getSocialByName('discord');
@@ -33,9 +35,9 @@ export default function Discord({ open, onClose, mutation }) {
   const handleSumbit = async (values) => {
     try {
       await mutation.mutateAsync({
-        userId: '',
-        socialType: 1,
-        socialLink: values.link,
+        userId: user?.userId,
+        socialType: 3,
+        shareLinks: [values.link],
       });
       onClose();
       form.resetFields();

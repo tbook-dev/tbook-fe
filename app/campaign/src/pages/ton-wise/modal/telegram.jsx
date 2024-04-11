@@ -1,6 +1,7 @@
 import { Modal, Form, Input, Spin } from 'antd';
 import useSocial from '@/hooks/useSocial';
 import tgSVG from '@/images/wise/tg.svg';
+import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 
 const moduleConf = {
   title: 'Submit Telegram Group/Channel link',
@@ -11,6 +12,7 @@ const moduleConf = {
   tip3: 'https://t.me/tbookincentive',
 };
 export default function Telegram({ open, onClose, mutation }) {
+  const { user } = useUserInfoQuery();
   const [form] = Form.useForm();
   const { getSocialByName } = useSocial();
   const telegram = getSocialByName('telegram');
@@ -32,9 +34,9 @@ export default function Telegram({ open, onClose, mutation }) {
   const handleSumbit = async (values) => {
     try {
       await mutation.mutateAsync({
-        userId: '',
+        userId: user?.userId,
         socialType: 2,
-        socialLink: values.link,
+        shareLinks: [values.link],
       });
       onClose();
       form.resetFields();
