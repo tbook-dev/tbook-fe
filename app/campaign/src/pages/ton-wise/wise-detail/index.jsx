@@ -1,10 +1,9 @@
 import { formatImpact } from '@tbook/utils/lib/conf';
 import clsx from 'clsx';
 import { useState } from 'react';
-import Wealth from './Wealth';
 import Identity from './Identity';
 import Social from './Social';
-import Engagement from './Engagement';
+import Done from './Done';
 import useWiseScore from '@/hooks/useWiseScore';
 
 const wiseType = {
@@ -19,7 +18,7 @@ const modlueConf = {
       type: 'wealth',
       value: wiseType.wealth,
       display: 'Wealth',
-      component: Wealth,
+      component: Done,
     },
     {
       type: 'identity',
@@ -37,7 +36,7 @@ const modlueConf = {
       type: 'engagement',
       value: wiseType.engagement,
       display: 'Engagement',
-      component: Engagement,
+      component: Done,
     },
   ],
 };
@@ -57,6 +56,7 @@ export default function WiseDetail() {
   const CurrentComponent = modlueConf.btnList.find(
     (v) => v.value === currentBtn
   )?.component;
+
   return (
     <div>
       <div className="flex justify-between -mx-5 px-5 pb-4 border-b border-[#CFDBD5]/[0.15]">

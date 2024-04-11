@@ -110,7 +110,7 @@ export default function Social() {
                   >
                     <div className="flex flex-col gap-y-0.5">
                       <span className="text-white text-sm font-medium">
-                        {v.name}
+                        {v.title}
                       </span>
                       <span className="text-[#C0ABD9] text-xs">
                         {modlueConf.recordMap[v.socialType]}
@@ -118,7 +118,7 @@ export default function Social() {
                     </div>
                     <div className="text-[#C0ABD9]">
                       <span className="me-1 text-base font-medium text-white">
-                        {formatImpact(v.fans)}
+                        {formatImpact(v.memberCount)}
                       </span>
                       fan
                       {v.fans > 1 && 's'}

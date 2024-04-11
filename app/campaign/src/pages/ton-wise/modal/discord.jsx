@@ -37,7 +37,7 @@ export default function Discord({ open, onClose, mutation }) {
       await mutation.mutateAsync({
         userId: user?.userId,
         socialType: 3,
-        shareLinks: [values.link],
+        shareLink: values.link,
       });
       onClose();
       form.resetFields();

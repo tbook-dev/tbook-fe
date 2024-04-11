@@ -31,7 +31,7 @@ const modlueConf = {
           />
         </svg>
   
-        <div className="text-xs space-y-1">
+        <div className="text-xs space-y-1 text-center">
           <h2 className="font-zen-dot ">{modlueConf.title}</h2>
           <p>
             {modlueConf.desc}

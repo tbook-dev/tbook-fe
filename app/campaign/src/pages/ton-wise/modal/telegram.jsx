@@ -36,7 +36,7 @@ export default function Telegram({ open, onClose, mutation }) {
       await mutation.mutateAsync({
         userId: user?.userId,
         socialType: 2,
-        shareLinks: [values.link],
+        shareLink: values.link,
       });
       onClose();
       form.resetFields();
