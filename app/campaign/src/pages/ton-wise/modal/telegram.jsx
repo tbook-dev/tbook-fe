@@ -1,4 +1,4 @@
-import { Modal, Form, Input } from 'antd';
+import { Modal, Form, Input, Spin } from 'antd';
 import useSocial from '@/hooks/useSocial';
 import tgSVG from '@/images/wise/tg.svg';
 
@@ -10,7 +10,7 @@ const moduleConf = {
   tip2: 'Paste telegram group/channel share link',
   tip3: 'https://t.me/tbookincentive',
 };
-export default function Telegram({ open, onClose }) {
+export default function Telegram({ open, onClose, mutation }) {
   const [form] = Form.useForm();
   const { getSocialByName } = useSocial();
   const telegram = getSocialByName('telegram');
@@ -29,8 +29,16 @@ export default function Telegram({ open, onClose }) {
     }
     return Promise.resolve();
   };
-  const handleSumbit = (values) => {
-    console.log({ values, telegram });
+  const handleSumbit = async (values) => {
+    try {
+      await mutation.mutateAsync({
+        userId: '',
+        socialType: 2,
+        socialLink: values.link,
+      });
+      onClose();
+      form.resetFields();
+    } catch (error) {}
   };
   return (
     <Modal
@@ -89,9 +97,11 @@ export default function Telegram({ open, onClose }) {
             </div>
           </div>
           <button
+            disabled={mutation.isLoading}
             html="submit"
-            className="mx-4 text-base font-medium block w-[calc(100%_-_32px)] py-2 text-center rounded-md bg-white text-black"
+            className="mx-4 gap-x-2 text-base font-medium flex items-center justify-center w-[calc(100%_-_32px)] py-2 rounded-md bg-white text-black"
           >
+            {mutation.isLoading && <Spin />}
             Submit
           </button>
         </Form>

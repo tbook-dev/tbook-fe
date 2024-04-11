@@ -2,9 +2,9 @@ import useWiseScore from '@/hooks/useWiseScore';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import Telegram from '../modal/telegram';
 import Discord from '../modal/discord';
-
-import { useState } from 'react';
-import { useCallback } from 'react';
+import useWiseSocialMutation from '@/hooks/useWiseSocialMutation';
+import { useState, useCallback } from 'react';
+import { message } from 'antd';
 
 const modlueConf = {
   title: 'Improve your WISE Score',
@@ -21,6 +21,8 @@ const modlueConf = {
 };
 
 export default function Social() {
+  const [messageApi, contextHolder] = message.useMessage();
+  const mutation = useWiseSocialMutation(messageApi);
   const { data } = useWiseScore();
   const [tgOpen, setTg] = useState(false);
   const [dcOpen, setDc] = useState(false);
@@ -50,8 +52,9 @@ export default function Social() {
   const recordList = data?.record ?? [];
   return (
     <>
-      <Telegram open={tgOpen} onClose={handleTgClose} />
-      <Discord  open={dcOpen} onClose={handleDcClose} />
+      {contextHolder}
+      <Telegram open={tgOpen} onClose={handleTgClose} mutation={mutation} />
+      <Discord open={dcOpen} onClose={handleDcClose} mutation={mutation} />
       <div className="pt-6 space-y-16">
         <div className="space-y-5">
           <h2 className="text-base font-zen-dot">{modlueConf.title}</h2>

@@ -1,4 +1,4 @@
-import { Modal, Form, Input } from 'antd';
+import { Modal, Form, Input, Spin } from 'antd';
 import useSocial from '@/hooks/useSocial';
 import dcSVG from '@/images/wise/dc.svg';
 
@@ -11,7 +11,7 @@ const moduleConf = {
   tip2: 'Discord Server Invite Link',
   tip3: 'Enter the Discord Server Invite Link',
 };
-export default function Discord({ open, onClose }) {
+export default function Discord({ open, onClose, mutation }) {
   const [form] = Form.useForm();
   const { getSocialByName } = useSocial();
   const discord = getSocialByName('discord');
@@ -30,8 +30,16 @@ export default function Discord({ open, onClose }) {
     }
     return Promise.resolve();
   };
-  const handleSumbit = (values) => {
-    console.log({ values, discord });
+  const handleSumbit = async (values) => {
+    try {
+      await mutation.mutateAsync({
+        userId: '',
+        socialType: 1,
+        socialLink: values.link,
+      });
+      onClose();
+      form.resetFields();
+    } catch (error) {}
   };
 
   return (
@@ -91,9 +99,11 @@ export default function Discord({ open, onClose }) {
             </div>
           </div>
           <button
+            disabled={mutation.isLoading}
             html="submit"
-            className="mx-4 text-base font-medium block w-[calc(100%_-_32px)] py-2 text-center rounded-md bg-white text-black"
+            className="mx-4 gap-x-2 text-base font-medium flex items-center justify-center w-[calc(100%_-_32px)] py-2 rounded-md bg-white text-black"
           >
+            {mutation.isLoading && <Spin />}
             Submit
           </button>
         </Form>
