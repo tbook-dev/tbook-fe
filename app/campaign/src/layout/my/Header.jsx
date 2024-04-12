@@ -1,22 +1,23 @@
-import clsx from 'clsx'
-import { useLoaderData, Link } from 'react-router-dom'
-import useUserInfo from '@/hooks/useUserInfoQuery'
-import { useDispatch } from 'react-redux'
-import { setLoginModal } from '@/store/global'
+import clsx from 'clsx';
+import { useLoaderData, Link } from 'react-router-dom';
+import useUserInfo from '@/hooks/useUserInfoQuery';
+import { useDispatch } from 'react-redux';
+import { setLoginModal } from '@/store/global';
 // import UserAddress from '../common/UserAddress'
-import AvatarSkeleton from '../common/AvatarSkeleton'
-import { Skeleton } from 'antd'
-import Avatar from '../common/Avatar'
-import logo from '@/images/icon/logo.svg'
+import AvatarSkeleton from '../common/AvatarSkeleton';
+import { Skeleton } from 'antd';
+import Avatar from '../common/Avatar';
+import fallbackLogo from '@/images/error/logo.svg';
+import LazyImage from '@/components/lazyImage';
 
 function Header () {
-  const { project, projectUrl, isUsingSubdomain } = useLoaderData()
-  const { userLogined, firstLoad } = useUserInfo()
-  const dispath = useDispatch()
+  const { project, projectUrl, isUsingSubdomain } = useLoaderData();
+  const { userLogined, firstLoad } = useUserInfo();
+  const dispath = useDispatch();
   const handleClick = () => {
-    dispath(setLoginModal(true))
-  }
-  const logoUrl = project?.avatarUrl
+    dispath(setLoginModal(true));
+  };
+  const logoUrl = project?.avatarUrl;
   return (
     <header
       className={clsx(
@@ -34,7 +35,12 @@ function Header () {
               {!logoUrl ? (
                 <Skeleton.Avatar />
               ) : (
-                <img src={logoUrl} alt='logo' className='h-6 object-contain' />
+                <LazyImage
+                  src={logoUrl}
+                  fallbackSrc={fallbackLogo}
+                  alt='logo'
+                  className='h-6 object-contain'
+                />
               )}
             </Link>
           </div>
@@ -60,7 +66,7 @@ function Header () {
         </div>
       </div>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;
