@@ -98,7 +98,7 @@ export default function WiseInfo () {
     ],
   };
   return (
-    <div className='space-y-20'>
+    <div className='space-y-10'>
       <div className='flex text-white items-center justify-between'>
         <h2 className='text-base font-zen-dot'>{modlueConf.title}</h2>
         <Link
