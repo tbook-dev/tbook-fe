@@ -121,7 +121,7 @@ export default function Social() {
                         {formatImpact(v.memberCount)}
                       </span>
                       fan
-                      {v.fans > 1 && 's'}
+                      {v.memberCount > 1 && 's'}
                     </div>
                   </div>
                 );

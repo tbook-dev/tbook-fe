@@ -4,13 +4,12 @@ export default function useWiseSocialMutation(messageApi) {
   const client = useQueryClient();
 
   return useMutation((data) => addWiseSocialLink(data), {
-    onSuccess(data, variables, context) {
+    onSuccess(data) {
       client.invalidateQueries('wise-score');
     },
-    onError: (error, variables, context) => {
+    onError: (error) => {
       // An error happened!
       messageApi.error(error?.message);
-      console.log(`rolling back optimistic update with id ${context.id}`);
     },
   });
 }

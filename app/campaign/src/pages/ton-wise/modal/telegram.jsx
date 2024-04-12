@@ -40,7 +40,9 @@ export default function Telegram({ open, onClose, mutation }) {
       });
       onClose();
       form.resetFields();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Modal
