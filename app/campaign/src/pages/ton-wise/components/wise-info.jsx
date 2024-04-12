@@ -66,13 +66,13 @@ export default function WiseInfo () {
         type: 'radar',
         data: [
           {
-            // value: [
-            //   data?.engagementScore,
-            //   data?.wealthScore,
-            //   data?.identityScore,
-            //   data?.socialScore,
-            // ],
-            value: [10, 93, 50, 30],
+            value: [
+              data?.engagementScore,
+              data?.wealthScore,
+              data?.identityScore,
+              data?.socialScore,
+            ],
+            // value: [10, 93, 50, 30],
             lineStyle: {
               color: '#904BF6',
               width: 2,
