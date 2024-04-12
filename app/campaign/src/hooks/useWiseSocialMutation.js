@@ -5,7 +5,11 @@ export default function useWiseSocialMutation(messageApi) {
 
   return useMutation((data) => addWiseSocialLink(data), {
     onSuccess(data) {
-      client.invalidateQueries('wise-score');
+      if(data.code === 200){
+        client.invalidateQueries('wise-score');
+      }else{
+        messageApi.error(data?.message);
+      }
     },
     onError: (error) => {
       // An error happened!
