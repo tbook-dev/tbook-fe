@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import ReactECharts from 'echarts-for-react';
 import useWiseScore from '@/hooks/useWiseScore';
+import * as echarts from 'echarts';
+
 const modlueConf = {
   title: 'WISE score',
   linktext: 'Leaderboard',
@@ -10,28 +12,86 @@ export default function WiseInfo () {
   const { data } = useWiseScore();
 
   const option = {
-    radar: {
-      indicator: [
-        { name: 'Engagement' },
-        { name: 'Wealth' },
-        { name: 'Identity' },
-        { name: 'Social' },
-      ],
-      radius: 80,
-      // center: ['50%', '60%']
-    },
+    radar: [
+      {
+        silent: true,
+        splitNumber: 4,
+        indicator: [
+          { name: 'Engagement' },
+          { name: 'Wealth' },
+          { name: 'Identity' },
+          { name: 'Social' },
+        ],
+        radius: 80,
+        axisName: {
+          formatter: function (_, indicator) {
+            const name = indicator.name;
+            const a = name[0];
+            const b = name.slice(1);
+            return `{a|${a}}{b|${b}}`;
+          },
+          rich: {
+            a: {
+              color: '#904BF6',
+              fontWeight: 500,
+              fontSize: 16,
+              fontFamily: 'Red Hat Display',
+            },
+            b: {
+              color: '#fff',
+              fontWeight: 400,
+              fontSize: 14,
+              fontFamily: 'Red Hat Display',
+            },
+          },
+        },
+        axisLine: {
+          lineStyle: {
+            color: '#313131',
+          },
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: ['#1b1b1b', '#262626'],
+            opacity: 0.5,
+          },
+        },
+        // center: ['50%', '60%']
+      },
+    ],
     series: [
       {
         name: 'wise score',
         type: 'radar',
         data: [
           {
-            value: [
-              data?.engagementScore,
-              data?.socialScore,
-              data?.identityScore,
-              data?.wealthScore,
-            ],
+            // value: [
+            //   data?.engagementScore,
+            //   data?.wealthScore,
+            //   data?.identityScore,
+            //   data?.socialScore,
+            // ],
+            value: [10, 93, 50, 30],
+            lineStyle: {
+              color: '#904BF6',
+              width: 2,
+            },
+            itemStyle: {
+              opacity: 0,
+            },
+            areaStyle: {
+              color: new echarts.graphic.RadialGradient(0.1, 0.6, 1, [
+                {
+                  color: 'rgba(144, 75, 246, 0.2)',
+                  offset: 0,
+                },
+                {
+                  color: 'rgba(207, 0, 99, 0.2)',
+                  offset: 1,
+                },
+              ]),
+            },
           },
         ],
       },
