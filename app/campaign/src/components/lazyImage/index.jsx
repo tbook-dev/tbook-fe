@@ -47,7 +47,7 @@ export default function ({
         <img
           src={src}
           className={className}
-          alt={alt + '/ origin image'}
+          alt={(alt ?? '') + '/ origin image'}
           {...props}
         />
       )}
