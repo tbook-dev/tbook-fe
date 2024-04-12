@@ -11,16 +11,23 @@ const modlueConf = {
 export default function WiseInfo () {
   const { data } = useWiseScore();
 
+  const list = [
+    data?.engagementScore,
+    data?.wealthScore,
+    data?.identityScore,
+    data?.socialScore,
+  ];
+  const maxScore = Math.max(...list, 1);
   const option = {
     radar: [
       {
         silent: true,
         splitNumber: 4,
         indicator: [
-          { name: 'Engagement' },
-          { name: 'Wealth' },
-          { name: 'Identity' },
-          { name: 'Social' },
+          { name: 'Engagement', max: maxScore },
+          { name: 'Wealth', max: maxScore },
+          { name: 'Identity', max: maxScore },
+          { name: 'Social', max: maxScore },
         ],
         radius: 80,
         axisName: {
@@ -66,12 +73,7 @@ export default function WiseInfo () {
         type: 'radar',
         data: [
           {
-            value: [
-              data?.engagementScore,
-              data?.wealthScore,
-              data?.identityScore,
-              data?.socialScore,
-            ],
+            value: list,
             // value: [10, 93, 50, 30],
             lineStyle: {
               color: '#904BF6',
