@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { Tooltip } from 'antd';
+import { Tooltip, Image } from 'antd';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import walletGrayIcon from '@/images/icon/wallet-gray.svg';
 import useSocial from '@/hooks/useSocial';
@@ -14,6 +14,8 @@ import evmUnlockSVG from '@/images/wallet/evm-unlock.svg';
 import evmSVG from '@/images/wallet/evm.svg';
 import passportlg from '@/images/passport/passport.png';
 import shapeLink from '@/images/shape-link.png';
+import fallbackAvatarSVG from '@/images/passport/avatar.svg';
+import LazyImage from '../lazyImage';
 import { useTelegram } from '@/hooks/useTg';
 import {
   useTonConnectUI,
@@ -160,9 +162,11 @@ export default function PassportCard ({ onClose }) {
           </Link>
         </div>
         <div className='relative flex flex-col items-center gap-y-5  text-lg font-medium mb-3'>
-          <img
+          <LazyImage
             src={user?.avatar}
-            className='w-20 h-20 rounded-full object-center'
+            fallbackSrc={fallbackAvatarSVG}
+            className='size-20 rounded-full'
+            alt='avator'
           />
           <div className='text-center'>
             {/* 优先展示wallet,然后就是social */}
