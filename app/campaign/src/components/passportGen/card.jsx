@@ -145,8 +145,10 @@ export default function PassportCard ({ onClose }) {
           />
         </div>
         <div className='relative flex flex-col items-center gap-y-5  text-lg font-medium mb-3'>
-          <img
+          <LazyImage
+            fallbackSrc={fallbackAvatarSVG}
             src={user?.avatar}
+            alt='passport avatar'
             className='w-20 h-20 rounded-full object-center'
           />
           <div className='space-y-2'>
