@@ -17,7 +17,8 @@ export default function WiseInfo () {
     data?.identityScore,
     data?.socialScore,
   ];
-  const maxScore = Math.max(...list, 1);
+  const maxScore = Math.max(...list, 1) + 1;
+
   const option = {
     radar: [
       {

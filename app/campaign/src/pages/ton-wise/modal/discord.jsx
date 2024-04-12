@@ -2,6 +2,7 @@ import { Modal, Form, Input, Spin } from 'antd';
 import useSocial from '@/hooks/useSocial';
 import dcSVG from '@/images/wise/dc.svg';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
+import clsx from 'clsx';
 
 const moduleConf = {
   title: 'Submit Discord Server',
@@ -99,15 +100,22 @@ export default function Discord ({ open, onClose, mutation }) {
                     },
                   ]}
                 >
-                  <Input placeholder={moduleConf.tip3} className='w-[263px]' />
+                  <Input
+                    placeholder={moduleConf.tip3}
+                    className='w-[263px]'
+                    disabled={!discord.connected}
+                  />
                 </Form.Item>
               </div>
             </div>
           </div>
           <button
-            disabled={mutation.isLoading}
+            disabled={!discord.connected || mutation.isLoading}
             html='submit'
-            className='mx-4 gap-x-2 text-base font-medium flex items-center justify-center w-[calc(100%_-_32px)] py-2 rounded-md bg-white text-black'
+            className={clsx(
+              discord.connected ? 'bg-white' : 'bg-white/30',
+              'mx-4 gap-x-2 text-base font-medium flex items-center justify-center w-[calc(100%_-_32px)] py-2 rounded-md  text-black'
+            )}
           >
             {mutation.isLoading && <Spin />}
             Submit
