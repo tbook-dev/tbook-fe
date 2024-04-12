@@ -88,7 +88,12 @@ export default function Credentials () {
               }
             >
               <div className='flex items-center gap-x-1  bg-white text-black py-1 px-3 lg:w-max rounded-[18px] border-b-2 border-l-2 lg:border-b-4 lg:border-l-4 border-[#904BF6]'>
-                <Display labelType={item.labelType} pc options={options} theme='white' />
+                <Display
+                  labelType={item.labelType}
+                  pc
+                  options={options}
+                  theme='white'
+                />
 
                 {/* <img
                   src={item.picUrl}
@@ -130,10 +135,7 @@ export default function Credentials () {
           );
         })
       ) : (
-        <div
-          key={k}
-          className='lg:w-full lg:h-[330px] lg:bg-[#0F081A] lg:rounded-xl flex justify-center items-center'
-        >
+        <div className='lg:w-full lg:h-[330px] lg:bg-[#0F081A] lg:rounded-xl flex justify-center items-center'>
           <Empty text="There's no credential yet." />
         </div>
       )}
