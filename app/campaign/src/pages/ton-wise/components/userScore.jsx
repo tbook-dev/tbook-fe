@@ -55,7 +55,10 @@ export default function UserScore ({ user }) {
           {walletUrl && (
             <img src={walletUrl} className='w-5 h-5' alt='address type' />
           )}
-          {shortAddressV1(user.address ?? '')}(me)
+          {user?.addressType === 2
+            ? user.address
+            : shortAddressV1(user.address ?? '')}
+          (me)
         </span>
       </div>
 

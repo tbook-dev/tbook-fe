@@ -36,7 +36,9 @@ export default function ScoreItem ({ user }) {
           {walletUrl && (
             <img src={walletUrl} className='w-5 h-5' alt='address type' />
           )}
-          {shortAddressV1(user.address)}
+          {user?.addressType === 2
+            ? user.address
+            : shortAddressV1(user.address ?? '')}
         </span>
       </div>
 
