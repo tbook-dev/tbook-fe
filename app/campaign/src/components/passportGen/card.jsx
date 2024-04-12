@@ -141,8 +141,24 @@ export default function PassportCard ({ onClose }) {
             to='/wise-score'
             style={{ backgroundImage: `url("${wiseScoreSVG}")` }}
             onClick={onClose}
-            className='focus-visible:outline-none w-[135px] h-6 block mx-auto bg-center bg-contain'
-          />
+            className='focus-visible:outline-none w-[135px] h-6  mx-auto bg-center bg-contain font-zen-dot text-xs flex items-center justify-center gap-x-0.5'
+          >
+            WISE Score
+            <svg
+              width='12'
+              height='12'
+              viewBox='0 0 12 12'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                d='M3 9L9 3M9 3H4.5M9 3V7.5'
+                stroke='white'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              />
+            </svg>
+          </Link>
         </div>
         <div className='relative flex flex-col items-center gap-y-5  text-lg font-medium mb-3'>
           <LazyImage
