@@ -222,6 +222,13 @@ export const shortAddress = (address) => {
     `${address}`.slice(`${address}`.length - 5)
   );
 };
+export const shortAddressV1 = (address) => {
+  return (
+    `${address}`.slice(0, 4) +
+    "..." +
+    `${address}`.slice(`${address}`.length - 4)
+  );
+};
 
 export const chains = [
   {

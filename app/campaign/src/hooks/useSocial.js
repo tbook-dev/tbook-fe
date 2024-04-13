@@ -188,7 +188,10 @@ export default function useSocial() {
             }
           );
         },
-        userName: data?.userTg?.username ?? '',
+        userName:
+          data?.userTg?.username ??
+          `${data?.userTg?.firstName}_${data?.userTg?.lastName}` ??
+          '',
         failText:
           'Please authorize your Telegram account and continue to verify.',
       },

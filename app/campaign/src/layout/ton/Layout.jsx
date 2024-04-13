@@ -1,15 +1,27 @@
-import { Outlet } from 'react-router-dom';
+// import { Outlet } from 'react-router-dom';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
+import clsx from 'clsx';
+import { useTelegram } from '@/hooks/useTg';
+import Page404 from '@/pages/404';
 
-export default function Layout ({ children }) {
-  return (
-    <div className='flex flex-col  min-h-dvh bg-black text-white '>
-      <Header type="ton"/>
-      <div className='relative flex-auto overflow-x-hidden overflow-y-auto'>
+export default function Layout({ children, className }) {
+  const { isTMA } = useTelegram();
+  const isTest = location.href.includes('t=1');
+  return isTMA || isTest ? (
+    <div className="flex flex-col  min-h-dvh bg-black text-white ">
+      <Header type="ton" />
+      <div
+        className={clsx(
+          'relative flex-auto overflow-x-hidden overflow-y-auto',
+          className
+        )}
+      >
         {children}
       </div>
       <Footer />
     </div>
+  ) : (
+    <Page404 />
   );
 }

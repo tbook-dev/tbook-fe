@@ -18,6 +18,10 @@ const Campaign = lazy(() => import('@/pages/my/campaign'));
 const NFT = lazy(() => import('@/pages/my/nft'));
 const Snapshot = lazy(() => import('@/pages/snapshot'));
 const TonExplore = lazy(() => import('@/pages/ton-explore'));
+const WiseScore = lazy(() => import('@/pages/ton-wise/wise-score'));
+const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/wise-leaderboard'));
+
+
 const Attestation = lazy(() => import('@/pages/attestation'));
 
 const getProjectIdFn = async ({ params }) => {
@@ -96,6 +100,26 @@ const routes = [
     element: (
       <Suspense fallback={<PageFallBack />}>
         <TonExplore />
+      </Suspense>
+    ),
+    errorElement: <GlobalError />,
+  },
+  {
+    path: '/wise-score',
+    loader: getProjectIdFn,
+    element: (
+      <Suspense fallback={<PageFallBack />}>
+        <WiseScore />
+      </Suspense>
+    ),
+    errorElement: <GlobalError />,
+  },
+  {
+    path: '/wise-leaderboard',
+    loader: getProjectIdFn,
+    element: (
+      <Suspense fallback={<PageFallBack />}>
+        <WiseLeaderboard />
       </Suspense>
     ),
     errorElement: <GlobalError />,

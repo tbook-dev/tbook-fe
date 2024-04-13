@@ -26,7 +26,8 @@ module.exports = {
         linear5:
           "linear-gradient(280deg, rgba(144, 75, 246, 0.10) 49.68%, rgba(207, 0, 99, 0.10) 108.87%)",
         linear6: "radial-gradient(364.17% 143% at 96.13% 4.31%, #7535C4 0%, #1B0B2D 44.67%, #220F3A 91.12%)",
-        linear7: "linear-gradient(280deg, #904BF6 49.68%, #CF0063 108.87%)"
+        linear7: "linear-gradient(280deg, #904BF6 49.68%, #CF0063 108.87%)",
+        linear8: "linear-gradient(163deg, #904BF6 1.97%, #CF0063 92.07%)"
       },
       boxShadow: {
         s1: ' 0px 0px 6px 0px rgba(0, 0, 0, 0.10)',

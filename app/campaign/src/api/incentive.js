@@ -13,15 +13,6 @@ export const authenticate = async function (address, sign) {
     },
     body: d,
   });
-  // console.log("status:", response.status);
-  // response.text().then((b) => console.log("body", b));
-  // response.headers.forEach((value, key) => {
-  //   console.log(key, value);
-  // });
-  // console.log(document.cookie);
-  // await new Promise(r => {
-  //   setTimeout(r, 10000)
-  // })
   return await response.json();
 };
 export const getUserInfo = async function () {
@@ -73,17 +64,7 @@ export const loginUsingTwitterUrl = async function () {
   });
   const data = await res.json();
   localStorage.setItem('redirect_url', location.href);
-  // window.location = data["url"];
   window.open(data['url'], '_self');
-  // const a = document.createElement("a");
-  // document.body.appendChild(a);
-  // a.style = "display: none";
-  // a.href = data["url"];
-  // a.setAttribute("target", "_self");
-  // a.setAttribute("mc-deep-link", "false");
-  // a.setAttribute("ref", "nofollow noopener noreferrer");
-  // // rel='nofollow noopener noreferrer'
-  // a.click();
 };
 
 export const getExporeCampain = async function () {
@@ -138,17 +119,6 @@ export const authTwitterLoginCallback = async function () {
     state,
   });
 };
-
-// export const authTgCallback = async function () {
-//   const url = new URL(window.location.href);
-//   let authResult = url.searchParams.get("tgAuthResult");
-//   if (!authResult) {
-//     authResult = url.hash.split("=")[1];
-//   }
-//   return await request.PostFormV1(`${host}/tg/callback`, {
-//     originAuthResult: authResult,
-//   });
-// };
 
 export const authTgCallback = async function (data) {
   return await request.Post(`${host}/tg/callback/v2`, data);
@@ -241,13 +211,25 @@ export const getTopProjects = async function () {
 export const disConnectAccount = async function (data) {
   return await request.PostFormV1(`${host}/social/unbind`, data);
 };
-export const tgTMAAuth = async function(data){
-  return await request.Post(`${host}/tg/tma/auth`, data)
-}
-export const getTonPayload = async function(){
-  return await request(`${host}/ton-proof/generate-payload`)
-}
+export const tgTMAAuth = async function (data) {
+  return await request.Post(`${host}/tg/tma/auth`, data);
+};
+export const getTonPayload = async function () {
+  return await request(`${host}/ton-proof/generate-payload`);
+};
 
-export const verifyTonProof = async function(data){
-  return await request.Post(`${host}/ton-proof/verify`, data)
-}
+export const verifyTonProof = async function (data) {
+  return await request.Post(`${host}/ton-proof/verify`, data);
+};
+
+export const getWiseScore = async function (uid) {
+  return await request.Get(`${host}/wiseScore/${uid}`);
+};
+
+export const getTopBoard = async function () {
+  return await request.Get(`${host}/wiseScore/leaderBoard`);
+};
+
+export const addWiseSocialLink = async function (data) {
+  return await request.Post(`${host}/wiseScore/addLink`, data);
+};

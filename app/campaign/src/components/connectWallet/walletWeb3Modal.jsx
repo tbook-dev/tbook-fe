@@ -49,7 +49,7 @@ const ConnectWalletModal = () => {
     s => s.global.showConnectWalletModal
   );
   const [messageApi, contextHolder] = message.useMessage();
-  const { data: userData, twitterConnected, refetch, userLogined, user } = useUserInfo();
+  const { data: userData, evmAddress, refetch, userLogined, user } = useUserInfo();
   // const queryClient = useQueryClient()
   const dispath = useDispatch();
   // const { isConnected, address } = useAccount()
@@ -68,7 +68,7 @@ const ConnectWalletModal = () => {
     try {
       // const nonce = await getNonce(address)
       const sign = await signMessageAsync({ message: nonce });
-      if (twitterConnected) {
+      if (userLogined && !evmAddress) {
         const r = await bindEvm(address, sign);
         const data = await r.json();
         if (data.code === 400) {
