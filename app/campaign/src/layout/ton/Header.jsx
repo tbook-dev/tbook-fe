@@ -5,10 +5,15 @@ import { useDispatch } from 'react-redux';
 import { setLoginModal } from '@/store/global';
 import AvatarSkeleton from '../common/AvatarSkeleton';
 import Avatar from '../common/Avatar';
+import { Link } from 'react-router-dom';
+import LazyImage from '@/components/lazyImage';
+import { useLocation } from 'react-router-dom';
 
+const tonHomeLink = '/ton-explore';
 function Header () {
   const { userLogined, firstLoad } = useUserInfo();
   const dispath = useDispatch();
+  const { pathname } = useLocation();
   const handleClick = () => {
     dispath(setLoginModal(true));
   };
@@ -23,7 +28,17 @@ function Header () {
       <div className='px-4 py-1.5 lg:px-20'>
         <div className='flex items-center justify-between h-10'>
           <div className='flex items-center'>
-            <img src={logo} className='h-6 object-contain' />
+            {pathname === tonHomeLink ? (
+              <LazyImage src={logo} alt='logo' className='h-6 object-contain' />
+            ) : (
+              <Link to={tonHomeLink}>
+                <LazyImage
+                  src={logo}
+                  alt='logo'
+                  className='h-6 object-contain'
+                />
+              </Link>
+            )}
           </div>
 
           <div>
