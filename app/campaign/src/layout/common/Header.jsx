@@ -3,9 +3,12 @@ import FixedHeader from '../fixed/Header';
 import MyHeader from '../my/Header';
 import TonHeader from '../ton/Header';
 import NormalHeader from '../normal/Header';
-import Modals from './Modals';
+// import Modals from './Modals';
+import { Suspense, lazy } from 'react';
 
-export default function Header({ type }) {
+const Modals = lazy(() => import('./Modals'));
+
+export default function Header ({ type }) {
   return (
     <>
       {type === 'fixed' && <FixedHeader />}
@@ -13,7 +16,9 @@ export default function Header({ type }) {
       {type === 'ton' && <TonHeader />}
       {type === 'normal' && <NormalHeader />}
       <WatchRouter />
-      <Modals />
+      <Suspense>
+        <Modals />
+      </Suspense>
     </>
   );
 }

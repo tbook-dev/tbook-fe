@@ -1,19 +1,19 @@
-import Lottie from 'lottie-react'
-import redirectJSON from '@/images/social/redirect.json'
-// import tbook from '@/images/social/tbook.svg'
-import failedSvg from '@/images/social/logo-error.svg'
-import sucessSvg from '@/images/social/logo-ok.svg'
-import useSocial from '@/hooks/useSocial'
-import { useNavigate } from 'react-router-dom'
-import { redirectLocalStorageOnce } from '@/pages/social/conf'
-import Address from '@tbook/ui/src/Address'
-import { useDispatch } from 'react-redux'
-import { setShowMergeAccountModal, resetMergeAccountData } from '@/store/global'
-import { useCallback } from "react"
-// import sucessSvg from '@/images/social/sucess.svg'
-// import failedSvg from '@/images/social/fail.svg'
-// import occupiedSvg from '@/images/social/occupied.svg'
+import redirectJSON from '@/images/social/redirect.json';
+import failedSvg from '@/images/social/logo-error.svg';
+import sucessSvg from '@/images/social/logo-ok.svg';
+import useSocial from '@/hooks/useSocial';
+import { useNavigate } from 'react-router-dom';
+import { redirectLocalStorageOnce } from '@/pages/social/conf';
+import Address from '@tbook/ui/src/Address';
+import { useDispatch } from 'react-redux';
+import {
+  setShowMergeAccountModal,
+  resetMergeAccountData,
+} from '@/store/global';
+import { useCallback } from 'react';
+import { lazy, Suspense } from 'react';
 
+const Lottie = lazy(() => import('lottie-react'));
 const Result = ({ title, desc }) => {
   return (
     <div className='px-7 pt-4 text-center w-[320px] mx-auto'>
@@ -22,30 +22,32 @@ const Result = ({ title, desc }) => {
       )}
       <p className='text-xs text-[#A1A1A2]'>{desc}</p>
     </div>
-  )
-}
+  );
+};
 
 // loading, sucess, failed, occupied
 export default function RedirectSocial ({
   status = 'loading',
   desc = '',
-  type
+  type,
 }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const { getfnByName } = useSocial()
-  const { failText, loginFn } = getfnByName(type)
-  const dispath = useDispatch()
+  const { getfnByName } = useSocial();
+  const { failText, loginFn } = getfnByName(type);
+  const dispath = useDispatch();
 
   const handleMergeAccount = useCallback(() => {
-    dispath(setShowMergeAccountModal(true))
-  }, [])
+    dispath(setShowMergeAccountModal(true));
+  }, []);
   return (
     <div className='pt-[100px] lg:pt-[200px]'>
       {status === 'loading' && (
         <div className='flex flex-col items-center'>
           <div className='w-14 lg:w-20 h-14 lg:h-20  mb-4 lg:mb-8'>
-            <Lottie animationData={redirectJSON} loop={true} />
+            <Suspense>
+              <Lottie animationData={redirectJSON} loop={true} />
+            </Suspense>
           </div>
           <Result desc='We are verifying the account connection results...' />
         </div>
@@ -68,7 +70,7 @@ export default function RedirectSocial ({
             <button
               className='bg-[#904BF6] h-[42px] w-full shadow-s4 rounded hover:opacity-70'
               onClick={() => {
-                loginFn(true)
+                loginFn(true);
               }}
             >
               Try again
@@ -102,10 +104,7 @@ export default function RedirectSocial ({
       {status === 'occupied-merge' && (
         <div className='flex flex-col items-center'>
           <img src={failedSvg} className='w-14 lg:w-20 h-14 lg:h-20' />
-          <Result
-            title='Account Occupied'
-            desc={desc || 'Account Occupied!'}
-          />
+          <Result title='Account Occupied' desc={desc || 'Account Occupied!'} />
           <div className='w-[312px] mx-auto text-white mt-8 space-y-3'>
             <button
               className='bg-[#904BF6] h-[42px] w-full shadow-s4 rounded hover:opacity-70'
@@ -123,5 +122,5 @@ export default function RedirectSocial ({
         </div>
       )}
     </div>
-  )
+  );
 }

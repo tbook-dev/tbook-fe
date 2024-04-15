@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import ReactECharts from 'echarts-for-react';
 import useWiseScore from '@/hooks/useWiseScore';
-import * as echarts from 'echarts';
+import { graphic } from 'echarts';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import { sum } from 'lodash';
 const modlueConf = {
@@ -100,7 +100,7 @@ export default function WiseInfo () {
               opacity: 0,
             },
             areaStyle: {
-              color: new echarts.graphic.RadialGradient(0.1, 0.6, 1, [
+              color: graphic.RadialGradient(0.1, 0.6, 1, [
                 {
                   color: 'rgba(144, 75, 246, 0.2)',
                   offset: 0,
