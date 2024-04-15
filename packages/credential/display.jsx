@@ -36,7 +36,7 @@ export default function CredentialDisplay ({
       target='_blank'
       rel='nofollow noopener noreferrer'
       onClick={actionHandle}
-      className='flex items-start flex-nowrap break-all gap-x-1 pt-[3px] flex-auto text-base'
+      className='flex items-start flex-nowrap break-words gap-x-1 pt-[3px] flex-auto text-base'
     >
       <img
         src={theme === 'dark' ? credentialConf.picUrl : credentialConf.picUrl2}
@@ -51,7 +51,7 @@ export default function CredentialDisplay ({
   ) : (
     <button
       onClick={actionHandle}
-      className='flex items-start flex-wrap break-all gap-x-1 pt-[3px] flex-auto text-base'
+      className='flex items-start flex-wrap break-words gap-x-1 pt-[3px] flex-auto text-base'
     >
       <img
         src={theme === 'dark' ? credentialConf.picUrl : credentialConf.picUrl2}
