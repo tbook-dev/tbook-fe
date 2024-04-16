@@ -1,8 +1,11 @@
 import { Form, Input } from 'antd';
+import dcInviteImg from '@/images/dc-invite.png';
+import Invitebot from '../components/invitebot';
 const FormItem = Form.Item;
 
 const dcBotLink =
   'https://discord.com/oauth2/authorize?client_id=1146414186566537288&permissions=2417034321&scope=bot';
+
 export default {
   // twitter
   11: {
@@ -107,30 +110,27 @@ export default {
     render: ({ name }) => {
       return (
         <div className='space-y-3'>
-          <div className='text-sm font-medium text-c-9 flex justify-between'>
-            <div>
-              <span className='text-[#FF5151] me-1'>*</span>
-              Invite Tbook Bot as an admin to your server
-            </div>
-            <a
-              className='underline text-[#717374] hover:opacity-70 hover:text-white hover:underline'
-              href='https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord'
-              target='_blank'
-            >
-              How to invite ?
-            </a>
-          </div>
-          <div>
-            <a
-              href={dcBotLink}
-              target='_blank'
-              className='hover:text-white bg-clip-text	text-transparent bg-gradient-to-l  from-[#904BF6] to-[#CF0063] relative after:h-px after:absolute after:-bottom-1 after:inset-x-0 after:bg-gradient-to-r  after:from-[#904BF6] after:to-[#CF0063]'
-            >
-              Invite bot
-            </a>
-          </div>
+          <Invitebot
+            botLink={dcBotLink}
+            inviteHelpLink='https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord'
+          />
+
           <FormItem
-            label='Discord Server URL'
+            label='Server Invite Link'
+            tooltip={{
+              title: (
+                <div className='rounded-2.5xl p-4 relative space-y-2'>
+                  <p className='text-sm font-medium'>
+                    It has to be a never expire and no max number of users
+                    limitation invite link.
+                  </p>
+                  <img src={dcInviteImg} alt='dc bot invite img' />
+                </div>
+              ),
+              overlayInnerStyle: {
+                width: 400,
+              },
+            }}
             name={[name, 'link']}
             rules={[
               {
@@ -155,31 +155,13 @@ export default {
     render: ({ name }) => {
       return (
         <div className='space-y-3'>
-          <div className='text-sm font-medium text-c-9 flex justify-between'>
-            <div>
-              <span className='text-[#FF5151] me-1'>*</span>
-              Invite Tbook Bot as an admin to your server
-            </div>
-            <a
-              className='underline text-[#717374] hover:opacity-70 hover:text-white hover:underline'
-              href='https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord'
-              target='_blank'
-            >
-              How to invite ?
-            </a>
-          </div>
-          <div>
-            <a
-              href={dcBotLink}
-              target='_blank'
-              className='hover:text-white bg-clip-text	text-transparent bg-gradient-to-l  from-[#904BF6] to-[#CF0063] relative after:h-px after:absolute after:-bottom-1 after:inset-x-0 after:bg-gradient-to-r  after:from-[#904BF6] after:to-[#CF0063]'
-            >
-              Invite bot
-            </a>
-          </div>
+          <Invitebot
+            botLink={dcBotLink}
+            inviteHelpLink='https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord'
+          />
 
           <FormItem
-            label='Discord Server URL'
+            label='Server Invite Link'
             name={[name, 'link']}
             rules={[
               {
