@@ -6,7 +6,18 @@ const statusMap = {
   ended: 3,
 };
 
-export default function AirDropCard ({ num, symbol, logoUrl, status }) {
+export default function AirDropCard ({
+  num,
+  symbol,
+  logoUrl,
+  status,
+  setModalData,
+  openModal,
+}) {
+  const handleClick = () => {
+    setModalData({ amount: num, symbol });
+    openModal();
+  };
   return (
     <div
       className={clsx(
@@ -32,6 +43,7 @@ export default function AirDropCard ({ num, symbol, logoUrl, status }) {
 
       <button
         disabled={status !== statusMap.ongoing}
+        onClick={handleClick}
         className={clsx('w-[120px] rounded text-white py-1', {
           'bg-[#904BF6] opacity-20': status === statusMap.notStarted,
           'bg-[#904BF6]': status === statusMap.ongoing,

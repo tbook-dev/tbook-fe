@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import clsx from 'clsx';
 import carryLogo from '@/images/icon/carry.svg';
 
-export default function Phases () {
+export default function Phases ({ setModalData, openModal }) {
   const [current, setCurrent] = useState(0);
   const phases = useMemo(() => {
     return [
@@ -76,7 +76,14 @@ export default function Phases () {
       <div className='grid grid-cols-4 gap-x-2'>
         {phases.map(ph => {
           return (
-            <Card key={ph.value} {...ph} symbol='GAME' logoUrl={carryLogo} />
+            <Card
+              key={ph.value}
+              {...ph}
+              symbol='GAME'
+              logoUrl={carryLogo}
+              setModalData={setModalData}
+              openModal={openModal}
+            />
           );
         })}
       </div>
