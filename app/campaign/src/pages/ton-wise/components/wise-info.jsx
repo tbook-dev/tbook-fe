@@ -100,7 +100,7 @@ export default function WiseInfo () {
               opacity: 0,
             },
             areaStyle: {
-              color: graphic.RadialGradient(0.1, 0.6, 1, [
+              color: new graphic.RadialGradient(0.1, 0.6, 1, [
                 {
                   color: 'rgba(144, 75, 246, 0.2)',
                   offset: 0,
