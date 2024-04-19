@@ -249,7 +249,12 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                               </div>
                             </div>
 
-                            <CC key={key} name={name} {...restField} />
+                            <CC
+                              key={key}
+                              name={name}
+                              form={form}
+                              {...restField}
+                            />
                           </div>
                         );
                       })

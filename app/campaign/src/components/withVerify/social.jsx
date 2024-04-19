@@ -1,18 +1,19 @@
-import Lottie from 'lottie-react'
-import redirectJSON from '@/images/social/loading.json'
+import { lazy, Suspense } from 'react';
+import redirectJSON from '@/images/social/loading.json';
 // import tbook from '@/images/social/tbook.svg'
-import failedSvg from '@/images/social/logo-error2.svg'
-import sucessSvg from '@/images/social/logo-ok2.svg'
-import useSocial from '@/hooks/useSocial'
-import { useSelector } from 'react-redux'
-import { Modal } from 'antd'
-import { useCallback } from 'react'
-import { useDispatch } from 'react-redux'
+import failedSvg from '@/images/social/logo-error2.svg';
+import sucessSvg from '@/images/social/logo-ok2.svg';
+import useSocial from '@/hooks/useSocial';
+import { useSelector } from 'react-redux';
+import { Modal } from 'antd';
+import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   setShowSocialRedirectModal,
-  setShowMergeAccountModal
-} from '@/store/global'
-import { useResponsive } from 'ahooks'
+  setShowMergeAccountModal,
+} from '@/store/global';
+import { useResponsive } from 'ahooks';
+const Lottie = lazy(() => import('lottie-react'));
 
 // import sucessSvg from '@/images/social/sucess.svg'
 // import failedSvg from '@/images/social/fail.svg'
@@ -26,33 +27,33 @@ const Result = ({ title, desc }) => {
       )}
       <p className='text-xs text-[#A1A1A2]'>{desc}</p>
     </div>
-  )
-}
+  );
+};
 
 // loading, sucess, failed, occupied
 export default function Social () {
-  const { pc } = useResponsive()
+  const { pc } = useResponsive();
   const { type, status, desc } = useSelector(
     s => s.global.socialRedirectModalData
-  )
+  );
   //   const navigate = useNavigate();
-  const dispath = useDispatch()
+  const dispath = useDispatch();
   const showSocialRedirectModal = useSelector(
     s => s.global.showSocialRedirectModal
-  )
+  );
 
-  const { getfnByName } = useSocial()
-  const { failText, loginFn } = getfnByName(type)
+  const { getfnByName } = useSocial();
+  const { failText, loginFn } = getfnByName(type);
   const handleCloseModal = useCallback(() => {
-    dispath(setShowSocialRedirectModal(false))
-  }, [])
+    dispath(setShowSocialRedirectModal(false));
+  }, []);
 
   const handleMergeAccount = useCallback(() => {
-    handleCloseModal()
+    handleCloseModal();
     setTimeout(() => {
-      dispath(setShowMergeAccountModal(true))
+      dispath(setShowMergeAccountModal(true));
     }, 200);
-  }, [])
+  }, []);
 
   return (
     <Modal
@@ -67,7 +68,9 @@ export default function Social () {
         {status === 'loading' && (
           <div className='flex flex-col items-center'>
             <div className='w-14 lg:w-20 h-14 lg:h-20  mb-4 lg:mb-8'>
-              <Lottie animationData={redirectJSON} loop={true} />
+              <Suspense>
+                <Lottie animationData={redirectJSON} loop={true} />
+              </Suspense>
             </div>
             <Result desc='We are verifying the account connection results...' />
           </div>
@@ -90,7 +93,7 @@ export default function Social () {
               <button
                 className='bg-[#904BF6] h-[42px] w-full shadow-s4 rounded hover:opacity-70'
                 onClick={() => {
-                  loginFn(true)
+                  loginFn(true);
                 }}
               >
                 Try again
@@ -137,5 +140,5 @@ export default function Social () {
         )}
       </div>
     </Modal>
-  )
+  );
 }

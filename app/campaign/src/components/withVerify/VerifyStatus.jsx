@@ -1,11 +1,13 @@
-import Lottie from 'lottie-react'
-import dataJSON from '@/images/social/verified.json'
-import verifiedSvg from '@/images/social/verified.svg'
+import dataJSON from '@/images/social/verified.json';
+import verifiedSvg from '@/images/social/verified.svg';
+import { lazy, Suspense } from 'react';
+
 export const verifyStatusEnum = {
   NotStarted: 0,
   Pending: 1,
-  Sucess: 2
-}
+  Sucess: 2,
+};
+const Lottie = lazy(() => import('lottie-react'));
 
 export default function VerifyStatus ({ status }) {
   return (
@@ -26,17 +28,19 @@ export default function VerifyStatus ({ status }) {
       )}
 
       {status === verifyStatusEnum.Pending && (
-        <Lottie
-          loop
-          autoplay={true}
-          animationData={dataJSON}
-          style={{ height: '24px', width: '24px' }}
-        />
+        <Suspense>
+          <Lottie
+            loop
+            autoplay={true}
+            animationData={dataJSON}
+            style={{ height: '24px', width: '24px' }}
+          />
+        </Suspense>
       )}
 
       {status === verifyStatusEnum.Sucess && (
         <img src={verifiedSvg} className='w-4 h-4' alt='sucess' />
       )}
     </>
-  )
+  );
 }

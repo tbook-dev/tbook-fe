@@ -1,6 +1,5 @@
 import request from './request';
 import { Network, Alchemy } from 'alchemy-sdk';
-// import mockData from './a'
 const settings = {
   apiKey: '8s2Swo7n62XYd3ApkcnentYuEi5BI1Yj',
   network: Network.ETH_MAINNET,
@@ -60,10 +59,8 @@ export const getCredential = async function (projectId) {
 
 export const getCredentials = async function (projectId) {
   return await request(`${host}/campaignNew/groups/${projectId}`);
-  // return mockData
 };
 export const getNFTcontracts = async function (projectId) {
-  // console.log("get-list----->", projectId);
   const list = await request(`${host}/nft/project/${projectId}`);
   return list.filter((v) => v.contract);
 };
@@ -80,9 +77,7 @@ export const parseLinkParams = async function (values) {
 export const getCampaignParticipation = async function (campaignId) {
   return await request(`${host}/campaignNew/participation/${campaignId}`);
 };
-// export const getPoint = async function (projectId) {
-//   return await request(`${host}/project/stats/${projectId}/points`);
-// };
+
 export const getAsset = async function (projectId) {
   return await request(`${host}/project/${projectId}/assets`);
 };
@@ -99,18 +94,6 @@ export const getProjectExternalConfig = async function (projectId) {
   return await request(`${host}/project/${projectId}/externalConfig`);
 };
 
-// export const getCredentials = async function (projectId) {
-//   return await request(`${host}/credentials/project/${projectId}`);
-// };
-//
-// export const getIncentiveList = async function (projectId) {
-//   try {
-//     const res = await request(`${host}/projects/${projectId}/tips`);
-//     return (Array.isArray(res) ? res : []).slice();
-//   } catch (error) {
-//     return [];
-//   }
-// };
 export const getPreSignedUrl = async function () {
   return await request(`${host}/signedUploadUrl`);
 };
@@ -129,124 +112,14 @@ export const updateProjectExt = async function (projectId, values) {
     values
   );
 };
-// export const updateProjectValuation = async function (projectId, values) {
-//   return request.PostFormV1(
-//     `${host}/projects/${projectId}/valuationUpdate`,
-//     values
-//   );
-// };
 
-// export const getTipGrantList = async function (incentivePlanId) {
-//   return request(`${host}/grant/${incentivePlanId}/grants`);
-// };
+export const getTonPayload = async function () {
+  return await request(`${host}/ton-proof/generate-payload`);
+};
 
-// export const createTIP = async function (values) {
-//   return request.Post(
-//     `${host}/tip/addTip?projectId=${values.projectId}`,
-//     values
-//   );
-// };
-
-// export const addGrant = async function (incentivePlanId, values) {
-//   return request.Post(
-//     `${host}/grant/addGrant?incentivePlanId=${incentivePlanId}`,
-//     values
-//   );
-// };
-
-// export const getGrantInfo = async function (grantId) {
-//   return request(`${host}/grant/grantInfo?grantId=${grantId}`);
-// };
-
-// export const getGrantInfoWithPlan = async function (grantId) {
-//   return fetch(`${host}/grant/grantInfoWithPlan?grantId=${grantId}`, {
-//     credentials: "include",
-//   }).then((res) => {
-//     if (`${res.status}`.startsWith("4")) {
-//       return Promise.reject(res);
-//     }
-//     return res.json();
-//   });
-// };
-
-// export const updateGrantInfo = async function (values) {
-//   return request.Post(`/grant/updateGrant`, values);
-// };
-// export const getGrantVestingScheduleInfo = async function (grantId) {
-//   return fetch(`${host}/grant/vestingSchedule?grantId=${grantId}`, {
-//     credentials: "include",
-//   }).then((res) => {
-//     if (`${res.status}`.startsWith("4")) {
-//       return Promise.reject(res);
-//     }
-//     return res.json();
-//   });
-// };
-
-// export const getGrantSignInfo = async function (projectId, grantId) {
-//   return request(`${host}/grant/${grantId}/sign`);
-// };
-
-// export const postGrantSignInfo = async function (
-//   projectId,
-//   grantId,
-//   grantSignId,
-//   sign
-// ) {
-//   const params = new URLSearchParams();
-//   params.append("grantSignId", grantSignId);
-//   params.append("sign", sign);
-//   return fetch(`${host}/grant/${grantId}/sign`, {
-//     headers: {
-//       "Content-Type": "application/x-www-form-urlencoded",
-//     },
-//     method: "POST",
-//     body: params,
-//     credentials: "include",
-//   }).then((res) => res.json());
-// };
-
-// export const getDashboardOverview = async function (projectId, userId) {
-//   return request(`${host}/dashboard/${projectId}/user/${userId}/overView`);
-// };
-
-// export const getDashboardGrants = async function (projectId, userId) {
-//   return request(`${host}/dashboard/${projectId}/user/${userId}/grants`);
-// };
-
-// export const getTokenDist = async function (projectId) {
-//   return request(`${host}/projects/${projectId}/tokenDist`);
-// };
-
-// export const getAllocatPlan = async function (projectId) {
-//   return request(`${host}/projects/${projectId}/allocPlan`);
-// };
-// export const updateAllocationPlan = async function (projectId, values) {
-//   return request.Post(`${host}/projects/${projectId}/updateAlloc`, values);
-// };
-// export const getDilutedToken = async function (projectId) {
-//   return request(`${host}/projects/${projectId}/dilutedToken`);
-// };
-// export const addGrantRecord = async function (projectId, values) {
-//   return request.Post(`${host}/projects/${projectId}/addGrantRecord`, values);
-// };
-// export const getGrantRecordList = async function (projectId) {
-//   return request(`${host}/projects/${projectId}/grantRecordList`);
-// };
-
-// export const getTemplate = async function (tags = []) {
-//   return fetch(`${host}/projects/templateList?tags=${tags.join(",")}`).then(
-//     (res) => res.json()
-//   );
-// };
-export const getTonPayload = async function(){
-  return await request(`${host}/ton-proof/generate-payload`)
-}
-
-export const verifyTonProof = async function(data){
-  return await request.Post(`${host}/ton-proof/verify`, data)
-}
-;
+export const verifyTonProof = async function (data) {
+  return await request.Post(`${host}/ton-proof/verify`, data);
+};
 
 export const getTwLoginUrl = async function () {
   const res = await fetch(`${host}/twitter/auth`, {
@@ -289,4 +162,11 @@ export const addAdmin = async function (projectId, wallet, sign) {
 
 export const getAdminNonce = async function (data) {
   return await request.Post(`${host}/project/admin/nonce`, data);
+};
+
+export const getDcRoles = async function (url) {
+  await new Promise((r) => {
+    setTimeout(r, 1000);
+  });
+  return await request.Post(`${host}/dc/roles`, { payload: url });
 };
