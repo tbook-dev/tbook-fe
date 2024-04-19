@@ -21,8 +21,8 @@ const TonExplore = lazy(() => import('@/pages/ton-explore'));
 const WiseScore = lazy(() => import('@/pages/ton-wise/wise-score'));
 const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/wise-leaderboard'));
 
-
 const Attestation = lazy(() => import('@/pages/attestation'));
+const AirDrop = lazy(() => import('@/pages/airDrop'));
 
 const getProjectIdFn = async ({ params }) => {
   let projectUrl = params.projectName;
@@ -122,6 +122,22 @@ const routes = [
         <WiseLeaderboard />
       </Suspense>
     ),
+    errorElement: <GlobalError />,
+  },
+  {
+    path: '/air-drop',
+    loader: getProjectIdFn,
+    element: <MyLayout />,
+    children: [
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <AirDrop />
+          </Suspense>
+        ),
+      },
+    ],
     errorElement: <GlobalError />,
   },
   {
