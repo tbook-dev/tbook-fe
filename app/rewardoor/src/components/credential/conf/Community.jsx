@@ -1,6 +1,8 @@
-import { Form, Input } from 'antd';
+import { Form, Input, Spin, Select } from 'antd';
 import dcInviteImg from '@/images/dc-invite.png';
 import Invitebot from '../components/invitebot';
+import useDcRoles from '@/hooks/queries/useDcRoles';
+
 const FormItem = Form.Item;
 
 const dcBotLink =
@@ -105,7 +107,7 @@ export default {
     pick: ['link'],
   },
 
-  // discord
+  // discord verify server
   4: {
     render: ({ name }) => {
       return (
@@ -151,8 +153,13 @@ export default {
     },
     pick: ['link'],
   },
+  // discord, verify role
+  //https://discord.gg/S8jW2wMv
   5: {
-    render: ({ name }) => {
+    render: ({ name, form }) => {
+      const serverLink = Form.useWatch(['credential', name, 'link'], form);
+      const { data: remoteRoles = [], isLoading } = useDcRoles(serverLink);
+
       return (
         <div className='space-y-3'>
           <Invitebot
@@ -178,34 +185,28 @@ export default {
             <Input placeholder='https://discord.gg/xxxx!' />
           </FormItem>
           <FormItem
-            label='Role ID'
+            label='Role'
             name={[name, 'roleId']}
             rules={[
               {
                 required: true,
-                message: 'Please input the Role ID',
+                message: 'Please input valid server url first!',
               },
             ]}
           >
-            <Input placeholder='Enter Role ID' />
-          </FormItem>
-          <FormItem
-            label='Role Name'
-            name={[name, 'roleName']}
-            rules={[
-              {
-                required: true,
-                message: 'Please input the Role Name',
-              },
-            ]}
-          >
-            <Input placeholder='Enter Role Name' />
+            <Select
+              notFoundContent={
+                isLoading ? <Spin size='small' className='ml-3' /> : null
+              }
+              options={remoteRoles}
+              placeholder='Select role'
+            />
           </FormItem>
         </div>
       );
     },
 
-    pick: ['link', 'roleId', 'roleName'],
+    pick: ['link', 'roleId'],
   },
   // tg
   6: {
