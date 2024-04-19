@@ -11,7 +11,7 @@ export default function useDcRoles(serverLink) {
       try {
         const res = await getDcRoles(serverLink);
         if (res.code === 200) {
-          return res.data.map((v) => ({ label: v.roleName, value: +v.roleId }));
+          return res.data.map((v) => ({ label: v.roleName, value: v.roleId }));
         } else {
           null;
         }

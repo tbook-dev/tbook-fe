@@ -2,6 +2,7 @@ import { Form, Input, Spin, Select } from 'antd';
 import dcInviteImg from '@/images/dc-invite.png';
 import Invitebot from '../components/invitebot';
 import useDcRoles from '@/hooks/queries/useDcRoles';
+import { useEffect } from 'react';
 
 const FormItem = Form.Item;
 
@@ -158,8 +159,12 @@ export default {
   5: {
     render: ({ name, form }) => {
       const serverLink = Form.useWatch(['credential', name, 'link'], form);
-      const { data: remoteRoles = [], isLoading } = useDcRoles(serverLink);
-
+      const { data: remoteRoles, isLoading } = useDcRoles(serverLink);
+      useEffect(() => {
+        if (remoteRoles === null) {
+          form.setFieldValue(['credential', name, 'roleId'], undefined);
+        }
+      }, [remoteRoles]);
       return (
         <div className='space-y-3'>
           <Invitebot
@@ -199,7 +204,7 @@ export default {
                 isLoading ? <Spin size='small' className='ml-3' /> : null
               }
               options={remoteRoles}
-              placeholder='Select role'
+              placeholder='Select role after you input the valid Server Link'
             />
           </FormItem>
         </div>
