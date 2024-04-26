@@ -1,11 +1,23 @@
 import { Modal } from 'antd';
 import BigNumber from 'bignumber.js';
 import { formatDollarV2, shortAddressV1 } from '@tbook/utils/lib/conf';
-import { useAccount } from 'wagmi';
+import {
+  useAccount,
+  useNetwork,
+  useSwitchNetwork,
+  mainnet,
+  sepolia,
+} from 'wagmi';
 import { useState } from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin, message } from 'antd';
 import Result from './result';
+import {
+  prepareWriteContract,
+  writeContract,
+  waitForTransaction,
+} from '@wagmi/core';
+import useGameAirdrop from '@/hooks/useGameAirdrop';
 
 const moduleConf = {
   title: 'Claim the Airdrop',
@@ -14,39 +26,56 @@ const moduleConf = {
   claimSucess: 'Claim sucess!',
   claimError: 'Claim error!',
 };
+const airdropContractAddress = import.meta.env.VITE_GAME_AIRDROP_CONTRACT;
+const isStaging = import.meta.env.VITE_HOST_EVN === 'staging';
 
-export default function AirdropModal ({ amount, symbol, open, onClose }) {
+const phaseEnum = {
+  1: 's1',
+  2: 's2',
+  3: 's3',
+  4: 's4',
+};
+export default function AirdropModal ({ symbol, open, onClose, phaseNum = 1 }) {
   const { address } = useAccount();
-  const [resultOpen, setResultOpen] = useState(true);
+  const [resultOpen, setResultOpen] = useState(false);
   const [result, setResult] = useState({ status: 'sucess' });
   const [loading, setLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const { chain } = useNetwork();
+  const { switchNetworkAsync } = useSwitchNetwork();
+  const { data: airDropData } = useGameAirdrop(phaseEnum[phaseNum]);
+  const { salt, sign, amount } = airDropData?.entity ?? {};
+  const envbChain = isStaging ? sepolia : mainnet;
 
-  const claimTokens = () =>
-    new Promise(r => {
-      setTimeout(() => {
-        r();
-      }, 1000);
-    });
-  const handleClaim = () => {
-    setLoading(true);
-    claimTokens(amount)
-      .then(r => {
-        messageApi.success(moduleConf.claimSucess);
-        // 上报
-        // 刷新领取状态
-        setResult({ status: 'sucess' });
-      })
-      .catch(e => {
-        console.error(e);
-        setResult({ status: 'failed' });
-        messageApi.error(moduleConf.claimError);
-      })
-      .finally(() => {
-        setLoading(false);
-        onClose();
-        setOpen(true);
+  const handleClaim = async () => {
+    try {
+      const claimABI = await import('@/abi/GameAirdrop.json');
+      setLoading(true);
+      // 数据包括，数量，地址
+      if (chain?.id !== envbChain.id) {
+        await switchNetworkAsync(envbChain.chainId);
+      }
+      // prepare
+      const config = await prepareWriteContract({
+        address: airdropContractAddress,
+        abi: claimABI.abi,
+        functionName: 'claim',
+        args: [address, phaseEnum[phaseNum], amount, salt, sign],
       });
+      const r = await writeContract(config);
+      const data = await waitForTransaction({ hash: r.hash });
+      console.log('transaction log: ', data);
+      messageApi.success(moduleConf.claimSucess);
+      // 刷新领取状态
+      setResult({ status: 'sucess' });
+    } catch (error) {
+      setResult({ status: 'failed' });
+      messageApi.error(moduleConf.claimError);
+      console.log(error);
+    }
+    setLoading(false);
+    onClose();
+    setResultOpen(true);
   };
 
   return (

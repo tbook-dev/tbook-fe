@@ -48,7 +48,7 @@ export default function Result ({
               {moduleConf[status]?.title}
             </h2>
             <div className='text-xs text-[#A1A1A2]'>
-              {moduleConf[status]?.getDesc(data)}
+              {moduleConf[status]?.getDesc?.(data)}
             </div>
           </div>
         </div>
