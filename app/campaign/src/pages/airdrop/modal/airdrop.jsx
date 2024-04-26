@@ -45,25 +45,30 @@ export default function AirdropModal ({ symbol, open, onClose, phaseNum = 1 }) {
   const { switchNetworkAsync } = useSwitchNetwork();
   const { data: airDropData } = useGameAirdrop(phaseEnum[phaseNum]);
   const { salt, sign, amount } = airDropData?.entity ?? {};
-  const envbChain = isStaging ? sepolia : mainnet;
+  const envChain = isStaging ? sepolia : mainnet;
 
   const handleClaim = async () => {
     try {
       const claimABI = await import('@/abi/GameAirdrop.json');
       setLoading(true);
       // 数据包括，数量，地址
-      if (chain?.id !== envbChain.id) {
-        await switchNetworkAsync(envbChain.chainId);
+      if (chain?.id !== envChain.id) {
+        await switchNetworkAsync(envChain.chainId);
       }
       // prepare
       const config = await prepareWriteContract({
         address: airdropContractAddress,
         abi: claimABI.abi,
         functionName: 'claim',
+        chainId: envChain.chainId,
         args: [address, phaseEnum[phaseNum], amount, salt, sign],
       });
       const r = await writeContract(config);
-      const data = await waitForTransaction({ hash: r.hash });
+      console.log(r);
+      const data = await waitForTransaction({
+        chainId: envChain.chainId,
+        hash: r.hash,
+      });
       console.log('transaction log: ', data);
       messageApi.success(moduleConf.claimSucess);
       // 刷新领取状态
