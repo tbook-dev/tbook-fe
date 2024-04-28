@@ -1,13 +1,9 @@
 import { Outlet, Link } from 'react-router-dom';
-import bgPNG from './images/bg.png';
 
 export default function Layout () {
   return (
-    <main
-      className='text-white min-h-dvh bg-no-repeat bg-cover bg-center'
-      style={{ backgroundImage: `url(${bgPNG})` }}
-    >
-      <header className='w-[1280px] flex items-center justify-between mx-auto h-20'>
+    <main className='text-white min-h-dvh flex flex-col'>
+      <header className='flex-nont w-[1280px] flex items-center justify-between mx-auto h-20'>
         <svg
           width='145'
           height='41'
@@ -90,7 +86,9 @@ export default function Layout () {
           </svg>
         </Link>
       </header>
-      <Outlet />
+      <div className='flex-auto flex flex-col'>
+        <Outlet />
+      </div>
     </main>
   );
 }
