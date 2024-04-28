@@ -1,7 +1,14 @@
+import { Component } from 'react';
 import LayoutAdmin from './layout';
 import LeftNavLayout from './layout/LeftNavLayout';
 // import Home from '@/pages/dashboard/overview'
 import Home from '@/pages/campaign/list';
+import { Suspense, lazy } from 'react';
+import Loading from '@/components/loading';
+import WaitListLayout from '@/pages/waitlist/Layout';
+
+const WaitListApply = lazy(() => import('@/pages/waitlist'));
+const WaitListVerify = lazy(() => import('@/pages/waitlist/verify'));
 
 const routes = [
   {
@@ -110,6 +117,29 @@ const routes = [
           },
         ],
       },
+      {
+        path: '/waitlist',
+        element: <WaitListLayout />,
+        children: [
+          {
+            path: 'apply',
+            element: (
+              <Suspense fallback={<Loading />}>
+                <WaitListApply />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'verify',
+            element: (
+              <Suspense fallback={<Loading />}>
+                <WaitListVerify />
+              </Suspense>
+            ),
+          },
+        ],
+      },
+
       /*------------------------------------------------------------------------------------------*/
 
       {
