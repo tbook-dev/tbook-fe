@@ -7,12 +7,10 @@ import {
   setConnectWalletModal,
 } from '@/store/global';
 import suiBg from '@/images/zklogin/suibg.svg';
-import metamaskSVG from '@/images/zklogin/metamask.svg';
 import walletconnectSVG from '@/images/zklogin/walletconnect.svg';
 import tonSVG from '@/images/icon/ton.svg';
 import suiSVG from '@/images/zklogin/sui.svg';
-import xSVG from '@/images/icon/x-white.svg';
-import { Modal } from 'antd';
+import { Modal, Tooltip } from 'antd';
 import suiBlackSVG from '@/images/zklogin/sui-black.svg';
 import googleBg from '@/images/zklogin/google-bg.svg';
 import facebookBg from '@/images/zklogin/facebook-bg.svg';
@@ -28,6 +26,9 @@ import {
 import Back from '../back';
 import { useIsConnectionRestored } from '@tonconnect/ui-react';
 import { useTelegram } from '@/hooks/useTg';
+import { TMAconnectWallect, webConnectWallect } from '@/utils/logType';
+import useSocial from '@/hooks/useSocial';
+import ActionBution from '@/components/connectWallet/actionButton';
 
 const moduleConf = {
   title: 'Connect Wallet',
@@ -102,6 +103,7 @@ const WalletSelectModal = () => {
   const connectionRestored = useIsConnectionRestored();
 
   const [tonConnectUI] = useTonConnectUI();
+  const { zkList } = useSocial();
 
   const handleWallet = useCallback(type => {
     if (type === 'walletconnect') {
@@ -131,40 +133,39 @@ const WalletSelectModal = () => {
     setLoginType('option');
     setLoginStep(2);
   }, []);
+  const handleZkLogin = useCallback(() => {
+    setLoginStep(2);
+    setLoginType('zklogin');
+  }, []);
   const handleCloseModal = useCallback(() => {
     dispath(setShowWalletConnectModal(false));
     setTimeout(handleBackToInitLogin, 100);
   }, []);
-  const mainButton = isTMA
-    ? {
-        type: 'ton',
-        text: moduleConf.tonWallet.text,
-        pic: moduleConf.tonWallet.picUrl,
-        handle: handleTonClick,
-      }
-    : {
-        type: 'evm',
-        text: moduleConf.walletconnect.text,
-        pic: moduleConf.walletconnect.picUrl,
-        handle: () => handleWallet('walletconnect'),
-      };
-  const subList = isTMA
-    ? [
-        {
-          type: 'evm',
-          text: moduleConf.walletconnect.text,
-          pic: moduleConf.walletconnect.picUrl,
-          handle: () => handleWallet('walletconnect'),
-        },
-      ]
-    : [
-        {
-          type: 'ton',
-          text: moduleConf.tonWallet.text,
-          pic: moduleConf.tonWallet.picUrl,
-          handle: handleTonClick,
-        },
-      ];
+
+  const handleList = [
+    {
+      type: 'tonConnect',
+      text: moduleConf.tonWallet.text,
+      pic: moduleConf.tonWallet.picUrl,
+      handle: handleTonClick,
+    },
+    {
+      type: 'walletconnect',
+      text: moduleConf.walletconnect.text,
+      pic: moduleConf.walletconnect.picUrl,
+      handle: () => handleWallet('walletconnect'),
+    },
+    {
+      type: 'zkLogin',
+      text: moduleConf.walletconnect.text,
+      pic: moduleConf.walletconnect.picUrl,
+      handle: handleZkLogin,
+    },
+  ];
+  const currentWallet = isTMA ? TMAconnectWallect : webConnectWallect;
+  const mainButton = handleList.find(h => h.type === currentWallet['1']);
+  const subList = currentWallet[2].map(c => handleList.find(h => h.type === c));
+
   return (
     <Modal
       title={null}
@@ -182,13 +183,36 @@ const WalletSelectModal = () => {
         <div className='px-5 pt-5'>
           {loginStep === 1 && (
             <div className='space-y-5 text-sm'>
-              <button
-                className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
-                onClick={mainButton.handle}
-              >
-                <img src={mainButton.pic} className='size-5' alt='logo' />
-                {mainButton.text}
-              </button>
+              {mainButton.type === 'zkLogin' ? (
+                <button
+                  className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
+                  onClick={mainButton.handle}
+                >
+                  {moduleConf.zkLogin.logoBgList.map(v => (
+                    <img
+                      key={v.name}
+                      src={v.url}
+                      style={v.style}
+                      alt={`${v.name} logo`}
+                      className='absolute'
+                    />
+                  ))}
+                  <img
+                    src={suiBlackSVG}
+                    className='w-[14px] h-5'
+                    alt='sui logo'
+                  />
+                  zkLogin
+                </button>
+              ) : (
+                <button
+                  className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
+                  onClick={mainButton.handle}
+                >
+                  <img src={mainButton.pic} className='size-5' alt='logo' />
+                  {mainButton.text}
+                </button>
+              )}
 
               <button
                 className='h-[52px] w-full rounded-lg border border-white text-white font-medium hover:opacity-70'
@@ -221,6 +245,43 @@ const WalletSelectModal = () => {
                       </button>
                     );
                   })}
+                </div>
+              )}
+              {loginType === 'zklogin' && (
+                <div className='bg-[#63A1F8] border border-[rgb(99,161,248)]/[0.40] py-4 px-5 rounded-lg relative overflow-hidden'>
+                  <img
+                    src={moduleConf.zkLogin.bg}
+                    className='w-12 absolute right-4 top-0 rotate-12'
+                  />
+                  <div className='text-white flex items-center gap-x-2 text-sm font-medium space-y-4 mb-4'>
+                    <img src={suiSVG} className='w-4 h-5 object-center' />
+                    {moduleConf.zkLogin.name}
+                  </div>
+                  <div className='flex items-center justify-center gap-x-8'>
+                    {zkList.map(v => {
+                      return v.ready ? (
+                        <ActionBution
+                          key={v.name}
+                          replace
+                          handleAsync={async () => v.loginFn(false)}
+                        >
+                          <img
+                            src={v.picColorUrl}
+                            className='w-8 h-8 object-center hover:opacity-70'
+                            alt={v.name}
+                          />
+                        </ActionBution>
+                      ) : (
+                        <Tooltip title='Stay tuned' key={v.name}>
+                          <img
+                            src={v.picUrl}
+                            className='w-8 h-8 object-center'
+                            alt={v.name}
+                          />
+                        </Tooltip>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
             </>

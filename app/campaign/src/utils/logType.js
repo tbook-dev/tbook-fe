@@ -65,3 +65,13 @@ export const webSocialList = ({ twitterName, tgName }) => [
     weight: 1,
   },
 ];
+
+export const webConnectWallect = {
+  1: 'zkLogin',
+  2: ['walletconnect'],
+};
+
+export const TMAconnectWallect = {
+  1: 'tonConnect',
+  2: ['walletconnect'],
+};

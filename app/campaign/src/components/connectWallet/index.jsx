@@ -203,7 +203,8 @@ const ConnectWalletModal = () => {
   }, []);
   const handleCloseModal = useCallback(() => {
     dispath(setLoginModal(false));
-    // setTimeout(handleBackToInitLogin, 1000)
+    // 500 + safe 100
+    setTimeout(handleBackToInitLogin, 600)
   }, []);
 
   return (
