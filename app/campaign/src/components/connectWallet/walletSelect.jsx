@@ -6,16 +6,7 @@ import {
   setShowWalletConnectModal,
   setConnectWalletModal,
 } from '@/store/global';
-import suiBg from '@/images/zklogin/suibg.svg';
-import walletconnectSVG from '@/images/zklogin/walletconnect.svg';
-import tonSVG from '@/images/icon/ton.svg';
-import suiSVG from '@/images/zklogin/sui.svg';
 import { Modal, Tooltip } from 'antd';
-import suiBlackSVG from '@/images/zklogin/sui-black.svg';
-import googleBg from '@/images/zklogin/google-bg.svg';
-import facebookBg from '@/images/zklogin/facebook-bg.svg';
-import twitchBg from '@/images/zklogin/twitch-bg.svg';
-import talkBg from '@/images/zklogin/talk-bg.svg';
 import {
   useTonConnectUI,
   useTonWallet,
@@ -29,64 +20,12 @@ import { useTelegram } from '@/hooks/useTg';
 import { TMAconnectWallect, webConnectWallect } from '@/utils/logType';
 import useSocial from '@/hooks/useSocial';
 import ActionBution from '@/components/connectWallet/actionButton';
+import { walletMap } from '@/utils/logType';
 
 const moduleConf = {
   title: 'Connect Wallet',
   passport: 'Log in to unlock incentive passport',
-  zkLogin: {
-    name: 'zkLogin',
-    bg: suiBg,
-    logoBgList: [
-      {
-        name: 'google',
-        url: googleBg,
-        style: {
-          left: 0,
-          top: 0,
-          transform: 'rotate(7deg)',
-        },
-      },
-      {
-        name: 'facebook',
-        url: facebookBg,
-        style: {
-          left: 58,
-          top: 12,
-          transform: 'rotate(7deg)',
-        },
-      },
-      {
-        name: 'twitch',
-        url: twitchBg,
-        style: {
-          right: 70,
-          top: -4,
-          transform: 'rotate(-6.995deg)',
-        },
-      },
-      {
-        name: 'talk',
-        url: talkBg,
-        style: {
-          right: 5,
-          top: 8,
-          transform: 'rotate(0deg)',
-        },
-      },
-    ],
-  },
-
-  walletconnect: {
-    type: 'walletconnect',
-    picUrl: walletconnectSVG,
-    text: 'WalletConnect',
-  },
-
-  tonWallet: {
-    type: 'tonWallet',
-    picUrl: tonSVG,
-    text: 'TON Connect',
-  },
+  ...walletMap
 };
 
 const WalletSelectModal = () => {
@@ -145,8 +84,8 @@ const WalletSelectModal = () => {
   const handleList = [
     {
       type: 'tonConnect',
-      text: moduleConf.tonWallet.text,
-      pic: moduleConf.tonWallet.picUrl,
+      text: moduleConf.tonConnect.text,
+      pic: moduleConf.tonConnect.picUrl,
       handle: handleTonClick,
     },
     {
@@ -157,8 +96,8 @@ const WalletSelectModal = () => {
     },
     {
       type: 'zkLogin',
-      text: moduleConf.walletconnect.text,
-      pic: moduleConf.walletconnect.picUrl,
+      text: '',
+      pic: moduleConf.zkLogin.picUrl,
       handle: handleZkLogin,
     },
   ];
@@ -198,7 +137,7 @@ const WalletSelectModal = () => {
                     />
                   ))}
                   <img
-                    src={suiBlackSVG}
+                    src={moduleConf.zkLogin.picUrl}
                     className='w-[14px] h-5'
                     alt='sui logo'
                   />
@@ -254,7 +193,7 @@ const WalletSelectModal = () => {
                     className='w-12 absolute right-4 top-0 rotate-12'
                   />
                   <div className='text-white flex items-center gap-x-2 text-sm font-medium space-y-4 mb-4'>
-                    <img src={suiSVG} className='w-4 h-5 object-center' />
+                    <img src={moduleConf.zkLogin.icon} className='w-4 h-5 object-center' />
                     {moduleConf.zkLogin.name}
                   </div>
                   <div className='flex items-center justify-center gap-x-8'>

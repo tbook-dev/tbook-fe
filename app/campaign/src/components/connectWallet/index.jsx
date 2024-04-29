@@ -1,17 +1,12 @@
 import { useSelector } from 'react-redux';
-import { useResponsive, useSize } from 'ahooks';
-import { useState, useEffect, useCallback } from 'react';
+import { useResponsive } from 'ahooks';
+import { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { setLoginModal, setConnectWalletModal } from '@/store/global';
 import { loginUsingTwitterUrl } from '@/api/incentive';
 import WalletWeb3Modal from './walletWeb3Modal';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import { useAccount, useWalletClient } from 'wagmi';
-import suiBg from '@/images/zklogin/suibg.svg';
-import metamaskSVG from '@/images/zklogin/metamask.svg';
-import walletconnectSVG from '@/images/zklogin/walletconnect.svg';
-import suiSVG from '@/images/zklogin/sui.svg';
-import xSVG from '@/images/icon/x-white.svg';
 import ActionBution from './actionButton';
 import useSocial from '@/hooks/useSocial';
 import Modal from './modal';
@@ -25,83 +20,16 @@ import {
 } from '@tonconnect/ui-react';
 import useTonLogin from '@/hooks/useTonLogin';
 import { useIsConnectionRestored } from '@tonconnect/ui-react';
-import suiBlackSVG from '@/images/zklogin/sui-black.svg';
-import tonSVG from '@/images/icon/ton.svg';
-import googleBg from '@/images/zklogin/google-bg.svg';
-import facebookBg from '@/images/zklogin/facebook-bg.svg';
-import twitchBg from '@/images/zklogin/twitch-bg.svg';
-import talkBg from '@/images/zklogin/talk-bg.svg';
+
 import passport_locked_h5 from '@/images/passport/passport_locked_h5.png';
 import WalletSelectModal from './walletSelect';
 import Back from '../back';
+import { walletMap } from '@/utils/logType';
 
 const moduleConf = {
   title: 'Log in or create a wallet with',
   passport: 'Log in to unlock incentive passport',
-  zkLogin: {
-    name: 'zkLogin',
-    bg: suiBg,
-    logoBgList: [
-      {
-        name: 'google',
-        url: googleBg,
-        style: {
-          left: 0,
-          top: 0,
-          transform: 'rotate(7deg)',
-        },
-      },
-      {
-        name: 'facebook',
-        url: facebookBg,
-        style: {
-          left: 58,
-          top: 12,
-          transform: 'rotate(7deg)',
-        },
-      },
-      {
-        name: 'twitch',
-        url: twitchBg,
-        style: {
-          right: 70,
-          top: -4,
-          transform: 'rotate(-6.995deg)',
-        },
-      },
-      {
-        name: 'talk',
-        url: talkBg,
-        style: {
-          right: 5,
-          top: 8,
-          transform: 'rotate(0deg)',
-        },
-      },
-    ],
-  },
-
-  tonWallet: {
-    type: 'tonWallet',
-    picUrl: tonSVG,
-    text: 'TON Connect',
-  },
-
-  wallet: [
-    {
-      type: 'walletconnect',
-      picUrl: walletconnectSVG,
-      text: 'WalletConnect',
-    },
-  ],
-
-  social: [
-    {
-      type: 'twitter',
-      picUrl: xSVG,
-      text: 'Log in with X',
-    },
-  ],
+  ...walletMap,
 };
 
 const ConnectWalletModal = () => {
@@ -109,7 +37,7 @@ const ConnectWalletModal = () => {
   const showConnectWalletModal = useSelector(
     s => s.global.showConnectWalletModal
   );
-  const size = useSize(document.documentElement);
+  console.log({ moduleConf });
   const { open } = useTonConnectModal();
   const { zkList, getZkfnByName } = useSocial();
   const showLoginModal = useSelector(s => s.global.showLoginModal);
@@ -204,7 +132,7 @@ const ConnectWalletModal = () => {
   const handleCloseModal = useCallback(() => {
     dispath(setLoginModal(false));
     // 500 + safe 100
-    setTimeout(handleBackToInitLogin, 600)
+    setTimeout(handleBackToInitLogin, 600);
   }, []);
 
   return (
@@ -238,7 +166,7 @@ const ConnectWalletModal = () => {
                   />
                 ))}
                 <img
-                  src={suiBlackSVG}
+                  src={moduleConf.zkLogin.picUrl}
                   className='w-[14px] h-5'
                   alt='sui logo'
                 />
@@ -275,7 +203,10 @@ const ConnectWalletModal = () => {
                     className='w-12 absolute right-4 top-0 rotate-12'
                   />
                   <div className='text-white flex items-center gap-x-2 text-sm font-medium space-y-4 mb-4'>
-                    <img src={suiSVG} className='w-4 h-5 object-center' />
+                    <img
+                      src={moduleConf.zkLogin.icon}
+                      className='w-4 h-5 object-center'
+                    />
                     {moduleConf.zkLogin.name}
                   </div>
                   <div className='flex items-center justify-center gap-x-8'>

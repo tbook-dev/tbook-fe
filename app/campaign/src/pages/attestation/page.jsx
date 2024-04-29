@@ -3,7 +3,7 @@ import useSocial from '@/hooks/useSocial';
 import Box from './box';
 import Address from './address';
 import Line from './line';
-import { Skeleton } from 'antd';
+import { Skeleton, Tooltip } from 'antd';
 import LazyImage from '@/components/lazyImage';
 import clsx from 'clsx';
 import moduleConf from './conf';
@@ -11,13 +11,15 @@ import { useState, useCallback, useMemo } from 'react';
 import UnbindModal from './unbindModal';
 import { useDispatch } from 'react-redux';
 import { setConnectWalletModal } from '@/store/global';
+import ActionBution from '@/components/connectWallet/actionButton';
 
 export default function PageAttestation () {
-  const { user, data, isLoading } = useUserInfoQuery();
+  const { user, data, isLoading, isZK } = useUserInfoQuery();
   const dispatch = useDispatch();
 
-  const { socialList } = useSocial();
+  const { socialList, zkList, getZkfnByName } = useSocial();
   const [open, setOpen] = useState(false);
+
   const [modalData, setModalData] = useState({
     accountName: '',
     accountType: '',
@@ -64,6 +66,62 @@ export default function PageAttestation () {
             />
             {evm.text}
           </button>
+        ),
+      },
+      {
+        name: 'Sui',
+        label: <span>Sui</span>,
+        render: isZK ? (
+          <div className='flex flex-col gap-y-2 px-5 py-2 bg-[#1A1A1A] rounded-2.5xl'>
+            <div className='flex gap-x-2'>
+              <img
+                src={getZkfnByName('google')?.picColorUrl}
+                alt='google'
+                className='size-5'
+              />
+              {data?.user?.zk?.identity}
+            </div>
+            <Address address={data?.user?.zk?.address} />
+          </div>
+        ) : (
+          <div className='bg-[#63A1F8] border border-[rgb(99,161,248)]/[0.40] py-4 px-5 rounded-lg relative overflow-hidden'>
+            <img
+              src={moduleConf.zkLogin.bg}
+              className='w-12 absolute right-4 top-0 rotate-12'
+            />
+            <div className='text-white flex items-center gap-x-2 text-sm font-medium space-y-4 mb-4'>
+              <img
+                src={moduleConf.zkLogin.icon}
+                className='w-4 h-5 object-center'
+              />
+              {moduleConf.zkLogin.name}
+            </div>
+            <div className='flex items-center justify-center gap-x-8'>
+              {zkList.map(v => {
+                return v.ready ? (
+                  <ActionBution
+                    key={v.name}
+                    replace
+                    handleAsync={async () => v.loginFn(false)}
+                  >
+                    <img
+                      src={v.picColorUrl}
+                      className='w-8 h-8 object-center hover:opacity-70'
+                      alt={v.name}
+                    />
+                  </ActionBution>
+                ) : (
+                  <Tooltip title='Stay tuned' key={v.name}>
+                    <img
+                      src={v.picUrl}
+                      className='w-8 h-8 object-center'
+                      alt={v.name}
+                    />
+                  </Tooltip>
+                );
+              })}
+            </div>
+          </div>
         ),
       },
     ];
@@ -149,7 +207,10 @@ export default function PageAttestation () {
         </Skeleton>
 
         <Skeleton active avatar={false} loading={isLoading}>
-          <Box title={moduleConf.social} wrapCls='divide-y divide-[#2A2A2A]'>
+          <Box
+            title={moduleConf.socialTitle}
+            wrapCls='divide-y divide-[#2A2A2A]'
+          >
             {[avatarConf, ...socialConf].map(v => {
               return <Line key={v.name} label={v.label} render={v.render} />;
             })}

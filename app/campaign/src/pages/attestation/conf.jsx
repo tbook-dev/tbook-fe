@@ -1,9 +1,10 @@
 import walletconnectSVG from '@/images/zklogin/walletconnect.svg';
+import { walletMap } from '@/utils/logType';
 
 export default {
   name: 'Edit Identity Attestation',
   onChain: 'Onchain Attestation',
-  social: 'Social Attestation',
+  socialTitle: 'Social Attestation',
   unconnectSocialConfMap: {
     twitter: {
       cls: 'text-black bg-white',
@@ -112,4 +113,5 @@ export default {
       text: 'WalletConnect',
     },
   ],
+  ...walletMap,
 };
