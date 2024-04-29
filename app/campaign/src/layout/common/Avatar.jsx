@@ -13,7 +13,7 @@ import fallbackAvatarSVG from '@/images/passport/avatar.svg';
 import LazyImage from '@/components/lazyImage';
 export default function Avatar () {
   const [open, setOpen] = useState(false);
-  const { user, isZK, isGoogle, address, data, currentSocial } = useUserInfo();
+  const { user, isZK, isGoogle, currentAddress, address, data, currentSocial } = useUserInfo();
   const { getZkfnByName, getSocialByName } = useSocial();
   const { isConnected } = useAccount();
   const [tonConnectUI] = useTonConnectUI();
@@ -50,7 +50,7 @@ export default function Avatar () {
     );
   };
   const { logo, userInfo } = useMemo(() => {
-    if (currentSocial) {
+    if (currentSocial || isZK) {
       if (isZK) {
         return {
           logo: isGoogle ? (
@@ -71,7 +71,7 @@ export default function Avatar () {
               className='w-6 h-6'
             />
           ),
-          userInfo: <p>{currentSocial.name}</p>,
+          userInfo: <p>{currentSocial?.name}</p>,
         };
       }
     } else {
@@ -81,7 +81,7 @@ export default function Avatar () {
       };
     }
   }, [data]);
-
+  
   return (
     <>
       <AvatarLine />

@@ -119,9 +119,9 @@ const ConnectWalletModal = () => {
   const { pc } = useResponsive();
   const { walletClient } = useWalletClient();
   const { userLogined, user } = useUserInfo();
-  const [loginStep, setLoginStep] = useState(2);
-  // const [loginType, setLoginType] = useState(null)
-  const [loginType, setLoginType] = useState('option');
+  const [loginStep, setLoginStep] = useState(1);
+  const [loginType, setLoginType] = useState(null);
+  // const [loginType, setLoginType] = useState('zklogin');
   // const [currentAddress, setCurrentAddress] = useState('');
   // const { address } = useAccount({
   //   onConnect ({ address, connector, isReconnected }) {
@@ -214,16 +214,16 @@ const ConnectWalletModal = () => {
         onCancel={handleCloseModal}
       >
         <div className='flex-none px-5 py-4 space-y-6 text-white h-[420px]'>
-          {/* <h2 className='text-white text-sm'>
+          <h2 className='text-white text-sm'>
             {loginStep === 1 ? (
               moduleConf.title
             ) : (
               <Back onClick={handleBackToInitLogin} />
             )}
-          </h2> */}
+          </h2>
           {loginStep === 1 && (
             <div className='space-y-5 text-sm'>
-              {/* <button
+              <button
                 className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
                 onClick={handleMainLogin}
               >
@@ -242,9 +242,9 @@ const ConnectWalletModal = () => {
                   alt='sui logo'
                 />
                 zkLogin
-              </button> */}
+              </button>
               {/* <TonConnectButton /> */}
-              <button
+              {/* <button
                 // disabled={isVerify}
                 className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
                 onClick={handleTonClick}
@@ -255,7 +255,7 @@ const ConnectWalletModal = () => {
                   alt='ton wallet logo'
                 />
                 {moduleConf.tonWallet.text}
-              </button>
+              </button> */}
 
               <button
                 className='h-[52px] w-full rounded-lg border border-white text-white font-medium hover:opacity-70'

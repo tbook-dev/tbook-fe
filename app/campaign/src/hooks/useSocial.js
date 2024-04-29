@@ -241,8 +241,9 @@ export default function useSocial() {
       },
     ];
   }, [twitterConnected, discordConnected, telegramConnected, data]);
-  const socialList = allList.filter((v) => socialNameList.includes(v.name));
-  const zkList = allList.filter((v) => zkNameList.includes(v.name));
+  // const socialList = allList.filter((v) => socialNameList.includes(v.name));
+  const socialList = socialNameList.map(v => allList.find(a => a.name === v));
+  const zkList = zkNameList.map((v) => allList.find(a =>a.name === v));
   const getSocialByName = useCallback(
     (name) => {
       return socialList.find((v) => v.name === name);

@@ -334,7 +334,7 @@ export default function () {
                           <button
                             className='flex items-center w-max text-sm font-medium'
                             onClick={() => {
-                              if (isUsingWallet) {
+                              if (!isUsingWallet) {
                                 setViewModalDataCallbcak(index, 0, 'point');
                               } else {
                                 dispath(setShowWalletConnectModal(true));

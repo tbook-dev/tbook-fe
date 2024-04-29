@@ -234,7 +234,7 @@ export default function PassportCard({ onClose }) {
 
             {socialList
               .filter((v) =>
-                isUsingWallet ? true : currentSocial.type !== v.name
+                isUsingWallet ? true : currentSocial?.type !== v.name
               )
               .map((v) => {
                 return v.connected ? (
