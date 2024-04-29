@@ -34,19 +34,14 @@ const moduleConf = {
 
 const ConnectWalletModal = () => {
   const { contextHolder } = useTonLogin();
-  const showConnectWalletModal = useSelector(
-    s => s.global.showConnectWalletModal
-  );
-  console.log({ moduleConf });
   const { open } = useTonConnectModal();
-  const { zkList, getZkfnByName } = useSocial();
+  const { zkList } = useSocial();
   const showLoginModal = useSelector(s => s.global.showLoginModal);
   const dispath = useDispatch();
   const [tonConnectUI] = useTonConnectUI();
   const connectionRestored = useIsConnectionRestored();
   const { pc } = useResponsive();
   const { walletClient } = useWalletClient();
-  const { userLogined, user } = useUserInfo();
   const [loginStep, setLoginStep] = useState(1);
   const [loginType, setLoginType] = useState(null);
   // const [loginType, setLoginType] = useState('zklogin');
