@@ -22,7 +22,7 @@ const WiseScore = lazy(() => import('@/pages/ton-wise/wise-score'));
 const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/wise-leaderboard'));
 
 const Attestation = lazy(() => import('@/pages/attestation'));
-const AirDrop = lazy(() => import('@/pages/airDrop'));
+const AirDrop = lazy(() => import('@/pages/airdrop'));
 
 const getTBookInfo = async () => {
   return {
