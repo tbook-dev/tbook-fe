@@ -6,7 +6,7 @@ import PageFallBack from '@/components/pageFallback';
 import { useState, useCallback } from 'react';
 
 const AirDropModal = lazy(() => import('./modal/airdrop'));
-const ViewInPC = lazy(() => import('@/components/viewInpc'));
+const ViewInPC = lazy(() => import('@/components/viewInPc'));
 
 export default function AirDrop () {
   const { pc } = useResponsive();
