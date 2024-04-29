@@ -24,17 +24,20 @@ const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/wise-leaderboard'));
 const Attestation = lazy(() => import('@/pages/attestation'));
 const AirDrop = lazy(() => import('@/pages/airDrop'));
 
-const getProjectIdFn = async ({ params }) => {
-  let projectUrl = params.projectName;
-  const defaultValues = {
+const getTBookInfo = async () => {
+  return {
     projectUrl: 'tbook',
     isUsingSubdomain: false,
     projectId: '',
     project: {
-      projectUrl,
+      projectUrl: '',
       avatarUrl: logo,
     },
   };
+};
+const getProjectIdFn = async ({ params }) => {
+  let projectUrl = params.projectName;
+  const defaultValues = await getTBookInfo();
   if (!projectUrl) {
     // official home 、explore
     return defaultValues;
@@ -126,7 +129,7 @@ const routes = [
   },
   {
     path: '/air-drop',
-    loader: getProjectIdFn,
+    loader: getTBookInfo,
     element: <MyLayout />,
     children: [
       {

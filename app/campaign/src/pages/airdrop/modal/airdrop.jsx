@@ -46,27 +46,26 @@ export default function AirdropModal ({ symbol, open, onClose, phaseNum = 1 }) {
   const { data: airDropData } = useGameAirdrop(phaseEnum[phaseNum]);
   const { salt, sign, amount } = airDropData?.entity ?? {};
   const envChain = isStaging ? sepolia : mainnet;
-
   const handleClaim = async () => {
     try {
       const claimABI = await import('@/abi/GameAirdrop.json');
       setLoading(true);
       // 数据包括，数量，地址
       if (chain?.id !== envChain.id) {
-        await switchNetworkAsync(envChain.chainId);
+        await switchNetworkAsync(envChain.id);
       }
       // prepare
       const config = await prepareWriteContract({
         address: airdropContractAddress,
         abi: claimABI.abi,
         functionName: 'claim',
-        chainId: envChain.chainId,
+        chainId: envChain.id,
         args: [address, phaseEnum[phaseNum], amount, salt, sign],
       });
       const r = await writeContract(config);
       console.log(r);
       const data = await waitForTransaction({
-        chainId: envChain.chainId,
+        chainId: envChain.id,
         hash: r.hash,
       });
       console.log('transaction log: ', data);
