@@ -14,7 +14,7 @@ const Asset = lazy(() => import('@/pages/my/Asset'));
 const Campaign = lazy(() => import('@/pages/my/campaign'));
 const NFT = lazy(() => import('@/pages/my/nft'));
 const Attestation = lazy(() => import('@/pages/attestation'));
-const AirDrop = lazy(() => import('@/pages/airDrop'));
+const AirDrop = lazy(() => import('@/pages/airdrop'));
 
 const getProjectIdFn = async () => {
   const host = location.hostname;
