@@ -1,5 +1,6 @@
 import { Outlet, Link } from 'react-router-dom';
 
+const homeLink = 'https://tbook.com';
 export default function Layout () {
   return (
     <main className='text-white min-h-dvh flex flex-col'>
@@ -67,7 +68,11 @@ export default function Layout () {
           />
         </svg>
 
-        <Link className='text-base font-zen-dot flex gap-x-1 items-center'>
+        <Link
+          className='text-base font-zen-dot flex gap-x-1 items-center'
+          to={homeLink}
+          target='_blank'
+        >
           Learn More
           <svg
             width='16'

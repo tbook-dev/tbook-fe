@@ -8,7 +8,7 @@ const waitlistStep = {
   form: 1,
 };
 export default function WaitList () {
-  const [step, setStep] = useState(waitlistStep.init);
+  const [step, setStep] = useState(waitlistStep.form);
   return (
     <div
       style={{ backgroundImage: `url(${bgPNG})` }}
