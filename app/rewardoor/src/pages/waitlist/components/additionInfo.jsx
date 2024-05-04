@@ -14,7 +14,7 @@ const categoryList = [
   'Safety',
   'Others',
 ];
-export default function BasicInfo (props) {
+export default function AddtionInfo (props) {
   const [form] = Form.useForm();
   return (
     <FormFrame {...props}>
