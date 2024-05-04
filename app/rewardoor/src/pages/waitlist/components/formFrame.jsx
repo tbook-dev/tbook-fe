@@ -13,7 +13,7 @@ export default function FormFrame ({
   children,
 }) {
   return (
-    <div className='w-[632px] mx-auto my-6 p-20 rounded-[32px] bg-black/20 drop-shadow border border-white/20 flex flex-col justify-between gap-y-10'>
+    <div className='w-[632px] h-[740px] mx-auto my-6 p-20 rounded-[32px] bg-black/20 drop-shadow border border-white/20 flex flex-col justify-between gap-y-10'>
       <div className='space-y-16'>
         <h2 className='text-4xl w-[460px] mb-10 text-center'>
           {moduleConf.title[0]}
