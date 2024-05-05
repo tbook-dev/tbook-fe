@@ -1,49 +1,45 @@
-import { Form, Input, Select } from 'antd';
+import { Form, Input, Checkbox } from 'antd';
 import FormFrame from './formFrame';
 
-const categoryList = [
-  'DeFi',
-  'DAO',
-  'SocialFi',
-  'GameFi',
-  'NFT',
-  'Metaverse',
-  'Tools',
-  'Ecosystem',
-  'Infra',
-  'Safety',
-  'Others',
+const platformList = [
+  'Twitter',
+  'Discord',
+  'Telegram',
+  'LinkedIn',
+  'Facebook',
+  'Snapshot',
+  'Reddit',
+  'YouTube',
 ];
-export default function AddtionInfo (props) {
+export default function AddtionInfo(props) {
   const [form] = Form.useForm();
   return (
     <FormFrame {...props}>
-      <Form form={form} layout='vertical'>
+      <Form form={form} layout="vertical">
         <Form.Item
-          label='Project Name'
-          name='projectName'
-          rules={[{ required: true, message: 'Project Name is required' }]}
+          label="Which platform do you want for incentivizing your community? "
+          name="platform"
         >
-          <Input placeholder='Enter a Project Name' />
+          <Checkbox.Group>
+            <div className="flex flex-col gap-y-2">
+              {platformList.map((v) => {
+                return (
+                  <Checkbox key={v} value={v}>
+                    {v}
+                  </Checkbox>
+                );
+              })}
+            </div>
+          </Checkbox.Group>
         </Form.Item>
         <Form.Item
-          name='tags'
-          label='Project Category'
-          rules={[{ required: true, message: 'Project Category is required' }]}
+          name="additionalInfo"
+          label="Do you have any additional info?"
         >
-          <Select
-            placeholder='Select the category'
-            mode='multiple'
-            allowClear
-            options={categoryList.map(v => ({ value: v, label: v }))}
+          <Input.TextArea
+            autoSize={{ minRows: 3 }}
+            placeholder="Any advice and information shared with TBook is welcomed."
           />
-        </Form.Item>
-        <Form.Item
-          label='Project TMA'
-          name='projectTMA'
-          rules={[{ required: true, message: 'Project TMA is required' }]}
-        >
-          <Input placeholder='Enter a Project TMA' />
         </Form.Item>
       </Form>
     </FormFrame>
