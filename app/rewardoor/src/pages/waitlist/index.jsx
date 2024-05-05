@@ -14,7 +14,7 @@ const STEPENUM = {
   SUBMITTED: 4,
 };
 export default function WaitList () {
-  const [step, setStep] = useState(STEPENUM.ADDITION);
+  const [step, setStep] = useState(STEPENUM.INIT);
   const handleJump = useCallback(
     v => () => {
       setStep(v);
