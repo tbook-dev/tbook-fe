@@ -1,4 +1,5 @@
 import bgPNG from './images/bg-apply.png';
+import bgCenter from './images/bg-form.png';
 import { useState, useCallback } from 'react';
 import InitalWaitList from './components/initalWaitList';
 import BasicInfo from './components/bascInfo';
@@ -49,7 +50,9 @@ export default function WaitList () {
 
   return (
     <div
-      style={{ backgroundImage: `url(${bgPNG})` }}
+      style={{
+        backgroundImage: `url(${step === STEPENUM.INIT ? bgPNG : bgCenter})`,
+      }}
       className='flex-auto bg-no-repeat bg-cover bg-center flex flex-col justify-center items-center'
     >
       <div className='w-[1280px] mx-auto'>{CenterInfo}</div>

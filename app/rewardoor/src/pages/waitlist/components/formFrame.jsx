@@ -26,7 +26,7 @@ export default function FormFrame ({
       </div>
 
       <footer className='flex justify-between items-center'>
-        <Button onClick={handleBackStep} disabled={backDisable}>
+        <Button onClick={handleBackStep} disabled={backDisable} type='gost'>
           {backText}
         </Button>
         <Button type='primary' onClick={handleNextStep} disabled={nextDisable}>

@@ -1,29 +1,39 @@
-import { Form, Input, InputNumber, Space } from 'antd';
+import { Form, Input, InputNumber } from 'antd';
 import FormFrame from './formFrame';
 import Button from '@/components/button';
 import { useRef, useEffect, useState, useCallback } from 'react';
 
+const timerOut = 60;
 export default function BasicInfo (props) {
   const [form] = Form.useForm();
   const timeRef = useRef();
   const [timeCnt, setTimeCnt] = useState(0);
   const [emailSent, setEmailSent] = useState(false);
-  const handleSendEmail = () => {
-    setEmailSent(true);
-    console.log('send email');
+  const handleSendEmail = e => {
+    e.preventDefault();
+    form
+      .validateFields(['email'])
+      .then(v => {
+        // 获取email的code
+        setEmailSent(true);
+        setTimeCnt(timerOut);
+        console.log('send email', v);
+      })
+      .catch(e => console.log(e));
   };
   const clear = useCallback(() => {
     if (timeRef.current) {
-      clearInterval(timeRef.current);
+      clearTimeout(timeRef.current);
     }
   }, []);
   useEffect(() => {
     if (timeCnt <= 0) {
       return;
     }
-    timeRef.current = setInterval(setTimeCnt, 1000);
+    timeRef.current = setTimeout(() => setTimeCnt(v => v - 1), 1000);
     return clear;
   }, [timeCnt]);
+
   return (
     <FormFrame {...props}>
       <Form form={form} layout='vertical'>
@@ -48,9 +58,11 @@ export default function BasicInfo (props) {
             <Button
               type='primary'
               onClick={handleSendEmail}
+              className='w-[200px]'
               disabled={timeCnt > 0}
             >
-              Send a code {timeCnt > 0 && <span>{timeCnt}</span>}
+              Send a code
+              {timeCnt > 0 && <span className='ms-1'>{timeCnt}s</span>}
             </Button>
           </div>
         </Form.Item>
