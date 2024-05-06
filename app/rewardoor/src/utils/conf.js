@@ -3,7 +3,13 @@ import pointIcon from '@/images/icon/point.svg';
 import nftIcon from '@/images/icon/nft.svg';
 import fcfsIcon from '@/images/icon/fcfs.svg';
 import ldIcon from '@/images/icon/ld.svg';
+// Small utility to merge class names.
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
+export function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
 const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
 const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
 

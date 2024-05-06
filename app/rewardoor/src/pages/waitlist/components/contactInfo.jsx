@@ -35,6 +35,8 @@ export default function BasicInfo (props) {
                 {
                   required: true,
                   message: 'email is required',
+                },
+                {
                   type: 'email',
                   message: 'invalid email',
                 },
