@@ -1,6 +1,6 @@
 import bgPNG from './images/bg-apply.png';
 import bgCenter from './images/bg-form.png';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import InitalWaitList from './components/initalWaitList';
 import BasicInfo from './components/bascInfo';
 import ContactInfo from './components/contactInfo';
@@ -16,6 +16,7 @@ const STEPENUM = {
 };
 export default function WaitList () {
   const [step, setStep] = useState(STEPENUM.INIT);
+  const valueRef = useRef({});
   const handleJump = useCallback(
     v => () => {
       setStep(v);
@@ -28,18 +29,21 @@ export default function WaitList () {
     ),
     [STEPENUM.FORM]: (
       <BasicInfo
+        valueRef={valueRef}
         handleBackStep={handleJump(STEPENUM.INIT)}
         handleNextStep={handleJump(STEPENUM.CONTACT)}
       />
     ),
     [STEPENUM.CONTACT]: (
       <ContactInfo
+        valueRef={valueRef}
         handleBackStep={handleJump(STEPENUM.FORM)}
         handleNextStep={handleJump(STEPENUM.ADDITION)}
       />
     ),
     [STEPENUM.ADDITION]: (
       <AddtionInfo
+        valueRef={valueRef}
         handleBackStep={handleJump(STEPENUM.CONTACT)}
         handleNextStep={handleJump(STEPENUM.SUBMITTED)}
       />

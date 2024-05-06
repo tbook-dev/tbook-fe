@@ -8,7 +8,9 @@ export default function BasicInfo (props) {
   const [form] = Form.useForm();
   const timeRef = useRef();
   const [timeCnt, setTimeCnt] = useState(0);
-  const [emailSent, setEmailSent] = useState(false);
+  const [emailSent, setEmailSent] = useState(
+    props.valueRef.current.contactInfo?.emailCode
+  );
   const handleSendEmail = e => {
     e.preventDefault();
     form
@@ -26,6 +28,14 @@ export default function BasicInfo (props) {
       clearTimeout(timeRef.current);
     }
   }, []);
+
+  const handleNextStep = () => {
+    form.validateFields().then(values => {
+      props.valueRef.current.contactInfo = values;
+      props.handleNextStep();
+    });
+  };
+
   useEffect(() => {
     if (timeCnt <= 0) {
       return;
@@ -35,20 +45,24 @@ export default function BasicInfo (props) {
   }, [timeCnt]);
 
   return (
-    <FormFrame {...props}>
-      <Form form={form} layout='vertical'>
+    <FormFrame {...props} handleNextStep={handleNextStep}>
+      <Form
+        form={form}
+        layout='vertical'
+        initialValues={props.valueRef.current.contactInfo}
+      >
         <Form.Item label='Email'>
           <div className='flex items-start w-full gap-x-2'>
             <Form.Item
               name='email'
               rules={[
                 {
-                  required: true,
-                  message: 'email is required',
-                },
-                {
                   type: 'email',
                   message: 'invalid email',
+                },
+                {
+                  required: true,
+                  message: 'email is required',
                 },
               ]}
               className='flex-auto'
@@ -66,11 +80,23 @@ export default function BasicInfo (props) {
             </Button>
           </div>
         </Form.Item>
-        {emailSent && (
-          <Form.Item name='emailCode' label='Enter the Code'>
-            <InputNumber placeholder='email code' className='w-full' />
-          </Form.Item>
-        )}
+
+        <Form.Item
+          name='emailCode'
+          label='Enter the Code'
+          rules={[
+            {
+              required: true,
+              message: 'emailCode is required',
+            },
+          ]}
+        >
+          <InputNumber
+            placeholder='email code'
+            className='w-full'
+            disabled={!emailSent}
+          />
+        </Form.Item>
         <Form.Item
           name='number'
           label='Estimated Number of Participants in the Campaign'

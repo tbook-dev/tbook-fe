@@ -16,9 +16,19 @@ const categoryList = [
 ];
 export default function BasicInfo (props) {
   const [form] = Form.useForm();
+  const handleNextStep = () => {
+    form.validateFields().then(values => {
+      props.valueRef.current.bascInfo = values;
+      props.handleNextStep();
+    });
+  };
   return (
-    <FormFrame {...props}>
-      <Form form={form} layout='vertical'>
+    <FormFrame {...props} handleNextStep={handleNextStep}>
+      <Form
+        form={form}
+        layout='vertical'
+        initialValues={props.valueRef.current.bascInfo}
+      >
         <Form.Item
           label='Project Name'
           name='projectName'
