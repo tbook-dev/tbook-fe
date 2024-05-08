@@ -16,7 +16,9 @@
     "rewardoor:dev": "pnpm --filter @tbook/rewardoor  run dev",
     "rewardoor:build": "pnpm --filter @tbook/rewardoor  run build",
     "campaign:dev": "pnpm --filter @tbook/campaign  run dev",
-    "campaign:build": "pnpm --filter @tbook/campaign  run build"
+    "campaign:build": "pnpm --filter @tbook/campaign  run build",
+    "cms:dev": "pnpm --filter @tbook/opeartion  run dev",
+    "cms:build": "pnpm --filter @tbook/opeartion  run build"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.2.0",
