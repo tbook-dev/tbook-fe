@@ -1,6 +1,7 @@
 import bgPNG from './images/bg-apply.png';
 import bgCenter from './images/bg-form.png';
 import { useState, useCallback, useRef } from 'react';
+import { message } from 'antd';
 import InitalWaitList from './components/initalWaitList';
 import BasicInfo from './components/bascInfo';
 import ContactInfo from './components/contactInfo';
@@ -16,6 +17,8 @@ const STEPENUM = {
 };
 export default function WaitList () {
   const [step, setStep] = useState(STEPENUM.INIT);
+  const [messageApi, contextHolder] = message.useMessage();
+
   const valueRef = useRef({});
   const handleJump = useCallback(
     v => () => {
@@ -25,7 +28,10 @@ export default function WaitList () {
   );
   const waitlistStep = {
     [STEPENUM.INIT]: (
-      <InitalWaitList handleNextStep={handleJump(STEPENUM.FORM)} />
+      // <InitalWaitList handleNextStep={handleJump(STEPENUM.FORM)} />
+      <InitalWaitList
+        handleNextStep={() => messageApi.success('Stay tuned !')}
+      />
     ),
     [STEPENUM.FORM]: (
       <BasicInfo
@@ -59,6 +65,7 @@ export default function WaitList () {
       }}
       className='flex-auto bg-no-repeat bg-cover bg-center flex flex-col justify-center items-center'
     >
+      {contextHolder}
       <div className='w-[1280px] mx-auto'>{CenterInfo}</div>
     </div>
   );

@@ -5,7 +5,9 @@ import { Spin } from 'antd';
 import { useState } from 'react';
 
 const aboardPath = '/aboard';
+const applyPath = '/waitlist/apply';
 const newProjectPath = '/new-project';
+const whiteListPaths = [aboardPath, applyPath];
 export default function LayoutAdmin () {
   const location = useLocation();
   const { pathname } = useLocation();
@@ -13,13 +15,17 @@ export default function LayoutAdmin () {
   const { error, userLogined, projects, isLoading } = useUserInfo();
   const [firstLoad, setFirstLoad] = useState(false);
   useEffect(() => {
-    if (error && error.code === 401 && location.pathname !== aboardPath) {
+    if (
+      error &&
+      error.code === 401 &&
+      !whiteListPaths.includes(location.pathname)
+    ) {
       // navigate(
       //   `${aboardPath}?redirect=${encodeURIComponent(
       //     location.pathname + location.search
       //   )}`
       // );
-      navigate(aboardPath)
+      navigate(aboardPath);
     }
   }, [error]);
 
