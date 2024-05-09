@@ -1,5 +1,3 @@
-import logo1 from './images/project-logo/ArchLoot1.svg';
-import logo2 from './images/project-logo/Avatar2.svg';
 import logo3 from './images/project-logo/Carry3.svg';
 import logo4 from './images/project-logo/goplus4.svg';
 import logo5 from './images/project-logo/mask5.svg';
@@ -14,7 +12,7 @@ export const moduleConf = {
   },
   right: {
     title: ['Join waitlist for', 'the TBook Incentive Layer'],
-    iconList: [logo1, logo2, logo3, logo4, logo5, logo6, logo7],
+    iconList: [logo3, logo4, logo5, logo6, logo7],
     desc: 'Trusted by GoPlus and more projects...',
     btn: 'Join Waitlist',
     verifyBtn: 'Enter Invite Code',
