@@ -1,6 +1,6 @@
 import { Outlet, Link } from 'react-router-dom';
 
-const homeLink = 'https://tbook.com';
+const homeLink = 'https://www.tbook.com';
 export default function Layout () {
   return (
     <main className='text-white min-h-dvh flex flex-col'>
