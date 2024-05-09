@@ -69,7 +69,7 @@ export default function Layout () {
         </svg>
 
         <Link
-          className='text-base font-zen-dot flex gap-x-1 items-center'
+          className='text-base font-zen-dot flex gap-x-1 items-center hover:opacity-70'
           to={homeLink}
           target='_blank'
         >

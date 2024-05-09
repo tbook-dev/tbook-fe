@@ -30,7 +30,9 @@ export default function WaitList () {
     [STEPENUM.INIT]: (
       // <InitalWaitList handleNextStep={handleJump(STEPENUM.FORM)} />
       <InitalWaitList
-        handleNextStep={() => messageApi.success('Stay tuned !')}
+        handleNextStep={() =>
+          messageApi.open({ icon: '', content: 'Stay tuned !' })
+        }
       />
     ),
     [STEPENUM.FORM]: (

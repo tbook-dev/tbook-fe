@@ -33,7 +33,7 @@ export default function InitalWaitList ({ handleNextStep }) {
         </div>
         <div className='space-y-4 px-[50px] w-full'>
           <button
-            className='bg-[#904BF6] text-white rounded-lg font-zen-dot block py-2 w-full'
+            className='bg-[#904BF6] text-white rounded-lg font-zen-dot block py-2 w-full hover:opacity-70'
             onClick={handleNextStep}
           >
             {moduleConf.right.btn}
@@ -50,13 +50,14 @@ export default function InitalWaitList ({ handleNextStep }) {
             return (
               <a
                 href={v.link}
-                className='flex items-center gap-x-3 px-8'
+                className='flex items-center gap-x-3 px-8 group'
                 key={v.type}
                 target='_blank'
                 rel='noopener noreferrer'
               >
-                <img className='size-10' src={v.logo} alt='social logo' />
-                <div className='space-y-0.5 text-[rgb(255,255,255)]/60'>
+                {/* <img className='size-10' src={v.logo} alt='social logo' /> */}
+                {v.svg}
+                <div className='space-y-0.5 group-hover:text-white text-[rgb(255,255,255)]/60'>
                   <p>{v.name}</p>
                   <p>@{v.socialName}</p>
                 </div>
