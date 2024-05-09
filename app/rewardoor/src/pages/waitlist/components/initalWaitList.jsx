@@ -48,13 +48,19 @@ export default function InitalWaitList ({ handleNextStep }) {
         <div className='flex items-center divide-x'>
           {moduleConf.right.accounts.map(v => {
             return (
-              <div className='flex items-center gap-x-3 px-8' key={v.type}>
+              <a
+                href={v.link}
+                className='flex items-center gap-x-3 px-8'
+                key={v.type}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
                 <img className='size-10' src={v.logo} alt='social logo' />
                 <div className='space-y-0.5 text-[rgb(255,255,255)]/60'>
                   <p>{v.name}</p>
                   <p>@{v.socialName}</p>
                 </div>
-              </div>
+              </a>
             );
           })}
         </div>
