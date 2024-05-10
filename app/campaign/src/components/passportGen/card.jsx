@@ -289,7 +289,7 @@ export default function PassportCard ({ onClose }) {
         <div className='relative flex flex-col px-6 py-4 gap-y-1 text-sm font-medium'>
           {links.map(v => {
             return linkNoClick ? (
-              <Tooltip title='Stay tuned !'>
+              <Tooltip title='Stay tuned !' key={v.name}>
                 <span
                   key={v.name}
                   to={v.path}

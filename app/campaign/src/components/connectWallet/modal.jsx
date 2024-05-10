@@ -1,17 +1,17 @@
-import { useResponsive } from 'ahooks'
-import { Fragment } from 'react'
-import { CloseOutlined } from '@ant-design/icons'
-import { Dialog, Transition } from '@headlessui/react'
-import clsx from 'clsx'
-import passport_locked from '@/images/passport/passport_locked.png'
-import useUserInfo from '@/hooks/useUserInfoQuery'
+import { useResponsive } from 'ahooks';
+import { Fragment } from 'react';
+import { CloseOutlined } from '@ant-design/icons';
+import { Dialog, Transition } from '@headlessui/react';
+import clsx from 'clsx';
+import passport_locked from '@/images/passport/passport_locked.png';
+import useUserInfo from '@/hooks/useUserInfoQuery';
 
 // use tailiwind to create slide-over in pc on the right side
 // use tailwind to  create slide-over in moble at bottom
 
 export default function Modal ({ children, open, onCancel, title }) {
-  const { pc } = useResponsive()
-  const { userLogined } = useUserInfo()
+  const { pc } = useResponsive();
+  const { userLogined } = useUserInfo();
 
   return (
     <>
@@ -50,13 +50,15 @@ export default function Modal ({ children, open, onCancel, title }) {
           <div className='fixed inset-0 overflow-hidden'>
             <div
               className={clsx('absolute inset-0 overflow-hidden', {
-                'bg-black/[0.8]': userLogined
+                'bg-black/[0.8]': userLogined,
               })}
             >
               <div
                 className={clsx(
                   'pointer-events-none fixed flex max-w-full',
-                  pc ? 'inset-y-0 right-0' : 'inset-x-0 bottom-0 max-h-[calc(100dvh_-_60px)]'
+                  pc
+                    ? 'inset-y-0 right-0'
+                    : 'inset-x-0 bottom-0 max-h-[calc(100dvh_-_60px)]'
                 )}
               >
                 <Transition.Child
@@ -70,7 +72,7 @@ export default function Modal ({ children, open, onCancel, title }) {
                 >
                   <Dialog.Panel className='pointer-events-auto w-screen lg:w-[448px]'>
                     <div className='flex h-full flex-col overflow-y-auto bg-linear6 lg:pb-6 shadow-s5 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
-                      <div className='px-6 pt-6 pb-4 lg:pb-6 border-b border-[rgb(255,255,255)]/[0.1]'>
+                      <div className='sticky top-0 z-10 px-6 pt-6 pb-4 backdrop-blur-md lg:pb-6 border-b border-[rgb(255,255,255)]/[0.1]'>
                         <div className='flex items-start justify-between '>
                           <Dialog.Title>{title}</Dialog.Title>
                           <div className='ml-3 flex h-7 items-center'>
@@ -93,5 +95,5 @@ export default function Modal ({ children, open, onCancel, title }) {
         </Dialog>
       </Transition.Root>
     </>
-  )
+  );
 }
