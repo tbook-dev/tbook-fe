@@ -49,7 +49,6 @@ export default function PassportCard ({ onClose }) {
   const { isUsingSubdomain, projectUrl } = useLoaderData();
   const { isTMA } = useTelegram();
   const [tonConnectUI] = useTonConnectUI();
-
   const handleConnectWallet = useCallback(() => {
     onClose();
     dispatch(setConnectWalletModal(true));
@@ -113,6 +112,27 @@ export default function PassportCard ({ onClose }) {
               className='w-6 h-6 object-contain object-center focus-visible:outline-none'
             />
           </TipAddress>
+        ) : isTMA ? (
+          <Tooltip
+            title={() => (
+              <>
+                Please connect the EVM address in the browser.
+                <a
+                  target='_blank'
+                  href={`${window.location.origin}/tbook/edit-attestation`}
+                  className='text-white hover:text-white hover:underline ms-1'
+                >
+                  {window.location.origin}/tbook/edit-attestation
+                </a>
+              </>
+            )}
+          >
+            <img
+              src={walletGrayIcon}
+              alt='wallet connect'
+              className='w-6 h-6 object-contain object-center focus-visible:outline-none'
+            />
+          </Tooltip>
         ) : (
           <button
             key='ton-b'
