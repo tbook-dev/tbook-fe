@@ -28,7 +28,7 @@ import {
 import TipAddress from './TipAddress';
 import clsx from 'clsx';
 
-const linkNoClickList = ['/ton-explore', '/wise-score', '/wise-leaderboard'];
+// const linkNoClickList = ['/ton-explore', '/wise-score', '/wise-leaderboard'];
 
 export default function PassportCard ({ onClose }) {
   const {
@@ -46,7 +46,7 @@ export default function PassportCard ({ onClose }) {
   const { socialList, getZkfnByName } = useSocial();
   const { open } = useTonConnectModal();
   const dispatch = useDispatch();
-  const { isUsingSubdomain, projectUrl } = useLoaderData();
+  const { isUsingSubdomain, projectUrl, projectId } = useLoaderData();
   const { isTMA } = useTelegram();
   const [tonConnectUI] = useTonConnectUI();
   const handleConnectWallet = useCallback(() => {
@@ -77,9 +77,10 @@ export default function PassportCard ({ onClose }) {
     ];
   }, [projectUrl]);
 
-  const linkNoClick = useMemo(() => {
-    return linkNoClickList.includes(location.pathname);
-  }, [location]);
+  // const linkNoClick = useMemo(() => {
+  //   return linkNoClickList.includes(location.pathname);
+  // }, [location]);
+  const linkNoClick = !projectId;
   const walletIconList = useMemo(() => {
     return [
       {
