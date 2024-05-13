@@ -122,11 +122,11 @@ export default function PassportCard ({ onClose }) {
             key='ton-tma'
             title={() => (
               <>
-                Please connect the EVM address in the browser.
+                <p>Please connect the EVM address in the web browser.</p>
                 <a
                   target='_blank'
                   href={`${window.location.origin}/tbook/edit-attestation`}
-                  className='text-white hover:text-white hover:underline ms-1'
+                  className='text-white block hover:text-white hover:underline break-all'
                 >
                   {window.location.origin}/tbook/edit-attestation
                 </a>
