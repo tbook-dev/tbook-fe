@@ -159,3 +159,11 @@ export const getDcRoles = async function (url) {
   });
   return await request.Post(`${host}/dc/roles`, { payload: url });
 };
+
+export const getTopProjects = async function () {
+  return await request.Get(`${host}/project/home`);
+};
+
+export const updateTopProjects = async function (values) {
+  return await request.Post(`${host}/project/setHome`, values);
+};
