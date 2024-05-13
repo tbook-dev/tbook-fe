@@ -45,7 +45,7 @@ export default function InitalWaitList ({ handleNextStep }) {
             </Link>
           </p>
         </div>
-        <div className='flex items-center divide-x'>
+        <div className='flex items-center divide-x text-sm'>
           {moduleConf.right.accounts.map(v => {
             return (
               <a

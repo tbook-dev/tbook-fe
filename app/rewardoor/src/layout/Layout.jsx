@@ -6,8 +6,11 @@ import { useState } from 'react';
 
 const aboardPath = '/aboard';
 const applyPath = '/waitlist/apply';
+const verifyPath = '/waitlist/verify';
+
 const newProjectPath = '/new-project';
 const whiteListPaths = [aboardPath];
+const verifyPaths = [applyPath, verifyPath];
 export default function LayoutAdmin () {
   // const location = useLocation();
   const { pathname } = useLocation();
@@ -35,7 +38,13 @@ export default function LayoutAdmin () {
       if (data.canCreateProject) {
         navigate(newProjectPath);
       } else {
-        navigate(applyPath);
+        console.log(
+          'verifyPaths.includes(pathname)',
+          verifyPaths.includes(pathname)
+        );
+        if (!verifyPaths.includes(pathname)) {
+          navigate(applyPath);
+        }
       }
     }
   }, [projects, pathname]);

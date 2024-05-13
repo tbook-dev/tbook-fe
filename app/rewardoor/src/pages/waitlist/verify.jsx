@@ -49,7 +49,7 @@ export default function Verify () {
             {moduleConf.left.title}
           </div>
           <Spin spinning={loading}>
-            <div className='items-center my-6  h-[740px] p-20 rounded-[32px] bg-black/20 drop-shadow border border-white/20 flex flex-col justify-between gap-y-[80px]'>
+            <div className='items-center my-6  h-[760px] p-20 rounded-[32px] bg-black/20 drop-shadow border border-white/20 flex flex-col justify-between gap-y-[80px]'>
               <div>
                 <h2 className='text-4xl w-[460px] mb-10 text-center'>
                   {moduleConf.right.title[0]}
@@ -89,19 +89,22 @@ export default function Verify () {
                   </Link>
                 </p>
               </div>
-              <div className='flex items-center divide-x'>
+              <div className='flex items-center divide-x text-sm'>
                 {moduleConf.right.accounts.map(v => {
                   return (
-                    <div
-                      className='flex items-center gap-x-3 px-8'
+                    <a
+                      href={v.link}
+                      className='flex items-center gap-x-3 px-8 group h-10'
                       key={v.type}
+                      target='_blank'
+                      rel='noopener noreferrer'
                     >
-                      <img className='size-10' src={v.logo} alt='social logo' />
-                      <div className='space-y-0.5 text-[rgb(255,255,255)]/60'>
+                      {v.svg}
+                      <div className='space-y-0.5 group-hover:text-white text-[rgb(255,255,255)]/60'>
                         <p>{v.name}</p>
                         <p>@{v.socialName}</p>
                       </div>
-                    </div>
+                    </a>
                   );
                 })}
               </div>
