@@ -7,7 +7,7 @@ import { useState } from 'react';
 const aboardPath = '/aboard';
 const applyPath = '/waitlist/apply';
 const newProjectPath = '/new-project';
-const whiteListPaths = [aboardPath, applyPath];
+const whiteListPaths = [aboardPath];
 export default function LayoutAdmin () {
   // const location = useLocation();
   const { pathname } = useLocation();
