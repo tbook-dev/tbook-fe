@@ -114,6 +114,7 @@ export default function PassportCard ({ onClose }) {
           </TipAddress>
         ) : isTMA ? (
           <Tooltip
+            key='ton-tma'
             title={() => (
               <>
                 Please connect the EVM address in the browser.
@@ -307,31 +308,35 @@ export default function PassportCard ({ onClose }) {
         </div>
 
         <div className='relative flex flex-col px-6 py-4 gap-y-1 text-sm font-medium'>
-          {links.map(v => {
-            return linkNoClick ? (
-              <Tooltip title='Stay tuned !' key={v.name}>
-                <span
+          {linkNoClick ? (
+            <Tooltip
+              title='The feature to manage overall incentive campaigns and incentive assets is coming soon. 
+            For now, you could open incentive passport on any campaign page to track your footprint within certain project. 
+            Stay tuned!'
+            >
+              <span
+                style={{ backgroundImage: `url(${shapeLink})` }}
+                className='text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm'
+              >
+                Incentive Footprint
+              </span>
+            </Tooltip>
+          ) : (
+            links.map(v => {
+              return (
+                <Link
                   key={v.name}
                   to={v.path}
                   style={{ backgroundImage: `url(${shapeLink})` }}
                   className='text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm'
+                  target={isTMA ? '_self' : '_blank'}
+                  onClick={onClose}
                 >
                   {v.name}
-                </span>
-              </Tooltip>
-            ) : (
-              <Link
-                key={v.name}
-                to={v.path}
-                style={{ backgroundImage: `url(${shapeLink})` }}
-                className='text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm'
-                target={isTMA ? '_self' : '_blank'}
-                onClick={onClose}
-              >
-                {v.name}
-              </Link>
-            );
-          })}
+                </Link>
+              );
+            })
+          )}
         </div>
       </div>
     </div>
