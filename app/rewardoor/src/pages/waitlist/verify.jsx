@@ -23,8 +23,8 @@ export default function Verify () {
   const handleSumbit = async () => {
     setLoading(true);
     try {
-      const res = projectVerify({ payload: code });
-      if (res.sucess) {
+      const res = await projectVerify({ payload: code });
+      if (res.success) {
         await refetch();
         navigate(aboardPath);
       } else {
