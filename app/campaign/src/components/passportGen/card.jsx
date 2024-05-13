@@ -29,7 +29,11 @@ import TipAddress from './TipAddress';
 import clsx from 'clsx';
 
 // const linkNoClickList = ['/ton-explore', '/wise-score', '/wise-leaderboard'];
-
+const footprintTips = [
+  'The feature to manage overall incentive campaigns and incentive assets is coming soon.',
+  'For now, you could open incentive passport on any campaign page to track your footprint within certain project.',
+  'Stay tuned!',
+];
 export default function PassportCard ({ onClose }) {
   const {
     user,
@@ -311,9 +315,9 @@ export default function PassportCard ({ onClose }) {
         <div className='relative flex flex-col px-6 py-4 gap-y-1 text-sm font-medium'>
           {linkNoClick ? (
             <Tooltip
-              title='The feature to manage overall incentive campaigns and incentive assets is coming soon. 
-            For now, you could open incentive passport on any campaign page to track your footprint within certain project. 
-            Stay tuned!'
+              title={footprintTips.map((t, i) => (
+                <p key={i}>{t}</p>
+              ))}
             >
               <span
                 style={{ backgroundImage: `url(${shapeLink})` }}
