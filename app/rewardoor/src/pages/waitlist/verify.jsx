@@ -78,7 +78,7 @@ export default function Verify () {
                 <button
                   onClick={handleSumbit}
                   disabled={code?.length !== 6}
-                  className='bg-[#904BF6] font-zen-dot text-white rounded-lg text-base block py-2 w-full disabled:opacity-40'
+                  className='bg-[#904BF6] font-zen-dot text-white hover:opacity-70 rounded-lg text-base block py-2 w-full disabled:opacity-40'
                 >
                   {moduleConf.right.verifyBtn}
                 </button>
