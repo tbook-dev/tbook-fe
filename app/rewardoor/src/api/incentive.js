@@ -180,3 +180,7 @@ export const getEmailCode = async function (email) {
 export const projectApply = async function (values) {
   return await request.Post(`${host}/projectApply`, values);
 };
+
+export const projectVerify = async function (data) {
+  return await request.Post(`${host}/projectApply/code`, data);
+};

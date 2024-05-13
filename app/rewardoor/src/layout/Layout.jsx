@@ -12,7 +12,7 @@ export default function LayoutAdmin () {
   // const location = useLocation();
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { error, userLogined, projects, isLoading } = useUserInfo();
+  const { error, userLogined, projects, isLoading, data } = useUserInfo();
   const [firstLoad, setFirstLoad] = useState(false);
   useEffect(() => {
     if (error && error.code === 401 && !whiteListPaths.includes(pathname)) {
@@ -32,7 +32,11 @@ export default function LayoutAdmin () {
       projects.length === 0 &&
       !whiteListPaths.includes(pathname)
     ) {
-      navigate(newProjectPath);
+      if (data.canCreateProject) {
+        navigate(newProjectPath);
+      } else {
+        navigate(applyPath);
+      }
     }
   }, [projects, pathname]);
 
