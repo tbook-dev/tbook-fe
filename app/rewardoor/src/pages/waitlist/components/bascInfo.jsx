@@ -14,11 +14,14 @@ const categoryList = [
   'Safety',
   'Others',
 ];
-export default function BasicInfo (props) {
-  const [form] = Form.useForm();
+export default function BasicInfo ({ form, ...props }) {
   const handleNextStep = () => {
     form.validateFields().then(values => {
-      props.valueRef.current.bascInfo = values;
+      props.valueRef.current = {
+        ...props.valueRef.current,
+        ...values,
+        category: values.category.join(','),
+      };
       props.handleNextStep();
     });
   };
@@ -37,7 +40,7 @@ export default function BasicInfo (props) {
           <Input placeholder='Enter a Project Name' />
         </Form.Item>
         <Form.Item
-          name='tags'
+          name='category'
           label='Project Category'
           rules={[{ required: true, message: 'Project Category is required' }]}
         >
@@ -50,7 +53,7 @@ export default function BasicInfo (props) {
         </Form.Item>
         <Form.Item
           label='Project TMA'
-          name='projectTMA'
+          name='tmaLink'
           rules={[{ required: true, message: 'Project TMA is required' }]}
         >
           <Input placeholder='Enter a Project TMA' />

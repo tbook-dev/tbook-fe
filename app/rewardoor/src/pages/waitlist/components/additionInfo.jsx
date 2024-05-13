@@ -11,12 +11,14 @@ const platformList = [
   'Reddit',
   'YouTube',
 ];
-export default function AddtionInfo (props) {
-  const [form] = Form.useForm();
+export default function AddtionInfo ({ form, ...props }) {
   const handleNextStep = () => {
     form.validateFields().then(values => {
-      props.valueRef.current.addtionInfo = values;
-      console.log(props.valueRef.current);
+      props.valueRef.current = {
+        ...props.valueRef.current,
+        ...values,
+        socialPlatforms: values.socialPlatforms.join(','),
+      };
       props.handleNextStep();
     });
   };
@@ -25,7 +27,7 @@ export default function AddtionInfo (props) {
       <Form form={form} layout='vertical'>
         <Form.Item
           label='Which platform do you want for incentivizing your community? '
-          name='platform'
+          name='socialPlatforms'
         >
           <Checkbox.Group>
             <div className='flex flex-col gap-y-2'>
@@ -40,7 +42,7 @@ export default function AddtionInfo (props) {
           </Checkbox.Group>
         </Form.Item>
         <Form.Item
-          name='additionalInfo'
+          name='additionalSocialInfo'
           label='Do you have any additional info?'
         >
           <Input.TextArea

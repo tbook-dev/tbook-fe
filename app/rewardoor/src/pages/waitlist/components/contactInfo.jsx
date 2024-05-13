@@ -2,26 +2,40 @@ import { Form, Input, InputNumber } from 'antd';
 import FormFrame from './formFrame';
 import Button from '@/components/button';
 import { useRef, useEffect, useState, useCallback } from 'react';
+import { getEmailCode } from '@/api/incentive';
 
 const timerOut = 60;
-export default function BasicInfo (props) {
-  const [form] = Form.useForm();
+export default function BasicInfo ({ form, ...props }) {
   const timeRef = useRef();
   const [timeCnt, setTimeCnt] = useState(0);
   const [emailSent, setEmailSent] = useState(
     props.valueRef.current.contactInfo?.emailCode
   );
+  const [isEmailLoading, setEmailLoading] = useState(false);
   const handleSendEmail = e => {
     e.preventDefault();
     form
       .validateFields(['email'])
       .then(v => {
-        // 获取email的code
+        setEmailLoading(true);
         setEmailSent(true);
-        setTimeCnt(timerOut);
-        console.log('send email', v);
+        // 获取email的code
+        getEmailCode(v.email)
+          .then(res => {
+            if (res.success) {
+              props.valueRef.current.key = res.entity.key;
+              setTimeCnt(timerOut);
+              setEmailSent(true);
+            }
+            console.log('send email', res, v.email);
+          })
+          .finally(() => {
+            setEmailLoading(false);
+          });
       })
-      .catch(e => console.log(e));
+      .catch(e => {
+        console.log(e);
+      });
   };
   const clear = useCallback(() => {
     if (timeRef.current) {
@@ -31,7 +45,11 @@ export default function BasicInfo (props) {
 
   const handleNextStep = () => {
     form.validateFields().then(values => {
-      props.valueRef.current.contactInfo = values;
+      props.valueRef.current = {
+        ...props.valueRef.current,
+        ...values,
+      };
+      // console.log({ values: props.valueRef.current });
       props.handleNextStep();
     });
   };
@@ -51,18 +69,18 @@ export default function BasicInfo (props) {
         layout='vertical'
         initialValues={props.valueRef.current.contactInfo}
       >
-        <Form.Item label='Email'>
+        <Form.Item label='Email' required>
           <div className='flex items-start w-full gap-x-2'>
             <Form.Item
               name='email'
               rules={[
                 {
-                  type: 'email',
-                  message: 'invalid email',
-                },
-                {
                   required: true,
                   message: 'email is required',
+                },
+                {
+                  type: 'email',
+                  message: 'invalid email',
                 },
               ]}
               className='flex-auto'
@@ -73,7 +91,8 @@ export default function BasicInfo (props) {
               type='primary'
               onClick={handleSendEmail}
               className='w-[200px]'
-              disabled={timeCnt > 0}
+              disabled={timeCnt > 0 || isEmailLoading}
+              loading={isEmailLoading}
             >
               Send a code
               {timeCnt > 0 && <span className='ms-1'>{timeCnt}s</span>}
@@ -82,7 +101,7 @@ export default function BasicInfo (props) {
         </Form.Item>
 
         <Form.Item
-          name='emailCode'
+          name='captcha'
           label='Enter the Code'
           rules={[
             {
@@ -98,14 +117,14 @@ export default function BasicInfo (props) {
           />
         </Form.Item>
         <Form.Item
-          name='number'
+          name='estimatedParticipants'
           label='Estimated Number of Participants in the Campaign'
         >
           <InputNumber placeholder='Enter a number' className='w-full' />
         </Form.Item>
         <Form.Item
           label='Application Reason'
-          name='reason'
+          name='applyReason'
           rules={[{ required: true, message: 'Project TMA is required' }]}
         >
           <Input.TextArea

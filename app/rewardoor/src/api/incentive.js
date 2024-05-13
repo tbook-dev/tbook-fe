@@ -170,3 +170,13 @@ export const getDcRoles = async function (url) {
   });
   return await request.Post(`${host}/dc/roles`, { payload: url });
 };
+
+export const getEmailCode = async function (email) {
+  return await request.Post(`${host}/projectApply/sendCaptcha`, {
+    payload: email,
+  });
+};
+
+export const projectApply = async function (values) {
+  return await request.Post(`${host}/projectApply`, values);
+};

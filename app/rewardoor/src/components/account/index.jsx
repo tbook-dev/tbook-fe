@@ -8,43 +8,49 @@ import { logout } from '@/utils/web3';
 import Address from '@tbook/ui/src/Address';
 import { useTonConnectUI } from '@tonconnect/ui-react';
 
-export default function Account() {
+export default function Account () {
   const { currentAddress } = useUserInfo();
   const [tonConnectUI] = useTonConnectUI();
   const handleLogout = () => {
     const disconnectMap = {
       evm: disconnect,
-      ton: tonConnectUI.disconnect,
+      ton: async () => {
+        try {
+          await tonConnectUI.disconnect();
+        } catch (error) {}
+      },
     };
-    Promise.all([logout(), disconnectMap[currentAddress?.type]?.()]).then(() => {
-      window.location.reload();
-    });
+    Promise.all([logout(), disconnectMap[currentAddress?.type]?.()]).then(
+      () => {
+        window.location.reload();
+      }
+    );
   };
   return (
-    <div className="w-[200px] h-10 p-1 rounded-2.5xl bg-black shadow-s1 mx-auto">
-      <div className="flex items-center justify-between h-full">
-        <div className="flex">
+    <div className='w-[200px] h-10 p-1 rounded-2.5xl bg-black shadow-s1 mx-auto'>
+      <div className='flex items-center justify-between h-full'>
+        <div className='flex'>
           {currentAddress?.type === 'evm' && (
-            <img src={eth} className="ml-2.5" />
+            <img src={eth} className='ml-2.5' />
           )}
           {currentAddress?.type === 'ton' && (
-            <img src={ton2} className="ml-2.5" />
+            <img src={ton2} className='ml-2.5' />
           )}
 
-          <span className="text-sm font-bold ml-2.5">
-            <Address address={currentAddress?.address} placement="right" />
+          <span className='text-sm font-bold ml-2.5'>
+            <Address address={currentAddress?.address} placement='right' />
           </span>
         </div>
         <Popover
-          trigger="click"
-          placement="top"
+          trigger='click'
+          placement='top'
           content={
-            <button onClick={handleLogout} className="lg:hover:opacity-70">
+            <button onClick={handleLogout} className='lg:hover:opacity-70'>
               Disconnect
             </button>
           }
         >
-          <button className="w-8 h-8 rounded-full flex justify-center items-center text-base font-bold text-c-9 bg-b-1 lg:hover:opacity-70">
+          <button className='w-8 h-8 rounded-full flex justify-center items-center text-base font-bold text-c-9 bg-b-1 lg:hover:opacity-70'>
             ···
           </button>
         </Popover>

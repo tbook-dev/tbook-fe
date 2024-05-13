@@ -7,7 +7,7 @@ export default function InitalWaitList ({ handleNextStep }) {
       <div className='text-[68px] font-medium text-[rgb(225,205,255)]/90 flex items-center justify-center'>
         {moduleConf.left.title}
       </div>
-      <div className='items-center my-6  h-[740px] p-20 rounded-[32px] bg-black/20 drop-shadow border border-white/20 flex flex-col justify-between gap-y-[120px]'>
+      <div className='items-center my-6  h-[760px] p-20 rounded-[32px] bg-black/20 drop-shadow border border-white/20 flex flex-col justify-between gap-y-[120px]'>
         <div>
           <h2 className='text-4xl w-[460px] mb-10 text-center'>
             {moduleConf.right.title[0]}
