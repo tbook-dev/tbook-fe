@@ -38,10 +38,6 @@ export default function LayoutAdmin () {
       if (data.canCreateProject) {
         navigate(newProjectPath);
       } else {
-        console.log(
-          'verifyPaths.includes(pathname)',
-          verifyPaths.includes(pathname)
-        );
         if (!verifyPaths.includes(pathname)) {
           navigate(applyPath);
         }
