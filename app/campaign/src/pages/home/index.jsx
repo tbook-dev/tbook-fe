@@ -48,7 +48,7 @@ export default function Home () {
           })}
         </div>
       </div>
-      <div className='fixed bottom-[150px] right-6 lg:bottom-16 lg:right-16 cursor-pointer group'>
+      <div className='fixed bottom-[150px] right-6 lg:bottom-16 lg:right-16 group'>
         <ChanelTip />
       </div>
     </main>
