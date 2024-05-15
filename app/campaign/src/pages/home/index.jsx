@@ -15,7 +15,9 @@ export default function Home () {
       <div className='lg:w-[1200px] mx-auto text-[#e1cdff]/90'>
         {pc ? (
           pageConf.title.map(p => (
-            <h3 className='text-[60px] leading-[80px]'>{p}</h3>
+            <h3 key={p} className='text-[60px] leading-[80px]'>
+              {p}
+            </h3>
           ))
         ) : (
           <h3 className='text-4xl w-[270px] mx-auto text-center'>

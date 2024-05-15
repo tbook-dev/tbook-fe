@@ -44,15 +44,15 @@ export default function ChanelTip () {
                   viewBox='0 0 20 20'
                   fill='none'
                   xmlns='http://www.w3.org/2000/svg'
-                  className='flex-none cursor-pointer'
+                  className='group flex-none cursor-pointer'
                   onClick={close}
                 >
                   <path
                     d='M4.375 3.75L10.625 10L4.375 16.25M9.375 3.75L15.625 10L9.375 16.25'
-                    stroke='white'
                     strokeWidth='1.5'
                     strokeLinecap='round'
                     strokeLinejoin='round'
+                    className='stroke-[#A1A1A2] hover:stroke-white'
                   />
                 </svg>
                 <div className='text-sm'>
