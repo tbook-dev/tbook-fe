@@ -1,5 +1,6 @@
 import { useResponsive } from 'ahooks';
 import clsx from 'clsx';
+import { useSelector } from 'react-redux';
 
 const footText = `© 2024 TBOOK All Rights Reserved`;
 const chanelTips = [
@@ -8,19 +9,24 @@ const chanelTips = [
 ];
 
 export default function Footer () {
+  const showFooterTip = useSelector(state => state.global.showFooterTip);
   const { pc } = useResponsive();
+
   return (
     <footer className='bx text-xs text-center text-white/60 border-t border-white/10'>
-      <h5 className={clsx('py-2', pc ? 'flex justify-center gap-x-1' : '')}>
-        <p>{chanelTips[0]}</p>
-        <a
-          href={chanelTips[1]}
-          target='_blank'
-          className='underline hover:text-white transition-all'
-        >
-          {chanelTips[1]}
-        </a>
-      </h5>
+      {showFooterTip && (
+        <h5 className={clsx('py-2', pc ? 'flex justify-center gap-x-1' : '')}>
+          <p>{chanelTips[0]}</p>
+          <a
+            href={chanelTips[1]}
+            target='_blank'
+            className='underline hover:text-white transition-all'
+          >
+            {chanelTips[1]}
+          </a>
+        </h5>
+      )}
+
       <p className='py-3'>{footText}</p>
     </footer>
   );

@@ -1,8 +1,10 @@
 import pageConf from './pageConf';
 import { useResponsive } from 'ahooks';
+import usePageFooterTip from '@/hooks/usePageFooterTip';
 
 export default function Home () {
   const { pc } = useResponsive();
+  usePageFooterTip();
 
   return (
     <main

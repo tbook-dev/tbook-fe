@@ -7,8 +7,7 @@ import arrow3Icon from '@/images/icon/arrow3.svg';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import useCampaignQuery from '@/hooks/useCampaignQuery';
 import RichMore from '@/components/textMore/rich';
-import { Skeleton, Statistic } from 'antd';
-import { message } from 'antd';
+import { Skeleton, Statistic, message } from 'antd';
 import { useSignMessage } from 'wagmi';
 import { host } from '@/api/incentive';
 import { useDispatch } from 'react-redux';
@@ -21,6 +20,7 @@ import ViewReward from './viewReward';
 import Credential from './credential';
 import { useTelegram } from '@/hooks/useTg';
 import { useLoaderData } from 'react-router-dom';
+import usePageFooterTip from '@/hooks/usePageFooterTip';
 
 const { Countdown } = Statistic;
 
@@ -52,6 +52,7 @@ export default function () {
 
   const [rawDatas, setRawDatas] = useState({});
   const [signed, setSigned] = useState({});
+  usePageFooterTip();
 
   const signIn = useCallback(() => {
     dispath(setLoginModal(true));
