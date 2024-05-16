@@ -1,6 +1,5 @@
 import pageConf from './pageConf';
 import { useResponsive } from 'ahooks';
-import ChanelTip from '@/components/chanelTip';
 
 export default function Home () {
   const { pc } = useResponsive();
@@ -26,7 +25,7 @@ export default function Home () {
         )}
       </div>
 
-      <div className='absolute bottom-0 inset-x-0'>
+      <div className='absolute bottom-10 lg:bottom-0 inset-x-0'>
         <div className='lg:w-[1200px] mx-auto lg:gap-x-8 lg:divide-x lg:divide-white/40 flex items-center justify-center gap-x-10 lg:justify-start lg:pb-[130px]'>
           {pageConf.contacts.map(c => {
             return (
@@ -49,9 +48,6 @@ export default function Home () {
             );
           })}
         </div>
-      </div>
-      <div className='fixed bottom-[150px] right-6 lg:bottom-16 lg:right-16 group'>
-        <ChanelTip />
       </div>
     </main>
   );

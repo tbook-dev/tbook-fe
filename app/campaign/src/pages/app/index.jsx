@@ -21,7 +21,6 @@ import ViewReward from './viewReward';
 import Credential from './credential';
 import { useTelegram } from '@/hooks/useTg';
 import { useLoaderData } from 'react-router-dom';
-import ChanelTip from '@/components/chanelTip';
 
 const { Countdown } = Statistic;
 
@@ -371,9 +370,6 @@ export default function () {
       )}
 
       {contextHolder}
-      <div className='fixed bottom-[150px] right-6 lg:bottom-16 lg:right-16 group'>
-        <ChanelTip />
-      </div>
     </div>
   );
 }
