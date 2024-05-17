@@ -49,7 +49,7 @@ export default function ({ authCallback, type }) {
           // 检查到可以merge
           setStatus('occupied-merge');
           setErrorMessage(
-            `this incentive passport been associated with another incentive passport.
+            `This incentive passport been associated with another incentive passport.
             Do you want to merge the incentive passport with your current incentive passport ?`
           );
           dispath(
