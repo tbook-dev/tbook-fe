@@ -252,7 +252,7 @@ export default function PassportCard ({ onClose }) {
           <div className='relative flex items-center justify-center gap-x-3'>
             {walletIconList
               .filter(v =>
-                isUsingWallet ? currentAddress.type !== v.name : true
+                isUsingWallet ? currentAddress?.type !== v.name : true
               )
               .map(v => {
                 return v.render;
@@ -260,7 +260,7 @@ export default function PassportCard ({ onClose }) {
 
             {socialList
               .filter(v =>
-                isUsingWallet ? true : currentSocial.type !== v.name
+                isUsingWallet ? true : currentSocial?.type !== v.name
               )
               .map(v => {
                 return v.connected ? (
