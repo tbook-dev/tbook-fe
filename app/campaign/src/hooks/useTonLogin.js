@@ -99,9 +99,11 @@ export default function useTonLogin() {
             // setShowMergeAccountModal()
             dispath(
               setMergeAccountData({
-                address: shortAddress(data.address),
-                twitterName: data.twitterName ?? data.socialName,
-                twitterId: userData?.userTwitter?.twitterId,
+                // address: shortAddress(data.address),
+                // twitterName: data.twitterName ?? data.socialName,
+                // twitterId: userData?.userTwitter?.twitterId,
+                passportA: data.passportA,
+                passportB: data.passportB,
                 redirect: false,
               })
             );

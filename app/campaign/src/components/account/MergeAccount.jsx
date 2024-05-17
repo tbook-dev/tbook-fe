@@ -1,103 +1,98 @@
-import { useCallback, Fragment } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { setShowMergeAccountModal, resetMergeAccountData } from '@/store/global'
-import { Dialog, Transition } from '@headlessui/react'
-import { mergeTwitterAndAddressAccount } from '@/api/incentive'
-import { useState } from 'react'
-import { Spin } from 'antd'
-import useUserInfo from '@/hooks/useUserInfoQuery'
-import MergeResult from './MergeResult'
-import { shortAddress } from '@tbook/utils/lib/conf'
-import { useAccount } from 'wagmi'
+import { useCallback, Fragment } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setShowMergeAccountModal,
+  resetMergeAccountData,
+} from '@/store/global';
+import { Dialog, Transition } from '@headlessui/react';
+import { mergePassport } from '@/api/incentive';
+import { useState } from 'react';
+import { Spin } from 'antd';
+import useUserInfo from '@/hooks/useUserInfoQuery';
+import MergeResult from './MergeResult';
+import { shortAddress } from '@tbook/utils/lib/conf';
+import { useAccount } from 'wagmi';
+import MergePassportCard from './MergePassportCard';
 
 const moduleConf = {
-  title: 'Confirm to merge ?',
+  title: 'Merge the passport',
+  desc: `All data from the 2 incentive passports will be merged. The merge operation can’t be reverted`,
   button: ['Cancel', 'Confirm'],
-  desc: 'This action cannot be reverted.',
-  getAccountInfo: ({ twitterName = '', address = '' }) => {
-    return (
-      <>
-        All data from the incentive passport associated with X @
-        <span className='text-white font-medium mr-1'>{twitterName}</span>
-        and the incentive passport associated with address
-        <span className='text-white font-medium mx-1'>
-          {shortAddress(address)}
-        </span>{' '}
-        will be merged.
-      </>
-    )
-  }
-}
+};
 export default function MergeAccount () {
-  const { refetch } = useUserInfo()
-  const showMergeAccountModal = useSelector(s => s.global.showMergeAccountModal)
-  const mergeAccountData = useSelector(s => s.global.mergeAccountData)
-  const dispath = useDispatch()
-  const [loading, setLoading] = useState(false)
-  const [showMergeResultModal, setShowMergeResultModal] = useState(false)
-  const [mergeResult, setMergeResult] = useState({})
-  const { address } = useAccount()
-  const [mergeSucess, setMergeSucess] = useState(false)
-
+  const { refetch, user } = useUserInfo();
+  const showMergeAccountModal = useSelector(
+    s => s.global.showMergeAccountModal
+  );
+  const mergeAccountData = useSelector(s => s.global.mergeAccountData);
+  const dispath = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [showMergeResultModal, setShowMergeResultModal] = useState(false);
+  const [mergeResult, setMergeResult] = useState({});
+  const { address } = useAccount();
+  const [mergeSucess, setMergeSucess] = useState(false);
   const hideMergeAccountModal = useCallback(() => {
-    dispath(setShowMergeAccountModal(false))
-  }, [])
+    dispath(setShowMergeAccountModal(false));
+  }, []);
   const onCancel = () => {
-    setShowMergeResultModal(false)
+    setShowMergeResultModal(false);
     if (mergeAccountData?.redirect && mergeSucess) {
-      const key = 'redirect_url'
-      const redirect = localStorage.getItem(key)
+      const key = 'redirect_url';
+      const redirect = localStorage.getItem(key);
       if (redirect != null) {
-        localStorage.removeItem(key)
-        location.href = redirect
+        localStorage.removeItem(key);
+        location.href = redirect;
       }
     }
-  }
+  };
+
   const handleMergeAccount = () => {
-    setLoading(true)
+    setLoading(true);
     // api
-    const twitterId = mergeAccountData.twitterId
-    mergeTwitterAndAddressAccount({ twitterId, address })
+    mergePassport({
+      passportA: mergeAccountData.passportA,
+      passportB: mergeAccountData.passportB,
+    })
       .then(res => {
         // console.log(res);
         if (res.code === 200) {
-          setMergeSucess(true)
+          setMergeSucess(true);
           setMergeResult({
             status: 'sucess',
             twitterName: res.mergeTwitterInfo?.twitterName,
-            address: shortAddress(res.address)
-          })
-          setShowMergeResultModal(true)
-          refetch()
+            address: shortAddress(res.address),
+          });
+          setShowMergeResultModal(true);
+          refetch();
         } else if (res.code === 400) {
-          setMergeSucess(false)
-          setShowMergeResultModal(true)
+          setMergeSucess(false);
+          setShowMergeResultModal(true);
           setMergeResult({
             status: 'failed',
-            message: res.message
-          })
+            message: res.message,
+          });
         } else {
-          setMergeSucess(false)
-          setShowMergeResultModal(true)
+          setMergeSucess(false);
+          setShowMergeResultModal(true);
           setMergeResult({
-            status: 'failed'
-          })
+            status: 'failed',
+          });
         }
       })
       .catch(() => {
-        setMergeSucess(false)
-        setShowMergeResultModal(true)
+        setMergeSucess(false);
+        setShowMergeResultModal(true);
         setMergeResult({
-          status: 'failed'
-        })
+          status: 'failed',
+        });
       })
       .finally(() => {
         // hideMergeAccountModal
-        setLoading(false)
-        resetMergeAccountData()
-        hideMergeAccountModal()
-      })
-  }
+        setLoading(false);
+        resetMergeAccountData();
+        hideMergeAccountModal();
+      });
+  };
 
   return (
     <>
@@ -132,52 +127,38 @@ export default function MergeAccount () {
                 leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
               >
                 <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-linear2 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
-                  <div className='px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
+                  <div className='pt-4'>
                     <div className='sm:flex sm:items-start'>
-                      <div className='mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[rgb(69,10,10)]/[0.25] sm:mx-0 sm:h-10 sm:w-10'>
-                        <svg
-                          width='40'
-                          height='40'
-                          viewBox='0 0 40 40'
-                          fill='none'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
-                          <rect
-                            width='40'
-                            height='40'
-                            rx='20'
-                            fill='#450A0A'
-                            fillOpacity='0.25'
-                          />
-                          <path
-                            d='M20 17V19M20 23H20.01M13.0718 27H26.9282C28.4678 27 29.4301 25.3333 28.6603 24L21.7321 12C20.9623 10.6667 19.0378 10.6667 18.268 12L11.3398 24C10.57 25.3333 11.5322 27 13.0718 27Z'
-                            stroke='#DC2626'
-                            strokeWidth='2'
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                          />
-                        </svg>
-                      </div>
-                      <div className='mt-3 sm:ml-4 sm:mt-0'>
-                        <Dialog.Title
-                          as='h3'
-                          className='text-lg font-medium text-white text-center lg:text-left'
-                        >
-                          {moduleConf.title}
-                        </Dialog.Title>
-                        <div className='mt-2 text-[#C0ABD9]'>
-                          <p className='text-sm'>
-                            {moduleConf.getAccountInfo(mergeAccountData)}
+                      <div className=''>
+                        <div className='space-y-2 pb-3  px-4 border-b border-white/10'>
+                          <Dialog.Title
+                            as='h3'
+                            className='text-lg font-medium text-white text-left'
+                          >
+                            {moduleConf.title}
+                          </Dialog.Title>
+                          <p className='text-[#C0ABD9] text-xs'>
+                            {moduleConf.desc}
                           </p>
-                          <p className='text-sm'>{moduleConf.desc}</p>
+                        </div>
+
+                        <div className='px-4 divide-y divide-white/10  border-b border-white/10 text-[#C0ABD9]'>
+                          <MergePassportCard
+                            name='Current Incentive Passport'
+                            account={mergeAccountData.passportA}
+                          />
+                          <MergePassportCard
+                            name='Incentive Passport you want to merge with'
+                            account={mergeAccountData.passportB}
+                          />
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className='px-4 py-3 flex flex-col-reverse gap-y-3 lg:px-6 lg:flex-row lg:justify-end lg:gap-x-3'>
+                  <div className='px-4 py-3 flex flex-col-reverse gap-y-3 lg:px-6 lg:flex-row lg:gap-x-3'>
                     <button
                       type='button'
-                      className='inline-flex w-full justify-center rounded-md border border-white px-3 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-70 sm:w-auto'
+                      className='inline-flex flex-auto w-full justify-center rounded-md border border-white px-3 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-70 sm:w-auto'
                       onClick={hideMergeAccountModal}
                     >
                       {moduleConf.button[0]}
@@ -185,7 +166,7 @@ export default function MergeAccount () {
                     <button
                       type='button'
                       disabled={loading}
-                      className='inline-flex w-full justify-center items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm sm:w-auto hover:opacity-70'
+                      className='inline-flex  flex-auto w-full justify-center items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm sm:w-auto hover:opacity-70'
                       onClick={handleMergeAccount}
                     >
                       {moduleConf.button[1]}
@@ -206,5 +187,5 @@ export default function MergeAccount () {
         data={mergeResult}
       />
     </>
-  )
+  );
 }
