@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   headerTransparent: true,
+  showFooterTip: false,
   theme: 'light',
   showConnectWalletModal: false,
   showLoginModal: false,
@@ -36,6 +37,9 @@ export const globalSlice = createSlice({
   reducers: {
     updateHeaderTransparent: (state, action) => {
       state.headerTransparent = action.payload;
+    },
+    setFooterTip: (state, action) => {
+      state.showFooterTip = action.payload;
     },
     setConnectWalletModal: (state, action) => {
       state.showConnectWalletModal = action.payload;
@@ -99,6 +103,7 @@ export const {
   setMergeAccountData,
   resetMergeAccountData,
   setShowWalletConnectModal,
+  setFooterTip,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

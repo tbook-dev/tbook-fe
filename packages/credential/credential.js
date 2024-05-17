@@ -1,120 +1,110 @@
 // picUrl2 白色背景，
 // picUrl1 黑色背景，
+import xblack from './logos/x-black.svg';
+import xwhite from './logos/x-white.svg';
+import dcwhite from './logos/dc-white.svg';
+import dcblack from './logos/dc-black.svg';
+import tgwhite from './logos/tg-white.svg';
+import tgblack from './logos/tg-black.svg';
+import visitwhite from './logos/visit-white.svg';
+import visitblack from './logos/visit-black.svg';
+import eventwhite from './logos/event-white.svg';
+import eventblack from './logos/event-black.svg';
+import snapshotwhite from './logos/snapshot-white.svg';
+import snapshotblack from './logos/snapshot-black.svg';
+import airdropwhite from './logos/airdrop-white.svg';
+import airdropblack from './logos/airdrop-black.svg';
 
 export default [
   //  groupType: 2,
   {
     name: 'Follow',
     labelType: 11,
-    picUrl:
-      'https://rd-worker.xgamma.workers.dev/img/2d298a6a69844ac5a58c1963588a3293',
+    picUrl: xwhite,
     groupType: 2,
-    picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/c0cf8d8fca56420ca9c6704b30b492bc',
+    picUrl2: xblack,
   },
   {
     name: 'Like a Tweet',
     labelType: 1,
-    picUrl:
-      'https://rd-worker.xgamma.workers.dev/img/2d298a6a69844ac5a58c1963588a3293',
+    picUrl: xwhite,
     groupType: 2,
-    picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/c0cf8d8fca56420ca9c6704b30b492bc',
+    picUrl2: xblack,
   },
   {
     name: 'Twitter Retweet',
     labelType: 2,
-    picUrl:
-      'https://rd-worker.xgamma.workers.dev/img/2d298a6a69844ac5a58c1963588a3293',
+    picUrl: xwhite,
     groupType: 2,
-    picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/c0cf8d8fca56420ca9c6704b30b492bc',
+    picUrl2: xblack,
   },
   {
     name: 'Speak in Twitter Spaces',
     labelType: 3,
-    picUrl:
-      'https://rd-worker.xgamma.workers.dev/img/2d298a6a69844ac5a58c1963588a3293',
+    picUrl: xwhite,
     groupType: 2,
-    picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/c0cf8d8fca56420ca9c6704b30b492bc',
+    picUrl2: xblack,
   },
   {
     name: 'Join Server',
     labelType: 4,
-    picUrl:
-      'https://rd-worker.xgamma.workers.dev/img/5fe124fa86bf4cca9de589101503f9aa',
+    picUrl: dcwhite,
     groupType: 2,
-    picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/25ae23a2254d431d9226786edc9adc68',
+    picUrl2: dcblack,
   },
   {
     name: 'Verify Role',
     labelType: 5,
-    picUrl:
-      'https://rd-worker.xgamma.workers.dev/img/5fe124fa86bf4cca9de589101503f9aa',
+    picUrl: dcwhite,
     groupType: 2,
-    picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/25ae23a2254d431d9226786edc9adc68',
+    picUrl2: dcblack,
   },
   {
     name: 'Join Group',
     labelType: 6,
-    picUrl:
-      'https://rd-worker.xgamma.workers.dev/img/417d714acda94bc586d0a17c24129a2e',
+    picUrl: tgwhite,
     groupType: 2,
-    picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/2511aaa3efe44490a170c2c13b12fba7',
+    picUrl2: tgblack,
   },
   {
     name: 'Join Channel',
     labelType: 7,
-    picUrl:
-      'https://rd-worker.xgamma.workers.dev/img/417d714acda94bc586d0a17c24129a2e',
+    picUrl: tgwhite,
     groupType: 2,
-    picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/2511aaa3efe44490a170c2c13b12fba7',
+    picUrl2: tgblack,
   },
 
   // groupType: 6,
   {
     name: 'Visit a Page or Site',
     labelType: 8,
-    picUrl:
-      'https://rd-worker.xgamma.workers.dev/img/bd265e367217418eb8c1fcf4acbd97ac',
+    picUrl: visitwhite,
     groupType: 6,
-    picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/e645e1f23f6f4d579f7278e411c7fd1e',
+    picUrl2: visitblack,
   },
   {
     name: 'Register an Event',
     labelType: 10,
-    picUrl:
-      'https://rd-worker.xgamma.workers.dev/img/68cb86e9972a428c9e22a0e9d498e39f',
+    picUrl: eventwhite,
     groupType: 6,
-    picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/9ea740903a8c415c85cfe3de5fa0f83b',
+    picUrl2: eventblack,
   },
 
   //  groupType: 1,
   {
     name: 'Vote on a Snapshot Proposal',
     labelType: 12,
-    picUrl:
-      'https://rd-worker.xgamma.workers.dev/img/97f2e04b3f5c415a8c0e617c79db9197',
+    picUrl: snapshotwhite,
     groupType: 1,
-    picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/6a35e508cab542ed836d450a134dc528',
+    picUrl2: snapshotblack,
   },
 
   //   groupType: 7,
   {
     name: 'Airdrop Address Aggregation',
     labelType: 13,
-    picUrl:
-      'https://rd-worker.xgamma.workers.dev/img/55fdf68bcded4fcfacb9f103ade8ddfb',
+    picUrl: airdropwhite,
     groupType: 7,
-    picUrl2:
-      'https://rd-worker.xgamma.workers.dev/img/2916cb920a1446a6a4b3e40c04151825',
+    picUrl2: airdropblack,
   },
 ];
