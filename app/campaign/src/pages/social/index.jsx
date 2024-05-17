@@ -49,9 +49,7 @@ export default function ({ authCallback, type }) {
           // 检查到可以merge
           setStatus('occupied-merge');
           setErrorMessage(
-            `${displayName[type]} account ${isEmailType(type) ? '' : '@'}${
-              d.socialName ?? d.twitterName
-            } been associated with another incentive passport.
+            `this incentive passport been associated with another incentive passport.
             Do you want to merge the incentive passport with your current incentive passport ?`
           );
           dispath(
@@ -59,8 +57,8 @@ export default function ({ authCallback, type }) {
               // address: shortAddress(d.address),
               // twitterName: d.socialName ?? d.twitterName,
               // twitterId:  d.twitterId,
-              passportA: data.passportA,
-              passportB: data.passportB,
+              passportA: d.passportA,
+              passportB: d.passportB,
               redirect: true,
             })
           );
