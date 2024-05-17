@@ -29,7 +29,6 @@ export default function MergeAccount () {
   const [loading, setLoading] = useState(false);
   const [showMergeResultModal, setShowMergeResultModal] = useState(false);
   const [mergeResult, setMergeResult] = useState({});
-  const { address } = useAccount();
   const [mergeSucess, setMergeSucess] = useState(false);
   const hideMergeAccountModal = useCallback(() => {
     dispath(setShowMergeAccountModal(false));
