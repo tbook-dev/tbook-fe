@@ -24,11 +24,11 @@ export default function MergePassportCard ({ account = {}, name }) {
         value: <Address address={account.evmAddress} />,
         show: !!account.evmAddress,
       },
-      //   {
-      //     name: 'Ton address',
-      //     value: <Address address={account.tonAddress} />,
-      //     show: !!account.tonAddress,
-      //   },
+      {
+        name: 'Ton address',
+        value: <Address address={account.tonAddress} />,
+        show: !!account.tonAddress,
+      },
     ].filter(c => c.show);
   }, [account]);
 
