@@ -203,6 +203,7 @@ export default {
               notFoundContent={
                 isLoading ? <Spin size='small' className='ml-3' /> : null
               }
+              mode='multiple'
               options={remoteRoles}
               placeholder='Select role after you input the valid Server Link'
             />
