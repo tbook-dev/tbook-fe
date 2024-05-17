@@ -37,7 +37,7 @@ export default function PageAttestation () {
     } catch (e) {
       console.log(e);
     }
-    open();
+    openTonModal();
   };
   const handleConnectWallet = useCallback(() => {
     dispatch(setConnectWalletModal(true));
