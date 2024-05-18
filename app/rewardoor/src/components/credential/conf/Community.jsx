@@ -196,7 +196,7 @@ export default {
             rules={[
               {
                 required: true,
-                message: 'Please input valid server url first!',
+                message: 'Please input valid value!',
               },
             ]}
           >
