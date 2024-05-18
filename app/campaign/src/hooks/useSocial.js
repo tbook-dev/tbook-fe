@@ -145,7 +145,7 @@ export default function useSocial() {
               try {
                 const authRes = await authTgCallback(user);
                 console.log({ authRes, user });
-                if (authRes.code === 4004) {
+                if (authRes.code === 400) {
                   dispath(setShowSocialRedirectModal(false));
                   dispath(
                     setMergeAccountData({
