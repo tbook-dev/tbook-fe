@@ -15,6 +15,8 @@ import {
   setShowSocicalModal,
   setsocialRedirectModalData,
   setShowSocialRedirectModal,
+  setMergeAccountData,
+  setShowMergeAccountModal,
 } from '@/store/global';
 import facebookSVG from '@/images/zklogin/facebook.svg';
 import talkSVG from '@/images/zklogin/talk.svg';
@@ -144,15 +146,18 @@ export default function useSocial() {
                 const authRes = await authTgCallback(user);
                 console.log({ authRes, user });
                 if (authRes.code === 4004) {
+                  dispath(setShowSocialRedirectModal(false));
                   dispath(
-                    setsocialRedirectModalData({
-                      type: 'telegram',
-                      status: 'occupied',
-                      desc: `Telegram account @${authRes.socialName} has been
-                          connected to another address
-                          ${authRes.address}`,
+                    setMergeAccountData({
+                      // address: shortAddress(data.address),
+                      // twitterName: data.twitterName,
+                      // twitterId: userData?.userTwitter?.twitterId,
+                      passportA: authRes.passportA,
+                      passportB: authRes.passportB,
+                      redirect: false,
                     })
                   );
+                  dispath(setShowMergeAccountModal(true));
                 } else if (authRes.code === 500) {
                   dispath(
                     setsocialRedirectModalData({
