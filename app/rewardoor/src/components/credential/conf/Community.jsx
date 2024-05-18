@@ -1,8 +1,9 @@
-import { Form, Input, Spin, Select } from 'antd';
+import { Form, Input, Spin } from 'antd';
 import dcInviteImg from '@/images/dc-invite.png';
 import Invitebot from '../components/invitebot';
 import useDcRoles from '@/hooks/queries/useDcRoles';
 import { useEffect } from 'react';
+import SelectWraper from '@/components/wraper/select';
 
 const FormItem = Form.Item;
 
@@ -199,7 +200,7 @@ export default {
               },
             ]}
           >
-            <Select
+            <SelectWraper
               notFoundContent={
                 isLoading ? <Spin size='small' className='ml-3' /> : null
               }
