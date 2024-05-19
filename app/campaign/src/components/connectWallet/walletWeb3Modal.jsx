@@ -144,21 +144,10 @@ const ConnectWalletModal = () => {
       }
     },
   });
-  console.log({ address });
   useEffect(() => {
     setCurrentAddress(address);
   }, [address, setCurrentAddress]);
 
-  useEffect(() => {
-    console.log({ search: location });
-    // 绑定的evm 地址与 钱包登录的地址不一致
-    if (evmAddress && address && address !== evmAddress) {
-      console.log('error-----------');
-    }
-    // 项目方带过的地址与当前evm的地址不一致
-
-    // after login, campare local loged evmAddr and sourceEvmAddr
-  }, [evmAddress, address]);
   useEffect(() => {
     if (isConnected) {
       getNonce(address).then(r => {
