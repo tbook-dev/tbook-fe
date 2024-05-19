@@ -29,6 +29,7 @@ const initialState = {
     redirect: false,
   },
   showWalletConnectModal: false,
+  EVMInconsistentModal: false,
 };
 
 export const globalSlice = createSlice({
@@ -85,6 +86,9 @@ export const globalSlice = createSlice({
     setShowWalletConnectModal: (state, action) => {
       state.showWalletConnectModal = action.payload;
     },
+    setEVMInconsistentModal: (state, action)=>{
+      state.EVMInconsistentModal = action.payload;
+    }
   },
 });
 
@@ -104,6 +108,7 @@ export const {
   resetMergeAccountData,
   setShowWalletConnectModal,
   setFooterTip,
+  setEVMInconsistentModal
 } = globalSlice.actions;
 
 export default globalSlice.reducer;
