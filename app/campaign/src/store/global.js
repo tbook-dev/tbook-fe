@@ -1,5 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const defaultMergeAccountData = {
+  passportA: {
+    dcName: '',
+    evmAddress: '',
+    tgName: '',
+    tonAddress: '',
+    twitterName: '',
+    userId: 0,
+  },
+  passportB: {
+    dcName: '',
+    evmAddress: '',
+    tgName: '',
+    tonAddress: '',
+    twitterName: '',
+    userId: 0,
+  },
+  redirect: false,
+};
 const initialState = {
   headerTransparent: true,
   showFooterTip: false,
@@ -22,12 +41,7 @@ const initialState = {
   snapshotData: null,
   showPassportGeneratingModal: false,
   showMergeAccountModal: false,
-  mergeAccountData: {
-    twitterName: '',
-    twitterId: '',
-    address: '',
-    redirect: false,
-  },
+  mergeAccountData: { ...defaultMergeAccountData },
   showWalletConnectModal: false,
 };
 
@@ -76,10 +90,7 @@ export const globalSlice = createSlice({
     },
     resetMergeAccountData: (state) => {
       state.mergeAccountData = {
-        twitterName: '',
-        twitterId: '',
-        address: '',
-        redirect: false,
+        ...defaultMergeAccountData,
       };
     },
     setShowWalletConnectModal: (state, action) => {

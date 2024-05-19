@@ -11,10 +11,19 @@ import { useState, useCallback, useMemo } from 'react';
 import UnbindModal from './unbindModal';
 import { useDispatch } from 'react-redux';
 import { setConnectWalletModal } from '@/store/global';
+import {
+  useTonConnectUI,
+  useTonWallet,
+  TonConnectButton,
+  useTonConnectModal,
+  useTonAddress,
+} from '@tonconnect/ui-react';
 
 export default function PageAttestation () {
   const { user, data, isLoading } = useUserInfoQuery();
   const dispatch = useDispatch();
+  const [tonConnectUI] = useTonConnectUI();
+  const { open: openTonModal } = useTonConnectModal();
 
   const { socialList } = useSocial();
   const [open, setOpen] = useState(false);
@@ -22,6 +31,14 @@ export default function PageAttestation () {
     accountName: '',
     accountType: '',
   });
+  const handleTonClick = async () => {
+    try {
+      await tonConnectUI.disconnect();
+    } catch (e) {
+      console.log(e);
+    }
+    openTonModal();
+  };
   const handleConnectWallet = useCallback(() => {
     dispatch(setConnectWalletModal(true));
   }, []);
@@ -35,14 +52,18 @@ export default function PageAttestation () {
         !!data?.userTwitter?.connected,
         !!data?.userDc?.connected,
         !!data?.userTg?.connected,
+        // !!data?.userTon?.binded, not support yet
       ].filter(Boolean).length > 1
     );
   }, [data]);
   // console.log({ isMultAccount });
   const onChainConf = useMemo(() => {
+    const ton = moduleConf.onChainList.find(v => v.type === 'tonconnect');
+    const evm = moduleConf.onChainList.find(v => v.type === 'walletconnect');
+
     const isEvm = !!user?.evm?.evmWallet;
     // const isZk = !!user?.zk?.address;
-    const evm = moduleConf.onChainList.find(v => v.type === 'walletconnect');
+    const isTon = !!data?.userTon?.binded;
 
     return [
       {
@@ -63,6 +84,27 @@ export default function PageAttestation () {
               alt={evm.type}
             />
             {evm.text}
+          </button>
+        ),
+      },
+      {
+        name: 'TON',
+        label: <span>TON</span>,
+        render: isTon ? (
+          <div className='flex px-5 py-2 bg-[#1A1A1A] rounded-2.5xl'>
+            <Address address={data?.userTon?.address} />
+          </div>
+        ) : (
+          <button
+            className='h-10 w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
+            onClick={handleTonClick}
+          >
+            <img
+              src={ton.picUrl}
+              className='w-5 h-5 object-center absolute left-4'
+              alt={ton.type}
+            />
+            {ton.text}
           </button>
         ),
       },
