@@ -1,8 +1,9 @@
-import { Form, Input, Spin, Select } from 'antd';
+import { Form, Input, Spin } from 'antd';
 import dcInviteImg from '@/images/dc-invite.png';
 import Invitebot from '../components/invitebot';
 import useDcRoles from '@/hooks/queries/useDcRoles';
 import { useEffect } from 'react';
+import SelectWraper from '@/components/wraper/select';
 
 const FormItem = Form.Item;
 
@@ -195,14 +196,15 @@ export default {
             rules={[
               {
                 required: true,
-                message: 'Please input valid server url first!',
+                message: 'Please input valid value!',
               },
             ]}
           >
-            <Select
+            <SelectWraper
               notFoundContent={
                 isLoading ? <Spin size='small' className='ml-3' /> : null
               }
+              mode='multiple'
               options={remoteRoles}
               placeholder='Select role after you input the valid Server Link'
             />
