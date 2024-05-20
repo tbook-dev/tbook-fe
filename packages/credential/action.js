@@ -35,16 +35,12 @@ export default {
   5: {
     isLink: true,
     getLink: ({ link }) => link,
-    getActionName: ({ roleName }) => (roleName ? `Have` : `Have the role`),
+    getActionName: () => 'Have',
     getActionTarget: ({ serverName, roleName }) => {
-      const roleNames = roleName
-        ? roleName
-            ?.split(',')
-            .filter(Boolean)
-            .map((r) => `${r} role `)
-            .join(' or ')
-        : '';
-      return `${roleNames} in ${serverName} server`;
+      const roleNamesList = roleName?.split(',').filter(Boolean);
+      return roleNamesList.length > 1
+        ? `one role of ${roleName} in server ${serverName}`
+        : `${roleName} in server ${serverName}`;
     },
   },
   // tg
