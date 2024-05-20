@@ -237,7 +237,7 @@ function CredentialReward ({
             isInOngoingEdit ? 'cursor-not-allowed	' : 'cursor-pointer',
             'px-0 -ml-10'
           )}
-          // disabled={isInOngoingEdit}
+          disabled={isInOngoingEdit}
           onClick={() => {
             setCredentialReward([
               ...credentialReward,
