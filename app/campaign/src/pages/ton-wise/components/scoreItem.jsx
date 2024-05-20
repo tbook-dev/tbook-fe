@@ -37,7 +37,8 @@ export default function ScoreItem ({ user }) {
             <img src={walletUrl} className='w-5 h-5' alt='address type' />
           )}
           {user?.addressType === 2
-            ? user.address
+            ? // ? user.address  不展示此处的逻辑
+              ''
             : shortAddressV1(user.address ?? '')}
         </span>
       </div>
