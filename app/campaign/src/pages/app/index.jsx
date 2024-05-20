@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { logUserReport } from '@/api/incentive';
 import { useParams } from 'react-router-dom';
 import pointIcon from '@/images/icon/point-modal.svg';
-import shareIcon from '@/images/icon/share.svg';
 import arrow3Icon from '@/images/icon/arrow3.svg';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import useCampaignQuery from '@/hooks/useCampaignQuery';
@@ -18,21 +17,16 @@ import ColorCaptial from '@/components/colorCaptial';
 import { formatDollar } from '@tbook/utils/lib/conf';
 import ViewReward from './viewReward';
 import Credential from './credential';
-import { useTelegram } from '@/hooks/useTg';
 import { useLoaderData } from 'react-router-dom';
 import usePageFooterTip from '@/hooks/usePageFooterTip';
-
+import TMAShare from '@/components/TMAShare';
 const { Countdown } = Statistic;
-
-const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
-const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
 
 const prompt =
   'You may get the rewards once you have accomplished all tasks in the group!';
 
 export default function () {
   const [messageApi, contextHolder] = message.useMessage();
-  const { isTMA } = useTelegram();
   const dispath = useDispatch();
   const { campaignId } = useParams();
   const { user, twitterConnected, userLogined, isUsingWallet } = useUserInfo();
@@ -118,12 +112,7 @@ export default function () {
         }
       });
   };
-  const TMAsahreLink = useMemo(() => {
-    const link = `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
-      JSON.stringify({ projectUrl, campaignId, type: 'campaign' })
-    )}`;
-    return `https://t.me/share/url?url=${encodeURIComponent(link)}`;
-  }, [campaignId, projectUrl]);
+
   // console.log(TMAsahreLink);
   useEffect(() => {
     const gs = page?.groups;
@@ -172,14 +161,7 @@ export default function () {
     <div className='space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-t-1'>
       <section className='overflow-hidden mb-16 lg:flex lg:justify-between lg:gap-x-[80px]'>
         <div className='relative w-full h-[172px] lg:w-[566px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center'>
-          {isTMA && (
-            <a
-              href={TMAsahreLink}
-              className='size-10 fixed top-16 right-4 cursor-pointer z-10'
-            >
-              <img alt='share icon' src={shareIcon} className='size-10' />
-            </a>
-          )}
+          <TMAShare data={{ projectUrl, campaignId, type: 'campaign' }} />
 
           <LazyImage
             src={page?.campaign?.picUrl}
