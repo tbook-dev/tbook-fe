@@ -163,7 +163,7 @@ export default {
       const { data: remoteRoles, isLoading } = useDcRoles(serverLink);
       useEffect(() => {
         if (remoteRoles === null) {
-          form.setFieldValue(['credential', name, 'roleId'], undefined);
+          form.setFieldValue(['credential', name, 'roleId'], []);
         }
       }, [remoteRoles]);
       return (
@@ -199,7 +199,7 @@ export default {
                 message: 'Please input valid value!',
               },
             ]}
-            tooltip="If multiple roles selected, then user can verify the credential as long as they have any one of those roles."
+            tooltip='If multiple roles selected, then user can verify the credential as long as they have any one of those roles.'
           >
             <SelectWraper
               notFoundContent={

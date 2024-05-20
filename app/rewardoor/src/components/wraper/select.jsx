@@ -8,7 +8,7 @@ export default function SelectWraper ({ value, onChange, ...props }) {
   const wraperValue = value => {
     return value?.includes(',')
       ? value.split(',').filter(v => v !== '')
-      : value === ''
+      : !value
       ? []
       : [value];
   };
