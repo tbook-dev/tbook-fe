@@ -265,7 +265,7 @@ export default function Credential ({ redential, showVerify, signCredential }) {
           }
         />
         {redential.isVerified === 1 ? (
-          <span className='flex items-center gap-x-1 text-md whitespace-nowrap'>
+          <span className='flex-none flex items-center gap-x-1 text-md whitespace-nowrap'>
             <VerifyStatus status={verifyStatusEnum.Sucess} />
             Verified
           </span>

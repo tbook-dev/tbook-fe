@@ -1,4 +1,4 @@
-import { Modal, Typography, Spin, message, App } from 'antd';
+import { Modal, Typography, Spin, message } from 'antd';
 import { useSelector } from 'react-redux';
 import { useResponsive } from 'ahooks';
 import clsx from 'clsx';
@@ -24,7 +24,6 @@ import useUserInfo from '@/hooks/useUserInfoQuery';
 import { CheckOutlined } from '@ant-design/icons';
 import { delay } from '@/utils/common';
 import { changeAccountSignIn, logout, preGetNonce, isIOS } from '@/utils/web3';
-
 const { shortAddress } = conf;
 const { Paragraph } = Typography;
 
@@ -145,7 +144,6 @@ const ConnectWalletModal = () => {
       }
     },
   });
-
   useEffect(() => {
     setCurrentAddress(address);
   }, [address, setCurrentAddress]);
