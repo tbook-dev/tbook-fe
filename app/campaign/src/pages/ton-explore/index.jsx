@@ -5,16 +5,9 @@ import Layout from '@/layout/ton/Layout';
 import { useNavigate } from 'react-router-dom';
 import { useLayoutEffect, useState } from 'react';
 import PageFallBack from '@/components/pageFallback';
+import { safeParse } from '@/utils/tma';
 
-function safeParse(start_param) {
-  try {
-    const str = atob(start_param);
-    return JSON.parse(str);
-  } catch (error) {
-    return {};
-  }
-}
-export default function TonExplore() {
+export default function TonExplore () {
   const { isTMA, webApp } = useTelegram();
   const navigate = useNavigate();
   const [isSubpage, setSubpage] = useState(false);
@@ -27,6 +20,10 @@ export default function TonExplore() {
         setSubpage(true);
         window.sessionRoutesCount -= 1;
         navigate(`/${projectUrl}/${campaignId}`);
+      } else if (type === 'project') {
+        setSubpage(true);
+        window.sessionRoutesCount -= 1;
+        navigate(`/${projectUrl}/`);
       }
     }
   }, []);

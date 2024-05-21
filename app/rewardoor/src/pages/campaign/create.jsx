@@ -74,6 +74,8 @@ export default function () {
     refetch: getCompaignDetail,
     isLoading: isCampaignLoading,
   } = useCampaign(campaignId);
+  const isInOngoingStatus = pageInfo?.campaign?.status === 1;
+  console.log({ isInOngoingStatus });
   const handleStepUp = async () => {
     const values = await setUpForm.validateFields();
     fd.current = {
@@ -290,13 +292,19 @@ export default function () {
       <div className='pt-1 mb-40'>
         <h1 className='text-4xl  mb-10 font-bold'>{title}</h1>
         <div className='relative'>
-          {step === '1' && <BasicInfo form={setUpForm} />}
+          {step === '1' && (
+            <BasicInfo
+              form={setUpForm}
+              isInOngoingEdit={isInOngoingStatus && editMode}
+            />
+          )}
           {step === '2' && (
             <CredentialReward
               credentialReward={credentialReward}
               setCredentialReward={setCredentialReward}
               NFTcontracts={NFTcontracts}
               credentialList={credentialList}
+              isInOngoingEdit={isInOngoingStatus && editMode}
             />
           )}
         </div>
