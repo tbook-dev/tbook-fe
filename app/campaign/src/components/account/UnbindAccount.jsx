@@ -7,7 +7,10 @@ import MergePassportCard from './MergePassportCard';
 
 const moduleConf = {
   title: 'Account  occupied',
-  desc: `All data from the 2 incentive passports will be merged. The merge operation can’t be reverted`,
+  desc: [
+    `This account  has been bound to another incentive passport.`,
+    `You could unbind and try again.`,
+  ],
   link: {
     text: 'How to unbind?',
     url: 'https://tbookcommunity.medium.com/social-attestation-in-tbook-incentive-passport-disconnecting-feature-is-now-live-66f29ce42bef',
@@ -55,38 +58,41 @@ export default function MergeAccount () {
             >
               <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-linear2 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
                 <div className='pt-4'>
-                  <div className='sm:flex sm:items-start'>
-                    <div className=''>
-                      <div className='space-y-2 pb-3  px-4 border-b border-white/10'>
-                        <Dialog.Title
-                          as='h3'
-                          className='text-lg font-medium text-white text-left'
-                        >
-                          {moduleConf.title}
-                        </Dialog.Title>
-                        <p className='text-[#C0ABD9] text-xs'>
-                          {moduleConf.desc}
-                        </p>
-                        <a
-                          href={moduleConf.link.url}
-                          target='_blank'
-                          className='text-[#C0ABD9] text-xs underline hover:text-white'
-                        >
-                          {moduleConf.link.text}
-                        </a>
-                      </div>
-
-                      <div className='px-4 divide-y divide-white/10  border-b border-white/10 text-[#C0ABD9]'>
-                        <MergePassportCard
-                          name='Current Incentive Passport'
-                          account={unbindAccountData.passportA}
-                        />
-                        <MergePassportCard
-                          name='Incentive Passport you want to connect'
-                          account={unbindAccountData.passportB}
-                        />
-                      </div>
+                  <div className='space-y-2 pb-3  px-4 border-b border-white/10'>
+                    <Dialog.Title
+                      as='h3'
+                      className='text-lg font-medium text-white text-left'
+                    >
+                      {moduleConf.title}
+                    </Dialog.Title>
+                    <div>
+                      {moduleConf.desc.map(c => {
+                        return (
+                          <p key={c} className='text-[#C0ABD9] text-xs'>
+                            {c}
+                          </p>
+                        );
+                      })}
                     </div>
+
+                    <a
+                      href={moduleConf.link.url}
+                      target='_blank'
+                      className='text-[#C0ABD9] text-xs underline hover:text-white '
+                    >
+                      {moduleConf.link.text}
+                    </a>
+                  </div>
+
+                  <div className='px-4 divide-y divide-white/10  border-b border-white/10 text-[#C0ABD9]'>
+                    <MergePassportCard
+                      name='Current Incentive Passport'
+                      account={unbindAccountData.passportA}
+                    />
+                    <MergePassportCard
+                      name='Incentive Passport you want to connect'
+                      account={unbindAccountData.passportB}
+                    />
                   </div>
                 </div>
               </Dialog.Panel>
