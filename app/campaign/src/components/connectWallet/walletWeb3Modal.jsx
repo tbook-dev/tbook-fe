@@ -12,6 +12,8 @@ import {
   setLoginModal,
   setShowMergeAccountModal,
   setMergeAccountData,
+  setUnbindAccountModal,
+  setUnbindAccountData,
 } from '@/store/global';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { useAccount, useSignMessage } from 'wagmi';
@@ -67,6 +69,9 @@ const ConnectWalletModal = () => {
   const openMergeAccountModal = useCallback(() => {
     dispath(setShowMergeAccountModal(true));
   }, []);
+  const openUnbindAccountModal = useCallback(() => {
+    dispath(setUnbindAccountModal(true));
+  }, []);
 
   const signIn = async () => {
     setLoading(true);
@@ -76,14 +81,19 @@ const ConnectWalletModal = () => {
       if (userLogined && !evmAddress) {
         const r = await bindEvm(address, sign);
         const data = await r.json();
-        if (data.code === 400) {
+        if (d.code === 4004) {
+          dispath(
+            setUnbindAccountData({
+              passportA: d.passportA,
+              passportB: d.passportB,
+            })
+          );
+          openUnbindAccountModal();
+        } else if (data.code === 400) {
           // 400 merge
           // setShowMergeAccountModal()
           dispath(
             setMergeAccountData({
-              // address: shortAddress(data.address),
-              // twitterName: data.twitterName,
-              // twitterId: userData?.userTwitter?.twitterId,
               passportA: data.passportA,
               passportB: data.passportB,
               redirect: false,

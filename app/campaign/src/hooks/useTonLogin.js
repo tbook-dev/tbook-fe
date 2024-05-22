@@ -16,6 +16,8 @@ import {
   setLoginModal,
   setShowMergeAccountModal,
   setMergeAccountData,
+  setUnbindAccountData,
+  setUnbindAccountModal,
 } from '@/store/global';
 import { conf } from '@tbook/utils';
 import { message } from 'antd';
@@ -43,6 +45,9 @@ export default function useTonLogin() {
   const [loading, setLoading] = useState(false);
   const openMergeAccountModal = useCallback(() => {
     dispath(setShowMergeAccountModal(true));
+  }, []);
+  const openUnbindAccountModal = useCallback(() => {
+    dispath(setUnbindAccountModal(true));
   }, []);
   const recreateProofPayload = useCallback(async () => {
     if (firstProofLoading.current) {
@@ -99,9 +104,6 @@ export default function useTonLogin() {
             // setShowMergeAccountModal()
             dispath(
               setMergeAccountData({
-                // address: shortAddress(data.address),
-                // twitterName: data.twitterName ?? data.socialName,
-                // twitterId: userData?.userTwitter?.twitterId,
                 passportA: data.passportA,
                 passportB: data.passportB,
                 redirect: false,
@@ -110,15 +112,22 @@ export default function useTonLogin() {
             openMergeAccountModal();
           } else {
             // 4004要解绑
-            if (data.code != 200) {
-              messageApi.error(data.message);
-              setLoading(false);
-              // handleCloseModal();
-              return;
-            } else {
-              await delay(100);
-              await refetch();
-            }
+            dispath(
+              setUnbindAccountData({
+                passportA: data.passportA,
+                passportB: data.passportB,
+              })
+            );
+            openUnbindAccountModal();
+            // if (data.code != 200) {
+            //   messageApi.error(data.message);
+            //   setLoading(false);
+            //   // handleCloseModal();
+            //   return;
+            // } else {
+            //   await delay(100);
+            //   await refetch();
+            // }
           }
           await refetch();
           setLoading(false);

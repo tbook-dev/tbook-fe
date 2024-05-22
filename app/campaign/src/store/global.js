@@ -19,6 +19,24 @@ const defaultMergeAccountData = {
   },
   redirect: false,
 };
+const defaultUnbindAccountData = {
+  passportA: {
+    dcName: '',
+    evmAddress: '',
+    tgName: '',
+    tonAddress: '',
+    twitterName: '',
+    userId: 0,
+  },
+  passportB: {
+    dcName: '',
+    evmAddress: '',
+    tgName: '',
+    tonAddress: '',
+    twitterName: '',
+    userId: 0,
+  },
+};
 const initialState = {
   headerTransparent: true,
   showFooterTip: false,
@@ -44,6 +62,8 @@ const initialState = {
   mergeAccountData: { ...defaultMergeAccountData },
   showWalletConnectModal: false,
   EVMInconsistentModal: false,
+  showUnbindAccountModal: false,
+  unbindAccountData: { ...defaultUnbindAccountData },
 };
 
 export const globalSlice = createSlice({
@@ -97,9 +117,15 @@ export const globalSlice = createSlice({
     setShowWalletConnectModal: (state, action) => {
       state.showWalletConnectModal = action.payload;
     },
-    setEVMInconsistentModal: (state, action)=>{
+    setEVMInconsistentModal: (state, action) => {
       state.EVMInconsistentModal = action.payload;
-    }
+    },
+    setUnbindAccountModal: (state, action) => {
+      state.showUnbindAccountModal = action.payload;
+    },
+    setUnbindAccountData: (state, action) => {
+      state.unbindAccountData = action.payload;
+    },
   },
 });
 
@@ -119,7 +145,9 @@ export const {
   resetMergeAccountData,
   setShowWalletConnectModal,
   setFooterTip,
-  setEVMInconsistentModal
+  setEVMInconsistentModal,
+  setUnbindAccountModal,
+  setUnbindAccountData,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;
