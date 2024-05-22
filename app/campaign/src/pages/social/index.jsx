@@ -3,10 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import RedirectSocial from '@/components/redirectSocial';
 import { redirectLocalStorageOnce } from '@/pages/social/conf';
 import { delay } from '@/utils/common';
-import { setShowMergeAccountModal, setMergeAccountData } from '@/store/global';
+import {
+  setShowMergeAccountModal,
+  setMergeAccountData,
+  setUnbindAccountModal,
+  setUnbindAccountData,
+} from '@/store/global';
 import { useDispatch } from 'react-redux';
-import { conf } from '@tbook/utils';
-const { shortAddress } = conf;
 
 const displayName = {
   twitter: 'X',
@@ -24,27 +27,27 @@ export default function ({ authCallback, type }) {
   const [data, setData] = useState({});
   const dispath = useDispatch();
 
-  // const openMergeAccountModal = useCallback(() => {
-  //   dispath(setShowMergeAccountModal(true))
-  // }, [])
+  const openMergeAccountModal = useCallback(() => {
+    dispath(setShowMergeAccountModal(true));
+  }, []);
+  const openUnbindAccountModal = useCallback(() => {
+    dispath(setUnbindAccountModal(true));
+  }, []);
   useEffect(() => {
     authCallback()
       .then(async d => {
         setData(d);
         console.log(d, 'd');
         if (d.code === 4004) {
-          //           {
-          //     "message": "Twitter account already connected",
-          //     "socialName": "Timberlake Hu",
-          //     "code": 4004,
-          //     "address": "0x7Bd6...c6CE"
-          // }
           setStatus('occupied');
-          setErrorMessage(
-            `${displayName[type]} account ${isEmailType(type) ? '' : '@'}${
-              d.socialName
-            }  has been connected to another address ${d.address}`
+          setErrorMessage('Account  occupied');
+          dispath(
+            setUnbindAccountData({
+              passportA: d.passportA,
+              passportB: d.passportB,
+            })
           );
+          openUnbindAccountModal();
         } else if (d.code === 400) {
           // 检查到可以merge
           setStatus('occupied-merge');
@@ -54,14 +57,12 @@ export default function ({ authCallback, type }) {
           );
           dispath(
             setMergeAccountData({
-              // address: shortAddress(d.address),
-              // twitterName: d.socialName ?? d.twitterName,
-              // twitterId:  d.twitterId,
               passportA: d.passportA,
               passportB: d.passportB,
               redirect: true,
             })
           );
+          openMergeAccountModal();
           console.log('merge account');
           // openMergeAccountModal()
         } else if (d.code === 500) {
