@@ -10,11 +10,18 @@ export function safeParse(start_param) {
     return {};
   }
 }
+
+export const getDirectLink = (data) => {
+  return `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
+    JSON.stringify(data)
+  )}`;
+};
+
 export const getTMAsahreLink = (data) => {
   const link = isEmpty(data)
     ? `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}`
-    : `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
-        JSON.stringify(data)
-      )}`;
+    : getDirectLink(data);
   return `https://t.me/share/url?url=${encodeURIComponent(link)}`;
 };
+
+export const supportTMATypes = ['campaign', 'project', 'wiseScore'];

@@ -7,5 +7,6 @@ export default function useWiseScore() {
   return useQuery('wise-score', () => getWiseScore(user.userId), {
     retry: false,
     enabled: !!user.userId,
+    retryOnMount: false,
   });
 }
