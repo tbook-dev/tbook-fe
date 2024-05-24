@@ -10,7 +10,7 @@ export default function TMAsahreLink ({ data }) {
     isTMA && (
       <a
         href={TMAsahreLink}
-        className='size-10 fixed top-16 right-4 cursor-pointer z-10'
+        className='size-10 fixed top-16 right-4 cursor-pointer z-[11] backdrop-blur-md'
       >
         <img alt='share icon' src={shareIcon} className='size-10' />
       </a>
