@@ -17,6 +17,8 @@ import {
   setShowSocialRedirectModal,
   setMergeAccountData,
   setShowMergeAccountModal,
+  setUnbindAccountData,
+  setUnbindAccountModal,
 } from '@/store/global';
 import facebookSVG from '@/images/zklogin/facebook.svg';
 import talkSVG from '@/images/zklogin/talk.svg';
@@ -145,7 +147,15 @@ export default function useSocial() {
               try {
                 const authRes = await authTgCallback(user);
                 console.log({ authRes, user });
-                if (authRes.code === 400) {
+                if (d.code === 4004) {
+                  dispath(
+                    setUnbindAccountData({
+                      passportA: d.passportA,
+                      passportB: d.passportB,
+                    })
+                  );
+                  dispath(setUnbindAccountModal(true));
+                } else if (authRes.code === 400) {
                   dispath(setShowSocialRedirectModal(false));
                   dispath(
                     setMergeAccountData({
