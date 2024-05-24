@@ -78,7 +78,7 @@ export default function MergeAccount () {
                     <a
                       href={moduleConf.link.url}
                       target='_blank'
-                      className='text-[#C0ABD9] text-xs underline hover:text-white '
+                      className='text-[#C0ABD9] text-xs underline hover:text-white focus-within:outline-none'
                     >
                       {moduleConf.link.text}
                     </a>
