@@ -171,7 +171,7 @@ export default function () {
       {refBackLink && (
         <a
           href={refBackLink}
-          className="flex items-center gap-x-1 text-sm font-semibold py-2.5 text-[#717374] group hover:text-white"
+          className="pl-4 lg:pl-0 flex items-center gap-x-1 text-sm font-semibold py-2.5 text-[#717374] group hover:text-white"
         >
           <div className="w-6 h-6 flex items-center justify-center">
             <svg
