@@ -145,35 +145,35 @@ export default function useSocial() {
                 return;
               }
               try {
-                const authRes = await authTgCallback(user);
-                console.log({ authRes, user });
-                if (authRes.code === 4004) {
+                const data = await authTgCallback(user);
+                console.log({ data, user });
+                if (data.code === 4004) {
                   dispath(
                     setUnbindAccountData({
-                      passportA: d.passportA,
-                      passportB: d.passportB,
+                      passportA: data.passportA,
+                      passportB: data.passportB,
                     })
                   );
                   dispath(setUnbindAccountModal(true));
-                } else if (authRes.code === 400) {
+                } else if (data.code === 400) {
                   dispath(setShowSocialRedirectModal(false));
                   dispath(
                     setMergeAccountData({
                       // address: shortAddress(data.address),
                       // twitterName: data.twitterName,
                       // twitterId: userData?.userTwitter?.twitterId,
-                      passportA: authRes.passportA,
-                      passportB: authRes.passportB,
+                      passportA: data.passportA,
+                      passportB: data.passportB,
                       redirect: false,
                     })
                   );
                   dispath(setShowMergeAccountModal(true));
-                } else if (authRes.code === 500) {
+                } else if (data.code === 500) {
                   dispath(
                     setsocialRedirectModalData({
                       type: 'telegram',
                       status: 'failed',
-                      desc: authRes.msg,
+                      desc: data.msg,
                     })
                   );
                 } else {
@@ -181,7 +181,7 @@ export default function useSocial() {
                     setsocialRedirectModalData({
                       type: 'telegram',
                       status: 'sucess',
-                      desc: `Telegram account @${authRes.socialName} has been authorized. `,
+                      desc: `Telegram account @${data.socialName} has been authorized. `,
                     })
                   );
                   await refetch();
