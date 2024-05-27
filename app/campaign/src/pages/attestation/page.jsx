@@ -46,13 +46,21 @@ export default function PageAttestation () {
   const isMultAccount = useMemo(() => {
     return (
       [
-        // user
+        // user, evm
         !!data?.user?.evm?.evmWallet,
         // tw
         !!data?.userTwitter?.connected,
         !!data?.userDc?.connected,
         !!data?.userTg?.connected,
-        // !!data?.userTon?.binded, not support yet
+      ].filter(Boolean).length > 1
+      || 
+      [
+        // user, ton
+        !!data?.userTon?.binded,
+        // tw
+        !!data?.userTwitter?.connected,
+        !!data?.userDc?.connected,
+        !!data?.userTg?.connected,
       ].filter(Boolean).length > 1
     );
   }, [data]);
