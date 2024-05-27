@@ -167,6 +167,7 @@ const ConnectWalletModal = () => {
       console.log(e);
     }
     open();
+    handleCloseModal();
   };
 
   const handleWallet = useCallback((type) => {
