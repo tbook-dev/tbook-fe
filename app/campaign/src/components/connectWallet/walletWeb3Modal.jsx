@@ -84,8 +84,8 @@ const ConnectWalletModal = () => {
         if (data.code === 4004) {
           dispath(
             setUnbindAccountData({
-              passportA: d.passportA,
-              passportB: d.passportB,
+              passportA: data.passportA,
+              passportB: data.passportB,
             })
           );
           openUnbindAccountModal();
