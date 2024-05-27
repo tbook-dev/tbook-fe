@@ -107,21 +107,21 @@ const moduleConf = {
 const ConnectWalletModal = () => {
   const { contextHolder } = useTonLogin();
   const showConnectWalletModal = useSelector(
-    s => s.global.showConnectWalletModal
+    (s) => s.global.showConnectWalletModal
   );
   const size = useSize(document.documentElement);
   const { open } = useTonConnectModal();
   const { zkList, getZkfnByName } = useSocial();
-  const showLoginModal = useSelector(s => s.global.showLoginModal);
+  const showLoginModal = useSelector((s) => s.global.showLoginModal);
   const dispath = useDispatch();
   const [tonConnectUI] = useTonConnectUI();
-  const connectionRestored = useIsConnectionRestored();
+  // const connectionRestored = useIsConnectionRestored();
   const { pc } = useResponsive();
-  const { walletClient } = useWalletClient();
-  const { userLogined, user } = useUserInfo();
-  const [loginStep, setLoginStep] = useState(2);
-  // const [loginType, setLoginType] = useState(null)
-  const [loginType, setLoginType] = useState('option');
+  // const { walletClient } = useWalletClient();
+  // const { userLogined, user } = useUserInfo();
+  // const [loginStep, setLoginStep] = useState(2);
+  // // const [loginType, setLoginType] = useState(null)
+  // const [loginType, setLoginType] = useState('option');
   // const [currentAddress, setCurrentAddress] = useState('');
   // const { address } = useAccount({
   //   onConnect ({ address, connector, isReconnected }) {
@@ -161,46 +161,27 @@ const ConnectWalletModal = () => {
   //   console.log({state})
   // }, []);
   const handleTonClick = async () => {
-    // alert('clicked ton!');
     try {
       await tonConnectUI.disconnect();
     } catch (e) {
       console.log(e);
     }
     open();
-    // setVerify(true)
-    // console.log({state, connectionRestored})
-    // if(connectionRestored){
-    // await tonConnectUI.disconnect()
-    //   console.log({connectionRestored})
-    // }
-    // open()
   };
 
-  const handleWallet = useCallback(type => {
+  const handleWallet = useCallback((type) => {
     if (type === 'walletconnect') {
       dispath(setConnectWalletModal(true));
       handleCloseModal();
     }
   }, []);
 
-  const handleSocial = useCallback(async type => {
+  const handleSocial = useCallback(async (type) => {
     if (type === 'twitter') {
       await loginUsingTwitterUrl();
     }
   }, []);
-  const handleBackToInitLogin = useCallback(() => {
-    setLoginStep(1);
-    setLoginType(null);
-  }, []);
-  const handleMainLogin = useCallback(() => {
-    setLoginStep(2);
-    setLoginType('zklogin');
-  }, []);
-  const handleOptionLogin = useCallback(() => {
-    setLoginStep(2);
-    setLoginType('option');
-  }, []);
+
   const handleCloseModal = useCallback(() => {
     dispath(setLoginModal(false));
     // setTimeout(handleBackToInitLogin, 1000)
@@ -209,148 +190,65 @@ const ConnectWalletModal = () => {
   return (
     <>
       <Modal
-        title={<div className='text-base font-zen-dot text-white'>Log in</div>}
+        title={<div className="text-base font-zen-dot text-white">Log in</div>}
         open={showLoginModal}
         onCancel={handleCloseModal}
       >
-        <div className='flex-none px-5 py-4 space-y-6 text-white h-[420px]'>
-          {/* <h2 className='text-white text-sm'>
-            {loginStep === 1 ? (
-              moduleConf.title
-            ) : (
-              <Back onClick={handleBackToInitLogin} />
-            )}
-          </h2> */}
-          {loginStep === 1 && (
-            <div className='space-y-5 text-sm'>
-              {/* <button
-                className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
-                onClick={handleMainLogin}
-              >
-                {moduleConf.zkLogin.logoBgList.map(v => (
+        <div className="flex-none px-5 py-4 space-y-6 text-white h-[420px]">
+          <div className="space-y-5 text-sm">
+            {moduleConf.wallet.map((v) => {
+              return (
+                <button
+                  onClick={() => handleWallet(v.type)}
+                  key={v.type}
+                  className="h-10 hover:opacity-70 flex items-center justify-center relative w-full bg-white px-4 py-3 text-sm font-medium text-black rounded-lg"
+                >
                   <img
-                    key={v.name}
-                    src={v.url}
-                    style={v.style}
-                    alt={`${v.name} logo`}
-                    className='absolute'
+                    src={v.picUrl}
+                    className="w-5 h-5 object-center absolute left-4"
+                    alt={v.type}
                   />
-                ))}
-                <img
-                  src={suiBlackSVG}
-                  className='w-[14px] h-5'
-                  alt='sui logo'
-                />
-                zkLogin
-              </button> */}
-              {/* <TonConnectButton /> */}
-              <button
-                // disabled={isVerify}
-                className='h-[52px] w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
-                onClick={handleTonClick}
-              >
-                <img
-                  src={moduleConf.tonWallet.picUrl}
-                  className='size-5'
-                  alt='ton wallet logo'
-                />
-                {moduleConf.tonWallet.text}
-              </button>
+                  {v.text}
+                </button>
+              );
+            })}
+            <button
+              className="h-10 hover:opacity-70 flex items-center justify-center relative w-full bg-white px-4 py-3 text-sm font-medium text-black rounded-lg"
+              onClick={handleTonClick}
+            >
+              <img
+                src={moduleConf.tonWallet.picUrl}
+                className="w-5 h-5 object-center absolute left-4"
+                alt="ton wallet logo"
+              />
+              {moduleConf.tonWallet.text}
+            </button>
 
-              <button
-                className='h-[52px] w-full rounded-lg border border-white text-white font-medium hover:opacity-70'
-                onClick={handleOptionLogin}
-              >
-                More options
-              </button>
-            </div>
-          )}
-          {loginStep === 2 && (
-            <>
-              {loginType === 'zklogin' && (
-                <div className='bg-[#63A1F8] border border-[rgb(99,161,248)]/[0.40] py-4 px-5 rounded-lg relative overflow-hidden'>
+            {moduleConf.social.map((v) => {
+              return (
+                <ActionBution
+                  handleAsync={() => handleSocial(v.type)}
+                  key={v.type}
+                  className="h-10 hover:opacity-70 flex items-center justify-center relative w-full rounded-lg px-4 py-3 text-sm font-medium border border-white"
+                >
                   <img
-                    src={moduleConf.zkLogin.bg}
-                    className='w-12 absolute right-4 top-0 rotate-12'
+                    src={v.picUrl}
+                    className="w-5 h-5 object-center absolute left-4"
+                    alt={v.type}
                   />
-                  <div className='text-white flex items-center gap-x-2 text-sm font-medium space-y-4 mb-4'>
-                    <img src={suiSVG} className='w-4 h-5 object-center' />
-                    {moduleConf.zkLogin.name}
-                  </div>
-                  <div className='flex items-center justify-center gap-x-8'>
-                    {zkList.map(v => {
-                      return v.ready ? (
-                        <ActionBution
-                          key={v.name}
-                          replace
-                          handleAsync={async () => v.loginFn(false)}
-                        >
-                          <img
-                            src={v.picColorUrl}
-                            className='w-8 h-8 object-center hover:opacity-70'
-                            alt={v.name}
-                          />
-                        </ActionBution>
-                      ) : (
-                        <Tooltip title='Stay tuned' key={v.name}>
-                          <img
-                            src={v.picUrl}
-                            className='w-8 h-8 object-center'
-                            alt={v.name}
-                          />
-                        </Tooltip>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-              {loginType === 'option' && (
-                <div className='space-y-5 text-sm'>
-                  {moduleConf.wallet.map(v => {
-                    return (
-                      <button
-                        onClick={() => handleWallet(v.type)}
-                        key={v.type}
-                        className='h-10 hover:opacity-70 flex items-center justify-center relative w-full bg-white px-4 py-3 text-sm font-medium text-black rounded-lg'
-                      >
-                        <img
-                          src={v.picUrl}
-                          className='w-5 h-5 object-center absolute left-4'
-                          alt={v.type}
-                        />
-                        {v.text}
-                      </button>
-                    );
-                  })}
-
-                  {moduleConf.social.map(v => {
-                    return (
-                      <ActionBution
-                        handleAsync={() => handleSocial(v.type)}
-                        key={v.type}
-                        className='h-10 hover:opacity-70 flex items-center justify-center relative w-full rounded-lg px-4 py-3 text-sm font-medium border border-white'
-                      >
-                        <img
-                          src={v.picUrl}
-                          className='w-5 h-5 object-center absolute left-4'
-                          alt={v.type}
-                        />
-                        {v.text}
-                      </ActionBution>
-                    );
-                  })}
-                </div>
-              )}
-            </>
-          )}
+                  {v.text}
+                </ActionBution>
+              );
+            })}
+          </div>
         </div>
 
         {!pc && (
-          <div className='absolute bottom-0 left-0 w-full h-[216px]'>
+          <div className="absolute bottom-0 left-0 w-full h-[216px]">
             <img
               src={passport_locked_h5}
-              alt='passport'
-              className='h-full w-[317px] mx-auto'
+              alt="passport"
+              className="h-full w-[317px] mx-auto"
             />
           </div>
         )}

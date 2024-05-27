@@ -110,7 +110,7 @@ export default function useTonLogin() {
               })
             );
             openMergeAccountModal();
-          } else {
+          } else if(data.code === 4004) {
             // 4004要解绑
             dispath(
               setUnbindAccountData({
