@@ -147,7 +147,7 @@ export default function useSocial() {
               try {
                 const authRes = await authTgCallback(user);
                 console.log({ authRes, user });
-                if (d.code === 4004) {
+                if (authRes.code === 4004) {
                   dispath(
                     setUnbindAccountData({
                       passportA: d.passportA,
