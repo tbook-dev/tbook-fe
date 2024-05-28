@@ -37,7 +37,7 @@ function App () {
       <WagmiConfig config={wagmiConfig}>
         <TonConnectUIProvider
           // manifestUrl={`${host}/ton-proof/manifest.json`}
-          manifestUrl='https://pub-871184d7338746be92cfba5f3c362feb.r2.dev/ton/ton_manifest.json'
+          manifestUrl='https://static.tbook.vip/ton/ton_manifest.json'
           uiPreferences={{ theme: THEME.DARK }}
         >
           <RouterProvider
