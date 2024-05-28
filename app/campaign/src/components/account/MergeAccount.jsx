@@ -4,7 +4,13 @@ import {
   setShowMergeAccountModal,
   resetMergeAccountData,
 } from '@/store/global';
-import { Dialog, Transition } from '@headlessui/react';
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react';
 import { mergePassport } from '@/api/incentive';
 import { useState } from 'react';
 import { Spin } from 'antd';
@@ -95,14 +101,14 @@ export default function MergeAccount () {
 
   return (
     <>
-      <Transition.Root show={showMergeAccountModal} as={Fragment}>
+      <Transition show={showMergeAccountModal} as={Fragment}>
         <Dialog
           as='div'
           className='relative z-10'
           // initialFocus={cancelButtonRef}
           onClose={hideMergeAccountModal}
         >
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter='ease-out duration-300'
             enterFrom='opacity-0'
@@ -112,11 +118,11 @@ export default function MergeAccount () {
             leaveTo='opacity-0'
           >
             <div className='fixed inset-0 bg-black bg-opacity-75 backdrop-blur transition-opacity' />
-          </Transition.Child>
+          </TransitionChild>
 
           <div className='fixed inset-0 z-10 overflow-y-auto'>
             <div className='flex min-h-full justify-center p-4 text-center items-center sm:p-0'>
-              <Transition.Child
+              <TransitionChild
                 as={Fragment}
                 enter='ease-out duration-300'
                 enterFrom='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
@@ -125,17 +131,17 @@ export default function MergeAccount () {
                 leaveFrom='opacity-100 translate-y-0 sm:scale-100'
                 leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
               >
-                <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-linear2 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
+                <DialogPanel className='relative transform overflow-hidden rounded-lg bg-linear2 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
                   <div className='pt-4'>
                     <div className='sm:flex sm:items-start'>
                       <div className=''>
                         <div className='space-y-2 pb-3  px-4 border-b border-white/10'>
-                          <Dialog.Title
+                          <DialogTitle
                             as='h3'
                             className='text-lg font-medium text-white text-left'
                           >
                             {moduleConf.title}
-                          </Dialog.Title>
+                          </DialogTitle>
                           <p className='text-[#C0ABD9] text-xs'>
                             {moduleConf.desc}
                           </p>
@@ -174,12 +180,12 @@ export default function MergeAccount () {
                       )}
                     </button>
                   </div>
-                </Dialog.Panel>
-              </Transition.Child>
+                </DialogPanel>
+              </TransitionChild>
             </div>
           </div>
         </Dialog>
-      </Transition.Root>
+      </Transition>
       <MergeResult
         open={showMergeResultModal}
         onCancel={onCancel}
