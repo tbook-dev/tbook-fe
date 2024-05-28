@@ -1,4 +1,3 @@
-import Page404 from '@/pages/404';
 import { useTelegram } from '@/hooks/useTg';
 import Page from './page';
 import Layout from '@/layout/ton/Layout';
@@ -9,7 +8,7 @@ import { safeParse, supportTMATypes } from '@/utils/tma';
 
 let openFromDirectLink = true;
 export default function TonExplore () {
-  const { isTMA, webApp } = useTelegram();
+  const { webApp } = useTelegram();
   const navigate = useNavigate();
   const [isSubpage, setSubpage] = useState(false);
   useLayoutEffect(() => {
@@ -33,17 +32,13 @@ export default function TonExplore () {
       }
     }
   }, []);
-  // console.log({ isTMA, isSubpage });
-  return isTMA ? (
-    !isSubpage ? (
-      <Layout>
-        <Page />
-      </Layout>
-    ) : (
-      <PageFallBack />
-    )
+
+  return !isSubpage ? (
+    <Layout>
+      <Page />
+    </Layout>
   ) : (
-    <Page404 />
+    <PageFallBack />
   );
 }
 
