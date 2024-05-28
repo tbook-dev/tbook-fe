@@ -35,20 +35,20 @@ export default function ({ authCallback, type }) {
   }, []);
   useEffect(() => {
     authCallback()
-      .then(async d => {
-        setData(d);
-        console.log(d, 'd');
-        if (d.code === 4004) {
+      .then(async data => {
+        setData(data);
+        // console.log(data, 'data');
+        if (data.code === 4004) {
           setStatus('occupied');
           setErrorMessage('Account  occupied');
           dispath(
             setUnbindAccountData({
-              passportA: d.passportA,
-              passportB: d.passportB,
+              passportA: data.passportA,
+              passportB: data.passportB,
             })
           );
           openUnbindAccountModal();
-        } else if (d.code === 400) {
+        } else if (data.code === 400) {
           // 检查到可以merge
           setStatus('occupied-merge');
           setErrorMessage(
@@ -57,24 +57,24 @@ export default function ({ authCallback, type }) {
           );
           dispath(
             setMergeAccountData({
-              passportA: d.passportA,
-              passportB: d.passportB,
+              passportA: data.passportA,
+              passportB: data.passportB,
               redirect: true,
             })
           );
           openMergeAccountModal();
           console.log('merge account');
           // openMergeAccountModal()
-        } else if (d.code === 500) {
+        } else if (data.code === 500) {
           // 失败
           setStatus('failed');
-          setErrorMessage(d.msg);
+          setErrorMessage(data.msg);
         } else {
           // 成功停留2s，然后跳转
           setStatus('sucess');
           setErrorMessage(
             `${displayName[type]} account ${isEmailType(type) ? '' : '@'}${
-              d.socialName
+              data.socialName
             } has been authorized. `
           );
           await delay(2000);

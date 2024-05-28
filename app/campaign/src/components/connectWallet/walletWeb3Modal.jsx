@@ -81,11 +81,11 @@ const ConnectWalletModal = () => {
       if (userLogined && !evmAddress) {
         const r = await bindEvm(address, sign);
         const data = await r.json();
-        if (d.code === 4004) {
+        if (data.code === 4004) {
           dispath(
             setUnbindAccountData({
-              passportA: d.passportA,
-              passportB: d.passportB,
+              passportA: data.passportA,
+              passportB: data.passportB,
             })
           );
           openUnbindAccountModal();
