@@ -1,7 +1,13 @@
 import { useResponsive } from 'ahooks';
 import { Fragment } from 'react';
 import { CloseOutlined } from '@ant-design/icons';
-import { Dialog, Transition } from '@headlessui/react';
+import {
+  Dialog,
+  Transition,
+  TransitionChild,
+  DialogPanel,
+  DialogTitle,
+} from '@headlessui/react';
 import clsx from 'clsx';
 import passport_locked from '@/images/passport/passport_locked.png';
 import useUserInfo from '@/hooks/useUserInfoQuery';
@@ -16,12 +22,12 @@ export default function Modal ({ children, open, onCancel, title }) {
   return (
     <>
       {pc && !userLogined && (
-        <Transition.Root show={open} as={Fragment}>
-          <Dialog as='div' className='relative z-10' onClose={() => undefined}>
+        <Transition show={open} as={Fragment}>
+          <Dialog as='div' className='relative z-20' onClose={() => undefined}>
             <div className='fixed inset-0' />
             <div className='fixed inset-0 overflow-hidden'>
               <div className='absolute inset-y-0 left-0 w-[calc(100vw_-_448px)] bg-[rgb(0,0,0)]/[0.8] overflow-hidden'>
-                <Transition.Child
+                <TransitionChild
                   as={Fragment}
                   enter='transform transition ease-in-out duration-500'
                   enterFrom={'opacity-0'}
@@ -36,16 +42,16 @@ export default function Modal ({ children, open, onCancel, title }) {
                       className='w-[317px] h-[452px]'
                     />
                   </div>
-                </Transition.Child>
+                </TransitionChild>
               </div>
               <div className='absolute inset-y-0 right-0 w-[448px] bg-[rgb(0,0,0)]/[0.8]' />
             </div>
           </Dialog>
-        </Transition.Root>
+        </Transition>
       )}
 
-      <Transition.Root show={open} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={onCancel}>
+      <Transition show={open} as={Fragment}>
+        <Dialog as='div' className='relative z-20' onClose={onCancel}>
           <div className='fixed inset-0' />
           <div className='fixed inset-0 overflow-hidden'>
             <div
@@ -61,7 +67,7 @@ export default function Modal ({ children, open, onCancel, title }) {
                     : 'inset-x-0 bottom-0 max-h-[calc(100dvh_-_60px)]'
                 )}
               >
-                <Transition.Child
+                <TransitionChild
                   as={Fragment}
                   enter='transform transition ease-in-out duration-500'
                   enterFrom={pc ? 'translate-x-full' : 'translate-y-full'}
@@ -70,11 +76,11 @@ export default function Modal ({ children, open, onCancel, title }) {
                   leaveFrom={pc ? 'translate-x-0' : 'translate-y-0'}
                   leaveTo={pc ? 'translate-x-full' : 'translate-y-full'}
                 >
-                  <Dialog.Panel className='pointer-events-auto w-screen lg:w-[448px]'>
+                  <DialogPanel className='pointer-events-auto w-screen lg:w-[448px]'>
                     <div className='flex h-full flex-col overflow-y-auto bg-linear6 lg:pb-6 shadow-s5 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
                       <div className='sticky top-0 z-10 px-6 pt-6 pb-4 backdrop-blur-3xl lg:pb-6 border-b border-[rgb(255,255,255)]/[0.1]'>
                         <div className='flex items-start justify-between '>
-                          <Dialog.Title>{title}</Dialog.Title>
+                          <DialogTitle>{title}</DialogTitle>
                           <div className='ml-3 flex h-7 items-center'>
                             <CloseOutlined
                               className='text-white cursor-pointer w-6'
@@ -87,13 +93,13 @@ export default function Modal ({ children, open, onCancel, title }) {
                         {children}
                       </div>
                     </div>
-                  </Dialog.Panel>
-                </Transition.Child>
+                  </DialogPanel>
+                </TransitionChild>
               </div>
             </div>
           </div>
         </Dialog>
-      </Transition.Root>
+      </Transition>
     </>
   );
 }

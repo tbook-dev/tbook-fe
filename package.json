@@ -24,7 +24,7 @@
     "@ant-design/plots": "^1.2.3",
     "@ethersproject/providers": "^5.7.2",
     "@gsap/react": "^1.0.0",
-    "@headlessui/react": "^1.7.18",
+    "@headlessui/react": "^2.0.3",
     "@mysten/bcs": "^0.10.1",
     "@mysten/enoki": "^0.1.1",
     "@mysten/sui.js": "^0.49.1",
