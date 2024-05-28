@@ -17,7 +17,7 @@ export default function Modal ({ children, open, onCancel, title }) {
     <>
       {pc && !userLogined && (
         <Transition.Root show={open} as={Fragment}>
-          <Dialog as='div' className='relative z-10' onClose={() => undefined}>
+          <Dialog as='div' className='relative z-20' onClose={() => undefined}>
             <div className='fixed inset-0' />
             <div className='fixed inset-0 overflow-hidden'>
               <div className='absolute inset-y-0 left-0 w-[calc(100vw_-_448px)] bg-[rgb(0,0,0)]/[0.8] overflow-hidden'>
@@ -45,7 +45,7 @@ export default function Modal ({ children, open, onCancel, title }) {
       )}
 
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={onCancel}>
+        <Dialog as='div' className='relative z-20' onClose={onCancel}>
           <div className='fixed inset-0' />
           <div className='fixed inset-0 overflow-hidden'>
             <div
