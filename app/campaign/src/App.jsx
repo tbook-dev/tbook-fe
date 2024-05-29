@@ -12,6 +12,10 @@ import { wagmiConfig } from '@/utils/web3';
 import { receive } from '@/utils/channel';
 import { isUsingSubdomain } from '@/utils/common';
 // import { useTelegram } from '@/hooks/useTg';
+import { preloadImage } from '@/utils/common';
+import passportlg from '@/images/passport/passport.png';
+
+preloadImage(passportlg);
 
 function App () {
   const queryClient = useQueryClient();
