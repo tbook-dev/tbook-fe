@@ -9,6 +9,7 @@ import LeaderboardSkeleton from './components/leaderBoard-skeleton';
 import UserScore from './components/userScore';
 import ScoreItem from './components/scoreItem';
 import { useState } from 'react';
+import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 
 const modlueConf = {
   title: 'WISE Score Leaderboard',
@@ -27,6 +28,7 @@ const modlueConf = {
 const pageSize = 10;
 export default function TonWiseLeaderboard () {
   const { data, userScore } = useTopBoard();
+  const { userLogined } = useUserInfoQuery();
   const [cusor, setCusor] = useState(0);
   const top1 = data?.[0];
   const top2 = data?.[1];
@@ -96,7 +98,7 @@ export default function TonWiseLeaderboard () {
           </div>
         ) : (
           <div className='bg-white rounded-2xl py-3'>
-            <UserScore user={userScore} />
+            {userLogined && <UserScore user={userScore} />}
             <div className='divide-y divide-black/[0.1] border-b border-black/[0.1] mb-4'>
               {pagedList.map(v => (
                 <ScoreItem user={v} key={v.userId} />
