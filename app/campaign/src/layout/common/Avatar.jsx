@@ -20,7 +20,9 @@ export default function Avatar () {
   const { isConnected } = useAccount();
   const [tonConnectUI] = useTonConnectUI();
   const { isTMA } = useTelegram();
+  const [logoutLoading, setLogoutLoading] = useState(false);
   const handleLogout = useCallback(async () => {
+    setLogoutLoading(true);
     if (tonConnectUI.connected) {
       try {
         await tonConnectUI.disconnect();
@@ -33,10 +35,14 @@ export default function Avatar () {
     }
     await logout();
     // reload page, setreload from
-    const newUrl = isTMA
-      ? addQueryParameter(location.href, logoutRedirecrtKey, 1)
-      : location.href;
-    location.href = newUrl;
+    const newUrl = addQueryParameter(
+      location.href,
+      isTMA ? logoutRedirecrtKey : 't',
+      Date.now()
+    );
+
+    setLogoutLoading(false);
+    window.location.href = newUrl;
   }, [isConnected, tonConnectUI, isTMA]);
 
   const AvatarLine = () => {
@@ -104,8 +110,9 @@ export default function Avatar () {
         }}
         logout={
           <div className='py-4 flex-none'>
-            <div
-              className='text-[#C0ABD9] cursor-pointer flex items-center group hover:text-white gap-x-1 text-base'
+            <button
+              disabled={logoutLoading}
+              className='text-[#C0ABD9] flex items-center group hover:text-white gap-x-1 text-base'
               onClick={handleLogout}
             >
               <svg
@@ -125,7 +132,7 @@ export default function Avatar () {
                 />
               </svg>
               Logout
-            </div>
+            </button>
           </div>
         }
       >
