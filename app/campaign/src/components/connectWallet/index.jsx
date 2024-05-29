@@ -37,13 +37,11 @@ const moduleConf = {
           type: 'telegram',
           picUrl: tgSVG,
           text: 'Log in with Telegram',
-          componentType: 'button',
         },
         {
           type: 'tonWallet',
           picUrl: tonSVG,
           text: 'TON Connect',
-          componentType: 'button',
         },
         {
           type: 'moreOptions',
@@ -61,7 +59,6 @@ const moduleConf = {
           type: 'twitter',
           picUrl: xSVG,
           text: 'Log in with X',
-          componentType: 'ActionButton',
         },
       ],
     ],
@@ -81,7 +78,6 @@ const moduleConf = {
           type: 'twitter',
           picUrl: xSVG,
           text: 'Log in with X',
-          componentType: 'ActionButton',
         },
       ],
     ],
@@ -160,37 +156,22 @@ const ConnectWalletModal = () => {
           {loginStep === 1 && (
             <div className='space-y-5 text-sm font-medium'>
               {stageOneList.map(v => {
-                return v.componentType === 'ActionButton' ? (
+                return (
                   <ActionButton
                     handleAsync={() => handleButtonClick(v)}
                     key={v.type}
-                    className='h-10 hover:opacity-70 flex items-center justify-center relative w-full rounded-lg px-4 py-3 text-sm font-medium border border-white'
-                  >
-                    <img
-                      src={v.picUrl}
-                      className='w-5 h-5 object-center absolute left-4'
-                      alt={v.type}
-                    />
-                    {v.text}
-                  </ActionButton>
-                ) : (
-                  <button
-                    key={v.type}
                     className='hover:opacity-70 h-10 flex items-center justify-center relative w-full px-4 py-3 rounded-lg bg-white text-black last:border last:border-white last:bg-transparent last:text-white'
-                    onClick={() => {
-                      handleButtonClick(v);
-                    }}
                   >
                     {v.picUrl && (
                       <img
                         src={v.picUrl}
                         className='w-5 h-5 object-center absolute left-4'
-                        alt={`${v.type} logo`}
+                        alt={v.type}
                       />
                     )}
 
                     {v.text}
-                  </button>
+                  </ActionButton>
                 );
               })}
             </div>
@@ -198,37 +179,21 @@ const ConnectWalletModal = () => {
           {loginStep === 2 && (
             <div className='space-y-5 text-sm'>
               {stageTwoList.map(v => {
-                return v.componentType === 'ActionButton' ? (
+                return (
                   <ActionButton
                     handleAsync={() => handleButtonClick(v)}
                     key={v.type}
-                    className='h-10 hover:opacity-70 flex items-center justify-center relative w-full rounded-lg px-4 py-3 text-sm font-medium border border-white'
-                  >
-                    <img
-                      src={v.picUrl}
-                      className='w-5 h-5 object-center absolute left-4'
-                      alt={v.type}
-                    />
-                    {v.text}
-                  </ActionButton>
-                ) : (
-                  <button
-                    key={v.type}
                     className='hover:opacity-70 h-10 flex items-center justify-center relative w-full px-4 py-3 rounded-lg bg-white text-black last:border last:border-white last:bg-transparent last:text-white'
-                    onClick={() => {
-                      handleButtonClick(v);
-                    }}
                   >
                     {v.picUrl && (
                       <img
                         src={v.picUrl}
                         className='w-5 h-5 object-center absolute left-4'
-                        alt={`${v.type} logo`}
+                        alt={v.type}
                       />
                     )}
-
                     {v.text}
-                  </button>
+                  </ActionButton>
                 );
               })}
             </div>
