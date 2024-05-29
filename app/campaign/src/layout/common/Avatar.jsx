@@ -11,6 +11,7 @@ import { useTonConnectUI } from '@tonconnect/ui-react';
 import fallbackAvatarSVG from '@/images/passport/avatar.svg';
 import LazyImage from '@/components/lazyImage';
 import { addQueryParameter, logoutRedirecrtKey } from '@/utils/tma';
+import { useTelegram } from '@/hooks/useTg';
 
 export default function Avatar () {
   const [open, setOpen] = useState(false);
@@ -18,6 +19,7 @@ export default function Avatar () {
   const { getZkfnByName, getSocialByName } = useSocial();
   const { isConnected } = useAccount();
   const [tonConnectUI] = useTonConnectUI();
+  const { isTMA } = useTelegram();
   const handleLogout = useCallback(async () => {
     if (tonConnectUI.connected) {
       try {
@@ -31,9 +33,11 @@ export default function Avatar () {
     }
     await logout();
     // reload page, setreload from
-    const newUrl = addQueryParameter(location.href, logoutRedirecrtKey, 1);
+    const newUrl = isTMA
+      ? addQueryParameter(location.href, logoutRedirecrtKey, 1)
+      : location.href;
     location.href = newUrl;
-  }, [isConnected, tonConnectUI]);
+  }, [isConnected, tonConnectUI, isTMA]);
 
   const AvatarLine = () => {
     return (
