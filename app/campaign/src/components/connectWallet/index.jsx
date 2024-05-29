@@ -1,21 +1,14 @@
 import { useSelector } from 'react-redux';
-import { useResponsive, useSize } from 'ahooks';
-import { useState, useEffect, useCallback } from 'react';
+import { useResponsive } from 'ahooks';
+import { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { setLoginModal, setConnectWalletModal } from '@/store/global';
 import { loginUsingTwitterUrl } from '@/api/incentive';
 import WalletWeb3Modal from './walletWeb3Modal';
-import useUserInfo from '@/hooks/useUserInfoQuery';
-import { useAccount, useWalletClient } from 'wagmi';
-import suiBg from '@/images/zklogin/suibg.svg';
-import metamaskSVG from '@/images/zklogin/metamask.svg';
 import walletconnectSVG from '@/images/zklogin/walletconnect.svg';
-import suiSVG from '@/images/zklogin/sui.svg';
 import xSVG from '@/images/icon/x-white.svg';
-import ActionBution from './actionButton';
-import useSocial from '@/hooks/useSocial';
+import ActionButton from './actionButton';
 import Modal from './modal';
-import { Tooltip } from 'antd';
 import {
   useTonConnectUI,
   useTonWallet,
@@ -24,142 +17,87 @@ import {
   useTonAddress,
 } from '@tonconnect/ui-react';
 import useTonLogin from '@/hooks/useTonLogin';
-import { useIsConnectionRestored } from '@tonconnect/ui-react';
-import suiBlackSVG from '@/images/zklogin/sui-black.svg';
+
 import tonSVG from '@/images/icon/ton.svg';
-import googleBg from '@/images/zklogin/google-bg.svg';
-import facebookBg from '@/images/zklogin/facebook-bg.svg';
-import twitchBg from '@/images/zklogin/twitch-bg.svg';
-import talkBg from '@/images/zklogin/talk-bg.svg';
+import tgSVG from '@/images/icon/tg-blue.svg';
+
 import passport_locked_h5 from '@/images/passport/passport_locked_h5.png';
 import WalletSelectModal from './walletSelect';
 import Back from '../back';
+import { useMemo } from 'react';
+import { useTelegram } from '@/hooks/useTg';
 
 const moduleConf = {
   title: 'Log in or create a wallet with',
   passport: 'Log in to unlock incentive passport',
-  zkLogin: {
-    name: 'zkLogin',
-    bg: suiBg,
-    logoBgList: [
-      {
-        name: 'google',
-        url: googleBg,
-        style: {
-          left: 0,
-          top: 0,
-          transform: 'rotate(7deg)',
+  platform: {
+    tma: [
+      [
+        {
+          type: 'telegram',
+          picUrl: tgSVG,
+          text: 'Log in with Telegram',
+          componentType: 'button',
         },
-      },
-      {
-        name: 'facebook',
-        url: facebookBg,
-        style: {
-          left: 58,
-          top: 12,
-          transform: 'rotate(7deg)',
+        {
+          type: 'tonWallet',
+          picUrl: tonSVG,
+          text: 'TON Connect',
+          componentType: 'button',
         },
-      },
-      {
-        name: 'twitch',
-        url: twitchBg,
-        style: {
-          right: 70,
-          top: -4,
-          transform: 'rotate(-6.995deg)',
+        {
+          type: 'moreOptions',
+          picUrl: null,
+          text: 'More Options',
         },
-      },
-      {
-        name: 'talk',
-        url: talkBg,
-        style: {
-          right: 5,
-          top: 8,
-          transform: 'rotate(0deg)',
+      ],
+      [
+        {
+          type: 'walletconnect',
+          picUrl: walletconnectSVG,
+          text: 'WalletConnect',
         },
-      },
+        {
+          type: 'twitter',
+          picUrl: xSVG,
+          text: 'Log in with X',
+          componentType: 'ActionButton',
+        },
+      ],
+    ],
+    web: [
+      [
+        {
+          type: 'walletconnect',
+          picUrl: walletconnectSVG,
+          text: 'WalletConnect',
+        },
+        {
+          type: 'tonWallet',
+          picUrl: tonSVG,
+          text: 'TON Connect',
+        },
+        {
+          type: 'twitter',
+          picUrl: xSVG,
+          text: 'Log in with X',
+          componentType: 'ActionButton',
+        },
+      ],
     ],
   },
-
-  tonWallet: {
-    type: 'tonWallet',
-    picUrl: tonSVG,
-    text: 'TON Connect',
-  },
-
-  wallet: [
-    {
-      type: 'walletconnect',
-      picUrl: walletconnectSVG,
-      text: 'WalletConnect',
-    },
-  ],
-
-  social: [
-    {
-      type: 'twitter',
-      picUrl: xSVG,
-      text: 'Log in with X',
-    },
-  ],
 };
 
 const ConnectWalletModal = () => {
   const { contextHolder } = useTonLogin();
-  const showConnectWalletModal = useSelector(
-    (s) => s.global.showConnectWalletModal
-  );
-  const size = useSize(document.documentElement);
   const { open } = useTonConnectModal();
-  const { zkList, getZkfnByName } = useSocial();
-  const showLoginModal = useSelector((s) => s.global.showLoginModal);
+  const showLoginModal = useSelector(s => s.global.showLoginModal);
   const dispath = useDispatch();
   const [tonConnectUI] = useTonConnectUI();
-  // const connectionRestored = useIsConnectionRestored();
   const { pc } = useResponsive();
-  // const { walletClient } = useWalletClient();
-  // const { userLogined, user } = useUserInfo();
-  // const [loginStep, setLoginStep] = useState(2);
-  // // const [loginType, setLoginType] = useState(null)
-  // const [loginType, setLoginType] = useState('option');
-  // const [currentAddress, setCurrentAddress] = useState('');
-  // const { address } = useAccount({
-  //   onConnect ({ address, connector, isReconnected }) {
-  //     console.log('Connected', { address, connector, isReconnected });
-  //     if (currentAddress == address) return;
-  //     if (currentAddress) {
-  //       // account change
-  //       changeAccountSignIn(address, walletClient).then(r => {
-  //         location.href = location;
-  //       });
-  //     } else {
-  //       // new account connect
-  //       if (isIOS) {
-  //         preGetNonce(address);
-  //       } else if (!/Mobi/i.test(window.navigator.userAgent)) {
-  //         // const signer = await getWalletClient()
-  //         // signLoginMetaMask(acc.address, signer)
-  //       }
-  //     }
-  //   },
-  //   onDisconnect () {
-  //     if (userLogined && user.evm.binded) {
-  //       logout().then(r => {
-  //         location.href = location;
-  //       });
-  //     }
-  //   },
-  // });
+  const [loginStep, setLoginStep] = useState(1);
+  const { isTMA } = useTelegram();
 
-  // useEffect(() => {
-  //   setCurrentAddress(address);
-  // }, [address, setCurrentAddress]);
-
-  // const handleTonClick = useCallback(() => {
-  //   // alert('clicked ton!');
-  //   open()
-  //   console.log({state})
-  // }, []);
   const handleTonClick = async () => {
     try {
       await tonConnectUI.disconnect();
@@ -170,86 +108,139 @@ const ConnectWalletModal = () => {
     handleCloseModal();
   };
 
-  const handleWallet = useCallback((type) => {
-    if (type === 'walletconnect') {
-      dispath(setConnectWalletModal(true));
-      handleCloseModal();
-    }
+  const handleBackToInitLogin = useCallback(() => {
+    setLoginStep(1);
   }, []);
 
-  const handleSocial = useCallback(async (type) => {
-    if (type === 'twitter') {
+  const handleButtonClick = useCallback(async v => {
+    if (v.type === 'telegram') {
+      console.log('telegram, todo', v);
+    } else if (v.type === 'tonWallet') {
+      await handleTonClick();
+    } else if (v.type === 'moreOptions') {
+      setLoginStep(2);
+    } else if (v.type === 'walletconnect') {
+      dispath(setConnectWalletModal(true));
+      handleCloseModal();
+    } else if (v.type === 'twitter') {
       await loginUsingTwitterUrl();
     }
   }, []);
 
   const handleCloseModal = useCallback(() => {
     dispath(setLoginModal(false));
-    // setTimeout(handleBackToInitLogin, 1000)
+    setTimeout(handleBackToInitLogin, 300);
   }, []);
 
+  const stageOneList = useMemo(() => {
+    return isTMA ? moduleConf.platform.tma[0] : moduleConf.platform.web[0];
+  }, [isTMA]);
+  const stageTwoList = useMemo(() => {
+    return isTMA
+      ? moduleConf.platform.tma[1]
+      : moduleConf.platform.web[1] ?? [];
+  }, [isTMA]);
+
+  console.log({ stageOneList, stageTwoList });
   return (
     <>
       <Modal
-        title={<div className="text-base font-zen-dot text-white">Log in</div>}
+        title={<div className='text-base font-zen-dot text-white'>Log in</div>}
         open={showLoginModal}
         onCancel={handleCloseModal}
       >
-        <div className="flex-none px-5 py-4 space-y-6 text-white h-[420px]">
-          <div className="space-y-5 text-sm">
-            {moduleConf.wallet.map((v) => {
-              return (
-                <button
-                  onClick={() => handleWallet(v.type)}
-                  key={v.type}
-                  className="h-10 hover:opacity-70 flex items-center justify-center relative w-full bg-white px-4 py-3 text-sm font-medium text-black rounded-lg"
-                >
-                  <img
-                    src={v.picUrl}
-                    className="w-5 h-5 object-center absolute left-4"
-                    alt={v.type}
-                  />
-                  {v.text}
-                </button>
-              );
-            })}
-            <button
-              className="h-10 hover:opacity-70 flex items-center justify-center relative w-full bg-white px-4 py-3 text-sm font-medium text-black rounded-lg"
-              onClick={handleTonClick}
-            >
-              <img
-                src={moduleConf.tonWallet.picUrl}
-                className="w-5 h-5 object-center absolute left-4"
-                alt="ton wallet logo"
-              />
-              {moduleConf.tonWallet.text}
-            </button>
+        <div className='flex-none px-5 py-4 space-y-6 text-white pb-[256px] lg:pb-0'>
+          <h2 className='text-white text-sm'>
+            {loginStep === 1 ? (
+              moduleConf.title
+            ) : (
+              <Back onClick={handleBackToInitLogin} />
+            )}
+          </h2>
+          {loginStep === 1 && (
+            <div className='space-y-5 text-sm font-medium'>
+              {stageOneList.map(v => {
+                return v.componentType === 'ActionButton' ? (
+                  <ActionButton
+                    handleAsync={() => handleButtonClick(v)}
+                    key={v.type}
+                    className='h-10 hover:opacity-70 flex items-center justify-center relative w-full rounded-lg px-4 py-3 text-sm font-medium border border-white'
+                  >
+                    <img
+                      src={v.picUrl}
+                      className='w-5 h-5 object-center absolute left-4'
+                      alt={v.type}
+                    />
+                    {v.text}
+                  </ActionButton>
+                ) : (
+                  <button
+                    key={v.type}
+                    className='hover:opacity-70 h-10 flex items-center justify-center relative w-full px-4 py-3 rounded-lg bg-white text-black last:border last:border-white last:bg-transparent last:text-white'
+                    onClick={() => {
+                      handleButtonClick(v);
+                    }}
+                  >
+                    {v.picUrl && (
+                      <img
+                        src={v.picUrl}
+                        className='w-5 h-5 object-center absolute left-4'
+                        alt={`${v.type} logo`}
+                      />
+                    )}
 
-            {moduleConf.social.map((v) => {
-              return (
-                <ActionBution
-                  handleAsync={() => handleSocial(v.type)}
-                  key={v.type}
-                  className="h-10 hover:opacity-70 flex items-center justify-center relative w-full rounded-lg px-4 py-3 text-sm font-medium border border-white"
-                >
-                  <img
-                    src={v.picUrl}
-                    className="w-5 h-5 object-center absolute left-4"
-                    alt={v.type}
-                  />
-                  {v.text}
-                </ActionBution>
-              );
-            })}
-          </div>
+                    {v.text}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          {loginStep === 2 && (
+            <div className='space-y-5 text-sm'>
+              {stageTwoList.map(v => {
+                return v.componentType === 'ActionButton' ? (
+                  <ActionButton
+                    handleAsync={() => handleButtonClick(v)}
+                    key={v.type}
+                    className='h-10 hover:opacity-70 flex items-center justify-center relative w-full rounded-lg px-4 py-3 text-sm font-medium border border-white'
+                  >
+                    <img
+                      src={v.picUrl}
+                      className='w-5 h-5 object-center absolute left-4'
+                      alt={v.type}
+                    />
+                    {v.text}
+                  </ActionButton>
+                ) : (
+                  <button
+                    key={v.type}
+                    className='hover:opacity-70 h-10 flex items-center justify-center relative w-full px-4 py-3 rounded-lg bg-white text-black last:border last:border-white last:bg-transparent last:text-white'
+                    onClick={() => {
+                      handleButtonClick(v);
+                    }}
+                  >
+                    {v.picUrl && (
+                      <img
+                        src={v.picUrl}
+                        className='w-5 h-5 object-center absolute left-4'
+                        alt={`${v.type} logo`}
+                      />
+                    )}
+
+                    {v.text}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {!pc && (
-          <div className="absolute bottom-0 left-0 w-full h-[216px]">
+          <div className='absolute bottom-0 left-0 w-full h-[216px]'>
             <img
               src={passport_locked_h5}
-              alt="passport"
-              className="h-full w-[317px] mx-auto"
+              alt='passport'
+              className='h-full w-[317px] mx-auto'
             />
           </div>
         )}
