@@ -49,7 +49,7 @@ export default function PassportGen () {
     <Transition show={open} as={Fragment}>
       <Dialog
         as='div'
-        className='relative z-10'
+        className='relative z-20'
         onClose={genPending ? () => undefined : setClose}
       >
         <TransitionChild
@@ -63,7 +63,7 @@ export default function PassportGen () {
         >
           <div className='fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity' />
         </TransitionChild>
-        <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
+        <div className='fixed inset-0 w-screen overflow-y-auto'>
           <div className='flex items-center justify-center min-h-screen'>
             {genPending ? (
               <TransitionChild
