@@ -40,7 +40,7 @@ export default function useTonLogin() {
   const wallet = useTonWallet();
   const [authorized, setAuthorized] = useState(false);
   const [tonConnectUI] = useTonConnectUI();
-  const { refetch } = useUserInfoQuery();
+  const { refetch, userLogined } = useUserInfoQuery();
   const dispath = useDispatch();
   const [loading, setLoading] = useState(false);
   const openMergeAccountModal = useCallback(() => {
@@ -93,6 +93,7 @@ export default function useTonLogin() {
             network: w.account.chain,
             frAddress: Address.parse(w.account.address).toString(),
             publicKey: w.account.publicKey,
+            login: !userLogined,
             tonProofItem: {
               name: 'ton_proof',
               proof: w.connectItems.tonProof.proof,
@@ -110,7 +111,7 @@ export default function useTonLogin() {
               })
             );
             openMergeAccountModal();
-          } else {
+          } else if(data.code === 4004) {
             // 4004要解绑
             dispath(
               setUnbindAccountData({
