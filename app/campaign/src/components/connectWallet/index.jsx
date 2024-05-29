@@ -17,7 +17,7 @@ import {
   useTonAddress,
 } from '@tonconnect/ui-react';
 import useTonLogin from '@/hooks/useTonLogin';
-
+import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import tonSVG from '@/images/icon/ton.svg';
 import tgSVG from '@/images/icon/tg-blue.svg';
 
@@ -91,8 +91,9 @@ const ConnectWalletModal = () => {
   const dispath = useDispatch();
   const [tonConnectUI] = useTonConnectUI();
   const { pc } = useResponsive();
+  const { refetch } = useUserInfoQuery();
   const [loginStep, setLoginStep] = useState(1);
-  const { isTMA } = useTelegram();
+  const { isTMA, tgLogin } = useTelegram();
 
   const handleTonClick = async () => {
     try {
@@ -110,7 +111,9 @@ const ConnectWalletModal = () => {
 
   const handleButtonClick = useCallback(async v => {
     if (v.type === 'telegram') {
-      console.log('telegram, todo', v);
+      await tgLogin();
+      await refetch();
+      handleCloseModal();
     } else if (v.type === 'tonWallet') {
       await handleTonClick();
     } else if (v.type === 'moreOptions') {
@@ -137,7 +140,7 @@ const ConnectWalletModal = () => {
       : moduleConf.platform.web[1] ?? [];
   }, [isTMA]);
 
-  console.log({ stageOneList, stageTwoList });
+  // console.log({ stageOneList, stageTwoList });
   return (
     <>
       <Modal

@@ -15,7 +15,7 @@ import useUserInfo from '@/hooks/useUserInfoQuery';
 // use tailiwind to create slide-over in pc on the right side
 // use tailwind to  create slide-over in moble at bottom
 
-export default function Modal ({ children, open, onCancel, title }) {
+export default function Modal ({ children, open, onCancel, title, logout }) {
   const { pc } = useResponsive();
   const { userLogined } = useUserInfo();
 
@@ -78,8 +78,8 @@ export default function Modal ({ children, open, onCancel, title }) {
                 >
                   <DialogPanel className='pointer-events-auto w-screen lg:w-[448px]'>
                     <div className='flex h-full flex-col overflow-y-auto overscroll-none bg-linear6 lg:pb-6 shadow-s5 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none'>
-                      <div className='sticky top-0 z-10 px-6 pt-6 pb-4 backdrop-blur-3xl lg:pb-6 border-b border-[rgb(255,255,255)]/[0.1]'>
-                        <div className='flex items-start justify-between '>
+                      <div className='sticky top-0 z-10 pt-6 backdrop-blur-3xl '>
+                        <div className='flex items-start  px-6 justify-between pb-4 lg:pb-6 border-b border-[rgb(255,255,255)]/[0.1]'>
                           <DialogTitle>{title}</DialogTitle>
                           <div className='ml-3 flex h-7 items-center'>
                             <CloseOutlined
@@ -88,6 +88,8 @@ export default function Modal ({ children, open, onCancel, title }) {
                             />
                           </div>
                         </div>
+
+                        <div className='px-6'>{logout}</div>
                       </div>
                       <div className='relative flex-1 flex flex-col'>
                         {children}
