@@ -1,7 +1,13 @@
 import { useCallback, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUnbindAccountModal } from '@/store/global';
-import { Dialog, Transition } from '@headlessui/react';
+import {
+  Dialog,
+  Transition,
+  TransitionChild,
+  DialogPanel,
+  DialogTitle,
+} from '@headlessui/react';
 
 import MergePassportCard from './MergePassportCard';
 
@@ -27,13 +33,13 @@ export default function MergeAccount () {
   }, []);
 
   return (
-    <Transition.Root show={showUnbindAccountModal} as={Fragment}>
+    <Transition show={showUnbindAccountModal} as={Fragment}>
       <Dialog
         as='div'
         className='relative z-10'
         onClose={hideMergeAccountModal}
       >
-        <Transition.Child
+        <TransitionChild
           as={Fragment}
           enter='ease-out duration-300'
           enterFrom='opacity-0'
@@ -43,11 +49,11 @@ export default function MergeAccount () {
           leaveTo='opacity-0'
         >
           <div className='fixed inset-0 bg-black bg-opacity-75 backdrop-blur transition-opacity' />
-        </Transition.Child>
+        </TransitionChild>
 
         <div className='fixed inset-0 z-10 overflow-y-auto'>
           <div className='flex min-h-full justify-center p-4 text-center items-center sm:p-0'>
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter='ease-out duration-300'
               enterFrom='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
@@ -56,15 +62,15 @@ export default function MergeAccount () {
               leaveFrom='opacity-100 translate-y-0 sm:scale-100'
               leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
             >
-              <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-linear2 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
+              <DialogPanel className='relative transform overflow-hidden rounded-lg bg-linear2 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
                 <div className='pt-4'>
                   <div className='space-y-2 pb-3  px-4 border-b border-white/10'>
-                    <Dialog.Title
+                    <DialogTitle
                       as='h3'
                       className='text-lg font-medium text-white text-left'
                     >
                       {moduleConf.title}
-                    </Dialog.Title>
+                    </DialogTitle>
                     <div>
                       {moduleConf.desc.map(c => {
                         return (
@@ -95,11 +101,11 @@ export default function MergeAccount () {
                     />
                   </div>
                 </div>
-              </Dialog.Panel>
-            </Transition.Child>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </div>
       </Dialog>
-    </Transition.Root>
+    </Transition>
   );
 }

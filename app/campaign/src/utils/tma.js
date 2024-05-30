@@ -25,3 +25,36 @@ export const getTMAsahreLink = (data) => {
 };
 
 export const supportTMATypes = ['campaign', 'project', 'wiseScore'];
+
+export const logoutRedirecrtKey = 'fromlogout';
+
+export const addQueryParameter = (url, key, value) => {
+  let urlObj = new URL(url);
+  let searchParams = urlObj.searchParams;
+  searchParams.set(key, value);
+  return urlObj.toString();
+};
+
+export const getQueryParameter = (url, key) => {
+  try {
+    let urlObj = new URL(url);
+    let searchParams = urlObj.searchParams;
+
+    if (searchParams.has(key)) {
+      return searchParams.get(key);
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return null;
+  }
+};
+
+export const removeQueryParameter = (url, paramName) => {
+  let urlObj = new URL(url);
+  let searchParams = urlObj.searchParams;
+  if (searchParams.has(paramName)) {
+    searchParams.delete(paramName);
+  }
+  return urlObj.toString();
+};

@@ -62,8 +62,8 @@ export default function ({ authCallback, type }) {
               redirect: true,
             })
           );
-          openMergeAccountModal();
-          console.log('merge account');
+          // openMergeAccountModal();
+          // console.log('merge account');
           // openMergeAccountModal()
         } else if (data.code === 500) {
           // 失败
