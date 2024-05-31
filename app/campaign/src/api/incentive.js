@@ -201,8 +201,8 @@ export const markNewUser = async function () {
   return await request.Post(`${host}/markNewUser`);
 };
 
-export const mergeTwitterAndAddressAccount = async function (data) {
-  return await request.PostFormV1(`${host}/twitter/merge`, data);
+export const mergePassport = async function (data) {
+  return await request.Post(`${host}/twitter/mergePassport`, data);
 };
 
 export const getTopProjects = async function () {

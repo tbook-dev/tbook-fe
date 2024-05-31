@@ -1,5 +1,6 @@
 import { useResponsive } from 'ahooks';
-import Page404 from '@/pages/404';
+// import Page404 from '@/pages/404';
+import LargeScreenOnly from '@/components/largeScreenOnly';
 import Page from './page';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import emptyIcon from '@/images/icon/empty.svg';
@@ -38,6 +39,6 @@ export default function Attestation () {
       </div>
     )
   ) : (
-    <Page404 />
+    <LargeScreenOnly />
   );
 }

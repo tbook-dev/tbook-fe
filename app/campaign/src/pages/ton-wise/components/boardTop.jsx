@@ -2,7 +2,13 @@ import clsx from 'clsx';
 import Star from './star';
 import { shortAddressV1, formatImpact } from '@tbook/utils/lib/conf';
 
-export default function BoardTop({ rank = 1, className, address, score ,avatar}) {
+export default function BoardTop ({
+  rank = 1,
+  className,
+  address,
+  score,
+  avatar,
+}) {
   const clsxMap = {
     1: 'size-[100px]',
     2: 'size-20',
@@ -21,14 +27,14 @@ export default function BoardTop({ rank = 1, className, address, score ,avatar})
           'ring-2 ring-[#9E78D6] relative rounded-full'
         )}
         style={{
-            backgroundImage: `url(${avatar})`,
+          backgroundImage: `url(${avatar})`,
         }}
       >
         <Star rank={rank} className={starMap[rank]} />
       </div>
-      <div className="text-sm text-center">
-        <p className="font-medium">{shortAddressV1(address ?? '')}</p>
-        <p className="font-zen-dot text-[#FFB800]">{formatImpact(score)}</p>
+      <div className='text-sm text-center'>
+        <p className='font-medium'>{shortAddressV1(address ?? '')}</p>
+        <p className='font-zen-dot text-[#FFB800]'>{formatImpact(score)}</p>
       </div>
     </div>
   );

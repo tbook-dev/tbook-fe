@@ -12,6 +12,10 @@ import { wagmiConfig } from '@/utils/web3';
 import { receive } from '@/utils/channel';
 import { isUsingSubdomain } from '@/utils/common';
 // import { useTelegram } from '@/hooks/useTg';
+import { preloadImage } from '@/utils/common';
+import passportlg from '@/images/passport/passport.png';
+
+preloadImage(passportlg);
 
 function App () {
   const queryClient = useQueryClient();
@@ -26,7 +30,7 @@ function App () {
       <WagmiConfig config={wagmiConfig}>
         <TonConnectUIProvider
           // manifestUrl={`${host}/ton-proof/manifest.json`}
-          manifestUrl='https://static.tbook.vip/ton/manifest.json'
+          manifestUrl='https://static.tbook.vip/ton/ton_manifest.json'
           uiPreferences={{ theme: THEME.DARK }}
         >
           <RouterProvider

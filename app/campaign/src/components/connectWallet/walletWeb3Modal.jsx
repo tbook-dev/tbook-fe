@@ -1,4 +1,4 @@
-import { Modal, Typography, Spin, message, App } from 'antd';
+import { Modal, Typography, Spin, message } from 'antd';
 import { useSelector } from 'react-redux';
 import { useResponsive } from 'ahooks';
 import clsx from 'clsx';
@@ -12,6 +12,8 @@ import {
   setLoginModal,
   setShowMergeAccountModal,
   setMergeAccountData,
+  setUnbindAccountModal,
+  setUnbindAccountData,
 } from '@/store/global';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { useAccount, useSignMessage } from 'wagmi';
@@ -24,7 +26,6 @@ import useUserInfo from '@/hooks/useUserInfoQuery';
 import { CheckOutlined } from '@ant-design/icons';
 import { delay } from '@/utils/common';
 import { changeAccountSignIn, logout, preGetNonce, isIOS } from '@/utils/web3';
-
 const { shortAddress } = conf;
 const { Paragraph } = Typography;
 
@@ -49,7 +50,13 @@ const ConnectWalletModal = () => {
     s => s.global.showConnectWalletModal
   );
   const [messageApi, contextHolder] = message.useMessage();
-  const { data: userData, evmAddress, refetch, userLogined, user } = useUserInfo();
+  const {
+    data: userData,
+    evmAddress,
+    refetch,
+    userLogined,
+    user,
+  } = useUserInfo();
   // const queryClient = useQueryClient()
   const dispath = useDispatch();
   // const { isConnected, address } = useAccount()
@@ -62,6 +69,9 @@ const ConnectWalletModal = () => {
   const openMergeAccountModal = useCallback(() => {
     dispath(setShowMergeAccountModal(true));
   }, []);
+  const openUnbindAccountModal = useCallback(() => {
+    dispath(setUnbindAccountModal(true));
+  }, []);
 
   const signIn = async () => {
     setLoading(true);
@@ -71,14 +81,21 @@ const ConnectWalletModal = () => {
       if (userLogined && !evmAddress) {
         const r = await bindEvm(address, sign);
         const data = await r.json();
-        if (data.code === 400) {
+        if (data.code === 4004) {
+          dispath(
+            setUnbindAccountData({
+              passportA: data.passportA,
+              passportB: data.passportB,
+            })
+          );
+          openUnbindAccountModal();
+        } else if (data.code === 400) {
           // 400 merge
           // setShowMergeAccountModal()
           dispath(
             setMergeAccountData({
-              address: shortAddress(data.address),
-              twitterName: data.twitterName,
-              twitterId: userData?.userTwitter?.twitterId,
+              passportA: data.passportA,
+              passportB: data.passportB,
               redirect: false,
             })
           );
@@ -137,7 +154,6 @@ const ConnectWalletModal = () => {
       }
     },
   });
-
   useEffect(() => {
     setCurrentAddress(address);
   }, [address, setCurrentAddress]);

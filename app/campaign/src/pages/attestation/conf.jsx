@@ -1,4 +1,5 @@
 import walletconnectSVG from '@/images/zklogin/walletconnect.svg';
+import tonSVG from '@/images/icon/ton.svg';
 
 export default {
   name: 'Edit Identity Attestation',
@@ -110,6 +111,11 @@ export default {
       type: 'walletconnect',
       picUrl: walletconnectSVG,
       text: 'WalletConnect',
+    },
+    {
+      type: 'tonconnect',
+      picUrl: tonSVG,
+      text: 'TON Connect',
     },
   ],
 };

@@ -8,9 +8,11 @@ import Address from '@tbook/ui/src/Address';
 import Modal from '@/components/connectWallet/modal';
 import PassportCard from '@/components/passportGen/card';
 import { useTonConnectUI } from '@tonconnect/ui-react';
-import { useTelegram } from '@/hooks/useTg';
 import fallbackAvatarSVG from '@/images/passport/avatar.svg';
 import LazyImage from '@/components/lazyImage';
+import { addQueryParameter, logoutRedirecrtKey } from '@/utils/tma';
+import { useTelegram } from '@/hooks/useTg';
+
 export default function Avatar () {
   const [open, setOpen] = useState(false);
   const { user, isZK, isGoogle, address, data, currentSocial } = useUserInfo();
@@ -18,7 +20,9 @@ export default function Avatar () {
   const { isConnected } = useAccount();
   const [tonConnectUI] = useTonConnectUI();
   const { isTMA } = useTelegram();
+  const [logoutLoading, setLogoutLoading] = useState(false);
   const handleLogout = useCallback(async () => {
+    setLogoutLoading(true);
     if (tonConnectUI.connected) {
       try {
         await tonConnectUI.disconnect();
@@ -26,12 +30,20 @@ export default function Avatar () {
         console.log(e);
       }
     }
-    await logout();
     if (isConnected) {
       await disconnect();
     }
-    location.href = location;
-  }, [isConnected, tonConnectUI]);
+    await logout();
+    // reload page, setreload from
+    const newUrl = addQueryParameter(
+      location.href,
+      isTMA ? logoutRedirecrtKey : 't',
+      Date.now()
+    );
+
+    setLogoutLoading(false);
+    window.location.href = newUrl;
+  }, [isConnected, tonConnectUI, isTMA]);
 
   const AvatarLine = () => {
     return (
@@ -96,11 +108,11 @@ export default function Avatar () {
         onCancel={() => {
           setOpen(false);
         }}
-      >
-        {!isTMA && (
-          <div className='px-6 py-4 flex-none'>
-            <div
-              className='text-[#C0ABD9] cursor-pointer flex items-center group hover:text-white gap-x-1 text-base'
+        logout={
+          <div className='py-4 flex-none'>
+            <button
+              disabled={logoutLoading}
+              className='text-[#C0ABD9] flex items-center group hover:text-white gap-x-1 text-base'
               onClick={handleLogout}
             >
               <svg
@@ -120,10 +132,10 @@ export default function Avatar () {
                 />
               </svg>
               Logout
-            </div>
+            </button>
           </div>
-        )}
-
+        }
+      >
         <PassportCard
           onClose={() => {
             setOpen(false);

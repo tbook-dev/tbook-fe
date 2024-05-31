@@ -1,7 +1,45 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const defaultMergeAccountData = {
+  passportA: {
+    dcName: '',
+    evmAddress: '',
+    tgName: '',
+    tonAddress: '',
+    twitterName: '',
+    userId: 0,
+  },
+  passportB: {
+    dcName: '',
+    evmAddress: '',
+    tgName: '',
+    tonAddress: '',
+    twitterName: '',
+    userId: 0,
+  },
+  redirect: false,
+};
+const defaultUnbindAccountData = {
+  passportA: {
+    dcName: '',
+    evmAddress: '',
+    tgName: '',
+    tonAddress: '',
+    twitterName: '',
+    userId: 0,
+  },
+  passportB: {
+    dcName: '',
+    evmAddress: '',
+    tgName: '',
+    tonAddress: '',
+    twitterName: '',
+    userId: 0,
+  },
+};
 const initialState = {
   headerTransparent: true,
+  showFooterTip: false,
   theme: 'light',
   showConnectWalletModal: false,
   showLoginModal: false,
@@ -21,13 +59,11 @@ const initialState = {
   snapshotData: null,
   showPassportGeneratingModal: false,
   showMergeAccountModal: false,
-  mergeAccountData: {
-    twitterName: '',
-    twitterId: '',
-    address: '',
-    redirect: false,
-  },
+  mergeAccountData: { ...defaultMergeAccountData },
   showWalletConnectModal: false,
+  EVMInconsistentModal: false,
+  showUnbindAccountModal: false,
+  unbindAccountData: { ...defaultUnbindAccountData },
 };
 
 export const globalSlice = createSlice({
@@ -36,6 +72,9 @@ export const globalSlice = createSlice({
   reducers: {
     updateHeaderTransparent: (state, action) => {
       state.headerTransparent = action.payload;
+    },
+    setFooterTip: (state, action) => {
+      state.showFooterTip = action.payload;
     },
     setConnectWalletModal: (state, action) => {
       state.showConnectWalletModal = action.payload;
@@ -72,14 +111,20 @@ export const globalSlice = createSlice({
     },
     resetMergeAccountData: (state) => {
       state.mergeAccountData = {
-        twitterName: '',
-        twitterId: '',
-        address: '',
-        redirect: false,
+        ...defaultMergeAccountData,
       };
     },
     setShowWalletConnectModal: (state, action) => {
       state.showWalletConnectModal = action.payload;
+    },
+    setEVMInconsistentModal: (state, action) => {
+      state.EVMInconsistentModal = action.payload;
+    },
+    setUnbindAccountModal: (state, action) => {
+      state.showUnbindAccountModal = action.payload;
+    },
+    setUnbindAccountData: (state, action) => {
+      state.unbindAccountData = action.payload;
     },
   },
 });
@@ -99,6 +144,10 @@ export const {
   setMergeAccountData,
   resetMergeAccountData,
   setShowWalletConnectModal,
+  setFooterTip,
+  setEVMInconsistentModal,
+  setUnbindAccountModal,
+  setUnbindAccountData,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

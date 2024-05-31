@@ -5,7 +5,7 @@ const tip = 'The task has been verified by another incentive passport.';
 export default function DisableVerify () {
   return (
     <Tooltip title={tip}>
-      <span>
+      <span className='flex-none'>
         <button
           // disabled
           className={clsx(

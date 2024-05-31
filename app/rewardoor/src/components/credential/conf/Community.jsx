@@ -1,5 +1,14 @@
-import { Form, Input } from 'antd';
+import { Form, Input, Spin } from 'antd';
+import dcInviteImg from '@/images/dc-invite.png';
+import Invitebot from '../components/invitebot';
+import useDcRoles from '@/hooks/queries/useDcRoles';
+import { useEffect } from 'react';
+import SelectWraper from '@/components/wraper/select';
+
 const FormItem = Form.Item;
+
+const dcBotLink =
+  'https://discord.com/oauth2/authorize?client_id=1146414186566537288&permissions=2417034321&scope=bot';
 
 export default {
   // twitter
@@ -100,46 +109,72 @@ export default {
     pick: ['link'],
   },
 
-  // discord
+  // discord verify server
   4: {
     render: ({ name }) => {
       return (
-        <FormItem
-          label='Discord Server URL'
-          name={[name, 'link']}
-          rules={[
-            {
-              required: true,
-              message: 'Please input the Discord Server URL',
-            },
-            {
-              required: false,
-              message: 'Please input a valid url',
-              type: 'url',
-            },
-          ]}
-        >
-          <Input placeholder='https://discord.gg/xxxx!' />
-        </FormItem>
+        <div className='space-y-3'>
+          <Invitebot
+            botLink={dcBotLink}
+            inviteHelpLink='https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord'
+          />
+
+          <FormItem
+            label='Server Invite Link'
+            tooltip={{
+              title: (
+                <div className='rounded-2.5xl p-4 relative space-y-2'>
+                  <p className='text-sm font-medium'>
+                    It has to be a never expire and no max number of users
+                    limitation invite link.
+                  </p>
+                  <img src={dcInviteImg} alt='dc bot invite img' />
+                </div>
+              ),
+              overlayInnerStyle: {
+                width: 400,
+              },
+            }}
+            name={[name, 'link']}
+            rules={[
+              {
+                required: true,
+                message: 'Please input the Discord Server URL',
+              },
+              {
+                required: false,
+                message: 'Please input a valid url',
+                type: 'url',
+              },
+            ]}
+          >
+            <Input placeholder='https://discord.gg/xxxx!' />
+          </FormItem>
+        </div>
       );
     },
     pick: ['link'],
   },
+  // discord, verify role
+  //https://discord.gg/S8jW2wMv
   5: {
-    render: ({ name }) => {
+    render: ({ name, form }) => {
+      const serverLink = Form.useWatch(['credential', name, 'link'], form);
+      const { data: remoteRoles, isLoading } = useDcRoles(serverLink);
+      useEffect(() => {
+        if (remoteRoles === null) {
+          form.setFieldValue(['credential', name, 'roleId'], []);
+        }
+      }, [remoteRoles]);
       return (
         <div className='space-y-3'>
-          <div className='text-sm font-medium text-c-9'>
-            <a
-              className='underline text-[#1D9BF0]'
-              href='https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord'
-              target='_blank'
-            >
-              How to get Role ID in Discord
-            </a>
-          </div>
+          <Invitebot
+            botLink={dcBotLink}
+            inviteHelpLink='https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord'
+          />
+
           <FormItem
-            label='Discord Server URL'
+            label='Server Invite Link'
             name={[name, 'link']}
             rules={[
               {
@@ -156,34 +191,30 @@ export default {
             <Input placeholder='https://discord.gg/xxxx!' />
           </FormItem>
           <FormItem
-            label='Role ID'
+            label='Role'
             name={[name, 'roleId']}
             rules={[
               {
                 required: true,
-                message: 'Please input the Role ID',
+                message: 'Please input valid value!',
               },
             ]}
+            tooltip='If multiple roles selected, then user can verify the credential as long as they have any one of those roles.'
           >
-            <Input placeholder='Enter Role ID' />
-          </FormItem>
-          <FormItem
-            label='Role Name'
-            name={[name, 'roleName']}
-            rules={[
-              {
-                required: true,
-                message: 'Please input the Role Name',
-              },
-            ]}
-          >
-            <Input placeholder='Enter Role Name' />
+            <SelectWraper
+              notFoundContent={
+                isLoading ? <Spin size='small' className='ml-3' /> : null
+              }
+              mode='multiple'
+              options={remoteRoles}
+              placeholder='Select role after you input the valid Server Link'
+            />
           </FormItem>
         </div>
       );
     },
 
-    pick: ['link', 'roleId', 'roleName'],
+    pick: ['link', 'roleId'],
   },
   // tg
   6: {

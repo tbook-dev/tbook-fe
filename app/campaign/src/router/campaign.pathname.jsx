@@ -11,7 +11,7 @@ import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 
 const Home = lazy(() => import('@/pages/home'));
-const Explore = lazy(() => import('@/pages/explore'));
+// const Explore = lazy(() => import('@/pages/explore'));
 const HomeV2 = lazy(() => import('@/pages/home-v2'));
 const Asset = lazy(() => import('@/pages/my/Asset'));
 const Campaign = lazy(() => import('@/pages/my/campaign'));
@@ -80,23 +80,23 @@ const routes = [
       },
     ],
   },
-  {
-    path: '/explore',
-    loader: getProjectIdFn,
-    element: <Layout />,
-    errorElement: <GlobalError />,
-    children: [
-      {
-        index: true,
-        loader: getProjectIdFn,
-        element: (
-          <Suspense fallback={<PageFallBack />}>
-            <Explore />
-          </Suspense>
-        ),
-      },
-    ],
-  },
+  // {
+  //   path: '/explore',
+  //   loader: getProjectIdFn,
+  //   element: <Layout />,
+  //   errorElement: <GlobalError />,
+  //   children: [
+  //     {
+  //       index: true,
+  //       loader: getProjectIdFn,
+  //       element: (
+  //         <Suspense fallback={<PageFallBack />}>
+  //           <Explore />
+  //         </Suspense>
+  //       ),
+  //     },
+  //   ],
+  // },
   {
     path: '/ton-explore',
     loader: getProjectIdFn,

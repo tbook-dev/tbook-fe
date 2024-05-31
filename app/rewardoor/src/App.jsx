@@ -5,10 +5,9 @@ import '@/css/style.css';
 import { configResponsive } from 'ahooks';
 import routes from './router';
 import { Spin } from 'antd';
-import { THEME, TonConnectUIProvider } from "@tonconnect/ui-react";
+import { THEME, TonConnectUIProvider } from '@tonconnect/ui-react';
 import { WagmiConfig } from 'wagmi';
 import { watchAccount, getAccount } from 'wagmi/actions';
-import { getWalletClient } from '@wagmi/core';
 import { wagmiConfig, changeAccountSignIn, logout } from '@/utils/web3';
 
 configResponsive({
@@ -16,12 +15,12 @@ configResponsive({
 });
 
 const currentAccount = getAccount();
-watchAccount(async (acc) => {
+watchAccount(async acc => {
   console.log('account changed:', acc);
   if (currentAccount.address == acc.address) return;
   if (!acc.address) {
     // disconnect
-    logout().then((r) => {
+    logout().then(r => {
       location.href = location;
     });
   } else {
@@ -32,19 +31,19 @@ watchAccount(async (acc) => {
   }
 });
 
-function App() {
+function App () {
   return (
     <>
       <WagmiConfig config={wagmiConfig}>
         <TonConnectUIProvider
           // manifestUrl={`${host}/ton-proof/manifest.json`}
-          manifestUrl="https://static.tbook.vip/ton/manifest.json"
+          manifestUrl='https://static.tbook.vip/ton/ton_manifest.json'
           uiPreferences={{ theme: THEME.DARK }}
         >
           <RouterProvider
             router={createBrowserRouter(routes)}
             fallbackElement={
-              <div className="flex flex-col items-center justify-center h-[300px]">
+              <div className='flex flex-col items-center justify-center h-[300px]'>
                 <Spin />
               </div>
             }

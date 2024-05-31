@@ -9,6 +9,7 @@ import LeaderboardSkeleton from './components/leaderBoard-skeleton';
 import UserScore from './components/userScore';
 import ScoreItem from './components/scoreItem';
 import { useState } from 'react';
+import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 
 const modlueConf = {
   title: 'WISE Score Leaderboard',
@@ -27,6 +28,7 @@ const modlueConf = {
 const pageSize = 10;
 export default function TonWiseLeaderboard () {
   const { data, userScore } = useTopBoard();
+  const { userLogined } = useUserInfoQuery();
   const [cusor, setCusor] = useState(0);
   const top1 = data?.[0];
   const top2 = data?.[1];
@@ -96,7 +98,7 @@ export default function TonWiseLeaderboard () {
           </div>
         ) : (
           <div className='bg-white rounded-2xl py-3'>
-            <UserScore user={userScore} />
+            {userLogined && <UserScore user={userScore} />}
             <div className='divide-y divide-black/[0.1] border-b border-black/[0.1] mb-4'>
               {pagedList.map(v => (
                 <ScoreItem user={v} key={v.userId} />
@@ -106,7 +108,9 @@ export default function TonWiseLeaderboard () {
               <div
                 className={clsx(
                   'flex items-center gap-x-3',
-                  cusor === 0 ? 'text-black/[0.15]' : 'text-[#999]'
+                  cusor === 0
+                    ? 'text-black/[0.15]'
+                    : 'text-[#999] cursor-pointer'
                 )}
                 onClick={() => {
                   if (cusor > 0) {
@@ -126,7 +130,9 @@ export default function TonWiseLeaderboard () {
                     clipRule='evenodd'
                     d='M7.70711 14.7071C7.31658 15.0976 6.68342 15.0976 6.2929 14.7071L2.29289 10.7071C1.90237 10.3166 1.90237 9.68342 2.29289 9.29289L6.29289 5.29289C6.68342 4.90237 7.31658 4.90237 7.70711 5.29289C8.09763 5.68342 8.09763 6.31658 7.70711 6.70711L5.41421 9L17 9C17.5523 9 18 9.44771 18 10C18 10.5523 17.5523 11 17 11L5.41421 11L7.70711 13.2929C8.09763 13.6834 8.09763 14.3166 7.70711 14.7071Z'
                     className={clsx(
-                      cusor === 0 ? 'fill-black/[0.15]' : 'fill-[#999]'
+                      cusor === 0
+                        ? 'fill-black/[0.15]'
+                        : 'fill-[#999] cursor-pointer'
                     )}
                   />
                 </svg>
@@ -137,7 +143,7 @@ export default function TonWiseLeaderboard () {
                   'flex items-center gap-x-3',
                   cusor === totalPageNum - 1
                     ? 'text-black/[0.15]'
-                    : 'text-[#999]'
+                    : 'text-[#999] cursor-pointer'
                 )}
                 onClick={() => {
                   if (cusor < totalPageNum - 1) {
@@ -160,7 +166,7 @@ export default function TonWiseLeaderboard () {
                     className={clsx(
                       cusor === totalPageNum - 1
                         ? 'fill-black/[0.15]'
-                        : 'fill-[#999]'
+                        : 'fill-[#999] cursor-pointer'
                     )}
                   />
                 </svg>
