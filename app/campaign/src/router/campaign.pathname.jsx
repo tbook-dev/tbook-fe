@@ -1,5 +1,4 @@
 import MyLayout from '@/layout/my/Layout';
-import Layout from '@/layout/normal/Layout';
 import HomeLayout from '@/layout/fixed/Layout';
 import { Suspense, lazy } from 'react';
 import PageFallBack from '@/components/pageFallback';
@@ -11,7 +10,6 @@ import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 
 const Home = lazy(() => import('@/pages/home'));
-// const Explore = lazy(() => import('@/pages/explore'));
 const HomeV2 = lazy(() => import('@/pages/home-v2'));
 const Asset = lazy(() => import('@/pages/my/Asset'));
 const Campaign = lazy(() => import('@/pages/my/campaign'));
@@ -22,18 +20,22 @@ const WiseScore = lazy(() => import('@/pages/ton-wise/wise-score'));
 const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/wise-leaderboard'));
 
 const Attestation = lazy(() => import('@/pages/attestation'));
+const AirDrop = lazy(() => import('@/pages/airdrop'));
 
-const getProjectIdFn = async ({ params }) => {
-  let projectUrl = params.projectName;
-  const defaultValues = {
+const getTBookInfo = async () => {
+  return {
     projectUrl: 'tbook',
     isUsingSubdomain: false,
     projectId: '',
     project: {
-      projectUrl,
+      projectUrl: '',
       avatarUrl: logo,
     },
   };
+};
+const getProjectIdFn = async ({ params }) => {
+  let projectUrl = params.projectName;
+  const defaultValues = await getTBookInfo();
   if (!projectUrl) {
     // official home 、explore
     return defaultValues;
@@ -76,23 +78,6 @@ const routes = [
       },
     ],
   },
-  // {
-  //   path: '/explore',
-  //   loader: getProjectIdFn,
-  //   element: <Layout />,
-  //   errorElement: <GlobalError />,
-  //   children: [
-  //     {
-  //       index: true,
-  //       loader: getProjectIdFn,
-  //       element: (
-  //         <Suspense fallback={<PageFallBack />}>
-  //           <Explore />
-  //         </Suspense>
-  //       ),
-  //     },
-  //   ],
-  // },
   {
     path: '/ton-explore',
     loader: getProjectIdFn,
@@ -188,6 +173,15 @@ const routes = [
             <Attestation />
           </Suspense>
         ),
+      },
+      {
+        path: ':projectName/air-drop',
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <AirDrop />
+          </Suspense>
+        ),
+        errorElement: <GlobalError />,
       },
     ],
   },
