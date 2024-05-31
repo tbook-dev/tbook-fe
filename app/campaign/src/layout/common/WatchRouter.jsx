@@ -29,6 +29,7 @@ export default function WatchRouter () {
   }, [location]);
   useEffect(() => {
     if (isTMA) {
+      webApp.enableClosingConfirmation();
       webApp.BackButton.onClick(backHandle);
     }
     return () => {
