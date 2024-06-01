@@ -116,7 +116,9 @@ const ConnectWalletModal = () => {
       if (userLogined && !evmAddress) {
         const r = await bindEvm(address, sign);
         const data = await r.json();
-        updateNoce();
+        if (data.code !== 200) {
+          updateNoce();
+        }
         if (data.code === 4004) {
           dispath(
             setUnbindAccountData({
