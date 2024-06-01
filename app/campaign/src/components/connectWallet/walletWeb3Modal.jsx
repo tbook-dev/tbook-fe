@@ -65,6 +65,35 @@ const ConnectWalletModal = () => {
   const [nonce, setNonce] = useState('');
   const { signMessageAsync } = useSignMessage();
   const [loading, setLoading] = useState(false);
+  const [currentAddress, setCurrentAddress] = useState('');
+
+  const { isConnected, address } = useAccount({
+    onConnect ({ address, connector, isReconnected }) {
+      console.log('Connected', { address, connector, isReconnected });
+      if (currentAddress == address) return;
+      if (currentAddress) {
+        // account change
+        changeAccountSignIn(address, walletClient).then(r => {
+          location.href = location;
+        });
+      } else {
+        // new account connect
+        if (isIOS) {
+          preGetNonce(address);
+        } else if (!/Mobi/i.test(window.navigator.userAgent)) {
+          // const signer = await getWalletClient()
+          // signLoginMetaMask(acc.address, signer)
+        }
+      }
+    },
+    onDisconnect () {
+      if (userLogined && user.evm.binded) {
+        logout().then(r => {
+          location.href = location;
+        });
+      }
+    },
+  });
 
   const openMergeAccountModal = useCallback(() => {
     dispath(setShowMergeAccountModal(true));
@@ -72,6 +101,12 @@ const ConnectWalletModal = () => {
   const openUnbindAccountModal = useCallback(() => {
     dispath(setUnbindAccountModal(true));
   }, []);
+
+  const updateNoce = useCallback(() => {
+    getNonce(address).then(r => {
+      setNonce(() => r);
+    });
+  }, [address]);
 
   const signIn = async () => {
     setLoading(true);
@@ -81,6 +116,7 @@ const ConnectWalletModal = () => {
       if (userLogined && !evmAddress) {
         const r = await bindEvm(address, sign);
         const data = await r.json();
+        updateNoce();
         if (data.code === 4004) {
           dispath(
             setUnbindAccountData({
@@ -126,43 +162,14 @@ const ConnectWalletModal = () => {
     }
     setLoading(false);
   };
-  const [currentAddress, setCurrentAddress] = useState('');
-  const { isConnected, address } = useAccount({
-    onConnect ({ address, connector, isReconnected }) {
-      console.log('Connected', { address, connector, isReconnected });
-      if (currentAddress == address) return;
-      if (currentAddress) {
-        // account change
-        changeAccountSignIn(address, walletClient).then(r => {
-          location.href = location;
-        });
-      } else {
-        // new account connect
-        if (isIOS) {
-          preGetNonce(address);
-        } else if (!/Mobi/i.test(window.navigator.userAgent)) {
-          // const signer = await getWalletClient()
-          // signLoginMetaMask(acc.address, signer)
-        }
-      }
-    },
-    onDisconnect () {
-      if (userLogined && user.evm.binded) {
-        logout().then(r => {
-          location.href = location;
-        });
-      }
-    },
-  });
+
   useEffect(() => {
     setCurrentAddress(address);
   }, [address, setCurrentAddress]);
 
   useEffect(() => {
     if (isConnected) {
-      getNonce(address).then(r => {
-        setNonce(() => r);
-      });
+      updateNoce();
     }
   }, [isConnected, address]);
   // console.log(nonce)
