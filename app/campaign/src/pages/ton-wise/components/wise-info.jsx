@@ -18,7 +18,7 @@ export default function WiseInfo () {
     data?.identityScore,
     data?.socialScore,
   ];
-  const maxScore = Math.max(...list) + 1;
+  // const maxScore = Math.max(...list) + 1;
 
   const option = {
     radar: [
@@ -26,10 +26,10 @@ export default function WiseInfo () {
         silent: true,
         splitNumber: 4,
         indicator: [
-          { name: 'Engagement', max: maxScore },
-          { name: 'Wealth', max: maxScore },
-          { name: 'Identity', max: maxScore },
-          { name: 'Social', max: maxScore },
+          { name: 'Engagement' },
+          { name: 'Wealth' },
+          { name: 'Identity' },
+          { name: 'Social' },
         ],
         radius: 80,
         axisName: {
