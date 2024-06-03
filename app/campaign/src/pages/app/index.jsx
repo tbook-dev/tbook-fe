@@ -20,6 +20,8 @@ import Credential from './credential';
 import { useLoaderData } from 'react-router-dom';
 import usePageFooterTip from '@/hooks/usePageFooterTip';
 import TMAShare from '@/components/TMAShare';
+import Unavailable from './unavailable';
+
 const { Countdown } = Statistic;
 
 const prompt =
@@ -36,7 +38,9 @@ export default function () {
     campaignNotStart,
     campaignEnd,
     campaignOngoing,
+    campaignUnavailable,
   } = useCampaignQuery(campaignId);
+
   const { projectUrl } = useLoaderData();
   const { signMessageAsync } = useSignMessage();
   const [viewIdx, setViewIdx] = useState(null);
@@ -156,7 +160,9 @@ export default function () {
       }
     }
   }, [userLogined, campaignOngoing, user]);
-
+  if ((isLoading, campaignUnavailable)) {
+    return <Unavailable projectUrl={projectUrl} />;
+  }
   return (
     <div className='space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-t-1'>
       <section className='overflow-hidden mb-16 lg:flex lg:justify-between lg:gap-x-[80px]'>
