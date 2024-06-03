@@ -6,7 +6,7 @@ import gameLogo from '@/images/icon/game.svg';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import UnloginCard from './unloginCard';
 
-export default function Phases({ setModalData, openModal }) {
+export default function Phases ({ setModalData, openModal }) {
   const [current, setCurrent] = useState(1);
   const { userLogined } = useUserInfo();
 
@@ -14,7 +14,7 @@ export default function Phases({ setModalData, openModal }) {
     return [
       {
         title: 'phase 1',
-        value: 1,
+        phaseNum: 1,
         startTime: 1,
         endTime: 1111,
         num: 1223,
@@ -23,7 +23,7 @@ export default function Phases({ setModalData, openModal }) {
       },
       {
         title: 'phase 2',
-        value: 2,
+        phaseNum: 2,
         startTime: 1,
         endTime: 1111,
         num: 1223,
@@ -32,7 +32,7 @@ export default function Phases({ setModalData, openModal }) {
       },
       {
         title: 'phase 3',
-        value: 3,
+        phaseNum: 3,
         startTime: 1,
         endTime: 1111,
         num: 1223,
@@ -41,7 +41,7 @@ export default function Phases({ setModalData, openModal }) {
       },
       {
         title: 'phase 4',
-        value: 4,
+        phaseNum: 4,
         startTime: 1,
         endTime: 1111,
         num: 1223,
@@ -51,8 +51,8 @@ export default function Phases({ setModalData, openModal }) {
     ];
   }, []);
   return (
-    <div className="space-y-10">
-      <div className="text-[#71717A] text-sm font-medium grid grid-cols-4 gap-x-2 border-b border-[#71717A]">
+    <div className='space-y-10'>
+      <div className='text-[#71717A] text-sm font-medium grid grid-cols-4 gap-x-2 border-b border-[#71717A]'>
         {phases.map((ph, idx) => {
           const isEnded = idx % 2 === 0;
           return (
@@ -63,13 +63,13 @@ export default function Phases({ setModalData, openModal }) {
                   ? 'border-[#904BF6] text-white'
                   : 'border-b-transparent'
               )}
-              key={ph.value}
+              key={ph.phaseNum}
               // onClick={() => {
               //   setCurrent(ph.value);
               // }}
             >
-              <p className="uppercase">{ph.title}</p>
-              <p className="text-[#71717A]">
+              <p className='uppercase'>{ph.title}</p>
+              <p className='text-[#71717A]'>
                 {isEnded
                   ? `The claim has ended.`
                   : `Estimated to start in ${dayjs(ph.endTime).format(
@@ -81,23 +81,23 @@ export default function Phases({ setModalData, openModal }) {
         })}
       </div>
 
-      <div className="grid grid-cols-4 gap-x-2">
-        {phases.map((ph) => {
+      <div className='grid grid-cols-4 gap-x-2'>
+        {phases.map(ph => {
           return userLogined ? (
             <Card
-              key={ph.value}
+              key={ph.phaseNum}
               {...ph}
-              symbol="GAME"
+              symbol='GAME'
               logoUrl={gameLogo}
               setModalData={setModalData}
               openModal={openModal}
             />
           ) : (
             <UnloginCard
-              key={ph.value}
+              key={ph.phaseNum}
               userLogined={userLogined}
               {...ph}
-              symbol="GAME"
+              symbol='GAME'
               logoUrl={gameLogo}
             />
           );

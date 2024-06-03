@@ -17,7 +17,7 @@ import {
   writeContract,
   waitForTransaction,
 } from '@wagmi/core';
-import useGameAirdrop from '@/hooks/useGameAirdrop';
+import useclaimGameAirdrop from '@/hooks/useGameClaimAirdrop';
 
 const moduleConf = {
   title: 'Claim the Airdrop',
@@ -35,7 +35,7 @@ const phaseEnum = {
   3: 's3',
   4: 's4',
 };
-export default function AirdropModal ({ symbol, open, onClose, phaseNum = 1 }) {
+export default function AirdropModal ({ symbol, open, onClose, phaseNum }) {
   const { address } = useAccount();
   const [resultOpen, setResultOpen] = useState(false);
   const [result, setResult] = useState({ status: 'sucess' });
@@ -43,7 +43,7 @@ export default function AirdropModal ({ symbol, open, onClose, phaseNum = 1 }) {
   const [messageApi, contextHolder] = message.useMessage();
   const { chain } = useNetwork();
   const { switchNetworkAsync } = useSwitchNetwork();
-  const { data: airDropData } = useGameAirdrop(phaseEnum[phaseNum]);
+  const { data: airDropData } = useclaimGameAirdrop(phaseEnum[phaseNum]);
   const { salt, sign, amount } = airDropData?.entity ?? {};
   const envChain = isStaging ? sepolia : mainnet;
   const handleClaim = async () => {

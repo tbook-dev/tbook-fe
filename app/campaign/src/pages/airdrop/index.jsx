@@ -4,6 +4,7 @@ import Phase from './phase';
 import { lazy, Suspense } from 'react';
 import PageFallBack from '@/components/pageFallback';
 import { useState, useCallback } from 'react';
+import useGameCheckAirdrop from '@/hooks/useGameCheckAirdrop';
 
 const AirDropModal = lazy(() => import('./modal/airdrop'));
 const ViewInPC = lazy(() => import('@/components/viewInPc'));
@@ -11,6 +12,7 @@ const ViewInPC = lazy(() => import('@/components/viewInPc'));
 export default function AirDrop () {
   const { pc } = useResponsive();
   const [open, setOpen] = useState(false);
+  const { data: checkData } = useGameCheckAirdrop();
   const [modalData, setModalData] = useState({ amount: 0, symbol: 'GAME' });
   const closeModal = useCallback(() => {
     setOpen(false);

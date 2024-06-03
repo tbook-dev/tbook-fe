@@ -234,6 +234,10 @@ export const addWiseSocialLink = async function (data) {
   return await request.Post(`${host}/wiseScore/addLink`, data);
 };
 
-export const getGameAirDrapData = async function (phase) {
+export const checkGameAirDrapData = async function () {
+  return await request.Post(`${host}/game_airdrop/check`);
+};
+
+export const claimGameAirdrop = async function (phase) {
   return await request.Post(`${host}/game_airdrop/claim`, { payload: phase });
 };

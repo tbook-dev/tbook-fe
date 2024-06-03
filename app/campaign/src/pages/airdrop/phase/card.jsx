@@ -13,9 +13,10 @@ export default function AirDropCard ({
   status,
   setModalData,
   openModal,
+  phaseNum,
 }) {
   const handleClick = () => {
-    setModalData({ amount: num, symbol });
+    setModalData({ amount: num, symbol, phaseNum });
     openModal();
   };
   return (
