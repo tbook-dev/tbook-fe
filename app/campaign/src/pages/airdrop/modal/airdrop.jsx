@@ -55,9 +55,11 @@ export default function AirdropModal ({ symbol, open, onClose, phaseNum }) {
         await switchNetworkAsync(envChain.id);
       }
       // prepare
+      const args  = [address, phaseEnum[phaseNum], amount, salt, sign]
+      console.log({args, claimABI})
       const config = await prepareWriteContract({
         address: airdropContractAddress,
-        abi: claimABI.abi,
+        abi: claimABI.default,
         functionName: 'claim',
         chainId: envChain.id,
         args: [address, phaseEnum[phaseNum], amount, salt, sign],

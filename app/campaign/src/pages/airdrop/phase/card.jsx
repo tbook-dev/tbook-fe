@@ -44,15 +44,17 @@ export default function AirDropCard ({
       </div>
 
       <button
-        disabled={status !== statusMap.ongoing}
+        // disabled={status !== statusMap.ongoing || num === "0"}
         onClick={handleClick}
         className={clsx('w-[120px] rounded py-1', {
           'bg-[#904BF6] text-white opacity-20': status === statusMap.notStarted,
           'bg-[#904BF6] text-white ': status === statusMap.ongoing,
-          'bg-[rgb(254,252,232)]/10 text-white ': status === statusMap.ended,
+          'bg-[rgb(254,252,232)]/10 text-white ': status === statusMap.ended || num === "0",
         })}
       >
-        Claim
+        {
+          num === "0" ? "Claim":"Claim"
+        }
       </button>
     </div>
   );

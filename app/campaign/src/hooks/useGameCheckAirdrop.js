@@ -14,6 +14,7 @@ const getStatus = (cof = {}) => {
   const now = dayjs();
   // console.log('end------', dayjs(end).format('MM D, YYYY'));
   // console.log('start------', dayjs(start).format('MM D, YYYY'));
+  return 2;
   if (now.isBefore(dayjs(start))) {
     return 1;
   } else if (now.isAfter(dayjs(end))) {
