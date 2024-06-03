@@ -1,10 +1,11 @@
 import bannerUrl from '@/images/airdrop.png';
 import LazyImage from '@/components/lazyImage';
 import useUserInfo from '@/hooks/useUserInfoQuery';
-import { formatDollarV2 } from '@tbook/utils/lib/conf';
+import { formatDollarV2, formatImpact } from '@tbook/utils/lib/conf';
 import { useDispatch } from 'react-redux';
 import { setConnectWalletModal } from '@/store/global';
 import { Skeleton } from 'antd';
+import useGameCheckAirdrop from '@/hooks/useGameCheckAirdrop';
 
 const moduleConf = {
   url: bannerUrl,
@@ -42,7 +43,7 @@ const moduleConf = {
         <p>
           According the airdrop rules, you are eligible to claim{' '}
           <span className='text-base text-white'>
-            {`${formatDollarV2(value)} ${symbol}`}
+            {`${formatImpact(value)} ${symbol}`}
           </span>
         </p>
         <p>
@@ -55,6 +56,8 @@ const moduleConf = {
 };
 export default function Banner () {
   const { userLogined, firstLoad } = useUserInfo();
+  const { totalNum, blockHeight } = useGameCheckAirdrop();
+
   const dispath = useDispatch();
   const handleConnectWallet = () => {
     dispath(setConnectWalletModal(true));
@@ -68,9 +71,9 @@ export default function Banner () {
           <Skeleton />
         ) : (
           <>
-            <div>{moduleConf.getDesc1(1000)}</div>
+            <div>{moduleConf.getDesc1(blockHeight)}</div>
             {userLogined ? (
-              moduleConf.getDesc2({ value: 10000, symbol: 'GAME' })
+              moduleConf.getDesc2({ value: totalNum, symbol: 'GAME' })
             ) : (
               <div className='flex items-center text-sm'>
                 <button

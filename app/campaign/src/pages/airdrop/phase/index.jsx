@@ -1,72 +1,37 @@
-import { useMemo, useState } from 'react';
 import Card from './card';
 import dayjs from 'dayjs';
 import clsx from 'clsx';
-import gameLogo from '@/images/icon/game.svg';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import UnloginCard from './unloginCard';
+import useGameCheckAirdrop from '@/hooks/useGameCheckAirdrop';
+import { Skeleton } from 'antd';
 
 export default function Phases ({ setModalData, openModal }) {
-  const [current, setCurrent] = useState(1);
   const { userLogined } = useUserInfo();
+  const { checkList, data, logo: gameLogo, symbol } = useGameCheckAirdrop();
 
-  const phases = useMemo(() => {
-    return [
-      {
-        title: 'phase 1',
-        phaseNum: 1,
-        startTime: 1,
-        endTime: 1111,
-        num: 1223,
-        status: 1,
-        active: true,
-      },
-      {
-        title: 'phase 2',
-        phaseNum: 2,
-        startTime: 1,
-        endTime: 1111,
-        num: 1223,
-        status: 2,
-        active: false,
-      },
-      {
-        title: 'phase 3',
-        phaseNum: 3,
-        startTime: 1,
-        endTime: 1111,
-        num: 1223,
-        status: 3,
-        active: false,
-      },
-      {
-        title: 'phase 4',
-        phaseNum: 4,
-        startTime: 1,
-        endTime: 1111,
-        num: 1223,
-        status: 1,
-        active: false,
-      },
-    ];
-  }, []);
   return (
     <div className='space-y-10'>
       <div className='text-[#71717A] text-sm font-medium grid grid-cols-4 gap-x-2 border-b border-[#71717A]'>
-        {phases.map((ph, idx) => {
-          const isEnded = idx % 2 === 0;
-          return (
+        {checkList.map(ph => {
+          const isEnded = ph.status === 3;
+          const isActive = ph.status === 2;
+          return !data ? (
+            <Skeleton
+              paragraph={{ rows: 1 }}
+              title={false}
+              className='px-6 py-4'
+              key={ph.phaseNum}
+            />
+          ) : (
             <button
               className={clsx(
                 'flex flex-col gap-y-1 border-b-2 px-6 py-4 cursor-default',
-                current === ph.value
+                isActive
                   ? 'border-[#904BF6] text-white'
                   : 'border-b-transparent'
               )}
               key={ph.phaseNum}
-              // onClick={() => {
-              //   setCurrent(ph.value);
-              // }}
             >
               <p className='uppercase'>{ph.title}</p>
               <p className='text-[#71717A]'>
@@ -82,22 +47,26 @@ export default function Phases ({ setModalData, openModal }) {
       </div>
 
       <div className='grid grid-cols-4 gap-x-2'>
-        {phases.map(ph => {
+        {checkList.map(ph => {
           return userLogined ? (
-            <Card
-              key={ph.phaseNum}
-              {...ph}
-              symbol='GAME'
-              logoUrl={gameLogo}
-              setModalData={setModalData}
-              openModal={openModal}
-            />
+            !data ? (
+              <Skeleton key={ph.phaseNum} />
+            ) : (
+              <Card
+                key={ph.phaseNum}
+                {...ph}
+                symbol={symbol}
+                logoUrl={gameLogo}
+                setModalData={setModalData}
+                openModal={openModal}
+              />
+            )
           ) : (
             <UnloginCard
               key={ph.phaseNum}
               userLogined={userLogined}
               {...ph}
-              symbol='GAME'
+              symbol={symbol}
               logoUrl={gameLogo}
             />
           );
