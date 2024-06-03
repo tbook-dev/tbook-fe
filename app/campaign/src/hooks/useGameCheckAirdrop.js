@@ -74,6 +74,7 @@ export default function useGameCheckAirdrop() {
     logo: data?.gameLogo,
     totalNum,
     checkList,
+    blockHeight: data?.blockHeight,
     ...props,
   };
 }
