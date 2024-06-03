@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import { getCampaignDetail } from '@/api/incentive';
 import { useEffect, useState } from 'react';
 import useUserInfoQuery from './useUserInfoQuery';
-
+import { merge } from 'lodash';
 const notStartList = [2, 0];
 const endList = [3, 4, 5];
 
@@ -11,7 +11,7 @@ export default function useCampaignQuery(campaignId) {
   const { userLogined, firstLoad: userLoaded } = useUserInfoQuery();
   const {
     isLoading,
-    data: page,
+    data,
     isError,
     ...props
   } = useQuery(
@@ -23,6 +23,7 @@ export default function useCampaignQuery(campaignId) {
       // refetchOnWindowFocus: false,
     }
   );
+  const page = merge({},data?.campaignTotal, { code: data?.code });
   const campaignNotStart = notStartList.includes(page?.campaign?.status);
   const campaignEnd = endList.includes(page?.campaign?.status);
   const campaignOngoing = page?.campaign?.status === 1;
