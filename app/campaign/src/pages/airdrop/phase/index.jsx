@@ -71,6 +71,7 @@ export default function Phases ({ setModalData, openModal }) {
               key={ph.phaseNum}
               userLogined={userLogined}
               {...ph}
+              active={ph.status === 2}
               symbol={symbol}
               logoUrl={gameLogo}
             />

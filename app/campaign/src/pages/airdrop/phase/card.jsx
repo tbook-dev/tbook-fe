@@ -20,15 +20,14 @@ export default function AirDropCard ({
     setModalData({ amount: num, symbol, phaseNum });
     openModal();
   };
+  console.log({ status });
   return (
     <div
       className={clsx(
-        'h-[294px] w-full flex flex-col justify-between rounded-2xl px-6 py-4',
-        {
-          'bg-[#0f0f0f] opacity-20': status !== statusMap.ongoing,
-          'bg-gradient-to-r from-[#1d0618] to-[#160C25]':
-            status === statusMap.ongoing,
-        }
+        'h-[196px] w-full flex flex-col justify-between rounded-2xl px-6 py-4',
+        status === statusMap.ongoing
+          ? 'bg-gradient-to-r from-[#1d0618] to-[#160C25]'
+          : 'bg-[#0f0f0f] opacity-20'
       )}
     >
       <div className='space-y-4'>
