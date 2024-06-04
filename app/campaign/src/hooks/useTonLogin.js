@@ -21,7 +21,7 @@ import {
 } from '@/store/global';
 import { conf } from '@tbook/utils';
 import { message } from 'antd';
-import { delay } from '@/utils/common';
+import { useQuery } from 'react-query';
 
 const { shortAddress } = conf;
 
@@ -35,6 +35,9 @@ const getCurrentDirectLink = () => {
 };
 export default function useTonLogin() {
   const firstProofLoading = useRef(true);
+  const { data: payload } = useQuery(['tonproof'], getTonPayload, {
+    staleTime: 60000,
+  });
   // const [data, setData] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
   const wallet = useTonWallet();
@@ -49,14 +52,14 @@ export default function useTonLogin() {
   const openUnbindAccountModal = useCallback(() => {
     dispath(setUnbindAccountModal(true));
   }, []);
-  const recreateProofPayload = useCallback(async () => {
+  useEffect(() => {
     if (firstProofLoading.current) {
       tonConnectUI.setConnectRequestParameters({ state: 'loading' });
       firstProofLoading.current = false;
       setLoading(true);
     }
 
-    const payload = await getTonPayload();
+    // const payload = await getTonPayload();
     if (window.Telegram?.WebApp?.initData) {
       tonConnectUI.uiOptions = {
         actionsConfiguration: {
@@ -72,11 +75,11 @@ export default function useTonLogin() {
     } else {
       tonConnectUI.setConnectRequestParameters(null);
     }
-  }, [tonConnectUI, firstProofLoading]);
+  }, [tonConnectUI, firstProofLoading, payload]);
 
-  if (firstProofLoading.current) {
-    recreateProofPayload();
-  }
+  // if (firstProofLoading.current) {
+  //   recreateProofPayload();
+  // }
 
   useEffect(
     () =>
@@ -111,7 +114,7 @@ export default function useTonLogin() {
               })
             );
             openMergeAccountModal();
-          } else if(data.code === 4004) {
+          } else if (data.code === 4004) {
             // 4004要解绑
             dispath(
               setUnbindAccountData({

@@ -113,7 +113,10 @@ export default function AirdropModal ({ symbol, open, onClose, phaseNum }) {
             <div className='flex items-center justify-between'>
               <span className='text-[#C0ABD9]'>Claim amount</span>
               <span className='font-medium text-white'>
-                {formatDollarV2(BigNumber(amount).toFixed(6), 6)} {symbol}
+                {amount
+                  ? formatDollarV2(BigNumber(amount).toFixed(6), 6)
+                  : '--'}{' '}
+                {symbol}
               </span>
             </div>
             <div className='flex items-center justify-between'>

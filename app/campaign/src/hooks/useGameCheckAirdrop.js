@@ -24,11 +24,12 @@ const getStatus = (cof = {}) => {
   }
 };
 export default function useGameCheckAirdrop() {
-  const { userLogined } = useUserInfo();
+  const { userLogined, firstLoad } = useUserInfo();
   const { data, ...props } = useQuery(
     ['game-airDrop', userLogined],
     () => checkGameAirDrapData(),
     {
+      enabled: firstLoad,
       staleTime: 5 * 60 * 1000,
     }
   );
