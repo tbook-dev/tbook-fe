@@ -34,6 +34,9 @@ export default function PassportGen () {
             width: 190,
             onComplete: () => {
               setGenPending(false);
+              setTimeout(() => {
+                setClose()
+              }, 2000);
             },
           });
         }
