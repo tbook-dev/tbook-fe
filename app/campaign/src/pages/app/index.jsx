@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { logUserReport } from '@/api/incentive';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import pointIcon from '@/images/icon/point-modal.svg';
 import arrow3Icon from '@/images/icon/arrow3.svg';
 import useUserInfo from '@/hooks/useUserInfoQuery';
@@ -47,7 +47,7 @@ export default function () {
   const [subIdx, setSubIdx] = useState(null);
   const [viewType, setViewType] = useState(null);
   const [viewModalOpen, setViewModalOpen] = useState(false);
-
+  const [searchParams] = useSearchParams();
   const [rawDatas, setRawDatas] = useState({});
   const [signed, setSigned] = useState({});
   usePageFooterTip();
@@ -117,6 +117,15 @@ export default function () {
       });
   };
 
+  const refBackLink = useMemo(() => {
+    const refUnsafeUrl = searchParams && searchParams.get('ref');
+    try {
+      return new URL(decodeURIComponent(refUnsafeUrl)).href;
+    } catch (error) {
+      return null;
+    }
+  }, [searchParams]);
+
   // console.log(TMAsahreLink);
   useEffect(() => {
     const gs = page?.groups;
@@ -160,11 +169,34 @@ export default function () {
       }
     }
   }, [userLogined, campaignOngoing, user]);
-  if ((isLoading, campaignUnavailable)) {
+  if (campaignUnavailable) {
     return <Unavailable projectUrl={projectUrl} />;
   }
   return (
     <div className='space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-t-1'>
+      {refBackLink && (
+        <a
+          href={refBackLink}
+          className='pl-4 lg:pl-0 flex items-center gap-x-1 text-sm font-semibold py-2.5 text-[#717374] group hover:text-white'
+        >
+          <div className='w-6 h-6 flex items-center justify-center'>
+            <svg
+              width='12'
+              height='12'
+              viewBox='0 0 12 12'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                d='M12 5.25H2.8725L7.065 1.0575L6 0L0 6L6 12L7.0575 10.9425L2.8725 6.75H12V5.25Z'
+                className='fill-[#717374] group-hover:fill-white'
+              />
+            </svg>
+          </div>
+          Back
+        </a>
+      )}
+
       <section className='overflow-hidden mb-16 lg:flex lg:justify-between lg:gap-x-[80px]'>
         <div className='relative w-full h-[172px] lg:w-[566px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center'>
           <TMAShare data={{ projectUrl, campaignId, type: 'campaign' }} />
