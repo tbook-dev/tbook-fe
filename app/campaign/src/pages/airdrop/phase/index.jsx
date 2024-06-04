@@ -8,7 +8,12 @@ import { Skeleton } from 'antd';
 
 export default function Phases ({ setModalData, openModal }) {
   const { userLogined } = useUserInfo();
-  const { checkList, data, logo: gameLogo, symbol } = useGameCheckAirdrop();
+  const {
+    checkList,
+    isLoading,
+    logo: gameLogo,
+    symbol,
+  } = useGameCheckAirdrop();
 
   return (
     <div className='space-y-10'>
@@ -16,7 +21,7 @@ export default function Phases ({ setModalData, openModal }) {
         {checkList.map(ph => {
           const isEnded = ph.status === 3;
           const isActive = ph.status === 2;
-          return !data ? (
+          return isLoading ? (
             <Skeleton
               paragraph={{ rows: 1 }}
               title={false}
@@ -49,7 +54,7 @@ export default function Phases ({ setModalData, openModal }) {
       <div className='grid grid-cols-4 gap-x-2'>
         {checkList.map(ph => {
           return userLogined ? (
-            !data ? (
+            isLoading ? (
               <Skeleton key={ph.phaseNum} />
             ) : (
               <Card
