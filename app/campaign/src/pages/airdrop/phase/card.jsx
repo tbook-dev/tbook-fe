@@ -20,7 +20,7 @@ export default function AirDropCard ({
     setModalData({ amount: num, symbol, phaseNum });
     openModal();
   };
-  console.log({ status });
+
   return (
     <div
       className={clsx(
