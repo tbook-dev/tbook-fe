@@ -14,6 +14,7 @@ const getStatus = (cof = {}) => {
   const now = dayjs();
   // console.log('end------', dayjs(end).format('MM D, YYYY'));
   // console.log('start------', dayjs(start).format('MM D, YYYY'));
+  return 2;
   if (now.isBefore(dayjs(start))) {
     return 1;
   } else if (now.isAfter(dayjs(end))) {
@@ -25,10 +26,9 @@ const getStatus = (cof = {}) => {
 export default function useGameCheckAirdrop() {
   const { userLogined } = useUserInfo();
   const { data, ...props } = useQuery(
-    ['game-airDrop'],
+    ['game-airDrop', userLogined],
     () => checkGameAirDrapData(),
     {
-      enabled: userLogined,
       staleTime: 5 * 60 * 1000,
     }
   );
@@ -74,6 +74,7 @@ export default function useGameCheckAirdrop() {
     logo: data?.gameLogo,
     totalNum,
     checkList,
+    blockHeight: data?.blockHeight,
     ...props,
   };
 }

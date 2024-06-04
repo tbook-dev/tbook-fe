@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
+import LazyImage from '@/components/lazyImage';
 import { setConnectWalletModal } from '@/store/global';
-export default function UnloginCard({ symbol, active, logoUrl }) {
+export default function UnloginCard ({ symbol, active, logoUrl }) {
   const dispath = useDispatch();
   const handleClick = () => {
     dispath(setConnectWalletModal(true));
@@ -15,16 +16,16 @@ export default function UnloginCard({ symbol, active, logoUrl }) {
           : 'bg-black/20 opacity-20'
       )}
     >
-      <div className="space-y-4">
-        <div className="flex items-center gap-x-3 font-zen-dot text-2xl uppercase">
-          <img
+      <div className='space-y-4'>
+        <div className='flex items-center gap-x-3 font-zen-dot text-2xl uppercase'>
+          <LazyImage
             src={logoUrl}
-            className="size-10 rounded-full"
-            alt="project logo"
+            className='size-10 rounded-full'
+            alt='project logo'
           />
           {symbol}
         </div>
-        <div className="text-base">
+        <div className='text-base'>
           Connect wallet to check the GAME you are eligible to claim
         </div>
       </div>

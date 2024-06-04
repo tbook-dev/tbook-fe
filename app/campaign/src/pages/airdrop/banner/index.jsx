@@ -18,17 +18,17 @@ const moduleConf = {
   getDesc1: blockHeight => {
     return (
       <>
-        <p className='text-[#C6C6C6] text-base'>
+        <p className='text-[#71717A] text-base'>
           The airdrop is determined based on the snapshot proposal, which is:
         </p>
 
-        <p className='text-[#C6C6C6] text-base'>
+        <p className='text-[#71717A] text-base'>
           <a
             href={moduleConf.link}
             target='_blank'
             className='text-[#3A82F7] underline hover:text-[#3A82F7] break-words me-1'
           >
-            {moduleConf.link}
+            {moduleConf.link}.
           </a>
           CRE holders will receive GAME tokens based on their holdings at block
           height {formatDollarV2(blockHeight)}. The entire airdrop will be
@@ -39,16 +39,16 @@ const moduleConf = {
   },
   getDesc2: ({ value, symbol }) => {
     return (
-      <div className='text-[#D4D4D8] text-sm space-y-2'>
+      <div className='text-[#D4D4D8] text-base space-y-2'>
         <p>
-          According the airdrop rules, you are eligible to claim{' '}
-          <span className='text-base text-white'>
+          <span className='font-bold mr-1'>You are eligible to claim</span>
+          <span className='text-lg text-white mr-1'>
             {`${formatImpact(value)} ${symbol}`}
           </span>
+          according the airdrop rules.
         </p>
         <p>
-          Please ensure that you complete the claim within the validity time.
-          Otherwise, you will miss the airdrop.
+          Please claim before each phase ends or you will lose the opportunity.
         </p>
       </div>
     );
