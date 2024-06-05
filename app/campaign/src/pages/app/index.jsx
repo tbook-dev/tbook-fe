@@ -169,7 +169,7 @@ export default function () {
       }
     }
   }, [userLogined, campaignOngoing, user]);
-  if ((isLoading, campaignUnavailable)) {
+  if (campaignUnavailable) {
     return <Unavailable projectUrl={projectUrl} />;
   }
   return (

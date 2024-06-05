@@ -128,6 +128,7 @@ export default function WithVerify ({
               <button
                 onClick={() => {
                   social.loginFn(false);
+                  handleCancel();
                 }}
                 className='flex items-center gap-x-1 px-4 py-1 text-sm font-medium text-black rounded-md bg-white'
               >
