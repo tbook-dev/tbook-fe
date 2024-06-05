@@ -32,7 +32,7 @@ function Header () {
         pc && headerTransparent ? 'bg-transpant ' : 'bg-black'
       )}
     >
-      <div className='px-4 py-1.5 lg:px-20'>
+      <div className='px-4 py-1.5 lg:px-20 bg-black'>
         <div className='flex items-center justify-between h-10'>
           <div className='flex items-center'>
             <Link to='/' className='mr-1 lg:mr-16'>
