@@ -25,7 +25,7 @@ function Header () {
         'backdrop-blur-sm'
       )}
     >
-      <div className='px-4 py-1.5 lg:px-20'>
+      <div className='px-4 py-1.5 lg:px-20 bg-black'>
         <div className='flex items-center justify-between h-10'>
           <div className='flex items-center'>
             <Link
