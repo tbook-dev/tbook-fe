@@ -7,10 +7,14 @@ import { Skeleton } from 'antd';
 import LazyImage from '@/components/lazyImage';
 import clsx from 'clsx';
 import moduleConf from './conf';
-import { useState, useCallback, useMemo } from 'react';
-import UnbindModal from './unbindModal';
+import { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { setConnectWalletModal } from '@/store/global';
+import {
+  setConnectWalletModal,
+  setShowDistoryTon,
+  setunbindSocialData,
+  setShowUnbindSocial,
+} from '@/store/global';
 import {
   useTonConnectUI,
   useTonWallet,
@@ -20,17 +24,21 @@ import {
 } from '@tonconnect/ui-react';
 
 export default function PageAttestation () {
-  const { user, data, isLoading } = useUserInfoQuery();
+  const { user, data, isLoading, isMultAccount } = useUserInfoQuery();
   const dispatch = useDispatch();
   const [tonConnectUI] = useTonConnectUI();
   const { open: openTonModal } = useTonConnectModal();
-
   const { socialList } = useSocial();
-  const [open, setOpen] = useState(false);
-  const [modalData, setModalData] = useState({
-    accountName: '',
-    accountType: '',
-  });
+
+  const setModalData = ({ accountName, accountType }) => {
+    dispatch(
+      setunbindSocialData({
+        accountName,
+        accountType,
+      })
+    );
+    dispatch(setShowUnbindSocial(true));
+  };
   const handleTonClick = async () => {
     try {
       await tonConnectUI.disconnect();
@@ -43,27 +51,6 @@ export default function PageAttestation () {
     dispatch(setConnectWalletModal(true));
   }, []);
 
-  const isMultAccount = useMemo(() => {
-    return (
-      [
-        // user, evm
-        !!data?.user?.evm?.evmWallet,
-        // tw
-        !!data?.userTwitter?.connected,
-        !!data?.userDc?.connected,
-        !!data?.userTg?.connected,
-      ].filter(Boolean).length > 1
-      || 
-      [
-        // user, ton
-        !!data?.userTon?.binded,
-        // tw
-        !!data?.userTwitter?.connected,
-        !!data?.userDc?.connected,
-        !!data?.userTg?.connected,
-      ].filter(Boolean).length > 1
-    );
-  }, [data]);
   // console.log({ isMultAccount });
   const onChainConf = useMemo(() => {
     const ton = moduleConf.onChainList.find(v => v.type === 'tonconnect');
@@ -72,7 +59,7 @@ export default function PageAttestation () {
     const isEvm = !!user?.evm?.evmWallet;
     // const isZk = !!user?.zk?.address;
     const isTon = !!data?.userTon?.binded;
-
+    console.log({ isMultAccount });
     return [
       {
         name: 'EVM Chain',
@@ -99,8 +86,27 @@ export default function PageAttestation () {
         name: 'TON',
         label: <span>TON</span>,
         render: isTon ? (
-          <div className='flex px-5 py-2 bg-[#1A1A1A] rounded-2.5xl'>
-            <Address address={data?.userTon?.address} />
+          <div className='flex items-center gap-x-5'>
+            <Address
+              icon={ton.whiteSvg}
+              address={data?.userTon?.address}
+              className='px-5 bg-[#1A1A1A] flex  py-2 rounded-2.5xl flex-auto'
+            />
+            <button
+              className='text-[#904BF6] text-base font-medium flex-none'
+              onClick={() => {
+                if (isMultAccount) {
+                  setModalData({
+                    accountType: 'ton',
+                    accountName: data?.userTon?.address,
+                  });
+                } else {
+                  dispatch(setShowDistoryTon(true));
+                }
+              }}
+            >
+              Disconnect
+            </button>
           </div>
         ) : (
           <button
@@ -117,7 +123,7 @@ export default function PageAttestation () {
         ),
       },
     ];
-  }, [user]);
+  }, [user, isMultAccount]);
 
   const avatarConf = useMemo(() => {
     const avatarUrl = data?.user?.avatar;
@@ -152,7 +158,6 @@ export default function PageAttestation () {
                     accountType: v.name,
                     accountName: v.userName,
                   });
-                  setOpen(true);
                 }}
               >
                 Disconnect
@@ -175,16 +180,6 @@ export default function PageAttestation () {
     });
   }, [socialList, isMultAccount]);
 
-  const onCancel = useCallback(() => {
-    setOpen(false);
-    setTimeout(() => {
-      setModalData({
-        accountName: '',
-        accountType: '',
-      });
-    }, 300);
-  }, []);
-
   return (
     <div className='w-[840px] mx-auto pb-16 py-2 text-white space-y-8'>
       <h1 className='text-2xl font-zen-dot'>{moduleConf.name}</h1>
@@ -206,14 +201,6 @@ export default function PageAttestation () {
           </Box>
         </Skeleton>
       </div>
-      <UnbindModal
-        open={open}
-        onCancal={onCancel}
-        modalData={{
-          accountName: modalData.accountName,
-          accountType: modalData.accountType,
-        }}
-      />
     </div>
   );
 }

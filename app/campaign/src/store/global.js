@@ -64,6 +64,12 @@ const initialState = {
   EVMInconsistentModal: false,
   showUnbindAccountModal: false,
   unbindAccountData: { ...defaultUnbindAccountData },
+  showDistoryTon: false,
+  showUnbindSocial: false,
+  unbindSocialData: {
+    accountName: '',
+    accountType: '',
+  },
 };
 
 export const globalSlice = createSlice({
@@ -126,6 +132,15 @@ export const globalSlice = createSlice({
     setUnbindAccountData: (state, action) => {
       state.unbindAccountData = action.payload;
     },
+    setShowDistoryTon: (state, action) => {
+      state.showDistoryTon = action.payload;
+    },
+    setShowUnbindSocial: (state, action) => {
+      state.showUnbindSocial = action.payload;
+    },
+    setunbindSocialData: (state, action) => {
+      state.unbindSocialData = action.payload;
+    },
   },
 });
 
@@ -148,6 +163,9 @@ export const {
   setEVMInconsistentModal,
   setUnbindAccountModal,
   setUnbindAccountData,
+  setShowDistoryTon,
+  setShowUnbindSocial,
+  setunbindSocialData,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

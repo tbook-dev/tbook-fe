@@ -208,8 +208,11 @@ export const mergePassport = async function (data) {
 export const getTopProjects = async function () {
   return await request.Get(`${host}/project/home`);
 };
-export const disConnectAccount = async function (data) {
+export const disConnectSocialAccount = async function (data) {
   return await request.PostFormV1(`${host}/social/unbind`, data);
+};
+export const disConnectTonAddcount = async function (data) {
+  return await request.PostFormV1(`${host}/ton-proof/unbind`, data);
 };
 export const tgTMAAuth = async function (data) {
   return await request.Post(`${host}/tg/tma/auth`, data);

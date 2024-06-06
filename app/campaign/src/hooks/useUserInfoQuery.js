@@ -125,6 +125,17 @@ export default function useUserInfo() {
       .sort((a, b) => (a.weight - b.weight > 0 ? 1 : -1))
       .pop();
   }, [data, isTMA]);
+  const isMultAccount =
+    [
+      // user, evm
+      !!data?.user?.evm?.evmWallet,
+      !!data?.userTon?.binded,
+      // tw
+      !!data?.userTwitter?.connected,
+      !!data?.userDc?.connected,
+      !!data?.userTg?.connected,
+    ].filter(Boolean).length > 1;
+
   const sessionKey = `markNewUser-${user?.userId ?? ''}`;
   if (
     data &&
@@ -162,6 +173,7 @@ export default function useUserInfo() {
     currentAddress,
     currentSocial,
     isUsingWallet,
+    isMultAccount,
     ...props,
   };
 }

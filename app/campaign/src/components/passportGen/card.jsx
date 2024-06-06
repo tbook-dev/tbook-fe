@@ -4,7 +4,12 @@ import useUserInfo from '@/hooks/useUserInfoQuery';
 import walletGrayIcon from '@/images/icon/wallet-gray.svg';
 import useSocial from '@/hooks/useSocial';
 import { useDispatch } from 'react-redux';
-import { setConnectWalletModal } from '@/store/global';
+import {
+  setConnectWalletModal,
+  setShowDistoryTon,
+  setunbindSocialData,
+  setShowUnbindSocial,
+} from '@/store/global';
 import { Link, useLoaderData, useLocation } from 'react-router-dom';
 import Address from '@tbook/ui/src/Address';
 import suiSVG from '@/images/zklogin/sui.svg';
@@ -46,6 +51,7 @@ export default function PassportCard ({ onClose }) {
     currentAddress,
     tonAddress,
     isUsingWallet,
+    isMultAccount,
   } = useUserInfo();
   const { socialList, getZkfnByName } = useSocial();
   const { open } = useTonConnectModal();
@@ -80,6 +86,22 @@ export default function PassportCard ({ onClose }) {
       },
     ];
   }, [projectUrl]);
+  const handleDisconnectTon = () => {
+    onClose();
+    setTimeout(() => {
+      if (isMultAccount) {
+        dispatch(
+          setunbindSocialData({
+            accountName: tonAddress,
+            accountType: 'ton',
+          })
+        );
+        dispatch(setShowUnbindSocial(true));
+      } else {
+        dispatch(setShowDistoryTon(true));
+      }
+    }, 600);
+  };
 
   // const linkNoClick = useMemo(() => {
   //   return linkNoClickList.includes(location.pathname);
@@ -224,6 +246,11 @@ export default function PassportCard ({ onClose }) {
                   <Address
                     address={address}
                     className='font-zen-dot text-xl'
+                    disconnect={
+                      currentAddress?.type === 'ton'
+                        ? handleDisconnectTon
+                        : null
+                    }
                     style={{
                       textShadow: '0px 0px 2px #CF0063',
                       color: currentAddress?.type === 'ton' ? '#1AC9FF' : '',
