@@ -14,109 +14,68 @@ import { useState } from 'react';
 import { Spin, message } from 'antd';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import { shortAddress } from '@tbook/utils/lib/conf';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCallback } from 'react';
+import { setShowDistoryTon } from '@/store/global';
+import { logout } from '@/utils/web3';
+import { addQueryParameter, logoutRedirecrtKey } from '@/utils/tma';
+import { useTelegram } from '@/hooks/useTg';
 
 const moduleConf = {
   title: 'Confirm to disconnect?',
-  button: ['Cancel', 'Confirm'],
-  addressTypes: ['evm', 'ton'],
-  socialTypes: ['telegram', 'twitter', 'discord'],
-  getType: accountType => {
-    return moduleConf.addressTypes.includes(accountType)
-      ? 'address'
-      : accountType;
-  },
-  getInfo: ({ accountName, accountType }) => {
-    const type = moduleConf.getType(accountType);
-
-    return (
-      <>
-        <p>
-          Once disconnected, your credentials records will be retained in the
-          current incentive passport.
-        </p>
-        <p className='break-all'>
-          {type === 'address'
-            ? `This account ${shortAddress(
-                accountName
-              )} cannot be used to verify the same credentials.`
-            : `This account @${accountName} cannot be used to verify the same credentials.`}
-        </p>
-      </>
-    );
-  },
-  mapSocialTypeToEnum: {
-    twitter: 1,
-    telegram: 2,
-    discord: 3,
-  },
+  button: ['Cancel', 'Continue to disconnect'],
+  desc: [
+    'The TON address is the last identity that can log in to this incentive passport. After disconnecting, your incentive passport will be disabled.',
+    'We recommend binding a social account before disconnecting.',
+    'Do you confirm to disconnect the TON address and disable the incentive passport?',
+  ],
   successTip: 'Successfully disconnect',
   errorTip: 'Failed to disconnect',
 };
 
-export default function UnbindModal ({ open, onCancal, modalData }) {
+export default function UnbindTonModal () {
   const [messageApi, contextHolder] = message.useMessage();
-
-  const { refetch, data } = useUserInfo();
+  const showDistoryTon = useSelector(s => s.global.showDistoryTon);
+  const { isTMA } = useTelegram();
+  const { tonAddress } = useUserInfo();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const userIdMap = {
-    twitter: data?.userTwitter?.twitterId,
-    discord: data?.userDc?.dcId,
-    telegram: data?.userTg?.tgId,
-  };
-
+  const onCancal = useCallback(() => {
+    dispatch(setShowDistoryTon(false));
+  }, []);
   const handleDisconnect = () => {
-    const type = modalData?.accountType;
     setLoading(true);
     // api
-    // const twitterId = mergeAccountData.twitterId;
-    if (moduleConf.socialTypes.includes(type)) {
-      const fd = {
-        socialType: moduleConf.mapSocialTypeToEnum[type],
-        id: userIdMap[type],
-      };
-      disConnectSocialAccount(fd)
-        .then(async res => {
-          // console.log(res);
-          if (res.code === 200) {
-            messageApi.success(res.message ?? moduleConf.successTip);
-            await refetch();
-            onCancal();
-          } else {
-            messageApi.error(res.message);
-          }
-        })
-        .catch(() => {
-          messageApi.error(moduleConf.errorTip);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } else if (type === 'ton') {
-      const fd = {
-        address: modalData.accountName,
-      };
-      disConnectTonAddcount(fd)
-        .then(async res => {
-          // console.log(res);
-          if (res.code === 200) {
-            messageApi.success(res.message ?? moduleConf.successTip);
-            await refetch();
-            onCancal();
-          } else {
-            messageApi.error(res.message);
-          }
-        })
-        .catch(() => {
-          messageApi.error(moduleConf.errorTip);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
+    const fd = {
+      address: tonAddress,
+    };
+    disConnectTonAddcount(fd)
+      .then(async res => {
+        // console.log(res);
+        if (res.code === 200) {
+          messageApi.success(res.message ?? moduleConf.successTip);
+          onCancal();
+          await logout();
+          const newUrl = addQueryParameter(
+            location.href,
+            isTMA ? logoutRedirecrtKey : 't',
+            Date.now()
+          );
+          window.location.href = newUrl;
+        } else {
+          messageApi.error(res.message);
+        }
+      })
+      .catch(() => {
+        messageApi.error(moduleConf.errorTip);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
-    <Transition show={!!open} as={Fragment}>
+    <Transition show={showDistoryTon} as={Fragment}>
       <Dialog as='div' className='relative z-10' onClose={onCancal}>
         <TransitionChild
           as={Fragment}
@@ -175,8 +134,10 @@ export default function UnbindModal ({ open, onCancal, modalData }) {
                       >
                         {moduleConf.title}
                       </DialogTitle>
-                      <div className='mt-2 text-[#C0ABD9] text-sm'>
-                        {moduleConf.getInfo(modalData)}
+                      <div className='mt-2 text-[#C0ABD9] text-sm space-y-4'>
+                        {moduleConf.desc.map((p, key) => {
+                          return <p key={key}>{p}</p>;
+                        })}
                       </div>
                     </div>
                   </div>

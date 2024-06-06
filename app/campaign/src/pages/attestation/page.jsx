@@ -10,7 +10,7 @@ import moduleConf from './conf';
 import { useState, useCallback, useMemo } from 'react';
 import UnbindModal from './unbindModal';
 import { useDispatch } from 'react-redux';
-import { setConnectWalletModal } from '@/store/global';
+import { setConnectWalletModal, setShowDistoryTon } from '@/store/global';
 import {
   useTonConnectUI,
   useTonWallet,
@@ -31,6 +31,7 @@ export default function PageAttestation () {
     accountName: '',
     accountType: '',
   });
+  const [openTon, setTonOpen] = useState(false);
   const handleTonClick = async () => {
     try {
       await tonConnectUI.disconnect();
@@ -48,14 +49,6 @@ export default function PageAttestation () {
       [
         // user, evm
         !!data?.user?.evm?.evmWallet,
-        // tw
-        !!data?.userTwitter?.connected,
-        !!data?.userDc?.connected,
-        !!data?.userTg?.connected,
-      ].filter(Boolean).length > 1
-      || 
-      [
-        // user, ton
         !!data?.userTon?.binded,
         // tw
         !!data?.userTwitter?.connected,
@@ -99,8 +92,28 @@ export default function PageAttestation () {
         name: 'TON',
         label: <span>TON</span>,
         render: isTon ? (
-          <div className='flex px-5 py-2 bg-[#1A1A1A] rounded-2.5xl'>
-            <Address address={data?.userTon?.address} />
+          <div className='flex items-center gap-x-5'>
+            <Address
+              icon={ton.whiteSvg}
+              address={data?.userTon?.address}
+              className='px-5 bg-[#1A1A1A] flex  py-2 rounded-2.5xl flex-auto'
+            />
+            <button
+              className='text-[#904BF6] text-base font-medium flex-none'
+              onClick={() => {
+                if (isMultAccount) {
+                  setModalData({
+                    accountType: 'ton',
+                    accountName: data?.userTon?.address,
+                  });
+                  setOpen(true);
+                } else {
+                  dispatch(setShowDistoryTon(true));
+                }
+              }}
+            >
+              Disconnect
+            </button>
           </div>
         ) : (
           <button
@@ -117,7 +130,7 @@ export default function PageAttestation () {
         ),
       },
     ];
-  }, [user]);
+  }, [user, isMultAccount]);
 
   const avatarConf = useMemo(() => {
     const avatarUrl = data?.user?.avatar;

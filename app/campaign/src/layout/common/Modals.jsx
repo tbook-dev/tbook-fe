@@ -4,6 +4,7 @@ import PassportGen from '@/components/passportGen';
 import MergeAccount from '@/components/account/MergeAccount';
 import Inconsistent from '@/components/inconsistent';
 import UnbindAccount from '@/components/account/UnbindAccount';
+import UnbindTonModal from '@/components/account/UnbindTonModal';
 
 export default function () {
   return (
@@ -14,6 +15,7 @@ export default function () {
       <MergeAccount />
       <Inconsistent />
       <UnbindAccount />
+      <UnbindTonModal />
     </>
   );
 }
