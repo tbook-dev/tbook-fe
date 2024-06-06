@@ -52,7 +52,7 @@ export default function useTonLogin() {
   const openUnbindAccountModal = useCallback(() => {
     dispath(setUnbindAccountModal(true));
   }, []);
-  useEffect(() => {
+  const recreateProofPayload = useCallback(async () => {
     if (firstProofLoading.current) {
       tonConnectUI.setConnectRequestParameters({ state: 'loading' });
       firstProofLoading.current = false;
@@ -67,6 +67,7 @@ export default function useTonLogin() {
         },
       };
     }
+
     if (payload) {
       tonConnectUI.setConnectRequestParameters({
         state: 'ready',
@@ -75,7 +76,7 @@ export default function useTonLogin() {
     } else {
       tonConnectUI.setConnectRequestParameters(null);
     }
-  }, [tonConnectUI, firstProofLoading, payload]);
+  }, [tonConnectUI, firstProofLoading]);
 
   // if (firstProofLoading.current) {
   //   recreateProofPayload();
@@ -84,7 +85,7 @@ export default function useTonLogin() {
   useEffect(
     () =>
       tonConnectUI.onStatusChange(async (w) => {
-        console.log('xxx', w);
+        // console.log('xxx--->', w, w?.connectItems?.tonProof);
         if (!w) {
           setAuthorized(false);
           setLoading(false);
