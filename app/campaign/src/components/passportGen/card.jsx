@@ -4,7 +4,12 @@ import useUserInfo from '@/hooks/useUserInfoQuery';
 import walletGrayIcon from '@/images/icon/wallet-gray.svg';
 import useSocial from '@/hooks/useSocial';
 import { useDispatch } from 'react-redux';
-import { setConnectWalletModal, setShowDistoryTon } from '@/store/global';
+import {
+  setConnectWalletModal,
+  setShowDistoryTon,
+  setunbindSocialData,
+  setShowUnbindSocial,
+} from '@/store/global';
 import { Link, useLoaderData, useLocation } from 'react-router-dom';
 import Address from '@tbook/ui/src/Address';
 import suiSVG from '@/images/zklogin/sui.svg';
@@ -46,6 +51,7 @@ export default function PassportCard ({ onClose }) {
     currentAddress,
     tonAddress,
     isUsingWallet,
+    isMultAccount,
   } = useUserInfo();
   const { socialList, getZkfnByName } = useSocial();
   const { open } = useTonConnectModal();
@@ -83,7 +89,17 @@ export default function PassportCard ({ onClose }) {
   const handleDisconnectTon = () => {
     onClose();
     setTimeout(() => {
-      dispatch(setShowDistoryTon(true));
+      if (isMultAccount) {
+        dispatch(
+          setunbindSocialData({
+            accountName: tonAddress,
+            accountType: 'ton',
+          })
+        );
+        dispatch(setShowUnbindSocial(true));
+      } else {
+        dispatch(setShowDistoryTon(true));
+      }
     }, 600);
   };
 

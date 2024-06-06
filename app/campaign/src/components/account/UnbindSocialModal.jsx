@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useCallback } from 'react';
 import {
   Dialog,
   Transition,
@@ -14,6 +14,8 @@ import { useState } from 'react';
 import { Spin, message } from 'antd';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import { shortAddress } from '@tbook/utils/lib/conf';
+import { useSelector, useDispatch } from 'react-redux';
+import { setunbindSocialData, setShowUnbindSocial } from '@/store/global';
 
 const moduleConf = {
   title: 'Confirm to disconnect?',
@@ -53,9 +55,12 @@ const moduleConf = {
   errorTip: 'Failed to disconnect',
 };
 
-export default function UnbindModal ({ open, onCancal, modalData }) {
+export default function UnbindModal () {
+  const dispatch = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
-
+  const modalData = useSelector(s => s.global.unbindSocialData);
+  console.log({ modalData });
+  const open = useSelector(s => s.global.showUnbindSocial);
   const { refetch, data } = useUserInfo();
   const [loading, setLoading] = useState(false);
   const userIdMap = {
@@ -63,6 +68,15 @@ export default function UnbindModal ({ open, onCancal, modalData }) {
     discord: data?.userDc?.dcId,
     telegram: data?.userTg?.tgId,
   };
+  const onCancal = useCallback(() => {
+    dispatch(setShowUnbindSocial(false));
+    setTimeout(() => {
+      setunbindSocialData({
+        accountName: '',
+        accountType: '',
+      });
+    }, 300);
+  }, []);
 
   const handleDisconnect = () => {
     const type = modalData?.accountType;

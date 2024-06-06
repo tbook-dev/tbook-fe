@@ -5,6 +5,7 @@ import MergeAccount from '@/components/account/MergeAccount';
 import Inconsistent from '@/components/inconsistent';
 import UnbindAccount from '@/components/account/UnbindAccount';
 import UnbindTonModal from '@/components/account/UnbindTonModal';
+import UnbindSocialModal from '@/components/account/UnbindSocialModal';
 
 export default function () {
   return (
@@ -16,6 +17,7 @@ export default function () {
       <Inconsistent />
       <UnbindAccount />
       <UnbindTonModal />
+      <UnbindSocialModal />
     </>
   );
 }

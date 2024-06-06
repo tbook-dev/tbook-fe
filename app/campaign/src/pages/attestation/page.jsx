@@ -7,10 +7,14 @@ import { Skeleton } from 'antd';
 import LazyImage from '@/components/lazyImage';
 import clsx from 'clsx';
 import moduleConf from './conf';
-import { useState, useCallback, useMemo } from 'react';
-import UnbindModal from './unbindModal';
+import { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { setConnectWalletModal, setShowDistoryTon } from '@/store/global';
+import {
+  setConnectWalletModal,
+  setShowDistoryTon,
+  setunbindSocialData,
+  setShowUnbindSocial,
+} from '@/store/global';
 import {
   useTonConnectUI,
   useTonWallet,
@@ -20,18 +24,21 @@ import {
 } from '@tonconnect/ui-react';
 
 export default function PageAttestation () {
-  const { user, data, isLoading } = useUserInfoQuery();
+  const { user, data, isLoading, isMultAccount } = useUserInfoQuery();
   const dispatch = useDispatch();
   const [tonConnectUI] = useTonConnectUI();
   const { open: openTonModal } = useTonConnectModal();
-
   const { socialList } = useSocial();
-  const [open, setOpen] = useState(false);
-  const [modalData, setModalData] = useState({
-    accountName: '',
-    accountType: '',
-  });
-  const [openTon, setTonOpen] = useState(false);
+
+  const setModalData = ({ accountName, accountType }) => {
+    dispatch(
+      setunbindSocialData({
+        accountName,
+        accountType,
+      })
+    );
+    dispatch(setShowUnbindSocial(true));
+  };
   const handleTonClick = async () => {
     try {
       await tonConnectUI.disconnect();
@@ -44,19 +51,6 @@ export default function PageAttestation () {
     dispatch(setConnectWalletModal(true));
   }, []);
 
-  const isMultAccount = useMemo(() => {
-    return (
-      [
-        // user, evm
-        !!data?.user?.evm?.evmWallet,
-        !!data?.userTon?.binded,
-        // tw
-        !!data?.userTwitter?.connected,
-        !!data?.userDc?.connected,
-        !!data?.userTg?.connected,
-      ].filter(Boolean).length > 1
-    );
-  }, [data]);
   // console.log({ isMultAccount });
   const onChainConf = useMemo(() => {
     const ton = moduleConf.onChainList.find(v => v.type === 'tonconnect');
@@ -65,7 +59,7 @@ export default function PageAttestation () {
     const isEvm = !!user?.evm?.evmWallet;
     // const isZk = !!user?.zk?.address;
     const isTon = !!data?.userTon?.binded;
-
+    console.log({ isMultAccount });
     return [
       {
         name: 'EVM Chain',
@@ -106,7 +100,6 @@ export default function PageAttestation () {
                     accountType: 'ton',
                     accountName: data?.userTon?.address,
                   });
-                  setOpen(true);
                 } else {
                   dispatch(setShowDistoryTon(true));
                 }
@@ -165,7 +158,6 @@ export default function PageAttestation () {
                     accountType: v.name,
                     accountName: v.userName,
                   });
-                  setOpen(true);
                 }}
               >
                 Disconnect
@@ -188,16 +180,6 @@ export default function PageAttestation () {
     });
   }, [socialList, isMultAccount]);
 
-  const onCancel = useCallback(() => {
-    setOpen(false);
-    setTimeout(() => {
-      setModalData({
-        accountName: '',
-        accountType: '',
-      });
-    }, 300);
-  }, []);
-
   return (
     <div className='w-[840px] mx-auto pb-16 py-2 text-white space-y-8'>
       <h1 className='text-2xl font-zen-dot'>{moduleConf.name}</h1>
@@ -219,14 +201,6 @@ export default function PageAttestation () {
           </Box>
         </Skeleton>
       </div>
-      <UnbindModal
-        open={open}
-        onCancal={onCancel}
-        modalData={{
-          accountName: modalData.accountName,
-          accountType: modalData.accountType,
-        }}
-      />
     </div>
   );
 }
