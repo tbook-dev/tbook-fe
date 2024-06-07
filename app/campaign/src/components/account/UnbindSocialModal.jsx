@@ -59,7 +59,6 @@ export default function UnbindModal () {
   const dispatch = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
   const modalData = useSelector(s => s.global.unbindSocialData);
-  console.log({ modalData });
   const open = useSelector(s => s.global.showUnbindSocial);
   const { refetch, data } = useUserInfo();
   const [loading, setLoading] = useState(false);

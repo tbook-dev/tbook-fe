@@ -69,6 +69,7 @@ export default function PassportCard ({ onClose }) {
     } catch (e) {
       console.log(e);
     }
+    onClose();
     open();
     // await tonConnectUI.disconnect();
     // tonConnectUI.modal.open();
