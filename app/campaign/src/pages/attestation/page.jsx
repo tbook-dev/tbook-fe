@@ -59,7 +59,6 @@ export default function PageAttestation () {
     const isEvm = !!user?.evm?.evmWallet;
     // const isZk = !!user?.zk?.address;
     const isTon = !!data?.userTon?.binded;
-    console.log({ isMultAccount });
     return [
       {
         name: 'EVM Chain',

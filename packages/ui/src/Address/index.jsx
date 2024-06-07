@@ -28,7 +28,7 @@ export default function Address ({
           >
             {address}
           </Paragraph>
-          <div className='h-px bg-[#333] my-2' />
+          <div className='h-px bg-white/10 my-2' />
           <button
             className='flex items-center gap-x-1 text-white'
             onClick={disconnect}
