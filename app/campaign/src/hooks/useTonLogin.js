@@ -52,7 +52,8 @@ export default function useTonLogin() {
   const openUnbindAccountModal = useCallback(() => {
     dispath(setUnbindAccountModal(true));
   }, []);
-  const recreateProofPayload = useCallback(async () => {
+
+  useEffect(() => {
     if (firstProofLoading.current) {
       tonConnectUI.setConnectRequestParameters({ state: 'loading' });
       firstProofLoading.current = false;
@@ -76,11 +77,7 @@ export default function useTonLogin() {
     } else {
       tonConnectUI.setConnectRequestParameters(null);
     }
-  }, [tonConnectUI, firstProofLoading]);
-
-  // if (firstProofLoading.current) {
-  //   recreateProofPayload();
-  // }
+  }, [tonConnectUI, firstProofLoading, payload]);
 
   useEffect(
     () =>
