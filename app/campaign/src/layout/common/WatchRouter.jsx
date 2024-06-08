@@ -19,7 +19,7 @@ export default function WatchRouter () {
     });
     if (isTMA) {
       window.sessionRoutesCount += 1;
-      console.log({ sessionRoutesCount: window.sessionRoutesCount });
+      // console.log({ sessionRoutesCount: window.sessionRoutesCount });
       if (window.sessionRoutesCount > 1) {
         // 点击了其他的
         if (!webApp.BackButton.isVisible) {

@@ -41,7 +41,7 @@ export const TelegramProvider = ({ children }) => {
       WebApp.ready();
       WebApp.expand();
       // setWebApp(app);
-      await tgTMAAuth({ payload: app?.initData });
+      await tgTMAAuth({ payload: WebApp?.initData });
       setTgAuthed(true);
       removeQueryParameter(window.self.location.href, logoutRedirecrtKey);
     }
