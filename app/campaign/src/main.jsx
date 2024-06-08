@@ -13,14 +13,9 @@ import ErrorBoundary from '@/components/errorBoundary';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import { configResponsive } from 'ahooks';
 import { TelegramProvider } from '@/hooks/useTg';
-import '@twa-dev/sdk';
 
 configResponsive({
   pc: 1200,
-});
-
-gtag('config', 'G-TE15FGNTC4', {
-  userId: window.Telegram?.WebApp?.initDataUnsafe?.user?.id,
 });
 
 const enoki_key = import.meta.env.VITE_ENOKI_API_KEY;
