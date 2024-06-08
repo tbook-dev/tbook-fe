@@ -72,7 +72,7 @@ export const TelegramProvider = ({ children }) => {
 
       {redirectMode ? (
         children
-      ) : webApp?.initData ? (
+      ) : WebApp?.initData ? (
         tgAuthed ? (
           children
         ) : (
