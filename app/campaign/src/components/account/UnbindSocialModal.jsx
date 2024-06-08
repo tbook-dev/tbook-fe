@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useCallback } from 'react';
 import {
   Dialog,
   Transition,
@@ -6,24 +6,42 @@ import {
   DialogPanel,
   DialogTitle,
 } from '@headlessui/react';
-import { disConnectAccount } from '@/api/incentive';
+import {
+  disConnectSocialAccount,
+  disConnectTonAddcount,
+} from '@/api/incentive';
 import { useState } from 'react';
 import { Spin, message } from 'antd';
 import useUserInfo from '@/hooks/useUserInfoQuery';
+import { shortAddress } from '@tbook/utils/lib/conf';
+import { useSelector, useDispatch } from 'react-redux';
+import { setunbindSocialData, setShowUnbindSocial } from '@/store/global';
 
 const moduleConf = {
   title: 'Confirm to disconnect?',
   button: ['Cancel', 'Confirm'],
-  getInfo: ({ accountName }) => {
+  addressTypes: ['evm', 'ton'],
+  socialTypes: ['telegram', 'twitter', 'discord'],
+  getType: accountType => {
+    return moduleConf.addressTypes.includes(accountType)
+      ? 'address'
+      : accountType;
+  },
+  getInfo: ({ accountName, accountType }) => {
+    const type = moduleConf.getType(accountType);
+
     return (
       <>
         <p>
           Once disconnected, your credentials records will be retained in the
           current incentive passport.
         </p>
-        <p>
-          This account @{accountName} cannot be used to verify the same
-          credentials.
+        <p className='break-all'>
+          {type === 'address'
+            ? `This account ${shortAddress(
+                accountName
+              )} cannot be used to verify the same credentials.`
+            : `This account @${accountName} cannot be used to verify the same credentials.`}
         </p>
       </>
     );
@@ -37,9 +55,11 @@ const moduleConf = {
   errorTip: 'Failed to disconnect',
 };
 
-export default function UnbindModal ({ open, onCancal, modalData }) {
+export default function UnbindModal () {
+  const dispatch = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
-
+  const modalData = useSelector(s => s.global.unbindSocialData);
+  const open = useSelector(s => s.global.showUnbindSocial);
   const { refetch, data } = useUserInfo();
   const [loading, setLoading] = useState(false);
   const userIdMap = {
@@ -47,34 +67,65 @@ export default function UnbindModal ({ open, onCancal, modalData }) {
     discord: data?.userDc?.dcId,
     telegram: data?.userTg?.tgId,
   };
+  const onCancal = useCallback(() => {
+    dispatch(setShowUnbindSocial(false));
+    setTimeout(() => {
+      setunbindSocialData({
+        accountName: '',
+        accountType: '',
+      });
+    }, 300);
+  }, []);
 
   const handleDisconnect = () => {
     const type = modalData?.accountType;
-    console.log({ type, modalData });
     setLoading(true);
     // api
     // const twitterId = mergeAccountData.twitterId;
-    const fd = {
-      socialType: moduleConf.mapSocialTypeToEnum[type],
-      id: userIdMap[type],
-    };
-    disConnectAccount(fd)
-      .then(async res => {
-        // console.log(res);
-        if (res.code === 200) {
-          messageApi.success(res.message ?? moduleConf.successTip);
-          await refetch();
-          onCancal();
-        } else {
-          messageApi.error(res.message);
-        }
-      })
-      .catch(() => {
-        messageApi.error(moduleConf.errorTip);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (moduleConf.socialTypes.includes(type)) {
+      const fd = {
+        socialType: moduleConf.mapSocialTypeToEnum[type],
+        id: userIdMap[type],
+      };
+      disConnectSocialAccount(fd)
+        .then(async res => {
+          // console.log(res);
+          if (res.code === 200) {
+            messageApi.success(res.message ?? moduleConf.successTip);
+            await refetch();
+            onCancal();
+          } else {
+            messageApi.error(res.message);
+          }
+        })
+        .catch(() => {
+          messageApi.error(moduleConf.errorTip);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else if (type === 'ton') {
+      const fd = {
+        address: modalData.accountName,
+      };
+      disConnectTonAddcount(fd)
+        .then(async res => {
+          // console.log(res);
+          if (res.code === 200) {
+            messageApi.success(res.message ?? moduleConf.successTip);
+            await refetch();
+            onCancal();
+          } else {
+            messageApi.error(res.message);
+          }
+        })
+        .catch(() => {
+          messageApi.error(moduleConf.errorTip);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   return (

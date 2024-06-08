@@ -13,17 +13,22 @@ import {
   logoutRedirecrtKey,
   removeQueryParameter,
 } from '@/utils/tma';
+import WebApp from '@twa-dev/sdk';
+
+gtag('config', 'G-TE15FGNTC4', {
+  userId: WebApp.initDataUnsafe?.user?.id,
+});
 
 export const TelegramContext = createContext({});
 
 export const TelegramProvider = ({ children }) => {
-  const [webApp, setWebApp] = useState(window.Telegram?.WebApp ?? null);
+  // const [webApp, setWebApp] = useState(window.Telegram?.WebApp ?? null);
   const [tgAuthed, setTgAuthed] = useState(false);
   const redirectMode = !!getQueryParameter(
     window.self.location.href,
     logoutRedirecrtKey
   );
-  const app = window.Telegram?.WebApp;
+  // const app = window.Telegram?.WebApp;
 
   useEffect(() => {
     if (!redirectMode) {
@@ -32,22 +37,22 @@ export const TelegramProvider = ({ children }) => {
   }, []);
 
   const tgLogin = useCallback(async () => {
-    if (app?.initData) {
-      app.ready();
-      app.expand();
-      setWebApp(app);
-      await tgTMAAuth({ payload: app?.initData });
+    if (WebApp?.initData) {
+      WebApp.ready();
+      WebApp.expand();
+      // setWebApp(app);
+      await tgTMAAuth({ payload: WebApp?.initData });
       setTgAuthed(true);
       removeQueryParameter(window.self.location.href, logoutRedirecrtKey);
     }
-  }, [app]);
+  }, []);
 
   const value = useMemo(() => {
-    return webApp?.initData
+    return WebApp?.initData
       ? {
-          webApp,
-          unsafeData: webApp.initDataUnsafe,
-          user: webApp.initDataUnsafe.user,
+          webApp: WebApp,
+          unsafeData: WebApp.initDataUnsafe,
+          user: WebApp.initDataUnsafe.user,
           isTMA: true,
           tgAuthed,
           tgLogin,
@@ -57,7 +62,7 @@ export const TelegramProvider = ({ children }) => {
           tgAuthed,
           tgLogin,
         };
-  }, [webApp, tgAuthed]);
+  }, [tgAuthed]);
   return (
     <TelegramContext.Provider value={value}>
       {/* nomal mode */}
@@ -67,7 +72,7 @@ export const TelegramProvider = ({ children }) => {
 
       {redirectMode ? (
         children
-      ) : webApp?.initData ? (
+      ) : WebApp?.initData ? (
         tgAuthed ? (
           children
         ) : (

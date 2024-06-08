@@ -6,7 +6,6 @@ import {
   useTonConnectModal,
   useTonAddress,
 } from '@tonconnect/ui-react';
-// import { CHAIN } from '@tonconnect/ui-react';
 import { Address } from 'ton';
 import { getTonPayload, verifyTonProof } from '@/api/incentive';
 import { useDispatch } from 'react-redux';
@@ -19,19 +18,23 @@ import {
   setUnbindAccountData,
   setUnbindAccountModal,
 } from '@/store/global';
-import { conf } from '@tbook/utils';
 import { message } from 'antd';
 import { useQuery } from 'react-query';
-
-const { shortAddress } = conf;
 
 const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
 const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
 
 const getCurrentDirectLink = () => {
-  const start_param = window.Telegram?.WebApp?.initDataUnsafe?.start_param;
+  // const start_param = window.Telegram?.WebApp?.initDataUnsafe?.start_param;
   const tmaHome = `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}`;
-  return start_param ? `${tmaHome}?startapp=${start_param}` : tmaHome;
+  // start_param ? `${tmaHome}?startapp=${start_param}` : tmaHome;
+  // 当前isframe, 客户端都不行
+  // if (window.Telegram?.WebView?.isIframe) {
+  //   return tmaHome;
+  // } else {
+  //   return start_param ? `${tmaHome}?startapp=${start_param}` : tmaHome;
+  // }
+  return tmaHome;
 };
 export default function useTonLogin() {
   const firstProofLoading = useRef(true);
