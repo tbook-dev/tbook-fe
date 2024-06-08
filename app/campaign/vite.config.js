@@ -46,7 +46,7 @@ export default defineConfig({
     },
     rollupOptions: {
       manualChunks: {
-        verdor: ['lodash', 'antd'],
+        verdor: ['lodash', 'antd', '@twa-dev/sdk'],
         lib: ['react', 'react-dom', 'react-router-dom'],
       },
     },

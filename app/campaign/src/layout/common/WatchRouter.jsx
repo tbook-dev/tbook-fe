@@ -13,6 +13,10 @@ export default function WatchRouter () {
   }, []);
 
   useEffect(() => {
+    window.gtag('config', 'G-TE15FGNTC4', {
+      page_title: document.title,
+      page_path: window.location.href,
+    });
     if (isTMA) {
       window.sessionRoutesCount += 1;
       console.log({ sessionRoutesCount: window.sessionRoutesCount });
