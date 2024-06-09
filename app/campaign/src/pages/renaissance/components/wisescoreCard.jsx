@@ -5,14 +5,16 @@ import moduleConf from '../conf';
 import Button from './ui/button';
 import SocalSVG from '@/utils/social';
 import useTonToolkit from '@/components/ton/useTon';
-import useUserInfo from '@/hooks/useUserInfoQuery';
 import TonToolTip from '@/components/ton/tooltip';
+import { Tooltip } from 'antd';
+import useSocial from '../../../hooks/useSocial';
 
 export default function WisescoreCard () {
   const { isLoading, data } = useUserRenaissance();
+  const { getSocialByName } = useSocial();
   const { openTonModalLogin, disconnectTon, tonConnected, tonAddress } =
     useTonToolkit();
-
+  const tgUserName = getSocialByName('telegram').userName;
   return (
     <div className='mt-1 relative flex flex-col items-center gap-5 py-4 px-5 rounded-2xl border border-[#FFEAB5]/30'>
       <div className='space-y-2 w-full'>
@@ -42,7 +44,13 @@ export default function WisescoreCard () {
           <>
             <Button className='gap-x-1.5'>{moduleConf.generateBtn}</Button>
             <div className='flex items-center gap-x-4'>
-              {<SocalSVG.tg className='fill-[#F8C685]' />}
+              {
+                <Tooltip title={tgUserName} trigger='click'>
+                  <span className='cursor-pointer'>
+                    <SocalSVG.tg className='fill-[#F8C685]' />
+                  </span>
+                </Tooltip>
+              }
 
               {tonConnected ? (
                 <TonToolTip address={tonAddress} disconnect={disconnectTon}>

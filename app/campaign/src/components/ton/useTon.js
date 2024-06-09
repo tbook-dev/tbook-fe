@@ -21,7 +21,7 @@ export default function useTonToolkit() {
     }
     openTonModal();
   };
-  const disconnectTon = async () => {
+  const disconnectTon = async (ms = 100) => {
     setTimeout(() => {
       if (isMultAccount) {
         dispatch(
@@ -34,7 +34,7 @@ export default function useTonToolkit() {
       } else {
         dispatch(setShowDistoryTon(true));
       }
-    }, 100);
+    }, ms);
   };
   return {
     tonConnected,

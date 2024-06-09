@@ -1,6 +1,6 @@
 import { Tooltip, Typography, ConfigProvider } from 'antd';
 import { CopyOutlined, CheckOutlined } from '@ant-design/icons';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useClickAway } from 'ahooks';
 
 const { Paragraph } = Typography;
@@ -81,6 +81,7 @@ export default function TonAddressTooltip ({
         {...props}
       >
         <span
+          className='cursor-pointer'
           ref={ref}
           onClick={e => {
             e.stopPropagation();
