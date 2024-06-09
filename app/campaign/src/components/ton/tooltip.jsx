@@ -1,8 +1,7 @@
 import { Tooltip, Typography, ConfigProvider } from 'antd';
 import { CopyOutlined, CheckOutlined } from '@ant-design/icons';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { useClickAway } from 'ahooks';
 
 const { Paragraph } = Typography;
 
@@ -13,17 +12,13 @@ export default function TonAddressTooltip ({
   disconnect,
   ...props
 }) {
+  const ref = useRef(null);
   const showDisconnect = typeof disconnect === 'function';
   const [tooltipOpen, setTooltipOepn] = useState(false);
-  const handleCloseToopTip = useCallback(() => {
+  useClickAway(() => {
     setTooltipOepn(false);
-  }, []);
-  useEffect(() => {
-    document.addEventListener('click', handleCloseToopTip);
-    () => {
-      document.removeEventListener('click', handleCloseToopTip);
-    };
-  }, []);
+  }, ref);
+
   return (
     <ConfigProvider
       theme={{
@@ -86,6 +81,7 @@ export default function TonAddressTooltip ({
         {...props}
       >
         <span
+          ref={ref}
           onClick={e => {
             e.stopPropagation();
             setTooltipOepn(true);

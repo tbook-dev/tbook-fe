@@ -10,7 +10,7 @@ import {
 export default function useTonToolkit() {
   const [tonConnectUI] = useTonConnectUI();
   const { open: openTonModal } = useTonConnectModal();
-  const { tonAddress, isMultAccount } = useUserInfo();
+  const { tonAddress, isMultAccount, tonConnected } = useUserInfo();
   const dispatch = useDispatch();
 
   const openTonModalLogin = async () => {
@@ -37,6 +37,8 @@ export default function useTonToolkit() {
     }, 100);
   };
   return {
+    tonConnected,
+    tonAddress,
     openTonModalLogin,
     disconnectTon,
   };

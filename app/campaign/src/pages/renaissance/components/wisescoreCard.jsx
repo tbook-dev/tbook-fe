@@ -9,9 +9,9 @@ import useUserInfo from '@/hooks/useUserInfoQuery';
 import TonToolTip from '@/components/ton/tooltip';
 
 export default function WisescoreCard () {
-  const { tonConnected, tonAddress } = useUserInfo();
   const { isLoading, data } = useUserRenaissance();
-  const { openTonModalLogin, disconnectTon } = useTonToolkit();
+  const { openTonModalLogin, disconnectTon, tonConnected, tonAddress } =
+    useTonToolkit();
 
   return (
     <div className='mt-1 relative flex flex-col items-center gap-5 py-4 px-5 rounded-2xl border border-[#FFEAB5]/30'>
