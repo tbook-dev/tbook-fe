@@ -6,8 +6,10 @@ import airdropSVG from '@/images/wise/rewards/airdrop.svg';
 import passSVG from '@/images/wise/rewards/pass.svg';
 
 const moduleConf = {
+  oneFriendTpoint: 500,
   endTime: 'Ends in Jun 30, 2024',
-
+  inviteBtn: 'Invite now',
+  generateBtn: 'Generate',
   inviteTip: (
     <p className='text-sm text-[#F8C685]/60'>
       Invite <span className='text-[#F8C685] text-bold'>1</span> friend to

@@ -30,7 +30,7 @@ module.exports = {
         linear7: 'linear-gradient(280deg, #904BF6 49.68%, #CF0063 108.87%)',
         linear8: 'linear-gradient(163deg, #904BF6 1.97%, #CF0063 92.07%)',
         linear9:
-          ' linear-gradient(90deg, rgba(255, 234, 181, 0.35) 0%, rgba(242, 168, 93, 0.35) 26%, rgba(128, 82, 228, 0.35) 50%, rgba(46, 133, 234, 0.35) 74.5%, rgba(104, 239, 174, 0.35) 100%)',
+          'linear-gradient(90deg, rgba(255, 234, 181, 0.35) 0%, rgba(242, 168, 93, 0.35) 26%, rgba(128, 82, 228, 0.35) 50%, rgba(46, 133, 234, 0.35) 74.5%, rgba(104, 239, 174, 0.35) 100%)',
       },
       boxShadow: {
         s1: ' 0px 0px 6px 0px rgba(0, 0, 0, 0.10)',

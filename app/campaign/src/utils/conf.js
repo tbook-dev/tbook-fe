@@ -2,6 +2,12 @@ import pointIcon from '@/images/icon/point.svg';
 import nftIcon from '@/images/icon/nft.svg';
 import fcfsIcon from '@/images/icon/fcfs.svg';
 import ldIcon from '@/images/icon/ld.svg';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
 
 export const incentiveAssetsTypeList = [
   { icon: nftIcon, text: 'NFT', value: 1 },
