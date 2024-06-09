@@ -1,6 +1,7 @@
 import Banner from './components/banner';
 import WisescoreCard from './components/wisescoreCard';
 import Rewards from './components/rewards';
+import moduleConf from './conf';
 
 export default function Renaissance () {
   return (
@@ -9,6 +10,10 @@ export default function Renaissance () {
         <Banner />
         <WisescoreCard />
       </div>
+
+      <p className='text-[#FFDFA2]/60 pt-4 my-2 pb-1 font-syne text-sm font-medium text-center'>
+        {moduleConf.inviteTip3}
+      </p>
 
       <Rewards />
     </div>

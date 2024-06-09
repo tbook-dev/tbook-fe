@@ -42,6 +42,7 @@ module.exports = {
       fontFamily: {
         rhd: ['Red Hat Display', 'sans-serif'],
         'zen-dot': ['zen-dot', 'sans-serif'],
+        syne: ['Syne'],
       },
       fontSize: {
         '6.5xl': '4rem',

@@ -6,13 +6,14 @@ import Button from './ui/button';
 
 export default function WisescoreCard () {
   const { isLoading, data } = useUserRenaissance();
-  console.log({ data });
+
   return (
-    <div className='-mt-1 relative flex flex-col items-center gap-5 py-4 px-5 rounded-2xl border border-[#FFEAB5]/30'>
+    <div className='mt-1 relative flex flex-col items-center gap-5 py-4 px-5 rounded-2xl border border-[#FFEAB5]/30'>
       <div className='space-y-2 w-full'>
         <div className='flex justify-between items-center w-full'>
           <div className='text-[#FFDFA2] bg-[#F8C685]/5 rounded-md py-1 px-2'>
-            <span className='mr-1'>TPoints</span> {formatImpact(data?.TPoints)}
+            <span className='mr-1 font-syne font-bold'>TPoints</span>
+            {formatImpact(data?.TPoints)}
           </div>
           <div className='text-[#F2A85D]/60 bg-[#F8C685]/5 rounded-md font-medium py-1 px-2'>
             {moduleConf.endTime}
@@ -20,7 +21,9 @@ export default function WisescoreCard () {
         </div>
 
         <div className='flex flex-col items-center gap-1'>
-          {moduleConf.svg.wisescoreText}
+          <span className='font-syne text-xl font-bold text-color4'>
+            {moduleConf.wisescoreText}
+          </span>
           {moduleConf.inviteTip}
         </div>
       </div>
