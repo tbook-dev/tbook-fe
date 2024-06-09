@@ -236,3 +236,8 @@ export const getTopBoard = async function () {
 export const addWiseSocialLink = async function (data) {
   return await request.Post(`${host}/wiseScore/addLink`, data);
 };
+export const getUserRenaissance = async function (data) {
+  return {
+    TPoints: 10000,
+  };
+};
