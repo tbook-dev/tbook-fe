@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import useUserRenaissance from '@/hooks/useUserRenaissance';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import moduleConf from '../conf';
@@ -8,6 +8,7 @@ import useTonToolkit from '@/components/ton/useTon';
 import TonToolTip from '@/components/ton/tooltip';
 import { Tooltip } from 'antd';
 import useSocial from '../../../hooks/useSocial';
+import { motion } from 'framer-motion';
 
 export default function WisescoreCard () {
   const { isLoading, data } = useUserRenaissance();
@@ -15,6 +16,21 @@ export default function WisescoreCard () {
   const { openTonModalLogin, disconnectTon, tonConnected, tonAddress } =
     useTonToolkit();
   const tgUserName = getSocialByName('telegram').userName;
+  const [isToggled, setToggle] = useState(false);
+  const shakeAnimation = {
+    x: [0, -10, 10, -10, 10, 0],
+    transition: {
+      duration: 0.2,
+      onComplete: () => setToggle(false),
+    },
+  };
+  const handleGenerate = () => {
+    if (tonConnected) {
+      console.log('connected');
+    } else {
+      setToggle(true);
+    }
+  };
   return (
     <div className='mt-1 relative flex flex-col items-center gap-5 py-4 px-5 rounded-2xl border border-[#FFEAB5]/30'>
       <div className='space-y-2 w-full'>
@@ -42,7 +58,9 @@ export default function WisescoreCard () {
         {/* invite logic，invited link but be clicked, after click finisged,tpiont gets, thus it can generate，but generate must connect ton wallect */}
         {data?.TPoints > moduleConf.oneFriendTpoint ? (
           <>
-            <Button className='gap-x-1.5'>{moduleConf.generateBtn}</Button>
+            <Button className='gap-x-1.5' onClick={handleGenerate}>
+              {moduleConf.generateBtn}
+            </Button>
             <div className='flex items-center gap-x-4'>
               {
                 <Tooltip title={tgUserName} trigger='click'>
@@ -57,13 +75,14 @@ export default function WisescoreCard () {
                   <SocalSVG.ton className='fill-[#F8C685]' />
                 </TonToolTip>
               ) : (
-                <button
+                <motion.button
                   className='flex items-center gap-x-1'
                   onClick={openTonModalLogin}
+                  animate={isToggled ? shakeAnimation : ''}
                 >
                   {<SocalSVG.ton className='fill-white' />}
                   <span className='underline text-sm'>Connect</span>
-                </button>
+                </motion.button>
               )}
             </div>
           </>

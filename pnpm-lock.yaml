@@ -8,7 +8,6 @@ importers:
       '@ant-design/icons': ^4.8.0
       '@ant-design/plots': ^1.2.3
       '@ethersproject/providers': ^5.7.2
-      '@gsap/react': ^1.0.0
       '@headlessui/react': ^2.0.3
       '@mysten/bcs': ^0.10.1
       '@mysten/enoki': ^0.1.1
@@ -35,10 +34,10 @@ importers:
       echarts-for-react: ^3.0.2
       eslint-plugin-prettier: ^5.0.0
       flatpickr: ^4.6.13
+      framer-motion: ^11.2.10
       github-markdown-css: ^5.3.0
       graphql: ^16.8.1
       graphql-request: ^6.1.0
-      gsap: ^3.12.2
       input-otp: ^1.2.4
       jwt-decode: ^4.0.0
       lodash: ^4.17.21
@@ -77,7 +76,6 @@ importers:
       '@ant-design/icons': 4.8.0_biqbaboplfbrettd7655fr4n2y
       '@ant-design/plots': 1.2.5_biqbaboplfbrettd7655fr4n2y
       '@ethersproject/providers': 5.7.2
-      '@gsap/react': 1.0.0_react@18.2.0
       '@headlessui/react': 2.0.4_biqbaboplfbrettd7655fr4n2y
       '@mysten/bcs': 0.10.1
       '@mysten/enoki': 0.1.1_j3ahe22lw6ac2w6qvqp4kjqnqy
@@ -100,10 +98,10 @@ importers:
       dayjs: 1.11.7
       echarts: 5.4.2
       echarts-for-react: 3.0.2_echarts@5.4.2+react@18.2.0
+      framer-motion: 11.2.10_biqbaboplfbrettd7655fr4n2y
       github-markdown-css: 5.3.0
       graphql: 16.8.1
       graphql-request: 6.1.0_graphql@16.8.1
-      gsap: 3.12.2
       input-otp: 1.2.4_biqbaboplfbrettd7655fr4n2y
       jwt-decode: 4.0.0
       lodash: 4.17.21
@@ -1502,14 +1500,6 @@ packages:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
       graphql: 16.8.1
-    dev: false
-
-  /@gsap/react/1.0.0_react@18.2.0:
-    resolution: {integrity: sha512-PsvIfk2KM2WZAPUcvKmfLmtYlY2QGpx+rsn3ArlJJTebUEieWK0i0XJOZdPEjtFfuvC3eyoajUS4hz+BWhQA0g==}
-    peerDependencies:
-      react: '>=16'
-    dependencies:
-      react: 18.2.0
     dev: false
 
   /@headlessui/react/2.0.4_biqbaboplfbrettd7655fr4n2y:
@@ -4635,6 +4625,25 @@ packages:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
     dev: true
 
+  /framer-motion/11.2.10_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-/gr3PLZUVFCc86a9MqCUboVrALscrdluzTb3yew+2/qKBU8CX6nzs918/SRBRCqaPbx0TZP10CB6yFgK2C5cYQ==}
+    peerDependencies:
+      '@emotion/is-prop-valid': '*'
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      tslib: 2.6.1
+    dev: false
+
   /fs.realpath/1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
 
@@ -4779,10 +4788,6 @@ packages:
   /graphql/16.8.1:
     resolution: {integrity: sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
-    dev: false
-
-  /gsap/3.12.2:
-    resolution: {integrity: sha512-EkYnpG8qHgYBFAwsgsGEqvT1WUidX0tt/ijepx7z8EUJHElykg91RvW1XbkT59T0gZzzszOpjQv7SE41XuIXyQ==}
     dev: false
 
   /has-ansi/2.0.0:
