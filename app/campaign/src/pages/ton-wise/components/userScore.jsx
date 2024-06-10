@@ -2,19 +2,46 @@ import LeaderboardSkeleton from './leaderBoard-skeleton';
 import { formatImpact, shortAddressV1 } from '@tbook/utils/lib/conf';
 import starSVG from '@/images/wise/star2.svg';
 import timerSVG from '@/images/wise/timer.svg';
-import tonSVG from '@/images/wise/ton.svg';
-import tgSVG from '@/images/wise/tg2.svg';
-import ethSVG from '@/images/wise/eth.svg';
 import clsx from 'clsx';
 import { useMemo } from 'react';
+import { cn } from '@/utils/conf';
+import social from '@/utils/social';
 
 const addressLogoMap = {
-  0: ethSVG,
-  1: tonSVG,
-  2: tgSVG,
+  0: social.eth,
+  1: social.ton,
+  2: social.tg,
 };
-export default function UserScore ({ user }) {
-  const walletUrl = addressLogoMap[user?.addressType];
+
+const clsMap = {
+  // wise-score
+  1: {
+    container: 'bg-[rgba(144,75,246)]/[0.10] px-5 py-2',
+    rink: 'text-black  font-bold',
+    score: 'text-[#904BF6]',
+    tonAddress:
+      'bg-gradient-to-r from-[#2D83EC] to-[#1AC9FF]  bg-clip-text text-transparent',
+    address: {
+      0: 'fill-black',
+      1: 'fill-[#1AC9FF]',
+      2: 'fill-black',
+    },
+  },
+  // renaissance
+  2: {
+    container: 'bg-linear10 rounded-lg px-8 py-4',
+    rink: 'text-[#F8C685]/60 font-medium',
+    score: 'text-[#F8C685]',
+    tonAddress: 'bg-linear11 bg-clip-text text-transparent',
+    address: {
+      0: 'fill-black',
+      1: 'fill-[#F8C685]',
+      2: 'fill-black',
+    },
+  },
+};
+export default function UserScore ({ user, type = 1 }) {
+  const WalletIcon = addressLogoMap[user?.addressType];
   const rankCF = useMemo(() => {
     const rank = user?.rank;
     const rt = {};
@@ -33,27 +60,37 @@ export default function UserScore ({ user }) {
   }, [user]);
 
   return user ? (
-    <div className='flex items-center justify-between px-5 py-2 bg-[rgba(144,75,246)]/[0.10]'>
+    <div
+      className={cn(
+        'flex items-center justify-between',
+        clsMap[type].container
+      )}
+    >
       <div className='flex items-center gap-x-2.5'>
         <span
-          className='size-9 text-black text-xs text-center bg-cover bg-center flex items-center justify-center text-[10px] font-bold'
+          className={cn(
+            'size-9  text-xs text-center bg-cover bg-center flex items-center justify-center text-[10px]',
+
+            clsMap[type].rink
+          )}
           style={{
-            backgroundImage: `url(${rankCF.background})`,
+            backgroundImage: type === 1 && `url(${rankCF.background})`,
           }}
         >
           {rankCF.display}
         </span>
-        <img src={user.avatar} className='size-[42px] rounded-full' />
+
+        {type === 1 && (
+          <img src={user.avatar} className='size-[42px] rounded-full' />
+        )}
         <span
           className={clsx(
             'inline-flex items-center gap-x-0.5 font-medium text-sm ',
-            user?.addressType === 1
-              ? 'bg-gradient-to-r from-[#2D83EC] to-[#1AC9FF]  bg-clip-text text-transparent'
-              : 'text-black'
+            user?.addressType === 1 ? clsMap[type].tonAddress : 'text-black'
           )}
         >
-          {walletUrl && (
-            <img src={walletUrl} className='w-5 h-5' alt='address type' />
+          {WalletIcon && (
+            <WalletIcon className={clsMap[type].address[user?.addressType]} />
           )}
           {user?.addressType === 2
             ? user.address
@@ -62,7 +99,7 @@ export default function UserScore ({ user }) {
         </span>
       </div>
 
-      <span className='text-[#904BF6] text-sm font-zen-dot'>
+      <span className={cn('text-sm font-zen-dot', clsMap[type].score)}>
         {formatImpact(user.totalScore)}
       </span>
     </div>

@@ -4,7 +4,7 @@ import useUserInfoQuery from './useUserInfoQuery';
 
 export default function useUserRenaissance() {
   const { user } = useUserInfoQuery();
-  return useQuery('wise-score', () => getUserRenaissance(user.userId), {
+  return useQuery('user-renaissance', () => getUserRenaissance(user.userId), {
     retry: false,
     enabled: !!user.userId,
     retryOnMount: false,

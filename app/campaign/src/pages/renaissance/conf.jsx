@@ -23,13 +23,12 @@ const moduleConf = {
     </p>
   ),
   inviteTip3: 'Generate WISE Score to unlock mystery.',
-  wisescoreText: 'WISE SBT',
   rewards: {
     title: 'Rewards',
     list: [
       {
         name: 'WISE SBT',
-        picUrl: notSVG,
+        picUrl: sbtSVG,
       },
       {
         name: '$NOT Token',
@@ -45,6 +44,12 @@ const moduleConf = {
         picUrl: passSVG,
       },
     ],
+  },
+  friends: {
+    title: 'Friends Boosting',
+    getSubtitle: num => {
+      return `${num} friend${num > 1 ? 's' : ''} boost for you`;
+    },
   },
 
   url: {
