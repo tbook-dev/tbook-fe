@@ -9,16 +9,15 @@ import Score from '../ui/score';
 import useUserRenaissance, { useLevel } from '@/hooks/useUserRenaissance';
 import { formatImpact } from '@tbook/utils/lib/conf';
 
-export default function WisescoreModal ({ open, closeModal }) {
+export default function WisescoreModal ({ open, closeModal, onComplete }) {
   const [generating, setGenerating] = useState(false);
   const { refetch, data } = useUserRenaissance();
-  const { updateUserLevel } = useLevel();
 
   useLayoutEffect(() => {
     if (open) {
       setGenerating(true);
       setTimeout(async () => {
-        await updateUserLevel();
+        await onComplete(2);
         await refetch();
         setGenerating(false);
       }, 3000);

@@ -51,6 +51,12 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  .text-color5{
+    background: var(--shine, linear-gradient(117deg, #FFDFA2 14.89%, #D97B15 94.33%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
   .bx {
     @apply px-4 lg:px-0 lg:w-[1200px] mx-auto;
   }

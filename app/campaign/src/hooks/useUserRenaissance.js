@@ -22,7 +22,7 @@ export default function useUserRenaissance() {
 // leverl 3 : has one new user invited and has one new user who has one new user invited and has one new user who has one new user invited
 export const useLevel = () => {
   const { data } = useUserRenaissance();
-  const [userLevel, setUserLevel] = useState(1);
+  const [userLevel, setUserLevel] = useState(2);
   // const userLevel = useMemo(() => {
   //   if (!data) {
   //     return 1;
@@ -36,10 +36,8 @@ export const useLevel = () => {
   //   }
   // }, [data]);
   const inviteCode = '12345';
-  const updateUserLevel = useCallback(() => {
-    // to
-    console.log('update api todo');
-    return setUserLevel((userLevel) => userLevel + 1);
+  const updateUserLevel = useCallback((userLevel) => {
+    setUserLevel(userLevel);
   }, []);
 
   const inviteTgUser = useCallback(() => {
@@ -50,7 +48,6 @@ export const useLevel = () => {
       })
     );
   }, [inviteCode]);
-
   return {
     hasInvited: true,
     userLevel,

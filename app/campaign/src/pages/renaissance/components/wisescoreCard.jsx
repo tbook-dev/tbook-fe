@@ -30,7 +30,7 @@ export default function WisescoreCard () {
     },
   };
   const invitedFriends = data?.friends ?? [];
-
+  const level2Competed = invitedFriends.length === 5;
   const closeModal = useCallback(() => {
     setIsWisescoreModalOpen(false);
   }, []);
@@ -56,7 +56,10 @@ export default function WisescoreCard () {
     }
   };
 
-  console.log({ userLevel, invitedFriends: invitedFriends.length });
+  const handleJoin = () => {
+    console.log('handleJoin');
+  };
+  console.log({ userLevel });
   return (
     <>
       <div className='mt-1 relative flex flex-col items-center gap-5 py-4 px-5 rounded-2xl border border-[#FFEAB5]/30'>
@@ -71,23 +74,40 @@ export default function WisescoreCard () {
             </div>
           </div>
 
-          <div className='flex flex-col items-center gap-1'>
-            <span className='font-syne text-xl font-bold text-color4'>
-              {userLevel === 3 ? moduleConf.wisesbt : moduleConf.wisescore}
-            </span>
-            {moduleConf.getInviteTip(userLevel === 3 ? 5 : 1)}
+          <div className='flex flex-col items-center gap-1 text-center'>
+            {[1, 2].includes(userLevel) && (
+              <span className='font-syne text-xl font-bold text-color4'>
+                {userLevel === 1 && moduleConf.wisescore}
+                {userLevel === 2 && level2Competed ? (
+                  moduleConf.wisesbt
+                ) : (
+                  <>
+                    {moduleConf.wisesbt}
+                    <br />
+                    {moduleConf.wisesbt2}
+                  </>
+                )}
+              </span>
+            )}
+            {userLevel === 3 && (
+              <div className='text-color5 text-lg font-bold font-syne'>
+                {moduleConf.wiseTitle}
+              </div>
+            )}
+
+            {moduleConf.getInviteTip(userLevel, level2Competed)}
           </div>
         </div>
 
-        {userLevel === 3 ? (
+        {userLevel === 1 && <Score />}
+
+        {userLevel === 2 && (
           <div className='flex flex-col items-center gap-y-8'>
             <img src={moduleConf.sbtUrl} className='size-[120px]' />
             <div
               className={clsx(
                 'flex items-center',
-                invitedFriends.length >= 5
-                  ? '-space-x-2'
-                  : 'justify-between w-[280px]'
+                level2Competed ? '-space-x-2' : 'justify-between w-[280px]'
               )}
             >
               {formatedFriends.map((v, i) => {
@@ -101,14 +121,13 @@ export default function WisescoreCard () {
                   <img
                     key={i}
                     src={moduleConf.url.invite}
-                    className='size-10 rounded-full'
+                    className='size-10 rounded-full cursor-pointer'
+                    onClick={inviteTgUser}
                   />
                 );
               })}
             </div>
           </div>
-        ) : (
-          <Score />
         )}
 
         <div className='flex flex-col gap-y-2 items-center justify-center'>
@@ -116,35 +135,9 @@ export default function WisescoreCard () {
           {/* userLevl 1 */}
           {userLevel === 1 &&
             (hasInvited ? (
-              <>
-                <Button className='gap-x-1.5' onClick={handleGenerate}>
-                  {moduleConf.generateBtn}
-                </Button>
-                <div className='flex items-center gap-x-4'>
-                  {
-                    <Tooltip title={tgUserName} trigger='click'>
-                      <span className='cursor-pointer'>
-                        <SocalSVG.tg className='fill-[#F8C685]' />
-                      </span>
-                    </Tooltip>
-                  }
-
-                  {tonConnected ? (
-                    <TonToolTip address={tonAddress} disconnect={disconnectTon}>
-                      <SocalSVG.ton className='fill-[#F8C685]' />
-                    </TonToolTip>
-                  ) : (
-                    <motion.button
-                      className='flex items-center gap-x-1'
-                      onClick={openTonModalLogin}
-                      animate={isToggled ? shakeAnimation : ''}
-                    >
-                      {<SocalSVG.ton className='fill-white' />}
-                      <span className='underline text-sm'>Connect</span>
-                    </motion.button>
-                  )}
-                </div>
-              </>
+              <Button className='gap-x-1.5' onClick={handleGenerate}>
+                {moduleConf.generateBtn}
+              </Button>
             ) : (
               <>
                 <Button className='gap-x-1.5' onClick={inviteTgUser}>
@@ -154,9 +147,60 @@ export default function WisescoreCard () {
                 {moduleConf.inviteTip2}
               </>
             ))}
+
+          {userLevel === 2 && (
+            <>
+              {level2Competed ? (
+                <>
+                  <Button className='gap-x-1.5' onClick={handleJoin}>
+                    Join
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button className='gap-x-1.5' onClick={inviteTgUser}>
+                    {<SocalSVG.tg className='fill-white' />}
+                    {moduleConf.inviteBtn}
+                  </Button>
+                  {moduleConf.inviteTip2}
+                </>
+              )}
+            </>
+          )}
+
+          {hasInvited && (
+            <div className='flex items-center gap-x-4'>
+              {
+                <Tooltip title={tgUserName} trigger='click'>
+                  <span className='cursor-pointer'>
+                    <SocalSVG.tg className='fill-[#F8C685]' />
+                  </span>
+                </Tooltip>
+              }
+
+              {tonConnected ? (
+                <TonToolTip address={tonAddress} disconnect={disconnectTon}>
+                  <SocalSVG.ton className='fill-[#F8C685]' />
+                </TonToolTip>
+              ) : (
+                <motion.button
+                  className='flex items-center gap-x-1'
+                  onClick={openTonModalLogin}
+                  animate={isToggled ? shakeAnimation : ''}
+                >
+                  {<SocalSVG.ton className='fill-white' />}
+                  <span className='underline text-sm'>Connect</span>
+                </motion.button>
+              )}
+            </div>
+          )}
         </div>
       </div>
-      <WisescoreModal open={isWisescoreModalOpen} closeModal={closeModal} />
+      <WisescoreModal
+        open={isWisescoreModalOpen}
+        closeModal={closeModal}
+        onComplete={updateUserLevel}
+      />
     </>
   );
 }

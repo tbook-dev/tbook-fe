@@ -13,10 +13,28 @@ const moduleConf = {
   sbtUrl: sbtSVG,
   wisescore: 'WISE Score',
   wisesbt: 'WISE SBT',
-  getInviteTip: num => (
+  wisesbt2: 'Your Credit on TON',
+  getInviteTip: (level = 1, compelted) => (
     <p className='text-sm text-[#F8C685]/60'>
-      Invite <span className='text-[#F8C685] text-bold'>{num}</span> friend
-      {num > 1 ? 's' : ''} to generate!
+      {level === 1 && (
+        <>
+          Invite <span className='text-[#F8C685] text-bold'>1</span> friend to
+          generate!
+        </>
+      )}
+      {level === 2 &&
+        (compelted ? (
+          <>
+            Invite <span className='text-[#F8C685] text-bold'>5</span> friends
+            to to mint!
+          </>
+        ) : (
+          <>
+            Invite <span className='text-[#F8C685] text-bold'>5</span> friends
+            to to join WISE SBT whitelist!
+          </>
+        ))}
+      {level === 3 && <>Improve your WISE Score to earn bigger!</>}
     </p>
   ),
   inviteTip2: (
@@ -25,7 +43,7 @@ const moduleConf = {
       <span className='text-[#F8C685] text-bold'> earn 500 TPoints!</span>
     </p>
   ),
-  inviteTip3: 'Generate WISE Score to unlock mystery.',
+  wiseTitle: 'Generate WISE Score to unlock mystery.',
   rewards: {
     title: 'Rewards',
     list: [
