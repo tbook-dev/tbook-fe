@@ -255,26 +255,6 @@ export const getUserRenaissance = async function (data) {
         avatar:
           'https://api.dicebear.com/7.x/fun-emoji/svg?seed=480912513106&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
       },
-      {
-        userId: '1',
-        avatar:
-          'https://api.dicebear.com/7.x/fun-emoji/svg?seed=480912513106&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
-      },
-      {
-        userId: '2',
-        avatar:
-          'https://api.dicebear.com/7.x/fun-emoji/svg?seed=480912513106&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
-      },
-      {
-        userId: '1',
-        avatar:
-          'https://api.dicebear.com/7.x/fun-emoji/svg?seed=480912513106&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
-      },
-      {
-        userId: '2',
-        avatar:
-          'https://api.dicebear.com/7.x/fun-emoji/svg?seed=480912513106&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
-      },
     ],
   };
 };

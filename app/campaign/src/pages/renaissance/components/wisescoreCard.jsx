@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import WisescoreModal from './modal/wisescore';
 import WisesSBTModal from './modal/wiseSBT';
-
+import ScratchModal from './modal/scratch';
 import Score from './ui/score';
 import { cn } from '@/utils/conf';
 import { useNavigate } from 'react-router-dom';
@@ -26,6 +26,7 @@ export default function WisescoreCard () {
     useTonToolkit();
   const [isWisescoreModalOpen, setIsWisescoreModalOpen] = useState(false);
   const [isWiseSBTmodalOpen, setIsWiseSBTmodalOpen] = useState(false);
+  const [isScratchModalOpen, setIsScratchModalOpen] = useState(false);
   const tgUserName = getSocialByName('telegram').userName;
   const [isToggled, setToggle] = useState(false);
   const shakeAnimation = {
@@ -70,7 +71,7 @@ export default function WisescoreCard () {
   const handleImprove = () => {
     navigate(`/wise-score`);
   };
-  console.log({ userLevel });
+  // console.log({ userLevel });
   return (
     <>
       <div
@@ -233,6 +234,15 @@ export default function WisescoreCard () {
           )}
         </div>
       </div>
+      <button
+        className='fixed top-20 left-2.5 flex flex-col'
+        onClick={() => {
+          setIsScratchModalOpen(true);
+        }}
+      >
+        {moduleConf.svg.scratchButton}
+        <img src={moduleConf.url.dog} className='relative -top-1 size-12' />
+      </button>
       <WisescoreModal
         open={isWisescoreModalOpen}
         closeModal={closeModal}
@@ -242,6 +252,12 @@ export default function WisescoreCard () {
         open={isWiseSBTmodalOpen}
         closeModal={() => {
           setIsWiseSBTmodalOpen(false);
+        }}
+      />
+      <ScratchModal
+        open={isScratchModalOpen}
+        closeModal={() => {
+          setIsScratchModalOpen(false);
         }}
       />
     </>

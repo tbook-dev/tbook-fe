@@ -22,7 +22,7 @@ export default function useUserRenaissance() {
 // leverl 3 : has one new user invited and has one new user who has one new user invited and has one new user who has one new user invited
 export const useLevel = () => {
   const { data } = useUserRenaissance();
-  const [userLevel, setUserLevel] = useState(2);
+  const [userLevel, setUserLevel] = useState(1);
   // const userLevel = useMemo(() => {
   //   if (!data) {
   //     return 1;
