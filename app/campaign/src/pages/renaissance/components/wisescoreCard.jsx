@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import useUserRenaissance from '@/hooks/useUserRenaissance';
+import useUserRenaissance, { useLevel } from '@/hooks/useUserRenaissance';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import moduleConf from '../conf';
 import Button from './ui/button';
@@ -13,6 +13,7 @@ import clsx from 'clsx';
 
 export default function WisescoreCard () {
   const { isLoading, data } = useUserRenaissance();
+  const { hasInvited, userLevel, updateUserLevel, inviteTgUser } = useLevel();
   const { getSocialByName } = useSocial();
   const { openTonModalLogin, disconnectTon, tonConnected, tonAddress } =
     useTonToolkit();
@@ -43,18 +44,7 @@ export default function WisescoreCard () {
       setToggle(true);
     }
   };
-  const userLevel = useMemo(() => {
-    if (!data) {
-      return 1;
-    }
-    if (!data.hasInvited) {
-      return 1;
-    } else if (!data.hasWiseScore) {
-      return 2;
-    } else {
-      return 3;
-    }
-  }, [data]);
+
   console.log({ userLevel, invitedFriends: invitedFriends.length });
   return (
     <div className='mt-1 relative flex flex-col items-center gap-5 py-4 px-5 rounded-2xl border border-[#FFEAB5]/30'>
@@ -107,45 +97,47 @@ export default function WisescoreCard () {
 
       <div className='flex flex-col gap-y-2 items-center justify-center'>
         {/* invite logic，invited link but be clicked, after click finisged,tpiont gets, thus it can generate，but generate must connect ton wallect */}
-        {data?.hasInvited ? (
-          <>
-            <Button className='gap-x-1.5' onClick={handleGenerate}>
-              {moduleConf.generateBtn}
-            </Button>
-            <div className='flex items-center gap-x-4'>
-              {
-                <Tooltip title={tgUserName} trigger='click'>
-                  <span className='cursor-pointer'>
-                    <SocalSVG.tg className='fill-[#F8C685]' />
-                  </span>
-                </Tooltip>
-              }
+        {/* userLevl 1 */}
+        {userLevel === 1 &&
+          (hasInvited ? (
+            <>
+              <Button className='gap-x-1.5' onClick={handleGenerate}>
+                {moduleConf.generateBtn}
+              </Button>
+              <div className='flex items-center gap-x-4'>
+                {
+                  <Tooltip title={tgUserName} trigger='click'>
+                    <span className='cursor-pointer'>
+                      <SocalSVG.tg className='fill-[#F8C685]' />
+                    </span>
+                  </Tooltip>
+                }
 
-              {tonConnected ? (
-                <TonToolTip address={tonAddress} disconnect={disconnectTon}>
-                  <SocalSVG.ton className='fill-[#F8C685]' />
-                </TonToolTip>
-              ) : (
-                <motion.button
-                  className='flex items-center gap-x-1'
-                  onClick={openTonModalLogin}
-                  animate={isToggled ? shakeAnimation : ''}
-                >
-                  {<SocalSVG.ton className='fill-white' />}
-                  <span className='underline text-sm'>Connect</span>
-                </motion.button>
-              )}
-            </div>
-          </>
-        ) : (
-          <>
-            <Button className='gap-x-1.5'>
-              {<SocalSVG.tg className='fill-white' />}
-              {moduleConf.inviteBtn}
-            </Button>
-            {moduleConf.inviteTip2}
-          </>
-        )}
+                {tonConnected ? (
+                  <TonToolTip address={tonAddress} disconnect={disconnectTon}>
+                    <SocalSVG.ton className='fill-[#F8C685]' />
+                  </TonToolTip>
+                ) : (
+                  <motion.button
+                    className='flex items-center gap-x-1'
+                    onClick={openTonModalLogin}
+                    animate={isToggled ? shakeAnimation : ''}
+                  >
+                    {<SocalSVG.ton className='fill-white' />}
+                    <span className='underline text-sm'>Connect</span>
+                  </motion.button>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <Button className='gap-x-1.5' onClick={inviteTgUser}>
+                {<SocalSVG.tg className='fill-white' />}
+                {moduleConf.inviteBtn}
+              </Button>
+              {moduleConf.inviteTip2}
+            </>
+          ))}
       </div>
     </div>
   );

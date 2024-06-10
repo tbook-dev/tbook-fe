@@ -24,7 +24,12 @@ export const getTMAsahreLink = (data) => {
   return `https://t.me/share/url?url=${encodeURIComponent(link)}`;
 };
 
-export const supportTMATypes = ['campaign', 'project', 'wiseScore'];
+export const supportTMATypes = [
+  'campaign',
+  'project',
+  'wiseScore',
+  'renaissance',
+];
 
 export const logoutRedirecrtKey = 'fromlogout';
 

@@ -257,3 +257,8 @@ export const getUserRenaissance = async function (data) {
     ],
   };
 };
+
+export const reportShareCode = async function (data) {
+  console.log('reportShareCode', data);
+  return '';
+};

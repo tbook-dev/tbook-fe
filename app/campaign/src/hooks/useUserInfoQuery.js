@@ -137,15 +137,19 @@ export default function useUserInfo() {
     ].filter(Boolean).length > 1;
 
   const sessionKey = `markNewUser-${user?.userId ?? ''}`;
-  if (
-    data &&
-    !showPassportGeneratingModal &&
-    newUser &&
-    !sessionStorage.getItem(sessionKey)
-  ) {
-    sessionStorage.setItem(sessionKey, '1');
-    dispatch(setShowPassportGeneratingModal(true));
-  }
+
+  useEffect(() => {
+    if (
+      data &&
+      !showPassportGeneratingModal &&
+      newUser &&
+      !sessionStorage.getItem(sessionKey)
+    ) {
+      sessionStorage.setItem(sessionKey, '1');
+      dispatch(setShowPassportGeneratingModal(true));
+    }
+  }, [data, showPassportGeneratingModal, newUser, sessionStorage, dispatch]);
+
   return {
     data,
     isLoading,

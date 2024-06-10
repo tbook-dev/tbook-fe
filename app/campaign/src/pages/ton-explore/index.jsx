@@ -13,7 +13,7 @@ export default function TonExplore () {
   const [isSubpage, setSubpage] = useState(false);
   useLayoutEffect(() => {
     if (webApp?.initDataUnsafe.start_param) {
-      const { type, projectUrl, campaignId } = safeParse(
+      const { type, projectUrl, campaignId, code } = safeParse(
         webApp?.initDataUnsafe.start_param
       );
 
@@ -28,6 +28,8 @@ export default function TonExplore () {
           navigate(`/${projectUrl}/`);
         } else if (type === 'wiseScore') {
           navigate(`/wise-score`);
+        } else if (type === 'renaissance') {
+          navigate(`/event/renaissance?code=${code}`);
         }
       }
     }

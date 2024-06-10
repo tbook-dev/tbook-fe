@@ -4,10 +4,13 @@ import Rewards from './components/rewards';
 import Friends from './components/friends';
 import Leaderboard from './components/leaderboard';
 import moduleConf from './conf';
+import { useReportCode } from '@/hooks/useUserRenaissance';
 
 export default function Renaissance () {
+  useReportCode();
+
   return (
-    <div className='px-5 pt-3 lg:px-0 max-w-md mx-auto space-y-2'>
+    <div className='px-5 pt-3 lg:px-0 mx-auto space-y-2'>
       <div className=''>
         <Banner />
         <WisescoreCard />
