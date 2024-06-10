@@ -7,19 +7,25 @@ import SocalSVG from '@/utils/social';
 import useTonToolkit from '@/components/ton/useTon';
 import TonToolTip from '@/components/ton/tooltip';
 import { Tooltip } from 'antd';
-import useSocial from '../../../hooks/useSocial';
+import useSocial from '@/hooks/useSocial';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import WisescoreModal from './modal/wisescore';
+import WisesSBTModal from './modal/wiseSBT';
+
 import Score from './ui/score';
+import { cn } from '@/utils/conf';
+import { useNavigate } from 'react-router-dom';
 
 export default function WisescoreCard () {
+  const navigate = useNavigate();
   const { isLoading, data } = useUserRenaissance();
   const { hasInvited, userLevel, updateUserLevel, inviteTgUser } = useLevel();
   const { getSocialByName } = useSocial();
   const { openTonModalLogin, disconnectTon, tonConnected, tonAddress } =
     useTonToolkit();
   const [isWisescoreModalOpen, setIsWisescoreModalOpen] = useState(false);
+  const [isWiseSBTmodalOpen, setIsWiseSBTmodalOpen] = useState(false);
   const tgUserName = getSocialByName('telegram').userName;
   const [isToggled, setToggle] = useState(false);
   const shakeAnimation = {
@@ -30,7 +36,7 @@ export default function WisescoreCard () {
     },
   };
   const invitedFriends = data?.friends ?? [];
-  const level2Competed = invitedFriends.length === 5;
+  const level2Competed = invitedFriends.length >= 5;
   const closeModal = useCallback(() => {
     setIsWisescoreModalOpen(false);
   }, []);
@@ -56,23 +62,35 @@ export default function WisescoreCard () {
     }
   };
 
-  const handleJoin = () => {
-    console.log('handleJoin');
+  const handleJoin = async () => {
+    // join white list
+    await updateUserLevel(3);
+    setIsWiseSBTmodalOpen(true);
+  };
+  const handleImprove = () => {
+    navigate(`/wise-score`);
   };
   console.log({ userLevel });
   return (
     <>
-      <div className='mt-1 relative flex flex-col items-center gap-5 py-4 px-5 rounded-2xl border border-[#FFEAB5]/30'>
+      <div
+        className={cn(
+          'relative flex flex-col items-center gap-5 py-4 px-5 rounded-2xl border border-[#FFEAB5]/30',
+          userLevel === 3 ? 'mt-3' : 'mt-1'
+        )}
+      >
         <div className='space-y-2 w-full'>
-          <div className='flex justify-between items-center w-full'>
-            <div className='text-[#FFDFA2] bg-[#F8C685]/5 rounded-md py-1 px-2'>
-              <span className='mr-1 font-syne font-bold'>TPoints</span>
-              {formatImpact(data?.TPoints)}
+          {[1, 2].includes(userLevel) && (
+            <div className='flex justify-between items-center w-full'>
+              <div className='text-[#FFDFA2] bg-[#F8C685]/5 rounded-md py-1 px-2'>
+                <span className='mr-1 font-syne font-bold'>TPoints</span>
+                {formatImpact(data?.TPoints)}
+              </div>
+              <div className='text-[#F2A85D]/60 bg-[#F8C685]/5 rounded-md font-medium py-1 px-2'>
+                {moduleConf.endTime}
+              </div>
             </div>
-            <div className='text-[#F2A85D]/60 bg-[#F8C685]/5 rounded-md font-medium py-1 px-2'>
-              {moduleConf.endTime}
-            </div>
-          </div>
+          )}
 
           <div className='flex flex-col items-center gap-1 text-center'>
             {[1, 2].includes(userLevel) && (
@@ -129,6 +147,21 @@ export default function WisescoreCard () {
             </div>
           </div>
         )}
+        {userLevel === 3 && (
+          <div className='grid grid-cols-3 gap-x-3'>
+            {moduleConf.prize.map((v, i) => {
+              return (
+                <div
+                  key={i}
+                  className='flex justify-center w-[96px] h-[122px] bg-cover'
+                  style={{ backgroundImage: `url(${moduleConf.prizebg})` }}
+                >
+                  <img src={v} className='h-full' />
+                </div>
+              );
+            })}
+          </div>
+        )}
 
         <div className='flex flex-col gap-y-2 items-center justify-center'>
           {/* invite logic，invited link but be clicked, after click finisged,tpiont gets, thus it can generate，but generate must connect ton wallect */}
@@ -151,11 +184,9 @@ export default function WisescoreCard () {
           {userLevel === 2 && (
             <>
               {level2Competed ? (
-                <>
-                  <Button className='gap-x-1.5' onClick={handleJoin}>
-                    Join
-                  </Button>
-                </>
+                <Button className='w-[120px]' onClick={handleJoin}>
+                  Join
+                </Button>
               ) : (
                 <>
                   <Button className='gap-x-1.5' onClick={inviteTgUser}>
@@ -166,6 +197,12 @@ export default function WisescoreCard () {
                 </>
               )}
             </>
+          )}
+
+          {userLevel === 3 && (
+            <Button className='w-[120px]' onClick={handleImprove}>
+              Improve
+            </Button>
           )}
 
           {hasInvited && (
@@ -200,6 +237,12 @@ export default function WisescoreCard () {
         open={isWisescoreModalOpen}
         closeModal={closeModal}
         onComplete={updateUserLevel}
+      />
+      <WisesSBTModal
+        open={isWiseSBTmodalOpen}
+        closeModal={() => {
+          setIsWiseSBTmodalOpen(false);
+        }}
       />
     </>
   );

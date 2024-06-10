@@ -5,6 +5,11 @@ import notSVG from '@/images/wise/rewards/not.svg';
 import airdropSVG from '@/images/wise/rewards/airdrop.svg';
 import passSVG from '@/images/wise/rewards/pass.svg';
 import inviteSVG from '@/images/wise/invite.svg';
+import prize1 from '@/images/wise/rewards/prize1.svg';
+import prize2 from '@/images/wise/rewards/prize2.svg';
+import prize3 from '@/images/wise/rewards/prize3.svg';
+import prizebg from '@/images/wise/rewards/prizebg.png';
+
 const moduleConf = {
   oneFriendTpoint: 500,
   endTime: 'Ends in Jun 30, 2024',
@@ -43,7 +48,9 @@ const moduleConf = {
       <span className='text-[#F8C685] text-bold'> earn 500 TPoints!</span>
     </p>
   ),
-  wiseTitle: 'Generate WISE Score to unlock mystery.',
+  wiseTitle: 'Race to the top for mystery',
+  prize: [prize1, prize2, prize3],
+  prizebg: prizebg,
   rewards: {
     title: 'Rewards',
     list: [
