@@ -244,6 +244,7 @@ export const getUserRenaissance = async function (data) {
     hasWiseScore: true, // 得上报
     hasMintSbt: true,
     wisescore: 1000000,
+    scratchcard: 3,
     friends: [
       {
         userId: '1',

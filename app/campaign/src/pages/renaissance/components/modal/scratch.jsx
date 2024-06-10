@@ -1,7 +1,66 @@
 import { Dialog, Transition, TransitionChild } from '@headlessui/react';
-import { Fragment } from 'react';
+import { useMemo } from 'react';
+import { useState, Fragment } from 'react';
+import Button from '../ui/button';
+import social from '@/utils/social';
+import useUserRenaissance from '@/hooks/useUserRenaissance';
+import { formatImpact } from '@tbook/utils/lib/conf';
+import moduleConf from '../../conf';
+export default function ScratchModal ({
+  open,
+  closeModal,
+  inviteTgUser,
+  handleGenerate,
+  handleJoin,
+}) {
+  const { data } = useUserRenaissance();
+  const [action, setAction] = useState(1);
+  const actionItem = useMemo(() => {
+    const map = {
+      0: {
+        button: (
+          <Button className='gap-x-1.5 w-[full] text-xs' onClick={inviteTgUser}>
+            <social.tg className='fill-white' /> invite 1 friend to get 3 free
+            cards
+          </Button>
+        ),
+      },
+      1: {
+        button: null,
+        text: 'You win 10 TPoints',
+      },
+      2: {
+        button: (
+          <Button
+            className='w-[120px]'
+            onClick={() => {
+              closeModal();
+              handleJoin();
+            }}
+          >
+            Join
+          </Button>
+        ),
+        text: 'You win the eligibility to mint WISE SBT',
+      },
+      3: {
+        button: (
+          <Button
+            className='w-[120px]'
+            onClick={() => {
+              closeModal();
+              handleGenerate();
+            }}
+          >
+            Generate
+          </Button>
+        ),
+        text: 'You win the eligibility to generate WISE Score',
+      },
+    };
+    return map[action];
+  }, [action]);
 
-export default function ScratchModal ({ open, closeModal }) {
   return (
     <Transition appear show={open} as={Fragment}>
       <Dialog
@@ -39,14 +98,40 @@ export default function ScratchModal ({ open, closeModal }) {
                   xx
                 </div>
 
-                <div className='text-center space-y-0.5'>
-                  <h2 className='text-xl font-bold'>
-                    <span className='text-color4'>Congratulations！</span>
-                  </h2>
-                  <p className='text-sm text-[#F8C685]/60'>
-                    You have joined WISE SBT whitelist
-                  </p>
+                <div className='w-[280px] space-y-0.5'>
+                  <div className='flex items-center justify-between'>
+                    <button className='flex items-center gap-x-1 text-xs font-syne font-bold text-[#FFDFA2] bg-[#F8C685]/15 px-2 py-1 rounded-md'>
+                      {formatImpact(data?.scratchcard ?? 0)} scratch card
+                      {data?.scratchcard > 1 && 's'}
+                      {moduleConf.svg.add}
+                    </button>
+                    <span className='flex items-center gap-x-1 text-xs text-[#FFDFA2] font-syne font-bold  bg-[#F8C685]/15 px-2 py-1 rounded-md'>
+                      TPoints
+                      <b className='font-normal font-rhd'>
+                        {formatImpact(data?.TPoints ?? 0)}
+                      </b>
+                    </span>
+                  </div>
+                  <div className='flex gap-x-1 items-center'>
+                    {moduleConf.svg.timer}
+                    <span className='text-color6 text-xs'>
+                      next free card in 09:59
+                    </span>
+                  </div>
                 </div>
+
+                {actionItem.button}
+
+                {action > 0 && (
+                  <div className='text-center space-y-0.5 w-[280px]'>
+                    <h2 className='text-xl font-bold'>
+                      <span className='text-color4'>Congratulations！</span>
+                    </h2>
+                    <p className='text-sm text-[#F8C685]/60'>
+                      {actionItem.text}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </TransitionChild>

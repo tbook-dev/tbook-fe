@@ -57,6 +57,12 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  .text-color6{
+    background: linear-gradient(90deg, #68EFAE 71.25%, #2E85EA 78.58%, #8052E4 85.62%, #F2A85D 92.52%, #FFEAB5 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
   .bx {
     @apply px-4 lg:px-0 lg:w-[1200px] mx-auto;
   }

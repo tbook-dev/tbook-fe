@@ -255,6 +255,9 @@ export default function WisescoreCard () {
         }}
       />
       <ScratchModal
+        inviteTgUser={inviteTgUser}
+        handleGenerate={handleGenerate}
+        handleJoin={handleJoin}
         open={isScratchModalOpen}
         closeModal={() => {
           setIsScratchModalOpen(false);
