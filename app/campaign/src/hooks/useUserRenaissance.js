@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { getUserRenaissance, reportShareCode } from '@/api/incentive';
+import { getUserRenaissance, updateLevel } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import { getTMAsahreLink, getQueryParameter } from '@/utils/tma';
@@ -14,6 +14,12 @@ export default function useUserRenaissance() {
   });
 }
 
+// leverl 1 :
+// part1: has one new user invited
+// part2: login ton wallet
+
+// leverl 2 : has one new user invited and has one new user who has one new user invited
+// leverl 3 : has one new user invited and has one new user who has one new user invited and has one new user who has one new user invited
 export const useLevel = () => {
   const { data } = useUserRenaissance();
   const [userLevel, setUserLevel] = useState(1);
@@ -30,10 +36,11 @@ export const useLevel = () => {
   //   }
   // }, [data]);
   const inviteCode = '12345';
-  const updateUserLevel = useCallback((userLevel) => {
-    return setUserLevel(userLevel + 1);
+  const updateUserLevel = useCallback(() => {
+    // to
+    console.log('update api todo');
+    return setUserLevel((userLevel) => userLevel + 1);
   }, []);
-  console.log({ WebApp });
 
   const inviteTgUser = useCallback(() => {
     return WebApp.openTelegramLink(
@@ -45,7 +52,7 @@ export const useLevel = () => {
   }, [inviteCode]);
 
   return {
-    hasInvited: false,
+    hasInvited: true,
     userLevel,
     updateUserLevel,
     inviteTgUser,
@@ -56,7 +63,7 @@ export const useReportCode = () => {
   useEffect(() => {
     const code = getQueryParameter(window.location.href, 'code');
     if (code) {
-      reportShareCode({ code });
+      updateLevel({ code, level: 1 });
     }
   }, []);
 };

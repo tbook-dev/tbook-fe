@@ -243,6 +243,7 @@ export const getUserRenaissance = async function (data) {
     hasInvited: true,
     hasWiseScore: true, // 得上报
     hasMintSbt: true,
+    wisescore: 1000000,
     friends: [
       {
         userId: '1',
@@ -258,7 +259,7 @@ export const getUserRenaissance = async function (data) {
   };
 };
 
-export const reportShareCode = async function (data) {
+export const updateLevel = async function (data) {
   console.log('reportShareCode', data);
   return '';
 };
