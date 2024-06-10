@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import useUserRenaissance from '@/hooks/useUserRenaissance';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import moduleConf from '../conf';
@@ -9,6 +9,7 @@ import TonToolTip from '@/components/ton/tooltip';
 import { Tooltip } from 'antd';
 import useSocial from '../../../hooks/useSocial';
 import { motion } from 'framer-motion';
+import clsx from 'clsx';
 
 export default function WisescoreCard () {
   const { isLoading, data } = useUserRenaissance();
@@ -24,6 +25,17 @@ export default function WisescoreCard () {
       onComplete: () => setToggle(false),
     },
   };
+  const invitedFriends = data?.friends ?? [];
+  const formatedFriends = useMemo(() => {
+    const invitedNum = data?.friends?.length ?? 0;
+    const inviteList = Array.from({ length: 5 - invitedNum }).fill({
+      type: 'uninvited',
+    });
+    return (data?.friends ?? [])
+      .map(v => ({ ...v, type: 'invited' }))
+      .concat(inviteList);
+  }, [data]);
+
   const handleGenerate = () => {
     if (tonConnected) {
       console.log('connected');
@@ -31,6 +43,19 @@ export default function WisescoreCard () {
       setToggle(true);
     }
   };
+  const userLevel = useMemo(() => {
+    if (!data) {
+      return 1;
+    }
+    if (!data.hasInvited) {
+      return 1;
+    } else if (!data.hasWiseScore) {
+      return 2;
+    } else {
+      return 3;
+    }
+  }, [data]);
+  console.log({ userLevel, invitedFriends: invitedFriends.length });
   return (
     <div className='mt-1 relative flex flex-col items-center gap-5 py-4 px-5 rounded-2xl border border-[#FFEAB5]/30'>
       <div className='space-y-2 w-full'>
@@ -46,17 +71,43 @@ export default function WisescoreCard () {
 
         <div className='flex flex-col items-center gap-1'>
           <span className='font-syne text-xl font-bold text-color4'>
-            {moduleConf.wisescoreText}
+            {userLevel === 3 ? moduleConf.wisesbt : moduleConf.wisescore}
           </span>
-          {moduleConf.inviteTip}
+          {moduleConf.getInviteTip(userLevel === 3 ? 5 : 1)}
         </div>
       </div>
 
-      <img src={moduleConf.url.wisescoreRadar} className='w-full' />
+      {userLevel === 3 ? (
+        <div className='flex flex-col items-center gap-y-8'>
+          <img src={moduleConf.sbtUrl} className='size-[120px]' />
+          <div
+            className={clsx(
+              'flex items-center',
+              invitedFriends.length >= 5
+                ? '-space-x-2'
+                : 'justify-between w-[280px]'
+            )}
+          >
+            {formatedFriends.map((v, i) => {
+              return v.type === 'invited' ? (
+                <img key={i} src={v.avatar} className='size-10 rounded-full' />
+              ) : (
+                <img
+                  key={i}
+                  src={moduleConf.url.invite}
+                  className='size-10 rounded-full'
+                />
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <img src={moduleConf.url.wisescoreRadar} className='w-full' />
+      )}
 
       <div className='flex flex-col gap-y-2 items-center justify-center'>
         {/* invite logic，invited link but be clicked, after click finisged,tpiont gets, thus it can generate，but generate must connect ton wallect */}
-        {data?.TPoints > moduleConf.oneFriendTpoint ? (
+        {data?.hasInvited ? (
           <>
             <Button className='gap-x-1.5' onClick={handleGenerate}>
               {moduleConf.generateBtn}

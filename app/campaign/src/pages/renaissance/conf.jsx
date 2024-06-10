@@ -1,19 +1,22 @@
 import wisescoreRadarSVG from '@/images/wise/radar.svg';
 import dogSVG from '@/images/event/dog.svg';
-import sbtSVG from '@/images/wise/rewards/sbt.svg';
+import sbtSVG from '@/images/wise/rewards/sbt.png';
 import notSVG from '@/images/wise/rewards/not.svg';
 import airdropSVG from '@/images/wise/rewards/airdrop.svg';
 import passSVG from '@/images/wise/rewards/pass.svg';
-
+import inviteSVG from '@/images/wise/invite.svg';
 const moduleConf = {
   oneFriendTpoint: 500,
   endTime: 'Ends in Jun 30, 2024',
   inviteBtn: 'Invite now',
   generateBtn: 'Generate',
-  inviteTip: (
+  sbtUrl: sbtSVG,
+  wisescore: 'WISE Score',
+  wisesbt: 'WISE SBT',
+  getInviteTip: num => (
     <p className='text-sm text-[#F8C685]/60'>
-      Invite <span className='text-[#F8C685] text-bold'>1</span> friend to
-      generate!
+      Invite <span className='text-[#F8C685] text-bold'>{num}</span> friend
+      {num > 1 ? 's' : ''} to generate!
     </p>
   ),
   inviteTip2: (
@@ -55,6 +58,7 @@ const moduleConf = {
   url: {
     dog: dogSVG,
     wisescoreRadar: wisescoreRadarSVG,
+    invite: inviteSVG,
   },
 
   svg: {

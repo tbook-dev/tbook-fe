@@ -240,6 +240,9 @@ export const getUserRenaissance = async function (data) {
   return {
     TPoints: 10000, // 邀请1个人500分
     inviteNum: 3, // 邀请人数
+    hasInvited: true,
+    hasWiseScore: true, // 得上报
+    hasMintSbt: true,
     friends: [
       {
         userId: '1',
