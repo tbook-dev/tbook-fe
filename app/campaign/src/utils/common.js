@@ -29,3 +29,12 @@ export const preloadImage = (imageUrl) => {
     img.src = imageUrl;
   });
 };
+
+export async function loadImageUrl(coverImg) {
+  if (coverImg instanceof Promise) {
+    const res = await coverImg;
+    return res.default;
+  } else {
+    return coverImg;
+  }
+}

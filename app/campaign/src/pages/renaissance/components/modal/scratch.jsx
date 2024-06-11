@@ -6,6 +6,12 @@ import social from '@/utils/social';
 import useUserRenaissance from '@/hooks/useUserRenaissance';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import moduleConf from '../../conf';
+import ScratchCard from '@/components/scratchCard';
+import bgPic from '@/images/wise/rewards/cover.png';
+import initPic from '@/images/wise/rewards/init.png';
+import points10 from '@/images/wise/rewards/points10.png';
+import prize1 from '@/images/wise/rewards/scratchprize1.png';
+
 export default function ScratchModal ({
   open,
   closeModal,
@@ -14,7 +20,7 @@ export default function ScratchModal ({
   handleJoin,
 }) {
   const { data } = useUserRenaissance();
-  const [action, setAction] = useState(1);
+  const [action, setAction] = useState(0);
   const actionItem = useMemo(() => {
     const map = {
       0: {
@@ -94,8 +100,25 @@ export default function ScratchModal ({
           >
             <div className='inline-block space-y-5 w-full max-w-md p-8 my-8 overflow-hidden transition-all shadow-xl rounded-2xl'>
               <div className='w-full flex flex-col justify-center gap-y-5  items-center'>
-                <div className='w-[280px] h-[476px] bg-red-500 rounded-2xl'>
-                  xx
+                <div
+                  className='w-[280px] h-[476px] rounded-2xl relative bg-cover'
+                  style={{ backgroundImage: `url(${bgPic})` }}
+                >
+                  <div className='absolute left-1/2 -translate-x-1/2 bottom-[116px]'>
+                    <ScratchCard
+                      width={215}
+                      height={205}
+                      imageForwardSrc={initPic}
+                      imageBackgroundSrc={points10}
+                      onFinish={() => {
+                        // set
+                        console.log('--------->');
+                      }}
+                      onInit={() => {
+                        // set under pic
+                      }}
+                    />
+                  </div>
                 </div>
 
                 <div className='w-[280px] space-y-0.5'>
