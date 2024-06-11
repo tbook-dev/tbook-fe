@@ -2,9 +2,18 @@ import { useEffect, useRef, useState } from 'react';
 import { preloadImage as loadImage, loadImageUrl } from '@/utils/common';
 
 const useCardInit = (props) => {
-  const { canvasRef, width, height, coverColor, coverImg, onFinish } = props;
+  const {
+    canvasRef,
+    width,
+    height,
+    coverColor,
+    coverImg,
+    onFinish,
+    autoReinit = false,
+  } = props;
   const isScratching = useRef(false);
   const [initDone, setInitDone] = useState(false); // 网络图片加载有延迟，初始化完成在渲染底层dom
+  const isFinished = useRef(false);
 
   useEffect(() => {
     initCard();
@@ -56,7 +65,15 @@ const useCardInit = (props) => {
     const context = canvas.getContext('2d');
     if (!context) return;
     context.clearRect(0, 0, width, height);
+    isFinished.current = true;
     destroyCard();
+
+    if (autoReinit) {
+      setTimeout(() => {
+        isFinished.current = false;
+        initCard();
+      }, 3000);
+    }
   };
 
   const getMousePosition = (event) => {
@@ -77,7 +94,6 @@ const useCardInit = (props) => {
     return [posX, posY];
   };
   const handleScratch = (e) => {
-    console.log('handlescratch');
     if (!isScratching.current) return;
     e.preventDefault();
 
@@ -127,7 +143,7 @@ const useCardInit = (props) => {
 
   const scratchController = (scratching) => {
     isScratching.current = scratching;
-    if (!scratching) {
+    if (!scratching && !isFinished.current) {
       checkCardArea();
     }
   };

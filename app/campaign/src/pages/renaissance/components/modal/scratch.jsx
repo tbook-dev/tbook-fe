@@ -109,6 +109,7 @@ export default function ScratchModal ({
                       width={215}
                       height={205}
                       coverImg={initPic}
+                      autoReinit
                       onFinish={() => {
                         // set
                         console.log('onFinish--------->');
