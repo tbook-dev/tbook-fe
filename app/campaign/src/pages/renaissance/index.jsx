@@ -4,19 +4,21 @@ import Rewards from './components/rewards';
 import Friends from './components/friends';
 import Leaderboard from './components/leaderboard';
 import moduleConf from './conf';
-import { useReportCode } from '@/hooks/useUserRenaissance';
+import { useUserRenaissanceKit } from '@/hooks/useUserRenaissance';
 
 export default function Renaissance () {
-  useReportCode();
+  const { friends } = useUserRenaissanceKit();
 
   return (
     <div className='px-5 pt-3 lg:px-0 mx-auto space-y-2'>
       <div className=''>
         <Banner />
         <WisescoreCard />
-        <div className='pt-2'>
-          <Friends />
-        </div>
+        {friends.length > 0 && (
+          <div className='pt-2'>
+            <Friends />
+          </div>
+        )}
       </div>
 
       <p className='text-[#FFDFA2]/60 pt-4 my-2 pb-1 font-syne text-sm font-medium text-center'>

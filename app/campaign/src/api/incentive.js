@@ -236,31 +236,37 @@ export const getTopBoard = async function () {
 export const addWiseSocialLink = async function (data) {
   return await request.Post(`${host}/wiseScore/addLink`, data);
 };
-export const getUserRenaissance = async function (data) {
-  return {
-    TPoints: 10000, // 邀请1个人500分
-    inviteNum: 3, // 邀请人数
-    hasInvited: true,
-    hasWiseScore: true, // 得上报
-    hasMintSbt: true,
-    wisescore: 1000000,
-    scratchcard: 3,
-    friends: [
-      {
-        userId: '1',
-        avatar:
-          'https://api.dicebear.com/7.x/fun-emoji/svg?seed=480912513106&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
-      },
-      {
-        userId: '2',
-        avatar:
-          'https://api.dicebear.com/7.x/fun-emoji/svg?seed=480912513106&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
-      },
-    ],
-  };
+export const getUserRenaissance = async function (userId) {
+  // return {
+  //   TPoints: 10000, // 邀请1个人500分
+  //   inviteNum: 3, // 邀请人数
+  //   hasInvited: true,
+  //   hasWiseScore: true, // 得上报
+  //   hasMintSbt: true,
+  //   wisescore: 1000000,
+  //   scratchcard: 3,
+  //   friends: [
+  //     {
+  //       userId: '1',
+  //       avatar:
+  //         'https://api.dicebear.com/7.x/fun-emoji/svg?seed=480912513106&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
+  //     },
+  //     {
+  //       userId: '2',
+  //       avatar:
+  //         'https://api.dicebear.com/7.x/fun-emoji/svg?seed=480912513106&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
+  //     },
+  //   ],
+  // };
+  return await request.Get(`${host}/luckyDraw/level/${userId}`);
 };
-
+export const getUserLevel = async function (uid) {
+  return await request.Get(`${host}/luckyDraw/level/${uid}`);
+};
 export const updateLevel = async function (data) {
   console.log('reportShareCode', data);
   return '';
+};
+export const getUserTpoints = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/tPoints/${userId}`);
 };

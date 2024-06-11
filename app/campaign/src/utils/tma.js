@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
-const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
-const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
+export const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
+export const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
 
 export function safeParse(start_param) {
   try {

@@ -1,9 +1,8 @@
 import moduleConf from '../conf';
-import useUserRenaissance from '@/hooks/useUserRenaissance';
+import { useUserRenaissanceKit } from '@/hooks/useUserRenaissance';
 
 export default function Friends () {
-  const { isLoading, data } = useUserRenaissance();
-  const friends = data?.friends ?? [];
+  const { friends } = useUserRenaissanceKit();
   return (
     <div className='p-4 space-y-2 border border-[#8541EE]/70 rounded-2xl'>
       <div>

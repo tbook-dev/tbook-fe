@@ -1,6 +1,5 @@
 import { Dialog, Transition, TransitionChild } from '@headlessui/react';
-import { useMemo } from 'react';
-import { useState, Fragment } from 'react';
+import { useMemo, lazy, Suspense, useState, Fragment } from 'react';
 import Button from '../ui/button';
 import social from '@/utils/social';
 import useUserRenaissance from '@/hooks/useUserRenaissance';
@@ -8,6 +7,7 @@ import { formatImpact } from '@tbook/utils/lib/conf';
 import moduleConf from '../../conf';
 import ScratchCard from '@/components/scratchCard/card';
 import bgPic from '@/images/wise/rewards/cover.png';
+import { preloadBatchImage } from '@/utils/common';
 
 import initPic from '@/images/wise/prize/init.png';
 import point10 from '@/images/wise/prize/point10.png';
@@ -16,8 +16,9 @@ import point50 from '@/images/wise/prize/point50.png';
 import point100 from '@/images/wise/prize/point100.png';
 import wisesbt from '@/images/wise/prize/wise-sbt.png';
 import wisesore from '@/images/wise/prize/wise-score.png';
-
-import { preloadBatchImage } from '@/utils/common';
+import lottieJson from '@/images/lottie/cat-claw.json';
+import { useCallback } from 'react';
+const Lottie = lazy(() => import('lottie-react'));
 
 const prizeMap = {
   1: point10,
@@ -39,6 +40,14 @@ export default function ScratchModal ({
   const { data } = useUserRenaissance();
   const [prize, setPrize] = useState(0);
   const [action, setAction] = useState(0);
+  const [lottiePlayed, setLottiePlayed] = useState(false);
+
+  const handleCloseModal = useCallback(() => {
+    closeModal();
+    setTimeout(() => {
+      setLottiePlayed(false);
+    }, 300);
+  }, []);
   const actionItem = useMemo(() => {
     const map = {
       0: {
@@ -58,7 +67,7 @@ export default function ScratchModal ({
           <Button
             className='w-[120px]'
             onClick={() => {
-              closeModal();
+              handleCloseModal();
               handleJoin();
             }}
           >
@@ -72,7 +81,7 @@ export default function ScratchModal ({
           <Button
             className='w-[120px]'
             onClick={() => {
-              closeModal();
+              handleCloseModal();
               handleGenerate();
             }}
           >
@@ -90,7 +99,7 @@ export default function ScratchModal ({
       <Dialog
         as='div'
         className='fixed inset-0 z-10 overflow-y-auto'
-        onClose={closeModal}
+        onClose={handleCloseModal}
       >
         <div className='min-h-screen w-screen px-4 flex justify-center items-center'>
           <TransitionChild
@@ -104,7 +113,7 @@ export default function ScratchModal ({
           >
             <div
               className='fixed inset-0 bg-black/80 backdrop-blur'
-              onClick={closeModal}
+              onClick={handleCloseModal}
             />
           </TransitionChild>
           <TransitionChild
@@ -123,13 +132,26 @@ export default function ScratchModal ({
                   style={{ backgroundImage: `url(${bgPic})` }}
                 >
                   <div className='absolute left-1/2 -translate-x-1/2 bottom-[86px]'>
+                    {!lottiePlayed && (
+                      <Suspense>
+                        <Lottie
+                          className='absolute left-0 bottom-10 z-20'
+                          animationData={lottieJson}
+                          loop={false}
+                          onComplete={() => {
+                            setLottiePlayed(true);
+                          }}
+                        />
+                      </Suspense>
+                    )}
+
                     <ScratchCard
                       width={215}
                       height={205}
                       coverImg={initPic}
                       autoReinit
                       onFinish={() => {
-                        console.log('onFinish--------->');
+                        console.log('ScratchCard--onFinish--------->');
                       }}
                       onInit={() => {
                         // set under pic

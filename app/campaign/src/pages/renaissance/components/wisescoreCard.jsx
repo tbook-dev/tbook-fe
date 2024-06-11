@@ -1,5 +1,4 @@
 import { useState, useMemo, useCallback } from 'react';
-import useUserRenaissance, { useLevel } from '@/hooks/useUserRenaissance';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import moduleConf from '../conf';
 import Button from './ui/button';
@@ -16,11 +15,13 @@ import ScratchModal from './modal/scratch';
 import Score from './ui/score';
 import { cn } from '@/utils/conf';
 import { useNavigate } from 'react-router-dom';
+import { useUserRenaissanceKit, useLevel } from '@/hooks/useUserRenaissance';
 
 export default function WisescoreCard () {
   const navigate = useNavigate();
-  const { isLoading, data } = useUserRenaissance();
-  const { hasInvited, userLevel, updateUserLevel, inviteTgUser } = useLevel();
+  // const { isLoading, data } = useUserRenaissance();
+  const { inviteTgUser, tpoints, friends } = useUserRenaissanceKit();
+  const { hasInvited, userLevel, updateUserLevel } = useLevel();
   const { getSocialByName } = useSocial();
   const { openTonModalLogin, disconnectTon, tonConnected, tonAddress } =
     useTonToolkit();
@@ -36,21 +37,19 @@ export default function WisescoreCard () {
       onComplete: () => setToggle(false),
     },
   };
-  const invitedFriends = data?.friends ?? [];
+  const invitedFriends = [];
   const level2Competed = invitedFriends.length >= 5;
   const closeModal = useCallback(() => {
     setIsWisescoreModalOpen(false);
   }, []);
 
   const formatedFriends = useMemo(() => {
-    const invitedNum = data?.friends?.length ?? 0;
+    const invitedNum = friends.length;
     const inviteList = Array.from({ length: 5 - invitedNum }).fill({
       type: 'uninvited',
     });
-    return (data?.friends ?? [])
-      .map(v => ({ ...v, type: 'invited' }))
-      .concat(inviteList);
-  }, [data]);
+    return friends.map(v => ({ ...v, type: 'invited' })).concat(inviteList);
+  }, [friends]);
 
   const handleGenerate = () => {
     if (tonConnected) {
@@ -71,122 +70,109 @@ export default function WisescoreCard () {
   const handleImprove = () => {
     navigate(`/wise-score`);
   };
-  // console.log({ userLevel });
+  console.log({ tpoints });
   return (
     <>
-      <div
-        className={cn(
-          'relative flex flex-col items-center gap-5 py-4 px-5 rounded-2xl border border-[#FFEAB5]/30',
-          userLevel === 3 ? 'mt-3' : 'mt-1'
-        )}
-      >
-        <div className='space-y-2 w-full'>
-          {[1, 2].includes(userLevel) && (
-            <div className='flex justify-between items-center w-full'>
-              <div className='text-[#FFDFA2] bg-[#F8C685]/5 rounded-md py-1 px-2'>
-                <span className='mr-1 font-syne font-bold'>TPoints</span>
-                {formatImpact(data?.TPoints)}
+      {!userLevel ? (
+        <div className='animate-pulse bg-[#1f1f1f]/10 h-[400px] rounded-2xl border border-[#FFEAB5]/30' />
+      ) : (
+        <div
+          className={cn(
+            'relative flex flex-col items-center gap-5 py-4 px-5 rounded-2xl border border-[#FFEAB5]/30',
+            userLevel === 3 ? 'mt-3' : 'mt-1'
+          )}
+        >
+          <div className='space-y-2 w-full'>
+            {[1, 2].includes(userLevel) && (
+              <div className='flex justify-between items-center w-full'>
+                <div className='text-[#FFDFA2] bg-[#F8C685]/5 rounded-md py-1 px-2'>
+                  <span className='mr-1 font-syne font-bold'>TPoints</span>
+                  {formatImpact(tpoints)}
+                </div>
+                <div className='text-[#F2A85D]/60 bg-[#F8C685]/5 rounded-md font-medium py-1 px-2'>
+                  {moduleConf.endTime}
+                </div>
               </div>
-              <div className='text-[#F2A85D]/60 bg-[#F8C685]/5 rounded-md font-medium py-1 px-2'>
-                {moduleConf.endTime}
+            )}
+
+            <div className='flex flex-col items-center gap-1 text-center'>
+              {[1, 2].includes(userLevel) && (
+                <span className='font-syne text-xl font-bold text-color4'>
+                  {userLevel === 1 && moduleConf.wisescore}
+                  {userLevel === 2 && level2Competed ? (
+                    moduleConf.wisesbt
+                  ) : (
+                    <>
+                      {moduleConf.wisesbt}
+                      <br />
+                      {moduleConf.wisesbt2}
+                    </>
+                  )}
+                </span>
+              )}
+              {userLevel === 3 && (
+                <div className='text-color5 text-lg font-bold font-syne'>
+                  {moduleConf.wiseTitle}
+                </div>
+              )}
+
+              {moduleConf.getInviteTip(userLevel, level2Competed)}
+            </div>
+          </div>
+
+          {userLevel === 1 && <Score />}
+
+          {userLevel === 2 && (
+            <div className='flex flex-col items-center gap-y-8'>
+              <img src={moduleConf.sbtUrl} className='size-[120px]' />
+              <div
+                className={clsx(
+                  'flex items-center',
+                  level2Competed ? '-space-x-2' : 'justify-between w-[280px]'
+                )}
+              >
+                {formatedFriends.map((v, i) => {
+                  return v.type === 'invited' ? (
+                    <img
+                      key={i}
+                      src={v.avatar}
+                      className='size-10 rounded-full'
+                    />
+                  ) : (
+                    <img
+                      key={i}
+                      src={moduleConf.url.invite}
+                      className='size-10 rounded-full cursor-pointer'
+                      onClick={inviteTgUser}
+                    />
+                  );
+                })}
               </div>
             </div>
           )}
-
-          <div className='flex flex-col items-center gap-1 text-center'>
-            {[1, 2].includes(userLevel) && (
-              <span className='font-syne text-xl font-bold text-color4'>
-                {userLevel === 1 && moduleConf.wisescore}
-                {userLevel === 2 && level2Competed ? (
-                  moduleConf.wisesbt
-                ) : (
-                  <>
-                    {moduleConf.wisesbt}
-                    <br />
-                    {moduleConf.wisesbt2}
-                  </>
-                )}
-              </span>
-            )}
-            {userLevel === 3 && (
-              <div className='text-color5 text-lg font-bold font-syne'>
-                {moduleConf.wiseTitle}
-              </div>
-            )}
-
-            {moduleConf.getInviteTip(userLevel, level2Competed)}
-          </div>
-        </div>
-
-        {userLevel === 1 && <Score />}
-
-        {userLevel === 2 && (
-          <div className='flex flex-col items-center gap-y-8'>
-            <img src={moduleConf.sbtUrl} className='size-[120px]' />
-            <div
-              className={clsx(
-                'flex items-center',
-                level2Competed ? '-space-x-2' : 'justify-between w-[280px]'
-              )}
-            >
-              {formatedFriends.map((v, i) => {
-                return v.type === 'invited' ? (
-                  <img
+          {userLevel === 3 && (
+            <div className='grid grid-cols-3 gap-x-3'>
+              {moduleConf.prize.map((v, i) => {
+                return (
+                  <div
                     key={i}
-                    src={v.avatar}
-                    className='size-10 rounded-full'
-                  />
-                ) : (
-                  <img
-                    key={i}
-                    src={moduleConf.url.invite}
-                    className='size-10 rounded-full cursor-pointer'
-                    onClick={inviteTgUser}
-                  />
+                    className='flex justify-center w-[96px] h-[122px] bg-cover'
+                    style={{ backgroundImage: `url(${moduleConf.prizebg})` }}
+                  >
+                    <img src={v} className='h-full' />
+                  </div>
                 );
               })}
             </div>
-          </div>
-        )}
-        {userLevel === 3 && (
-          <div className='grid grid-cols-3 gap-x-3'>
-            {moduleConf.prize.map((v, i) => {
-              return (
-                <div
-                  key={i}
-                  className='flex justify-center w-[96px] h-[122px] bg-cover'
-                  style={{ backgroundImage: `url(${moduleConf.prizebg})` }}
-                >
-                  <img src={v} className='h-full' />
-                </div>
-              );
-            })}
-          </div>
-        )}
+          )}
 
-        <div className='flex flex-col gap-y-2 items-center justify-center'>
-          {/* invite logic，invited link but be clicked, after click finisged,tpiont gets, thus it can generate，but generate must connect ton wallect */}
-          {/* userLevl 1 */}
-          {userLevel === 1 &&
-            (hasInvited ? (
-              <Button className='gap-x-1.5' onClick={handleGenerate}>
-                {moduleConf.generateBtn}
-              </Button>
-            ) : (
-              <>
-                <Button className='gap-x-1.5' onClick={inviteTgUser}>
-                  {<SocalSVG.tg className='fill-white' />}
-                  {moduleConf.inviteBtn}
-                </Button>
-                {moduleConf.inviteTip2}
-              </>
-            ))}
-
-          {userLevel === 2 && (
-            <>
-              {level2Competed ? (
-                <Button className='w-[120px]' onClick={handleJoin}>
-                  Join
+          <div className='flex flex-col gap-y-2 items-center justify-center'>
+            {/* invite logic，invited link but be clicked, after click finisged,tpiont gets, thus it can generate，but generate must connect ton wallect */}
+            {/* userLevl 1 */}
+            {userLevel === 1 &&
+              (hasInvited ? (
+                <Button className='gap-x-1.5' onClick={handleGenerate}>
+                  {moduleConf.generateBtn}
                 </Button>
               ) : (
                 <>
@@ -196,73 +182,92 @@ export default function WisescoreCard () {
                   </Button>
                   {moduleConf.inviteTip2}
                 </>
-              )}
-            </>
-          )}
+              ))}
 
-          {userLevel === 3 && (
-            <Button className='w-[120px]' onClick={handleImprove}>
-              Improve
-            </Button>
-          )}
+            {userLevel === 2 && (
+              <>
+                {level2Competed ? (
+                  <Button className='w-[120px]' onClick={handleJoin}>
+                    Join
+                  </Button>
+                ) : (
+                  <>
+                    <Button className='gap-x-1.5' onClick={inviteTgUser}>
+                      {<SocalSVG.tg className='fill-white' />}
+                      {moduleConf.inviteBtn}
+                    </Button>
+                    {moduleConf.inviteTip2}
+                  </>
+                )}
+              </>
+            )}
 
-          {hasInvited && (
-            <div className='flex items-center gap-x-4'>
-              {
-                <Tooltip title={tgUserName} trigger='click'>
-                  <span className='cursor-pointer'>
-                    <SocalSVG.tg className='fill-[#F8C685]' />
-                  </span>
-                </Tooltip>
-              }
+            {userLevel === 3 && (
+              <Button className='w-[120px]' onClick={handleImprove}>
+                Improve
+              </Button>
+            )}
 
-              {tonConnected ? (
-                <TonToolTip address={tonAddress} disconnect={disconnectTon}>
-                  <SocalSVG.ton className='fill-[#F8C685]' />
-                </TonToolTip>
-              ) : (
-                <motion.button
-                  className='flex items-center gap-x-1'
-                  onClick={openTonModalLogin}
-                  animate={isToggled ? shakeAnimation : ''}
-                >
-                  {<SocalSVG.ton className='fill-white' />}
-                  <span className='underline text-sm'>Connect</span>
-                </motion.button>
-              )}
-            </div>
-          )}
+            {hasInvited && (
+              <div className='flex items-center gap-x-4'>
+                {
+                  <Tooltip title={tgUserName} trigger='click'>
+                    <span className='cursor-pointer'>
+                      <SocalSVG.tg className='fill-[#F8C685]' />
+                    </span>
+                  </Tooltip>
+                }
+
+                {tonConnected ? (
+                  <TonToolTip address={tonAddress} disconnect={disconnectTon}>
+                    <SocalSVG.ton className='fill-[#F8C685]' />
+                  </TonToolTip>
+                ) : (
+                  <motion.button
+                    className='flex items-center gap-x-1'
+                    onClick={openTonModalLogin}
+                    animate={isToggled ? shakeAnimation : ''}
+                  >
+                    {<SocalSVG.ton className='fill-white' />}
+                    <span className='underline text-sm'>Connect</span>
+                  </motion.button>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-      <button
-        className='fixed top-20 left-2.5 flex flex-col'
-        onClick={() => {
-          setIsScratchModalOpen(true);
-        }}
-      >
-        {moduleConf.svg.scratchButton}
-        <img src={moduleConf.url.dog} className='relative -top-1 size-12' />
-      </button>
-      <WisescoreModal
-        open={isWisescoreModalOpen}
-        closeModal={closeModal}
-        onComplete={updateUserLevel}
-      />
-      <WisesSBTModal
-        open={isWiseSBTmodalOpen}
-        closeModal={() => {
-          setIsWiseSBTmodalOpen(false);
-        }}
-      />
-      <ScratchModal
-        inviteTgUser={inviteTgUser}
-        handleGenerate={handleGenerate}
-        handleJoin={handleJoin}
-        open={isScratchModalOpen}
-        closeModal={() => {
-          setIsScratchModalOpen(false);
-        }}
-      />
+      )}
+      <>
+        <button
+          className='fixed top-20 left-2.5 flex flex-col'
+          onClick={() => {
+            setIsScratchModalOpen(true);
+          }}
+        >
+          {moduleConf.svg.scratchButton}
+          <img src={moduleConf.url.dog} className='relative -top-1 size-12' />
+        </button>
+        <WisescoreModal
+          open={isWisescoreModalOpen}
+          closeModal={closeModal}
+          onComplete={updateUserLevel}
+        />
+        <WisesSBTModal
+          open={isWiseSBTmodalOpen}
+          closeModal={() => {
+            setIsWiseSBTmodalOpen(false);
+          }}
+        />
+        <ScratchModal
+          inviteTgUser={inviteTgUser}
+          handleGenerate={handleGenerate}
+          handleJoin={handleJoin}
+          open={isScratchModalOpen}
+          closeModal={() => {
+            setIsScratchModalOpen(false);
+          }}
+        />
+      </>
     </>
   );
 }
