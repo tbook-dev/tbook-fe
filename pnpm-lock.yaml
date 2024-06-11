@@ -61,7 +61,6 @@ importers:
       rehype-raw: ^7.0.0
       remark-gfm: ^4.0.0
       rollup: 2.79.1
-      scratchcard-js: ^1.5.5
       swiper: ^8.4.5
       tailwind-merge: ^2.3.0
       tailwindcss: ^3.4.1
@@ -124,7 +123,6 @@ importers:
       rehype-raw: 7.0.0
       remark-gfm: 4.0.0
       rollup: 2.79.1
-      scratchcard-js: 1.5.5
       swiper: 8.4.7
       tailwind-merge: 2.3.0
       tinymce: 6.8.2
@@ -814,14 +812,6 @@ packages:
       '@babel/core': 7.21.0
       '@babel/helper-plugin-utils': 7.20.2
     dev: true
-
-  /@babel/polyfill/7.12.1:
-    resolution: {integrity: sha512-X0pi0V6gxLi6lFZpGmeNa4zxtwEmCs42isWLNjZZDE0Y8yVfgu0T2OAHlzBbdYlqbW/YXVvoBHpATEM+goCj8g==}
-    deprecated: 🚨 This package has been deprecated in favor of separate inclusion of a polyfill and regenerator-runtime (when needed). See the @babel/polyfill docs (https://babeljs.io/docs/en/babel-polyfill) for more information.
-    dependencies:
-      core-js: 2.6.12
-      regenerator-runtime: 0.13.11
-    dev: false
 
   /@babel/runtime/7.21.0:
     resolution: {integrity: sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==}
@@ -3843,12 +3833,6 @@ packages:
     resolution: {integrity: sha512-2KV8NhB5JqC3ky0r9PMCAZKbUHSwtEo4CwCs0KXgruG43gX5PMqDEBbVU4OUzw2MuAWUfsuFmWvEKG5QRfSnJA==}
     dependencies:
       toggle-selection: 1.0.6
-    dev: false
-
-  /core-js/2.6.12:
-    resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
-    deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
-    requiresBuild: true
     dev: false
 
   /cross-fetch/3.1.8:
@@ -7648,13 +7632,6 @@ packages:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
     dependencies:
       loose-envify: 1.4.0
-    dev: false
-
-  /scratchcard-js/1.5.5:
-    resolution: {integrity: sha512-i46O+DmlPr4AwAAXaYn1zuC/F8SyJf+fY9wPbFi2i0KN2gCuJ83Tdn0KLoD86/rZ2RIEhp+rhZmoHEwwGwMjwA==}
-    dependencies:
-      '@babel/polyfill': 7.12.1
-      '@babel/runtime': 7.24.5
     dev: false
 
   /screenfull/5.2.0:

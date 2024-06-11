@@ -6,7 +6,7 @@ import social from '@/utils/social';
 import useUserRenaissance from '@/hooks/useUserRenaissance';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import moduleConf from '../../conf';
-import ScratchCard from '@/components/scratchCard';
+import ScratchCard from '@/components/scratchCard/card';
 import bgPic from '@/images/wise/rewards/cover.png';
 import initPic from '@/images/wise/rewards/init.png';
 import points10 from '@/images/wise/rewards/points10.png';
@@ -104,20 +104,21 @@ export default function ScratchModal ({
                   className='w-[280px] h-[476px] rounded-2xl relative bg-cover'
                   style={{ backgroundImage: `url(${bgPic})` }}
                 >
-                  <div className='absolute left-1/2 -translate-x-1/2 bottom-[116px]'>
+                  <div className='absolute left-1/2 -translate-x-1/2 bottom-[86px]'>
                     <ScratchCard
                       width={215}
                       height={205}
-                      imageForwardSrc={initPic}
-                      imageBackgroundSrc={points10}
+                      coverImg={initPic}
                       onFinish={() => {
                         // set
-                        console.log('--------->');
+                        console.log('onFinish--------->');
                       }}
                       onInit={() => {
                         // set under pic
                       }}
-                    />
+                    >
+                      <img src={points10} className='absolute inset-0' />
+                    </ScratchCard>
                   </div>
                 </div>
 

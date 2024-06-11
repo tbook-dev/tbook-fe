@@ -68,7 +68,6 @@
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
     "rollup": "2.79.1",
-    "scratchcard-js": "^1.5.5",
     "swiper": "^8.4.5",
     "tailwind-merge": "^2.3.0",
     "tinymce": "^6.8.2",
