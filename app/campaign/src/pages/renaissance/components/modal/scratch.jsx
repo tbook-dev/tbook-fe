@@ -8,9 +8,26 @@ import { formatImpact } from '@tbook/utils/lib/conf';
 import moduleConf from '../../conf';
 import ScratchCard from '@/components/scratchCard/card';
 import bgPic from '@/images/wise/rewards/cover.png';
-import initPic from '@/images/wise/rewards/init.png';
-import points10 from '@/images/wise/rewards/points10.png';
-import prize1 from '@/images/wise/rewards/scratchprize1.png';
+
+import initPic from '@/images/wise/prize/init.png';
+import point10 from '@/images/wise/prize/point10.png';
+import point25 from '@/images/wise/prize/point25.png';
+import point50 from '@/images/wise/prize/point50.png';
+import point100 from '@/images/wise/prize/point100.png';
+import wisesbt from '@/images/wise/prize/wise-sbt.png';
+import wisesore from '@/images/wise/prize/wise-score.png';
+
+import { preloadBatchImage } from '@/utils/common';
+
+const prizeMap = {
+  1: point10,
+  2: point25,
+  3: point50,
+  4: point100,
+  5: wisesbt,
+  6: wisesore,
+};
+preloadBatchImage(Object.values(prizeMap).concat([initPic, bgPic]));
 
 export default function ScratchModal ({
   open,
@@ -20,6 +37,7 @@ export default function ScratchModal ({
   handleJoin,
 }) {
   const { data } = useUserRenaissance();
+  const [prize, setPrize] = useState(0);
   const [action, setAction] = useState(0);
   const actionItem = useMemo(() => {
     const map = {
@@ -111,14 +129,20 @@ export default function ScratchModal ({
                       coverImg={initPic}
                       autoReinit
                       onFinish={() => {
-                        // set
                         console.log('onFinish--------->');
                       }}
                       onInit={() => {
                         // set under pic
+                        console.log('onint');
+                        setPrize(v => v + 1);
                       }}
                     >
-                      <img src={points10} className='absolute inset-0' />
+                      {prize && (
+                        <img
+                          src={prizeMap[prize]}
+                          className='absolute inset-0'
+                        />
+                      )}
                     </ScratchCard>
                   </div>
                 </div>

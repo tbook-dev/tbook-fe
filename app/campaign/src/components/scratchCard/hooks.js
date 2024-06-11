@@ -8,6 +8,7 @@ const useCardInit = (props) => {
     height,
     coverColor,
     coverImg,
+    onInit,
     onFinish,
     autoReinit = false,
   } = props;
@@ -151,6 +152,7 @@ const useCardInit = (props) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     // init canvas
+    onInit?.();
     generateCanvas();
     // bind event
     canvas.addEventListener('mousedown', scratchController.bind(null, true));

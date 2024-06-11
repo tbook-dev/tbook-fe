@@ -38,3 +38,7 @@ export async function loadImageUrl(coverImg) {
     return coverImg;
   }
 }
+
+export const preloadBatchImage = (imageUrls) => {
+  return Promise.all(imageUrls.map(preloadImage));
+};
