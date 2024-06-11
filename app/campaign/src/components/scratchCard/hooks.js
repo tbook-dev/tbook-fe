@@ -149,6 +149,7 @@ const useCardInit = (props) => {
   };
   const initCard = async () => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     // init canvas
     generateCanvas();
     // bind event
