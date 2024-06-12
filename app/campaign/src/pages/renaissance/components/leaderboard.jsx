@@ -1,12 +1,12 @@
 import useWiseScore from '@/hooks/useWiseScore';
-import useTopBoard from '@/hooks/useTopBoard';
+import { useWisescoreTop3 } from '@/hooks/useTopBoard';
 import UserScore from '@/pages/ton-wise/components/userScore';
 import Top from './ui/top';
 import { cn } from '@/utils/conf';
 
 export default function Leaderboard () {
-  const { data: userScore, isLoading: isUserScoreLoading } = useWiseScore();
-  const { data: top } = useTopBoard();
+  const { data: userScore } = useWiseScore();
+  const { data: top } = useWisescoreTop3();
   const top1 = top?.[0];
   const top2 = top?.[1];
   const top3 = top?.[2];

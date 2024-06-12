@@ -252,3 +252,7 @@ export const getUserTpoints = async function (userId) {
 export const getInvitedFriends = async function () {
   return await request.Get(`${host}/tg/invitations`);
 };
+
+export const getWiseScoreTop3 = async function () {
+  return await request.Get(`${host}/wiseScore/top3`);
+};
