@@ -5,6 +5,7 @@ import {
   getUserTpoints,
   joinSBTList,
   getWiseScore,
+  getInvitedFriends,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
 import { useCallback, useMemo, useState, useEffect } from 'react';
@@ -58,12 +59,16 @@ export const useLevel = () => {
       },
     }
   );
+  const updateUserLevel = () => {
+    console.log('to be replaced');
+  };
   return {
     data,
     userLevel: data,
     refetchUserLevel: refetch,
     level1Mutation,
     level2Mutation,
+    updateUserLevel,
   };
 };
 
@@ -76,14 +81,25 @@ export const useUserRenaissanceKit = () => {
     enabled: !!userId,
     retryOnMount: false,
   });
-
+  const { data: friendsRes } = useQuery(
+    'tg-invite-friends',
+    getInvitedFriends,
+    {
+      retry: false,
+      enabled: !!userId,
+      retryOnMount: false,
+    }
+  );
   const inviteTgUser = useCallback(() => {
     WebApp.openTelegramLink(`https://t.me/${TG_BOT_NAME}?start=${userId}`);
   }, [userId]);
-
+  const friendsCnt = friendsRes?.data?.inviteCnt ?? 0;
   return {
     inviteTgUser,
-    friends: [],
+    friends: friendsRes?.data?.invitees ?? [],
+    friendsCnt,
+    hasInvited: friendsCnt > 0,
+    level2Competed: friendsCnt >= 5,
     tpoints: data?.tPoints ?? 0,
     luckyDrawCnt: data?.luckyDrawCnt ?? 0,
   };

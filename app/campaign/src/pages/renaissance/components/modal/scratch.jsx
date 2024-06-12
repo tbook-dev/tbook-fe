@@ -54,7 +54,6 @@ export default function ScratchModal ({
     }, 300);
   }, []);
 
-  console.log({ countdown });
   const actionItem = useMemo(() => {
     const map = {
       0: {

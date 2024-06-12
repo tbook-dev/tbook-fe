@@ -19,9 +19,15 @@ import { useUserRenaissanceKit, useLevel } from '@/hooks/useUserRenaissance';
 
 export default function WisescoreCard () {
   const navigate = useNavigate();
-  // const { isLoading, data } = useUserRenaissance();
-  const { inviteTgUser, tpoints, friends } = useUserRenaissanceKit();
-  const { hasInvited, userLevel, updateUserLevel } = useLevel();
+  const {
+    inviteTgUser,
+    tpoints,
+    friends,
+    friendsCnt,
+    hasInvited,
+    level2Competed,
+  } = useUserRenaissanceKit();
+  const { userLevel, updateUserLevel } = useLevel();
   const { getSocialByName } = useSocial();
   const { openTonModalLogin, disconnectTon, tonConnected, tonAddress } =
     useTonToolkit();
@@ -37,25 +43,23 @@ export default function WisescoreCard () {
       onComplete: () => setToggle(false),
     },
   };
-  const invitedFriends = [];
-  const level2Competed = invitedFriends.length >= 5;
   const closeModal = useCallback(() => {
     setIsWisescoreModalOpen(false);
   }, []);
 
   const formatedFriends = useMemo(() => {
-    const invitedNum = friends.length;
-    const inviteList = Array.from({ length: 5 - invitedNum }).fill({
-      type: 'uninvited',
-    });
-    return friends.map(v => ({ ...v, type: 'invited' })).concat(inviteList);
-  }, [friends]);
+    if (friendsCnt >= 5) {
+      return friends;
+    } else {
+      const inviteList = Array.from({ length: 5 - friendsCnt }).fill({
+        type: 'uninvited',
+      });
+      return friends.map(v => ({ ...v, type: 'invited' })).concat(inviteList);
+    }
+  }, [friendsCnt, friends]);
 
   const handleGenerate = () => {
     if (tonConnected) {
-      console.log(
-        'connected, generate  wise score ,and report leverl 1 finish'
-      );
       setIsWisescoreModalOpen(true);
     } else {
       setToggle(true);
@@ -63,14 +67,12 @@ export default function WisescoreCard () {
   };
 
   const handleJoin = async () => {
-    // join white list
     await updateUserLevel(3);
     setIsWiseSBTmodalOpen(true);
   };
   const handleImprove = () => {
     navigate(`/wise-score`);
   };
-  console.log({ tpoints });
   return (
     <>
       {!userLevel ? (

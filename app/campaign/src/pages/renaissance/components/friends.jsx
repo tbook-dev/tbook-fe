@@ -2,7 +2,7 @@ import moduleConf from '../conf';
 import { useUserRenaissanceKit } from '@/hooks/useUserRenaissance';
 
 export default function Friends () {
-  const { friends } = useUserRenaissanceKit();
+  const { friends, friendsCnt } = useUserRenaissanceKit();
   return (
     <div className='p-4 space-y-2 border border-[#8541EE]/70 rounded-2xl'>
       <div>
@@ -10,16 +10,16 @@ export default function Friends () {
           {moduleConf.friends.title}
         </h2>
         <h3 className='text-sm text-[#FFDFA2]/60'>
-          {moduleConf.friends.getSubtitle(friends.length)}
+          {moduleConf.friends.getSubtitle(friendsCnt)}
         </h3>
       </div>
 
       <div className='flex -space-x-1.5'>
-        {friends.map(v => {
+        {friends.map((v, i) => {
           return (
             <img
               src={v.avatar}
-              key={v.userId}
+              key={i}
               className='size-10 rounded-full object-cover object-center'
             />
           );

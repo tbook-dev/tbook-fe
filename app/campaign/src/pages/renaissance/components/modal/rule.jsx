@@ -11,7 +11,7 @@ export default function Modal ({ open, onCancel }) {
   const [swiper, setSwiper] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const handleClick = () => {
-    if (activeIndex === 2) {
+    if (swiper.isEnd) {
       onCancel();
     } else {
       swiper.slideTo(activeIndex + 1);
