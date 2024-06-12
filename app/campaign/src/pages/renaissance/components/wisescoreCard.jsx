@@ -1,11 +1,11 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import moduleConf from '../conf';
 import Button from './ui/button';
 import SocalSVG from '@/utils/social';
 import useTonToolkit from '@/components/ton/useTon';
 import TonToolTip from '@/components/ton/tooltip';
-import { Tooltip } from 'antd';
+import { Tooltip, message } from 'antd';
 import useSocial from '@/hooks/useSocial';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
@@ -16,7 +16,6 @@ import Score from './ui/score';
 import { cn } from '@/utils/conf';
 import { useNavigate } from 'react-router-dom';
 import { useUserRenaissanceKit, useLevel } from '@/hooks/useUserRenaissance';
-import { Spin, message } from 'antd';
 
 export default function WisescoreCard () {
   const navigate = useNavigate();
@@ -29,8 +28,9 @@ export default function WisescoreCard () {
     friendsCnt,
     hasInvited,
     level2Competed,
+    luckyDrawCnt,
   } = useUserRenaissanceKit();
-  const { userLevel, level2Mutation, updateUserLevel } = useLevel();
+  const { userLevel, level2Mutation } = useLevel();
   const { getSocialByName } = useSocial();
   const { openTonModalLogin, disconnectTon, tonConnected, tonAddress } =
     useTonToolkit();
@@ -82,6 +82,12 @@ export default function WisescoreCard () {
   const handleImprove = () => {
     navigate(`/wise-score`);
   };
+
+  useEffect(() => {
+    if (luckyDrawCnt > 0) {
+      setIsScratchModalOpen(true);
+    }
+  }, [luckyDrawCnt]);
   return (
     <>
       {contextHolder}
