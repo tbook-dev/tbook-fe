@@ -77,11 +77,15 @@ export const useUserRenaissanceKit = () => {
   const { user } = useUserInfoQuery();
 
   const userId = user?.userId;
-  const { data } = useQuery('user-tpoints', () => getUserTpoints(userId), {
-    retry: false,
-    enabled: !!userId,
-    retryOnMount: false,
-  });
+  const { data, refetch } = useQuery(
+    'user-tpoints',
+    () => getUserTpoints(userId),
+    {
+      retry: false,
+      enabled: !!userId,
+      retryOnMount: false,
+    }
+  );
   const { data: friendsRes } = useQuery(
     'tg-invite-friends',
     getInvitedFriends,
@@ -104,6 +108,7 @@ export const useUserRenaissanceKit = () => {
     level2Competed: friendsCnt >= 5,
     tpoints: data?.tPoints ?? 0,
     luckyDrawCnt: data?.luckyDrawCnt ?? 0,
+    refetchInfo: refetch,
   };
 };
 

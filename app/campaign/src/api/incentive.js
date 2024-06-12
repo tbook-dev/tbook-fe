@@ -256,3 +256,7 @@ export const getInvitedFriends = async function () {
 export const getWiseScoreTop3 = async function () {
   return await request.Get(`${host}/wiseScore/top3`);
 };
+
+export const takeLuckyDraw = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/${userId}`);
+};

@@ -6,13 +6,16 @@ import {
   useUserRenaissanceKit,
   useCountdown,
 } from '@/hooks/useUserRenaissance';
+import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import moduleConf from '../../conf';
 import ScratchCard from '@/components/scratchCard/card';
 import bgPic from '@/images/wise/rewards/cover.png';
 import { preloadBatchImage } from '@/utils/common';
+import { takeLuckyDraw } from '@/api/incentive';
 
 import initPic from '@/images/wise/prize/init.png';
+import none from '@/images/wise/prize/none.png';
 import point10 from '@/images/wise/prize/point10.png';
 import point25 from '@/images/wise/prize/point25.png';
 import point50 from '@/images/wise/prize/point50.png';
@@ -24,16 +27,16 @@ import { useCallback } from 'react';
 const Lottie = lazy(() => import('lottie-react'));
 
 const prizeMap = {
-  1: point10,
-  2: point25,
-  3: point50,
-  4: point100,
-  5: wisesbt,
-  6: wisesore,
+  1: none,
+  2: point10,
+  3: point25,
+  4: point50,
+  5: point100,
+  6: wisesbt,
+  7: wisesore,
 };
 preloadBatchImage(Object.values(prizeMap).concat([initPic, bgPic]));
 const targetDate = new Date(Date.now() + 1000 * 60 * 10);
-
 export default function ScratchModal ({
   open,
   closeModal,
@@ -41,12 +44,12 @@ export default function ScratchModal ({
   handleGenerate,
   handleJoin,
 }) {
-  const { luckyDrawCnt, tpoints } = useUserRenaissanceKit();
+  const { user } = useUserInfoQuery();
+  const { luckyDrawCnt, tpoints, refetchInfo } = useUserRenaissanceKit();
   const countdown = useCountdown({ targetDate, enabled: open });
-  const [prize, setPrize] = useState(0);
-  const [action, setAction] = useState(0);
+  const [prize, setPrize] = useState(0); // 0没开始
+  const [showPrize, setShowPrize] = useState(false);
   const [lottiePlayed, setLottiePlayed] = useState(false);
-
   const handleCloseModal = useCallback(() => {
     closeModal();
     setTimeout(() => {
@@ -54,8 +57,46 @@ export default function ScratchModal ({
     }, 300);
   }, []);
 
-  const actionItem = useMemo(() => {
-    const map = {
+  const makeLuckDraw = async () => {
+    if (luckyDrawCnt === 0) return;
+    setShowPrize(false);
+    const res = await takeLuckyDraw(user?.userId);
+    const {
+      fissionLevel,
+      tpointsNum,
+      isEligibleToGenerateWiseScore,
+      isEligibleToGenerateSBT,
+    } = res;
+    if (tpointsNum === 100) {
+      setPrize(5);
+    } else if (tpointsNum === 50) {
+      setPrize(4);
+    } else if (tpointsNum === 25) {
+      setPrize(3);
+    } else if (tpointsNum === 10) {
+      setPrize(2);
+    } else if (tpointsNum === 0) {
+      if (fissionLevel === 1) {
+        if (isEligibleToGenerateWiseScore === 1) {
+          setPrize(7);
+        } else {
+          setPrize(1);
+        }
+      } else if (fissionLevel === 2) {
+        if (isEligibleToGenerateSBT === 1) {
+          setPrize(6);
+        } else {
+          setPrize(1);
+        }
+      } else if (fissionLevel === 3) {
+        setPrize(1);
+      }
+    }
+    await refetchInfo();
+  };
+
+  const actionMap = useMemo(() => {
+    return {
       0: {
         button: (
           <Button className='gap-x-1.5 w-[full] text-xs' onClick={inviteTgUser}>
@@ -66,9 +107,25 @@ export default function ScratchModal ({
       },
       1: {
         button: null,
-        text: 'You win 10 TPoints',
+        text: 'You missed the reward. Adjust your posture and scratch again. ',
       },
       2: {
+        button: null,
+        text: 'You win 10 TPoints',
+      },
+      3: {
+        button: null,
+        text: 'You win 10 TPoints',
+      },
+      4: {
+        button: null,
+        text: 'You win 10 TPoints',
+      },
+      5: {
+        button: null,
+        text: 'You win 10 TPoints',
+      },
+      6: {
         button: (
           <Button
             className='w-[120px]'
@@ -82,7 +139,7 @@ export default function ScratchModal ({
         ),
         text: 'You win the eligibility to mint WISE SBT',
       },
-      3: {
+      7: {
         button: (
           <Button
             className='w-[120px]'
@@ -97,8 +154,7 @@ export default function ScratchModal ({
         text: 'You win the eligibility to generate WISE Score',
       },
     };
-    return map[action];
-  }, [action]);
+  }, [prize]);
 
   return (
     <Transition appear show={open} as={Fragment}>
@@ -158,15 +214,14 @@ export default function ScratchModal ({
                       coverImg={initPic}
                       autoReinit
                       onFinish={() => {
+                        setShowPrize(true);
                         console.log('ScratchCard--onFinish--------->');
                       }}
                       onInit={() => {
-                        // set under pic
-                        console.log('onint');
-                        setPrize(v => v + 1);
+                        makeLuckDraw();
                       }}
                     >
-                      {prize && (
+                      {prizeMap[prize] && (
                         <img
                           src={prizeMap[prize]}
                           className='absolute inset-0'
@@ -201,15 +256,17 @@ export default function ScratchModal ({
                   </div>
                 </div>
 
-                {actionItem.button}
+                {showPrize ? actionMap[prize].button : actionMap[0].button}
 
-                {action > 0 && (
+                {showPrize && prize > 0 && (
                   <div className='text-center space-y-0.5 w-[280px]'>
                     <h2 className='text-xl font-bold'>
-                      <span className='text-color4'>Congratulations！</span>
+                      <span className='text-color4'>
+                        {prize === 1 ? 'Oops...' : 'Congratulations！'}
+                      </span>
                     </h2>
                     <p className='text-sm text-[#F8C685]/60'>
-                      {actionItem.text}
+                      {actionMap[prize].text}
                     </p>
                   </div>
                 )}
