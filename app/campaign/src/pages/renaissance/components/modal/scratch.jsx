@@ -126,17 +126,7 @@ export default function ScratchModal ({
         text: 'You win 100 TPoints',
       },
       6: {
-        button: (
-          <Button
-            className='w-[120px]'
-            onClick={() => {
-              handleCloseModal();
-              handleJoin();
-            }}
-          >
-            Join
-          </Button>
-        ),
+        button: null,
         text: 'You win the eligibility to mint WISE SBT',
       },
       7: {
@@ -215,6 +205,10 @@ export default function ScratchModal ({
                       autoReinit
                       onFinish={() => {
                         setShowPrize(true);
+                        if (prize === 6) {
+                          handleCloseModal();
+                          handleJoin();
+                        }
                       }}
                       onInit={() => {
                         makeLuckDraw();
