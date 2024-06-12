@@ -9,7 +9,6 @@ import useUserInfoQuery from './useUserInfoQuery';
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import { getTMAsahreLink, getQueryParameter, TG_BOT_NAME } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
-
 export default function useUserRenaissance() {
   const { user } = useUserInfoQuery();
   return useQuery('user-renaissance', () => getUserRenaissance(user?.userId), {
@@ -46,11 +45,7 @@ export const useLevel = () => {
 
 export const useUserRenaissanceKit = () => {
   const { user } = useUserInfoQuery();
-  const inviteTgUser = useCallback(() => {
-    WebApp.openTelegramLink(
-      `https://t.me/${TG_BOT_NAME}?start=${user?.userId}`
-    );
-  }, [user]);
+
   const { data } = useQuery(
     'user-tpoints',
     () => getUserTpoints(user?.userId),
@@ -61,5 +56,54 @@ export const useUserRenaissanceKit = () => {
     }
   );
 
-  return { inviteTgUser, friends: [], tpoints: data };
+  const inviteTgUser = useCallback(() => {
+    WebApp.openTelegramLink(
+      `https://t.me/${TG_BOT_NAME}?start=${user?.userId}`
+    );
+  }, [user]);
+
+  return {
+    inviteTgUser,
+    friends: [],
+    tpoints: data?.tPoints ?? 0,
+    luckyDrawCnt: data?.luckyDrawCnt ?? 0,
+  };
+};
+
+export const useCountdown = ({ targetDate, enabled = true }) => {
+  const [timeLeft, setTimeLeft] = useState('');
+  useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const target = new Date(targetDate);
+      const difference = target - now;
+
+      if (difference > 0) {
+        const minutes = Math.floor(
+          (difference % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        setTimeLeft(
+          `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(
+            2,
+            '0'
+          )}`
+        );
+      } else {
+        setTimeLeft('00:00');
+      }
+    };
+
+    const timer = setInterval(calculateTimeLeft, 1000);
+
+    calculateTimeLeft();
+
+    return () => clearInterval(timer);
+  }, [targetDate, enabled]);
+
+  return timeLeft;
 };

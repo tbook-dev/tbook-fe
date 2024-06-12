@@ -4,10 +4,11 @@ import Rewards from './components/rewards';
 import Friends from './components/friends';
 import Leaderboard from './components/leaderboard';
 import moduleConf from './conf';
-import { useUserRenaissanceKit } from '@/hooks/useUserRenaissance';
+import { useUserRenaissanceKit, useLevel } from '@/hooks/useUserRenaissance';
 
 export default function Renaissance () {
   const { friends } = useUserRenaissanceKit();
+  const { userLevel } = useLevel();
 
   return (
     <div className='px-5 pt-3 lg:px-0 mx-auto space-y-2'>
@@ -25,9 +26,9 @@ export default function Renaissance () {
         {moduleConf.inviteTip3}
       </p>
 
-      <Rewards />
+      {[1, 2].includes(userLevel) && <Rewards />}
 
-      <Leaderboard />
+      {userLevel === 3 && <Leaderboard />}
     </div>
   );
 }

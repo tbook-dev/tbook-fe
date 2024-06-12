@@ -2,7 +2,10 @@ import { Dialog, Transition, TransitionChild } from '@headlessui/react';
 import { useMemo, lazy, Suspense, useState, Fragment } from 'react';
 import Button from '../ui/button';
 import social from '@/utils/social';
-import useUserRenaissance from '@/hooks/useUserRenaissance';
+import {
+  useUserRenaissanceKit,
+  useCountdown,
+} from '@/hooks/useUserRenaissance';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import moduleConf from '../../conf';
 import ScratchCard from '@/components/scratchCard/card';
@@ -29,6 +32,7 @@ const prizeMap = {
   6: wisesore,
 };
 preloadBatchImage(Object.values(prizeMap).concat([initPic, bgPic]));
+const targetDate = new Date(Date.now() + 1000 * 60 * 10);
 
 export default function ScratchModal ({
   open,
@@ -37,7 +41,8 @@ export default function ScratchModal ({
   handleGenerate,
   handleJoin,
 }) {
-  const { data } = useUserRenaissance();
+  const { luckyDrawCnt, tpoints } = useUserRenaissanceKit();
+  const countdown = useCountdown({ targetDate, enabled: open });
   const [prize, setPrize] = useState(0);
   const [action, setAction] = useState(0);
   const [lottiePlayed, setLottiePlayed] = useState(false);
@@ -48,6 +53,8 @@ export default function ScratchModal ({
       setLottiePlayed(false);
     }, 300);
   }, []);
+
+  console.log({ countdown });
   const actionItem = useMemo(() => {
     const map = {
       0: {
@@ -125,7 +132,7 @@ export default function ScratchModal ({
             leaveFrom='opacity-100 scale-100'
             leaveTo='opacity-0 scale-95'
           >
-            <div className='inline-block space-y-5 w-full max-w-md p-8 my-8 overflow-hidden transition-all shadow-xl rounded-2xl'>
+            <div className='inline-block space-y-5 w-max max-w-md overflow-hidden transition-all shadow-xl rounded-2xl'>
               <div className='w-full flex flex-col justify-center gap-y-5  items-center'>
                 <div
                   className='w-[280px] h-[476px] rounded-2xl relative bg-cover'
@@ -172,22 +179,25 @@ export default function ScratchModal ({
 
                 <div className='w-[280px] space-y-0.5'>
                   <div className='flex items-center justify-between'>
-                    <button className='flex items-center gap-x-1 text-xs font-syne font-bold text-[#FFDFA2] bg-[#F8C685]/15 px-2 py-1 rounded-md'>
-                      {formatImpact(data?.scratchcard ?? 0)} scratch card
-                      {data?.scratchcard > 1 && 's'}
+                    <button
+                      onClick={inviteTgUser}
+                      className='flex items-center gap-x-1 text-xs font-syne font-bold text-[#FFDFA2] bg-[#F8C685]/15 px-2 py-1 rounded-md'
+                    >
+                      {formatImpact(luckyDrawCnt)} scratch card
+                      {luckyDrawCnt > 1 && 's'}
                       {moduleConf.svg.add}
                     </button>
                     <span className='flex items-center gap-x-1 text-xs text-[#FFDFA2] font-syne font-bold  bg-[#F8C685]/15 px-2 py-1 rounded-md'>
                       TPoints
                       <b className='font-normal font-rhd'>
-                        {formatImpact(data?.TPoints ?? 0)}
+                        {formatImpact(tpoints)}
                       </b>
                     </span>
                   </div>
                   <div className='flex gap-x-1 items-center'>
                     {moduleConf.svg.timer}
                     <span className='text-color6 text-xs'>
-                      next free card in 09:59
+                      next free card in {countdown}
                     </span>
                   </div>
                 </div>
