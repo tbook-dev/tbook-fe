@@ -109,7 +109,7 @@ const useCardInit = (props) => {
     const y = cy - canvasRect.y;
 
     context.beginPath();
-    context.arc(x, y, 20, 0, Math.PI * 2, false);
+    context.arc(x, y, 10, 0, Math.PI * 2, false);
     context.fill();
     context.closePath();
   };
