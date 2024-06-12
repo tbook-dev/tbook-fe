@@ -133,16 +133,17 @@ export default function ScratchModal ({
                 >
                   <div className='absolute left-1/2 -translate-x-1/2 bottom-[86px]'>
                     {!lottiePlayed && (
-                      <Suspense>
-                        <Lottie
-                          className='absolute left-0 bottom-10 z-20'
-                          animationData={lottieJson}
-                          loop={false}
-                          onComplete={() => {
-                            setLottiePlayed(true);
-                          }}
-                        />
-                      </Suspense>
+                      <div className='absolute left-0 bottom-0 z-20 h-[205px] flex items-center'>
+                        <Suspense>
+                          <Lottie
+                            animationData={lottieJson}
+                            loop={false}
+                            onComplete={() => {
+                              setLottiePlayed(true);
+                            }}
+                          />
+                        </Suspense>
+                      </div>
                     )}
 
                     <ScratchCard
