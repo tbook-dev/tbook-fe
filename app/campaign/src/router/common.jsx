@@ -1,11 +1,11 @@
 import MyLayout from '@/layout/my/Layout';
-import logo from '@/images/icon/logo.svg';
 import { isUsingSubdomain } from '@/utils/common';
 import PageFallBack from '@/components/pageFallback';
 import { Suspense, lazy } from 'react';
 import queryClient from '../query-client';
 import { getProjectId } from '@/api/incentive';
 import GlobalError from '@/components/errorBoundary/GlobalError';
+import { defaultProjectInfo } from './conf';
 
 const TwitterCallback = lazy(() => import('@/pages/twitter/callback'));
 const TgCallback = lazy(() => import('@/pages/social/tg'));
@@ -19,19 +19,7 @@ const ZkLoginCallback = lazy(() => import('@/pages/zklogin/zk_login_callback'));
 const ZkLoginEnoki = lazy(() => import('@/pages/zklogin/zk_login_with_enoki'));
 const Page404 = lazy(() => import('@/pages/404'));
 
-// const RandomError = lazy(() => import("@/components/randomError"));
-
 const getProjectIdFn = async () => {
-  const defaultValues = {
-    projectUrl: 'tbook',
-    isUsingSubdomain,
-    projectId: '',
-    project: {
-      projectUrl: 'tbook',
-      avatarUrl: logo,
-    },
-  };
-
   if (isUsingSubdomain) {
     try {
       const host = location.hostname;
@@ -52,10 +40,10 @@ const getProjectIdFn = async () => {
         project: res,
       };
     } catch (error) {
-      return defaultValues;
+      return defaultProjectInfo;
     }
   } else {
-    return defaultValues;
+    return defaultProjectInfo;
   }
 };
 

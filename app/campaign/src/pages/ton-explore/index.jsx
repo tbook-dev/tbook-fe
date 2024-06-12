@@ -28,6 +28,8 @@ export default function TonExplore () {
           navigate(`/${projectUrl}/`);
         } else if (type === 'wiseScore') {
           navigate(`/wise-score`);
+        } else if (type === 'renaissance') {
+          navigate(`/event/renaissance`);
         }
       }
     }

@@ -3,20 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Dialog,
   DialogPanel,
-  DialogTitle,
   Transition,
   TransitionChild,
 } from '@headlessui/react';
 import { Fragment, useCallback, useState, useRef } from 'react';
 import { setShowPassportGeneratingModal } from '@/store/global';
 import Card from './card';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { useEffect } from 'react';
 import { markNewUser } from '@/api/incentive';
+import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 
 export default function PassportGen () {
-  const proccessRef = useRef();
   const open = useSelector(s => s.global.showPassportGeneratingModal);
   const dispatch = useDispatch();
   const [genPending, setGenPending] = useState(false);
@@ -25,29 +22,22 @@ export default function PassportGen () {
     markNewUser();
   }, []);
 
-  useGSAP(() => {
-    if (open) {
-      setTimeout(() => {
-        if (proccessRef.current) {
-          gsap.to(proccessRef.current, {
-            duration: 3,
-            width: 190,
-            onComplete: () => {
-              setGenPending(false);
-              setTimeout(() => {
-                setClose()
-              }, 2000);
-            },
-          });
-        }
-      }, 400);
-    }
-  }, [genPending]);
+  const pendingAnimation = {
+    width: 190,
+    transition: {
+      duration: 3,
+      onComplete: () => {
+        setGenPending(false);
+        setTimeout(() => {
+          setClose();
+        }, 2000);
+      },
+    },
+  };
 
   useEffect(() => {
     setGenPending(open);
   }, [open]);
-
   return (
     <Transition show={open} as={Fragment}>
       <Dialog
@@ -85,8 +75,8 @@ export default function PassportGen () {
                     alt='passport gennerat'
                   />
                   <div className='w-[190px] h-0.5 absolute left-1/2 bottom-[174px] -translate-x-1/2 overflow-hidden bg-[#FFBCEC]/70 rounded-full'>
-                    <div
-                      ref={proccessRef}
+                    <motion.div
+                      animate={pendingAnimation}
                       className='absolute left-0 inset-y-0 w-0 bg-[#EA8EBA]'
                     />
                   </div>

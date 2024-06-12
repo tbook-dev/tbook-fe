@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
-const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
-const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
+export const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
+export const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
 
 export function safeParse(start_param) {
   try {
@@ -16,7 +16,7 @@ export const getDirectLink = (data) => {
     JSON.stringify(data)
   )}`;
 };
-
+// window.getDirectLink = getDirectLink;
 export const getTMAsahreLink = (data) => {
   const link = isEmpty(data)
     ? `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}`
@@ -24,7 +24,12 @@ export const getTMAsahreLink = (data) => {
   return `https://t.me/share/url?url=${encodeURIComponent(link)}`;
 };
 
-export const supportTMATypes = ['campaign', 'project', 'wiseScore'];
+export const supportTMATypes = [
+  'campaign',
+  'project',
+  'wiseScore',
+  'renaissance',
+];
 
 export const logoutRedirecrtKey = 'fromlogout';
 

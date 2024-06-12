@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { getTopBoard } from '@/api/incentive';
+import { getTopBoard, getWiseScoreTop3 } from '@/api/incentive';
 import useWiseScore from './useWiseScore';
 
 export default function useTopBoard() {
@@ -16,3 +16,9 @@ export default function useTopBoard() {
     ...rest,
   };
 }
+
+export const useWisescoreTop3 = () => {
+  return useQuery(['wise-board-top3'], getWiseScoreTop3, {
+    staleTime: 5000,
+  });
+};

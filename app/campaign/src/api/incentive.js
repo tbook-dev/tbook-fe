@@ -244,3 +244,27 @@ export const checkGameAirDrapData = async function () {
 export const claimGameAirdrop = async function (phase) {
   return await request.Post(`${host}/game_airdrop/claim`, { payload: phase });
 };
+export const getUserRenaissance = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/level/${userId}`);
+};
+export const getUserLevel = async function (userId) {
+  // return 2;
+  return await request.Get(`${host}/luckyDraw/level/${userId}`);
+};
+export const joinSBTList = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/joinSBTList/${userId}`);
+};
+export const getUserTpoints = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/tPoints/${userId}`);
+};
+export const getInvitedFriends = async function () {
+  return await request.Get(`${host}/tg/invitations`);
+};
+
+export const getWiseScoreTop3 = async function () {
+  return await request.Get(`${host}/wiseScore/top3`);
+};
+
+export const takeLuckyDraw = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/${userId}`);
+};
