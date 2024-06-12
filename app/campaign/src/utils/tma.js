@@ -16,7 +16,7 @@ export const getDirectLink = (data) => {
     JSON.stringify(data)
   )}`;
 };
-
+// window.getDirectLink = getDirectLink;
 export const getTMAsahreLink = (data) => {
   const link = isEmpty(data)
     ? `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}`

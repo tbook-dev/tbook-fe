@@ -115,15 +115,15 @@ export default function ScratchModal ({
       },
       3: {
         button: null,
-        text: 'You win 10 TPoints',
+        text: 'You win 25 TPoints',
       },
       4: {
         button: null,
-        text: 'You win 10 TPoints',
+        text: 'You win 50 TPoints',
       },
       5: {
         button: null,
-        text: 'You win 10 TPoints',
+        text: 'You win 100 TPoints',
       },
       6: {
         button: (
@@ -215,7 +215,6 @@ export default function ScratchModal ({
                       autoReinit
                       onFinish={() => {
                         setShowPrize(true);
-                        console.log('ScratchCard--onFinish--------->');
                       }}
                       onInit={() => {
                         makeLuckDraw();
