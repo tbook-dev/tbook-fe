@@ -249,11 +249,7 @@ export default function WisescoreCard () {
           {moduleConf.svg.scratchButton}
           <img src={moduleConf.url.dog} className='relative -top-1 size-12' />
         </button>
-        <WisescoreModal
-          open={isWisescoreModalOpen}
-          closeModal={closeModal}
-          onComplete={updateUserLevel}
-        />
+        <WisescoreModal open={isWisescoreModalOpen} closeModal={closeModal} />
         <WisesSBTModal
           open={isWiseSBTmodalOpen}
           closeModal={() => {

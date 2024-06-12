@@ -6,21 +6,23 @@ import {
 } from '@headlessui/react';
 import { Fragment, useLayoutEffect, useState } from 'react';
 import Score from '../ui/score';
-import useUserRenaissance, { useLevel } from '@/hooks/useUserRenaissance';
+import { useLevel } from '@/hooks/useUserRenaissance';
 import { formatImpact } from '@tbook/utils/lib/conf';
+import { delay } from '@/utils/common';
 
-export default function WisescoreModal ({ open, closeModal, onComplete }) {
+export default function WisescoreModal ({ open, closeModal }) {
   const [generating, setGenerating] = useState(false);
-  const { refetch, data } = useUserRenaissance();
+  const [wisescore, setWisecore] = useState(0);
 
+  const { level1Mutation } = useLevel();
   useLayoutEffect(() => {
     if (open) {
       setGenerating(true);
-      setTimeout(async () => {
-        await onComplete(2);
-        await refetch();
+      level1Mutation.mutateAsync().then(r => {
+        setWisecore(r?.totalScore ?? 0);
         setGenerating(false);
-      }, 3000);
+      });
+      delay(3000).then(closeModal);
     }
   }, [open]);
   return (
@@ -65,7 +67,7 @@ export default function WisescoreModal ({ open, closeModal, onComplete }) {
               <div className='w-full flex flex-col justify-center gap-y-5  items-center'>
                 <Score
                   className='w-full'
-                  text={generating ? '8???8' : formatImpact(data?.wisescore)}
+                  text={generating ? '8???8' : formatImpact(wisescore)}
                 />
                 {generating ? (
                   <div className='text-[#F8C685]/60 text-xl'>Generating...</div>

@@ -36,10 +36,8 @@ export const useLevel = () => {
     retryOnMount: false,
   });
   const level1Mutation = useMutation(
-    () => {
-      if (userId) {
-        getWiseScore(userId);
-      }
+    async () => {
+      return await getWiseScore(userId);
     },
     {
       onSuccess: () => {
@@ -59,8 +57,8 @@ export const useLevel = () => {
       },
     }
   );
-  const updateUserLevel = () => {
-    console.log('to be replaced');
+  const updateUserLevel = (data) => {
+    console.log('to be replaced', data);
   };
   return {
     data,
