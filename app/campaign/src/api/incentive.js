@@ -260,12 +260,11 @@ export const getUserRenaissance = async function (userId) {
   // };
   return await request.Get(`${host}/luckyDraw/level/${userId}`);
 };
-export const getUserLevel = async function (uid) {
-  return await request.Get(`${host}/luckyDraw/level/${uid}`);
+export const getUserLevel = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/level/${userId}`);
 };
-export const updateLevel = async function (data) {
-  console.log('reportShareCode', data);
-  return '';
+export const joinSBTList = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/joinSBTList/${userId}`);
 };
 export const getUserTpoints = async function (userId) {
   return await request.Get(`${host}/luckyDraw/tPoints/${userId}`);

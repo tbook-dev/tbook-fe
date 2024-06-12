@@ -1,9 +1,10 @@
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import {
   getUserRenaissance,
   getUserLevel,
   getUserTpoints,
-  updateLevel,
+  joinSBTList,
+  getWiseScore,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
 import { useCallback, useMemo, useState, useEffect } from 'react';
@@ -26,41 +27,59 @@ export default function useUserRenaissance() {
 // leverl 3 : has one new user invited and has one new user who has one new user invited and has one new user who has one new user invited
 export const useLevel = () => {
   const { user } = useUserInfoQuery();
+  const userId = user?.userId;
 
-  const { data, refetch } = useQuery(
-    'user-level',
-    () => getUserLevel(user?.userId),
+  const { data, refetch } = useQuery('user-level', () => getUserLevel(userId), {
+    retry: false,
+    enabled: !!userId,
+    retryOnMount: false,
+  });
+  const level1Mutation = useMutation(
+    () => {
+      if (userId) {
+        getWiseScore(userId);
+      }
+    },
     {
-      retry: false,
-      enabled: !!user.userId,
-      retryOnMount: false,
+      onSuccess: () => {
+        refetch();
+      },
+    }
+  );
+  const level2Mutation = useMutation(
+    () => {
+      if (userId) {
+        joinSBTList(userId);
+      }
+    },
+    {
+      onSuccess: () => {
+        refetch();
+      },
     }
   );
   return {
     data,
     userLevel: data,
     refetchUserLevel: refetch,
+    level1Mutation,
+    level2Mutation,
   };
 };
 
 export const useUserRenaissanceKit = () => {
   const { user } = useUserInfoQuery();
 
-  const { data } = useQuery(
-    'user-tpoints',
-    () => getUserTpoints(user?.userId),
-    {
-      retry: false,
-      enabled: !!user.userId,
-      retryOnMount: false,
-    }
-  );
+  const userId = user?.userId;
+  const { data } = useQuery('user-tpoints', () => getUserTpoints(userId), {
+    retry: false,
+    enabled: !!userId,
+    retryOnMount: false,
+  });
 
   const inviteTgUser = useCallback(() => {
-    WebApp.openTelegramLink(
-      `https://t.me/${TG_BOT_NAME}?start=${user?.userId}`
-    );
-  }, [user]);
+    WebApp.openTelegramLink(`https://t.me/${TG_BOT_NAME}?start=${userId}`);
+  }, [userId]);
 
   return {
     inviteTgUser,
