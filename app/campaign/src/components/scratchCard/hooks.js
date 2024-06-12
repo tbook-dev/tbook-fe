@@ -97,6 +97,7 @@ const useCardInit = (props) => {
   const handleScratch = (e) => {
     if (!isScratching.current) return;
     e.preventDefault();
+    e.stopPropagation();
 
     const canvas = canvasRef.current;
     if (!canvas) return;
