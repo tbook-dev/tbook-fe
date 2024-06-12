@@ -50,7 +50,7 @@ export default function UserScore ({ user, type = 1 }) {
       rt.display = '';
       rt.background = timerSVG;
     } else if (rank === -1) {
-      rt.display = '100+';
+      rt.display = '500+';
       rt.background = starSVG;
     } else {
       rt.display = rank;
@@ -95,7 +95,7 @@ export default function UserScore ({ user, type = 1 }) {
           {user?.addressType === 2
             ? user.address
             : shortAddressV1(user.address ?? '')}
-          (me)
+          ({type === 1 ? 'me' : 'you'})
         </span>
       </div>
 

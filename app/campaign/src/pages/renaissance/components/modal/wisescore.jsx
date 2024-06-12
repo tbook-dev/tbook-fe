@@ -8,7 +8,6 @@ import { Fragment, useLayoutEffect, useState } from 'react';
 import Score from '../ui/score';
 import { useLevel } from '@/hooks/useUserRenaissance';
 import { formatImpact } from '@tbook/utils/lib/conf';
-import { delay } from '@/utils/common';
 
 export default function WisescoreModal ({ open, closeModal }) {
   const [generating, setGenerating] = useState(false);
@@ -22,7 +21,6 @@ export default function WisescoreModal ({ open, closeModal }) {
         setWisecore(r?.totalScore ?? 0);
         setGenerating(false);
       });
-      delay(3000).then(closeModal);
     }
   }, [open]);
   return (

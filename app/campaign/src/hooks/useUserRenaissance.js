@@ -11,6 +11,8 @@ import useUserInfoQuery from './useUserInfoQuery';
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import { getTMAsahreLink, getQueryParameter, TG_BOT_NAME } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
+import { delay } from '@/utils/common';
+
 export default function useUserRenaissance() {
   const { user } = useUserInfoQuery();
   return useQuery('user-renaissance', () => getUserRenaissance(user?.userId), {
@@ -46,9 +48,10 @@ export const useLevel = () => {
     }
   );
   const level2Mutation = useMutation(
-    () => {
-      if (userId) {
-        joinSBTList(userId);
+    async () => {
+      const res = await joinSBTList(userId);
+      if (res.code !== 200) {
+        throw new Error(res.message);
       }
     },
     {
@@ -92,6 +95,7 @@ export const useUserRenaissanceKit = () => {
     WebApp.openTelegramLink(`https://t.me/${TG_BOT_NAME}?start=${userId}`);
   }, [userId]);
   const friendsCnt = friendsRes?.data?.inviteCnt ?? 0;
+
   return {
     inviteTgUser,
     friends: friendsRes?.data?.invitees ?? [],

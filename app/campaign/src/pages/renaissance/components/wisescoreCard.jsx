@@ -16,9 +16,12 @@ import Score from './ui/score';
 import { cn } from '@/utils/conf';
 import { useNavigate } from 'react-router-dom';
 import { useUserRenaissanceKit, useLevel } from '@/hooks/useUserRenaissance';
+import { Spin, message } from 'antd';
 
 export default function WisescoreCard () {
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
+
   const {
     inviteTgUser,
     tpoints,
@@ -27,7 +30,7 @@ export default function WisescoreCard () {
     hasInvited,
     level2Competed,
   } = useUserRenaissanceKit();
-  const { userLevel, updateUserLevel } = useLevel();
+  const { userLevel, level2Mutation, updateUserLevel } = useLevel();
   const { getSocialByName } = useSocial();
   const { openTonModalLogin, disconnectTon, tonConnected, tonAddress } =
     useTonToolkit();
@@ -67,14 +70,21 @@ export default function WisescoreCard () {
   };
 
   const handleJoin = async () => {
-    await updateUserLevel(3);
-    setIsWiseSBTmodalOpen(true);
+    level2Mutation
+      .mutateAsync()
+      .then(() => {
+        setIsWiseSBTmodalOpen(true);
+      })
+      .catch(e => {
+        messageApi.error(e.message);
+      });
   };
   const handleImprove = () => {
     navigate(`/wise-score`);
   };
   return (
     <>
+      {contextHolder}
       {!userLevel ? (
         <div className='animate-pulse bg-[#1f1f1f]/10 h-[400px] rounded-2xl border border-[#FFEAB5]/30' />
       ) : (
@@ -189,7 +199,11 @@ export default function WisescoreCard () {
             {userLevel === 2 && (
               <>
                 {level2Competed ? (
-                  <Button className='w-[120px]' onClick={handleJoin}>
+                  <Button
+                    className='w-[120px]'
+                    onClick={handleJoin}
+                    isLoading={level2Mutation.isLoading}
+                  >
                     Join
                   </Button>
                 ) : (

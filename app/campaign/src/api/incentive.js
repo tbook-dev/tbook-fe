@@ -240,8 +240,8 @@ export const getUserRenaissance = async function (userId) {
   return await request.Get(`${host}/luckyDraw/level/${userId}`);
 };
 export const getUserLevel = async function (userId) {
-  return 1;
-  // return await request.Get(`${host}/luckyDraw/level/${userId}`);
+  // return 2;
+  return await request.Get(`${host}/luckyDraw/level/${userId}`);
 };
 export const joinSBTList = async function (userId) {
   return await request.Get(`${host}/luckyDraw/joinSBTList/${userId}`);
