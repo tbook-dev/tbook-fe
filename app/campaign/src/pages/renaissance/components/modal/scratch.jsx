@@ -210,7 +210,7 @@ export default function ScratchModal ({
                           <Suspense>
                             <Lottie
                               animationData={lottieJson}
-                              loop={3}
+                              loop={2}
                               onComplete={() => {
                                 setLottiePlayed(true);
                               }}
