@@ -15,6 +15,7 @@ import { preloadBatchImage } from '@/utils/common';
 import { takeLuckyDraw } from '@/api/incentive';
 
 import initPic from '@/images/wise/prize/init.png';
+import nocard from '@/images/wise/prize/nocard.png';
 import none from '@/images/wise/prize/none.png';
 import point10 from '@/images/wise/prize/point10.png';
 import point25 from '@/images/wise/prize/point25.png';
@@ -23,6 +24,8 @@ import point100 from '@/images/wise/prize/point100.png';
 import wisesbt from '@/images/wise/prize/wise-sbt.png';
 import wisesore from '@/images/wise/prize/wise-score.png';
 import lottieJson from '@/images/lottie/cat-claw.json';
+import loadingJson from '@/images/lottie/prize-loading.json';
+
 import { useCallback } from 'react';
 const Lottie = lazy(() => import('lottie-react'));
 
@@ -35,8 +38,8 @@ const prizeMap = {
   6: wisesbt,
   7: wisesore,
 };
-preloadBatchImage(Object.values(prizeMap).concat([initPic, bgPic]));
-const targetDate = new Date(Date.now() + 1000 * 60 * 10);
+
+preloadBatchImage(Object.values(prizeMap).concat([initPic, bgPic, nocard]));
 export default function ScratchModal ({
   open,
   closeModal,
@@ -45,11 +48,17 @@ export default function ScratchModal ({
   handleJoin,
 }) {
   const { user } = useUserInfoQuery();
-  const { luckyDrawCnt, tpoints, refetchInfo } = useUserRenaissanceKit();
-  const countdown = useCountdown({ targetDate, enabled: open });
+  const { luckyDrawCnt, tpoints, refetchInfo, targetDate } =
+    useUserRenaissanceKit();
+  const countdown = useCountdown({
+    targetDate,
+    enabled: open,
+    onEnd: refetchInfo,
+  });
   const [prize, setPrize] = useState(0); // 0没开始
   const [showPrize, setShowPrize] = useState(false);
   const [lottiePlayed, setLottiePlayed] = useState(false);
+  const [isLoadingPrize, setLoadingPrize] = useState(false);
   const handleCloseModal = useCallback(() => {
     closeModal();
     setTimeout(() => {
@@ -59,8 +68,10 @@ export default function ScratchModal ({
 
   const makeLuckDraw = async () => {
     if (luckyDrawCnt === 0) return;
+    setLoadingPrize(true);
     setShowPrize(false);
     const res = await takeLuckyDraw(user?.userId);
+    setLoadingPrize(false);
     const {
       fissionLevel,
       tpointsNum,
@@ -92,7 +103,6 @@ export default function ScratchModal ({
         setPrize(1);
       }
     }
-    await refetchInfo();
   };
 
   const actionMap = useMemo(() => {
@@ -184,18 +194,30 @@ export default function ScratchModal ({
                   style={{ backgroundImage: `url(${bgPic})` }}
                 >
                   <div className='absolute left-1/2 -translate-x-1/2 bottom-[86px]'>
-                    {!lottiePlayed && (
+                    {luckyDrawCnt === 0 ? (
+                      <div className='absolute left-0 bottom-0 z-20 h-[205px] flex items-center'>
+                        <img src={nocard} className='w-full' />
+                      </div>
+                    ) : isLoadingPrize ? (
                       <div className='absolute left-0 bottom-0 z-20 h-[205px] flex items-center'>
                         <Suspense>
-                          <Lottie
-                            animationData={lottieJson}
-                            loop={false}
-                            onComplete={() => {
-                              setLottiePlayed(true);
-                            }}
-                          />
+                          <Lottie animationData={loadingJson} loop />
                         </Suspense>
                       </div>
+                    ) : (
+                      !lottiePlayed && (
+                        <div className='absolute left-0 bottom-0 z-20 h-[205px] flex items-center'>
+                          <Suspense>
+                            <Lottie
+                              animationData={lottieJson}
+                              loop={3}
+                              onComplete={() => {
+                                setLottiePlayed(true);
+                              }}
+                            />
+                          </Suspense>
+                        </div>
+                      )
                     )}
 
                     <ScratchCard
@@ -205,6 +227,7 @@ export default function ScratchModal ({
                       autoReinit
                       onFinish={() => {
                         setShowPrize(true);
+                        refetchInfo();
                         if (prize === 6) {
                           handleCloseModal();
                           handleJoin();
@@ -241,12 +264,14 @@ export default function ScratchModal ({
                       </b>
                     </span>
                   </div>
-                  <div className='flex gap-x-1 items-center'>
-                    {moduleConf.svg.timer}
-                    <span className='text-color6 text-xs'>
-                      next free card in {countdown}
-                    </span>
-                  </div>
+                  {targetDate > 0 && (
+                    <div className='flex gap-x-1 items-center'>
+                      {moduleConf.svg.timer}
+                      <span className='text-color6 text-xs'>
+                        next free card in {countdown}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {showPrize ? actionMap[prize].button : actionMap[0].button}

@@ -115,10 +115,11 @@ export const useUserRenaissanceKit = () => {
     tpoints: data?.tPoints ?? 0,
     luckyDrawCnt: data?.luckyDrawCnt ?? 0,
     refetchInfo: refetch,
+    targetDate: data?.nextDistribution,
   };
 };
 
-export const useCountdown = ({ targetDate, enabled = true }) => {
+export const useCountdown = ({ targetDate, enabled = true, onEnd }) => {
   const [timeLeft, setTimeLeft] = useState('');
   useEffect(() => {
     if (!enabled) {
@@ -126,7 +127,7 @@ export const useCountdown = ({ targetDate, enabled = true }) => {
     }
     const calculateTimeLeft = () => {
       const now = new Date();
-      const target = new Date(targetDate);
+      const target = targetDate;
       const difference = target - now;
 
       if (difference > 0) {
@@ -142,6 +143,7 @@ export const useCountdown = ({ targetDate, enabled = true }) => {
           )}`
         );
       } else {
+        onEnd?.();
         setTimeLeft('00:00');
       }
     };
