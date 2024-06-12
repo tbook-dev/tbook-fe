@@ -15,7 +15,7 @@ import { preloadBatchImage } from '@/utils/common';
 import { takeLuckyDraw } from '@/api/incentive';
 
 import initPic from '@/images/wise/prize/init.png';
-import nocard from '@/images/wise/prize/nocard.png';
+import nocard from '@/images/wise/prize/no-card.png';
 import none from '@/images/wise/prize/none.png';
 import point10 from '@/images/wise/prize/point10.png';
 import point25 from '@/images/wise/prize/point25.png';

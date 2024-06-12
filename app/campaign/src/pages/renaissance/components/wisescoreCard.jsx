@@ -37,6 +37,7 @@ export default function WisescoreCard () {
   const [isWisescoreModalOpen, setIsWisescoreModalOpen] = useState(false);
   const [isWiseSBTmodalOpen, setIsWiseSBTmodalOpen] = useState(false);
   const [isScratchModalOpen, setIsScratchModalOpen] = useState(false);
+  const [autoOpenScratchedModal, setAutoOpenScratchedModal] = useState(false);
   const tgUserName = getSocialByName('telegram').userName;
   const [isToggled, setToggle] = useState(false);
   const shakeAnimation = {
@@ -84,8 +85,9 @@ export default function WisescoreCard () {
   };
 
   useEffect(() => {
-    if (luckyDrawCnt > 0) {
+    if (luckyDrawCnt > 0 && !autoOpenScratchedModal) {
       setIsScratchModalOpen(true);
+      setAutoOpenScratchedModal(true);
     }
   }, [luckyDrawCnt]);
   return (
