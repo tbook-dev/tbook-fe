@@ -95,9 +95,15 @@ export const useUserRenaissanceKit = () => {
       retryOnMount: false,
     }
   );
+
   const inviteTgUser = useCallback(() => {
-    WebApp.openTelegramLink(`https://t.me/${TG_BOT_NAME}?start=${userId}`);
+    const link = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
+    const text = `@${TG_BOT_NAME} Hi friend, 💅click to get your lucky cards. 🎉 \n ${link}\n🔥 The thrilling scratch competition is now in full bloom! 💥\n🎁 Prize Pool: 💰NOTCoin, 💲20,000U`;
+
+    const shareLink = `https://t.me/share/url?text=${encodeURIComponent(text)}`;
+    WebApp.openTelegramLink(shareLink);
   }, [userId]);
+
   const friendsCnt = friendsRes?.data?.inviteCnt ?? 0;
 
   return {

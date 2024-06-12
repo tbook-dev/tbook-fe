@@ -65,24 +65,6 @@ export default function Modal ({ open, onCancel }) {
           </SwiperSlide>
           <SwiperSlide>
             <div className='space-y-5 mb-8'>
-              <h2 className='text-3xl font-syne text-center'>
-                Dive into mystery
-              </h2>
-              <div className='space-y-8 text-sm'>
-                <p>
-                  🧐WISE Score represents your on-chain reputation with:
-                  📈Wealth, Identity, Social and Engage. 🐈Generate WISE Score,
-                  showcase your contributions and impact on TON ! 🎮💎
-                </p>
-                <p>Let’s scratch happy, earn more, and thrive together! 🚀💰</p>
-                <div className='text-center text-[120px] leading-[120px]'>
-                  💅
-                </div>
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className='space-y-5 mb-8'>
               <h2 className='text-3xl font-syne text-center'>How to earn?</h2>
               <div className='space-y-8 text-sm'>
                 <p>
@@ -95,6 +77,24 @@ export default function Modal ({ open, onCancel }) {
                 </p>
                 <div className='text-center text-[120px] leading-[120px]'>
                   🎊
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className='space-y-5 mb-8'>
+              <h2 className='text-3xl font-syne text-center'>
+                Dive into mystery
+              </h2>
+              <div className='space-y-8 text-sm'>
+                <p>
+                  🧐WISE Score represents your on-chain reputation with:
+                  📈Wealth, Identity, Social and Engage. 🐈Generate WISE Score,
+                  showcase your contributions and impact on TON ! 🎮💎
+                </p>
+                <p>Let’s scratch happy, earn more, and thrive together! 🚀💰</p>
+                <div className='text-center text-[120px] leading-[120px]'>
+                  💅
                 </div>
               </div>
             </div>
