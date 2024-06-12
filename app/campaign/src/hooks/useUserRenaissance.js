@@ -102,7 +102,7 @@ export const useUserRenaissanceKit = () => {
     const text = `@${TG_BOT_NAME} Hi friend, 💅click to get your lucky cards. 🎉 \n ${link}\n🔥 The thrilling scratch competition is now in full bloom! 💥\n🎁 Prize Pool: 💰NOTCoin, 💲20,000U`;
     const shareLink = `https://t.me/share/url?text=${encodeURIComponent(
       text
-    )}&link=${encodeURIComponent(link)}`;
+    )}&url=${encodeURIComponent(link)}`;
     WebApp.openTelegramLink(shareLink);
   }, [userId]);
 
