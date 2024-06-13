@@ -178,10 +178,10 @@ export default function WisescoreCard () {
                 return (
                   <div
                     key={i}
-                    className='flex justify-center w-[96px] h-[122px] bg-cover'
+                    className='flex justify-center items-center w-[96px] h-[122px] bg-cover'
                     style={{ backgroundImage: `url(${moduleConf.prizebg})` }}
                   >
-                    <img src={v} className='h-full' />
+                    <img src={v} className='h-[72px]' />
                   </div>
                 );
               })}
