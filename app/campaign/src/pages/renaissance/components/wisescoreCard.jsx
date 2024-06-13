@@ -120,15 +120,16 @@ export default function WisescoreCard () {
               {[1, 2].includes(userLevel) && (
                 <span className='font-syne text-xl font-bold text-color4'>
                   {userLevel === 1 && moduleConf.wisescore}
-                  {userLevel === 2 && level2Competed ? (
-                    moduleConf.wisesbt
-                  ) : (
-                    <>
-                      {moduleConf.wisesbt}
-                      <br />
-                      {moduleConf.wisesbt2}
-                    </>
-                  )}
+                  {userLevel === 2 &&
+                    (level2Competed ? (
+                      moduleConf.wisesbt
+                    ) : (
+                      <>
+                        {moduleConf.wisesbt}
+                        <br />
+                        {moduleConf.wisesbt2}
+                      </>
+                    ))}
                 </span>
               )}
               {userLevel === 3 && (
