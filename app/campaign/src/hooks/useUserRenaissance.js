@@ -11,7 +11,6 @@ import useUserInfoQuery from './useUserInfoQuery';
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import { getTMAsahreLink, getQueryParameter, TG_BOT_NAME } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
-import { delay } from '@/utils/common';
 
 export default function useUserRenaissance() {
   const { user } = useUserInfoQuery();
@@ -84,6 +83,7 @@ export const useUserRenaissanceKit = () => {
       retry: false,
       enabled: !!userId,
       retryOnMount: false,
+      staleTime: 2000,
     }
   );
   const { data: friendsRes } = useQuery(

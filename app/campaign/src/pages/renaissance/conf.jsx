@@ -1,13 +1,13 @@
 import wisescoreRadarSVG from '@/images/wise/radar.svg';
-import dogSVG from '@/images/event/dog.svg';
+import dogSVG from '@/images/event/cat.png';
 import sbtSVG from '@/images/wise/rewards/sbt.png';
 import notSVG from '@/images/wise/rewards/not.svg';
 import airdropSVG from '@/images/wise/rewards/airdrop.svg';
 import passSVG from '@/images/wise/rewards/pass.svg';
 import inviteSVG from '@/images/wise/invite.svg';
-import prize1 from '@/images/wise/rewards/prize1.svg';
-import prize2 from '@/images/wise/rewards/prize2.svg';
-import prize3 from '@/images/wise/rewards/prize3.svg';
+import prize1 from '@/images/wise/rewards/prize1.png';
+import prize2 from '@/images/wise/rewards/prize2.png';
+import prize3 from '@/images/wise/rewards/prize3.png';
 import prizebg from '@/images/wise/rewards/prizebg.png';
 
 const moduleConf = {
@@ -238,6 +238,25 @@ const moduleConf = {
           d='M7 1.3125C3.85875 1.3125 1.3125 3.85875 1.3125 7C1.3125 10.1412 3.85875 12.6875 7 12.6875C10.1412 12.6875 12.6875 10.1412 12.6875 7C12.6875 3.85875 10.1412 1.3125 7 1.3125ZM7.4375 3.5C7.4375 3.38397 7.39141 3.27269 7.30936 3.19064C7.22731 3.10859 7.11603 3.0625 7 3.0625C6.88397 3.0625 6.77269 3.10859 6.69064 3.19064C6.60859 3.27269 6.5625 3.38397 6.5625 3.5V7C6.5625 7.2415 6.7585 7.4375 7 7.4375H9.625C9.74103 7.4375 9.85231 7.39141 9.93436 7.30936C10.0164 7.22731 10.0625 7.11603 10.0625 7C10.0625 6.88397 10.0164 6.77269 9.93436 6.69064C9.85231 6.60859 9.74103 6.5625 9.625 6.5625H7.4375V3.5Z'
           fill='#68EFAE'
         />
+      </svg>
+    ),
+    close: (
+      <svg
+        width='40'
+        height='40'
+        viewBox='0 0 40 40'
+        fill='none'
+        xmlns='http://www.w3.org/2000/svg'
+      >
+        <g opacity='0.4'>
+          <path
+            d='M16.25 16.25L23.75 23.75M23.75 16.25L16.25 23.75M35 20C35 21.9698 34.612 23.9204 33.8582 25.7403C33.1044 27.5601 31.9995 29.2137 30.6066 30.6066C29.2137 31.9995 27.5601 33.1044 25.7403 33.8582C23.9204 34.612 21.9698 35 20 35C18.0302 35 16.0796 34.612 14.2597 33.8582C12.4399 33.1044 10.7863 31.9995 9.3934 30.6066C8.00052 29.2137 6.89563 27.5601 6.14181 25.7403C5.38799 23.9204 5 21.9698 5 20C5 16.0218 6.58035 12.2064 9.3934 9.3934C12.2064 6.58035 16.0218 5 20 5C23.9782 5 27.7936 6.58035 30.6066 9.3934C33.4196 12.2064 35 16.0218 35 20Z'
+            stroke='white'
+            strokeWidth='1.5'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+          />
+        </g>
       </svg>
     ),
   },

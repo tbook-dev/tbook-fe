@@ -34,6 +34,7 @@ export default function WisescoreCard () {
   const { getSocialByName } = useSocial();
   const { openTonModalLogin, disconnectTon, tonConnected, tonAddress } =
     useTonToolkit();
+  const [tmpPass1, setTmpPass1] = useState(false);
   const [isWisescoreModalOpen, setIsWisescoreModalOpen] = useState(false);
   const [isWiseSBTmodalOpen, setIsWiseSBTmodalOpen] = useState(false);
   const [isScratchModalOpen, setIsScratchModalOpen] = useState(false);
@@ -119,15 +120,16 @@ export default function WisescoreCard () {
               {[1, 2].includes(userLevel) && (
                 <span className='font-syne text-xl font-bold text-color4'>
                   {userLevel === 1 && moduleConf.wisescore}
-                  {userLevel === 2 && level2Competed ? (
-                    moduleConf.wisesbt
-                  ) : (
-                    <>
-                      {moduleConf.wisesbt}
-                      <br />
-                      {moduleConf.wisesbt2}
-                    </>
-                  )}
+                  {userLevel === 2 &&
+                    (level2Competed ? (
+                      moduleConf.wisesbt
+                    ) : (
+                      <>
+                        {moduleConf.wisesbt}
+                        <br />
+                        {moduleConf.wisesbt2}
+                      </>
+                    ))}
                 </span>
               )}
               {userLevel === 3 && (
@@ -176,10 +178,10 @@ export default function WisescoreCard () {
                 return (
                   <div
                     key={i}
-                    className='flex justify-center w-[96px] h-[122px] bg-cover'
+                    className='flex justify-center items-center w-[96px] h-[122px] bg-cover'
                     style={{ backgroundImage: `url(${moduleConf.prizebg})` }}
                   >
-                    <img src={v} className='h-full' />
+                    <img src={v} className='h-[72px]' />
                   </div>
                 );
               })}
@@ -190,7 +192,7 @@ export default function WisescoreCard () {
             {/* invite logic，invited link but be clicked, after click finisged,tpiont gets, thus it can generate，but generate must connect ton wallect */}
             {/* userLevl 1 */}
             {userLevel === 1 &&
-              (hasInvited ? (
+              (hasInvited || tmpPass1 ? (
                 <Button className='gap-x-1.5' onClick={handleGenerate}>
                   {moduleConf.generateBtn}
                 </Button>
@@ -227,9 +229,7 @@ export default function WisescoreCard () {
             )}
 
             {userLevel === 3 && (
-              <Button className='w-[120px]' onClick={handleImprove}>
-                Improve
-              </Button>
+              <Button onClick={handleImprove}>Improve WISE Score</Button>
             )}
 
             {hasInvited && (
@@ -271,7 +271,13 @@ export default function WisescoreCard () {
           {moduleConf.svg.scratchButton}
           <img src={moduleConf.url.dog} className='relative -top-1 size-12' />
         </button>
-        <WisescoreModal open={isWisescoreModalOpen} closeModal={closeModal} />
+        <WisescoreModal
+          open={isWisescoreModalOpen}
+          closeModal={() => {
+            setTmpPass1(true);
+            closeModal();
+          }}
+        />
         <WisesSBTModal
           open={isWiseSBTmodalOpen}
           closeModal={() => {
