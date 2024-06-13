@@ -44,7 +44,10 @@ export default function ResultTModal ({
       },
       1: {
         button: null,
-        text: 'You missed the reward. Adjust your posture and scratch again. ',
+        text: [
+          'You missed the reward.',
+          'Adjust your posture and scratch again. ',
+        ],
       },
       2: {
         button: null,
@@ -145,9 +148,17 @@ export default function ResultTModal ({
                       {prize === 1 ? 'Oops...' : 'Congratulations！'}
                     </span>
                   </h2>
-                  <p className='text-sm text-[#F8C685]/60'>
-                    {actionMap[prize].text}
-                  </p>
+                  {Array.isArray(actionMap[prize].text) ? (
+                    actionMap[prize].text.map((t, i) => (
+                      <p key={i} className='text-sm text-[#F8C685]/60'>
+                        {t}
+                      </p>
+                    ))
+                  ) : (
+                    <p className='text-sm text-[#F8C685]/60'>
+                      {actionMap[prize].text}
+                    </p>
+                  )}
                 </div>
                 <div className='flex justify-center'>
                   {actionMap[prize].button ? (
