@@ -49,8 +49,8 @@ export default function ScratchModal ({
   handleJoin,
 }) {
   const { user } = useUserInfoQuery();
-  const { tpoints, refetchInfo, targetDate } = useUserRenaissanceKit();
-  const luckyDrawCnt = 3;
+  const { tpoints, luckyDrawCnt, refetchInfo, targetDate } =
+    useUserRenaissanceKit();
   const [prize, setPrize] = useState(0); // 0没开始
   const [showPrizeModal, setShowPrizeModal] = useState(false);
   const [userStarted, setUserStarted] = useState(false);
