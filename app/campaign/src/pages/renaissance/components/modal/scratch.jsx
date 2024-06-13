@@ -66,6 +66,10 @@ export default function ScratchModal ({
     }, 300);
   }, []);
 
+  const handleUserStart = () => {
+    setLottiePlayed(true);
+  };
+
   const makeLuckDraw = async () => {
     if (luckyDrawCnt === 0) return;
     setLoadingPrize(true);
@@ -187,7 +191,11 @@ export default function ScratchModal ({
             leaveFrom='opacity-100 scale-100'
             leaveTo='opacity-0 scale-95'
           >
-            <div className='inline-block space-y-5 w-max max-w-md overflow-hidden transition-all shadow-xl rounded-2xl'>
+            <div
+              onClick={handleUserStart}
+              onTouchStart={handleUserStart}
+              className='inline-block space-y-5 w-max max-w-md overflow-hidden transition-all shadow-xl rounded-2xl'
+            >
               <div className='w-full flex flex-col justify-center gap-y-5  items-center'>
                 <div
                   className='w-[280px] h-[476px] rounded-2xl relative bg-cover'
