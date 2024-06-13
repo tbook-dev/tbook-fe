@@ -46,10 +46,16 @@ export default function ScratchModal ({
     closeModal();
     setTimeout(() => {
       setUserStarted(false);
+      setUserStarted(false);
     }, 300);
   }, []);
 
   const handleUserStart = () => {
+    if (!isLoadingPrize) {
+      setUserStarted(true);
+    } else {
+      console.log('loading prize');
+    }
     if (!isLoadingPrize) {
       setUserStarted(true);
     } else {
@@ -60,6 +66,7 @@ export default function ScratchModal ({
   const makeLuckDraw = async () => {
     if (luckyDrawCnt === 0) return;
     setLoadingPrize(true);
+    // setShowPrize(false);
     // setShowPrize(false);
     const res = await takeLuckyDraw(user?.userId);
     setLoadingPrize(false);
@@ -72,28 +79,32 @@ export default function ScratchModal ({
     if (tpointsNum === 500) {
       setPrize(8);
     } else if (tpointsNum === 100) {
-      setPrize(5);
-    } else if (tpointsNum === 50) {
-      setPrize(4);
-    } else if (tpointsNum === 25) {
-      setPrize(3);
-    } else if (tpointsNum === 10) {
-      setPrize(2);
-    } else if (tpointsNum === 0) {
-      if (fissionLevel === 1) {
-        if (isEligibleToGenerateWiseScore === 1) {
-          setPrize(7);
-        } else {
+      if (tpointsNum === 500) {
+        setPrize(8);
+      } else if (tpointsNum === 100) {
+        setPrize(5);
+      } else if (tpointsNum === 50) {
+        setPrize(4);
+      } else if (tpointsNum === 25) {
+        setPrize(3);
+      } else if (tpointsNum === 10) {
+        setPrize(2);
+      } else if (tpointsNum === 0) {
+        if (fissionLevel === 1) {
+          if (isEligibleToGenerateWiseScore === 1) {
+            setPrize(7);
+          } else {
+            setPrize(1);
+          }
+        } else if (fissionLevel === 2) {
+          if (isEligibleToGenerateSBT === 1) {
+            setPrize(6);
+          } else {
+            setPrize(1);
+          }
+        } else if (fissionLevel === 3) {
           setPrize(1);
         }
-      } else if (fissionLevel === 2) {
-        if (isEligibleToGenerateSBT === 1) {
-          setPrize(6);
-        } else {
-          setPrize(1);
-        }
-      } else if (fissionLevel === 3) {
-        setPrize(1);
       }
     }
   };
