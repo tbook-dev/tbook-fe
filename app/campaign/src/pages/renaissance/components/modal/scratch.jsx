@@ -38,18 +38,18 @@ export default function ScratchModal ({
   });
   const [prize, setPrize] = useState(0); // 0没开始
   const [showPrize, setShowPrize] = useState(false);
-  const [lottiePlayed, setLottiePlayed] = useState(false);
+  const [userStarted, setUserStarted] = useState(false);
   const [isLoadingPrize, setLoadingPrize] = useState(false);
   const handleCloseModal = useCallback(() => {
     closeModal();
     setTimeout(() => {
-      setLottiePlayed(false);
+      setUserStarted(false);
     }, 300);
   }, []);
 
   const handleUserStart = () => {
     if (!isLoadingPrize) {
-      setLottiePlayed(true);
+      setUserStarted(true);
     } else {
       console.log('loading prize');
     }
@@ -58,7 +58,7 @@ export default function ScratchModal ({
   const makeLuckDraw = async () => {
     if (luckyDrawCnt === 0) return;
     setLoadingPrize(true);
-    setShowPrize(false);
+    // setShowPrize(false);
     const res = await takeLuckyDraw(user?.userId);
     setLoadingPrize(false);
     const {
@@ -67,7 +67,9 @@ export default function ScratchModal ({
       isEligibleToGenerateWiseScore,
       isEligibleToGenerateSBT,
     } = res;
-    if (tpointsNum === 100) {
+    if (tpointsNum === 500) {
+      setPrize(8);
+    } else if (tpointsNum === 100) {
       setPrize(5);
     } else if (tpointsNum === 50) {
       setPrize(4);
@@ -102,6 +104,7 @@ export default function ScratchModal ({
         handleGenerate={handleGenerate}
         open={showPrize}
         closeModal={() => {
+          setPrize(0);
           setShowPrize(false);
         }}
       />
@@ -150,23 +153,11 @@ export default function ScratchModal ({
                         <div className='absolute left-0 bottom-0 z-20 h-[224px] flex items-center'>
                           <img src={nocard} className='w-full' />
                         </div>
-                      ) : isLoadingPrize ? (
-                        <div className='absolute left-0 bottom-0 z-20 h-[224px] flex items-center'>
-                          <Suspense>
-                            <Lottie animationData={lottieJson} loop />
-                          </Suspense>
-                        </div>
                       ) : (
-                        (isLoadingPrize || !lottiePlayed) && (
+                        (isLoadingPrize || !userStarted) && (
                           <div className='absolute left-0 bottom-0 z-20 h-[224px] flex items-center'>
                             <Suspense>
-                              <Lottie
-                                animationData={lottieJson}
-                                loop={1}
-                                onComplete={() => {
-                                  setLottiePlayed(true);
-                                }}
-                              />
+                              <Lottie animationData={lottieJson} loop />
                             </Suspense>
                           </div>
                         )

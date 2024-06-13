@@ -84,6 +84,7 @@ export const useUserRenaissanceKit = () => {
       retry: false,
       enabled: !!userId,
       retryOnMount: false,
+      staleTime: 2000,
     }
   );
   const { data: friendsRes } = useQuery(
