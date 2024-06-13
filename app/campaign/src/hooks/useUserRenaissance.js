@@ -96,7 +96,7 @@ export const useUserRenaissanceKit = () => {
     }
   );
 
-  const inviteTgUser = useCallback(() => {
+  const inviteTgUser = () => {
     if (!userId) return;
     const link = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
     const text = `\n@${TG_BOT_NAME} Hi friend, 💅click to get your lucky cards. 🎉 \n 🔥 The thrilling scratch competition is now in full bloom! 💥\n🎁 Prize Pool: 💰NOTCoin、 💲20,000U \n\n ${link}`;
@@ -104,7 +104,7 @@ export const useUserRenaissanceKit = () => {
       text
     )}&url=${encodeURIComponent(link)}`;
     WebApp.openTelegramLink(shareLink);
-  }, [userId]);
+  };
 
   const friendsCnt = friendsRes?.data?.inviteCnt ?? 0;
 
