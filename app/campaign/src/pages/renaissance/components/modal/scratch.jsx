@@ -193,11 +193,9 @@ export default function ScratchModal ({
                           if (prize === 6) {
                             handleJoin();
                           }
+                          handleCloseModal();
                           refetchInfo();
-                          setTimeout(() => {
-                            handleCloseModal();
-                            setShowPrizeModal(true);
-                          }, 1000);
+                          setShowPrizeModal(true);
                         }}
                         onInit={() => {
                           makeLuckDraw();
