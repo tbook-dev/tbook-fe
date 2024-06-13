@@ -229,9 +229,7 @@ export default function WisescoreCard () {
             )}
 
             {userLevel === 3 && (
-              <Button className='w-[120px]' onClick={handleImprove}>
-                Improve
-              </Button>
+              <Button onClick={handleImprove}>Improve WISE Score</Button>
             )}
 
             {hasInvited && (
