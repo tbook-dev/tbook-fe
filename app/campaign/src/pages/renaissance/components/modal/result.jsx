@@ -10,8 +10,7 @@ import wisesbt from '@/images/wise/prize/wise-sbt.png';
 import wisesore from '@/images/wise/prize/wise-score.png';
 import { preloadBatchImage } from '@/utils/common';
 import { cn } from '@/utils/conf';
-import shiningSpin from '@/images/lottie/shining-spin.json';
-const Lottie = lazy(() => import('lottie-react'));
+import bgMp4 from '@/images/wise/prize/bg.mp4';
 
 const prizeMap = {
   1: none,
@@ -104,22 +103,23 @@ export default function ResultTModal ({
                 className='fixed inset-0 bg-center bg-cover backdrop-blur-lg'
                 onClick={closeModal}
                 style={{ backgroundImage: `url(${nonebg})` }}
-              />
+              >
+                <div className='fixed inset-0 bg-linear12 z-10' />
+              </div>
             ) : (
               <div
-                className='fixed inset-0 backdrop-blur-xl'
+                className='fixed inset-0  backdrop-blur-xl  flex items-center justify-center'
                 onClick={closeModal}
               >
-                <Lottie
-                  animationData={shiningSpin}
+                <video
+                  autoPlay
                   loop
-                  style={{
-                    width: '100dvw',
-                    height: '100dvh',
-                    backdropFilter: 'blur(10px)',
-                    opacity: '0.6',
-                  }}
-                />
+                  muted
+                  className='w-full h-full object-cover object-center rotate-180'
+                >
+                  <source src={`${bgMp4}`} type='video/mp4' />
+                </video>
+                <div className='fixed inset-0 bg-linear12 z-10' />
               </div>
             )}
           </TransitionChild>

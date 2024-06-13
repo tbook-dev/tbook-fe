@@ -142,23 +142,23 @@ export default function ScratchModal ({
               >
                 <div className='w-full flex flex-col justify-center gap-y-5  items-center'>
                   <div
-                    className='w-[300px] h-[510px] rounded-2xl relative bg-cover'
+                    className='w-[300px] h-[510px] rounded-2xl relative bg-cover bg-center'
                     style={{ backgroundImage: `url(${bgPic})` }}
                   >
                     <div className='absolute left-1/2 -translate-x-1/2 bottom-[86px]'>
                       {luckyDrawCnt === 0 ? (
-                        <div className='absolute left-0 bottom-0 z-20 h-[205px] flex items-center'>
+                        <div className='absolute left-0 bottom-0 z-20 h-[224px] flex items-center'>
                           <img src={nocard} className='w-full' />
                         </div>
                       ) : isLoadingPrize ? (
-                        <div className='absolute left-0 bottom-0 z-20 h-[205px] flex items-center'>
+                        <div className='absolute left-0 bottom-0 z-20 h-[224px] flex items-center'>
                           <Suspense>
                             <Lottie animationData={lottieJson} loop />
                           </Suspense>
                         </div>
                       ) : (
                         (isLoadingPrize || !lottiePlayed) && (
-                          <div className='absolute left-0 bottom-0 z-20 h-[205px] flex items-center'>
+                          <div className='absolute left-0 bottom-0 z-20 h-[224px] flex items-center'>
                             <Suspense>
                               <Lottie
                                 animationData={lottieJson}
@@ -173,8 +173,8 @@ export default function ScratchModal ({
                       )}
 
                       <ScratchCard
-                        width={215}
-                        height={205}
+                        width={264}
+                        height={224}
                         coverImg={initPic}
                         autoReinit={false}
                         onFinish={() => {
