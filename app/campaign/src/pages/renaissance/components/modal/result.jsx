@@ -20,6 +20,7 @@ const prizeMap = {
   5: tpoint,
   6: wisesbt,
   7: wisesore,
+  8: tpoint,
 };
 preloadBatchImage(Object.values(prizeMap));
 
@@ -78,8 +79,12 @@ export default function ResultTModal ({
         ),
         text: 'You win the eligibility to generate WISE Score',
       },
+      6: {
+        button: null,
+        text: 'You win 500 TPoints',
+      },
     };
-  }, [prize]);
+  }, []);
   return (
     <Transition appear show={open} as={Fragment}>
       <Dialog
