@@ -3,7 +3,6 @@ import { Fragment, useMemo, lazy } from 'react';
 import Button from '../ui/button';
 import moduleConf from '../../conf';
 import social from '@/utils/social';
-import nonebg from '@/images/wise/prize/nonebg.svg';
 import none from '@/images/wise/prize/none.png';
 import tpoint from '@/images/wise/prize/tpoint.png';
 import wisesbt from '@/images/wise/prize/wise-sbt.png';
@@ -24,7 +23,7 @@ const prizeMap = {
   7: wisesore,
   8: tpoint,
 };
-preloadBatchImage(Object.values(prizeMap).concat([nonebg, hasRewards]));
+preloadBatchImage(Object.values(prizeMap).concat([hasRewards]));
 
 export default function ResultTModal ({
   open,
@@ -45,7 +44,10 @@ export default function ResultTModal ({
       },
       1: {
         button: null,
-        text: 'You missed the reward. Adjust your posture and scratch again. ',
+        text: [
+          'You missed the reward.',
+          'Adjust your posture and scratch again. ',
+        ],
       },
       2: {
         button: null,
@@ -108,9 +110,6 @@ export default function ResultTModal ({
               <div
                 className='fixed inset-0 bg-center bg-cover backdrop-blur-lg'
                 onClick={closeModal}
-                style={{
-                  backgroundImage: `url(${nonebg})`,
-                }}
               >
                 <div className='fixed inset-0 bg-linear12 z-10' />
               </div>
@@ -149,9 +148,17 @@ export default function ResultTModal ({
                       {prize === 1 ? 'Oops...' : 'Congratulations！'}
                     </span>
                   </h2>
-                  <p className='text-sm text-[#F8C685]/60'>
-                    {actionMap[prize].text}
-                  </p>
+                  {Array.isArray(actionMap[prize].text) ? (
+                    actionMap[prize].text.map((t, i) => (
+                      <p key={i} className='text-sm text-[#F8C685]/60'>
+                        {t}
+                      </p>
+                    ))
+                  ) : (
+                    <p className='text-sm text-[#F8C685]/60'>
+                      {actionMap[prize].text}
+                    </p>
+                  )}
                 </div>
                 <div className='flex justify-center'>
                   {actionMap[prize].button ? (
