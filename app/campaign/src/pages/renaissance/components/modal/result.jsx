@@ -22,7 +22,7 @@ const prizeMap = {
   7: wisesore,
   8: tpoint,
 };
-preloadBatchImage(Object.values(prizeMap));
+preloadBatchImage(Object.values(prizeMap).concat([nonebg, hasRewards]));
 
 export default function ResultTModal ({
   open,
