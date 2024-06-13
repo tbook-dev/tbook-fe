@@ -76,35 +76,32 @@ export default function ScratchModal ({
       isEligibleToGenerateWiseScore,
       isEligibleToGenerateSBT,
     } = res;
+
     if (tpointsNum === 500) {
       setPrize(8);
     } else if (tpointsNum === 100) {
-      if (tpointsNum === 500) {
-        setPrize(8);
-      } else if (tpointsNum === 100) {
-        setPrize(5);
-      } else if (tpointsNum === 50) {
-        setPrize(4);
-      } else if (tpointsNum === 25) {
-        setPrize(3);
-      } else if (tpointsNum === 10) {
-        setPrize(2);
-      } else if (tpointsNum === 0) {
-        if (fissionLevel === 1) {
-          if (isEligibleToGenerateWiseScore === 1) {
-            setPrize(7);
-          } else {
-            setPrize(1);
-          }
-        } else if (fissionLevel === 2) {
-          if (isEligibleToGenerateSBT === 1) {
-            setPrize(6);
-          } else {
-            setPrize(1);
-          }
-        } else if (fissionLevel === 3) {
+      setPrize(5);
+    } else if (tpointsNum === 50) {
+      setPrize(4);
+    } else if (tpointsNum === 25) {
+      setPrize(3);
+    } else if (tpointsNum === 10) {
+      setPrize(2);
+    } else if (tpointsNum === 0) {
+      if (fissionLevel === 1) {
+        if (isEligibleToGenerateWiseScore === 1) {
+          setPrize(7);
+        } else {
           setPrize(1);
         }
+      } else if (fissionLevel === 2) {
+        if (isEligibleToGenerateSBT === 1) {
+          setPrize(6);
+        } else {
+          setPrize(1);
+        }
+      } else if (fissionLevel === 3) {
+        setPrize(1);
       }
     }
   };
