@@ -4,10 +4,11 @@ import { useEffect, useState, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShowPassportGeneratingModal } from '@/store/global';
 import { useTelegram } from './useTg';
-
+import { useLocation } from 'react-router-dom';
 export default function useUserInfo() {
   const [firstLoad, setFirstLoad] = useState(false);
   const dispatch = useDispatch();
+  const location = useLocation();
   const { isTMA } = useTelegram();
   const showPassportGeneratingModal = useSelector(
     (s) => s.global.showPassportGeneratingModal
@@ -137,15 +138,28 @@ export default function useUserInfo() {
     ].filter(Boolean).length > 1;
 
   const sessionKey = `markNewUser-${user?.userId ?? ''}`;
-  if (
-    data &&
-    !showPassportGeneratingModal &&
-    newUser &&
-    !sessionStorage.getItem(sessionKey)
-  ) {
-    sessionStorage.setItem(sessionKey, '1');
-    dispatch(setShowPassportGeneratingModal(true));
-  }
+  const whiteList = ['/event/renaissance'];
+
+  useEffect(() => {
+    if (
+      data &&
+      !showPassportGeneratingModal &&
+      newUser &&
+      !sessionStorage.getItem(sessionKey) &&
+      !whiteList.includes(location.pathname)
+    ) {
+      sessionStorage.setItem(sessionKey, '1');
+      dispatch(setShowPassportGeneratingModal(true));
+    }
+  }, [
+    data,
+    location,
+    showPassportGeneratingModal,
+    newUser,
+    sessionStorage,
+    dispatch,
+  ]);
+
   return {
     data,
     isLoading,

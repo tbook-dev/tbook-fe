@@ -14,3 +14,8 @@
   font-family: 'zen-dot';
   src: url(./static/ZenDots-Regular.ttf) format('truetype');
 }
+
+@font-face {
+  font-family: 'Syne';
+  src: url(./static/Syne-VariableFont_wght.ttf) format('truetype-variations');
+}

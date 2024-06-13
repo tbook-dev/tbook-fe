@@ -1,14 +1,14 @@
 import MyLayout from '@/layout/my/Layout';
-import Layout from '@/layout/normal/Layout';
+import TMALayout from '@/layout/ton/Layout';
 import HomeLayout from '@/layout/fixed/Layout';
 import { Suspense, lazy } from 'react';
 import PageFallBack from '@/components/pageFallback';
 import { getProjectId } from '@/api/incentive';
 import queryClient from '../query-client';
-import logo from '@/images/icon/logo.svg';
 import App from '@/pages/app';
 import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
+import { keptProjectUrls, defaultProjectInfo } from './conf';
 
 const Home = lazy(() => import('@/pages/home'));
 // const Explore = lazy(() => import('@/pages/explore'));
@@ -20,23 +20,17 @@ const Snapshot = lazy(() => import('@/pages/snapshot'));
 const TonExplore = lazy(() => import('@/pages/ton-explore'));
 const WiseScore = lazy(() => import('@/pages/ton-wise/wise-score'));
 const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/wise-leaderboard'));
-
+const Renaissance = lazy(() => import('@/pages/renaissance'));
 const Attestation = lazy(() => import('@/pages/attestation'));
 
+const getTbookfn = async () => {
+  return defaultProjectInfo;
+};
 const getProjectIdFn = async ({ params }) => {
   let projectUrl = params.projectName;
-  const defaultValues = {
-    projectUrl: 'tbook',
-    isUsingSubdomain: false,
-    projectId: '',
-    project: {
-      projectUrl,
-      avatarUrl: logo,
-    },
-  };
-  if (!projectUrl) {
-    // official home 、explore
-    return defaultValues;
+
+  if (!projectUrl && keptProjectUrls.includes(projectUrl)) {
+    return defaultProjectInfo;
   }
   try {
     const res = await queryClient.fetchQuery(
@@ -54,20 +48,20 @@ const getProjectIdFn = async ({ params }) => {
       project: res,
     };
   } catch (e) {
-    return defaultValues;
+    return defaultProjectInfo;
   }
 };
 
 const routes = [
   {
     path: '/',
-    loader: getProjectIdFn,
+    loader: getTbookfn,
     element: <HomeLayout />,
     errorElement: <GlobalError />,
     children: [
       {
         index: true,
-        loader: getProjectIdFn,
+        loader: getTbookfn,
         element: (
           <Suspense fallback={<PageFallBack />}>
             <Home />
@@ -76,26 +70,9 @@ const routes = [
       },
     ],
   },
-  // {
-  //   path: '/explore',
-  //   loader: getProjectIdFn,
-  //   element: <Layout />,
-  //   errorElement: <GlobalError />,
-  //   children: [
-  //     {
-  //       index: true,
-  //       loader: getProjectIdFn,
-  //       element: (
-  //         <Suspense fallback={<PageFallBack />}>
-  //           <Explore />
-  //         </Suspense>
-  //       ),
-  //     },
-  //   ],
-  // },
   {
     path: '/ton-explore',
-    loader: getProjectIdFn,
+    loader: getTbookfn,
     element: (
       <Suspense fallback={<PageFallBack />}>
         <TonExplore />
@@ -105,7 +82,7 @@ const routes = [
   },
   {
     path: '/wise-score',
-    loader: getProjectIdFn,
+    loader: getTbookfn,
     element: (
       <Suspense fallback={<PageFallBack />}>
         <WiseScore />
@@ -115,12 +92,29 @@ const routes = [
   },
   {
     path: '/wise-leaderboard',
-    loader: getProjectIdFn,
+    loader: getTbookfn,
     element: (
       <Suspense fallback={<PageFallBack />}>
         <WiseLeaderboard />
       </Suspense>
     ),
+    errorElement: <GlobalError />,
+  },
+  {
+    path: '/event',
+    loader: getTbookfn,
+    element: <TMALayout layout />,
+    children: [
+      {
+        path: 'renaissance',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <Renaissance />
+          </Suspense>
+        ),
+      },
+    ],
     errorElement: <GlobalError />,
   },
   {

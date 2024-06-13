@@ -236,3 +236,27 @@ export const getTopBoard = async function () {
 export const addWiseSocialLink = async function (data) {
   return await request.Post(`${host}/wiseScore/addLink`, data);
 };
+export const getUserRenaissance = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/level/${userId}`);
+};
+export const getUserLevel = async function (userId) {
+  // return 2;
+  return await request.Get(`${host}/luckyDraw/level/${userId}`);
+};
+export const joinSBTList = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/joinSBTList/${userId}`);
+};
+export const getUserTpoints = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/tPoints/${userId}`);
+};
+export const getInvitedFriends = async function () {
+  return await request.Get(`${host}/tg/invitations`);
+};
+
+export const getWiseScoreTop3 = async function () {
+  return await request.Get(`${host}/wiseScore/top3`);
+};
+
+export const takeLuckyDraw = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/${userId}`);
+};

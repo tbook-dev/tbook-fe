@@ -4,12 +4,7 @@ import useUserInfo from '@/hooks/useUserInfoQuery';
 import walletGrayIcon from '@/images/icon/wallet-gray.svg';
 import useSocial from '@/hooks/useSocial';
 import { useDispatch } from 'react-redux';
-import {
-  setConnectWalletModal,
-  setShowDistoryTon,
-  setunbindSocialData,
-  setShowUnbindSocial,
-} from '@/store/global';
+import { setConnectWalletModal } from '@/store/global';
 import { Link, useLoaderData, useLocation } from 'react-router-dom';
 import Address from '@tbook/ui/src/Address';
 import suiSVG from '@/images/zklogin/sui.svg';
@@ -23,13 +18,7 @@ import wiseScoreSVG from '@/images/icon/wise-score.svg';
 import fallbackAvatarSVG from '@/images/passport/avatar.svg';
 import LazyImage from '../lazyImage';
 import { useTelegram } from '@/hooks/useTg';
-import {
-  useTonConnectUI,
-  useTonWallet,
-  TonConnectButton,
-  useTonConnectModal,
-  useTonAddress,
-} from '@tonconnect/ui-react';
+import useTonToolkit from '@/components/ton/useTon';
 import TipAddress from './TipAddress';
 import clsx from 'clsx';
 
@@ -45,34 +34,24 @@ export default function PassportCard ({ onClose }) {
     currentSocial,
     tonConnected,
     address,
-    data,
     evmConnected,
     evmAddress,
     currentAddress,
     tonAddress,
     isUsingWallet,
-    isMultAccount,
   } = useUserInfo();
-  const { socialList, getZkfnByName } = useSocial();
-  const { open } = useTonConnectModal();
+  const { socialList } = useSocial();
   const dispatch = useDispatch();
   const { isUsingSubdomain, projectUrl, projectId } = useLoaderData();
   const { isTMA } = useTelegram();
-  const [tonConnectUI] = useTonConnectUI();
+  const { openTonModalLogin, disconnectTon } = useTonToolkit();
   const handleConnectWallet = useCallback(() => {
     onClose();
     dispatch(setConnectWalletModal(true));
   }, []);
   const handleTonClick = async () => {
-    try {
-      await tonConnectUI.disconnect();
-    } catch (e) {
-      console.log(e);
-    }
     onClose();
-    open();
-    // await tonConnectUI.disconnect();
-    // tonConnectUI.modal.open();
+    openTonModalLogin();
   };
   let location = useLocation();
   const links = useMemo(() => {
@@ -89,19 +68,7 @@ export default function PassportCard ({ onClose }) {
   }, [projectUrl]);
   const handleDisconnectTon = () => {
     onClose();
-    setTimeout(() => {
-      if (isMultAccount) {
-        dispatch(
-          setunbindSocialData({
-            accountName: tonAddress,
-            accountType: 'ton',
-          })
-        );
-        dispatch(setShowUnbindSocial(true));
-      } else {
-        dispatch(setShowDistoryTon(true));
-      }
-    }, 600);
+    disconnectTon(600);
   };
 
   // const linkNoClick = useMemo(() => {
@@ -179,7 +146,7 @@ export default function PassportCard ({ onClose }) {
         connected: evmConnected,
       },
     ];
-  }, [tonConnected, evmConnected, tonConnectUI]);
+  }, [tonConnected, evmConnected]);
   // console.log({ currentAddress, isTMA });
   return (
     <div className='flex-auto flex flex-col justify-start pb-16 pt-6 lg:py-0 lg:justify-center text-white'>
