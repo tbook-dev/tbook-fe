@@ -58,7 +58,7 @@ export default function ScratchModal ({
   const makeLuckDraw = async () => {
     if (luckyDrawCnt === 0) return;
     setLoadingPrize(true);
-    setShowPrize(false);
+    // setShowPrize(false);
     const res = await takeLuckyDraw(user?.userId);
     setLoadingPrize(false);
     const {
