@@ -289,6 +289,9 @@ export default function WisescoreCard () {
           handleGenerate={handleGenerate}
           handleJoin={handleJoin}
           open={isScratchModalOpen}
+          openModal={() => {
+            setIsScratchModalOpen(true);
+          }}
           closeModal={() => {
             setIsScratchModalOpen(false);
           }}
