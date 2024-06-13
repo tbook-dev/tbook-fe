@@ -28,8 +28,6 @@ import wisesbt from '@/images/wise/scratch/wisesbt.png';
 import wisesore from '@/images/wise/scratch/wisescore.png';
 const Lottie = lazy(() => import('lottie-react'));
 
-preloadBatchImage([initPic, bgPic, nocard]);
-
 const prizeMap = {
   1: none,
   2: tpoint10,
@@ -40,6 +38,7 @@ const prizeMap = {
   7: wisesore,
   8: tpoint500,
 };
+preloadBatchImage(Object.values(prizeMap).concat([initPic, bgPic, nocard]));
 
 export default function ScratchModal ({
   open,
