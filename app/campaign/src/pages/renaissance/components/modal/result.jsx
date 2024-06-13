@@ -1,5 +1,5 @@
 import { Dialog, Transition, TransitionChild } from '@headlessui/react';
-import { Fragment, lazy, useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import Button from '../ui/button';
 import moduleConf from '../../conf';
 import social from '@/utils/social';
@@ -10,7 +10,7 @@ import wisesbt from '@/images/wise/prize/wise-sbt.png';
 import wisesore from '@/images/wise/prize/wise-score.png';
 import { preloadBatchImage } from '@/utils/common';
 import { cn } from '@/utils/conf';
-import bgMp4 from '@/images/wise/prize/bg.mp4';
+import hasRewards from '@/images/wise/prize/has-rewards.svg';
 
 const prizeMap = {
   1: none,
@@ -102,30 +102,15 @@ export default function ResultTModal ({
             leaveFrom='opacity-100'
             leaveTo='opacity-0'
           >
-            {prize === 1 ? (
-              <div
-                className='fixed inset-0 bg-center bg-cover backdrop-blur-lg'
-                onClick={closeModal}
-                style={{ backgroundImage: `url(${nonebg})` }}
-              >
-                <div className='fixed inset-0 bg-linear12 z-10' />
-              </div>
-            ) : (
-              <div
-                className='fixed inset-0  backdrop-blur-xl  flex items-center justify-center'
-                onClick={closeModal}
-              >
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  className='w-full h-full object-cover object-center rotate-180'
-                >
-                  <source src={`${bgMp4}`} type='video/mp4' />
-                </video>
-                <div className='fixed inset-0 bg-linear12 z-10' />
-              </div>
-            )}
+            <div
+              className='fixed inset-0 bg-center bg-cover backdrop-blur-lg'
+              onClick={closeModal}
+              style={{
+                backgroundImage: `url(${prize === 1 ? nonebg : hasRewards})`,
+              }}
+            >
+              <div className='fixed inset-0 bg-linear12 z-10' />
+            </div>
           </TransitionChild>
           <TransitionChild
             as={Fragment}
