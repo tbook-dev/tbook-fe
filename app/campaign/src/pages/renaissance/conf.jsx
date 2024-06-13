@@ -5,9 +5,9 @@ import notSVG from '@/images/wise/rewards/not.svg';
 import airdropSVG from '@/images/wise/rewards/airdrop.svg';
 import passSVG from '@/images/wise/rewards/pass.svg';
 import inviteSVG from '@/images/wise/invite.svg';
-import prize1 from '@/images/wise/rewards/prize1.svg';
-import prize2 from '@/images/wise/rewards/prize2.svg';
-import prize3 from '@/images/wise/rewards/prize3.svg';
+import prize1 from '@/images/wise/rewards/prize1.png';
+import prize2 from '@/images/wise/rewards/prize2.png';
+import prize3 from '@/images/wise/rewards/prize3.png';
 import prizebg from '@/images/wise/rewards/prizebg.png';
 
 const moduleConf = {
