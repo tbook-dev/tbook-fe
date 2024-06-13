@@ -1,7 +1,5 @@
 import { Dialog, Transition, TransitionChild } from '@headlessui/react';
-import { useMemo, lazy, Suspense, useState, Fragment } from 'react';
-import Button from '../ui/button';
-import social from '@/utils/social';
+import { lazy, Suspense, useState, Fragment } from 'react';
 import {
   useUserRenaissanceKit,
   useCountdown,
@@ -13,33 +11,16 @@ import ScratchCard from '@/components/scratchCard/card';
 import bgPic from '@/images/wise/rewards/cover.png';
 import { preloadBatchImage } from '@/utils/common';
 import { takeLuckyDraw } from '@/api/incentive';
-
+import ResultTModal from './result';
 import initPic from '@/images/wise/prize/init.png';
+import resultPic from '@/images/wise/prize/result.png';
 import nocard from '@/images/wise/prize/no-card.png';
-import none from '@/images/wise/prize/none.png';
-import point10 from '@/images/wise/prize/point10.png';
-import point25 from '@/images/wise/prize/point25.png';
-import point50 from '@/images/wise/prize/point50.png';
-import point100 from '@/images/wise/prize/point100.png';
-import wisesbt from '@/images/wise/prize/wise-sbt.png';
-import wisesore from '@/images/wise/prize/wise-score.png';
 import lottieJson from '@/images/lottie/cat-claw.json';
-import loadingJson from '@/images/lottie/prize-loading.json';
 
 import { useCallback } from 'react';
 const Lottie = lazy(() => import('lottie-react'));
 
-const prizeMap = {
-  1: none,
-  2: point10,
-  3: point25,
-  4: point50,
-  5: point100,
-  6: wisesbt,
-  7: wisesore,
-};
-
-preloadBatchImage(Object.values(prizeMap).concat([initPic, bgPic, nocard]));
+preloadBatchImage([initPic, resultPic, bgPic, nocard]);
 export default function ScratchModal ({
   open,
   closeModal,
@@ -57,23 +38,27 @@ export default function ScratchModal ({
   });
   const [prize, setPrize] = useState(0); // 0没开始
   const [showPrize, setShowPrize] = useState(false);
-  const [lottiePlayed, setLottiePlayed] = useState(false);
+  const [userStarted, setUserStarted] = useState(false);
   const [isLoadingPrize, setLoadingPrize] = useState(false);
   const handleCloseModal = useCallback(() => {
     closeModal();
     setTimeout(() => {
-      setLottiePlayed(false);
+      setUserStarted(false);
     }, 300);
   }, []);
 
   const handleUserStart = () => {
-    setLottiePlayed(true);
+    if (!isLoadingPrize) {
+      setUserStarted(true);
+    } else {
+      console.log('loading prize');
+    }
   };
 
   const makeLuckDraw = async () => {
     if (luckyDrawCnt === 0) return;
     setLoadingPrize(true);
-    setShowPrize(false);
+    // setShowPrize(false);
     const res = await takeLuckyDraw(user?.userId);
     setLoadingPrize(false);
     const {
@@ -82,7 +67,9 @@ export default function ScratchModal ({
       isEligibleToGenerateWiseScore,
       isEligibleToGenerateSBT,
     } = res;
-    if (tpointsNum === 100) {
+    if (tpointsNum === 500) {
+      setPrize(8);
+    } else if (tpointsNum === 100) {
       setPrize(5);
     } else if (tpointsNum === 50) {
       setPrize(4);
@@ -109,199 +96,130 @@ export default function ScratchModal ({
     }
   };
 
-  const actionMap = useMemo(() => {
-    return {
-      0: {
-        button: (
-          <Button className='gap-x-1.5 w-[full] text-xs' onClick={inviteTgUser}>
-            <social.tg className='fill-white' /> invite 1 friend to get 3 free
-            cards
-          </Button>
-        ),
-      },
-      1: {
-        button: null,
-        text: 'You missed the reward. Adjust your posture and scratch again. ',
-      },
-      2: {
-        button: null,
-        text: 'You win 10 TPoints',
-      },
-      3: {
-        button: null,
-        text: 'You win 25 TPoints',
-      },
-      4: {
-        button: null,
-        text: 'You win 50 TPoints',
-      },
-      5: {
-        button: null,
-        text: 'You win 100 TPoints',
-      },
-      6: {
-        button: null,
-        text: 'You win the eligibility to mint WISE SBT',
-      },
-      7: {
-        button: (
-          <Button
-            className='w-[120px]'
-            onClick={() => {
-              handleCloseModal();
-              handleGenerate();
-            }}
-          >
-            Generate
-          </Button>
-        ),
-        text: 'You win the eligibility to generate WISE Score',
-      },
-    };
-  }, [prize]);
-
   return (
-    <Transition appear show={open} as={Fragment}>
-      <Dialog
-        as='div'
-        className='fixed inset-0 z-10 overflow-y-auto'
-        onClose={handleCloseModal}
-      >
-        <div className='min-h-screen w-screen px-4 flex justify-center items-center'>
-          <TransitionChild
-            as={Fragment}
-            enter='ease-out duration-300'
-            enterFrom='opacity-0'
-            enterTo='opacity-100'
-            leave='ease-in duration-200'
-            leaveFrom='opacity-100'
-            leaveTo='opacity-0'
-          >
-            <div
-              className='fixed inset-0 bg-black/80 backdrop-blur'
-              onClick={handleCloseModal}
-            />
-          </TransitionChild>
-          <TransitionChild
-            as={Fragment}
-            enter='ease-out duration-300'
-            enterFrom='opacity-0 scale-95'
-            enterTo='opacity-100 scale-100'
-            leave='ease-in duration-200'
-            leaveFrom='opacity-100 scale-100'
-            leaveTo='opacity-0 scale-95'
-          >
-            <div
-              onClick={handleUserStart}
-              onTouchStart={handleUserStart}
-              className='inline-block space-y-5 w-max max-w-md overflow-hidden transition-all shadow-xl rounded-2xl'
+    <>
+      <ResultTModal
+        prize={prize}
+        inviteTgUser={inviteTgUser}
+        handleGenerate={handleGenerate}
+        open={showPrize}
+        closeModal={() => {
+          setPrize(0);
+          setShowPrize(false);
+        }}
+      />
+      <Transition appear show={open} as={Fragment}>
+        <Dialog
+          as='div'
+          className='fixed inset-0 z-10 overflow-y-auto'
+          onClose={handleCloseModal}
+        >
+          <div className='min-h-screen w-screen px-4 flex justify-center items-center'>
+            <TransitionChild
+              as={Fragment}
+              enter='ease-out duration-300'
+              enterFrom='opacity-0'
+              enterTo='opacity-100'
+              leave='ease-in duration-200'
+              leaveFrom='opacity-100'
+              leaveTo='opacity-0'
             >
-              <div className='w-full flex flex-col justify-center gap-y-5  items-center'>
-                <div
-                  className='w-[280px] h-[476px] rounded-2xl relative bg-cover'
-                  style={{ backgroundImage: `url(${bgPic})` }}
-                >
-                  <div className='absolute left-1/2 -translate-x-1/2 bottom-[86px]'>
-                    {luckyDrawCnt === 0 ? (
-                      <div className='absolute left-0 bottom-0 z-20 h-[205px] flex items-center'>
-                        <img src={nocard} className='w-full' />
-                      </div>
-                    ) : isLoadingPrize ? (
-                      <div className='absolute left-0 bottom-0 z-20 h-[205px] flex items-center'>
-                        <Suspense>
-                          <Lottie animationData={loadingJson} loop />
-                        </Suspense>
-                      </div>
-                    ) : (
-                      !lottiePlayed && (
-                        <div className='absolute left-0 bottom-0 z-20 h-[205px] flex items-center'>
-                          <Suspense>
-                            <Lottie
-                              animationData={lottieJson}
-                              loop={2}
-                              onComplete={() => {
-                                setLottiePlayed(true);
-                              }}
-                            />
-                          </Suspense>
+              <div
+                className='fixed inset-0 bg-black/80 backdrop-blur'
+                onClick={handleCloseModal}
+              />
+            </TransitionChild>
+            <TransitionChild
+              as={Fragment}
+              enter='ease-out duration-300'
+              enterFrom='opacity-0 scale-95'
+              enterTo='opacity-100 scale-100'
+              leave='ease-in duration-200'
+              leaveFrom='opacity-100 scale-100'
+              leaveTo='opacity-0 scale-95'
+            >
+              <div
+                onClick={handleUserStart}
+                onTouchStart={handleUserStart}
+                className='inline-block space-y-5 w-max max-w-md overflow-hidden transition-all shadow-xl rounded-2xl'
+              >
+                <div className='w-full flex flex-col justify-center gap-y-5  items-center'>
+                  <div
+                    className='w-[300px] h-[510px] rounded-2xl relative bg-cover bg-center'
+                    style={{ backgroundImage: `url(${bgPic})` }}
+                  >
+                    <div className='absolute left-1/2 -translate-x-1/2 bottom-[86px]'>
+                      {luckyDrawCnt === 0 ? (
+                        <div className='absolute left-0 bottom-0 z-20 h-[224px] flex items-center'>
+                          <img src={nocard} className='w-full' />
                         </div>
-                      )
-                    )}
-
-                    <ScratchCard
-                      width={215}
-                      height={205}
-                      coverImg={initPic}
-                      autoReinit
-                      onFinish={() => {
-                        setShowPrize(true);
-                        refetchInfo();
-                        if (prize === 6) {
-                          handleCloseModal();
-                          handleJoin();
-                        }
-                      }}
-                      onInit={() => {
-                        makeLuckDraw();
-                      }}
-                    >
-                      {prizeMap[prize] && (
-                        <img
-                          src={prizeMap[prize]}
-                          className='absolute inset-0'
-                        />
+                      ) : (
+                        (isLoadingPrize || !userStarted) && (
+                          <div className='absolute left-0 bottom-0 z-20 h-[224px] flex items-center'>
+                            <Suspense>
+                              <Lottie animationData={lottieJson} loop />
+                            </Suspense>
+                          </div>
+                        )
                       )}
-                    </ScratchCard>
+
+                      <ScratchCard
+                        width={264}
+                        height={224}
+                        coverImg={initPic}
+                        autoReinit={false}
+                        onFinish={() => {
+                          refetchInfo();
+                          if (prize === 6) {
+                            handleJoin();
+                          }
+                          setTimeout(() => {
+                            handleCloseModal();
+                            setShowPrize(true);
+                          }, 1000);
+                        }}
+                        onInit={() => {
+                          makeLuckDraw();
+                        }}
+                      >
+                        <img src={resultPic} className='absolute inset-0' />
+                      </ScratchCard>
+                    </div>
                   </div>
-                </div>
 
-                <div className='w-[280px] space-y-0.5'>
-                  <div className='flex items-center justify-between'>
-                    <button
-                      onClick={inviteTgUser}
-                      className='flex items-center gap-x-1 text-xs font-syne font-bold text-[#FFDFA2] bg-[#F8C685]/15 px-2 py-1 rounded-md'
-                    >
-                      {formatImpact(luckyDrawCnt)} scratch card
-                      {luckyDrawCnt > 1 && 's'}
-                      {moduleConf.svg.add}
-                    </button>
-                    <span className='flex items-center gap-x-1 text-xs text-[#FFDFA2] font-syne font-bold  bg-[#F8C685]/15 px-2 py-1 rounded-md'>
-                      TPoints
-                      <b className='font-normal font-rhd'>
-                        {formatImpact(tpoints)}
-                      </b>
-                    </span>
-                  </div>
-
-                  <div className='flex gap-x-1 items-center'>
-                    {moduleConf.svg.timer}
-                    <span className='text-color6 text-xs'>
-                      {targetDate > 0
-                        ? `next free card in ${countdown}`
-                        : `next 5 free cards at 0AM`}
-                    </span>
-                  </div>
-                </div>
-
-                {showPrize ? actionMap[prize].button : actionMap[0].button}
-
-                {showPrize && prize > 0 && (
-                  <div className='text-center space-y-0.5 w-[280px]'>
-                    <h2 className='text-xl font-bold'>
-                      <span className='text-color4'>
-                        {prize === 1 ? 'Oops...' : 'Congratulations！'}
+                  <div className='w-[280px] space-y-0.5'>
+                    <div className='flex items-center justify-between'>
+                      <button
+                        onClick={inviteTgUser}
+                        className='flex items-center gap-x-1 text-xs font-syne font-bold text-[#FFDFA2] bg-[#F8C685]/15 px-2 py-1 rounded-md'
+                      >
+                        {formatImpact(luckyDrawCnt)} scratch card
+                        {luckyDrawCnt > 1 && 's'}
+                        {moduleConf.svg.add}
+                      </button>
+                      <span className='flex items-center gap-x-1 text-xs text-[#FFDFA2] font-syne font-bold  bg-[#F8C685]/15 px-2 py-1 rounded-md'>
+                        TPoints
+                        <b className='font-normal font-rhd'>
+                          {formatImpact(tpoints)}
+                        </b>
                       </span>
-                    </h2>
-                    <p className='text-sm text-[#F8C685]/60'>
-                      {actionMap[prize].text}
-                    </p>
+                    </div>
+
+                    <div className='flex gap-x-1 items-center'>
+                      {moduleConf.svg.timer}
+                      <span className='text-color6 text-xs'>
+                        {targetDate > 0
+                          ? `next free card in ${countdown}`
+                          : `next 5 free cards at 0AM`}
+                      </span>
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
-            </div>
-          </TransitionChild>
-        </div>
-      </Dialog>
-    </Transition>
+            </TransitionChild>
+          </div>
+        </Dialog>
+      </Transition>
+    </>
   );
 }
