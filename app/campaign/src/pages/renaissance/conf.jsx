@@ -1,5 +1,5 @@
 import wisescoreRadarSVG from '@/images/wise/radar.svg';
-import dogSVG from '@/images/event/dog.svg';
+import dogSVG from '@/images/event/cat.png';
 import sbtSVG from '@/images/wise/rewards/sbt.png';
 import notSVG from '@/images/wise/rewards/not.svg';
 import airdropSVG from '@/images/wise/rewards/airdrop.svg';

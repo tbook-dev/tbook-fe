@@ -30,7 +30,6 @@ export default function ResultTModal ({
   handleGenerate,
   inviteTgUser,
 }) {
-  console.log({ prize });
   const actionMap = useMemo(() => {
     return {
       0: {

@@ -87,7 +87,7 @@ export default function WisescoreCard () {
 
   useEffect(() => {
     if (luckyDrawCnt > 0 && !autoOpenScratchedModal) {
-      // setIsScratchModalOpen(true);
+      setIsScratchModalOpen(true);
       setAutoOpenScratchedModal(true);
     }
   }, [luckyDrawCnt]);
