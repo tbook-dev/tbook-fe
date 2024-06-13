@@ -1,12 +1,10 @@
 import { Dialog, Transition, TransitionChild } from '@headlessui/react';
 import { lazy, Suspense, useState, Fragment } from 'react';
-import {
-  useUserRenaissanceKit,
-  useCountdown,
-} from '@/hooks/useUserRenaissance';
+import { useUserRenaissanceKit } from '@/hooks/useUserRenaissance';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import moduleConf from '../../conf';
+import Button from '../ui/button';
 import ScratchCard from '@/components/scratchCard/card';
 import bgPic from '@/images/wise/rewards/cover.png';
 import { preloadBatchImage } from '@/utils/common';
@@ -16,7 +14,7 @@ import initPic from '@/images/wise/prize/init.png';
 import resultPic from '@/images/wise/prize/result.png';
 import nocard from '@/images/wise/prize/no-card.png';
 import lottieJson from '@/images/lottie/cat-claw.json';
-
+import social from '@/utils/social';
 import { useCallback } from 'react';
 const Lottie = lazy(() => import('lottie-react'));
 
@@ -31,11 +29,7 @@ export default function ScratchModal ({
   const { user } = useUserInfoQuery();
   const { luckyDrawCnt, tpoints, refetchInfo, targetDate } =
     useUserRenaissanceKit();
-  const countdown = useCountdown({
-    targetDate,
-    enabled: open,
-    onEnd: refetchInfo,
-  });
+
   const [prize, setPrize] = useState(0); // 0没开始
   const [showPrize, setShowPrize] = useState(false);
   const [userStarted, setUserStarted] = useState(false);
@@ -209,9 +203,19 @@ export default function ScratchModal ({
                       {moduleConf.svg.timer}
                       <span className='text-color6 text-xs'>
                         {targetDate > 0
-                          ? `next free card in ${countdown}`
+                          ? `1 more free card per 10min`
                           : `next 5 free cards at 0AM`}
                       </span>
+                    </div>
+
+                    <div className='flex justify-center pt-4'>
+                      <Button
+                        className='gap-x-1.5 w-[full] text-xs'
+                        onClick={inviteTgUser}
+                      >
+                        <social.tg className='fill-white' /> invite 1 friend to
+                        get 3 free cards
+                      </Button>
                     </div>
                   </div>
                 </div>
