@@ -3,7 +3,6 @@ import { Fragment, useMemo, lazy } from 'react';
 import Button from '../ui/button';
 import moduleConf from '../../conf';
 import social from '@/utils/social';
-import nonebg from '@/images/wise/prize/nonebg.svg';
 import none from '@/images/wise/prize/none.png';
 import tpoint from '@/images/wise/prize/tpoint.png';
 import wisesbt from '@/images/wise/prize/wise-sbt.png';
@@ -24,7 +23,7 @@ const prizeMap = {
   7: wisesore,
   8: tpoint,
 };
-preloadBatchImage(Object.values(prizeMap).concat([nonebg, hasRewards]));
+preloadBatchImage(Object.values(prizeMap).concat([hasRewards]));
 
 export default function ResultTModal ({
   open,
@@ -108,9 +107,6 @@ export default function ResultTModal ({
               <div
                 className='fixed inset-0 bg-center bg-cover backdrop-blur-lg'
                 onClick={closeModal}
-                style={{
-                  backgroundImage: `url(${nonebg})`,
-                }}
               >
                 <div className='fixed inset-0 bg-linear12 z-10' />
               </div>
