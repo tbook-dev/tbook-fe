@@ -21,6 +21,7 @@ const Lottie = lazy(() => import('lottie-react'));
 preloadBatchImage([initPic, resultPic, bgPic, nocard]);
 export default function ScratchModal ({
   open,
+  openModal,
   closeModal,
   inviteTgUser,
   handleGenerate,
@@ -94,12 +95,17 @@ export default function ScratchModal ({
     <>
       <ResultTModal
         prize={prize}
+        open={showPrize}
         inviteTgUser={inviteTgUser}
         handleGenerate={handleGenerate}
-        open={showPrize}
         closeModal={() => {
           setPrize(0);
           setShowPrize(false);
+          if (luckyDrawCnt > 0) {
+            setTimeout(() => {
+              openModal();
+            }, 1000);
+          }
         }}
       />
       <Transition appear show={open} as={Fragment}>
@@ -162,8 +168,8 @@ export default function ScratchModal ({
                         height={224}
                         coverImg={initPic}
                         autoReinit={false}
-                        onFinish={() => {
-                          refetchInfo();
+                        onFinish={async () => {
+                          await refetchInfo();
                           if (prize === 6) {
                             handleJoin();
                           }
