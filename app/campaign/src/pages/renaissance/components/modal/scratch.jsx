@@ -272,14 +272,15 @@ export default function ScratchModal ({
                       </b>
                     </span>
                   </div>
-                  {targetDate > 0 && (
-                    <div className='flex gap-x-1 items-center'>
-                      {moduleConf.svg.timer}
-                      <span className='text-color6 text-xs'>
-                        next free card in {countdown}
-                      </span>
-                    </div>
-                  )}
+
+                  <div className='flex gap-x-1 items-center'>
+                    {moduleConf.svg.timer}
+                    <span className='text-color6 text-xs'>
+                      {targetDate > 0
+                        ? `next free card in ${countdown}`
+                        : `next 5 free cards at 0AM`}
+                    </span>
+                  </div>
                 </div>
 
                 {showPrize ? actionMap[prize].button : actionMap[0].button}
