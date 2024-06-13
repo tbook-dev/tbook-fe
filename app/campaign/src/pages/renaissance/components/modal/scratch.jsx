@@ -11,14 +11,36 @@ import { preloadBatchImage } from '@/utils/common';
 import { takeLuckyDraw } from '@/api/incentive';
 import ResultTModal from './result';
 import initPic from '@/images/wise/prize/init.png';
-import resultPic from '@/images/wise/prize/result.png';
+// import resultPic from '@/images/wise/prize/result.png';
 import nocard from '@/images/wise/prize/no-card.png';
 import lottieJson from '@/images/lottie/cat-claw.json';
 import social from '@/utils/social';
 import { useCallback } from 'react';
+//
+import none from '@/images/wise/scratch/none.png';
+import tpoint10 from '@/images/wise/scratch/tpoint10.png';
+import tpoint25 from '@/images/wise/scratch/tpoint25.png';
+import tpoint50 from '@/images/wise/scratch/tpoint50.png';
+import tpoint100 from '@/images/wise/scratch/tpoint100.png';
+import tpoint500 from '@/images/wise/scratch/tpoint500.png';
+
+import wisesbt from '@/images/wise/scratch/wisesbt.png';
+import wisesore from '@/images/wise/scratch/wisescore.png';
 const Lottie = lazy(() => import('lottie-react'));
 
-preloadBatchImage([initPic, resultPic, bgPic, nocard]);
+preloadBatchImage([initPic, bgPic, nocard]);
+
+const prizeMap = {
+  1: none,
+  2: tpoint10,
+  3: tpoint25,
+  4: tpoint50,
+  5: tpoint100,
+  6: wisesbt,
+  7: wisesore,
+  8: tpoint500,
+};
+
 export default function ScratchModal ({
   open,
   openModal,
@@ -28,11 +50,10 @@ export default function ScratchModal ({
   handleJoin,
 }) {
   const { user } = useUserInfoQuery();
-  const { luckyDrawCnt, tpoints, refetchInfo, targetDate } =
-    useUserRenaissanceKit();
-
+  const { tpoints, refetchInfo, targetDate } = useUserRenaissanceKit();
+  const luckyDrawCnt = 3;
   const [prize, setPrize] = useState(0); // 0没开始
-  const [showPrize, setShowPrize] = useState(false);
+  const [showPrizeModal, setShowPrizeModal] = useState(false);
   const [userStarted, setUserStarted] = useState(false);
   const [isLoadingPrize, setLoadingPrize] = useState(false);
   const handleCloseModal = useCallback(() => {
@@ -53,7 +74,6 @@ export default function ScratchModal ({
   const makeLuckDraw = async () => {
     if (luckyDrawCnt === 0) return;
     setLoadingPrize(true);
-    // setShowPrize(false);
     const res = await takeLuckyDraw(user?.userId);
     setLoadingPrize(false);
     const {
@@ -95,12 +115,14 @@ export default function ScratchModal ({
     <>
       <ResultTModal
         prize={prize}
-        open={showPrize}
+        open={showPrizeModal}
         inviteTgUser={inviteTgUser}
         handleGenerate={handleGenerate}
         closeModal={() => {
-          setPrize(0);
-          setShowPrize(false);
+          setShowPrizeModal(false);
+          setTimeout(() => {
+            setPrize(0);
+          }, 300);
           if (luckyDrawCnt > 0) {
             setTimeout(() => {
               openModal();
@@ -169,20 +191,23 @@ export default function ScratchModal ({
                         coverImg={initPic}
                         autoReinit={false}
                         onFinish={async () => {
-                          await refetchInfo();
                           if (prize === 6) {
                             handleJoin();
                           }
+                          refetchInfo();
                           setTimeout(() => {
                             handleCloseModal();
-                            setShowPrize(true);
+                            setShowPrizeModal(true);
                           }, 1000);
                         }}
                         onInit={() => {
                           makeLuckDraw();
                         }}
                       >
-                        <img src={resultPic} className='absolute inset-0' />
+                        <img
+                          src={prizeMap[prize]}
+                          className='absolute inset-0'
+                        />
                       </ScratchCard>
                     </div>
                   </div>
