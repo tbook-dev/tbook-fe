@@ -276,7 +276,7 @@ export default function WisescoreCard () {
             setTmpPass1(true);
             setToggle(true);
           }}
-          handleJoin={handleJoin}
+          refetchUserLevel={refetchUserLevel}
           open={isScratchModalOpen}
           openModal={() => {
             setIsScratchModalOpen(true);
