@@ -28,8 +28,6 @@ import wisesbt from '@/images/wise/scratch/wisesbt.png';
 import wisesore from '@/images/wise/scratch/wisescore.png';
 const Lottie = lazy(() => import('lottie-react'));
 
-preloadBatchImage([initPic, bgPic, nocard]);
-
 const prizeMap = {
   1: none,
   2: tpoint10,
@@ -40,6 +38,7 @@ const prizeMap = {
   7: wisesore,
   8: tpoint500,
 };
+preloadBatchImage(Object.values(prizeMap).concat([initPic, bgPic, nocard]));
 
 export default function ScratchModal ({
   open,
@@ -50,8 +49,8 @@ export default function ScratchModal ({
   handleJoin,
 }) {
   const { user } = useUserInfoQuery();
-  const { tpoints, refetchInfo, targetDate } = useUserRenaissanceKit();
-  const luckyDrawCnt = 3;
+  const { tpoints, luckyDrawCnt, refetchInfo, targetDate } =
+    useUserRenaissanceKit();
   const [prize, setPrize] = useState(0); // 0没开始
   const [showPrizeModal, setShowPrizeModal] = useState(false);
   const [userStarted, setUserStarted] = useState(false);
@@ -194,11 +193,9 @@ export default function ScratchModal ({
                           if (prize === 6) {
                             handleJoin();
                           }
+                          handleCloseModal();
                           refetchInfo();
-                          setTimeout(() => {
-                            handleCloseModal();
-                            setShowPrizeModal(true);
-                          }, 1000);
+                          setShowPrizeModal(true);
                         }}
                         onInit={() => {
                           makeLuckDraw();
