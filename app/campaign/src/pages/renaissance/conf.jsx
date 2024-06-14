@@ -58,7 +58,7 @@ const moduleConf = {
         picUrl: sbtSVG,
       },
       {
-        name: '$NOT Token',
+        name: '$Notcoin',
         picUrl: notSVG,
       },
 

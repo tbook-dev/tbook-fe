@@ -46,7 +46,7 @@ export default function ScratchModal ({
   closeModal,
   inviteTgUser,
   handleGenerate,
-  handleJoin,
+  refetchUserLevel,
 }) {
   const { user } = useUserInfoQuery();
   const { tpoints, luckyDrawCnt, refetchInfo, targetDate } =
@@ -187,9 +187,7 @@ export default function ScratchModal ({
                         coverImg={initPic}
                         autoReinit={false}
                         onFinish={async () => {
-                          if (prize === 6) {
-                            handleJoin();
-                          }
+                          refetchUserLevel();
                           handleCloseModal();
                           refetchInfo();
                           setShowPrizeModal(true);
