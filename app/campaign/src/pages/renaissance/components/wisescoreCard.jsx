@@ -274,7 +274,6 @@ export default function WisescoreCard () {
         <WisescoreModal
           open={isWisescoreModalOpen}
           closeModal={() => {
-            setTmpPass1(true);
             closeModal();
           }}
         />
@@ -286,7 +285,10 @@ export default function WisescoreCard () {
         />
         <ScratchModal
           inviteTgUser={inviteTgUser}
-          handleGenerate={handleGenerate}
+          handleGenerate={() => {
+            setTmpPass1(true);
+            setToggle(true);
+          }}
           handleJoin={handleJoin}
           open={isScratchModalOpen}
           openModal={() => {
