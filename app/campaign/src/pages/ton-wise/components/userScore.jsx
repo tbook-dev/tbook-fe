@@ -18,7 +18,7 @@ const clsMap = {
   1: {
     container: 'bg-[rgba(144,75,246)]/[0.10] px-5 py-2',
     rink: 'text-black  font-bold  text-[10px]',
-    score: 'text-[#904BF6]',
+    score: 'text-[#904BF6] font-zen-dot',
     tonAddress:
       'bg-gradient-to-r from-[#2D83EC] to-[#1AC9FF]  bg-clip-text text-transparent',
     address: {
@@ -30,7 +30,7 @@ const clsMap = {
   // renaissance
   2: {
     container: 'bg-linear10 rounded-lg px-5 py-2',
-    rink: 'text-[#F8C685]/60 font-medium text-xs',
+    rink: 'text-[#F8C685]/60 text-xs',
     score: 'text-[#F8C685]',
     tonAddress: 'bg-linear11 bg-clip-text text-transparent',
     address: {
@@ -99,7 +99,7 @@ export default function UserScore ({ user, type = 1 }) {
         </span>
       </div>
 
-      <span className={cn('text-sm font-zen-dot', clsMap[type].score)}>
+      <span className={cn('text-sm ', clsMap[type].score)}>
         {formatImpact(user.totalScore)}
       </span>
     </div>

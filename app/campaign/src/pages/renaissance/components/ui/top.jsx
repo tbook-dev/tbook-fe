@@ -2,8 +2,8 @@ import clsx from 'clsx';
 import { shortAddressV1, formatImpact } from '@tbook/utils/lib/conf';
 
 const textMap = {
-  1: '🥈',
-  2: '🥇',
+  1: '🥇',
+  2: '🥈',
   3: '🥉',
 };
 export default function BoardTop ({
@@ -34,7 +34,7 @@ export default function BoardTop ({
         <p className='font-bold text-xs text-[#F8C685]'>
           {shortAddressV1(address ?? '')}
         </p>
-        <p className='font-zen-dot text-xs font-medium text-[#F8C685]/60'>
+        <p className='text-xs font-medium text-[#F8C685]/60'>
           {formatImpact(score)}
         </p>
       </div>

@@ -9,7 +9,7 @@ export default function Friends () {
     <div className='p-4 space-y-3 border border-[#8541EE]/70 rounded-2xl'>
       <div className='space-y-2'>
         <div className='flex items-center justify-between'>
-          <h2 className='text-lg font-syne font-bold text-[#FFDFA2]'>
+          <h2 className='text-base font-syne font-bold text-[#FFDFA2]'>
             {moduleConf.friends.title}
           </h2>
           <Button

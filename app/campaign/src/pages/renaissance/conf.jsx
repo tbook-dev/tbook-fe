@@ -47,7 +47,6 @@ const moduleConf = {
       <span className='text-[#F8C685] text-bold'> earn 500 TPoints!</span>
     </p>
   ),
-  inviteTip3: 'Generate WISE Score to unlock mystery.',
   wiseTitle: 'Race to the top for mystery',
   prize: [prize1, prize2, prize3],
   prizebg: prizebg,
@@ -59,7 +58,7 @@ const moduleConf = {
         picUrl: sbtSVG,
       },
       {
-        name: '$NOT Token',
+        name: '$Notcoin',
         picUrl: notSVG,
       },
 
