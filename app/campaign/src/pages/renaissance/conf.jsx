@@ -39,7 +39,6 @@ const moduleConf = {
             to to join WISE SBT whitelist!
           </>
         ))}
-      {level === 3 && <>Improve your WISE Score to earn bigger!</>}
     </p>
   ),
   inviteTip2: (

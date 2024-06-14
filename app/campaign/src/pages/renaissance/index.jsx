@@ -4,10 +4,9 @@ import Rewards from './components/rewards';
 import Friends from './components/friends';
 import Leaderboard from './components/leaderboard';
 import moduleConf from './conf';
-import { useUserRenaissanceKit, useLevel } from '@/hooks/useUserRenaissance';
+import { useLevel } from '@/hooks/useUserRenaissance';
 
 export default function Renaissance () {
-  const { friends } = useUserRenaissanceKit();
   const { userLevel } = useLevel();
 
   return (
@@ -15,11 +14,10 @@ export default function Renaissance () {
       <div className=''>
         <Banner />
         <WisescoreCard />
-        {friends.length > 0 && (
-          <div className='pt-2'>
-            <Friends />
-          </div>
-        )}
+
+        <div className='pt-2'>
+          <Friends />
+        </div>
       </div>
 
       <p className='text-[#FFDFA2]/60 pt-4 my-2 pb-1 font-syne text-sm font-medium text-center'>
