@@ -3,7 +3,7 @@ import moduleConf from '../conf';
 export default function Rewards () {
   return (
     <div className='p-4 space-y-2 border border-[#FFEAB5]/30 rounded-2xl'>
-      <h2 className='text-lg font-syne font-bold text-[#FFDFA2]'>
+      <h2 className='text-base font-syne font-bold text-[#FFDFA2]'>
         {moduleConf.rewards.title}
       </h2>
       <div className='text-xs grid grid-cols-4'>

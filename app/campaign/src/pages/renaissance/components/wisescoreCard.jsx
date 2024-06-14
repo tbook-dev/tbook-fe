@@ -30,7 +30,8 @@ export default function WisescoreCard () {
     level2Competed,
     luckyDrawCnt,
   } = useUserRenaissanceKit();
-  const { userLevel, level2Mutation, totalWiseScore } = useLevel();
+  const { userLevel, level2Mutation, totalWiseScore, refetchUserLevel } =
+    useLevel();
   const { getSocialByName } = useSocial();
   const { openTonModalLogin, disconnectTon, tonConnected, tonAddress } =
     useTonToolkit();
@@ -75,6 +76,7 @@ export default function WisescoreCard () {
     level2Mutation
       .mutateAsync()
       .then(() => {
+        refetchUserLevel();
         setIsWiseSBTmodalOpen(true);
       })
       .catch(e => {
