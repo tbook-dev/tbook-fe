@@ -58,10 +58,7 @@ export default function UserScore ({ user, type = 1 }) {
     }
     return rt;
   }, [user]);
-  console.log(
-    'clsMap[type].address[user?.addressType]',
-    clsMap[type].address[user?.addressType]
-  );
+
   return user ? (
     <div
       className={cn(
