@@ -54,7 +54,7 @@ export default function ScratchModal ({
   const [prize, setPrize] = useState(0); // 0没开始
   const [showPrizeModal, setShowPrizeModal] = useState(false);
   const [userStarted, setUserStarted] = useState(false);
-  const [isLoadingPrize, setLoadingPrize] = useState(false);
+  // const [isLoadingPrize, setLoadingPrize] = useState(false);
   const handleCloseModal = useCallback(() => {
     closeModal();
     setTimeout(() => {
@@ -63,18 +63,15 @@ export default function ScratchModal ({
   }, []);
 
   const handleUserStart = () => {
-    if (!isLoadingPrize) {
+    if (!userStarted) {
       setUserStarted(true);
-    } else {
-      console.log('loading prize');
+      makeLuckDraw();
     }
   };
 
   const makeLuckDraw = async () => {
     if (luckyDrawCnt === 0) return;
-    setLoadingPrize(true);
     const res = await takeLuckyDraw(user?.userId);
-    setLoadingPrize(false);
     const {
       fissionLevel,
       tpointsNum,
@@ -175,7 +172,7 @@ export default function ScratchModal ({
                           <img src={nocard} className='w-full' />
                         </div>
                       ) : (
-                        (isLoadingPrize || !userStarted) && (
+                        !userStarted && (
                           <div className='absolute left-0 bottom-0 z-20 h-[224px] flex items-center'>
                             <Suspense>
                               <Lottie animationData={lottieJson} loop />
@@ -197,11 +194,8 @@ export default function ScratchModal ({
                           refetchInfo();
                           setShowPrizeModal(true);
                         }}
-                        onInit={() => {
-                          makeLuckDraw();
-                        }}
                       >
-                        {userStarted && (
+                        {userStarted && prize > 0 && (
                           <img
                             src={prizeMap[prize]}
                             className='absolute inset-0'
