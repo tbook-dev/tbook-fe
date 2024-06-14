@@ -30,7 +30,7 @@ export default function WisescoreCard () {
     level2Competed,
     luckyDrawCnt,
   } = useUserRenaissanceKit();
-  const { userLevel, level2Mutation } = useLevel();
+  const { userLevel, level2Mutation, totalWiseScore } = useLevel();
   const { getSocialByName } = useSocial();
   const { openTonModalLogin, disconnectTon, tonConnected, tonAddress } =
     useTonToolkit();
@@ -172,21 +172,7 @@ export default function WisescoreCard () {
               </div>
             </div>
           )}
-          {userLevel === 3 && (
-            <div className='grid grid-cols-3 gap-x-3'>
-              {moduleConf.prize.map((v, i) => {
-                return (
-                  <div
-                    key={i}
-                    className='flex justify-center items-center w-[96px] h-[122px] bg-cover'
-                    style={{ backgroundImage: `url(${moduleConf.prizebg})` }}
-                  >
-                    <img src={v} className='h-[72px]' />
-                  </div>
-                );
-              })}
-            </div>
-          )}
+          {userLevel === 3 && <Score text={formatImpact(totalWiseScore)} />}
 
           <div className='flex flex-col gap-y-2 items-center justify-center'>
             {/* invite logic，invited link but be clicked, after click finisged,tpiont gets, thus it can generate，but generate must connect ton wallect */}
@@ -232,7 +218,7 @@ export default function WisescoreCard () {
               <Button onClick={handleImprove}>Improve WISE Score</Button>
             )}
 
-            {hasInvited && (
+            {(hasInvited || tmpPass1) && (
               <div className='flex items-center gap-x-4'>
                 {
                   <Tooltip title={tgUserName} trigger='click'>
@@ -274,7 +260,6 @@ export default function WisescoreCard () {
         <WisescoreModal
           open={isWisescoreModalOpen}
           closeModal={() => {
-            setTmpPass1(true);
             closeModal();
           }}
         />
@@ -286,7 +271,10 @@ export default function WisescoreCard () {
         />
         <ScratchModal
           inviteTgUser={inviteTgUser}
-          handleGenerate={handleGenerate}
+          handleGenerate={() => {
+            setTmpPass1(true);
+            setToggle(true);
+          }}
           handleJoin={handleJoin}
           open={isScratchModalOpen}
           openModal={() => {
