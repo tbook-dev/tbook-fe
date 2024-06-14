@@ -39,7 +39,6 @@ const moduleConf = {
             to to join WISE SBT whitelist!
           </>
         ))}
-      {level === 3 && <>Improve your WISE Score to earn bigger!</>}
     </p>
   ),
   inviteTip2: (
@@ -48,7 +47,6 @@ const moduleConf = {
       <span className='text-[#F8C685] text-bold'> earn 500 TPoints!</span>
     </p>
   ),
-  inviteTip3: 'Generate WISE Score to unlock mystery.',
   wiseTitle: 'Race to the top for mystery',
   prize: [prize1, prize2, prize3],
   prizebg: prizebg,

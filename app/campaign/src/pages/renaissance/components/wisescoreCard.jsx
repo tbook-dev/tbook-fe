@@ -30,7 +30,8 @@ export default function WisescoreCard () {
     level2Competed,
     luckyDrawCnt,
   } = useUserRenaissanceKit();
-  const { userLevel, level2Mutation, totalWiseScore } = useLevel();
+  const { userLevel, level2Mutation, totalWiseScore, refetchUserLevel } =
+    useLevel();
   const { getSocialByName } = useSocial();
   const { openTonModalLogin, disconnectTon, tonConnected, tonAddress } =
     useTonToolkit();
@@ -75,6 +76,7 @@ export default function WisescoreCard () {
     level2Mutation
       .mutateAsync()
       .then(() => {
+        refetchUserLevel();
         setIsWiseSBTmodalOpen(true);
       })
       .catch(e => {
@@ -104,17 +106,15 @@ export default function WisescoreCard () {
           )}
         >
           <div className='space-y-2 w-full'>
-            {[1, 2].includes(userLevel) && (
-              <div className='flex justify-between items-center w-full'>
-                <div className='text-[#FFDFA2] bg-[#F8C685]/5 rounded-md py-1 px-2'>
-                  <span className='mr-1 font-syne font-bold'>TPoints</span>
-                  {formatImpact(tpoints)}
-                </div>
-                <div className='text-[#F2A85D]/60 bg-[#F8C685]/5 rounded-md font-medium py-1 px-2'>
-                  {moduleConf.endTime}
-                </div>
+            <div className='flex justify-between items-center w-full'>
+              <div className='text-[#FFDFA2] bg-[#F8C685]/5 rounded-md py-1 px-2'>
+                <span className='mr-1 font-syne font-bold'>TPoints</span>
+                {formatImpact(tpoints)}
               </div>
-            )}
+              <div className='text-[#F2A85D]/60 bg-[#F8C685]/5 rounded-md font-medium py-1 px-2'>
+                {moduleConf.endTime}
+              </div>
+            </div>
 
             <div className='flex flex-col items-center gap-1 text-center'>
               {[1, 2].includes(userLevel) && (
@@ -134,7 +134,8 @@ export default function WisescoreCard () {
               )}
               {userLevel === 3 && (
                 <div className='text-color5 text-lg font-bold font-syne'>
-                  {moduleConf.wiseTitle}
+                  WISE Score <br />
+                  Credit on TON
                 </div>
               )}
 
@@ -218,7 +219,7 @@ export default function WisescoreCard () {
               <Button onClick={handleImprove}>Improve WISE Score</Button>
             )}
 
-            {(hasInvited || tmpPass1) && (
+            {(hasInvited || tmpPass1) && userLevel !== 3 && (
               <div className='flex items-center gap-x-4'>
                 {
                   <Tooltip title={tgUserName} trigger='click'>
