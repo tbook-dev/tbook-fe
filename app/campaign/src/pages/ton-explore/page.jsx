@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import ItemComponent from '@/components/campain/CardTon';
 import { Link } from 'react-router-dom';
 import TMAShare from '@/components/TMAShare';
+import AdPosition from './AdPosition';
 
 export default function TonExplore () {
   const { data, isLoading } = useTopProjects();
@@ -16,7 +17,7 @@ export default function TonExplore () {
     <div className='px-5 mt-3 space-y-4'>
       <section>
         <TMAShare data={null} />
-
+        <AdPosition />
         <h3 className='py-4 font-zen-dot text-base font-medium text-white'>
           Popular Projects
         </h3>
