@@ -6,7 +6,7 @@ export default function AdPosition () {
   return (
     <Link to='/event/renaissance' className='relative'>
       <svg
-        className='absolute -left-2.5 top-2'
+        className='absolute -left-2.5 top-2 z-10'
         width='277'
         height='42'
         viewBox='0 0 277 42'

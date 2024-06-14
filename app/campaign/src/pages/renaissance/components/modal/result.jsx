@@ -74,7 +74,7 @@ export default function ResultTModal ({
           <Button
             className='w-[120px]'
             onClick={() => {
-              handleCloseModal();
+              closeModal();
               handleGenerate();
             }}
           >
