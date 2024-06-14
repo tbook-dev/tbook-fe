@@ -201,10 +201,12 @@ export default function ScratchModal ({
                           makeLuckDraw();
                         }}
                       >
-                        <img
-                          src={prizeMap[prize]}
-                          className='absolute inset-0'
-                        />
+                        {userStarted && (
+                          <img
+                            src={prizeMap[prize]}
+                            className='absolute inset-0'
+                          />
+                        )}
                       </ScratchCard>
                     </div>
                   </div>
