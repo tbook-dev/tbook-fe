@@ -37,6 +37,15 @@ export const useLevel = () => {
     enabled: !!userId,
     retryOnMount: false,
   });
+  const { data: wiseData } = useQuery(
+    'wise-score',
+    () => getWiseScore(userId),
+    {
+      retry: false,
+      enabled: !!userId && data === 3,
+      retryOnMount: false,
+    }
+  );
   const level1Mutation = useMutation(
     async () => {
       return await getWiseScore(userId);
@@ -60,16 +69,14 @@ export const useLevel = () => {
       },
     }
   );
-  const updateUserLevel = (data) => {
-    console.log('to be replaced', data);
-  };
+
   return {
     data,
     userLevel: data,
     refetchUserLevel: refetch,
     level1Mutation,
     level2Mutation,
-    updateUserLevel,
+    totalWiseScore: wiseData?.totalScore,
   };
 };
 
