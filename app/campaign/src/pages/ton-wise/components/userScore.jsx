@@ -17,7 +17,7 @@ const clsMap = {
   // wise-score
   1: {
     container: 'bg-[rgba(144,75,246)]/[0.10] px-5 py-2',
-    rink: 'text-black  font-bold',
+    rink: 'text-black  font-bold  text-[10px]',
     score: 'text-[#904BF6]',
     tonAddress:
       'bg-gradient-to-r from-[#2D83EC] to-[#1AC9FF]  bg-clip-text text-transparent',
@@ -29,8 +29,8 @@ const clsMap = {
   },
   // renaissance
   2: {
-    container: 'bg-linear10 rounded-lg px-8 py-4',
-    rink: 'text-[#F8C685]/60 font-medium',
+    container: 'bg-linear10 rounded-lg px-5 py-2',
+    rink: 'text-[#F8C685]/60 font-medium text-xs',
     score: 'text-[#F8C685]',
     tonAddress: 'bg-linear11 bg-clip-text text-transparent',
     address: {
@@ -69,7 +69,7 @@ export default function UserScore ({ user, type = 1 }) {
       <div className='flex items-center gap-x-2.5'>
         <span
           className={cn(
-            'size-9  text-xs text-center bg-cover bg-center flex items-center justify-center text-[10px]',
+            'size-9  text-xs text-center bg-cover bg-center flex items-center justify-center',
 
             clsMap[type].rink
           )}

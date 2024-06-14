@@ -26,20 +26,22 @@ export default function Friends () {
         </h3>
       </div>
 
-      <div className='flex items-center gap-x-1 text-sm text-[#F8C685]/60'>
-        <div className='flex -space-x-1.5'>
-          {friends.map((v, i) => {
-            return (
-              <img
-                src={v.avatar}
-                key={i}
-                className='size-5 rounded-full object-cover object-center'
-              />
-            );
-          })}
+      {friends.length > 0 && (
+        <div className='flex items-center gap-x-1 text-sm text-[#F8C685]/60'>
+          <div className='flex -space-x-1.5'>
+            {friends.map((v, i) => {
+              return (
+                <img
+                  src={v.avatar}
+                  key={i}
+                  className='size-5 rounded-full object-cover object-center'
+                />
+              );
+            })}
+          </div>
+          {moduleConf.friends.getSubtitle(friendsCnt)}
         </div>
-        {moduleConf.friends.getSubtitle(friendsCnt)}
-      </div>
+      )}
     </div>
   );
 }
