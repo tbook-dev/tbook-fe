@@ -105,7 +105,13 @@ export const useUserRenaissanceKit = () => {
   const inviteTgUser = () => {
     if (!userId) return;
     const link = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
-    const text = `\n@${TG_BOT_NAME} Hi friend, 💅click to get your lucky cards. 🎉 \n 🔥 The thrilling scratch competition is now in full bloom! 💥\n🎁 Prize Pool: 💰NOTCoin、 💲20,000U \n\n ${link}`;
+    // const text = `@${TG_BOT_NAME} \n Hi friend, get your 5 scratch cards🎉 \n 💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints \n ${link}`;
+    const text = [
+      `\n@${TG_BOT_NAME}`,
+      `Hi friend, get your 5 scratch cards🎉`,
+      `\n💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints`,
+      link,
+    ].join('\n');
     const shareLink = `https://t.me/share/url?text=${encodeURIComponent(
       text
     )}&url=${encodeURIComponent(link)}`;
