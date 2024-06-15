@@ -8,7 +8,7 @@ export default function Friends () {
       <h3 className='text-sm text-[#FFDFA2]/60 flex items-center justify-center'>
         Invite 1 friend to earn 500
         <img src={moduleConf.url.tpoint} className='size-3 mx-1' />+ 3
-        <img src={moduleConf.url.cat} className='w-5 ml-1' />
+        <img src={moduleConf.url.cat} className='w-5 ml-1 -mt-1' />
       </h3>
 
       {friends.length > 0 && (

@@ -260,3 +260,7 @@ export const getWiseScoreTop3 = async function () {
 export const takeLuckyDraw = async function (userId) {
   return await request.Get(`${host}/luckyDraw/${userId}`);
 };
+
+export const getSbtStatus = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/inSBTList/${userId}`);
+};

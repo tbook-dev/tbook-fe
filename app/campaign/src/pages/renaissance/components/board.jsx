@@ -7,7 +7,7 @@ export default function Board () {
   const { tpoints, luckyDrawCnt } = useUserRenaissanceKit();
   const { userLevel, totalWiseScore } = useLevel();
   const hasWiseScore = userLevel && userLevel !== 1;
-  console.log('display sbt logic to be done');
+  const hasSbt = true;
   return (
     <div className='flex justify-between items-stretch'>
       <div className='border border-[#FFEAB5]  rounded-xl bg-linear9 px-4 py-2 text-[#FFDFA2] text-xs space-y-2 w-max'>
@@ -21,15 +21,19 @@ export default function Board () {
 
         <div className='flex justify-between items-center gap-x-4'>
           <div className='flex items-center gap-x-1'>
-            <img src={moduleConf.url.cat} className='w-5' />
+            <img src={moduleConf.url.cat} className='w-5 -mt-1' />
 
             <div className='flex font-syne'>
-              <span className='font-rhd mr-1'>{luckyDrawCnt}</span>
+              <span className='font-rhd mr-1'>
+                {luckyDrawCnt > 1000
+                  ? formatImpact(luckyDrawCnt)
+                  : luckyDrawCnt}
+              </span>
               scratch card
               {luckyDrawCnt > 0 && 's'}
             </div>
           </div>
-          <img src={sbtIcon} className='size-6' />
+          {hasSbt && <img src={sbtIcon} className='size-6' />}
         </div>
       </div>
 
