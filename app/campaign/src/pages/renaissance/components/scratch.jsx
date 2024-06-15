@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useState, useRef } from 'react';
 import { useUserRenaissanceKit } from '@/hooks/useUserRenaissance';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import Button from './ui/button';
@@ -49,7 +49,7 @@ preloadBatchImage(Object.values(prizeMap).concat([initPic, bgPic, nocard]));
 export default function Scratch () {
   const { user } = useUserInfoQuery();
   const [messageApi, contextHolder] = message.useMessage();
-
+  const cardRef = useRef();
   const { luckyDrawCnt, refetchInfo, inviteTgUser } = useUserRenaissanceKit();
   const [prize, setPrize] = useState(0); // 0没开始
   const [userStarted, setUserStarted] = useState(false);
@@ -107,6 +107,24 @@ export default function Scratch () {
     }
   };
 
+  const handleFinish = () => {
+    if (prize > 1) {
+      openMessage(prizeTextMap[prize], () => {
+        cardRef.current.clearCard();
+        setUserStarted(false);
+        refetchInfo();
+        setPrize(0);
+      });
+    } else {
+      setTimeout(() => {
+        cardRef.current.clearCard();
+        setUserStarted(false);
+        refetchInfo();
+        setPrize(0);
+      }, 1000);
+    }
+  };
+
   return (
     <div
       onClick={handleUserStart}
@@ -135,19 +153,12 @@ export default function Scratch () {
               )}
 
               <ScratchCard
+                ref={cardRef}
                 width={304}
                 height={257}
                 coverImg={initPic}
                 autoReinit={false}
-                onFinish={async () => {
-                  if (prize > 1) {
-                    openMessage(prizeTextMap[prize], () => {
-                      refetchInfo();
-                      setPrize(0);
-                      setUserStarted(false);
-                    });
-                  }
-                }}
+                onFinish={handleFinish}
               >
                 {userStarted && prize > 0 && (
                   <img src={prizeMap[prize]} className='absolute inset-0' />
