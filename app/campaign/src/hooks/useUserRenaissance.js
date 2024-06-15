@@ -8,10 +8,8 @@ import {
   getInvitedFriends,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
-import { useCallback, useMemo, useState, useEffect } from 'react';
 import { getTMAsahreLink, getQueryParameter, TG_BOT_NAME } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
-import { delay } from '@/utils/common';
 
 export default function useUserRenaissance() {
   const { user } = useUserInfoQuery();
@@ -42,7 +40,7 @@ export const useLevel = () => {
     () => getWiseScore(userId),
     {
       retry: false,
-      enabled: !!userId && data === 3,
+      enabled: !!userId && data && data !== 1,
       retryOnMount: false,
     }
   );

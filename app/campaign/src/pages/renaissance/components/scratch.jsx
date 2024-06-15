@@ -1,20 +1,16 @@
-import { lazy, Suspense, useState, Fragment } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { useUserRenaissanceKit } from '@/hooks/useUserRenaissance';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
-import { formatImpact } from '@tbook/utils/lib/conf';
-import moduleConf from '../conf';
 import Button from './ui/button';
 import ScratchCard from '@/components/scratchCard/card';
 import bgPic from '@/images/wise/rewards/cover.png';
 import { preloadBatchImage } from '@/utils/common';
 import { takeLuckyDraw } from '@/api/incentive';
 import initPic from '@/images/wise/prize/init.png';
-// import resultPic from '@/images/wise/prize/result.png';
 import nocard from '@/images/wise/prize/no-card.png';
 import lottieJson from '@/images/lottie/cat-claw.json';
 import social from '@/utils/social';
-import { useCallback } from 'react';
-
+import { ConfigProvider, message } from 'antd';
 import none from '@/images/wise/scratch/none.png';
 import tpoint10 from '@/images/wise/scratch/tpoint10.png';
 import tpoint25 from '@/images/wise/scratch/tpoint25.png';
@@ -37,28 +33,35 @@ const prizeMap = {
   7: wisesore,
   8: tpoint500,
 };
+
+const prizeTextMap = {
+  2: 'You earn 10 TPoints',
+  3: 'You earn 25 TPoints',
+  4: 'You earn 50 TPoints',
+  5: 'You earn 100 TPoints',
+  6: 'You are eligible to join WISE SBT waitlist ',
+  7: 'You are eligible to generate WISE Score',
+  8: 'You earn 500 TPoints',
+};
+
 preloadBatchImage(Object.values(prizeMap).concat([initPic, bgPic, nocard]));
 
-export default function Scratch ({
-  closeModal,
-  inviteTgUser,
-  handleGenerate,
-  refetchUserLevel,
-}) {
+export default function Scratch () {
   const { user } = useUserInfoQuery();
-  const { tpoints, luckyDrawCnt, refetchInfo, targetDate } =
-    useUserRenaissanceKit();
-  const [prize, setPrize] = useState(0); // 0没开始
-  const [showPrizeModal, setShowPrizeModal] = useState(false);
-  const [userStarted, setUserStarted] = useState(false);
-  // const [isLoadingPrize, setLoadingPrize] = useState(false);
-  const handleCloseModal = useCallback(() => {
-    closeModal();
-    setTimeout(() => {
-      setUserStarted(false);
-    }, 300);
-  }, []);
+  const [messageApi, contextHolder] = message.useMessage();
 
+  const { luckyDrawCnt, refetchInfo, inviteTgUser } = useUserRenaissanceKit();
+  const [prize, setPrize] = useState(0); // 0没开始
+  const [userStarted, setUserStarted] = useState(false);
+
+  const openMessage = ({ content = prizeTextMap[6] }, onClose) => {
+    messageApi.open({
+      icon: null,
+      content: <div className='px-1 py-1'>🌟🌟 {content} 🌟🌟</div>,
+      className: 'mt-40',
+      onClose,
+    });
+  };
   const handleUserStart = () => {
     if (!userStarted) {
       setUserStarted(true);
@@ -116,20 +119,20 @@ export default function Scratch ({
             className='w-[343px] h-[433px] rounded-2xl relative bg-cover bg-center'
             style={{ backgroundImage: `url(${bgPic})` }}
           >
-            <div className='absolute left-1/2 -translate-x-1/2 bottom-[18px]'>
-              {/* {luckyDrawCnt === 0 ? (
-                <div className='absolute left-0 bottom-0 z-20 h-[224px] flex items-center'>
+            <div className='absolute left-1/2 -translate-x-1/2 bottom-[26px]'>
+              {luckyDrawCnt === 0 ? (
+                <div className='absolute left-0 bottom-0 z-20 h-[257px] flex items-center'>
                   <img src={nocard} className='w-full' />
                 </div>
               ) : (
                 !userStarted && (
-                  <div className='absolute left-0 bottom-0 z-20 h-[224px] flex items-center'>
+                  <div className='absolute left-0 bottom-0 z-20 h-[257px] flex items-center'>
                     <Suspense>
                       <Lottie animationData={lottieJson} loop />
                     </Suspense>
                   </div>
                 )
-              )} */}
+              )}
 
               <ScratchCard
                 width={304}
@@ -137,10 +140,13 @@ export default function Scratch ({
                 coverImg={initPic}
                 autoReinit={false}
                 onFinish={async () => {
-                  refetchUserLevel();
-                  handleCloseModal();
-                  refetchInfo();
-                  setShowPrizeModal(true);
+                  if (prize > 1) {
+                    openMessage(prizeTextMap[prize], () => {
+                      refetchInfo();
+                      setPrize(0);
+                      setUserStarted(false);
+                    });
+                  }
                 }}
               >
                 {userStarted && prize > 0 && (
@@ -160,6 +166,17 @@ export default function Scratch ({
           </Button>
         </div>
       </div>
+      <ConfigProvider
+        theme={{
+          components: {
+            Message: {
+              contentBg: '#A138F4',
+            },
+          },
+        }}
+      >
+        {contextHolder}
+      </ConfigProvider>
     </div>
   );
 }

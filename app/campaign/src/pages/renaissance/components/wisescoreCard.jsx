@@ -40,7 +40,7 @@ export default function WisescoreCard () {
         <Score text={formatImpact(totalWiseScore)} />
 
         <div className='flex justify-center'>
-          <Link to='/event/renaissance'>
+          <Link to='/wise-score'>
             <Button>Improve WISE Score</Button>
           </Link>
         </div>

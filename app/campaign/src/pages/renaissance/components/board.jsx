@@ -1,11 +1,13 @@
 import moduleConf from '../conf';
-import { useUserRenaissanceKit } from '@/hooks/useUserRenaissance';
+import { useUserRenaissanceKit, useLevel } from '@/hooks/useUserRenaissance';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import sbtIcon from '@/images/wise/prize/wise-sbt.png';
 import { Link } from 'react-router-dom';
 export default function Board () {
   const { tpoints, luckyDrawCnt } = useUserRenaissanceKit();
-  const hasWiseScore = true;
+  const { userLevel, totalWiseScore } = useLevel();
+  const hasWiseScore = userLevel && userLevel !== 1;
+  console.log('display sbt logic to be done');
   return (
     <div className='flex justify-between items-stretch'>
       <div className='border border-[#FFEAB5]  rounded-xl bg-linear9 px-4 py-2 text-[#FFDFA2] text-xs space-y-2 w-max'>
@@ -38,7 +40,7 @@ export default function Board () {
         >
           <div className='text-[#FFDFA2] text-base'>WISE Score</div>
           <span className='text-renaissance-1 text-xl font-bold leading-[20px]'>
-            {formatImpact(tpoints)}
+            {formatImpact(totalWiseScore)}
           </span>
         </Link>
       ) : (
