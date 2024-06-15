@@ -20,6 +20,7 @@ const TonExplore = lazy(() => import('@/pages/ton-explore'));
 const WiseScore = lazy(() => import('@/pages/ton-wise/wise-score'));
 const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/wise-leaderboard'));
 const Renaissance = lazy(() => import('@/pages/renaissance'));
+const RenaissanceDetail = lazy(() => import('@/pages/renaissance/detail'));
 const Attestation = lazy(() => import('@/pages/attestation'));
 const AirDrop = lazy(() => import('@/pages/airdrop'));
 
@@ -111,6 +112,15 @@ const routes = [
         element: (
           <Suspense fallback={<PageFallBack />}>
             <Renaissance />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'renaissance-detail',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <RenaissanceDetail />
           </Suspense>
         ),
       },
