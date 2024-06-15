@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useState, useRef } from 'react';
 import { useUserRenaissanceKit } from '@/hooks/useUserRenaissance';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import Button from './ui/button';
@@ -21,7 +21,6 @@ import tpoint500 from '@/images/wise/scratch/tpoint500.png';
 import wisesbt from '@/images/wise/scratch/wisesbt.png';
 import wisesore from '@/images/wise/scratch/wisescore.png';
 import { Link } from 'react-router-dom';
-import { el } from '../../../../../opeartion/dist/assets/index-8823f2a8';
 const Lottie = lazy(() => import('lottie-react'));
 
 const prizeMap = {
@@ -50,7 +49,7 @@ preloadBatchImage(Object.values(prizeMap).concat([initPic, bgPic, nocard]));
 export default function Scratch () {
   const { user } = useUserInfoQuery();
   const [messageApi, contextHolder] = message.useMessage();
-
+  const cardRef = useRef();
   const { luckyDrawCnt, refetchInfo, inviteTgUser } = useUserRenaissanceKit();
   const [prize, setPrize] = useState(0); // 0没开始
   const [userStarted, setUserStarted] = useState(false);
@@ -111,12 +110,14 @@ export default function Scratch () {
   const handleFinish = () => {
     if (prize > 1) {
       openMessage(prizeTextMap[prize], () => {
+        cardRef.current.clearCard();
         setUserStarted(false);
         refetchInfo();
         setPrize(0);
       });
     } else {
       setTimeout(() => {
+        cardRef.current.clearCard();
         setUserStarted(false);
         refetchInfo();
         setPrize(0);
@@ -152,6 +153,7 @@ export default function Scratch () {
               )}
 
               <ScratchCard
+                ref={cardRef}
                 width={304}
                 height={257}
                 coverImg={initPic}
