@@ -4,10 +4,9 @@ import { formatImpact } from '@tbook/utils/lib/conf';
 import sbtIcon from '@/images/wise/prize/wise-sbt.png';
 import { Link } from 'react-router-dom';
 export default function Board () {
-  const { tpoints, luckyDrawCnt } = useUserRenaissanceKit();
+  const { tpoints, luckyDrawCnt, isInSBTWhiteList } = useUserRenaissanceKit();
   const { userLevel, totalWiseScore } = useLevel();
   const hasWiseScore = userLevel && userLevel !== 1;
-  const hasSbt = true;
   return (
     <div className='flex justify-between items-stretch'>
       <div className='border border-[#FFEAB5]  rounded-xl bg-linear9 px-4 py-2 text-[#FFDFA2] text-xs space-y-2 w-max'>
@@ -33,7 +32,7 @@ export default function Board () {
               {luckyDrawCnt > 0 && 's'}
             </div>
           </div>
-          {hasSbt && <img src={sbtIcon} className='size-6' />}
+          {isInSBTWhiteList && <img src={sbtIcon} className='size-6' />}
         </div>
       </div>
 
