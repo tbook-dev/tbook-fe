@@ -9,11 +9,7 @@ export default function ScoreSkeleton () {
   return (
     <div className='space-y-20'>
       <h2 className='text-white text-base font-zen-dot'>{moduleConf.title}</h2>
-      <Suspense
-        fallback={
-          <div className='animate-pulse bg-[#1f1f1f] h-[393px] w-[251px] mx-auto' />
-        }
-      >
+      <Suspense fallback={<div className='h-[393px] w-[251px] mx-auto' />}>
         <Lottie
           loop
           autoplay={true}
