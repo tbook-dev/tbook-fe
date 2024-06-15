@@ -1,6 +1,6 @@
 import useWiseScore from '@/hooks/useWiseScore';
 import { useWisescoreTop3 } from '@/hooks/useTopBoard';
-import UserScore from '@/pages/ton-wise/components/userScore';
+import UserScore from './userScore';
 import Top from './ui/top';
 import { cn } from '@/utils/conf';
 import { Link } from 'react-router-dom';
@@ -12,7 +12,7 @@ export default function Leaderboard () {
   const top2 = top?.[1];
   const top3 = top?.[2];
   return (
-    <div className='p-4 border border-[#8541EE]/70 rounded-2xl space-y-5'>
+    <div className='p-4 border border-[#3f3b30] rounded-2xl space-y-5'>
       <div className='flex items-center justify-between'>
         <h2 className='text-base font-syne font-bold text-[#FFDFA2]'>
           WISE Score Leaderboard
@@ -37,7 +37,7 @@ export default function Leaderboard () {
         </Link>
       </div>
 
-      <UserScore user={userScore} type={2} />
+      <UserScore user={userScore} />
 
       <div
         className={cn('flex px-4', top3 ? 'justify-between' : 'justify-around')}
