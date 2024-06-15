@@ -55,7 +55,7 @@ export default function Scratch () {
   const [prize, setPrize] = useState(0); // 0没开始
   const [userStarted, setUserStarted] = useState(false);
 
-  const openMessage = ({ content = prizeTextMap[6] }, onClose) => {
+  const openMessage = (content, onClose) => {
     messageApi.open({
       icon: null,
       content: <div className='px-1 py-1'>🌟🌟 {content} 🌟🌟</div>,

@@ -32,7 +32,7 @@ const ScratchCard = forwardRef((p, ref) => {
         if (autoReinit > 0) {
           reInitCard();
         }
-      }, 1000);
+      }, 2000);
     }
   }, [isFinished]);
 
