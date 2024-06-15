@@ -38,7 +38,7 @@ export const useLevel = () => {
     retryOnMount: false,
   });
   const { data: wiseData } = useQuery(
-    'wise-score',
+    'wise-score-event-renaissance',
     () => getWiseScore(userId),
     {
       retry: false,

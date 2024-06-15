@@ -32,6 +32,7 @@ export default function TonWiseScore () {
             <div className='space-y-16'>
               <Suspense fallback={<ScoreSkeleton />}>
                 <WiseInfo />
+                {/* <ScoreSkeleton /> */}
               </Suspense>
               <WiseDetail />
             </div>
