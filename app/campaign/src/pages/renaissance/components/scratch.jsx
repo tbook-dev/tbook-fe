@@ -21,6 +21,7 @@ import tpoint500 from '@/images/wise/scratch/tpoint500.png';
 import wisesbt from '@/images/wise/scratch/wisesbt.png';
 import wisesore from '@/images/wise/scratch/wisescore.png';
 import { Link } from 'react-router-dom';
+import { el } from '../../../../../opeartion/dist/assets/index-8823f2a8';
 const Lottie = lazy(() => import('lottie-react'));
 
 const prizeMap = {
@@ -107,6 +108,22 @@ export default function Scratch () {
     }
   };
 
+  const handleFinish = () => {
+    if (prize > 1) {
+      openMessage(prizeTextMap[prize], () => {
+        setUserStarted(false);
+        refetchInfo();
+        setPrize(0);
+      });
+    } else {
+      setTimeout(() => {
+        setUserStarted(false);
+        refetchInfo();
+        setPrize(0);
+      }, 1000);
+    }
+  };
+
   return (
     <div
       onClick={handleUserStart}
@@ -139,15 +156,7 @@ export default function Scratch () {
                 height={257}
                 coverImg={initPic}
                 autoReinit={false}
-                onFinish={async () => {
-                  if (prize > 1) {
-                    openMessage(prizeTextMap[prize], () => {
-                      refetchInfo();
-                      setPrize(0);
-                      setUserStarted(false);
-                    });
-                  }
-                }}
+                onFinish={handleFinish}
               >
                 {userStarted && prize > 0 && (
                   <img src={prizeMap[prize]} className='absolute inset-0' />
