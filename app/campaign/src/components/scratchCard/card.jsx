@@ -1,6 +1,7 @@
 import { cn } from '@/utils/conf';
 import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { useCardInit } from './hooks';
+import { useEffect } from 'react';
 
 const defaultProps = {
   width: 240,
@@ -10,10 +11,10 @@ const defaultProps = {
 
 const ScratchCard = forwardRef((p, ref) => {
   const props = { ...defaultProps, ...p };
-  const { children, classNames, ...rest } = props;
+  const { children, classNames, autoReinit, onFinish, ...rest } = props;
 
   const canvasRef = useRef();
-  const [, initDone, clearCard] = useCardInit({
+  const [, isFinished, initDone, clearCard, reInitCard] = useCardInit({
     canvasRef,
     ...rest,
   });
@@ -23,6 +24,17 @@ const ScratchCard = forwardRef((p, ref) => {
     initDone,
     clearCard,
   }));
+
+  useEffect(() => {
+    if (isFinished) {
+      onFinish();
+      setTimeout(() => {
+        if (autoReinit > 0) {
+          reInitCard();
+        }
+      }, 2000);
+    }
+  }, [isFinished]);
 
   return (
     <div

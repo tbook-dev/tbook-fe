@@ -1,33 +1,18 @@
 import moduleConf from '../conf';
 import { useUserRenaissanceKit } from '@/hooks/useUserRenaissance';
-import Button from './ui/button';
-import SocalSVG from '@/utils/social';
 
 export default function Friends () {
-  const { friends, friendsCnt, inviteTgUser } = useUserRenaissanceKit();
+  const { friends, friendsCnt } = useUserRenaissanceKit();
   return (
-    <div className='p-4 space-y-3 border border-[#8541EE]/70 rounded-2xl'>
-      <div className='space-y-2'>
-        <div className='flex items-center justify-between'>
-          <h2 className='text-base font-syne font-bold text-[#FFDFA2]'>
-            {moduleConf.friends.title}
-          </h2>
-          <Button
-            onClick={inviteTgUser}
-            className='py-0.5 px-2 gap-x-1.5 text-xs'
-          >
-            {<SocalSVG.tg className='fill-white' />}
-            {moduleConf.inviteBtn}
-          </Button>
-        </div>
-
-        <h3 className='text-sm text-[#FFDFA2]/60'>
-          Invite 1 friend = 500 TPoints + 3 scratch cards !
-        </h3>
-      </div>
+    <div className='p-4 space-y-3 border border-[#3f3b30] rounded-2xl'>
+      <h3 className='text-sm text-[#FFDFA2]/60 flex items-center justify-center'>
+        Invite 1 friend to earn 500
+        <img src={moduleConf.url.tpoint} className='size-3 mx-1' />+ 3
+        <img src={moduleConf.url.cat} className='w-5 ml-1 -mt-1' />
+      </h3>
 
       {friends.length > 0 && (
-        <div className='flex items-center gap-x-1 text-sm text-[#F8C685]/60'>
+        <div className='flex items-center justify-center gap-x-2 text-sm text-[#F8C685]/60'>
           <div className='flex -space-x-1.5'>
             {friends.map((v, i) => {
               return (

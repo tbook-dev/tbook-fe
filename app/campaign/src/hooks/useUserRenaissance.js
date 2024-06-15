@@ -8,10 +8,8 @@ import {
   getInvitedFriends,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
-import { useCallback, useMemo, useState, useEffect } from 'react';
 import { getTMAsahreLink, getQueryParameter, TG_BOT_NAME } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
-import { delay } from '@/utils/common';
 
 export default function useUserRenaissance() {
   const { user } = useUserInfoQuery();
@@ -42,7 +40,7 @@ export const useLevel = () => {
     () => getWiseScore(userId),
     {
       retry: false,
-      enabled: !!userId && data === 3,
+      enabled: !!userId && data && data !== 1,
       retryOnMount: false,
     }
   );
@@ -107,7 +105,13 @@ export const useUserRenaissanceKit = () => {
   const inviteTgUser = () => {
     if (!userId) return;
     const link = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
-    const text = `\n@${TG_BOT_NAME} Hi friend, 💅click to get your lucky cards. 🎉 \n 🔥 The thrilling scratch competition is now in full bloom! 💥\n🎁 Prize Pool: 💰NOTCoin、 💲20,000U \n\n ${link}`;
+    // const text = `@${TG_BOT_NAME} \n Hi friend, get your 5 scratch cards🎉 \n 💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints \n ${link}`;
+    const text = [
+      `\n@${TG_BOT_NAME}`,
+      `Hi friend, get your 5 scratch cards🎉`,
+      `\n💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints`,
+      link,
+    ].join('\n');
     const shareLink = `https://t.me/share/url?text=${encodeURIComponent(
       text
     )}&url=${encodeURIComponent(link)}`;
@@ -124,7 +128,9 @@ export const useUserRenaissanceKit = () => {
     level2Competed: friendsCnt >= 5,
     tpoints: data?.tPoints ?? 0,
     luckyDrawCnt: data?.luckyDrawCnt ?? 0,
+    hashLuckyCardCntData: !!data,
     refetchInfo: refetch,
     targetDate: data?.nextDistribution,
+    isInSBTWhiteList: data && data.isInSBTWhiteList,
   };
 };

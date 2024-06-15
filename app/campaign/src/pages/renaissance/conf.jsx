@@ -2,6 +2,7 @@ import wisescoreRadarSVG from '@/images/wise/radar.svg';
 import dogSVG from '@/images/event/cat.png';
 import sbtSVG from '@/images/wise/rewards/sbt.png';
 import notSVG from '@/images/wise/rewards/not.svg';
+import catsvg from '@/images/wise/scratch/cat.svg';
 import airdropSVG from '@/images/wise/rewards/airdrop.svg';
 import passSVG from '@/images/wise/rewards/pass.svg';
 import inviteSVG from '@/images/wise/invite.svg';
@@ -9,6 +10,7 @@ import prize1 from '@/images/wise/rewards/prize1.png';
 import prize2 from '@/images/wise/rewards/prize2.png';
 import prize3 from '@/images/wise/rewards/prize3.png';
 import prizebg from '@/images/wise/rewards/prizebg.png';
+import tpointIcon from '@/images/wise/prize/tpoint.png';
 
 const moduleConf = {
   oneFriendTpoint: 500,
@@ -19,28 +21,6 @@ const moduleConf = {
   wisescore: 'WISE Score',
   wisesbt: 'WISE SBT',
   wisesbt2: 'Your Credit on TON',
-  getInviteTip: (level = 1, compelted) => (
-    <p className='text-sm text-[#F8C685]/60'>
-      {level === 1 && (
-        <>
-          Invite <span className='text-[#F8C685] text-bold'>1</span> friend to
-          generate!
-        </>
-      )}
-      {level === 2 &&
-        (compelted ? (
-          <>
-            Invite <span className='text-[#F8C685] text-bold'>5</span> friends
-            to to mint!
-          </>
-        ) : (
-          <>
-            Invite <span className='text-[#F8C685] text-bold'>5</span> friends
-            to to join WISE SBT whitelist!
-          </>
-        ))}
-    </p>
-  ),
   inviteTip2: (
     <p className='text-sm text-[#F8C685]/60'>
       Invite <span className='text-[#F8C685] text-bold'>1</span> friend to
@@ -81,8 +61,10 @@ const moduleConf = {
 
   url: {
     dog: dogSVG,
+    cat: catsvg,
     wisescoreRadar: wisescoreRadarSVG,
     invite: inviteSVG,
+    tpoint: tpointIcon,
   },
 
   svg: {
