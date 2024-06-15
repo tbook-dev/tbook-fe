@@ -125,5 +125,6 @@ export const useUserRenaissanceKit = () => {
     hashLuckyCardCntData: !!data,
     refetchInfo: refetch,
     targetDate: data?.nextDistribution,
+    isInSBTWhiteList: data && data.isInSBTWhiteList,
   };
 };
