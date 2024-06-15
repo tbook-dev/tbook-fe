@@ -9,12 +9,17 @@ export default function ScoreSkeleton () {
   return (
     <div className='space-y-20'>
       <h2 className='text-white text-base font-zen-dot'>{moduleConf.title}</h2>
-      <Suspense fallback={<div className='h-[393px] w-[251px] mx-auto' />}>
+      <Suspense fallback={<div className='h-[300px] w-[270px] mx-auto' />}>
         <Lottie
           loop
           autoplay={true}
           animationData={dataJSON}
-          style={{ height: '393px', width: '251px', margin: '0 auto' }}
+          style={{
+            height: '300px',
+            width: '270px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
         />
       </Suspense>
     </div>

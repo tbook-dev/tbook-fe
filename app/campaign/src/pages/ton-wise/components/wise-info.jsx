@@ -14,9 +14,9 @@ export default function WiseInfo () {
 
   const list = [
     data?.engagementScore,
-    data?.wealthScore,
-    data?.identityScore,
     data?.socialScore,
+    data?.identityScore,
+    data?.wealthScore,
   ];
   // const maxScore = Math.max(...list) + 1;
 
@@ -27,9 +27,9 @@ export default function WiseInfo () {
         splitNumber: 4,
         indicator: [
           { name: 'Engagement' },
-          { name: 'Wealth' },
-          { name: 'Identity' },
           { name: 'Social' },
+          { name: 'Identity' },
+          { name: 'Wealth' },
         ],
         radius: 80,
         axisName: {
