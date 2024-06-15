@@ -50,7 +50,8 @@ export default function Scratch () {
   const { user } = useUserInfoQuery();
   const [messageApi, contextHolder] = message.useMessage();
   const cardRef = useRef();
-  const { luckyDrawCnt, refetchInfo, inviteTgUser } = useUserRenaissanceKit();
+  const { hashLuckyCardCntData, luckyDrawCnt, refetchInfo, inviteTgUser } =
+    useUserRenaissanceKit();
   const [prize, setPrize] = useState(0); // 0没开始
   const [userStarted, setUserStarted] = useState(false);
 
@@ -106,20 +107,16 @@ export default function Scratch () {
       }
     }
   };
-
-  const handleFinish = () => {
+  const handleFinish = async () => {
+    await refetchInfo();
     if (prize > 1) {
       openMessage(prizeTextMap[prize], () => {
-        cardRef.current.clearCard();
         setUserStarted(false);
-        refetchInfo();
         setPrize(0);
       });
     } else {
       setTimeout(() => {
-        cardRef.current.clearCard();
         setUserStarted(false);
-        refetchInfo();
         setPrize(0);
       }, 1000);
     }
@@ -132,13 +129,13 @@ export default function Scratch () {
       className='space-y-5 mx-auto overflow-hidden transition-all shadow-xl'
     >
       <div className='w-full flex flex-col justify-center gap-y-2 items-center'>
-        <div className='bg-[#e71f1f] w-full flex justify-center items-center rounded-2xl relative'>
+        <div className='bg-[#e71f1f] w-full flex justify-center items-center rounded-2xl overflow-hidden relative'>
           <div
             className='w-[343px] h-[433px] rounded-2xl relative bg-cover bg-center'
             style={{ backgroundImage: `url(${bgPic})` }}
           >
             <div className='absolute left-1/2 -translate-x-1/2 bottom-[26px]'>
-              {luckyDrawCnt === 0 ? (
+              {hashLuckyCardCntData && luckyDrawCnt === 0 ? (
                 <div className='absolute left-0 bottom-0 z-20 h-[257px] flex items-center'>
                   <img src={nocard} className='w-full' />
                 </div>
@@ -157,7 +154,8 @@ export default function Scratch () {
                 width={304}
                 height={257}
                 coverImg={initPic}
-                autoReinit={false}
+                data={{ prize }}
+                autoReinit={luckyDrawCnt > 0}
                 onFinish={handleFinish}
               >
                 {userStarted && prize > 0 && (

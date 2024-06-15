@@ -2,20 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { preloadImage as loadImage, loadImageUrl } from '@/utils/common';
 
 const useCardInit = (props) => {
-  const {
-    canvasRef,
-    width,
-    height,
-    coverColor,
-    coverImg,
-    onInit,
-    onFinish,
-    autoReinit = false,
-  } = props;
+  const { canvasRef, width, height, coverColor, coverImg, onInit } = props;
   const isScratching = useRef(false);
   const [initDone, setInitDone] = useState(false); // 网络图片加载有延迟，初始化完成在渲染底层dom
-  const isFinished = useRef(false);
-
+  // const isFinished = useRef(false);
+  const [isFinished, setIsFinished] = useState(false);
   useEffect(() => {
     initCard();
     return () => {
@@ -66,15 +57,17 @@ const useCardInit = (props) => {
     const context = canvas.getContext('2d');
     if (!context) return;
     context.clearRect(0, 0, width, height);
-    isFinished.current = true;
+    // isFinished.current = true;
     destroyCard();
+    setIsFinished(true);
 
-    if (autoReinit) {
-      setTimeout(() => {
-        isFinished.current = false;
-        initCard();
-      }, 3000);
-    }
+    // if (autoReinit) {
+    // setTimeout(() => {
+    // setIsFinished(false);
+    // isFinished.current = false;
+    // initCard();
+    // }, 3000);
+    // }
   };
 
   const getMousePosition = (event) => {
@@ -139,13 +132,12 @@ const useCardInit = (props) => {
     const percent = counter >= 1 ? (counter / (width * height)) * 100 : 0;
     if (percent >= 60) {
       clearCard();
-      onFinish?.();
     }
   };
 
   const scratchController = (scratching) => {
     isScratching.current = scratching;
-    if (!scratching && !isFinished.current) {
+    if (!scratching && !isFinished) {
       checkCardArea();
     }
   };
@@ -167,8 +159,11 @@ const useCardInit = (props) => {
 
     setInitDone(true);
   };
-
-  return [isScratching.current, initDone, clearCard];
+  const reInitCard = () => {
+    setIsFinished(false);
+    initCard();
+  };
+  return [isScratching.current, isFinished, initDone, clearCard, reInitCard];
 };
 
 export { useCardInit };

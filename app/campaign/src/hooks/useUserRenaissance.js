@@ -122,6 +122,7 @@ export const useUserRenaissanceKit = () => {
     level2Competed: friendsCnt >= 5,
     tpoints: data?.tPoints ?? 0,
     luckyDrawCnt: data?.luckyDrawCnt ?? 0,
+    hashLuckyCardCntData: !!data,
     refetchInfo: refetch,
     targetDate: data?.nextDistribution,
   };
