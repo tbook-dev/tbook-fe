@@ -45,7 +45,7 @@ const slide2 = {
       texts: [
         '🤑Open the TBook mini app everyday to get 10 free scratch cards.',
         'The first 5 are on your hands and others come every ten minutes.💥💥💥',
-        'Get ready to scratch and win from a massive TPoints Price Pool! 🧧',
+        'Get ready to scratch and win from a massive TPoints Prize Pool! 🧧',
       ],
     },
     {
