@@ -4,7 +4,6 @@ import Scratch from './components/scratch';
 import { useState } from 'react';
 import RuleModal from './components/modal/rule';
 
-import './index.css';
 
 export default function Renaissance() {
   const [isRuleModalOpen, setIsRuleModalOpen] = useState(false);
