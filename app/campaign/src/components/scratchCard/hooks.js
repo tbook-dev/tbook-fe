@@ -130,7 +130,7 @@ const useCardInit = (props) => {
       }
     }
     const percent = counter >= 1 ? (counter / (width * height)) * 100 : 0;
-    if (percent >= 60) {
+    if (percent >= 50) {
       clearCard();
     }
   };
