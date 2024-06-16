@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState, useRef } from 'react';
-import { useUserRenaissanceKit, useLevel } from '@/hooks/useUserRenaissance';
+import { useUserRenaissanceKit } from '@/hooks/useUserRenaissance';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import Button from './ui/button';
 import ScratchCard from '@/components/scratchCard/card';
@@ -52,7 +52,6 @@ export default function Scratch () {
   const cardRef = useRef();
   const { hashLuckyCardCntData, luckyDrawCnt, refetchInfo, inviteTgUser } =
     useUserRenaissanceKit();
-  const { level2Mutation } = useLevel();
   const [prize, setPrize] = useState(0); // 0没开始
   const [userStarted, setUserStarted] = useState(false);
 
@@ -109,9 +108,6 @@ export default function Scratch () {
     }
   };
   const handleFinish = async () => {
-    if(prize === 6){
-      await level2Mutation.mutateAsync()
-    }
     await refetchInfo();
     if (prize > 1) {
       openMessage(prizeTextMap[prize], () => {
