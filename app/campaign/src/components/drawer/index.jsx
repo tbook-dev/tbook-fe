@@ -24,7 +24,7 @@ export default function Drawer ({
           <div
             className={clsx(
               'absolute inset-0 overflow-hidden',
-              'bg-black/[0.8] backdrop-blur-md'
+              'bg-black/90 backdrop-blur-md'
             )}
           >
             <div
