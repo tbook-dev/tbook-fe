@@ -193,21 +193,21 @@ importers:
       '@tbook/ui': link:../../packages/ui
       '@tbook/utils': link:../../packages/utils
 
-  app/home:
+  app/opeartion:
     specifiers:
-      '@tbook/hooks': workspace:*
+      '@tbook/credential': workspace:*
       '@tbook/share': workspace:*
-      '@tbook/store': workspace:*
       '@tbook/ui': workspace:*
       '@tbook/utils': workspace:*
-      typed.js: ^2.0.12
+      '@tbook/wallet': workspace:*
+      alchemy-sdk: ^2.8.3
     dependencies:
-      '@tbook/hooks': link:../../packages/hooks
+      '@tbook/credential': link:../../packages/credential
       '@tbook/share': link:../../packages/share
-      '@tbook/store': link:../../packages/store
       '@tbook/ui': link:../../packages/ui
       '@tbook/utils': link:../../packages/utils
-      typed.js: 2.0.12
+      '@tbook/wallet': link:../../packages/wallet
+      alchemy-sdk: 2.8.3
 
   app/rewardoor:
     specifiers:
@@ -8145,10 +8145,6 @@ packages:
       call-bind: 1.0.2
       for-each: 0.3.3
       is-typed-array: 1.1.10
-    dev: false
-
-  /typed.js/2.0.12:
-    resolution: {integrity: sha512-lyACZh1cu+vpfYY3DG/bvsGLXXbdoDDpWxmqta10IQUdMXisMXOEyl+jos+YT9uBbzK4QaKYBjT3R0kTJO0Slw==}
     dev: false
 
   /typedarray-to-buffer/3.1.5:
