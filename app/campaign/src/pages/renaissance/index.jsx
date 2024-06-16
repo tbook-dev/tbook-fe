@@ -15,7 +15,7 @@ export default function Renaissance() {
         onClick={() => {
           setIsRuleModalOpen(true);
         }}
-        className="fixed font-syne  underline underline-offset-2 flex items-center gap-x-1 leading-[12px] text-xs z-10 right-0 top-40 bg-[#FFEAB5] text-[#563BFF] py-1.5 pl-1.5 pr-3 border border-r-0 rounded-l-2.5xl border-[#FBD6A0] text-[#FBD6A0]/60"
+        className="fixed font-syne  underline underline-offset-2 flex items-center gap-x-1 leading-[12px] text-xs z-10 right-0 top-40 bg-[#FFEAB5] text-[#563BFF] py-1.5 pl-1.5 pr-3 border border-r-0 rounded-l-2.5xl border-[#FBD6A0]"
       >
         <svg
           width="20"
