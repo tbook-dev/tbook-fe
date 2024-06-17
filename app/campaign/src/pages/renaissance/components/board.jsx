@@ -38,7 +38,7 @@ export default function Board () {
 
       {hasWiseScore ? (
         <Link
-          to='/event/renaissance-detail'
+          to='/event/renaissance/detail'
           className='px-4 py-2 rounded-xl border border-[#3f3b30] font-syne text-center'
         >
           <div className='text-[#FFDFA2] text-base'>WISE Score</div>
