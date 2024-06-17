@@ -107,6 +107,7 @@ const routes = [
     path: '/event',
     loader: getTbookfn,
     element: <TMALayout layout />,
+    errorElement: <GlobalError />,
     children: [
       {
         path: 'renaissance',
@@ -142,7 +143,6 @@ const routes = [
         ],
       },
     ],
-    errorElement: <GlobalError />,
   },
   {
     path: '/',
