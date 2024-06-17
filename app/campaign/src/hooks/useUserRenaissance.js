@@ -56,10 +56,11 @@ export const useLevel = () => {
   );
   const level2Mutation = useMutation(
     async () => {
-      const res = await joinSBTList(userId);
-      if (res.code !== 200) {
-        throw new Error(res.message);
-      }
+      await joinSBTList(userId);
+      // const res = await joinSBTList(userId);
+      // if (res.code !== 200) {
+      //   throw new Error(res.message);
+      // }
     },
     {
       onSuccess: () => {
