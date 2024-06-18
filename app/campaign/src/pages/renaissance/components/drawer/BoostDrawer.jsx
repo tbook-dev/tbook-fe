@@ -3,23 +3,16 @@ import { useMemo } from 'react';
 import moduleConf from '../../conf';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import Button from '../ui/button';
-
-const directBtn = [
-  {
-    cards: 1,
-    tpoint: 150,
-  },
-  {
-    cards: 3,
-    tpoint: 300,
-  },
-  {
-    cards: 10,
-    tpoint: 800,
-  },
-];
-
-export default function BoostDrawer ({ open, onCancel, data = {} }) {
+import { useBuyCardMutation } from '@/hooks/useUserRenaissance';
+import { useState } from 'react';
+export default function BoostDrawer ({
+  open,
+  onCancel,
+  data = {},
+  list: directBtn,
+}) {
+  const buyMutation = useBuyCardMutation();
+  const [clickIdx, setClickIdx] = useState(-1);
   const textMap = useMemo(() => {
     return {
       multi: {
@@ -39,6 +32,12 @@ export default function BoostDrawer ({ open, onCancel, data = {} }) {
       },
     };
   }, [data]);
+  const handleDirectBuy = async (v, idx) => {
+    setClickIdx(idx);
+    const res = await buyMutation.mutateAsync(1);
+    console.log(res);
+    setClickIdx(-1);
+  };
 
   return (
     <Drawer open={open} onCancel={onCancel}>
@@ -60,15 +59,20 @@ export default function BoostDrawer ({ open, onCancel, data = {} }) {
         {data.type === 'per' && <Button className='w-full'>Level up</Button>}
         {data.type === 'direct' && (
           <div className='space-y-3'>
-            {directBtn.map(d => {
+            {directBtn.map((d, idx) => {
               return (
-                <Button className='w-full justify-between' key={d.cards}>
+                <Button
+                  isLoading={buyMutation.isLoading && clickIdx === idx}
+                  className='w-full justify-between'
+                  key={d.cardCnt}
+                  onClick={() => handleDirectBuy(d, idx)}
+                >
                   <span className='text-xs font-bold'>
-                    {d.cards} Scratch Card{d.cards > 1 && 's'}
+                    {d.cardCnt} Scratch Card{d.cardCnt > 1 && 's'}
                   </span>
                   <div className='flex items-center text-[#FFDFA2] text-sm'>
                     <img src={moduleConf.url.tpoint} className='size-5 me-1' />
-                    {d.tpoint} TPoints
+                    {d.pointsNum} TPoints
                   </div>
                 </Button>
               );

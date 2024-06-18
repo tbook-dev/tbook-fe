@@ -6,6 +6,8 @@ import {
   joinSBTList,
   getWiseScore,
   getInvitedFriends,
+  getBugCardsList,
+  buyCard,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
 import { getTMAsahreLink, getQueryParameter, TG_BOT_NAME } from '@/utils/tma';
@@ -79,20 +81,21 @@ export const useLevel = () => {
   };
 };
 
+export const useUserScratchInfo = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  return useQuery('user-tpoints', () => getUserTpoints(userId), {
+    retry: false,
+    enabled: !!userId,
+    retryOnMount: false,
+    staleTime: 2000,
+  });
+};
+
 export const useUserRenaissanceKit = () => {
   const { user } = useUserInfoQuery();
-
   const userId = user?.userId;
-  const { data, refetch } = useQuery(
-    'user-tpoints',
-    () => getUserTpoints(userId),
-    {
-      retry: false,
-      enabled: !!userId,
-      retryOnMount: false,
-      staleTime: 2000,
-    }
-  );
+  const { data, refetch } = useUserScratchInfo();
   const { data: friendsRes } = useQuery(
     'tg-invite-friends',
     getInvitedFriends,
@@ -134,4 +137,23 @@ export const useUserRenaissanceKit = () => {
     targetDate: data?.nextDistribution,
     isInSBTWhiteList: data && data.isInSBTWhiteList,
   };
+};
+
+export const useBuyCardList = () => {
+  return useQuery('buy-card-list', getBugCardsList, {
+    staleTime: Infinity,
+  });
+};
+
+export const useBuyCardMutation = () => {
+  const { refetch } = useUserScratchInfo();
+
+  return useMutation(
+    async (...args) => {
+      return await buyCard(...args);
+    },
+    {
+      onSuccess: refetch,
+    }
+  );
 };

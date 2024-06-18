@@ -5,11 +5,13 @@ import { formatImpact } from '@tbook/utils/lib/conf';
 import { cn } from '@/utils/conf';
 import BoostDrawer from './components/drawer/BoostDrawer';
 import { useState } from 'react';
+import { useBuyCardList } from '@/hooks/useUserRenaissance';
 
 export default function Boost () {
   const [messageApi, contextHolder] = message.useMessage();
   const [openMulti, setOpenMulti] = useState();
   const [boostData, setBoostData] = useState({});
+  const { data: buycardList } = useBuyCardList();
   const openMessage = (content, onClose) => {
     messageApi.open({
       icon: null,
@@ -212,6 +214,7 @@ export default function Boost () {
           setOpenMulti(false);
         }}
         data={boostData}
+        list={buycardList}
       />
       <ConfigProvider
         theme={{
