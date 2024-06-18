@@ -3,9 +3,13 @@ import { useMemo } from 'react';
 import moduleConf from './conf';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import { cn } from '@/utils/conf';
+import BoostDrawer from './components/drawer/BoostDrawer';
+import { useState } from 'react';
 
 export default function Boost () {
   const [messageApi, contextHolder] = message.useMessage();
+  const [openMulti, setOpenMulti] = useState();
+  const [boostData, setBoostData] = useState({});
   const openMessage = (content, onClose) => {
     messageApi.open({
       icon: null,
@@ -106,6 +110,19 @@ export default function Boost () {
     ]
   );
 
+  const handleBoost = v => {
+    if (v.type === 'multi') {
+      setBoostData(v);
+      setOpenMulti(true);
+    } else if (v.type === 'per') {
+      setBoostData(v);
+      setOpenMulti(true);
+    } else if (v.type === 'direct') {
+      setBoostData(v);
+      setOpenMulti(true);
+    }
+  };
+
   return (
     <div className='space-y-3 px-4 pb-10 mx-auto overflow-hidden transition-all shadow-xl'>
       <h2 className='text-2xl font-syne font-extrabold text-center'>Boost</h2>
@@ -145,10 +162,11 @@ export default function Boost () {
             <div className='space-y-3'>
               {proofBooster.map(b => {
                 return (
-                  <div
+                  <button
+                    onClick={() => handleBoost(b)}
                     key={b.type}
                     className={cn(
-                      'flex items-center justify-between gap-x-2 px-4 py-3 rounded-lg border border-[#FFEAB5] bg-linear14',
+                      'w-full flex items-center justify-between gap-x-2 px-4 py-3 rounded-lg border border-[#FFEAB5] bg-linear14',
                       {
                         'opacity-40': !b.isActive,
                       }
@@ -180,7 +198,7 @@ export default function Boost () {
                         strokeLinejoin='round'
                       />
                     </svg>
-                  </div>
+                  </button>
                 );
               })}
             </div>
@@ -188,6 +206,13 @@ export default function Boost () {
         </div>
       </div>
 
+      <BoostDrawer
+        open={openMulti}
+        onCancel={() => {
+          setOpenMulti(false);
+        }}
+        data={boostData}
+      />
       <ConfigProvider
         theme={{
           components: {
