@@ -1,7 +1,7 @@
 const modlueConf = {
   title: 'The WISE Score is already up to date.',
   desc: 'For more information about WISE Score, please visit:',
-  link: 'https://tbookcommunity.medium.com/tbook-new-feature-wise-score-for-community-value-assessment-241a39b7fc9a',
+  link: 'https://github.com/tbook-dev/incentive-layer-docs/blob/main/wise-score.md',
 };
 
 export default function Engagement () {

@@ -3,7 +3,9 @@ import { useUserRenaissanceKit, useLevel } from '@/hooks/useUserRenaissance';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import sbtIcon from '@/images/wise/prize/wise-sbt.png';
 import { Link } from 'react-router-dom';
-export default function Board () {
+import { memo } from 'react';
+
+function Board () {
   const { tpoints, luckyDrawCnt, isInSBTWhiteList } = useUserRenaissanceKit();
   const { userLevel, totalWiseScore } = useLevel();
   const hasWiseScore = userLevel && userLevel !== 1;
@@ -57,3 +59,5 @@ export default function Board () {
     </div>
   );
 }
+
+export default memo(Board);
