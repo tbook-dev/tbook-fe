@@ -44,7 +44,7 @@ export default function BoostDrawer ({ open, onCancel, data = {} }) {
     <Drawer open={open} onCancel={onCancel}>
       <div className='text-white bg-black/10 px-8 pt-8 pb-16 rounded-t-2.5xl border-t-2 border-[#FFEAB5]'>
         <div className='space-y-2'>
-          <h2 className='text-[28px] font-bold font-syne'>
+          <h2 className='text-2xl font-bold font-syne'>
             {textMap[data.type]?.title}
           </h2>
           <p className='text-xs'>{textMap[data.type]?.desc}</p>
