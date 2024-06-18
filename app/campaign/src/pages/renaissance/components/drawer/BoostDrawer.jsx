@@ -5,11 +5,13 @@ import { formatImpact } from '@tbook/utils/lib/conf';
 import Button from '../ui/button';
 import { useBuyCardMutation } from '@/hooks/useUserRenaissance';
 import { useState } from 'react';
+import { cn } from '@/utils/conf';
 export default function BoostDrawer ({
   open,
   onCancel,
   data = {},
-  list: directBtn,
+  openMessage,
+  list: directBtn = [],
 }) {
   const buyMutation = useBuyCardMutation();
   const [clickIdx, setClickIdx] = useState(-1);
@@ -34,14 +36,21 @@ export default function BoostDrawer ({
   }, [data]);
   const handleDirectBuy = async (v, idx) => {
     setClickIdx(idx);
-    const res = await buyMutation.mutateAsync(1);
-    console.log(res);
+    const res = await buyMutation.mutateAsync(v.level);
+    if (res.code === 200) {
+      openMessage(
+        `You bought ${v.cardCnt} Scratch Card${v.cardCnt > 0 && 's'}`
+      );
+    } else {
+      openMessage(res.message ?? 'Scratch for more TPoints to upgrade');
+    }
+    onCancel();
     setClickIdx(-1);
   };
 
   return (
     <Drawer open={open} onCancel={onCancel}>
-      <div className='text-white bg-black/10 px-8 pt-8 pb-16 rounded-t-2.5xl border-t-2 border-[#FFEAB5]'>
+      <div className='text-white bg-black/10 px-8 pt-8 pb-16  space-y-6 rounded-t-2.5xl border-t-2 border-[#FFEAB5]'>
         <div className='space-y-2'>
           <h2 className='text-2xl font-bold font-syne'>
             {textMap[data.type]?.title}
@@ -49,12 +58,22 @@ export default function BoostDrawer ({
           <p className='text-xs'>{textMap[data.type]?.desc}</p>
         </div>
         {textMap[data.type]?.tip && (
-          <div className='pt-5 text-xs'>{textMap[data.type]?.tip}</div>
+          <div
+            className={cn(
+              'pt-5 text-xs',
+              data.type === 'direct' && 'text-center'
+            )}
+          >
+            {textMap[data.type]?.tip}
+          </div>
         )}
-        <div className='flex items-center justify-center py-6 text-[#FFDFA2] text-xl'>
-          <img src={moduleConf.url.tpoint} className='size-7 me-1' />
-          {formatImpact(400)}TPoints · Lvl1
-        </div>
+        {data.type !== 'direct' && (
+          <div className='flex items-center justify-center pt-6 text-[#FFDFA2] text-xl'>
+            <img src={moduleConf.url.tpoint} className='size-7 me-1' />
+            {formatImpact(400)}TPoints · Lvl1
+          </div>
+        )}
+
         {data.type === 'multi' && <Button className='w-full'>Level up</Button>}
         {data.type === 'per' && <Button className='w-full'>Level up</Button>}
         {data.type === 'direct' && (

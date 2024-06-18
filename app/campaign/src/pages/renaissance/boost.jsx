@@ -215,6 +215,7 @@ export default function Boost () {
         }}
         data={boostData}
         list={buycardList}
+        openMessage={openMessage}
       />
       <ConfigProvider
         theme={{
