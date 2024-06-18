@@ -1,6 +1,6 @@
 const modlueConf = {
   title: 'The WISE Score is already up to date.',
-  desc: 'For more information about WISE Score, please visit:',
+  desc: 'For more information about WISE Score, please visit: ',
   link: 'https://github.com/tbook-dev/incentive-layer-docs/blob/main/wise-score.md',
 };
 
