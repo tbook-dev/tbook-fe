@@ -13,7 +13,7 @@ export default function BoostDrawer ({
   openMessage,
   list: directBtn = [],
 }) {
-  const { refetch: refetchBoostStatus } = useBoostStatus();
+  const { refetch: refetchBoostStatus, data: boostStatus } = useBoostStatus();
   const buyMutation = useBuyCardMutation();
   const [clickIdx, setClickIdx] = useState(-1);
   const textMap = useMemo(() => {
@@ -82,12 +82,14 @@ export default function BoostDrawer ({
         {data.type === 'direct' && (
           <div className='space-y-3'>
             {directBtn.map((d, idx) => {
+              const canBuy = 10 - boostStatus.todayBuyCardsNum >= d.cardCnt;
               return (
                 <Button
                   isLoading={buyMutation.isLoading && clickIdx === idx}
-                  className='w-full justify-between'
+                  className='w-full justify-between disabled:opacity-40'
                   key={d.cardCnt}
                   onClick={() => handleDirectBuy(d, idx)}
+                  disabled={!canBuy}
                 >
                   <span className='text-xs font-bold'>
                     {d.cardCnt} Scratch Card{d.cardCnt > 1 && 's'}

@@ -13,7 +13,7 @@ import {
 import useUserInfoQuery from './useUserInfoQuery';
 import { TG_BOT_NAME } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
-import { useCallback, useId } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 
 export default function useUserRenaissance() {
   const { user } = useUserInfoQuery();
@@ -106,7 +106,7 @@ export const useInviteTgUser = () => {
       text
     )}&url=${encodeURIComponent(link)}`;
     WebApp.openTelegramLink(shareLink);
-  }, [useId]);
+  }, [userId]);
   return inviteTgUser;
 };
 
@@ -120,7 +120,6 @@ export const useUserRenaissanceKit = () => {
     {
       retry: false,
       enabled: !!userId,
-      retryOnMount: false,
     }
   );
   const inviteTgUser = useInviteTgUser();
@@ -158,12 +157,14 @@ export const useBoostStatus = () => {
   return {
     data: {
       isAbleToBuyCards: data?.isAbleToBuyCards ?? false,
-      hasDailyFreeCards: data?.daily?.remains > 0,
-      hasDailyNextFreeCards: data?.daily?.nextDistribution,
-      daiyFreeCards: data?.daily?.remains ?? 0,
-      daiyFreeTotalCards: data?.daily?.total ?? 5,
-      perNextDistribution: data?.daily?.nextDistribution,
-      perNextCount: data?.daily?.nextCount ?? 0,
+      hasDailyFreeCards: data?.dailyFree?.remains > 0,
+      hasDailyTimeBonus: data?.dailyTimeBonus?.unClaimed === 0,
+      daiyFreeCards: data?.dailyFree?.remains ?? 0,
+      daiyFreeTotalCards: data?.dailyTimeBonus?.max ?? 5,
+      perNextDistribution: data?.dailyTimeBonus?.nextDistribution,
+      perNextCount: data?.dailyTimeBonus?.step ?? 0,
+      dailyTimeBonusMax: data?.dailyTimeBonus?.max ?? 0,
+      todayBuyCardsNum: data?.todayBuyCardsNum ?? 0,
     },
     isLoaded: !!data,
     ...p,

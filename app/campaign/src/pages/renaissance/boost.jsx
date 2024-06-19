@@ -9,6 +9,7 @@ import {
   useBuyCardList,
   useBoostStatus,
   useInviteTgUser,
+  useCountdown,
 } from '@/hooks/useUserRenaissance';
 
 export default function Boost () {
@@ -18,7 +19,10 @@ export default function Boost () {
   const { data: buycardList } = useBuyCardList();
   const { data: boostStatus, isLoaded } = useBoostStatus();
   const inviteTgUser = useInviteTgUser();
-
+  const timeLeft = useCountdown({
+    targetDate: boostStatus.perNextDistribution,
+    enabled: boostStatus.hasPerNextFreeCards,
+  });
   const openMessage = (content, onClose) => {
     messageApi.open({
       icon: null,
@@ -31,6 +35,8 @@ export default function Boost () {
   };
 
   const dailyBooster = useMemo(() => {
+    const dailyTimeBonusNoActive =
+      !boostStatus.hasDailyFreeCards || !boostStatus.hasDailyFreeCards;
     return [
       {
         type: 'daily',
@@ -42,12 +48,15 @@ export default function Boost () {
       {
         type: 'timing',
         title: 'Timing Bonus',
-        desc: `${boostStatus.perNextCount} free card per 10min, max 5 times per day`,
+        desc: dailyTimeBonusNoActive
+          ? `next free card ${timeLeft}`
+          : `${boostStatus.perNextCount} free card per 10min, max ${boostStatus.dailyTimeBonusMax} times per day`,
+
         img: <span className='text-xl'>⏰</span>,
-        isActive: false,
+        isActive: dailyTimeBonusNoActive,
       },
     ];
-  }, [boostStatus]);
+  }, [boostStatus, timeLeft]);
 
   const proofBooster = useMemo(() => {
     const multi = {
