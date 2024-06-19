@@ -13,14 +13,13 @@ import {
 import useUserInfoQuery from './useUserInfoQuery';
 import { TG_BOT_NAME } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
-import { useCallback, useId } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 
 export default function useUserRenaissance() {
   const { user } = useUserInfoQuery();
   return useQuery('user-renaissance', () => getUserRenaissance(user?.userId), {
     retry: false,
     enabled: !!user.userId,
-    retryOnMount: false,
   });
 }
 
@@ -31,7 +30,6 @@ export const useLevel = () => {
   const { data, refetch } = useQuery('user-level', () => getUserLevel(userId), {
     retry: false,
     enabled: !!userId,
-    retryOnMount: false,
   });
   const { data: wiseData } = useQuery(
     'wise-score-event-renaissance',
@@ -39,7 +37,6 @@ export const useLevel = () => {
     {
       retry: false,
       enabled: !!userId && data && data !== 1,
-      retryOnMount: false,
     }
   );
   const level1Mutation = useMutation(
@@ -83,7 +80,6 @@ export const useUserScratchInfo = () => {
   return useQuery('user-tpoints', () => getUserTpoints(userId), {
     retry: false,
     enabled: !!userId,
-    retryOnMount: false,
     staleTime: 2000,
   });
 };
@@ -106,7 +102,7 @@ export const useInviteTgUser = () => {
       text
     )}&url=${encodeURIComponent(link)}`;
     WebApp.openTelegramLink(shareLink);
-  }, [useId]);
+  }, [userId]);
   return inviteTgUser;
 };
 
@@ -120,7 +116,6 @@ export const useUserRenaissanceKit = () => {
     {
       retry: false,
       enabled: !!userId,
-      retryOnMount: false,
     }
   );
   const inviteTgUser = useInviteTgUser();
@@ -153,12 +148,22 @@ export const useBoostStatus = () => {
 
   const { data, ...p } = useQuery('use-card-status', getBoostStatus, {
     enabled: userLogined,
-    refetchOnMount: false,
   });
+  const perNextUnused = data?.dailyTimeBonus?.unUsed ?? 0;
   return {
     data: {
       isAbleToBuyCards: data?.isAbleToBuyCards ?? false,
+      hasDailyFreeCards: data?.dailyFree?.remains + perNextUnused > 0,
+      hasDailyTimeBonus: data?.dailyTimeBonus?.unClaimed > 0,
+      daiyFreeCards: data?.dailyFree?.remains ?? 0,
+      daiyFreeTotalCards: data?.dailyTimeBonus?.max ?? 5,
+      perNextDistribution: data?.dailyTimeBonus?.nextDistribution,
+      perNextCountStep: data?.dailyTimeBonus?.step ?? 0,
+      dailyTimeBonusMax: data?.dailyTimeBonus?.max ?? 0,
+      perNextUnused: data?.dailyTimeBonus?.unUsed ?? 0,
+      todayBuyCardsNum: data?.todayBuyCardsNum ?? 0,
     },
+    isLoaded: !!data,
     ...p,
   };
 };
@@ -167,4 +172,43 @@ export const useBuyCardMutation = () => {
   return useMutation(async (...args) => {
     return await buyCard(...args);
   });
+};
+
+export const useCountdown = ({ targetDate, enabled = true, onEnd }) => {
+  const [timeLeft, setTimeLeft] = useState('');
+  useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const target = targetDate;
+      const difference = target - now;
+
+      if (difference > 0) {
+        const minutes = Math.floor(
+          (difference % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        setTimeLeft(
+          `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(
+            2,
+            '0'
+          )}`
+        );
+      } else {
+        onEnd?.();
+        setTimeLeft('00:00');
+      }
+    };
+
+    const timer = setInterval(calculateTimeLeft, 1000);
+
+    calculateTimeLeft();
+
+    return () => clearInterval(timer);
+  }, [targetDate, enabled]);
+
+  return timeLeft;
 };
