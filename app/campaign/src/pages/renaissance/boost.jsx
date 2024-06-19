@@ -35,8 +35,12 @@ export default function Boost () {
   };
 
   const dailyBooster = useMemo(() => {
-    const dailyTimeBonusNoActive =
-      !boostStatus.hasDailyFreeCards || !boostStatus.hasDailyTimeBonus;
+    const dailyTimeBonusNoActive = boostStatus.hasDailyFreeCards
+      ? false
+      : boostStatus.hasDailyTimeBonus
+      ? false
+      : true;
+    // !boostStatus.hasDailyFreeCards || !boostStatus.hasDailyTimeBonus;
     return [
       {
         type: 'daily',
