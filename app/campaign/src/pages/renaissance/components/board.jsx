@@ -50,7 +50,11 @@ function Board () {
       >
         <div className='text-[#FFDFA2] text-base'>WISE Score</div>
         <span className='text-renaissance-1 text-xl font-bold leading-[20px]'>
-          {hasWiseScore ? formatImpact(totalWiseScore) : '8???8'}
+          {hasWiseScore
+            ? totalWiseScore > 0
+              ? formatImpact(totalWiseScore)
+              : '8???8'
+            : '8???8'}
         </span>
       </div>
     </div>
