@@ -163,14 +163,7 @@ export const useBoostStatus = () => {
 };
 
 export const useBuyCardMutation = () => {
-  const { refetch } = useBoostStatus();
-
-  return useMutation(
-    async (...args) => {
-      return await buyCard(...args);
-    },
-    {
-      onSuccess: refetch,
-    }
-  );
+  return useMutation(async (...args) => {
+    return await buyCard(...args);
+  });
 };
