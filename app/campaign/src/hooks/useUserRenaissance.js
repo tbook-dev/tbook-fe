@@ -153,6 +153,7 @@ export const useBoostStatus = () => {
 
   const { data, ...p } = useQuery('use-card-status', getBoostStatus, {
     enabled: userLogined,
+    refetchOnMount: false,
   });
   return {
     data: {
