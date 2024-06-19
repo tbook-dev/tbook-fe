@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import moduleConf from '../../conf';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import Button from '../ui/button';
-import { useBuyCardMutation } from '@/hooks/useUserRenaissance';
+import { useBuyCardMutation, useBoostStatus } from '@/hooks/useUserRenaissance';
 import { useState } from 'react';
 import { cn } from '@/utils/conf';
 export default function BoostDrawer ({
@@ -13,6 +13,7 @@ export default function BoostDrawer ({
   openMessage,
   list: directBtn = [],
 }) {
+  const { refetch: refetchBoostStatus } = useBoostStatus();
   const buyMutation = useBuyCardMutation();
   const [clickIdx, setClickIdx] = useState(-1);
   const textMap = useMemo(() => {
@@ -40,8 +41,11 @@ export default function BoostDrawer ({
       const res = await buyMutation.mutateAsync(v.level);
       if (res.code === 200) {
         openMessage(
-          `You bought ${v.cardCnt} Scratch Card${v.cardCnt > 0 && 's'}`
+          `🌟🌟 You bought ${v.cardCnt} Scratch Card${
+            v.cardCnt > 0 && 's'
+          } 🌟🌟 `
         );
+        refetchBoostStatus();
       } else {
         openMessage(res.message ?? 'Scratch for more TPoints to upgrade');
       }

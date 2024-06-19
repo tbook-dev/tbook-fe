@@ -23,9 +23,7 @@ export default function Boost () {
     messageApi.open({
       icon: null,
       content: (
-        <div className='px-3 py-4 backdrop-blur-md rounded-xl'>
-          🌟🌟 {content} 🌟🌟
-        </div>
+        <div className='px-3 py-4 backdrop-blur-md rounded-xl'>{content}</div>
       ),
       className: 'mt-10',
       onClose,
