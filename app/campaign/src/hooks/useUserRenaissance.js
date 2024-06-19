@@ -99,6 +99,7 @@ export const useInviteTgUser = () => {
   const userId = user?.userId;
 
   const inviteTgUser = useCallback(() => {
+    if (!userId) return;
     const link = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
     // const text = `@${TG_BOT_NAME} \n Hi friend, get your 5 scratch cards🎉 \n 💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints \n ${link}`;
     const text = [

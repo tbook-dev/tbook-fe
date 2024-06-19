@@ -2,13 +2,19 @@ import moduleConf from '../conf';
 import { useUserRenaissanceKit, useLevel } from '@/hooks/useUserRenaissance';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import sbtIcon from '@/images/wise/prize/wise-sbt.png';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { memo } from 'react';
 
 function Board () {
   const { tpoints, luckyDrawCnt, isInSBTWhiteList } = useUserRenaissanceKit();
   const { userLevel, totalWiseScore } = useLevel();
   const hasWiseScore = userLevel && userLevel !== 1;
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    if (hasWiseScore) {
+      navigate(`/event/renaissance/detail`);
+    }
+  };
   return (
     <div className='flex justify-between items-stretch'>
       <div className='border border-[#FFEAB5]  rounded-xl bg-linear9 px-4 py-2 text-[#FFDFA2] text-xs space-y-2 w-max'>
@@ -38,24 +44,15 @@ function Board () {
         </div>
       </div>
 
-      {hasWiseScore ? (
-        <Link
-          to='/event/renaissance/detail'
-          className='px-4 py-2 rounded-xl border border-[#3f3b30] font-syne text-center'
-        >
-          <div className='text-[#FFDFA2] text-base'>WISE Score</div>
-          <span className='text-renaissance-1 text-xl font-bold leading-[20px]'>
-            {formatImpact(totalWiseScore)}
-          </span>
-        </Link>
-      ) : (
-        <div className='px-4 py-2 rounded-xl border border-[#3f3b30] font-syne text-center'>
-          <div className='text-[#FFDFA2] text-base'>WISE Score</div>
-          <span className='text-renaissance-1 text-xl font-bold leading-[20px]'>
-            8???8
-          </span>
-        </div>
-      )}
+      <div
+        onClick={handleNavigate}
+        className='px-4 py-2 rounded-xl border border-[#3f3b30] font-syne text-center'
+      >
+        <div className='text-[#FFDFA2] text-base'>WISE Score</div>
+        <span className='text-renaissance-1 text-xl font-bold leading-[20px]'>
+          {hasWiseScore ? formatImpact(totalWiseScore) : '8???8'}
+        </span>
+      </div>
     </div>
   );
 }
