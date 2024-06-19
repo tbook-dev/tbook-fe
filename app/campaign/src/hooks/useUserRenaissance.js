@@ -20,7 +20,6 @@ export default function useUserRenaissance() {
   return useQuery('user-renaissance', () => getUserRenaissance(user?.userId), {
     retry: false,
     enabled: !!user.userId,
-    retryOnMount: false,
   });
 }
 
@@ -31,7 +30,6 @@ export const useLevel = () => {
   const { data, refetch } = useQuery('user-level', () => getUserLevel(userId), {
     retry: false,
     enabled: !!userId,
-    retryOnMount: false,
   });
   const { data: wiseData } = useQuery(
     'wise-score-event-renaissance',
@@ -39,7 +37,6 @@ export const useLevel = () => {
     {
       retry: false,
       enabled: !!userId && data && data !== 1,
-      retryOnMount: false,
     }
   );
   const level1Mutation = useMutation(
@@ -83,7 +80,6 @@ export const useUserScratchInfo = () => {
   return useQuery('user-tpoints', () => getUserTpoints(userId), {
     retry: false,
     enabled: !!userId,
-    retryOnMount: false,
     staleTime: 2000,
   });
 };
@@ -152,18 +148,19 @@ export const useBoostStatus = () => {
 
   const { data, ...p } = useQuery('use-card-status', getBoostStatus, {
     enabled: userLogined,
-    refetchOnMount: false,
   });
+  const perNextUnused = data?.dailyTimeBonus?.unUsed ?? 0;
   return {
     data: {
       isAbleToBuyCards: data?.isAbleToBuyCards ?? false,
-      hasDailyFreeCards: data?.dailyFree?.remains > 0,
-      hasDailyTimeBonus: data?.dailyTimeBonus?.unClaimed === 0,
+      hasDailyFreeCards: data?.dailyFree?.remains + perNextUnused > 0,
+      hasDailyTimeBonus: data?.dailyTimeBonus?.unClaimed > 0,
       daiyFreeCards: data?.dailyFree?.remains ?? 0,
       daiyFreeTotalCards: data?.dailyTimeBonus?.max ?? 5,
       perNextDistribution: data?.dailyTimeBonus?.nextDistribution,
-      perNextCount: data?.dailyTimeBonus?.step ?? 0,
+      perNextCountStep: data?.dailyTimeBonus?.step ?? 0,
       dailyTimeBonusMax: data?.dailyTimeBonus?.max ?? 0,
+      perNextUnused: data?.dailyTimeBonus?.unUsed ?? 0,
       todayBuyCardsNum: data?.todayBuyCardsNum ?? 0,
     },
     isLoaded: !!data,

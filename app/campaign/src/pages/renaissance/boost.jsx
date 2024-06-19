@@ -36,24 +36,26 @@ export default function Boost () {
 
   const dailyBooster = useMemo(() => {
     const dailyTimeBonusNoActive =
-      !boostStatus.hasDailyFreeCards || !boostStatus.hasDailyFreeCards;
+      !boostStatus.hasDailyFreeCards || !boostStatus.hasDailyTimeBonus;
     return [
       {
         type: 'daily',
         title: 'Daily Free Scratch Cards',
-        desc: `${boostStatus.daiyFreeCards}/${boostStatus.daiyFreeTotalCards} available`,
+        desc: `${boostStatus.daiyFreeCards + boostStatus.perNextUnused}/${
+          boostStatus.daiyFreeTotalCards
+        } available`,
         img: <img src={moduleConf.url.cat} className='size-[30px]' />,
         isActive: boostStatus.hasDailyFreeCards,
       },
       {
         type: 'timing',
         title: 'Timing Bonus',
-        desc: dailyTimeBonusNoActive
+        desc: !dailyTimeBonusNoActive
           ? `next free card ${timeLeft}`
-          : `${boostStatus.perNextCount} free card per 10min, max ${boostStatus.dailyTimeBonusMax} times per day`,
+          : `${boostStatus.perNextCountStep} free card per 10min, max ${boostStatus.dailyTimeBonusMax} times per day`,
 
         img: <span className='text-xl'>⏰</span>,
-        isActive: dailyTimeBonusNoActive,
+        isActive: !dailyTimeBonusNoActive,
       },
     ];
   }, [boostStatus, timeLeft]);
