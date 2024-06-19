@@ -158,7 +158,14 @@ export const useBoostStatus = () => {
   return {
     data: {
       isAbleToBuyCards: data?.isAbleToBuyCards ?? false,
+      hasDailyFreeCards: data?.daily?.remains > 0,
+      hasDailyNextFreeCards: data?.daily?.nextDistribution,
+      daiyFreeCards: data?.daily?.remains ?? 0,
+      daiyFreeTotalCards: data?.daily?.total ?? 5,
+      perNextDistribution: data?.daily?.nextDistribution,
+      perNextCount: data?.daily?.nextCount ?? 0,
     },
+    isLoaded: !!data,
     ...p,
   };
 };
@@ -167,4 +174,43 @@ export const useBuyCardMutation = () => {
   return useMutation(async (...args) => {
     return await buyCard(...args);
   });
+};
+
+export const useCountdown = ({ targetDate, enabled = true, onEnd }) => {
+  const [timeLeft, setTimeLeft] = useState('');
+  useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const target = targetDate;
+      const difference = target - now;
+
+      if (difference > 0) {
+        const minutes = Math.floor(
+          (difference % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        setTimeLeft(
+          `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(
+            2,
+            '0'
+          )}`
+        );
+      } else {
+        onEnd?.();
+        setTimeLeft('00:00');
+      }
+    };
+
+    const timer = setInterval(calculateTimeLeft, 1000);
+
+    calculateTimeLeft();
+
+    return () => clearInterval(timer);
+  }, [targetDate, enabled]);
+
+  return timeLeft;
 };

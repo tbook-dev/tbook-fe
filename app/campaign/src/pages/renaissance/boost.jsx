@@ -16,7 +16,7 @@ export default function Boost () {
   const [openMulti, setOpenMulti] = useState();
   const [boostData, setBoostData] = useState({});
   const { data: buycardList } = useBuyCardList();
-  const { data: boostStatus } = useBoostStatus();
+  const { data: boostStatus, isLoaded } = useBoostStatus();
   const inviteTgUser = useInviteTgUser();
 
   const openMessage = (content, onClose) => {
@@ -30,30 +30,24 @@ export default function Boost () {
     });
   };
 
-  const dailyBooster = useMemo(
-    () => {
-      const freeCardLeftcnt = 1;
-      return [
-        {
-          type: 'daily',
-          title: 'Daily Free Scratch Cards',
-          desc: `${freeCardLeftcnt}/5 available`,
-          img: <img src={moduleConf.url.cat} className='size-[30px]' />,
-          isActive: true,
-        },
-        {
-          type: 'timing',
-          title: 'Timing Bonus',
-          desc: `1 free card per 10min, max 5 times per day`,
-          img: <span className='text-xl'>⏰</span>,
-          isActive: false,
-        },
-      ];
-    },
-    [
-      /*user info*/
-    ]
-  );
+  const dailyBooster = useMemo(() => {
+    return [
+      {
+        type: 'daily',
+        title: 'Daily Free Scratch Cards',
+        desc: `${boostStatus.daiyFreeCards}/${boostStatus.daiyFreeTotalCards} available`,
+        img: <img src={moduleConf.url.cat} className='size-[30px]' />,
+        isActive: boostStatus.hasDailyFreeCards,
+      },
+      {
+        type: 'timing',
+        title: 'Timing Bonus',
+        desc: `${boostStatus.perNextCount} free card per 10min, max 5 times per day`,
+        img: <span className='text-xl'>⏰</span>,
+        isActive: false,
+      },
+    ];
+  }, [boostStatus]);
 
   const proofBooster = useMemo(() => {
     const multi = {
@@ -127,7 +121,6 @@ export default function Boost () {
       setBoostData(v);
       setOpenMulti(true);
     } else if (v.type === 'invite') {
-      console.log(v);
       inviteTgUser();
     }
   };
@@ -157,7 +150,11 @@ export default function Boost () {
                     <h4 className='text-[#FFDFA2] text-base font-syne font-semibold'>
                       {b.title}
                     </h4>
-                    <div className='text-[#FFDFA2]/60 text-sm'>{b.desc}</div>
+                    {isLoaded ? (
+                      <div className='text-[#FFDFA2]/60 text-sm'>{b.desc}</div>
+                    ) : (
+                      <div className='bg-[#FFDFA2]/60 h-5 animate-pulse' />
+                    )}
                   </div>
                 </div>
               );
@@ -190,9 +187,13 @@ export default function Boost () {
                           <h4 className='text-[#FFDFA2] text-base font-syne font-semibold'>
                             {b.title}
                           </h4>
-                          <div className='text-[#FFDFA2]/60 text-sm'>
-                            {b.desc}
-                          </div>
+                          {isLoaded ? (
+                            <div className='text-[#FFDFA2]/60 text-sm'>
+                              {b.desc}
+                            </div>
+                          ) : (
+                            <div className='bg-[#FFDFA2]/60 h-5 animate-pulse' />
+                          )}
                         </div>
                       </div>
                       <svg
