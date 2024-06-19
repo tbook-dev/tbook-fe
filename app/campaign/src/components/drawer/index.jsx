@@ -24,7 +24,7 @@ export default function Drawer ({
           <div
             className={clsx(
               'absolute inset-0 overflow-hidden',
-              'bg-black/90 backdrop-blur-md'
+              'bg-black/80 backdrop-blur-md'
             )}
           >
             <div
@@ -46,7 +46,7 @@ export default function Drawer ({
                   <div className='flex w-full h-full flex-col overflow-y-auto overscroll-none lg:pb-6 shadow-s5 rounded-t-xl'>
                     {title && (
                       <div className='sticky top-0 z-10 pt-6 backdrop-blur-3xl '>
-                        <div className='flex items-start  px-6 justify-between pb-4 lg:pb-6 border-b border-[rgb(255,255,255)]/[0.1]'>
+                        <div className='flex items-start  px-6 justify-between pb-4 lg:pb-6 border-b border-[rgb(255,255,255)]/[0.1] text-white'>
                           <DialogTitle>{title}</DialogTitle>
                           {showClose && (
                             <div className='ml-3 flex h-7 items-center'>

@@ -11,6 +11,7 @@ import nocard from '@/images/wise/scratch/no-card.png';
 import lottieJson from '@/images/lottie/cat-claw.json';
 import social from '@/utils/social';
 import { ConfigProvider, message } from 'antd';
+import moduleConf from '../conf';
 import none from '@/images/wise/scratch/none.png';
 import tpoint10 from '@/images/wise/scratch/tpoint10.png';
 import tpoint25 from '@/images/wise/scratch/tpoint25.png';
@@ -166,13 +167,25 @@ export default function Scratch () {
           </div>
         </div>
 
-        <div className='w-full flex gap-x-2'>
-          <Link to='/ton-explore' className='w-full h-10'>
-            <Button className='w-full'>Earn</Button>
-          </Link>
-          <Button className='w-full h-10' onClick={inviteTgUser}>
-            <social.tg className='fill-white' /> Invite friends
+        <div className='w-full space-y-2'>
+          <Button className='w-full flex-col' onClick={inviteTgUser}>
+            <div className='flex  items-center justify-center'>
+              <social.tg className='fill-white' /> Invite friends
+            </div>
+            <div className='text-sm text-[#F8C685] flex items-center justify-center'>
+              Invite 1 friend to earn 500
+              <img src={moduleConf.url.tpoint} className='size-3 mx-1' />+ 3
+              <img src={moduleConf.url.cat} className='w-5 ml-1 -mt-1' />
+            </div>
           </Button>
+          <div className='w-full flex gap-x-2'>
+            <Link to='/event/renaissance/boost' className='w-full h-10'>
+              <Button className='w-full'>Boost</Button>
+            </Link>
+            <Link to='/ton-explore' className='w-full h-10'>
+              <Button className='w-full'>Earn</Button>
+            </Link>
+          </div>
         </div>
       </div>
       <ConfigProvider
