@@ -11,7 +11,7 @@ import {
   getBoostStatus,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
-import { getTMAsahreLink, getQueryParameter, TG_BOT_NAME } from '@/utils/tma';
+import { TG_BOT_NAME } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
 import { useCallback, useId } from 'react';
 
@@ -24,12 +24,6 @@ export default function useUserRenaissance() {
   });
 }
 
-// leverl 1 :
-// part1: has one new user invited
-// part2: login ton wallet
-
-// leverl 2 : has one new user invited and has one new user who has one new user invited
-// leverl 3 : has one new user invited and has one new user who has one new user invited and has one new user who has one new user invited
 export const useLevel = () => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
@@ -154,19 +148,6 @@ export const useBuyCardList = () => {
   });
 };
 
-export const useBuyCardMutation = () => {
-  const { refetch } = useUserScratchInfo();
-
-  return useMutation(
-    async (...args) => {
-      return await buyCard(...args);
-    },
-    {
-      onSuccess: refetch,
-    }
-  );
-};
-
 export const useBoostStatus = () => {
   const { userLogined } = useUserInfoQuery();
 
@@ -179,4 +160,17 @@ export const useBoostStatus = () => {
     },
     ...p,
   };
+};
+
+export const useBuyCardMutation = () => {
+  const { refetch } = useBoostStatus();
+
+  return useMutation(
+    async (...args) => {
+      return await buyCard(...args);
+    },
+    {
+      onSuccess: refetch,
+    }
+  );
 };
