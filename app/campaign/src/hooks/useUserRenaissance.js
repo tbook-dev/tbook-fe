@@ -8,10 +8,12 @@ import {
   getInvitedFriends,
   getBugCardsList,
   buyCard,
+  getBoostStatus,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
 import { getTMAsahreLink, getQueryParameter, TG_BOT_NAME } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
+import { useCallback, useId } from 'react';
 
 export default function useUserRenaissance() {
   const { user } = useUserInfoQuery();
@@ -92,6 +94,27 @@ export const useUserScratchInfo = () => {
   });
 };
 
+export const useInviteTgUser = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+
+  const inviteTgUser = useCallback(() => {
+    const link = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
+    // const text = `@${TG_BOT_NAME} \n Hi friend, get your 5 scratch cards🎉 \n 💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints \n ${link}`;
+    const text = [
+      `\n@${TG_BOT_NAME}`,
+      `Hi friend, get your 5 scratch cards🎉`,
+      `\n💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints`,
+      link,
+    ].join('\n');
+    const shareLink = `https://t.me/share/url?text=${encodeURIComponent(
+      text
+    )}&url=${encodeURIComponent(link)}`;
+    WebApp.openTelegramLink(shareLink);
+  }, [useId]);
+  return inviteTgUser;
+};
+
 export const useUserRenaissanceKit = () => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
@@ -105,22 +128,7 @@ export const useUserRenaissanceKit = () => {
       retryOnMount: false,
     }
   );
-
-  const inviteTgUser = () => {
-    if (!userId) return;
-    const link = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
-    // const text = `@${TG_BOT_NAME} \n Hi friend, get your 5 scratch cards🎉 \n 💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints \n ${link}`;
-    const text = [
-      `\n@${TG_BOT_NAME}`,
-      `Hi friend, get your 5 scratch cards🎉`,
-      `\n💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints`,
-      link,
-    ].join('\n');
-    const shareLink = `https://t.me/share/url?text=${encodeURIComponent(
-      text
-    )}&url=${encodeURIComponent(link)}`;
-    WebApp.openTelegramLink(shareLink);
-  };
+  const inviteTgUser = useInviteTgUser();
 
   const friendsCnt = friendsRes?.data?.inviteCnt ?? 0;
 
@@ -156,4 +164,18 @@ export const useBuyCardMutation = () => {
       onSuccess: refetch,
     }
   );
+};
+
+export const useBoostStatus = () => {
+  const { userLogined } = useUserInfoQuery();
+
+  const { data, ...p } = useQuery('use-card-status', getBoostStatus, {
+    enabled: userLogined,
+  });
+  return {
+    data: {
+      isAbleToBuyCards: data?.isAbleToBuyCards ?? false,
+    },
+    ...p,
+  };
 };

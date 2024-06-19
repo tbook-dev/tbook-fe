@@ -266,3 +266,6 @@ export const getBugCardsList = async function () {
 export const buyCard = async function (level) {
   return await request.Get(`${host}/tPoints/buyCards/${level}`);
 };
+export const getBoostStatus = async function () {
+  return await request.Get(`${host}/tPoints/boost/status`);
+};

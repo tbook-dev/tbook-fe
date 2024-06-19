@@ -36,13 +36,17 @@ export default function BoostDrawer ({
   }, [data]);
   const handleDirectBuy = async (v, idx) => {
     setClickIdx(idx);
-    const res = await buyMutation.mutateAsync(v.level);
-    if (res.code === 200) {
-      openMessage(
-        `You bought ${v.cardCnt} Scratch Card${v.cardCnt > 0 && 's'}`
-      );
-    } else {
-      openMessage(res.message ?? 'Scratch for more TPoints to upgrade');
+    try {
+      const res = await buyMutation.mutateAsync(v.level);
+      if (res.code === 200) {
+        openMessage(
+          `You bought ${v.cardCnt} Scratch Card${v.cardCnt > 0 && 's'}`
+        );
+      } else {
+        openMessage(res.message ?? 'Scratch for more TPoints to upgrade');
+      }
+    } catch (error) {
+      openMessage(error.message ?? 'Scratch for more TPoints to upgrade');
     }
     onCancel();
     setClickIdx(-1);
@@ -52,20 +56,15 @@ export default function BoostDrawer ({
     <Drawer open={open} onCancel={onCancel}>
       <div className='text-white bg-black/10 px-8 pt-8 pb-16  space-y-6 rounded-t-2.5xl border-t-2 border-[#FFEAB5]'>
         <div className='space-y-2'>
-          <h2 className='text-2xl font-bold font-syne'>
+          <h2 className='text-2xl font-bold font-syne text-center'>
             {textMap[data.type]?.title}
           </h2>
-          <p className='text-xs'>{textMap[data.type]?.desc}</p>
+          <p className={cn('text-xs', data.type === 'direct' && 'text-center')}>
+            {textMap[data.type]?.desc}
+          </p>
         </div>
         {textMap[data.type]?.tip && (
-          <div
-            className={cn(
-              'pt-5 text-xs',
-              data.type === 'direct' && 'text-center'
-            )}
-          >
-            {textMap[data.type]?.tip}
-          </div>
+          <div className='pt-5 text-xs'>{textMap[data.type]?.tip}</div>
         )}
         {data.type !== 'direct' && (
           <div className='flex items-center justify-center pt-6 text-[#FFDFA2] text-xl'>
