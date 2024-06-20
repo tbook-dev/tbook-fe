@@ -1,6 +1,6 @@
 import moduleConf from '../conf';
 import { useUserRenaissanceKit, useLevel } from '@/hooks/useUserRenaissance';
-import { formatImpact } from '@tbook/utils/lib/conf';
+import { formatImpact, formatDollarV2 } from '@tbook/utils/lib/conf';
 import sbtIcon from '@/images/wise/prize/wise-sbt.png';
 import { useNavigate } from 'react-router-dom';
 import { memo } from 'react';
@@ -23,7 +23,9 @@ function Board () {
             <img src={moduleConf.url.tpoint} className='size-3' />
             TPoints
           </span>
-          {formatImpact(tpoints)}
+          {tpoints > 1_000_000_000
+            ? formatImpact(tpoints)
+            : formatDollarV2(tpoints)}
         </div>
 
         <div className='flex justify-between items-center gap-x-4'>
@@ -32,9 +34,7 @@ function Board () {
 
             <div className='flex font-syne'>
               <span className='font-rhd mr-1'>
-                {luckyDrawCnt > 1000
-                  ? formatImpact(luckyDrawCnt)
-                  : luckyDrawCnt}
+                {luckyDrawCnt > 999 ? formatImpact(luckyDrawCnt) : luckyDrawCnt}
               </span>
               scratch card
               {luckyDrawCnt > 0 && 's'}
