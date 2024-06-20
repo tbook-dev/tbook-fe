@@ -4,6 +4,7 @@ import { formatImpact, formatDollarV2 } from '@tbook/utils/lib/conf';
 import sbtIcon from '@/images/wise/prize/wise-sbt.png';
 import { useNavigate } from 'react-router-dom';
 import { memo } from 'react';
+import { cn } from '@/utils/conf';
 
 function Board () {
   const { tpoints, luckyDrawCnt, isInSBTWhiteList } = useUserRenaissanceKit();
@@ -46,7 +47,10 @@ function Board () {
 
       <div
         onClick={handleNavigate}
-        className='px-4 py-2 rounded-xl border border-[#3f3b30] font-syne text-center'
+        className={cn(
+          'px-4 py-2 rounded-xl border border-[#3f3b30] font-syne text-center',
+          hasWiseScore && 'cursor-pointer'
+        )}
       >
         <div className='text-[#FFDFA2] text-base'>WISE Score</div>
         <span className='text-renaissance-1 text-xl font-bold leading-[20px]'>
