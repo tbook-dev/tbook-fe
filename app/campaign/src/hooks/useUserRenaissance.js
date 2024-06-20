@@ -149,7 +149,7 @@ export const useBoostStatus = () => {
   const { data, ...p } = useQuery('use-card-status', getBoostStatus, {
     enabled: userLogined,
   });
-  const perNextUnused = data?.dailyTimeBonus?.unUsed ?? 0;
+  const perNextUnused = data?.dailyTimeBonus?.unused ?? 0;
   return {
     data: {
       isAbleToBuyCards: data?.isAbleToBuyCards ?? false,
@@ -160,7 +160,7 @@ export const useBoostStatus = () => {
       perNextDistribution: data?.dailyTimeBonus?.nextDistribution,
       perNextCountStep: data?.dailyTimeBonus?.step ?? 0,
       dailyTimeBonusMax: data?.dailyTimeBonus?.max ?? 0,
-      perNextUnused: data?.dailyTimeBonus?.unUsed ?? 0,
+      perNextUnused: data?.dailyTimeBonus?.unused ?? 0,
       todayBuyCardsNum: data?.todayBuyCardsNum ?? 0,
     },
     isLoaded: !!data,
