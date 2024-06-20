@@ -73,6 +73,7 @@ export default function Modal ({ open, onCancel }) {
         className='renaissance_rule_pagination px-8 pt-8 pb-12 bg-white/10 text-white w-full'
         style={{
           '--swiper-theme-color': 'white',
+          '--swiper-pagination-bullet-inactive-color': '#666',
         }}
       >
         <Swiper
