@@ -124,13 +124,13 @@ export default function Scratch () {
   };
 
   return (
-    <div
-      onClick={handleUserStart}
-      onTouchStart={handleUserStart}
-      className='space-y-5 mx-auto overflow-hidden transition-all shadow-xl'
-    >
+    <div className='space-y-5 mx-auto overflow-hidden transition-all shadow-xl'>
       <div className='w-full flex flex-col justify-center gap-y-2 items-center'>
-        <div className='bg-[#e71f1f] w-full flex justify-center items-center rounded-2xl overflow-hidden relative'>
+        <div
+          onClick={handleUserStart}
+          onTouchStart={handleUserStart}
+          className='bg-[#e71f1f] w-full flex justify-center items-center rounded-2xl overflow-hidden relative'
+        >
           <div
             className='w-[343px] h-[433px] rounded-2xl relative bg-cover bg-center'
             style={{ backgroundImage: `url(${bgPic})` }}
