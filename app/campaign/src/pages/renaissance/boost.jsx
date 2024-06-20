@@ -36,7 +36,7 @@ export default function Boost () {
 
   const dailyBooster = useMemo(() => {
     const dailyTimeBonusNoActive = boostStatus.hasDailyFreeCards
-      ? false
+      ? true
       : boostStatus.hasDailyTimeBonus
       ? false
       : true;
