@@ -260,3 +260,30 @@ export const getWiseScoreTop3 = async function () {
 export const takeLuckyDraw = async function (userId) {
   return await request.Get(`${host}/luckyDraw/${userId}`);
 };
+export const getBugCardsList = async function () {
+  return await request.Get(`${host}/tPoints/buyCards/levelMap`);
+};
+export const buyCard = async function (level) {
+  return await request.Get(`${host}/tPoints/buyCards/${level}`);
+};
+export const getBoostStatus = async function () {
+  return await request.Get(`${host}/tPoints/boost/status`);
+  // return {
+  //   code: 200,
+  //   isAbleToBuyCards: true,
+  //   userId: 490150743129,
+  //   todayBuyCardsNum: 0,
+  //   dailyFree: {
+  //     remains: 0,
+  //     max: 5,
+  //   },
+  //   dailyTimeBonus: {
+  //     totalAdded: 0,
+  //     unClaimed: 5,
+  //     unused: 1,
+  //     nextDistribution: 1718928000000,
+  //     step: 1,
+  //     max: 5,
+  //   },
+  // };
+};

@@ -22,6 +22,8 @@ const WiseScore = lazy(() => import('@/pages/ton-wise/wise-score'));
 const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/wise-leaderboard'));
 const Renaissance = lazy(() => import('@/pages/renaissance'));
 const RenaissanceDetail = lazy(() => import('@/pages/renaissance/detail'));
+const Boost = lazy(() => import('@/pages/renaissance/boost'));
+
 const Attestation = lazy(() => import('@/pages/attestation'));
 
 const getTbookfn = async () => {
@@ -105,27 +107,42 @@ const routes = [
     path: '/event',
     loader: getTbookfn,
     element: <TMALayout layout />,
+    errorElement: <GlobalError />,
     children: [
       {
         path: 'renaissance',
         loader: getTbookfn,
-        element: (
-          <Suspense fallback={<PageFallBack />}>
-            <Renaissance />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'renaissance-detail',
-        loader: getTbookfn,
-        element: (
-          <Suspense fallback={<PageFallBack />}>
-            <RenaissanceDetail />
-          </Suspense>
-        ),
+        children: [
+          {
+            index: true,
+            loader: getTbookfn,
+            element: (
+              <Suspense fallback={<PageFallBack />}>
+                <Renaissance />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'detail',
+            loader: getTbookfn,
+            element: (
+              <Suspense fallback={<PageFallBack />}>
+                <RenaissanceDetail />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'boost',
+            loader: getTbookfn,
+            element: (
+              <Suspense fallback={<PageFallBack />}>
+                <Boost />
+              </Suspense>
+            ),
+          },
+        ],
       },
     ],
-    errorElement: <GlobalError />,
   },
   {
     path: '/',
