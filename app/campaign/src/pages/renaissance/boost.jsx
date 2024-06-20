@@ -82,7 +82,7 @@ export default function Boost () {
         desc: (
           <div className='flex items-center'>
             <img src={moduleConf.url.tpoint} className='size-3 me-1' />
-            {formatImpact(multi.point)} TPoints · {multi.level}
+            {formatImpact(multi.point)} TPoints / {multi.level}
           </div>
         ),
         img: <span className='text-xl'>⚡</span>,
@@ -95,7 +95,7 @@ export default function Boost () {
         desc: (
           <div className='flex items-center'>
             <img src={moduleConf.url.tpoint} className='size-3 me-1' />
-            {formatImpact(per.point)} TPoints · {per.level}
+            {formatImpact(per.point)} TPoints / {per.level}
           </div>
         ),
         img: <span className='text-xl'>☄️</span>,
@@ -108,7 +108,7 @@ export default function Boost () {
         desc: (
           <div className='flex items-center'>
             <img src={moduleConf.url.tpoint} className='size-3 me-1' />
-            {formatImpact(150)} TPoints · Card
+            {formatImpact(150)} TPoints / Card
           </div>
         ),
         img: <span className='text-xl'>💰</span>,
