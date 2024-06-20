@@ -79,7 +79,7 @@ export default function RedirectSocial ({
               className='h-[42px] w-full shadow-s4 rounded border border-[rgb(255,255,255)]/[0.2] hover:opacity-70'
               onClick={() => redirectLocalStorageOnce(navigate)}
             >
-              Back to campaign page
+              Back
             </button>
           </div>
         </div>
@@ -93,7 +93,7 @@ export default function RedirectSocial ({
               className='bg-[#904BF6] h-[42px] w-full shadow-s4 rounded hover:opacity-70'
               onClick={() => redirectLocalStorageOnce(navigate)}
             >
-              Back to campaign page
+              Back
             </button>
           </div>
         </div>
@@ -113,7 +113,7 @@ export default function RedirectSocial ({
               className='h-[42px] w-full shadow-s4 rounded border border-[rgb(255,255,255)]/[0.2] hover:opacity-70'
               onClick={() => redirectLocalStorageOnce(navigate)}
             >
-              Back to campaign page
+              Back
             </button>
           </div>
         </div>
