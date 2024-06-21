@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueries } from 'react-query';
 import {
   getUserRenaissance,
   getUserLevel,
@@ -138,9 +138,16 @@ export const useUserRenaissanceKit = () => {
 };
 
 export const useBuyCardList = () => {
-  return useQuery('buy-card-list', getBugCardsList, {
-    staleTime: Infinity,
-  });
+  const cardTypes = [1, 2, 3];
+  return useQueries(
+    cardTypes.map((type) => {
+      return {
+        queryKey: ['buy-card-list', type],
+        queryFn: () => getBugCardsList(type),
+        staleTime: Infinity,
+      };
+    })
+  );
 };
 
 export const useBoostStatus = () => {

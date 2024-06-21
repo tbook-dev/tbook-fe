@@ -260,8 +260,8 @@ export const getWiseScoreTop3 = async function () {
 export const takeLuckyDraw = async function (userId) {
   return await request.Get(`${host}/luckyDraw/${userId}`);
 };
-export const getBugCardsList = async function () {
-  return await request.Get(`${host}/tPoints/buyCards/levelMap`);
+export const getBugCardsList = async function (type) {
+  return await request.Get(`${host}/tPoints/boost/levelMap/${type}`);
 };
 export const buyCard = async function (level) {
   return await request.Get(`${host}/tPoints/buyCards/${level}`);

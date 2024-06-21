@@ -16,7 +16,12 @@ export default function Boost () {
   const [messageApi, contextHolder] = message.useMessage();
   const [openMulti, setOpenMulti] = useState();
   const [boostData, setBoostData] = useState({});
-  const { data: buycardList } = useBuyCardList();
+  const [
+    { data: buycardList1 },
+    { data: buycardList2 },
+    { data: buycardList3 },
+  ] = useBuyCardList();
+  console.log({ buycardList1, buycardList2 });
   const { data: boostStatus, isLoaded } = useBoostStatus();
   const inviteTgUser = useInviteTgUser();
   const timeLeft = useCountdown({
@@ -240,7 +245,7 @@ export default function Boost () {
           setOpenMulti(false);
         }}
         data={boostData}
-        list={buycardList}
+        list={buycardList3}
         openMessage={openMessage}
       />
       <ConfigProvider
