@@ -19,7 +19,7 @@ import {
   setUnbindAccountModal,
 } from '@/store/global';
 import { message } from 'antd';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
 const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
@@ -41,6 +41,7 @@ export default function useTonLogin() {
   const { data: payload } = useQuery(['tonproof'], getTonPayload, {
     staleTime: 60000,
   });
+  const queryClient = useQueryClient();
   // const [data, setData] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
   const wallet = useTonWallet();
@@ -133,7 +134,10 @@ export default function useTonLogin() {
             //   await delay(100);
             //   await refetch();
             // }
+          } else {
+            queryClient.invalidateQueries(['wise-score']);
           }
+
           await refetch();
           setLoading(false);
           //await TonProofDemoApi.checkProof(w.connectItems.tonProof.proof, w.account);
