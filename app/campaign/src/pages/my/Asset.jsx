@@ -37,7 +37,7 @@ export default function Asset () {
       v => v.value == new URLSearchParams(location.search).get('type')
     )?.value || '1';
   const setValue = v => {
-    navigate(`${pathname}?type=${v}`);
+    navigate(`${pathname}?type=${v}`, { replace: true });
     window.sessionRoutesCount -= 1;
   };
   return (
