@@ -9,6 +9,12 @@ const modlueConf = {
   linktext: 'Leaderboard',
 };
 
+function mapToTen ([a, b, c, d]) {
+  const maxValue = Math.max(a, b, c, d);
+  const mapValue = value => Math.ceil((value / maxValue) * 10);
+  return [mapValue(a), mapValue(b), mapValue(c), mapValue(d)];
+}
+
 export default function WiseInfo () {
   const { data } = useWiseScore();
 
@@ -19,6 +25,7 @@ export default function WiseInfo () {
     data?.wealthScore,
   ];
   // const maxScore = Math.max(...list) + 1;
+  const mapToTenList = mapToTen(list);
 
   const option = {
     radar: [
@@ -26,10 +33,10 @@ export default function WiseInfo () {
         silent: true,
         splitNumber: 4,
         indicator: [
-          { name: 'Engagement' },
-          { name: 'Social' },
-          { name: 'Identity' },
-          { name: 'Wealth' },
+          { name: 'Engagement', max: 10 },
+          { name: 'Social', max: 10 },
+          { name: 'Identity', max: 10 },
+          { name: 'Wealth', max: 10 },
         ],
         radius: 80,
         axisName: {
@@ -90,7 +97,7 @@ export default function WiseInfo () {
         type: 'radar',
         data: [
           {
-            value: list,
+            value: mapToTenList,
             // value: [10, 93, 50, 30],
             lineStyle: {
               color: '#904BF6',
