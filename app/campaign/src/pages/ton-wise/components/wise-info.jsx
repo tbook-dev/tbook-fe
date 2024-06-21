@@ -9,10 +9,10 @@ const modlueConf = {
   linktext: 'Leaderboard',
 };
 
-function mapToTen ([a, b, c, d]) {
-  const maxValue = Math.max(a, b, c, d);
+function mapToTen (list) {
+  const maxValue = Math.max(...list);
   const mapValue = value => Math.ceil((value / maxValue) * 10);
-  return [mapValue(a), mapValue(b), mapValue(c), mapValue(d)];
+  return list.map(v => mapValue(v));
 }
 
 export default function WiseInfo () {
