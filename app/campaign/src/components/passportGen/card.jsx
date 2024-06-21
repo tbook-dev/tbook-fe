@@ -43,7 +43,7 @@ export default function PassportCard ({ onClose }) {
   const { socialList } = useSocial();
   const dispatch = useDispatch();
   const { isUsingSubdomain, projectUrl, projectId } = useLoaderData();
-  const { isTMA } = useTelegram();
+  const { isTMA, canConnectEvm } = useTelegram();
   const { openTonModalLogin, disconnectTon } = useTonToolkit();
   const handleConnectWallet = useCallback(() => {
     onClose();
@@ -107,9 +107,9 @@ export default function PassportCard ({ onClose }) {
               className='w-6 h-6 object-contain object-center focus-visible:outline-none'
             />
           </TipAddress>
-        ) : isTMA ? (
+        ) : !canConnectEvm ? (
           <Tooltip
-            key='ton-tma'
+            key='evm-tma'
             title={() => (
               <>
                 <p>For now, you could bind EVM address in web browser.</p>

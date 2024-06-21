@@ -20,7 +20,7 @@ gtag('config', 'G-TE15FGNTC4', {
 });
 
 export const TelegramContext = createContext({});
-
+const evmPlatformList = ['weba', 'webk', 'unknown'];
 export const TelegramProvider = ({ children }) => {
   // const [webApp, setWebApp] = useState(window.Telegram?.WebApp ?? null);
   const [tgAuthed, setTgAuthed] = useState(false);
@@ -54,12 +54,14 @@ export const TelegramProvider = ({ children }) => {
           unsafeData: WebApp.initDataUnsafe,
           user: WebApp.initDataUnsafe.user,
           isTMA: true,
+          canConnectEvm: evmPlatformList.includes(WebApp.platform),
           tgAuthed,
           tgLogin,
         }
       : {
           isTMA: false,
           tgAuthed,
+          canConnectEvm: evmPlatformList.includes(WebApp.platform),
           tgLogin,
         };
   }, [tgAuthed]);
