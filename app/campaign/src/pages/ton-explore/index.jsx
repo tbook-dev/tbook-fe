@@ -12,14 +12,13 @@ export default function TonExplore () {
   const navigate = useNavigate();
   const [isSubpage, setSubpage] = useState(false);
   useLayoutEffect(() => {
+    window.sessionRoutesCount = 0;
     if (webApp?.initDataUnsafe.start_param) {
       const { type, projectUrl, campaignId } = safeParse(
         webApp?.initDataUnsafe.start_param
       );
-
       if (supportTMATypes.includes(type) && openFromDirectLink) {
         setSubpage(true);
-        window.sessionRoutesCount -= 1;
         // direct link can open only once!
         openFromDirectLink = false;
         if (type === 'campaign') {
