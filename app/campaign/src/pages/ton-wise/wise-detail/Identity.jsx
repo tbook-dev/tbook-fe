@@ -88,7 +88,7 @@ export default function Identity () {
           ) : (
             <button
               key={v.type}
-              className='bg-gradient-to-br from-purple-500 to-pink-500 p-px flex font-medium text-sm rounded-lg'
+              className='bg-gradient-to-br from-purple-500 to-pink-500 p-px flex font-medium text-sm rounded-lg btn-click'
               onClick={v.handle}
             >
               <span className='bg-[#0E0819] flex items-center justify-between flex-1 py-5 pl-5 pr-3 rounded-lg'>
