@@ -14,6 +14,7 @@ import useUserInfoQuery from './useUserInfoQuery';
 import { TG_BOT_NAME } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
 import { useCallback, useState, useEffect } from 'react';
+import { useMemo } from 'react';
 
 export default function useUserRenaissance() {
   const { user } = useUserInfoQuery();
@@ -87,37 +88,39 @@ export const useUserScratchInfo = () => {
 export const useInviteTgUser = () => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
+  const inviteLink = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
 
-  const inviteTgUser = useCallback(() => {
-    if (!userId) return;
-    const link = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
+  const shareLink = useMemo(() => {
+    if (!userId) return '';
     // const text = `@${TG_BOT_NAME} \n Hi friend, get your 5 scratch cards🎉 \n 💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints \n ${link}`;
     const text = [
       `\n@${TG_BOT_NAME}`,
       `Hi friend, get your 5 scratch cards🎉`,
       `\n💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints`,
-      link,
+      inviteLink,
     ].join('\n');
-    const shareLink = `https://t.me/share/url?text=${encodeURIComponent(
+    const link = `https://t.me/share/url?text=${encodeURIComponent(
       text
-    )}&url=${encodeURIComponent(link)}`;
-    WebApp.openTelegramLink(shareLink);
+    )}&url=${encodeURIComponent(inviteLink)}`;
+    return link;
   }, [userId]);
-  return inviteTgUser;
+  const inviteTgUser = useCallback(() => {
+    if (!shareLink) return;
+    WebApp.openTelegramLink(shareLink);
+  }, [shareLink]);
+  return { inviteTgUserFn: inviteTgUser, shareText: shareLink, inviteLink };
 };
-
-export const useUserRenaissanceKit = () => {
+export const useInviteFriends = () => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
+  return useQuery('tg-invite-friends', getInvitedFriends, {
+    retry: false,
+    enabled: !!userId,
+  });
+};
+export const useUserRenaissanceKit = () => {
   const { data, refetch } = useUserScratchInfo();
-  const { data: friendsRes } = useQuery(
-    'tg-invite-friends',
-    getInvitedFriends,
-    {
-      retry: false,
-      enabled: !!userId,
-    }
-  );
+  const { data: friendsRes } = useInviteFriends();
   const inviteTgUser = useInviteTgUser();
 
   const friendsCnt = friendsRes?.data?.inviteCnt ?? 0;

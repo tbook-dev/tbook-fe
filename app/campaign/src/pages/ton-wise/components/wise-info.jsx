@@ -19,10 +19,10 @@ export default function WiseInfo () {
   const { data } = useWiseScore();
 
   const list = [
-    data?.engagementScore,
-    data?.socialScore,
-    data?.identityScore,
-    data?.wealthScore,
+    data?.engagementScore ?? 0,
+    data?.socialScore ?? 0,
+    data?.identityScore ?? 0,
+    data?.wealthScore ?? 0,
   ];
   // const maxScore = Math.max(...list) + 1;
   const mapToTenList = mapToTen(list);
