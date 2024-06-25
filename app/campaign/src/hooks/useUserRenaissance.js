@@ -89,18 +89,18 @@ export const useInviteTgUser = () => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
   const inviteLink = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
-
+  const rawText = [
+    `\n@${TG_BOT_NAME}`,
+    `Hi friend, get your 5 scratch cards🎉`,
+    `\n💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints`,
+    inviteLink,
+  ].join('\n');
   const shareLink = useMemo(() => {
     if (!userId) return '';
     // const text = `@${TG_BOT_NAME} \n Hi friend, get your 5 scratch cards🎉 \n 💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints \n ${link}`;
-    const text = [
-      `\n@${TG_BOT_NAME}`,
-      `Hi friend, get your 5 scratch cards🎉`,
-      `\n💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints`,
-      inviteLink,
-    ].join('\n');
+
     const link = `https://t.me/share/url?text=${encodeURIComponent(
-      text
+      rawText
     )}&url=${encodeURIComponent(inviteLink)}`;
     return link;
   }, [userId]);
@@ -108,7 +108,12 @@ export const useInviteTgUser = () => {
     if (!shareLink) return;
     WebApp.openTelegramLink(shareLink);
   }, [shareLink]);
-  return { inviteTgUserFn: inviteTgUser, shareText: shareLink, inviteLink };
+  return {
+    inviteTgUserFn: inviteTgUser,
+    shareText: shareLink,
+    rawText,
+    inviteLink,
+  };
 };
 export const useInviteFriends = () => {
   const { user } = useUserInfoQuery();

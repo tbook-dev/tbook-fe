@@ -62,7 +62,7 @@ const conf = {
 export default function InviteFriends ({ open, onCancel }) {
   const [messageApi, contextHolder] = message.useMessage();
   const { data, isLoading } = useInviteFriends();
-  const { shareText, inviteLink, inviteTgUserFn } = useInviteTgUser();
+  const { shareText, inviteLink, rawText, inviteTgUserFn } = useInviteTgUser();
   const openMessage = (content, onClose) => {
     messageApi.open({
       icon: null,
@@ -141,7 +141,7 @@ export default function InviteFriends ({ open, onCancel }) {
         ),
         onClick: () => {
           copyText({
-            text: shareText,
+            text: rawText,
             onSucess: () => {
               openMessage('copyed');
             },
@@ -172,7 +172,7 @@ export default function InviteFriends ({ open, onCancel }) {
         onClick: () => {
           navigator
             .share({
-              text: shareText,
+              text: rawText,
               url: inviteLink,
             })
             .catch(err => {
@@ -181,7 +181,7 @@ export default function InviteFriends ({ open, onCancel }) {
         },
       },
     ];
-  }, [shareText, inviteLink]);
+  }, [shareText, inviteLink, rawText]);
   return (
     <Drawer open={open} onCancel={onCancel}>
       <ConfigProvider
