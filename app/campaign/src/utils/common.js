@@ -42,3 +42,19 @@ export async function loadImageUrl(coverImg) {
 export const preloadBatchImage = (imageUrls) => {
   return Promise.all(imageUrls.map(preloadImage));
 };
+
+export const copyText = ({ text, onSucess, onError }) => {
+  console.log('copy text:', text);
+  if (navigator.clipboard && window.isSecureContext) {
+    // navigator.clipboard API method
+    navigator.clipboard
+      .writeText(text)
+      .then(onSucess)
+      .catch((err) => {
+        console.error('Could not copy text: ', err);
+        onError?.(err?.message);
+      });
+  } else {
+    onError?.();
+  }
+};
