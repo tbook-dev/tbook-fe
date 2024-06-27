@@ -8,5 +8,6 @@ export default function useWiseScore() {
     // retry: false,
     enabled: !!user.userId,
     retryOnMount: false,
+    refetchOnMount: false,
   });
 }

@@ -12,6 +12,7 @@ import {
   useCountdown,
 } from '@/hooks/useUserRenaissance';
 import InviteFriends from './components/drawer/InviteFriends';
+import { Link } from 'react-router-dom';
 
 export default function Boost () {
   const [messageApi, contextHolder] = message.useMessage();
@@ -143,7 +144,12 @@ export default function Boost () {
 
   return (
     <div className='space-y-3 px-4 pb-10 mx-auto overflow-hidden transition-all shadow-xl'>
-      <h2 className='text-2xl font-syne font-extrabold text-center'>Boost</h2>
+      <div className='relative flex items-center justify-center'>
+        <Link to='/event/renaissance' className='absolute left-0'>
+          {moduleConf.svg.back}
+        </Link>
+        <h2 className='text-2xl font-syne font-extrabold text-center'>Boost</h2>
+      </div>
       <div className='space-y-5'>
         <div className='space-y-3'>
           <h3 className='text-syne text-base'>Daily boosters</h3>
