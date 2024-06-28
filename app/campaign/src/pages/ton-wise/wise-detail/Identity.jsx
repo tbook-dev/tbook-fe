@@ -48,10 +48,10 @@ export default function Identity () {
                   <p>For now, you could bind EVM address in web browser.</p>
                   <a
                     target='_blank'
-                    href={`${window.location.origin}/tbook/edit-attestation`}
+                    href={`${window.location.origin}/edit-attestation`}
                     className='block hover:text-white underline hover:underline break-all'
                   >
-                    {window.location.origin}/tbook/edit-attestation
+                    {window.location.origin}/edit-attestation
                   </a>
                 </>
               )}

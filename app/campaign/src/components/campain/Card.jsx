@@ -1,5 +1,5 @@
 import { Link, useLoaderData } from 'react-router-dom';
-import { formatDollar } from '@tbook/utils/lib/conf';
+import { formatStandard } from '@tbook/utils/lib/conf';
 
 // 上下解构
 export default function CampaignCard ({
@@ -27,7 +27,7 @@ export default function CampaignCard ({
         />
         <h1 className='text-base font-medium'>{name}</h1>
         <h2 className='text-[#C4C4C4] text-xs'>
-          {formatDollar(participantNum)} Participants
+          {formatStandard(participantNum)} Participants
         </h2>
       </div>
 
