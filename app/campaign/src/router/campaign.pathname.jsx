@@ -71,6 +71,16 @@ const routes = [
           </Suspense>
         ),
       },
+      {
+        path: 'edit-attestation',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <Attestation />
+          </Suspense>
+        ),
+        errorElement: <GlobalError />,
+      },
     ],
   },
   {
@@ -199,14 +209,6 @@ const routes = [
         element: (
           <Suspense fallback={<PageFallBack />}>
             <Snapshot />
-          </Suspense>
-        ),
-      },
-      {
-        path: ':projectName/edit-attestation',
-        element: (
-          <Suspense fallback={<PageFallBack />}>
-            <Attestation />
           </Suspense>
         ),
       },

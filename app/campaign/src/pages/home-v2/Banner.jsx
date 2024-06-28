@@ -4,7 +4,7 @@ import x from '@/images/icon/x-white.svg';
 import dc from '@/images/icon/dc.svg';
 import tg from '@/images/icon/tg.svg';
 import { Tooltip } from 'antd';
-import { formatDollar } from '@tbook/utils/lib/conf';
+import { formatStandard } from '@tbook/utils/lib/conf';
 import LazyImage from '@/components/lazyImage';
 import { Skeleton } from 'antd';
 import { useTelegram } from '@/hooks/useTg';
@@ -43,11 +43,11 @@ export default function Banner ({
   const users = useMemo(() => {
     return [
       {
-        num: formatDollar(campaignNum),
+        num: formatStandard(campaignNum),
         text: campaignNum > 1 ? 'Campaigns' : 'Campaign',
       },
       {
-        num: formatDollar(participantNum),
+        num: formatStandard(participantNum),
         text: participantNum > 1 ? 'Participants' : 'Participant',
       },
     ];
