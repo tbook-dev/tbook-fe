@@ -14,7 +14,7 @@ import { setLoginModal, setShowWalletConnectModal } from '@/store/global';
 import LazyImage from '@/components/lazyImage';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import ColorCaptial from '@/components/colorCaptial';
-import { formatDollar } from '@tbook/utils/lib/conf';
+import { formatStandard } from '@tbook/utils/lib/conf';
 import ViewReward from './viewReward';
 import Credential from './credential';
 import { useLoaderData } from 'react-router-dom';
@@ -223,7 +223,7 @@ export default function () {
               </div>
               <div className='flex items-center text-sm text-[#A1A1A2] mb-4'>
                 <span className='mr-1 text-sm font-medium text-white'>
-                  {formatDollar(page?.participantNum)}
+                  {formatStandard(page?.participantNum)}
                 </span>
                 participant{page?.participantNum > 1 ? 's' : ''}
               </div>
