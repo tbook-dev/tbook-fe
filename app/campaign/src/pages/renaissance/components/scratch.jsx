@@ -182,7 +182,7 @@ export default function Scratch () {
             <Link to='/event/renaissance/boost' className='w-full h-10'>
               <Button className='w-full'>Boost</Button>
             </Link>
-            <Link to='/ton-explore' className='w-full h-10'>
+            <Link to='/event/renaissance/earn' className='w-full h-10'>
               <Button className='w-full'>Earn</Button>
             </Link>
           </div>

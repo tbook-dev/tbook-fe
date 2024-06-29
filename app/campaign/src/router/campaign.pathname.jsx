@@ -23,6 +23,7 @@ const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/wise-leaderboard'));
 const Renaissance = lazy(() => import('@/pages/renaissance'));
 const RenaissanceDetail = lazy(() => import('@/pages/renaissance/detail'));
 const Boost = lazy(() => import('@/pages/renaissance/boost'));
+const Earn = lazy(() => import('@/pages/renaissance/earn'));
 
 const Attestation = lazy(() => import('@/pages/attestation'));
 
@@ -137,6 +138,15 @@ const routes = [
             element: (
               <Suspense fallback={<PageFallBack />}>
                 <Boost />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'earn',
+            loader: getTbookfn,
+            element: (
+              <Suspense fallback={<PageFallBack />}>
+                <Earn />
               </Suspense>
             ),
           },
