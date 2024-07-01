@@ -118,10 +118,22 @@ export const useInviteTgUser = () => {
 export const useInviteFriends = () => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
-  return useQuery('tg-invite-friends', getInvitedFriends, {
+  const { data: res, ...p } = useQuery('tg-invite-friends', getInvitedFriends, {
     retry: false,
     enabled: !!userId,
   });
+  const friendsCnt = res?.data?.inviteCnt ?? 0;
+  const invitees = res?.data?.invitees ?? [];
+  const premiumInvitees = res?.data?.premiumInvitees ?? [];
+  const friends = [...invitees, ...premiumInvitees];
+  return {
+    friendsCnt,
+    invitees,
+    premiumInvitees,
+    friends,
+    data: res,
+    ...p,
+  };
 };
 export const useUserRenaissanceKit = () => {
   const { data, refetch } = useUserScratchInfo();

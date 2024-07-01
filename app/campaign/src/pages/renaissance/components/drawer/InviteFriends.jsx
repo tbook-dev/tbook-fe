@@ -61,7 +61,8 @@ const conf = {
 };
 export default function InviteFriends ({ open, onCancel }) {
   const [messageApi, contextHolder] = message.useMessage();
-  const { data, isLoading } = useInviteFriends();
+  const { invitees, premiumInvitees, friendsCnt, isLoading } =
+    useInviteFriends();
   const { shareText, inviteLink, rawText, inviteTgUserFn } = useInviteTgUser();
   const openMessage = (content, onClose) => {
     messageApi.open({
@@ -77,24 +78,18 @@ export default function InviteFriends ({ open, onCancel }) {
     return {
       list: [
         {
-          avtors: [
-            'https://api.dicebear.com/7.x/fun-emoji/svg?seed=485875533115&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
-          ],
+          avtors: invitees.map(a => a.avatar),
+          text: `${friendsCnt} supportive friends `,
           text: `10 supportive friends `,
         },
         {
-          avtors: [
-            'https://api.dicebear.com/7.x/fun-emoji/svg?seed=485875533115&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
-            ,
-            'https://api.dicebear.com/7.x/fun-emoji/svg?seed=485875533115&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
-          ],
-
+          avtors: invitees.map(a => a.avatar),
           text: `2 supportive friends with Telegram Premium`,
         },
       ],
-      cnt: 12,
+      cnt: friendsCnt,
     };
-  }, [data]);
+  }, [invitees, premiumInvitees, friendsCnt]);
   const actionList = useMemo(() => {
     return [
       {
