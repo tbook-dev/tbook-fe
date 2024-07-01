@@ -7,6 +7,7 @@ import { useInviteFriends, useInviteTgUser } from '@/hooks/useUserRenaissance';
 import { useMemo } from 'react';
 import social from '@/utils/social';
 import { copyText } from '@/utils/common';
+import { formatStandard } from '@tbook/utils/lib/conf';
 
 const conf = {
   title: 'Invite Friends',
@@ -80,14 +81,14 @@ export default function InviteFriends ({ open, onCancel }) {
         {
           avtors: invitees.map(a => a.avatar),
           text: `${friendsCnt} supportive friends `,
-          text: `10 supportive friends `,
+          text: `${formatStandard(1)} supportive friends `,
         },
         {
-          avtors: invitees.map(a => a.avatar),
-          text: `2 supportive friends with Telegram Premium`,
+          avtors: premiumInvitees.map(a => a.avatar),
+          text: `${formatStandard(2)} supportive friends with Telegram Premium`,
         },
       ],
-      cnt: friendsCnt,
+      cnt: formatStandard(friendsCnt),
     };
   }, [invitees, premiumInvitees, friendsCnt]);
   const actionList = useMemo(() => {

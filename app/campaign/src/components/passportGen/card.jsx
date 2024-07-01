@@ -115,10 +115,10 @@ export default function PassportCard ({ onClose }) {
                 <p>For now, you could bind EVM address in web browser.</p>
                 <a
                   target='_blank'
-                  href={`${window.location.origin}/tbook/edit-attestation`}
+                  href={`${window.location.origin}/edit-attestation`}
                   className='block hover:text-white underline hover:underline break-all'
                 >
-                  {window.location.origin}/tbook/edit-attestation
+                  {window.location.origin}/edit-attestation
                 </a>
               </>
             )}
@@ -280,11 +280,7 @@ export default function PassportCard ({ onClose }) {
               })}
           </div>
           <Link
-            to={
-              isUsingSubdomain
-                ? `/edit-attestation`
-                : `/${projectUrl}/edit-attestation`
-            }
+            to={`/edit-attestation`}
             onClick={onClose}
             className='text-[#B5859E] invisible lg:visible font-zen-dot focus-visible:outline-none group hover:text-white w-max mx-auto flex items-center gap-x-1 bg-[rgb(244,140,193)]/[0.1] px-3 py-1 rounded-xl text-xs'
           >

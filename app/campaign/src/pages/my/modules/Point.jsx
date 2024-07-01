@@ -1,17 +1,17 @@
-import { formatDollar } from '@tbook/utils/lib/conf'
-import useAssetQuery from '@/hooks/useAssetQuery'
-import { Spin } from 'antd'
-import _ from 'lodash'
-import { useLoaderData, Link } from 'react-router-dom'
-import dayjs from 'dayjs'
-import pointIcon from '@/images/icon/point.svg'
-import arrow3Icon from '@/images/icon/arrow2.svg'
+import { formatStandard } from '@tbook/utils/lib/conf';
+import useAssetQuery from '@/hooks/useAssetQuery';
+import { Spin } from 'antd';
+import _ from 'lodash';
+import { useLoaderData, Link } from 'react-router-dom';
+import dayjs from 'dayjs';
+import pointIcon from '@/images/icon/point.svg';
+import arrow3Icon from '@/images/icon/arrow2.svg';
 
 export default function Point () {
-  const { projectId, projectUrl, isUsingSubdomain } = useLoaderData()
-  const { data: assets, isLoading } = useAssetQuery(projectId)
-  const data = assets?.points || []
-  const total = _.sum(data.map(v => v.number))
+  const { projectId, projectUrl, isUsingSubdomain } = useLoaderData();
+  const { data: assets, isLoading } = useAssetQuery(projectId);
+  const data = assets?.points || [];
+  const total = _.sum(data.map(v => v.number));
 
   return (
     <div className='space-y-2'>
@@ -25,7 +25,7 @@ export default function Point () {
             <div className='space-y-2 lg:space-y-4'>
               <div className='text-sm lg:text-lg'>points</div>
               <div className='font-bold text-4.2xl leading-[44px] mb-1 lg:text-[48px] lg:font-medium font-zen-dot'>
-                {formatDollar(total)}
+                {formatStandard(total)}
               </div>
             </div>
             <img
@@ -59,14 +59,14 @@ export default function Point () {
                     </span>
                   </div>
                   <div className='text-base font-medium'>
-                    +{formatDollar(v.number)}
+                    +{formatStandard(v.number)}
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
         </>
       )}
     </div>
-  )
+  );
 }
