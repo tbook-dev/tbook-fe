@@ -144,7 +144,7 @@ export default function InviteFriends ({ open, onCancel }) {
           copyText({
             text: rawText,
             onSucess: () => {
-              openMessage('copyed');
+              openMessage('You have copied. Send to your friend now!');
             },
             onError: msg => {
               openMessage(msg ?? 'Cannot copy');
