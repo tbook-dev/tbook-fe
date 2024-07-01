@@ -1,10 +1,15 @@
 import moduleConf from '../conf';
-import { useUserRenaissanceKit } from '@/hooks/useUserRenaissance';
+import {
+  useUserRenaissanceKit,
+  useInviteFriends,
+} from '@/hooks/useUserRenaissance';
 import Button from './ui/button';
 import SocalSVG from '@/utils/social';
 
 export default function FriendsBoost () {
-  const { friends, friendsCnt, inviteTgUser } = useUserRenaissanceKit();
+  const { data: friendsRes = {} } = useInviteFriends();
+  const { inviteTgUser } = useUserRenaissanceKit();
+  const { friends = [], friendsCnt = 0 } = friendsRes;
   return (
     <div className='p-4 space-y-3 border border-[#3f3b30] rounded-2xl'>
       <div className='space-y-2'>

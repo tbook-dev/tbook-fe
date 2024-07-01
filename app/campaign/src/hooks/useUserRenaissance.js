@@ -125,17 +125,17 @@ export const useInviteFriends = () => {
 };
 export const useUserRenaissanceKit = () => {
   const { data, refetch } = useUserScratchInfo();
-  const { data: friendsRes } = useInviteFriends();
-  const inviteTgUser = useInviteTgUser();
+  // const { data: friendsRes } = useInviteFriends();
+  const { inviteTgUserFn } = useInviteTgUser();
 
-  const friendsCnt = friendsRes?.data?.inviteCnt ?? 0;
+  // const friendsCnt = friendsRes?.data?.inviteCnt ?? 0;
 
   return {
-    inviteTgUser,
-    friends: friendsRes?.data?.invitees ?? [],
-    friendsCnt,
-    hasInvited: friendsCnt > 0,
-    level2Competed: friendsCnt >= 5,
+    inviteTgUser: inviteTgUserFn,
+    // friends: friendsRes?.data?.invitees ?? [],
+    // friendsCnt,
+    // hasInvited: friendsCnt > 0,
+    // level2Competed: friendsCnt >= 5,
     tpoints: data?.tPoints ?? 0,
     luckyDrawCnt: data?.luckyDrawCnt ?? 0,
     hashLuckyCardCntData: !!data,
