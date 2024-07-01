@@ -3,17 +3,16 @@ import { useMemo } from 'react';
 import moduleConf from './conf';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import { cn } from '@/utils/conf';
-import { useBoostStatus, useCountdown } from '@/hooks/useUserRenaissance';
 import { Link } from 'react-router-dom';
 import TonIcon from '@/images/icon/svgr/ton.svg?react';
+import useWallet from '@/hooks/useWallet';
 
 export default function Earn () {
   const [messageApi, contextHolder] = message.useMessage();
-  const { data: boostStatus, isLoaded } = useBoostStatus();
-  const timeLeft = useCountdown({
-    targetDate: boostStatus.perNextDistribution,
-    enabled: boostStatus.hasPerNextFreeCards,
-  });
+
+  const { getWallets } = useWallet();
+  const [tonAddressStatus] = getWallets('ton');
+
   const openMessage = (content, onClose) => {
     messageApi.open({
       icon: null,
@@ -38,10 +37,11 @@ export default function Earn () {
           </div>
         ),
         img: <TonIcon width={24} height={24} />,
-        isActive: boostStatus.isAbleToBuyCards, // deps
+        isActive: !tonAddressStatus.connected,
+        handle: tonAddressStatus.connectHandle,
       },
     ];
-  }, [boostStatus, timeLeft]);
+  }, [tonAddressStatus]);
 
   return (
     <div className='space-y-3 px-4 pb-10 mx-auto overflow-hidden transition-all shadow-xl'>
@@ -62,6 +62,7 @@ export default function Earn () {
                   <button
                     disabled={!b.isActive}
                     key={b.type}
+                    onClick={b.handle}
                     className={cn(
                       'w-full text-start flex items-center justify-between gap-x-2 px-4 py-3 rounded-lg border border-[#FFEAB5] bg-linear14',
                       {
@@ -75,13 +76,10 @@ export default function Earn () {
                         <h4 className='text-[#FFDFA2] text-base font-syne font-semibold'>
                           {b.title}
                         </h4>
-                        {isLoaded ? (
-                          <div className='text-[#FFDFA2]/60 text-sm'>
-                            {b.desc}
-                          </div>
-                        ) : (
-                          <div className='bg-[#FFDFA2]/60 h-5 animate-pulse' />
-                        )}
+
+                        <div className='text-[#FFDFA2]/60 text-sm'>
+                          {b.desc}
+                        </div>
                       </div>
                     </div>
                     <svg
