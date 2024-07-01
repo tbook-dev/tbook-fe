@@ -108,9 +108,18 @@ export const useInviteTgUser = () => {
     if (!shareLink) return;
     WebApp.openTelegramLink(shareLink);
   }, [shareLink]);
+  const shareToChat = useCallback(() => {
+    WebApp.switchInlineQuery(`invite:${userId}`, [
+      'users',
+      'bots',
+      'groups',
+      'channels',
+    ]);
+  }, [userId]);
   return {
     inviteTgUserFn: inviteTgUser,
     shareText: shareLink,
+    shareToChat,
     rawText,
     inviteLink,
   };

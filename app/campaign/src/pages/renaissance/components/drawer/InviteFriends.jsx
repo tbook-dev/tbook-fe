@@ -70,7 +70,8 @@ export default function InviteFriends ({ open, onCancel }) {
     premiumCnt,
     isLoading,
   } = useInviteFriends();
-  const { shareText, inviteLink, rawText, inviteTgUserFn } = useInviteTgUser();
+  const { shareToChat, inviteLink, rawText, inviteTgUserFn } =
+    useInviteTgUser();
   const openMessage = (content, onClose) => {
     messageApi.open({
       icon: null,
@@ -117,7 +118,7 @@ export default function InviteFriends ({ open, onCancel }) {
           </svg>
         ),
         onClick: () => {
-          window.open(shareText);
+          shareToChat();
         },
       },
       {
@@ -182,7 +183,7 @@ export default function InviteFriends ({ open, onCancel }) {
         },
       },
     ];
-  }, [shareText, inviteLink, rawText]);
+  }, [inviteLink, rawText]);
   return (
     <Drawer open={open} onCancel={onCancel}>
       <ConfigProvider
