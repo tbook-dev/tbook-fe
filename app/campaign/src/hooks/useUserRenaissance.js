@@ -122,7 +122,7 @@ export const useInviteFriends = () => {
     retry: false,
     enabled: !!userId,
   });
-  const friendsCnt = res?.data?.inviteCnt ?? 0;
+  const friendsCnt = res?.data?.totalCnt ?? 0;
   const invitees = res?.data?.invitees ?? [];
   const premiumInvitees = res?.data?.premiumInvitees ?? [];
   const friends = [...invitees, ...premiumInvitees];
@@ -131,6 +131,8 @@ export const useInviteFriends = () => {
     invitees,
     premiumInvitees,
     friends,
+    inviteCnt: res?.data?.inviteCnt ?? 0,
+    premiumCnt: res?.data?.premiumCnt ?? 0,
     data: res,
     ...p,
   };
