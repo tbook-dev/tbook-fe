@@ -173,7 +173,6 @@ export default function Scratch () {
           <Button
             className='w-full flex-col'
             onClick={() => {
-              console.log('xx');
               setInviteOpen(true);
             }}
           >

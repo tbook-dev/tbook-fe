@@ -7,6 +7,7 @@ import { useInviteFriends, useInviteTgUser } from '@/hooks/useUserRenaissance';
 import { useMemo } from 'react';
 import social from '@/utils/social';
 import { copyText } from '@/utils/common';
+import { formatStandard } from '@tbook/utils/lib/conf';
 
 const conf = {
   title: 'Invite Friends',
@@ -61,7 +62,8 @@ const conf = {
 };
 export default function InviteFriends ({ open, onCancel }) {
   const [messageApi, contextHolder] = message.useMessage();
-  const { data, isLoading } = useInviteFriends();
+  const { invitees, premiumInvitees, friendsCnt, isLoading } =
+    useInviteFriends();
   const { shareText, inviteLink, rawText, inviteTgUserFn } = useInviteTgUser();
   const openMessage = (content, onClose) => {
     messageApi.open({
@@ -77,24 +79,18 @@ export default function InviteFriends ({ open, onCancel }) {
     return {
       list: [
         {
-          avtors: [
-            'https://api.dicebear.com/7.x/fun-emoji/svg?seed=485875533115&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
-          ],
-          text: `10 supportive friends `,
+          avtors: invitees.map(a => a.avatar),
+          text: `${friendsCnt} supportive friends `,
+          text: `${formatStandard(1)} supportive friends `,
         },
         {
-          avtors: [
-            'https://api.dicebear.com/7.x/fun-emoji/svg?seed=485875533115&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
-            ,
-            'https://api.dicebear.com/7.x/fun-emoji/svg?seed=485875533115&radius=50&backgroundColor=059ff2,fcbc34,d84be5,f6d594,ffd5dc,ffdfbf,d1d4f9,c0aede,b6e3f4&backgroundType=gradientLinear&backgroundRotation=30,60&eyes[]&mouth[]',
-          ],
-
-          text: `2 supportive friends with Telegram Premium`,
+          avtors: premiumInvitees.map(a => a.avatar),
+          text: `${formatStandard(2)} supportive friends with Telegram Premium`,
         },
       ],
-      cnt: 12,
+      cnt: formatStandard(friendsCnt),
     };
-  }, [data]);
+  }, [invitees, premiumInvitees, friendsCnt]);
   const actionList = useMemo(() => {
     return [
       {

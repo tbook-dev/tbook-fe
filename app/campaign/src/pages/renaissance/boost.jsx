@@ -11,8 +11,8 @@ import {
   useInviteTgUser,
   useCountdown,
 } from '@/hooks/useUserRenaissance';
-import InviteFriends from './components/drawer/InviteFriends';
 import { Link } from 'react-router-dom';
+import InviteFriends from './components/drawer/InviteFriends';
 
 export default function Boost () {
   const [messageApi, contextHolder] = message.useMessage();
