@@ -7,7 +7,7 @@ import { useInviteFriends, useInviteTgUser } from '@/hooks/useUserRenaissance';
 import { useMemo } from 'react';
 import social from '@/utils/social';
 import { copyText } from '@/utils/common';
-import { formatStandard } from '@tbook/utils/lib/conf';
+import { formatImpact, formatStandard } from '@tbook/utils/lib/conf';
 
 const conf = {
   title: 'Invite Friends',
@@ -21,7 +21,7 @@ const conf = {
       img: <span className='text-[30px]'>🧑‍🤝‍🧑</span>,
     },
     {
-      title: 'Invite a Telegram Premium friend',
+      title: 'Invite a Premium friend',
       data: {
         tpoint: 2500,
         scratch: 15,
@@ -62,8 +62,14 @@ const conf = {
 };
 export default function InviteFriends ({ open, onCancel }) {
   const [messageApi, contextHolder] = message.useMessage();
-  const { invitees, premiumInvitees, friendsCnt, isLoading } =
-    useInviteFriends();
+  const {
+    invitees,
+    premiumInvitees,
+    friendsCnt,
+    inviteCnt,
+    premiumCnt,
+    isLoading,
+  } = useInviteFriends();
   const { shareText, inviteLink, rawText, inviteTgUserFn } = useInviteTgUser();
   const openMessage = (content, onClose) => {
     messageApi.open({
@@ -80,17 +86,16 @@ export default function InviteFriends ({ open, onCancel }) {
       list: [
         {
           avtors: invitees.map(a => a.avatar),
-          text: `${friendsCnt} supportive friends `,
-          text: `${formatStandard(1)} supportive friends `,
+          text: `${formatImpact(inviteCnt)} Friends Supported`,
         },
         {
           avtors: premiumInvitees.map(a => a.avatar),
-          text: `${formatStandard(2)} supportive friends with Telegram Premium`,
+          text: `${formatImpact(premiumCnt)} Premium Friends Supported`,
         },
       ],
-      cnt: formatStandard(friendsCnt),
+      cnt: formatImpact(friendsCnt),
     };
-  }, [invitees, premiumInvitees, friendsCnt]);
+  }, [invitees, premiumInvitees, friendsCnt, inviteCnt]);
   const actionList = useMemo(() => {
     return [
       {
@@ -211,12 +216,14 @@ export default function InviteFriends ({ open, onCancel }) {
                       {c.title}
                     </h4>
                     <div className='flex items-center text-sm'>
-                      <span className='text-[#F8C685]/60'>Earn 500</span>
+                      <span className='text-[#F8C685]/60'>
+                        Earn {formatStandard(c.data.tpoint)}
+                      </span>
                       <img
                         src={moduleConf.url.tpoint}
                         className='size-3 mx-1'
                       />
-                      <span className='text-[#F8C685]'>+ 3</span>
+                      <span className='text-[#F8C685]'>+ {c.data.scratch}</span>
                       <img
                         src={moduleConf.url.cat}
                         className='size-5 -mt-1 ml-1'
@@ -251,7 +258,7 @@ export default function InviteFriends ({ open, onCancel }) {
                       ))}
                     </div>
 
-                    <div className='text-[#F8C685]/60 text-sm text-right w-[160px] flex-grow-0'>
+                    <div className='text-[#F8C685]/60 text-sm text-right flex-grow-0'>
                       {f.text}
                     </div>
                   </div>
