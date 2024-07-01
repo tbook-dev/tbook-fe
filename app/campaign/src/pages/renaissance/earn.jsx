@@ -5,6 +5,7 @@ import { formatImpact } from '@tbook/utils/lib/conf';
 import { cn } from '@/utils/conf';
 import { useBoostStatus, useCountdown } from '@/hooks/useUserRenaissance';
 import { Link } from 'react-router-dom';
+import TonIcon from '@/images/icon/svgr/ton.svg?react';
 
 export default function Earn () {
   const [messageApi, contextHolder] = message.useMessage();
@@ -29,14 +30,14 @@ export default function Earn () {
       {
         hidden: false,
         type: 'direct',
-        title: 'Buy Scratch Cards',
+        title: 'Connect TON Wallet',
         desc: (
           <div className='flex items-center'>
             <img src={moduleConf.url.tpoint} className='size-3 me-1' />
             +5,000 TPoints
           </div>
         ),
-        img: <span className='text-xl'>💰</span>,
+        img: <TonIcon width={24} height={24} />,
         isActive: boostStatus.isAbleToBuyCards, // deps
       },
     ];
@@ -54,51 +55,53 @@ export default function Earn () {
         <div className='space-y-3'>
           <h3 className='text-syne text-base'>Onboarding</h3>
           <div className='space-y-3'>
-            {onboarding.map(b => {
-              return (
-                <button
-                  disabled={!b.isActive}
-                  key={b.type}
-                  className={cn(
-                    'w-full text-start flex items-center justify-between gap-x-2 px-4 py-3 rounded-lg border border-[#FFEAB5] bg-linear14',
-                    {
-                      'opacity-40': !b.isActive,
-                    }
-                  )}
-                >
-                  <div className='flex items-center justify-between gap-x-2'>
-                    {b.img}
-                    <div className='space-y-2'>
-                      <h4 className='text-[#FFDFA2] text-base font-syne font-semibold'>
-                        {b.title}
-                      </h4>
-                      {isLoaded ? (
-                        <div className='text-[#FFDFA2]/60 text-sm'>
-                          {b.desc}
-                        </div>
-                      ) : (
-                        <div className='bg-[#FFDFA2]/60 h-5 animate-pulse' />
-                      )}
-                    </div>
-                  </div>
-                  <svg
-                    width='20'
-                    height='20'
-                    viewBox='0 0 20 20'
-                    fill='none'
-                    xmlns='http://www.w3.org/2000/svg'
+            {onboarding
+              .filter(v => !v.hidden)
+              .map(b => {
+                return (
+                  <button
+                    disabled={!b.isActive}
+                    key={b.type}
+                    className={cn(
+                      'w-full text-start flex items-center justify-between gap-x-2 px-4 py-3 rounded-lg border border-[#FFEAB5] bg-linear14',
+                      {
+                        'opacity-40': !b.isActive,
+                      }
+                    )}
                   >
-                    <path
-                      d='M6.875 3.75L13.125 10L6.875 16.25'
-                      stroke='#FFDFA2'
-                      strokeWidth='1.5'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                    />
-                  </svg>
-                </button>
-              );
-            })}
+                    <div className='flex items-center justify-between gap-x-2'>
+                      {b.img}
+                      <div className='space-y-2'>
+                        <h4 className='text-[#FFDFA2] text-base font-syne font-semibold'>
+                          {b.title}
+                        </h4>
+                        {isLoaded ? (
+                          <div className='text-[#FFDFA2]/60 text-sm'>
+                            {b.desc}
+                          </div>
+                        ) : (
+                          <div className='bg-[#FFDFA2]/60 h-5 animate-pulse' />
+                        )}
+                      </div>
+                    </div>
+                    <svg
+                      width='20'
+                      height='20'
+                      viewBox='0 0 20 20'
+                      fill='none'
+                      xmlns='http://www.w3.org/2000/svg'
+                    >
+                      <path
+                        d='M6.875 3.75L13.125 10L6.875 16.25'
+                        stroke='#FFDFA2'
+                        strokeWidth='1.5'
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                      />
+                    </svg>
+                  </button>
+                );
+              })}
           </div>
         </div>
       </div>
