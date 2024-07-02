@@ -9,6 +9,7 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
+export const stonfi = `https://t.me/ston_app_bot/swap`;
 export const incentiveAssetsTypeList = [
   { icon: nftIcon, text: 'NFT', value: 1 },
   { icon: pointIcon, text: 'POINTS', value: 2 },

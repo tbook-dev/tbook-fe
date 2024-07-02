@@ -3,19 +3,17 @@ import WebApp from '@twa-dev/sdk';
 import { Tooltip } from 'antd';
 import useWiseScore from '@/hooks/useWiseScore';
 import CheckedIcon from '@/images/icon/svgr/checked.svg?react';
-import useTonToolkit from '@/components/ton/useTon';
+import { stonfi } from '@/utils/conf';
 
 function Wealth () {
   const { data } = useWiseScore();
-  const { disconnectTon } = useTonToolkit();
-
   const actionList = useMemo(() => {
     return [
       {
         title: 'New Money on TON',
         tip: null,
         onClick: () => {
-          WebApp.openTelegramLink(`https://t.me/ston_app_bot/swap`);
+          WebApp.openTelegramLink(stonfi);
         },
         isFinished: data?.wealthScore?.tonWealthScore > 0,
       },
@@ -26,6 +24,7 @@ function Wealth () {
       },
     ];
   }, [data]);
+
   return (
     <div className='space-y-1'>
       {actionList.map(a => {

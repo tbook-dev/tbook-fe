@@ -15,6 +15,8 @@ import useWiseScore from '@/hooks/useWiseScore';
 import useTonToolkit from '@/components/ton/useTon';
 import Address from '../components/tipAddress';
 import WebApp from '@twa-dev/sdk';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const modlueConf = {
   omni: {
@@ -34,7 +36,7 @@ export default function Identity () {
   const [evm, ton] = getWallets(['evm', 'ton']);
   const { disconnectTon } = useTonToolkit();
   const { data: wiseScore } = useWiseScore();
-
+  const navigate = useNavigate();
   const omniList = useMemo(() => {
     const [dc, tw, tg] = socialList;
     return [
@@ -130,10 +132,14 @@ export default function Identity () {
         type: 'notcoin',
         name: 'Notcoin Ranger',
         handle: () => {
-          console.log('Notcoin Ranger');
+          navigate(`/wise-score/identity/not-coin/abtain`);
         },
         finished: wiseScore?.identityScore?.notCoinHolderScore > 0,
-        sucess: <NotcoinIcon />,
+        sucess: (
+          <Link to='/wise-score/identity/not-coin/ranger'>
+            <NotcoinIcon />
+          </Link>
+        ),
       },
     ];
   }, [wiseScore]);
