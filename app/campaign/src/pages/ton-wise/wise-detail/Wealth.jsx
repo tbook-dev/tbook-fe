@@ -3,9 +3,11 @@ import WebApp from '@twa-dev/sdk';
 import { Tooltip } from 'antd';
 import useWiseScore from '@/hooks/useWiseScore';
 import CheckedIcon from '@/images/icon/svgr/checked.svg?react';
+import useTonToolkit from '@/components/ton/useTon';
 
 function Wealth () {
   const { data } = useWiseScore();
+  const { disconnectTon } = useTonToolkit();
 
   const actionList = useMemo(() => {
     return [
@@ -33,9 +35,8 @@ function Wealth () {
             className='flex justify-between items-center border border-white/30 rounded-lg px-5 py-1.5 text-sm text-white'
           >
             {a.title}
-
             {a.isFinished ? (
-              <CheckedIcon />
+              <CheckedIcon width='32px' height='32px' />
             ) : a.tip ? (
               <Tooltip title={a.tip}>
                 <button className='font-medium px-3 py-1.5 rounded bg-[#904BF6]  hover:opacity-70'>

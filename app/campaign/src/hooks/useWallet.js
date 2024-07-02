@@ -5,20 +5,22 @@ import { setConnectWalletModal } from '@/store/global';
 import { useTonConnectUI, useTonConnectModal } from '@tonconnect/ui-react';
 
 export default function useWallet() {
-  const { evmConnected, tonConnected } = useUserInfoQuery();
+  const { evmConnected, tonConnected, tonAddress, evmAddress } =
+    useUserInfoQuery();
   const dispath = useDispatch();
   const [tonConnectUI] = useTonConnectUI();
   const { open } = useTonConnectModal();
 
   const getWallets = useCallback(
     (typeList) => {
-      return [
+      const list = [
         {
           type: 'evm',
           connected: evmConnected,
           connectHandle: async () => {
             dispath(setConnectWalletModal(true));
           },
+          address: evmAddress,
         },
         {
           type: 'ton',
@@ -31,10 +33,15 @@ export default function useWallet() {
             }
             open();
           },
+          address: tonAddress,
         },
-      ].filter((wallet) => typeList.includes(wallet.type));
+      ];
+
+      return typeList.map((wallet) =>
+        list.find((listWwallet) => wallet === listWwallet.type)
+      );
     },
-    [evmConnected, tonConnected, tonConnectUI]
+    [evmConnected, tonConnected, tonConnectUI, tonAddress, evmAddress]
   );
   return {
     getWallets,
