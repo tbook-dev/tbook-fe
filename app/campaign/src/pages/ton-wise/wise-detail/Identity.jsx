@@ -1,14 +1,20 @@
 import useWallet from '@/hooks/useWallet';
 import useSocial from '@/hooks/useSocial';
-import Done from './Done';
 import { useTelegram } from '@/hooks/useTg';
 import { Tooltip } from 'antd';
 import { useMemo } from 'react';
 import TonIcon from '@/images/icon/svgr/ton.svg?react';
 import EthIcon from '@/images/icon/svgr/eth.svg?react';
 import LockIcon from '@/images/icon/svgr/lock.svg?react';
+import TgIcon from '@/images/icon/svgr/tg.svg?react';
+import TgPremiumIcon from '@/images/icon/svgr/tg-premium.svg?react';
+import XIcon from '@/images/icon/svgr/x.svg?react';
+import DcIcon from '@/images/icon/svgr/dc.svg?react';
+import NotcoinIcon from '@/images/icon/svgr/notcoin.svg?react';
+import useWiseScore from '@/hooks/useWiseScore';
 import useTonToolkit from '@/components/ton/useTon';
 import Address from '../components/tipAddress';
+import WebApp from '@twa-dev/sdk';
 
 const modlueConf = {
   omni: {
@@ -27,23 +33,10 @@ export default function Identity () {
   const { canConnectEvm } = useTelegram();
   const [evm, ton] = getWallets(['evm', 'ton']);
   const { disconnectTon } = useTonToolkit();
+  const { data: wiseScore } = useWiseScore();
 
-  // const identityStatus = walletStatus
-  //   .map(v => ({
-  //     ...v,
-  //     handle: v.connectHandle,
-  //   }))
-  //   .concat(
-  //     socialList.map(v => ({
-  //       ...v,
-  //       handle: () => {
-  //         v.loginFn(false);
-  //       },
-  //       type: v.name,
-  //     }))
-  //   )
-  //   .filter(v => !v.connected);
   const omniList = useMemo(() => {
+    const [dc, tw, tg] = socialList;
     return [
       {
         type: 'ton',
@@ -54,6 +47,26 @@ export default function Identity () {
           <Address address={ton.address} disconnect={disconnectTon}>
             <TonIcon />
           </Address>
+        ),
+      },
+      {
+        type: 'tg-premium',
+        name: 'Telegram Premium',
+        handle: () => {
+          WebApp.openTelegramLink(`https://t.me/premium`);
+        },
+        finished: wiseScore?.identityScore?.tgPremium > 0,
+        sucess: <TgPremiumIcon />,
+      },
+      {
+        type: 'tg',
+        name: 'Telegram',
+        handle: tg.loginFn,
+        finished: tg.connected,
+        sucess: (
+          <Tooltip title={tg.userName}>
+            <TgIcon fill='#229ED9' />
+          </Tooltip>
         ),
       },
       {
@@ -87,9 +100,43 @@ export default function Identity () {
               </Tooltip>
             ),
       },
+      {
+        type: 'x',
+        name: 'Twitter',
+        handle: tw.loginFn,
+        finished: tw.connected,
+        sucess: (
+          <Tooltip title={tw.userName}>
+            <XIcon />
+          </Tooltip>
+        ),
+      },
+      {
+        type: 'dc',
+        name: 'Discord',
+        handle: dc.loginFn,
+        finished: dc.connected,
+        sucess: (
+          <Tooltip title={dc.userName}>
+            <DcIcon />
+          </Tooltip>
+        ),
+      },
     ];
-  }, [evm, ton, canConnectEvm]);
-
+  }, [evm, ton, canConnectEvm, wiseScore, socialList]);
+  const pioneerList = useMemo(() => {
+    return [
+      {
+        type: 'notcoin',
+        name: 'Notcoin Ranger',
+        handle: () => {
+          console.log('Notcoin Ranger');
+        },
+        finished: wiseScore?.identityScore?.notCoinHolderScore > 0,
+        sucess: <NotcoinIcon />,
+      },
+    ];
+  }, [wiseScore]);
   return (
     <div className='pt-6 space-y-5'>
       <div className='space-y-3'>
@@ -108,8 +155,47 @@ export default function Identity () {
                   {v.finished ? (
                     v.sucess
                   ) : v.selfTask ? (
-                    <v.selfTask className='hover:opacity-70 btn-click'>
+                    <v.selfTask>
+                      <button className='hover:opacity-70'>
+                        <LockIcon />
+                      </button>
+                    </v.selfTask>
+                  ) : (
+                    <button
+                      onClick={v.handle}
+                      className='hover:opacity-70 btn-click'
+                    >
                       <LockIcon />
+                    </button>
+                  )}
+                </div>
+
+                <span className='text-xs'>{v.name}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div className='space-y-3'>
+        <div>
+          <h2 className='text-base'>{modlueConf.pioneer.title}</h2>
+          <p className='text-xs text-white/40'>{modlueConf.pioneer.desc}</p>
+        </div>
+        <div className='grid grid-cols-3 gap-3'>
+          {pioneerList.map(v => {
+            return (
+              <div
+                key={v.type}
+                className='flex flex-col justify-between items-center'
+              >
+                <div className='flex items-center justify-center gap-y-1 size-10 rounded-full bg-white/10'>
+                  {v.finished ? (
+                    v.sucess
+                  ) : v.selfTask ? (
+                    <v.selfTask>
+                      <button className='hover:opacity-70'>
+                        <LockIcon />
+                      </button>
                     </v.selfTask>
                   ) : (
                     <button
