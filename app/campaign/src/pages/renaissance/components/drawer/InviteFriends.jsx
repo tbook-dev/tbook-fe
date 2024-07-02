@@ -173,7 +173,9 @@ export default function InviteFriends ({ open, onCancel }) {
               url: inviteLink,
             })
             .catch(err => {
-              openMessage(err.message ?? 'Cannot share');
+              if (err.message?.includes('Permission denied')) {
+                openMessage(err.message);
+              }
             });
         },
       },
@@ -271,7 +273,7 @@ export default function InviteFriends ({ open, onCancel }) {
             {actionList.map(a => {
               return (
                 <button
-                  className='btn-click flex flex-col items-center gap-y-1'
+                  className='btn-click flex-auto flex flex-col items-center gap-y-1'
                   key={a.name}
                   onClick={a.onClick}
                 >
