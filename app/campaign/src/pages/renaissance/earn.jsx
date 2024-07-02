@@ -5,6 +5,8 @@ import { formatImpact } from '@tbook/utils/lib/conf';
 import { cn } from '@/utils/conf';
 import { Link } from 'react-router-dom';
 import TonIcon from '@/images/icon/svgr/ton.svg?react';
+import TgIcon from '@/images/icon/svgr/tg.svg?react';
+
 import useWallet from '@/hooks/useWallet';
 
 export default function Earn () {
@@ -28,7 +30,6 @@ export default function Earn () {
     return [
       {
         hidden: false,
-        type: 'direct',
         title: 'Connect TON Wallet',
         desc: (
           <div className='flex items-center'>
@@ -39,6 +40,21 @@ export default function Earn () {
         img: <TonIcon width={24} height={24} />,
         isActive: !tonAddressStatus.connected,
         handle: tonAddressStatus.connectHandle,
+      },
+      {
+        hidden: false,
+        title: 'Join channel',
+        desc: (
+          <div className='flex items-center'>
+            <img src={moduleConf.url.tpoint} className='size-3 me-1' />
+            +2,000 TPoints
+          </div>
+        ),
+        img: <TgIcon width={24} height={24} />,
+        isActive: false,
+        handle: () => {
+          console.log('111');
+        },
       },
     ];
   }, [tonAddressStatus]);
