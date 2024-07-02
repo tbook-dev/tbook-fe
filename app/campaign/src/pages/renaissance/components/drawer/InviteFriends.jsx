@@ -6,8 +6,8 @@ import { cn } from '@/utils/conf';
 import { useInviteFriends, useInviteTgUser } from '@/hooks/useUserRenaissance';
 import { useMemo } from 'react';
 import social from '@/utils/social';
-import { copyText } from '@/utils/common';
 import { formatImpact, formatStandard } from '@tbook/utils/lib/conf';
+import copy from 'copy-to-clipboard';
 
 const conf = {
   title: 'Invite Friends',
@@ -142,15 +142,8 @@ export default function InviteFriends ({ open, onCancel }) {
           </svg>
         ),
         onClick: () => {
-          copyText({
-            text: rawText,
-            onSucess: () => {
-              openMessage('You have copied. Send to your friend now!');
-            },
-            onError: msg => {
-              openMessage(msg ?? 'Cannot copy');
-            },
-          });
+          copy(rawText);
+          openMessage('You have copied. Send to your friend now!');
         },
       },
       {
