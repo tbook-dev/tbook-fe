@@ -97,21 +97,27 @@ const routes = [
   {
     path: '/wise-score',
     loader: getTbookfn,
-    element: (
-      <Suspense fallback={<PageFallBack />}>
-        <WiseScore />
-      </Suspense>
-    ),
-    errorElement: <GlobalError />,
-  },
-  {
-    path: '/wise-leaderboard',
-    loader: getTbookfn,
-    element: (
-      <Suspense fallback={<PageFallBack />}>
-        <WiseLeaderboard />
-      </Suspense>
-    ),
+    element: <TMALayout layout />,
+    children: [
+      {
+        index: true,
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <WiseScore />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'leaderboard',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <WiseLeaderboard />
+          </Suspense>
+        ),
+      },
+    ],
     errorElement: <GlobalError />,
   },
   {

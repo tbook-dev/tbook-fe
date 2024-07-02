@@ -129,7 +129,7 @@ export default function WiseInfo () {
       <div className='flex text-white items-center justify-between'>
         <h2 className='text-base font-zen-dot'>{modlueConf.title}</h2>
         <Link
-          to='/wise-leaderboard'
+          to='/wise-score/leaderboard'
           className='flex items-center gap-x-1 px-3 py-1 rounded-xl text-sm font-medium border border-[rgb(207,0,99)]/[0.10] bg-[rgb(207,0,99)]/[0.20]'
         >
           {modlueConf.linktext}
