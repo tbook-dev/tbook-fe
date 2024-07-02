@@ -7,9 +7,8 @@ import Button from './ui/button';
 import SocalSVG from '@/utils/social';
 
 export default function FriendsBoost () {
-  const { data: friendsRes = {} } = useInviteFriends();
   const { inviteTgUser } = useUserRenaissanceKit();
-  const { friends = [], friendsCnt = 0 } = friendsRes;
+  const { friends = [], friendsCnt = 0 } = useInviteFriends();
   return (
     <div className='p-4 space-y-3 border border-[#3f3b30] rounded-2xl'>
       <div className='space-y-2'>
