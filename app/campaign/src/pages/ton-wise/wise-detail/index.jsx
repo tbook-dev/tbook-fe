@@ -5,7 +5,7 @@ import Identity from './Identity';
 import Social from './Social';
 import Done from './Done';
 import useWiseScore from '@/hooks/useWiseScore';
-
+import Wealth from './Wealth';
 const wiseType = {
   wealth: 1,
   identity: 2,
@@ -18,7 +18,7 @@ const modlueConf = {
       type: 'wealth',
       value: wiseType.wealth,
       display: 'Wealth',
-      component: Done,
+      component: Wealth,
     },
     {
       type: 'identity',
@@ -84,7 +84,7 @@ export default function WiseDetail () {
         })}
       </div>
 
-      <div>
+      <div className='pt-3'>
         <CurrentComponent />
       </div>
     </div>
