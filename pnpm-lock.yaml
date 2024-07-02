@@ -29,6 +29,7 @@ importers:
       autoprefixer: ^10.4.7
       bignumber.js: ^9.1.2
       clsx: ^1.2.1
+      copy-to-clipboard: ^3.3.3
       dayjs: ^1.11.7
       echarts: ^5.4.2
       echarts-for-react: ^3.0.2
@@ -95,6 +96,7 @@ importers:
       antd: 5.7.3_jb42yyeu5qxbfieyxjks6malva
       bignumber.js: 9.1.2
       clsx: 1.2.1
+      copy-to-clipboard: 3.3.3
       dayjs: 1.11.7
       echarts: 5.4.2
       echarts-for-react: 3.0.2_echarts@5.4.2+react@18.2.0
