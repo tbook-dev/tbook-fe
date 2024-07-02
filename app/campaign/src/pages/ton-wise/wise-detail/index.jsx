@@ -42,9 +42,9 @@ const modlueConf = {
 };
 
 export default function WiseDetail () {
-  const { data } = useWiseScore();
   const { wealthScore, identityScore, socialScore, engagementScore } =
-    data || {};
+    useWiseScore();
+
   const [currentBtn, setCurrentBtn] = useState(wiseType.social);
   const wiseScoreMap = {
     [wiseType.wealth]: formatImpact(wealthScore),
