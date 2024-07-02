@@ -12,6 +12,7 @@ import {
   useCountdown,
 } from '@/hooks/useUserRenaissance';
 import { Link } from 'react-router-dom';
+import InviteFriends from './components/drawer/InviteFriends';
 
 export default function Boost () {
   const [messageApi, contextHolder] = message.useMessage();
@@ -19,11 +20,11 @@ export default function Boost () {
   const [boostData, setBoostData] = useState({});
   const { data: buycardList } = useBuyCardList();
   const { data: boostStatus, isLoaded } = useBoostStatus();
-  const inviteTgUser = useInviteTgUser();
   const timeLeft = useCountdown({
     targetDate: boostStatus.perNextDistribution,
     enabled: boostStatus.hasPerNextFreeCards,
   });
+  const [inviteOpen, setInviteOpen] = useState(false);
   const openMessage = (content, onClose) => {
     messageApi.open({
       icon: null,
@@ -137,7 +138,7 @@ export default function Boost () {
       setBoostData(v);
       setOpenMulti(true);
     } else if (v.type === 'invite') {
-      inviteTgUser();
+      setInviteOpen(true);
     }
   };
 
@@ -248,6 +249,13 @@ export default function Boost () {
         data={boostData}
         list={buycardList}
         openMessage={openMessage}
+      />
+      <InviteFriends
+        openMessage={openMessage}
+        open={inviteOpen}
+        onCancel={() => {
+          setInviteOpen(false);
+        }}
       />
       <ConfigProvider
         theme={{

@@ -14,6 +14,7 @@ import useUserInfoQuery from './useUserInfoQuery';
 import { TG_BOT_NAME } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
 import { useCallback, useState, useEffect } from 'react';
+import { useMemo } from 'react';
 
 export default function useUserRenaissance() {
   const { user } = useUserInfoQuery();
@@ -87,47 +88,77 @@ export const useUserScratchInfo = () => {
 export const useInviteTgUser = () => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
-
-  const inviteTgUser = useCallback(() => {
-    if (!userId) return;
-    const link = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
+  const inviteLink = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
+  const rawText = [
+    `\n@${TG_BOT_NAME}`,
+    `Hi friend, get your 5 scratch cards🎉`,
+    `\n💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints`,
+    inviteLink,
+  ].join('\n');
+  const shareLink = useMemo(() => {
+    if (!userId) return '';
     // const text = `@${TG_BOT_NAME} \n Hi friend, get your 5 scratch cards🎉 \n 💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints \n ${link}`;
-    const text = [
-      `\n@${TG_BOT_NAME}`,
-      `Hi friend, get your 5 scratch cards🎉`,
-      `\n💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints`,
-      link,
-    ].join('\n');
-    const shareLink = `https://t.me/share/url?text=${encodeURIComponent(
-      text
-    )}&url=${encodeURIComponent(link)}`;
-    WebApp.openTelegramLink(shareLink);
-  }, [userId]);
-  return inviteTgUser;
-};
 
-export const useUserRenaissanceKit = () => {
+    const link = `https://t.me/share/url?text=${encodeURIComponent(
+      rawText
+    )}&url=${encodeURIComponent(inviteLink)}`;
+    return link;
+  }, [userId]);
+  const inviteTgUser = useCallback(() => {
+    if (!shareLink) return;
+    WebApp.openTelegramLink(shareLink);
+  }, [shareLink]);
+  const shareToChat = useCallback(() => {
+    WebApp.switchInlineQuery(`invite:${userId}`, [
+      'users',
+      'bots',
+      'groups',
+      'channels',
+    ]);
+  }, [userId]);
+  return {
+    inviteTgUserFn: inviteTgUser,
+    shareText: shareLink,
+    shareToChat,
+    rawText,
+    inviteLink,
+  };
+};
+export const useInviteFriends = () => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
+  const { data: res, ...p } = useQuery('tg-invite-friends', getInvitedFriends, {
+    retry: false,
+    enabled: !!userId,
+  });
+  const friendsCnt = res?.data?.totalCnt ?? 0;
+  const invitees = res?.data?.invitees ?? [];
+  const premiumInvitees = res?.data?.premiumInvitees ?? [];
+  const friends = [...invitees, ...premiumInvitees];
+  return {
+    friendsCnt,
+    invitees,
+    premiumInvitees,
+    friends,
+    inviteCnt: res?.data?.inviteCnt ?? 0,
+    premiumCnt: res?.data?.premiumCnt ?? 0,
+    data: res,
+    ...p,
+  };
+};
+export const useUserRenaissanceKit = () => {
   const { data, refetch } = useUserScratchInfo();
-  const { data: friendsRes } = useQuery(
-    'tg-invite-friends',
-    getInvitedFriends,
-    {
-      retry: false,
-      enabled: !!userId,
-    }
-  );
-  const inviteTgUser = useInviteTgUser();
+  // const { data: friendsRes } = useInviteFriends();
+  const { inviteTgUserFn } = useInviteTgUser();
 
-  const friendsCnt = friendsRes?.data?.inviteCnt ?? 0;
+  // const friendsCnt = friendsRes?.data?.inviteCnt ?? 0;
 
   return {
-    inviteTgUser,
-    friends: friendsRes?.data?.invitees ?? [],
-    friendsCnt,
-    hasInvited: friendsCnt > 0,
-    level2Competed: friendsCnt >= 5,
+    inviteTgUser: inviteTgUserFn,
+    // friends: friendsRes?.data?.invitees ?? [],
+    // friendsCnt,
+    // hasInvited: friendsCnt > 0,
+    // level2Competed: friendsCnt >= 5,
     tpoints: data?.tPoints ?? 0,
     luckyDrawCnt: data?.luckyDrawCnt ?? 0,
     hashLuckyCardCntData: !!data,

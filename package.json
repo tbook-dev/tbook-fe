@@ -40,6 +40,7 @@
     "antd": "^5.7.3",
     "bignumber.js": "^9.1.2",
     "clsx": "^1.2.1",
+    "copy-to-clipboard": "^3.3.3",
     "dayjs": "^1.11.7",
     "echarts": "^5.4.2",
     "echarts-for-react": "^3.0.2",
