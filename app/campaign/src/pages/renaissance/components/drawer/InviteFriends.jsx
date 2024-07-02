@@ -87,10 +87,12 @@ export default function InviteFriends ({ open, onCancel }) {
       list: [
         {
           avtors: invitees.map(a => a.avatar),
+          show: inviteCnt > 0,
           text: `${formatImpact(inviteCnt)} Friends Supported`,
         },
         {
           avtors: premiumInvitees.map(a => a.avatar),
+          show: premiumCnt > 0,
           text: `${formatImpact(premiumCnt)} Premium Friends Supported`,
         },
       ],
@@ -236,28 +238,30 @@ export default function InviteFriends ({ open, onCancel }) {
             <div className='bg-[#FFDFA2]/60 h-5 animate-pulse' />
           ) : friends.cnt > 0 ? (
             <div className='space-y-3'>
-              {friends.list.map(f => {
-                return (
-                  <div
-                    key={f.text}
-                    className='flex items-center justify-between'
-                  >
-                    <div className='flex -space-x-1.5'>
-                      {f.avtors.map((a, i) => (
-                        <img
-                          src={a}
-                          key={i}
-                          className='size-6 rounded-full object-cover object-center'
-                        />
-                      ))}
-                    </div>
+              {friends.list
+                .filter(f => f.show)
+                .map(f => {
+                  return (
+                    <div
+                      key={f.text}
+                      className='flex items-center justify-between'
+                    >
+                      <div className='flex -space-x-1.5'>
+                        {f.avtors.map((a, i) => (
+                          <img
+                            src={a}
+                            key={i}
+                            className='size-6 rounded-full object-cover object-center'
+                          />
+                        ))}
+                      </div>
 
-                    <div className='text-[#F8C685]/60 text-sm text-right flex-grow-0'>
-                      {f.text}
+                      <div className='text-[#F8C685]/60 text-sm text-right flex-grow-0'>
+                        {f.text}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
           ) : (
             <div className='text-[#FFDFA2] text-center'>{conf.empty}</div>
