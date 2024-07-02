@@ -20,7 +20,7 @@ export default function Ranger () {
           </div>
           <button
             onClick={handleClick}
-            className='rounded-md bg-[#904BF6] btn-click w-full h-10 text-xs'
+            className='rounded-md bg-[#904BF6] btn-click w-full h-12 text-xs'
           >
             <p className='font-syne text-xs font-bold text-white'>
               Share your honor

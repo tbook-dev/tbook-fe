@@ -37,14 +37,14 @@ export default function Social () {
   const actionList = [
     {
       type: 'telegram',
-      actionName: modlueConf.acionMap.telegram,
+      actionName: 'Telegram AllStar Stats',
       handle: () => {
         setTg(true);
       },
     },
     {
       type: 'discord',
-      actionName: modlueConf.acionMap.discord,
+      actionName: 'Discord AllStar Stats',
       handle: () => {
         setDc(true);
       },
