@@ -6,13 +6,13 @@ export function safeParse(start_param) {
   try {
     const str = atob(start_param);
     const [type, ...p] = JSON.parse(str);
-    if (type === '1') {
+    if (type === 1) {
       return {
         type,
         projectUrl: p[0],
         campaignId: p[1],
       };
-    } else if (type === '2') {
+    } else if (type === 2) {
       return {
         type,
         projectUrl: p[0],
@@ -32,7 +32,7 @@ export const getDirectLink = (data) => {
     JSON.stringify(data)
   )}`;
 };
-// window.getDirectLink = getDirectLink;
+window.getDirectLink = getDirectLink;
 export const getTMAsahreLink = (data) => {
   const link = isEmpty(data)
     ? `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}`
@@ -45,10 +45,7 @@ export const supportTMATypes = [
   // 'project',
   // 'wiseScore',
   // 'renaissance',
-  '1',
-  '2',
-  '3',
-  '4',
+  1, 2, 3, 4,
 ];
 
 export const logoutRedirecrtKey = 'fromlogout';
