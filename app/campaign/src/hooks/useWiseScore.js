@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { getWiseScore } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
-import { TG_BOT_NAME } from '@/utils/tma';
+import { TG_BOT_NAME, getDirectLink } from '@/utils/tma';
 import { useCallback, useMemo } from 'react';
 import WebApp from '@twa-dev/sdk';
 
@@ -30,17 +30,14 @@ export default function useWiseScore() {
 export const useInviteTgUser = () => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
-  const inviteLink = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
+  const inviteLink = getDirectLink([3]);
   const rawText = [
-    `\n@${TG_BOT_NAME}`,
-    `Hi friend, get your 5 scratch cards🎉`,
-    `\n💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints`,
+    `🎁I have obtained the WISE Credential  and 🎉 improved my WISE Credit Score.`,
+    `\n🔥Come on to obtain yours!`,
     inviteLink,
   ].join('\n');
   const shareLink = useMemo(() => {
     if (!userId) return '';
-    // const text = `@${TG_BOT_NAME} \n Hi friend, get your 5 scratch cards🎉 \n 💅Scratch to earn 🪙 Notcoin 💵20,000U 🏆TPoints \n ${link}`;
-
     const link = `https://t.me/share/url?text=${encodeURIComponent(
       rawText
     )}&url=${encodeURIComponent(inviteLink)}`;
@@ -51,6 +48,7 @@ export const useInviteTgUser = () => {
     WebApp.openTelegramLink(shareLink);
   }, [shareLink]);
   const shareToChat = useCallback(() => {
+    // todo
     WebApp.switchInlineQuery(`invite:${userId}`, [
       'users',
       'bots',
