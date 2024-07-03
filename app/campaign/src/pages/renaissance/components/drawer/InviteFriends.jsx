@@ -274,7 +274,7 @@ export default function InviteFriends ({ open, onCancel }) {
             {actionList.map(a => {
               return (
                 <button
-                  className='btn-click flex-auto flex flex-col items-center gap-y-1'
+                  className='btn-click w-1/3 flex flex-col items-center gap-y-1'
                   key={a.name}
                   onClick={a.onClick}
                 >
