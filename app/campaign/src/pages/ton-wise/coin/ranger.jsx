@@ -38,7 +38,7 @@ export default function Ranger () {
   return (
     <div className='px-5 mt-3 lg:px-0 max-w-md mx-auto'>
       <div className='flex flex-col items-center gap-12'>
-        <Icon width='180px' height='180px' className='backdrop-blur' />
+        <Icon width='180px' height='180px' />
 
         <div className='space-y-5 w-full'>
           <h2 className='mt-2 text-xl text-center'>{title}</h2>
