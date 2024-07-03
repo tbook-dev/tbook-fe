@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import WebApp from '@twa-dev/sdk';
 import { stonfi } from '@/utils/conf';
 import { useParams } from 'react-router-dom';
+
 const typeMap = {
   1: {
     icon: NotcoinIcon,

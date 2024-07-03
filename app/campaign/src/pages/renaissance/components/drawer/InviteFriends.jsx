@@ -8,6 +8,7 @@ import { useMemo } from 'react';
 import social from '@/utils/social';
 import { formatImpact, formatStandard } from '@tbook/utils/lib/conf';
 import copy from 'copy-to-clipboard';
+import ShareDrawer from '@/components/drawer/share';
 
 const conf = {
   title: 'Invite Friends',
