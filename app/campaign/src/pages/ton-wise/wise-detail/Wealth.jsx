@@ -4,6 +4,7 @@ import { Tooltip } from 'antd';
 import useWiseScore from '@/hooks/useWiseScore';
 import CheckedIcon from '@/images/icon/svgr/checked.svg?react';
 import { stonfi } from '@/utils/conf';
+import Button from '../components/button';
 
 function Wealth () {
   const { data } = useWiseScore();
@@ -38,17 +39,10 @@ function Wealth () {
               <CheckedIcon width='32px' height='32px' />
             ) : a.tip ? (
               <Tooltip title={a.tip}>
-                <button className='font-medium px-3 py-1.5 rounded bg-[#904BF6]  hover:opacity-70'>
-                  Improve
-                </button>
+                <Button>Improve</Button>
               </Tooltip>
             ) : (
-              <button
-                onClick={a.onClick}
-                className='font-medium px-3 py-1.5 rounded bg-[#904BF6] hover:opacity-70 btn-click'
-              >
-                Improve
-              </button>
+              <Button onClick={a.onClick}>Improve</Button>
             )}
           </div>
         );

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import Identity from './Identity';
 import Social from './Social';
-import Done from './Done';
+import Engage from './Engage';
 import useWiseScore from '@/hooks/useWiseScore';
 import Wealth from './Wealth';
 const wiseType = {
@@ -36,7 +36,7 @@ const modlueConf = {
       type: 'engagement',
       value: wiseType.engagement,
       display: 'Engagement',
-      component: Done,
+      component: Engage,
     },
   ],
 };

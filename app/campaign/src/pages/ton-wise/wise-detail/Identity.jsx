@@ -17,7 +17,7 @@ import Address from '../components/tipAddress';
 import WebApp from '@twa-dev/sdk';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import Task from '../components/task';
 const modlueConf = {
   omni: {
     title: 'Omni Identity',
@@ -158,22 +158,7 @@ export default function Identity () {
                 className='flex flex-col justify-between items-center'
               >
                 <div className='flex items-center justify-center gap-y-1 size-10 rounded-full bg-white/10'>
-                  {v.finished ? (
-                    v.sucess
-                  ) : v.selfTask ? (
-                    <v.selfTask>
-                      <button className='hover:opacity-70'>
-                        <LockIcon />
-                      </button>
-                    </v.selfTask>
-                  ) : (
-                    <button
-                      onClick={v.handle}
-                      className='hover:opacity-70 btn-click'
-                    >
-                      <LockIcon />
-                    </button>
-                  )}
+                  <Task {...v} />
                 </div>
 
                 <span className='text-xs'>{v.name}</span>
@@ -195,22 +180,7 @@ export default function Identity () {
                 className='flex flex-col justify-between items-center'
               >
                 <div className='flex items-center justify-center gap-y-1 size-10 rounded-full bg-white/10'>
-                  {v.finished ? (
-                    v.sucess
-                  ) : v.selfTask ? (
-                    <v.selfTask>
-                      <button className='hover:opacity-70'>
-                        <LockIcon />
-                      </button>
-                    </v.selfTask>
-                  ) : (
-                    <button
-                      onClick={v.handle}
-                      className='hover:opacity-70 btn-click'
-                    >
-                      <LockIcon />
-                    </button>
-                  )}
+                  <Task {...v} />
                 </div>
 
                 <span className='text-xs'>{v.name}</span>

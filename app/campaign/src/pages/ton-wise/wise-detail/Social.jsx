@@ -6,20 +6,7 @@ import useWiseSocialMutation from '@/hooks/useWiseSocialMutation';
 import { useState, useCallback } from 'react';
 import { message } from 'antd';
 import Empty from '@/components/empty';
-
-const modlueConf = {
-  title: 'Improve your WISE Score',
-  acionMap: {
-    telegram: 'your telegram group/channel subscribers',
-    discord: 'your discord server subscribers',
-  },
-  recordTitle: 'Submission Record',
-  recordMap: {
-    // 1: 'Telegram Channel',
-    2: 'Telegram Channel/Telegram Group',
-    3: 'Discord Server',
-  },
-};
+import Button from '../components/button';
 
 export default function Social () {
   const [messageApi, contextHolder] = message.useMessage();
@@ -120,11 +107,7 @@ export default function Social () {
               <div key={v.type} className='space-y-3' onClick={v.handle}>
                 <div className='flex justify-between items-center'>
                   <h3>{v.actionName}</h3>
-                  {v.handle && (
-                    <button className='text-white font-medium text-sm bg-[#904BF6] rounded px-3 py-1.5 btn-click'>
-                      Improve
-                    </button>
-                  )}
+                  {v.handle && <Button>Improve</Button>}
                 </div>
                 <div className='grid grid-cols-3 gap-3'>
                   {v.list.map(p => {
