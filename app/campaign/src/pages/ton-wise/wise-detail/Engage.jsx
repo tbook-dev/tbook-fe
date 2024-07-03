@@ -62,7 +62,7 @@ export default function Engage () {
     <div className='space-y-5'>
       <div className='space-y-3'>
         <div className='flex items-center justify-between'>
-          <h2 className='text-base'>{modlueConf.credential}</h2>
+          <h2 className='text-base font-medium'>{modlueConf.credential}</h2>
           <Link to='/ton-explore'>
             <Button>Improve</Button>
           </Link>

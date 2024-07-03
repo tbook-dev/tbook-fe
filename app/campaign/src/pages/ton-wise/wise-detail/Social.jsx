@@ -103,7 +103,7 @@ export default function Social () {
             return (
               <div key={v.type} className='space-y-3'>
                 <div className='flex justify-between items-center'>
-                  <h3>{v.actionName}</h3>
+                  <h3 className='font-medium'>{v.actionName}</h3>
                   {v.handle && <Button onClick={v.handle}>Improve</Button>}
                 </div>
                 {v.list.length > 0 ? (

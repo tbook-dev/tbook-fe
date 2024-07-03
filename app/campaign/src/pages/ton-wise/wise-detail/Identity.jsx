@@ -147,7 +147,7 @@ export default function Identity () {
     <div className='space-y-5'>
       <div className='space-y-3'>
         <div>
-          <h2 className='text-base'>{modlueConf.omni.title}</h2>
+          <h2 className='text-base font-medium'>{modlueConf.omni.title}</h2>
           <p className='text-xs text-white/40'>{modlueConf.omni.desc}</p>
         </div>
         <div className='grid grid-cols-3 gap-3'>
