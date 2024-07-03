@@ -18,17 +18,24 @@ export default function Engage () {
   const { data: wiseScore } = useWiseScore();
   const navigate = useNavigate();
   const credentialList = useMemo(() => {
+    const credentialScore = wiseScore?.engagementScore?.credentialScore ?? 0;
     return [
       {
         type: 'credential',
-        name: `${formatImpact(1000)} Credentials`,
+        name: `${formatImpact(credentialScore)} Credential${
+          credentialScore > 1 ? 's' : ''
+        }`,
         handle: () => {},
         finished: true,
         sucess: <CredentialIcon />,
       },
     ];
-  }, []);
+  }, [wiseScore]);
   const footprintList = useMemo(() => {
+    const tonTransactionsScore =
+      wiseScore?.engagementScore?.tonTransactionsScore ?? 0;
+    const notCoinTransactionScore =
+      wiseScore?.engagementScore?.notCoinTransactionScore ?? 0;
     return [
       {
         type: 'toncoin',
@@ -36,7 +43,7 @@ export default function Engage () {
         handle: () => {
           navigate(`/wise-score/identity/2/abtain`);
         },
-        finished: wiseScore?.identityScore?.notCoinHolderScore > 0,
+        finished: tonTransactionsScore > 0,
         sucess: (
           <Link to='/wise-score/identity/2/ranger'>
             <TonIcon />
@@ -49,7 +56,7 @@ export default function Engage () {
         handle: () => {
           navigate(`/wise-score/identity/3/abtain`);
         },
-        finished: wiseScore?.identityScore?.notCoinHolderScore > 0,
+        finished: notCoinTransactionScore > 0,
         sucess: (
           <Link to='/wise-score/identity/3/ranger'>
             <NotcoinIcon />
@@ -57,7 +64,7 @@ export default function Engage () {
         ),
       },
     ];
-  }, []);
+  }, [wiseScore]);
   return (
     <div className='space-y-5'>
       <div className='space-y-3'>
