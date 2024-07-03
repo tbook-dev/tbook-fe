@@ -144,7 +144,7 @@ export default function Identity () {
     ];
   }, [wiseScore]);
   return (
-    <div className='pt-6 space-y-5'>
+    <div className='space-y-5'>
       <div className='space-y-3'>
         <div>
           <h2 className='text-base'>{modlueConf.omni.title}</h2>
