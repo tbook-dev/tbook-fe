@@ -24,8 +24,8 @@ const Renaissance = lazy(() => import('@/pages/renaissance'));
 const RenaissanceDetail = lazy(() => import('@/pages/renaissance/detail'));
 const Boost = lazy(() => import('@/pages/renaissance/boost'));
 const Earn = lazy(() => import('@/pages/renaissance/earn'));
-const Abtain = lazy(() => import('@/pages/ton-wise/not-coin/abtain'));
-const Ranger = lazy(() => import('@/pages/ton-wise/not-coin/ranger'));
+const Abtain = lazy(() => import('@/pages/ton-wise/coin/abtain'));
+const Ranger = lazy(() => import('@/pages/ton-wise/coin/ranger'));
 
 const Attestation = lazy(() => import('@/pages/attestation'));
 
@@ -120,7 +120,7 @@ const routes = [
         ),
       },
       {
-        path: 'identity/not-coin/abtain',
+        path: 'identity/:type/abtain',
         loader: getTbookfn,
         element: (
           <Suspense fallback={<PageFallBack />}>
@@ -129,7 +129,7 @@ const routes = [
         ),
       },
       {
-        path: 'identity/not-coin/ranger',
+        path: 'identity/:type/ranger',
         loader: getTbookfn,
         element: (
           <Suspense fallback={<PageFallBack />}>

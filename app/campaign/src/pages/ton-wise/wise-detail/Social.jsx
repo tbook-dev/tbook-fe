@@ -5,7 +5,6 @@ import Discord from '../modal/discord';
 import useWiseSocialMutation from '@/hooks/useWiseSocialMutation';
 import { useState, useCallback } from 'react';
 import { message } from 'antd';
-import Empty from '@/components/empty';
 import Button from '../components/button';
 import { useMemo } from 'react';
 
@@ -93,10 +92,10 @@ export default function Social () {
             .filter(v => v.show)
             .map(v => {
               return (
-                <div key={v.type} className='space-y-3' onClick={v.handle}>
+                <div key={v.type} className='space-y-3'>
                   <div className='flex justify-between items-center'>
                     <h3>{v.actionName}</h3>
-                    {v.handle && <Button>Improve</Button>}
+                    {v.handle && <Button onClick={v.handle}>Improve</Button>}
                   </div>
                   <div className='grid grid-cols-3 gap-3'>
                     {v.list.map(p => {

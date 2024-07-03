@@ -47,11 +47,11 @@ export default function Engage () {
         type: 'toncoin',
         name: 'Toncoin LP',
         handle: () => {
-          navigate(`/wise-score/identity/not-coin/abtain`);
+          navigate(`/wise-score/identity/2/abtain`);
         },
         finished: wiseScore?.identityScore?.notCoinHolderScore > 0,
         sucess: (
-          <Link to='/wise-score/identity/not-coin/ranger'>
+          <Link to='/wise-score/identity/2/ranger'>
             <TonIcon />
           </Link>
         ),
@@ -60,11 +60,11 @@ export default function Engage () {
         type: 'notcoin',
         name: 'Notcoin LP',
         handle: () => {
-          navigate(`/wise-score/identity/not-coin/abtain`);
+          navigate(`/wise-score/identity/3/abtain`);
         },
         finished: wiseScore?.identityScore?.notCoinHolderScore > 0,
         sucess: (
-          <Link to='/wise-score/identity/not-coin/ranger'>
+          <Link to='/wise-score/identity/3/ranger'>
             <NotcoinIcon />
           </Link>
         ),

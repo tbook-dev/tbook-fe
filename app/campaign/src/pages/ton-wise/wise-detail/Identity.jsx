@@ -132,11 +132,11 @@ export default function Identity () {
         type: 'notcoin',
         name: 'Notcoin Ranger',
         handle: () => {
-          navigate(`/wise-score/identity/not-coin/abtain`);
+          navigate(`/wise-score/identity/1/abtain`);
         },
         finished: wiseScore?.identityScore?.notCoinHolderScore > 0,
         sucess: (
-          <Link to='/wise-score/identity/not-coin/ranger'>
+          <Link to='/wise-score/identity/1/ranger'>
             <NotcoinIcon />
           </Link>
         ),

@@ -1,13 +1,7 @@
 import React from 'react';
 import LockIcon from '@/images/icon/svgr/lock.svg?react';
 
-const Task = ({ finished, sucess, selfTask, handle, ...p }) => {
-  console.log({
-    finished,
-    sucess,
-    selfTask,
-    ...p,
-  });
+const Task = ({ finished, sucess, selfTask, handle }) => {
   return (
     <>
       {finished ? (
