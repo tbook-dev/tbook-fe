@@ -270,7 +270,7 @@ export default function InviteFriends ({ open, onCancel }) {
             <div className='text-[#FFDFA2] text-center'>{conf.empty}</div>
           )}
 
-          <div className='pt-8 flex items-center justify-center gap-x-8 pb-3'>
+          <div className='pt-8 flex items-center justify-center gap-x-2 pb-3'>
             {actionList.map(a => {
               return (
                 <button
