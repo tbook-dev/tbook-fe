@@ -5,7 +5,23 @@ export const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
 export function safeParse(start_param) {
   try {
     const str = atob(start_param);
-    return JSON.parse(str);
+    const [type, ...p] = JSON.parse(str);
+    if (type === '1') {
+      return {
+        type,
+        projectUrl: p[0],
+        campaignId: p[1],
+      };
+    } else if (type === '2') {
+      return {
+        type,
+        projectUrl: p[0],
+      };
+    } else {
+      return {
+        type,
+      };
+    }
   } catch (error) {
     return {};
   }
@@ -25,10 +41,14 @@ export const getTMAsahreLink = (data) => {
 };
 
 export const supportTMATypes = [
-  'campaign',
-  'project',
-  'wiseScore',
-  'renaissance',
+  // 'campaign',
+  // 'project',
+  // 'wiseScore',
+  // 'renaissance',
+  '1',
+  '2',
+  '3',
+  '4',
 ];
 
 export const logoutRedirecrtKey = 'fromlogout';

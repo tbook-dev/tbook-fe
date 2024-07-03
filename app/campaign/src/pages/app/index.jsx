@@ -199,7 +199,7 @@ export default function () {
 
       <section className='overflow-hidden mb-16 lg:flex lg:justify-between lg:gap-x-[80px]'>
         <div className='relative w-full h-[172px] lg:w-[566px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center'>
-          <TMAShare data={{ projectUrl, campaignId, type: 'campaign' }} />
+          <TMAShare data={['1', projectUrl, campaignId]} />
 
           <LazyImage
             src={page?.campaign?.picUrl}

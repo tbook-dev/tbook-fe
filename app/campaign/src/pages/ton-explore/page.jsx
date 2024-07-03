@@ -16,7 +16,7 @@ export default function TonExplore () {
   return (
     <div className='px-5 mt-3 space-y-4'>
       <section>
-        <TMAShare data={null} />
+        <TMAShare data={[]} />
         <AdPosition />
         <h3 className='py-4 font-zen-dot text-base font-medium text-white'>
           Popular Projects

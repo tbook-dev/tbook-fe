@@ -21,13 +21,13 @@ export default function TonExplore () {
         setSubpage(true);
         // direct link can open only once!
         openFromDirectLink = false;
-        if (type === 'campaign') {
+        if (type === '1') {
           navigate(`/${projectUrl}/${campaignId}`);
-        } else if (type === 'project') {
+        } else if (type === '2') {
           navigate(`/${projectUrl}/`);
-        } else if (type === 'wiseScore') {
+        } else if (type === '3') {
           navigate(`/wise-score`);
-        } else if (type === 'renaissance') {
+        } else if (type === '4') {
           navigate(`/event/renaissance`);
         }
       }
