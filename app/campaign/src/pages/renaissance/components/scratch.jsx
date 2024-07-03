@@ -18,6 +18,7 @@ import tpoint25 from '@/images/wise/scratch/tpoint25.png';
 import tpoint50 from '@/images/wise/scratch/tpoint50.png';
 import tpoint100 from '@/images/wise/scratch/tpoint100.png';
 import tpoint500 from '@/images/wise/scratch/tpoint500.png';
+import InviteFriends from './drawer/InviteFriends';
 
 import wisesbt from '@/images/wise/scratch/wisesbt.png';
 import wisesore from '@/images/wise/scratch/wisescore.png';
@@ -49,6 +50,7 @@ preloadBatchImage(Object.values(prizeMap).concat([initPic, bgPic, nocard]));
 
 export default function Scratch () {
   const { user } = useUserInfoQuery();
+  const [inviteOpen, setInviteOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const cardRef = useRef();
   const { hashLuckyCardCntData, luckyDrawCnt, refetchInfo, inviteTgUser } =
@@ -168,7 +170,12 @@ export default function Scratch () {
         </div>
 
         <div className='w-full space-y-2'>
-          <Button className='w-full flex-col' onClick={inviteTgUser}>
+          <Button
+            className='w-full flex-col'
+            onClick={() => {
+              setInviteOpen(true);
+            }}
+          >
             <div className='flex  items-center justify-center'>
               <social.tg className='fill-white' /> Invite friends
             </div>
@@ -188,6 +195,12 @@ export default function Scratch () {
           </div>
         </div>
       </div>
+      <InviteFriends
+        open={inviteOpen}
+        onCancel={() => {
+          setInviteOpen(false);
+        }}
+      />
       <ConfigProvider
         theme={{
           components: {
