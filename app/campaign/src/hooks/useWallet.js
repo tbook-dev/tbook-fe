@@ -12,7 +12,8 @@ export default function useWallet() {
   const { open } = useTonConnectModal();
 
   const getWallets = useCallback(
-    (typeList) => {
+    (input) => {
+      const typeList = Array.isArray(input) ? input : [input];
       const list = [
         {
           type: 'evm',

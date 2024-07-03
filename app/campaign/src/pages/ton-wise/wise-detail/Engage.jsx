@@ -76,7 +76,9 @@ export default function Engage () {
       <div className='space-y-3'>
         <div className='flex items-center justify-between'>
           <h2 className='text-base'>{modlueConf.credential}</h2>
-          <Button>Improve</Button>
+          <Link to='/ton-explore'>
+            <Button>Improve</Button>
+          </Link>
         </div>
         <div className='grid grid-cols-3 gap-3'>
           {credentialList.map(v => {
