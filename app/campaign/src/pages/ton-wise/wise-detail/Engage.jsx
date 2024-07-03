@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import TonIcon from '@/images/icon/svgr/ton.svg?react';
 import NotcoinIcon from '@/images/icon/svgr/notcoin.svg?react';
 import CredentialIcon from '@/images/icon/svgr/credential.svg?react';
+import EthIcon from '@/images/icon/svgr/eth.svg?react';
 import useWiseScore from '@/hooks/useWiseScore';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -36,6 +37,8 @@ export default function Engage () {
       wiseScore?.engagementScore?.tonTransactionsScore ?? 0;
     const notCoinTransactionScore =
       wiseScore?.engagementScore?.notCoinTransactionScore ?? 0;
+    const evmTransactionsScore =
+      wiseScore?.engagementScore?.evmTransactionsScore ?? 0;
     return [
       {
         type: 'toncoin',
@@ -60,6 +63,19 @@ export default function Engage () {
         sucess: (
           <Link to='/wise-score/identity/3/ranger'>
             <NotcoinIcon />
+          </Link>
+        ),
+      },
+      {
+        type: 'eth',
+        name: 'ETH LP',
+        handle: () => {
+          navigate(`/wise-score/identity/4/abtain`);
+        },
+        finished: evmTransactionsScore > 0,
+        sucess: (
+          <Link to='/wise-score/identity/4/ranger'>
+            <EthIcon />
           </Link>
         ),
       },

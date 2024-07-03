@@ -1,5 +1,6 @@
 import NotcoinIcon from '@/images/icon/svgr/notcoin.svg?react';
 import TonIcon from '@/images/icon/svgr/ton.svg?react';
+import EthIcon from '@/images/icon/svgr/eth.svg?react';
 import { useCallback } from 'react';
 import WebApp from '@twa-dev/sdk';
 import { stonfi } from '@/utils/conf';
@@ -19,6 +20,11 @@ const typeMap = {
     icon: NotcoinIcon,
     title: 'Notcoin LP',
     desc: 'Have transaction record of Notcoin.',
+  },
+  4: {
+    icon: EthIcon,
+    title: 'ETH LP',
+    desc: 'Have transaction record of ETH.',
   },
 };
 export default function Ranger () {

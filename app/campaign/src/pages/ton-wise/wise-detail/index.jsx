@@ -35,7 +35,7 @@ const modlueConf = {
     {
       type: 'engagement',
       value: wiseType.engagement,
-      display: 'Engagement',
+      display: 'Engage',
       component: Engage,
     },
   ],
