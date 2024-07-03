@@ -44,7 +44,7 @@ export default function HomeProject () {
   return (
     <main className='pb-20'>
       <div className='lg:w-bx mx-auto px-4 space-y-16 lg:px-0'>
-        <TMAShare data={{ type: 'project', projectUrl }} />
+        <TMAShare data={[2, projectUrl]} />
 
         <Banner
           {...project}
