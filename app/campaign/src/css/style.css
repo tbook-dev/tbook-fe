@@ -69,6 +69,12 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  .text-color7{
+    background: linear-gradient(90deg, #FFEAB5 0%, #F2A85D 26%, #8052E4 50%, #2E85EA 74.5%, #68EFAE 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
   .btn-click{
     @apply transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110;
   }

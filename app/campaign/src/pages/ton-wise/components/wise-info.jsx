@@ -3,7 +3,6 @@ import ReactECharts from 'echarts-for-react';
 import useWiseScore from '@/hooks/useWiseScore';
 import { graphic } from 'echarts';
 import { formatImpact } from '@tbook/utils/lib/conf';
-import { sum } from 'lodash';
 const modlueConf = {
   title: 'WISE score',
   linktext: 'Leaderboard',
@@ -16,14 +15,10 @@ function mapToTen (list) {
 }
 
 export default function WiseInfo () {
-  const { data } = useWiseScore();
+  const { data, engagementScore, socialScore, identityScore, wealthScore } =
+    useWiseScore();
 
-  const list = [
-    data?.engagementScore ?? 0,
-    data?.socialScore ?? 0,
-    data?.identityScore ?? 0,
-    data?.wealthScore ?? 0,
-  ];
+  const list = [engagementScore, socialScore, identityScore, wealthScore];
   // const maxScore = Math.max(...list) + 1;
   const mapToTenList = mapToTen(list);
 
@@ -82,7 +77,7 @@ export default function WiseInfo () {
         left: 'center',
         top: 'center',
         style: {
-          text: formatImpact(sum(list)),
+          text: formatImpact(data?.totalScore ?? 0),
           fill: '#fff',
           fontSize: 20,
           textAlign: 'center',
@@ -129,7 +124,7 @@ export default function WiseInfo () {
       <div className='flex text-white items-center justify-between'>
         <h2 className='text-base font-zen-dot'>{modlueConf.title}</h2>
         <Link
-          to='/wise-leaderboard'
+          to='/wise-score/leaderboard'
           className='flex items-center gap-x-1 px-3 py-1 rounded-xl text-sm font-medium border border-[rgb(207,0,99)]/[0.10] bg-[rgb(207,0,99)]/[0.20]'
         >
           {modlueConf.linktext}

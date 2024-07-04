@@ -13,8 +13,7 @@ import {
 import useUserInfoQuery from './useUserInfoQuery';
 import { TG_BOT_NAME } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
-import { useCallback, useState, useEffect } from 'react';
-import { useMemo } from 'react';
+import { useCallback, useState, useEffect, useMemo } from 'react';
 
 export default function useUserRenaissance() {
   const { user } = useUserInfoQuery();
