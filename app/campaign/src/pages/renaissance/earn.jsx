@@ -99,7 +99,11 @@ export default function Earn () {
                         </div>
                       </div>
                     </div>
-                    {b.isActive ? <ArrowIcon /> : <CheckedIcon />}
+                    {b.isActive ? (
+                      <ArrowIcon />
+                    ) : (
+                      <CheckedIcon fill='#FFDFA2' width='32px' height='32px' />
+                    )}
                   </button>
                 );
               })}
