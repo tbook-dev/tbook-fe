@@ -206,7 +206,7 @@ export const factoryContract = import.meta.env.VITE_FACTORY_CONTRACT;
 
 export const getTMALink = ({ campaignId, projectUrl }) => {
   return `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
-    JSON.stringify({ projectUrl, campaignId, type: 'campaign' })
+    JSON.stringify([1, projectUrl, campaignId])
   )}`;
 };
 export const getTMAShareLink = ({ campaignId, projectUrl }) => {
