@@ -126,23 +126,23 @@ export default function Identity () {
       },
     ];
   }, [evm, ton, canConnectEvm, wiseScore, socialList]);
-  const pioneerList = useMemo(() => {
-    return [
-      {
-        type: 'notcoin',
-        name: 'Notcoin Ranger',
-        handle: () => {
-          navigate(`/wise-score/identity/1/abtain`);
-        },
-        finished: wiseScore?.identityScore?.notCoinHolderScore > 0,
-        sucess: (
-          <Link to='/wise-score/identity/1/ranger'>
-            <NotcoinIcon />
-          </Link>
-        ),
-      },
-    ];
-  }, [wiseScore]);
+  // const pioneerList = useMemo(() => {
+  //   return [
+  //     {
+  //       type: 'notcoin',
+  //       name: 'Notcoin Ranger',
+  //       handle: () => {
+  //         navigate(`/wise-score/identity/1/abtain`);
+  //       },
+  //       finished: wiseScore?.identityScore?.notCoinHolderScore > 0,
+  //       sucess: (
+  //         <Link to='/wise-score/identity/1/ranger'>
+  //           <NotcoinIcon />
+  //         </Link>
+  //       ),
+  //     },
+  //   ];
+  // }, [wiseScore]);
   return (
     <div className='space-y-5'>
       <div className='space-y-3'>
@@ -167,7 +167,7 @@ export default function Identity () {
           })}
         </div>
       </div>
-      <div className='space-y-3'>
+      {/* <div className='space-y-3'>
         <div>
           <h2 className='text-base'>{modlueConf.pioneer.title}</h2>
           <p className='text-xs text-white/40'>{modlueConf.pioneer.desc}</p>
@@ -188,7 +188,7 @@ export default function Identity () {
             );
           })}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

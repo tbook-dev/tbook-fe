@@ -16,17 +16,17 @@ const typeMap = {
   },
   2: {
     icon: TonIcon,
-    title: 'Toncoin LP',
+    title: 'Toncoin Ranger',
     desc: 'Have transaction record of Toncoin.',
   },
   3: {
     icon: NotcoinIcon,
-    title: 'Notcoin LP',
+    title: 'Notcoin Ranger',
     desc: 'Have transaction record of Notcoin.',
   },
   4: {
     icon: EthIcon,
-    title: 'ETH LP',
+    title: 'ETH Ranger',
     desc: 'Have transaction record of ETH.',
   },
 };

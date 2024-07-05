@@ -42,7 +42,7 @@ export default function Engage () {
     return [
       {
         type: 'toncoin',
-        name: 'Toncoin LP',
+        name: 'Toncoin Ranger',
         handle: () => {
           navigate(`/wise-score/identity/2/abtain`);
         },
@@ -55,7 +55,7 @@ export default function Engage () {
       },
       {
         type: 'notcoin',
-        name: 'Notcoin LP',
+        name: 'Notcoin Ranger',
         handle: () => {
           navigate(`/wise-score/identity/3/abtain`);
         },
@@ -68,7 +68,7 @@ export default function Engage () {
       },
       {
         type: 'eth',
-        name: 'ETH LP',
+        name: 'ETH Ranger',
         handle: () => {
           navigate(`/wise-score/identity/4/abtain`);
         },
