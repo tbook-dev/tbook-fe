@@ -120,7 +120,7 @@ export default function Identity () {
         finished: dc.connected,
         sucess: (
           <Tooltip title={dc.userName}>
-            <DcIcon />
+            <DcIcon fill='#5865F2' />
           </Tooltip>
         ),
       },
