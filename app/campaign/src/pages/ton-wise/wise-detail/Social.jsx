@@ -8,6 +8,9 @@ import { message } from 'antd';
 import Button from '../components/button';
 import { useMemo } from 'react';
 import useSocial from '@/hooks/useSocial';
+import TgIcon from '@/images/icon/svgr/tg.svg?react';
+import XIcon from '@/images/icon/svgr/x.svg?react';
+import DcIcon from '@/images/icon/svgr/dc.svg?react';
 
 export default function Social () {
   const [messageApi, contextHolder] = message.useMessage();
@@ -39,7 +42,7 @@ export default function Social () {
           setTg(true);
         },
         list: telegrams.map((v, id) => ({
-          picUrl: 'https://campaign-staging.tbook.com/logo.svg',
+          pic: <TgIcon fill='#229ED9' />,
           title: `${formatImpact(v.memberCount)} Fans`,
           extralInfo: v.title,
           id,
@@ -51,10 +54,10 @@ export default function Social () {
         actionName: 'Twitter AllStar Stats',
         handle: null,
         list:
-          twitterFollowers > 0
+          twitterFollowers >= 0
             ? [
                 {
-                  picUrl: 'https://campaign-staging.tbook.com/logo.svg',
+                  pic: <XIcon />,
                   title: `${formatImpact(twitterFollowers)} Followers`,
                   extralInfo: null,
                   id: 1,
@@ -81,7 +84,7 @@ export default function Social () {
           setDc(true);
         },
         list: dcs.map((v, id) => ({
-          picUrl: 'https://campaign-staging.tbook.com/logo.svg',
+          pic: <DcIcon />,
           title: `${formatImpact(v.memberCount)} Fans`,
           extralInfo: v.title,
           id,
@@ -114,11 +117,7 @@ export default function Social () {
                           key={p.id}
                           className='flex flex-col items-center text-xs gap-1'
                         >
-                          <img
-                            src={p.picUrl}
-                            alt={`${v.type}-${v.extralInfo}`}
-                            className='size-10 rounded-full'
-                          />
+                          {p.pic}
                           <div className='space-y-0.5 text-center'>
                             {p.title && (
                               <h4 className='text-white'>{p.title}</h4>
