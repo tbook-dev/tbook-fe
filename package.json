@@ -75,6 +75,7 @@
     "ton": "^13.9.0",
     "tslib": "^2.4.1",
     "viem": "^1.16.5",
+    "vite-plugin-svgr": "^4.2.0",
     "vite-raw-plugin": "^1.0.2",
     "wagmi": "^1.4.3"
   },

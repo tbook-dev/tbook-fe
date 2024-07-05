@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import postcss from './postcss.config.js';
 import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
 
 // import { viteMockServe } from 'vite-plugin-mock';
 const path = require('path');
@@ -16,7 +17,7 @@ export default defineConfig({
   css: {
     postcss,
   },
-  plugins: [react()],
+  plugins: [svgr(), react()],
   optimizeDeps: {
     exclude: [
       '@tbook/hooks',
