@@ -84,7 +84,7 @@ export default function Social () {
           setDc(true);
         },
         list: dcs.map((v, id) => ({
-          pic: <DcIcon />,
+          pic: <DcIcon fill='#5865F2' />,
           title: `${formatImpact(v.memberCount)} Fans`,
           extralInfo: v.title,
           id,
