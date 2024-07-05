@@ -27,7 +27,7 @@ export default function useWiseScore() {
   };
 }
 
-export const useInviteTgUser = () => {
+export const useInviteTgUser = (type) => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
   const inviteLink = getDirectLink([3]);
@@ -49,7 +49,7 @@ export const useInviteTgUser = () => {
   }, [shareLink]);
   const shareToChat = useCallback(() => {
     // todo
-    WebApp.switchInlineQuery(`invite:${userId}`, [
+    WebApp.switchInlineQuery(`share:${userId}:${type}`, [
       'users',
       'bots',
       'groups',

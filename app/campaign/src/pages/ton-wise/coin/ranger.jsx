@@ -8,23 +8,24 @@ import TgIcon from '@/images/icon/svgr/tg.svg?react';
 import ShareDrawer from '@/components/drawer/share';
 import { useState } from 'react';
 import { useInviteTgUser } from '@/hooks/useWiseScore';
+import { reportRangerShare } from '@/api/incentive';
 const typeMap = {
+  // 1: {
+  //   icon: NotcoinIcon,
+  //   title: 'Notcoin Ranger',
+  //   desc: 'Hold at least 1 Notcoin in TON wallet.',
+  // },
   1: {
-    icon: NotcoinIcon,
-    title: 'Notcoin Ranger',
-    desc: 'Hold at least 1 Notcoin in TON wallet.',
-  },
-  2: {
     icon: TonIcon,
     title: 'Toncoin Ranger',
     desc: 'Have transaction record of Toncoin.',
   },
-  3: {
+  2: {
     icon: NotcoinIcon,
     title: 'Notcoin Ranger',
     desc: 'Have transaction record of Notcoin.',
   },
-  4: {
+  3: {
     icon: EthIcon,
     title: 'ETH Ranger',
     desc: 'Have transaction record of ETH.',
@@ -34,7 +35,7 @@ export default function Ranger () {
   const { type } = useParams();
   const [open, setOpen] = useState(false);
   const { shareToChat, inviteLink, rawText, inviteTgUserFn } =
-    useInviteTgUser();
+    useInviteTgUser(type);
   const handleClick = () => {
     setOpen(true);
   };
@@ -84,6 +85,9 @@ export default function Ranger () {
         inviteLink={inviteLink}
         rawText={rawText}
         inviteTgUserFn={inviteTgUserFn}
+        sucessFn={() => {
+          reportRangerShare(type);
+        }}
         ShareButton={
           <button
             onClick={inviteTgUserFn}

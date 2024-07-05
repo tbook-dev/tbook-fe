@@ -44,11 +44,11 @@ export default function Engage () {
         type: 'toncoin',
         name: 'Toncoin Ranger',
         handle: () => {
-          navigate(`/wise-score/identity/2/abtain`);
+          navigate(`/wise-score/identity/1/abtain`);
         },
         finished: tonTransactionsScore > 0,
         sucess: (
-          <Link to='/wise-score/identity/2/ranger'>
+          <Link to='/wise-score/identity/1/ranger'>
             <TonIcon />
           </Link>
         ),
@@ -57,11 +57,11 @@ export default function Engage () {
         type: 'notcoin',
         name: 'Notcoin Ranger',
         handle: () => {
-          navigate(`/wise-score/identity/3/abtain`);
+          navigate(`/wise-score/identity/2/abtain`);
         },
         finished: notCoinTransactionScore > 0,
         sucess: (
-          <Link to='/wise-score/identity/3/ranger'>
+          <Link to='/wise-score/identity/2/ranger'>
             <NotcoinIcon />
           </Link>
         ),
@@ -70,11 +70,11 @@ export default function Engage () {
         type: 'eth',
         name: 'ETH Ranger',
         handle: () => {
-          navigate(`/wise-score/identity/4/abtain`);
+          navigate(`/wise-score/identity/3/abtain`);
         },
         finished: evmTransactionsScore > 0,
         sucess: (
-          <Link to='/wise-score/identity/4/ranger'>
+          <Link to='/wise-score/identity/3/ranger'>
             <EthIcon />
           </Link>
         ),

@@ -16,6 +16,7 @@ export default function ShareDrawer ({
   rawText,
   inviteTgUserFn,
   ShareButton,
+  sucessFn,
 }) {
   const [messageApi, contextHolder] = message.useMessage();
   //   import { useInviteTgUser } from '@/hooks/useUserRenaissance';
@@ -39,6 +40,7 @@ export default function ShareDrawer ({
         svg: <ChatIcon />,
         onClick: () => {
           shareToChat();
+          sucessFn?.();
         },
       },
       {
@@ -47,6 +49,7 @@ export default function ShareDrawer ({
         onClick: () => {
           copy(rawText);
           openMessage('You have copied. Send to your friend now!');
+          sucessFn?.();
         },
       },
       {
@@ -57,6 +60,9 @@ export default function ShareDrawer ({
             .share({
               text: rawText,
               url: inviteLink,
+            })
+            .then(() => {
+              sucessFn?.();
             })
             .catch(err => {
               if (err.message?.includes('Permission denied')) {
