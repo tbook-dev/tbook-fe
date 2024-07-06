@@ -277,6 +277,8 @@ export const buyCard = async function (level) {
 export const getBoostStatus = async function () {
   return await request.Get(`${host}/tPoints/boost/status`);
 };
-export const reportRangerShare = async function (type) {
-  return await request.Get(`${host}/event/ranger/share/${type}`);
+export const reportRangerShare = async function (userId, type) {
+  return await request.PostFormV1(`${host}/wise-task/check-task`, {
+    taskName: `share:${userId}:${type}`,
+  });
 };

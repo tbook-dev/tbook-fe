@@ -18,7 +18,7 @@ const WiseTab = () => {
         key: 1,
         label: 'Score',
         component: (
-          <div className='text-center'>
+          <div className='h-[300px] flex items-center justify-center'>
             <span className='text-[80px] text-color8'>
               {formatImpact(data?.totalScore ?? 0)}
             </span>
@@ -48,7 +48,7 @@ const WiseTab = () => {
             <li
               key={item.key}
               className={cn(
-                'rounded-[10px] px-3 py-0.5 text-white/60 text-xs',
+                'rounded-[10px] px-3 py-0.5 text-white/60 text-xs cursor-pointer',
                 item.key === activeTab ? 'text-white bg-white/20' : ''
               )}
               onClick={() => handleTabClick(item.key)}
