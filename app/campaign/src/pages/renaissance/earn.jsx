@@ -6,7 +6,8 @@ import { cn } from '@/utils/conf';
 import { Link } from 'react-router-dom';
 import TonIcon from '@/images/icon/svgr/ton.svg?react';
 import TgIcon from '@/images/icon/svgr/tg.svg?react';
-
+import CheckedIcon from '@/images/icon/svgr/checked.svg?react';
+import ArrowIcon from '@/images/icon/svgr/arrow.svg?react';
 import useWallet from '@/hooks/useWallet';
 
 export default function Earn () {
@@ -42,7 +43,7 @@ export default function Earn () {
         handle: tonAddressStatus.connectHandle,
       },
       {
-        hidden: false,
+        hidden: true,
         title: 'Join channel',
         desc: (
           <div className='flex items-center'>
@@ -77,7 +78,7 @@ export default function Earn () {
                 return (
                   <button
                     disabled={!b.isActive}
-                    key={b.type}
+                    key={b.title}
                     onClick={b.handle}
                     className={cn(
                       'w-full text-start flex items-center justify-between gap-x-2 px-4 py-3 rounded-lg border border-[#FFEAB5] bg-linear14',
@@ -98,21 +99,11 @@ export default function Earn () {
                         </div>
                       </div>
                     </div>
-                    <svg
-                      width='20'
-                      height='20'
-                      viewBox='0 0 20 20'
-                      fill='none'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <path
-                        d='M6.875 3.75L13.125 10L6.875 16.25'
-                        stroke='#FFDFA2'
-                        strokeWidth='1.5'
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                      />
-                    </svg>
+                    {b.isActive ? (
+                      <ArrowIcon />
+                    ) : (
+                      <CheckedIcon fill='#FFDFA2' width='32px' height='32px' />
+                    )}
                   </button>
                 );
               })}
