@@ -7,8 +7,7 @@ import CheckedIcon from '@/images/icon/svgr/checked.svg?react';
 import TgIcon from '@/images/icon/svgr/tg.svg?react';
 import ShareDrawer from '@/components/drawer/share';
 import { useState } from 'react';
-import { useInviteTgUser } from '@/hooks/useWiseScore';
-import { reportRangerShare } from '@/api/incentive';
+import { useInviteTgUser, useRangerReport } from '@/hooks/useWiseScore';
 const typeMap = {
   // 1: {
   //   icon: NotcoinIcon,
@@ -36,6 +35,7 @@ export default function Ranger () {
   const [open, setOpen] = useState(false);
   const { shareToChat, inviteLink, rawText, inviteTgUserFn } =
     useInviteTgUser(type);
+  const { reportRangerShareFn } = useRangerReport();
   const handleClick = () => {
     setOpen(true);
   };
@@ -86,11 +86,14 @@ export default function Ranger () {
         rawText={rawText}
         inviteTgUserFn={inviteTgUserFn}
         sucessFn={() => {
-          reportRangerShare(type);
+          reportRangerShareFn(type);
         }}
         ShareButton={
           <button
-            onClick={inviteTgUserFn}
+            onClick={() => {
+              reportRangerShareFn(type);
+              inviteTgUserFn();
+            }}
             className='rounded-md bg-[#904BF6] btn-click w-full flex items-center justify-center gap-x-1.5 h-10 text-xs font-bold font-syne'
           >
             <TgIcon />

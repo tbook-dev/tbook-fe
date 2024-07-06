@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { getWiseScore } from '@/api/incentive';
+import { getWiseScore, reportRangerShare } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
 import { TG_BOT_NAME, getDirectLink } from '@/utils/tma';
 import { useCallback, useMemo } from 'react';
@@ -62,5 +62,21 @@ export const useInviteTgUser = (type) => {
     shareToChat,
     rawText,
     inviteLink,
+  };
+};
+
+export const useRangerReport = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  const reportRangerShareFn = useCallback(
+    (type) => {
+      if (userId) {
+        reportRangerShare(userId, type);
+      }
+    },
+    [userId]
+  );
+  return {
+    reportRangerShareFn,
   };
 };
