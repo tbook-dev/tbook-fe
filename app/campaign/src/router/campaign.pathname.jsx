@@ -24,6 +24,8 @@ const Renaissance = lazy(() => import('@/pages/renaissance'));
 const RenaissanceDetail = lazy(() => import('@/pages/renaissance/detail'));
 const Boost = lazy(() => import('@/pages/renaissance/boost'));
 const Earn = lazy(() => import('@/pages/renaissance/earn'));
+const Abtain = lazy(() => import('@/pages/ton-wise/coin/abtain'));
+const Ranger = lazy(() => import('@/pages/ton-wise/coin/ranger'));
 
 const Attestation = lazy(() => import('@/pages/attestation'));
 
@@ -97,21 +99,45 @@ const routes = [
   {
     path: '/wise-score',
     loader: getTbookfn,
-    element: (
-      <Suspense fallback={<PageFallBack />}>
-        <WiseScore />
-      </Suspense>
-    ),
-    errorElement: <GlobalError />,
-  },
-  {
-    path: '/wise-leaderboard',
-    loader: getTbookfn,
-    element: (
-      <Suspense fallback={<PageFallBack />}>
-        <WiseLeaderboard />
-      </Suspense>
-    ),
+    element: <TMALayout layout />,
+    children: [
+      {
+        index: true,
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <WiseScore />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'leaderboard',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <WiseLeaderboard />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'identity/:type/abtain',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <Abtain />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'identity/:type/ranger',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <Ranger />
+          </Suspense>
+        ),
+      },
+    ],
     errorElement: <GlobalError />,
   },
   {

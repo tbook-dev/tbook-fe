@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import Identity from './Identity';
 import Social from './Social';
-import Done from './Done';
+import Engage from './Engage';
 import useWiseScore from '@/hooks/useWiseScore';
-
+import Wealth from './Wealth';
 const wiseType = {
   wealth: 1,
   identity: 2,
@@ -18,7 +18,7 @@ const modlueConf = {
       type: 'wealth',
       value: wiseType.wealth,
       display: 'Wealth',
-      component: Done,
+      component: Wealth,
     },
     {
       type: 'identity',
@@ -35,16 +35,16 @@ const modlueConf = {
     {
       type: 'engagement',
       value: wiseType.engagement,
-      display: 'Engagement',
-      component: Done,
+      display: 'Engage',
+      component: Engage,
     },
   ],
 };
 
 export default function WiseDetail () {
-  const { data } = useWiseScore();
   const { wealthScore, identityScore, socialScore, engagementScore } =
-    data || {};
+    useWiseScore();
+
   const [currentBtn, setCurrentBtn] = useState(wiseType.social);
   const wiseScoreMap = {
     [wiseType.wealth]: formatImpact(wealthScore),
@@ -58,7 +58,7 @@ export default function WiseDetail () {
   )?.component;
 
   return (
-    <div>
+    <div className='pb-10'>
       <div className='flex justify-between -mx-5 px-5 pb-4 border-b border-[#CFDBD5]/[0.15]'>
         {modlueConf.btnList.map(v => {
           const isCurrent = v.value === currentBtn;
@@ -66,8 +66,8 @@ export default function WiseDetail () {
             <button
               className={clsx(
                 isCurrent
-                  ? 'text-white after:absolute after:inset-x-0 after:bottom-[-17px] after:h-0.5 after:bg-[#904bf6]'
-                  : 'text-[#999]',
+                  ? 'text-white after:absolute after:inset-x-0 after:bottom-[-17px] after:h-0.5 after:bg-white'
+                  : 'text-white/40',
                 'flex flex-col items-center gap-y-2 relative'
               )}
               key={v.value}
@@ -75,7 +75,7 @@ export default function WiseDetail () {
                 setCurrentBtn(v.value);
               }}
             >
-              <span className='font-zen-dot text-sm text-white'>
+              <span className='font-zen-dot text-sm'>
                 {wiseScoreMap[v.value]}
               </span>
               <span>{v.display}</span>
@@ -84,7 +84,7 @@ export default function WiseDetail () {
         })}
       </div>
 
-      <div>
+      <div className='pt-3'>
         <CurrentComponent />
       </div>
     </div>

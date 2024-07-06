@@ -268,22 +268,9 @@ export const buyCard = async function (level) {
 };
 export const getBoostStatus = async function () {
   return await request.Get(`${host}/tPoints/boost/status`);
-  // return {
-  //   code: 200,
-  //   isAbleToBuyCards: true,
-  //   userId: 490150743129,
-  //   todayBuyCardsNum: 0,
-  //   dailyFree: {
-  //     remains: 0,
-  //     max: 5,
-  //   },
-  //   dailyTimeBonus: {
-  //     totalAdded: 0,
-  //     unClaimed: 5,
-  //     unused: 1,
-  //     nextDistribution: 1718928000000,
-  //     step: 1,
-  //     max: 5,
-  //   },
-  // };
+};
+export const reportRangerShare = async function (userId, type) {
+  return await request.PostFormV1(`${host}/wise-task/check-task`, {
+    taskName: `share:${userId}:${type}`,
+  });
 };
