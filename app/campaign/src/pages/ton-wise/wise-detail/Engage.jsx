@@ -66,19 +66,19 @@ export default function Engage () {
           </Link>
         ),
       },
-      {
-        type: 'eth',
-        name: 'ETH Ranger',
-        handle: () => {
-          navigate(`/wise-score/identity/3/abtain`);
-        },
-        finished: evmTransactionsScore > 0,
-        sucess: (
-          <Link to='/wise-score/identity/3/ranger'>
-            <EthIcon />
-          </Link>
-        ),
-      },
+      // {
+      //   type: 'eth',
+      //   name: 'ETH Ranger',
+      //   handle: () => {
+      //     navigate(`/wise-score/identity/3/abtain`);
+      //   },
+      //   finished: evmTransactionsScore > 0,
+      //   sucess: (
+      //     <Link to='/wise-score/identity/3/ranger'>
+      //       <EthIcon />
+      //     </Link>
+      //   ),
+      // },
     ];
   }, [wiseScore]);
   return (
