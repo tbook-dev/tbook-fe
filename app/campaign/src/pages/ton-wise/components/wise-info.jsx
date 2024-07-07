@@ -18,7 +18,7 @@ const WiseTab = () => {
         key: 1,
         label: 'Score',
         component: (
-          <div className='h-[300px] flex items-center justify-center'>
+          <div className='flex items-center justify-center'>
             <span className='text-[80px] text-color8'>
               {formatImpact(data?.totalScore ?? 0)}
             </span>
