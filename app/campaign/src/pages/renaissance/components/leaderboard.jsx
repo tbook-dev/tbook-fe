@@ -17,7 +17,7 @@ export default function Leaderboard () {
         <h2 className='text-base font-syne font-bold text-[#FFDFA2]'>
           WISE Score Leaderboard
         </h2>
-        <Link to='/wise-leaderboard'>
+        <Link to='/wise-score/leaderboard'>
           <svg
             width='24'
             height='24'

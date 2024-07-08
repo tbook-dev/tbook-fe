@@ -1,6 +1,6 @@
 import logo from '@/images/icon/logo.svg';
 
-export const keptProjectUrls = ['event'];
+export const keptProjectUrls = ['event', 'wise-score'];
 
 export const defaultProjectInfo = {
   projectUrl: 'realtbook',
