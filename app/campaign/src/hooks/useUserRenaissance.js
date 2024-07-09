@@ -267,7 +267,7 @@ export const useEarnCheck = () => {
   }, [channelChecked]);
   useEffect(() => {
     if (groupChecked?.finished) {
-      queryClient.setQueryDefaults('tbook-channel-checked', {
+      queryClient.setQueryDefaults('tbook-group-checked', {
         staleTime: Infinity,
       });
     }
