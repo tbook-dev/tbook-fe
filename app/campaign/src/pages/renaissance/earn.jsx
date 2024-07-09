@@ -12,6 +12,7 @@ import useWallet from '@/hooks/useWallet';
 import { useEarnCheck } from '@/hooks/useUserRenaissance';
 import { LoadingOutlined } from '@ant-design/icons';
 import WebApp from '@twa-dev/sdk';
+const isStaging = import.meta.env.VITE_HOST_EVN === 'staging';
 
 export default function Earn() {
   const [messageApi, contextHolder] = message.useMessage();
@@ -29,7 +30,6 @@ export default function Earn() {
   //     onClose,
   //   });
   // };
-
   const onboarding = useMemo(() => {
     const { channel, group, boost } = checkedValues;
     return [
@@ -58,7 +58,11 @@ export default function Earn() {
         isActive: !channel.finished,
         isLoading: channel.isLoading,
         handle: () => {
-          WebApp.openTelegramLink('https://t.me/tbookincentive');
+          WebApp.openTelegramLink(
+            isStaging
+              ? 'https://t.me/tbooktest0001'
+              : 'https://t.me/tbookincentive'
+          );
         },
       },
       {
@@ -73,7 +77,11 @@ export default function Earn() {
         isActive: !group.finished,
         isLoading: group.isLoading,
         handle: () => {
-          WebApp.openTelegramLink('https://t.me/tbookofficialgroup');
+          WebApp.openTelegramLink(
+            isStaging
+              ? 'https://t.me/tbooktest111'
+              : 'https://t.me/tbookofficialgroup'
+          );
         },
       },
       {
@@ -88,7 +96,11 @@ export default function Earn() {
         isActive: !boost.finished,
         isLoading: boost.isLoading,
         handle: () => {
-          WebApp.openTelegramLink('https://t.me/boost/tbookincentive');
+          WebApp.openTelegramLink(
+            isStaging
+              ? 'https://t.me/boost/tbooktest111'
+              : 'https://t.me/boost/tbookincentive'
+          );
         },
       },
     ];
