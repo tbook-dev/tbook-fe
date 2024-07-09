@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import {
   getUserRenaissance,
   getUserLevel,
@@ -245,6 +245,7 @@ export const useCountdown = ({ targetDate, enabled = true, onEnd }) => {
 };
 
 export const useEarnCheck = () => {
+  const queryClient = useQueryClient();
   const { data: channelChecked, isLoading: channelCheckedLoading } = useQuery(
     'tbook-channel-checked',
     () => checkTask('join:channel:tb')
@@ -257,6 +258,27 @@ export const useEarnCheck = () => {
     'tbook-boost-checked',
     () => checkTask('boost:tb')
   );
+  useEffect(() => {
+    if (channelChecked?.finished) {
+      queryClient.setQueryDefaults('tbook-channel-checked', {
+        staleTime: Infinity,
+      });
+    }
+  }, [channelChecked]);
+  useEffect(() => {
+    if (groupChecked?.finished) {
+      queryClient.setQueryDefaults('tbook-group-checked', {
+        staleTime: Infinity,
+      });
+    }
+  }, [groupChecked]);
+  useEffect(() => {
+    if (boostChecked?.finished) {
+      queryClient.setQueryDefaults('tbook-boost-checked', {
+        staleTime: Infinity,
+      });
+    }
+  }, [boostChecked]);
   return {
     channel: {
       finished: channelChecked?.finished,
