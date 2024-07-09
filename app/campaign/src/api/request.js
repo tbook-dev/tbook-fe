@@ -117,7 +117,7 @@ request.PostForm = (url, params) => {
   const formData = new FormData();
   for (const name in params) {
     if (params.hasOwnProperty(name)) {
-      console.log(name, params[name]);
+      // console.log(name, params[name]);
       formData.append(name, params[name]);
     }
   }
