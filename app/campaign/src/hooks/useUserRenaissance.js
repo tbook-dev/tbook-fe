@@ -9,6 +9,7 @@ import {
   getBugCardsList,
   buyCard,
   getBoostStatus,
+  checkTask,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
 import { TG_BOT_NAME } from '@/utils/tma';
@@ -241,4 +242,33 @@ export const useCountdown = ({ targetDate, enabled = true, onEnd }) => {
   }, [targetDate, enabled]);
 
   return timeLeft;
+};
+
+export const useEarnCheck = () => {
+  const { data: channelChecked, isLoading: channelCheckedLoading } = useQuery(
+    'tbook-channel-checked',
+    () => checkTask('join:channel:tb')
+  );
+  const { data: groupChecked, isLoading: groupCheckedLoading } = useQuery(
+    'tbook-group-checked',
+    () => checkTask('join:group:tb')
+  );
+  const { data: boostChecked, isLoading: boostCheckedLoading } = useQuery(
+    'tbook-boost-checked',
+    () => checkTask('boost:tb')
+  );
+  return {
+    channel: {
+      finished: channelChecked?.finished,
+      isLoading: channelCheckedLoading,
+    },
+    group: {
+      finished: groupChecked?.finished,
+      isLoading: groupCheckedLoading,
+    },
+    boost: {
+      finished: boostChecked?.finished,
+      isLoading: boostCheckedLoading,
+    },
+  };
 };

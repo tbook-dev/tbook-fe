@@ -282,3 +282,8 @@ export const reportRangerShare = async function (userId, type) {
     taskName: `share:${userId}:${type}`,
   });
 };
+export const checkTask = async function (taskName) {
+  return await request.PostFormV1(`${host}/wise-task/check-task`, {
+    taskName,
+  });
+};
