@@ -8,21 +8,16 @@ import { useParams } from 'react-router-dom';
 
 const typeMap = {
   1: {
-    icon: NotcoinIcon,
-    title: 'Notcoin Ranger',
-    desc: 'Hold at least 1 Notcoin in TON wallet.',
-  },
-  2: {
     icon: TonIcon,
     title: 'Toncoin Ranger',
     desc: 'Have transaction record of Toncoin.',
   },
-  3: {
+  2: {
     icon: NotcoinIcon,
     title: 'Notcoin Ranger',
     desc: 'Have transaction record of Notcoin.',
   },
-  4: {
+  3: {
     icon: EthIcon,
     title: 'ETH Ranger',
     desc: 'Have transaction record of ETH.',
