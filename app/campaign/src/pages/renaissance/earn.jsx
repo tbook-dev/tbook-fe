@@ -98,7 +98,7 @@ export default function Earn() {
         handle: () => {
           WebApp.openTelegramLink(
             isStaging
-              ? 'https://t.me/boost/tbooktest111'
+              ? 'https://t.me/boost/tbooktest0001'
               : 'https://t.me/boost/tbookincentive'
           );
         },
