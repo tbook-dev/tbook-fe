@@ -9,6 +9,8 @@ import { Modal } from 'antd';
 import { useResponsive } from 'ahooks';
 import { actionMap } from '@tbook/credential';
 import { getStrJSON } from '@/utils/common';
+import { useTelegram } from '@/hooks/useTg';
+
 const modalConf = {
   title: 'Verify',
   step1: {
@@ -29,6 +31,7 @@ export default function WithVerify({
   credential,
 }) {
   const { pc } = useResponsive();
+  const { isTMA } = useTelegram();
   const [open, setOpen] = useState(false);
   const { getSocialByName } = useSocial();
   const [status, setStatus] = useState(verifyStatusEnum.NotStarted);
@@ -46,14 +49,14 @@ export default function WithVerify({
     } catch (e) {
       setStatus(verifyStatusEnum.NotStarted);
       if (isLink) {
-        window.open(link, pc?'_blank':'_self');
+        window.open(link, pc ? (isTMA ? '_self' : '_blank') : '_self');
       }
     }
   };
   const handleCancel = useCallback(() => {
     setOpen(false);
   }, []);
-  
+
   return (
     <>
       <button

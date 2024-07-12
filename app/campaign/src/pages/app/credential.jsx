@@ -214,7 +214,7 @@ export default function Credential({ credential, showVerify, signCredential }) {
           showVerify && (
             <WithVerify
               handleFn={() => handleVerify(credential)}
-              evmRequire={!!project?.evmRequire}
+              evmRequire={!!project?.evmRequire || labelType === 10}
               credentialType={credentialType}
               credential={credential}
             />
