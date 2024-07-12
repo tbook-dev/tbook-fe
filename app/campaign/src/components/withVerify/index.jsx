@@ -7,7 +7,8 @@ import { useDispatch } from 'react-redux';
 import { setLoginModal, setConnectWalletModal } from '@/store/global';
 import { Modal } from 'antd';
 import { useResponsive } from 'ahooks';
-
+import { actionMap } from '@tbook/credential';
+import { getStrJSON } from '@/utils/common';
 const modalConf = {
   title: 'Verify',
   step1: {
@@ -21,14 +22,13 @@ const modalConf = {
   },
 };
 
-export default function WithVerify ({
+export default function WithVerify({
   handleFn,
   evmRequire,
-  count,
   credentialType,
+  credential,
 }) {
   const { pc } = useResponsive();
-  // const open = useSelector(v => v.global.showSocicalModal)
   const [open, setOpen] = useState(false);
   const { getSocialByName } = useSocial();
   const [status, setStatus] = useState(verifyStatusEnum.NotStarted);
@@ -36,23 +36,28 @@ export default function WithVerify ({
   const dispath = useDispatch();
   const social = getSocialByName(credentialType);
   const isSocial = !!social;
-  const handleVerify = async evt => {
+  const { isLink, getLink } = actionMap[credential.labelType];
+  const link = getLink(getStrJSON(credential.options));
+  const handleVerify = async (evt) => {
     setStatus(verifyStatusEnum.Pending);
     try {
       await handleFn(evt);
       setStatus(verifyStatusEnum.Sucess);
     } catch (e) {
       setStatus(verifyStatusEnum.NotStarted);
+      if (isLink) {
+        window.open(link, pc?'_blank':'_self');
+      }
     }
   };
   const handleCancel = useCallback(() => {
     setOpen(false);
   }, []);
-
+  
   return (
     <>
       <button
-        disabled={status === verifyStatusEnum.Pending || count > 0}
+        disabled={status === verifyStatusEnum.Pending}
         className={clsx(
           'text-base whitespace-nowrap px-1.5 py-1 rounded',
           'flex-none flex items-center gap-x-1',
@@ -62,30 +67,16 @@ export default function WithVerify ({
               verifyStatusEnum.Pending,
             ].includes(status),
             'text-white bg-[#904BF6]': status === verifyStatusEnum.NotStarted,
-            'bg-[#2B174A] text-[#55456E] w-[78px] justify-center cursor-not-allowed':
-              count > 0,
+            'cursor-not-allowed': verifyStatusEnum.Pending === status,
           }
         )}
-        onClick={evt => {
-          // if (!userLogined) {
-          //   dispath(setLoginModal(true))
-          // } else if (!wallectConnected) {
-          //   dispath(setConnectWalletModal(true))
-          // } else {
-          //   if (isSocial && !social.connected) {
-          //     // dispath(setShowSocicalModal(true))
-          //     setOpen(true)
-          //   } else {
-          //     handleVerify(evt)
-          //   }
-          // }
+        onClick={(evt) => {
           if (!userLogined) {
             dispath(setLoginModal(true));
           } else if (evmRequire && !wallectConnected) {
             dispath(setConnectWalletModal(true));
           } else {
             if (isSocial && !social.connected) {
-              // dispath(setShowSocicalModal(true))
               setOpen(true);
             } else {
               handleVerify(evt);
@@ -93,16 +84,12 @@ export default function WithVerify ({
           }
         }}
       >
-        {count > 0 ? (
-          `${count}s`
-        ) : (
-          <>
-            <VerifyStatus status={status} />
-            {status === verifyStatusEnum.Sucess && 'Verified'}
-            {status === verifyStatusEnum.Pending && 'Verify...'}
-            {status === verifyStatusEnum.NotStarted && 'Verify'}
-          </>
-        )}
+        <>
+          <VerifyStatus status={status} />
+          {status === verifyStatusEnum.Sucess && 'Verified'}
+          {status === verifyStatusEnum.Pending && 'Verify...'}
+          {status === verifyStatusEnum.NotStarted && 'Verify'}
+        </>
       </button>
       {isSocial && (
         <Modal
@@ -113,11 +100,11 @@ export default function WithVerify ({
           closable={pc ? true : false}
           onCancel={handleCancel}
         >
-          <div className='-mx-6'>
-            <h1 className='text-base font-medium border-b px-5 pb-3 border-[#8148C6]'>
+          <div className="-mx-6">
+            <h1 className="text-base font-medium border-b px-5 pb-3 border-[#8148C6]">
               {modalConf.title}
             </h1>
-            <div className='px-5 pt-5'>
+            <div className="px-5 pt-5">
               <div className={clsx('text-base font-medium')}>
                 <h2>{modalConf.step1.title}</h2>
               </div>
@@ -130,12 +117,12 @@ export default function WithVerify ({
                   social.loginFn(false);
                   handleCancel();
                 }}
-                className='flex items-center gap-x-1 px-4 py-1 text-sm font-medium text-black rounded-md bg-white'
+                className="flex items-center gap-x-1 px-4 py-1 text-sm font-medium text-black rounded-md bg-white"
               >
                 <img
                   src={social.picUrl}
-                  className='w-4 h-4 object-contain object-center'
-                  alt='social logo'
+                  className="w-4 h-4 object-contain object-center"
+                  alt="social logo"
                 />
                 Connect {credentialType}
               </button>
