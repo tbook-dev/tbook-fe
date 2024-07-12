@@ -14,7 +14,7 @@ export default function useCampaignQuery(campaignId) {
     ['campaignDetail', `${campaignId}`, userLogined],
     () => getCampaignDetail(campaignId),
     {
-      staleTime: 50000,
+      // staleTime: 50000,
       enabled: !!campaignId && userLoaded,
       // refetchOnWindowFocus: false,
     }

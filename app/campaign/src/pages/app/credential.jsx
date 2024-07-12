@@ -29,9 +29,8 @@ import { useDispatch } from 'react-redux';
 import { Display, actionMap } from '@tbook/credential';
 import DisableVerify from '@/components/withVerify/disableVerify';
 import { useTelegram } from '@/hooks/useTg';
-import { getStrJSON } from '@/utils/common';
+import { getStrJSON, delay } from '@/utils/common';
 import { useSignMessage } from 'wagmi';
-
 
 export default function Credential({ credential, showVerify }) {
   const { isUsingSubdomain, projectUrl, project } = useLoaderData();
@@ -62,6 +61,7 @@ export default function Credential({ credential, showVerify }) {
   const { isConnected } = useAccount();
   const [count, setCount] = useState(0);
   const clearInterIdRef = useRef();
+  const retryCounter = useRef(0)
   const hasVoted = useMemo(() => {
     if (!votes) return false;
     return !!votes?.find(
@@ -77,7 +77,7 @@ export default function Credential({ credential, showVerify }) {
   const connectWallect = useCallback(() => {
     dispatch(setConnectWalletModal(true));
   }, []);
-  const signIn = useCallback(() => {
+  const login = useCallback(() => {
     dispatch(setLoginModal(true));
   }, []);
   const localTwitterVerify = useCallback(() => {
@@ -123,6 +123,17 @@ export default function Credential({ credential, showVerify }) {
         if (isAirdopType && !showAirdop) {
           setShowAirdop(true);
         }
+        if (labelType === 8 && retryCounter.current < 1) {
+          // never fail
+          retryCounter.current = 1;
+          hasError = false;
+          const { getLink } = actionMap[credential.labelType];
+          const link = getLink(getStrJSON(credential.options));
+          await verifyTbook(credential.credentialId);
+          window.open(link, isTMA ? '_blank' : pc ? '_blank' : '_self');
+          await delay(1000);
+          await handleVerify(credential);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -160,7 +171,7 @@ export default function Credential({ credential, showVerify }) {
         await verifyTbook(credential.credentialId);
         await handleVerify(credential);
       } else {
-        signIn();
+        login();
       }
     },
     10: () => {
@@ -183,7 +194,7 @@ export default function Credential({ credential, showVerify }) {
       if (userLogined) {
         setShowAirdop((v) => !v);
       } else {
-        signIn();
+        login();
       }
     },
   };
