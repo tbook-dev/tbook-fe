@@ -18,6 +18,12 @@ export const authenticate = async function (address, sign) {
 export const getUserInfo = async function () {
   return await request(`${host}/info`);
 };
+export const getTaskSign = async function(credentialId){
+  return await request.Get(`${host}/campaignSign/${credentialId}`)
+}
+export const takTaskSign = async function(credentialId, data){
+  return await request.PostFormV1(`${host}/campaignSign/${credentialId}/verify`, data,)
+}
 export const getProjectInfo = async function (projectId) {
   return await request(`${host}/project/${projectId}`);
 };
