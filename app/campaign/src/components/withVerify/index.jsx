@@ -61,8 +61,8 @@ export default function WithVerify({
           typeof taskHandle === 'function'
         ) {
           await taskHandle();
-          window.open(link, isTMA ? '_blank' : pc ? '_blank' : '_self');
         }
+        window.open(link, isTMA ? '_blank' : pc ? '_blank' : '_self');
       }
     }
   };
