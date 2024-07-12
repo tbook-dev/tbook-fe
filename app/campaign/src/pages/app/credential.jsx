@@ -2,7 +2,7 @@ import Preview from '../snapshot/Preview';
 import { getCrenditialType } from '@/utils/conf';
 import { getSnapshotIdBylink, useUserVotes } from '@tbook/snapshot/api';
 import WithVerify from '@/components/withVerify';
-import { verifyCredential } from '@/api/incentive';
+import { verifyCredential, takTaskSign } from '@/api/incentive';
 import VerifyStatus, {
   verifyStatusEnum,
 } from '@/components/withVerify/VerifyStatus';
@@ -17,23 +17,31 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
+import { useCredentialSign } from '@/hooks/useCampaignQuery';
 import { setLoginModal, setConnectWalletModal } from '@/store/global';
 import { useAccount } from 'wagmi';
 import { useQueryClient } from 'react-query';
 import warningSvg from '@/images/icon/warning.svg';
 import clsx from 'clsx';
 import AirDrop from './airdrop';
+import { message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { Display, actionMap } from '@tbook/credential';
 import DisableVerify from '@/components/withVerify/disableVerify';
 import { useTelegram } from '@/hooks/useTg';
+import { getStrJSON } from '@/utils/common';
+import { useSignMessage } from 'wagmi';
 
-export default function Credential({ credential, showVerify, signCredential }) {
+
+export default function Credential({ credential, showVerify }) {
   const { isUsingSubdomain, projectUrl, project } = useLoaderData();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const { isTMA } = useTelegram();
+  const [messageApi, contextHolder] = message.useMessage();
+  const signData = useCredentialSign(credential);
+  const { signMessageAsync } = useSignMessage();
 
   const { userLogined, wallectConnected, address, user } = useUserInfo();
   const { pc } = useResponsive();
@@ -64,7 +72,7 @@ export default function Credential({ credential, showVerify, signCredential }) {
     return isConnected && wallectConnected;
   }, [isConnected, wallectConnected]);
   const resetCount = useCallback(() => {
-    setCount(15);
+    setCount(30);
   }, []);
   const connectWallect = useCallback(() => {
     dispatch(setConnectWalletModal(true));
@@ -126,6 +134,18 @@ export default function Credential({ credential, showVerify, signCredential }) {
       throw new Error(hasError);
     }
   };
+  const signCredential = async (credential) => {
+    const m = signData?.data?.data;
+    const sign = await signMessageAsync({ message: m });
+    try {
+      const d = await takTaskSign(credential.credentialId, { sign });
+      if (!d?.['success']) {
+        messageApi.error(d['error']);
+      }
+    } catch (error) {
+      messageApi.error('Sign failed');
+    }
+  };
 
   // 点击任务，除了跳转外的额外处理。
   const taskMap = {
@@ -183,13 +203,8 @@ export default function Credential({ credential, showVerify, signCredential }) {
   const showErrorTip = count > 0 && !credential.isVerified;
   const showSnapshot = isSnapshotType && snapshotId;
   const options = useMemo(() => {
-    try {
-      return JSON.parse(credential.options);
-    } catch (error) {
-      return {};
-    }
+    return getStrJSON(credential.options);
   }, [credential]);
-  // console.log({ options, credential });
   return (
     <div className="border border-[#904BF6] transition-all duration-300 ease-in-out lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5">
       <div className="flex items-start justify-between w-full gap-x-1">
@@ -217,6 +232,7 @@ export default function Credential({ credential, showVerify, signCredential }) {
               evmRequire={!!project?.evmRequire || labelType === 10}
               credentialType={credentialType}
               credential={credential}
+              taskHandle={taskMap[credential.labelType]}
             />
           )
         )}
@@ -307,6 +323,7 @@ export default function Credential({ credential, showVerify, signCredential }) {
           }}
         />
       )}
+      {contextHolder}
     </div>
   );
 }

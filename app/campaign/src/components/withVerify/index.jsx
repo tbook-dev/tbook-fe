@@ -23,12 +23,19 @@ const modalConf = {
     },
   },
 };
-
+const extraTaskList = [
+  8, // log event
+  1, // tw
+  2,
+  3,
+  11,
+];
 export default function WithVerify({
   handleFn,
   evmRequire,
   credentialType,
   credential,
+  taskHandle,
 }) {
   const { pc } = useResponsive();
   const { isTMA } = useTelegram();
@@ -49,6 +56,14 @@ export default function WithVerify({
     } catch (e) {
       setStatus(verifyStatusEnum.NotStarted);
       if (isLink) {
+        // auto complete task, beside open new link
+        // task8
+        if (
+          extraTaskList.includes(credential.labelType) &&
+          typeof taskHandle === 'function'
+        ) {
+          await taskHandle();
+        }
         window.open(link, pc ? (isTMA ? '_self' : '_blank') : '_self');
       }
     }
