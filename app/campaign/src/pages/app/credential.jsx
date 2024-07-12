@@ -8,7 +8,6 @@ import VerifyStatus, {
 } from '@/components/withVerify/VerifyStatus';
 import { verifyTbook } from '@/api/incentive';
 import useUserInfo from '@/hooks/useUserInfoQuery';
-import useSocial from '@/hooks/useSocial';
 import { useParams, Link, useLoaderData } from 'react-router-dom';
 import { useResponsive } from 'ahooks';
 import React, {
@@ -29,69 +28,43 @@ import { Display, actionMap } from '@tbook/credential';
 import DisableVerify from '@/components/withVerify/disableVerify';
 import { useTelegram } from '@/hooks/useTg';
 
-// const errorMsg =
-//   'It seems you have not finished the task.Please click and finish the task, then verify in 30s later.'
-
-export default function Credential ({ redential, showVerify, signCredential }) {
+export default function Credential({ credential, showVerify, signCredential }) {
   const { isUsingSubdomain, projectUrl, project } = useLoaderData();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const { isTMA } = useTelegram();
 
-  const {
-    twitterConnected,
-    userLogined,
-    discordConnected,
-    telegramConnected,
-    wallectConnected,
-    address,
-    user,
-  } = useUserInfo();
-  const { getSocialByName } = useSocial();
+  const { userLogined, wallectConnected, address, user } = useUserInfo();
   const { pc } = useResponsive();
   const [showAirdop, setShowAirdop] = useState(false);
-  const labelType = redential.labelType;
-  const credentialType = getCrenditialType(redential.labelType);
-  const hiddenGotoButton = [12, 13].includes(redential.labelType);
-  const isAirdopType = redential.labelType === 13;
-  const isSnapshotType = redential.labelType === 12;
-  const isTwitterType = [1, 2, 3, 11].includes(redential.labelType);
-  const snapshotId = getSnapshotIdBylink(redential.link);
+  const labelType = credential.labelType;
+  const credentialType = getCrenditialType(credential.labelType);
+  const hiddenGotoButton = [12, 13].includes(credential.labelType);
+  const isAirdopType = credential.labelType === 13;
+  const isSnapshotType = credential.labelType === 12;
+  const isTwitterType = [1, 2, 3, 11].includes(credential.labelType);
+  const snapshotId = getSnapshotIdBylink(credential.link);
   const { data: votes = [] } = useUserVotes(
     snapshotId,
     address,
-    redential.isVerified
+    credential.isVerified
   );
-  const unikey = `localkey-${user?.userId}-${redential?.credentialId}`;
-  // console.log({user, redential, unikey})
-  // console.log({isVerified: redential.isVerified ,votes,isLoading})
+  const unikey = `localkey-${user?.userId}-${credential?.credentialId}`;
   const { isConnected } = useAccount();
   const [count, setCount] = useState(0);
   const clearInterIdRef = useRef();
   const hasVoted = useMemo(() => {
     if (!votes) return false;
     return !!votes?.find(
-      v => v.voter?.toLowerCase() === address?.toLowerCase()
+      (v) => v.voter?.toLowerCase() === address?.toLowerCase()
     );
   }, [votes]);
-
-  // const sysConnectedMap = {
-  //   twitter: twitterConnected,
-  //   discord: discordConnected,
-  //   telegram: telegramConnected,
-  //   tbook: userLogined,
-  // };
-  // const sycLoginFnMap = {
-  //   twitter: getSocialByName('twitter').loginFn,
-  //   discord: getSocialByName('discord').loginFn,
-  //   telegram: getSocialByName('telegram').loginFn,
-  // };
   const canUseWallect = useMemo(() => {
     return isConnected && wallectConnected;
   }, [isConnected, wallectConnected]);
   const resetCount = useCallback(() => {
-    setCount(30);
+    setCount(15);
   }, []);
   const connectWallect = useCallback(() => {
     dispatch(setConnectWalletModal(true));
@@ -105,13 +78,13 @@ export default function Credential ({ redential, showVerify, signCredential }) {
     localStorage.setItem(unikey, '1');
     // console.log("--> log", unikey);
   }, [unikey]);
-  const handleVerify = async redential => {
+  const handleVerify = async (credential) => {
     // 如果是snapshot，先坚持上报然后
     let hasError = false;
     if (isSnapshotType) {
       if (hasVoted) {
         //先上报
-        await verifyTbook(redential.credentialId);
+        await verifyTbook(credential.credentialId);
       } else {
         hasError = true;
         resetCount();
@@ -133,7 +106,7 @@ export default function Credential ({ redential, showVerify, signCredential }) {
     }
 
     try {
-      const res = await verifyCredential(redential.credentialId);
+      const res = await verifyCredential(credential.credentialId);
       if (res.isVerified) {
         hasError = false;
         await queryClient.refetchQueries(['campaignDetail', campaignId, true]);
@@ -164,15 +137,15 @@ export default function Credential ({ redential, showVerify, signCredential }) {
     8: async () => {
       // log event, 需要任意登录即可
       if (userLogined) {
-        await verifyTbook(redential.credentialId);
-        await handleVerify(redential);
+        await verifyTbook(credential.credentialId);
+        await handleVerify(credential);
       } else {
         signIn();
       }
     },
     10: () => {
       if (canUseWallect) {
-        signCredential(redential);
+        signCredential(credential);
       } else {
         connectWallect();
       }
@@ -181,41 +154,24 @@ export default function Credential ({ redential, showVerify, signCredential }) {
       // 当前页面不需要登录
       window.open(
         `${isUsingSubdomain ? '' : `/${projectUrl}`}/snapshot/${campaignId}/${
-          redential.credentialId
+          credential.credentialId
         }/${snapshotId}`,
         pc ? (isTMA ? '_self' : '_blank') : '_self'
       );
     },
     13: () => {
       if (userLogined) {
-        setShowAirdop(v => !v);
+        setShowAirdop((v) => !v);
       } else {
         signIn();
       }
     },
   };
-  // const isRedentialNotLink = redential.labelType === 10;
-  // const getTaskFn = (redential) => {
-  //   if (isRedentialNotLink) {
-  //     taskMap[redential.labelType]()
-  //   } else {
-  //     window.open(redential.link, pc ? '_blank' : '_self')
-  //   }
-  // }
-  // const handleManualFn = async () => {
-  //   if (redential.labelType === 8) {
-  //     await verifyTbook(redential.credentialId);
-  //     await handleVerify(redential);
-  //   }
-  //   if (isTwitterType) {
-  //     localTwitterVerify();
-  //   }
-  // };
 
   useEffect(() => {
     clearInterIdRef.current = setInterval(() => {
       if (count > 0) {
-        setCount(v => v - 1);
+        setCount((v) => v - 1);
       } else {
         clearInterval(clearInterIdRef.current);
       }
@@ -224,120 +180,100 @@ export default function Credential ({ redential, showVerify, signCredential }) {
       clearInterval(clearInterIdRef.current);
     };
   }, [count]);
-  const showErrorTip = count > 0 && !redential.isVerified;
+  const showErrorTip = count > 0 && !credential.isVerified;
   const showSnapshot = isSnapshotType && snapshotId;
   const options = useMemo(() => {
     try {
-      return JSON.parse(redential.options);
+      return JSON.parse(credential.options);
     } catch (error) {
       return {};
     }
-  }, [redential]);
-  // console.log({ options, redential });
+  }, [credential]);
+  // console.log({ options, credential });
   return (
-    <div className='border border-[#904BF6] transition-all duration-300 ease-in-out lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5'>
-      <div className='flex items-start justify-between w-full gap-x-1'>
-        {/* <div className="flex items-start gap-x-1 pt-[3px] flex-auto w-[calc(100%_-_45px)]">
-          <img
-            src={redential.picUrl}
-            className="w-5 h-5 object-contain mt-0.5"
-          />
-          <div
-            onClick={
-              typeof taskMap[redential.labelType] === 'function'
-                ? taskMap[redential.labelType]
-                : null
-            }
-            className="text-sm max-w-[calc(100%_-_26px)] lg:max-w-[430px]"
-            dangerouslySetInnerHTML={{
-              __html: pc ? redential.intentDisplayExp : redential.displayExp,
-            }}
-          />
-        </div> */}
+    <div className="border border-[#904BF6] transition-all duration-300 ease-in-out lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5">
+      <div className="flex items-start justify-between w-full gap-x-1">
         <Display
           pc={pc}
-          labelType={redential.labelType}
+          labelType={credential.labelType}
           options={options}
           clickHandle={
-            typeof taskMap[redential.labelType] === 'function'
-              ? taskMap[redential.labelType]
+            typeof taskMap[credential.labelType] === 'function'
+              ? taskMap[credential.labelType]
               : null
           }
         />
-        {redential.isVerified === 1 ? (
-          <span className='flex-none flex items-center gap-x-1 text-md whitespace-nowrap'>
+        {credential.isVerified === 1 ? (
+          <span className="flex-none flex items-center gap-x-1 text-md whitespace-nowrap">
             <VerifyStatus status={verifyStatusEnum.Sucess} />
             Verified
           </span>
-        ) : redential.isVerified === -1 ? (
+        ) : credential.isVerified === -1 ? (
           <DisableVerify />
         ) : (
           showVerify && (
             <WithVerify
-              // sysConnectedMap={sysConnectedMap}
-              // sycLoginFnMap={sycLoginFnMap}
-              // resetCount={resetCount}
-              handleFn={() => handleVerify(redential)}
+              handleFn={() => handleVerify(credential)}
               evmRequire={!!project?.evmRequire}
-              count={count}
               credentialType={credentialType}
+              credential={credential}
             />
           )
         )}
       </div>
       {showErrorTip && (
-        <div className='pt-5 border-t border-[#281545] space-y-4'>
-          <div className='text-sm flex gap-x-3 items-start'>
+        <div className="pt-5 border-t border-[#281545] space-y-4">
+          <div className="text-sm flex gap-x-3 items-start">
             <img
               src={warningSvg}
-              className='w-5 h-5 object-center'
-              alt='verify error'
+              className="w-5 h-5 object-center"
+              alt="verify error"
             />
-            It seems you have not finished the task.Please click and finish the
-            task, then verify in {count}s later.
+            It seems you have not finished the task. Please finish task, then
+            try to verify again.
           </div>
 
           {!hiddenGotoButton &&
             (!actionMap[labelType]?.isLink ? (
               <div
-                onClick={taskMap[redential.labelType]}
-                className='cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
+                onClick={taskMap[credential.labelType]}
+                className="cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
               >
                 Go to finish
                 <svg
-                  width='16'
-                  height='16'
-                  viewBox='0 0 17 16'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
+                  width="16"
+                  height="16"
+                  viewBox="0 0 17 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d='M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z'
-                    fill='white'
+                    d="M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z"
+                    fill="white"
                   />
                 </svg>
               </div>
             ) : (
               <Link
                 // onClick={handleManualFn}
-                onClick={taskMap[redential.labelType]}
-                // to={pc ? redential.intentDisplayLink : redential.displayLink}
+                onClick={taskMap[credential.labelType]}
+                // to={pc ? credential.intentDisplayLink : credential.displayLink}
                 to={actionMap[labelType]?.getLink({ ...options, pc })}
                 target={isTMA ? '_self' : '_blank'}
-                rel='nofollow noopener noreferrer'
-                className='cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium'
+                rel="nofollow noopener noreferrer"
+                className="cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
               >
                 Go to finish
                 <svg
-                  width='16'
-                  height='16'
-                  viewBox='0 0 17 16'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
+                  width="16"
+                  height="16"
+                  viewBox="0 0 17 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d='M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z'
-                    fill='white'
+                    d="M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z"
+                    fill="white"
                   />
                 </svg>
               </Link>
@@ -347,10 +283,10 @@ export default function Credential ({ redential, showVerify, signCredential }) {
       {showSnapshot && (
         <Link
           target={isTMA ? '_self' : '_blank'}
-          className='text-base font-medium'
+          className="text-base font-medium"
           to={`${
             isUsingSubdomain ? '' : `/${projectUrl}`
-          }/snapshot/${campaignId}/${redential.credentialId}/${snapshotId}`}
+          }/snapshot/${campaignId}/${credential.credentialId}/${snapshotId}`}
         >
           <div
             className={clsx(
@@ -364,7 +300,7 @@ export default function Credential ({ redential, showVerify, signCredential }) {
       )}
       {showAirdop && (
         <AirDrop
-          {...redential}
+          {...credential}
           errorHandle={resetCount}
           successHandle={() => {
             setShowAirdop(false);

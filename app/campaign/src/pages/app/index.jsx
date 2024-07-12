@@ -285,10 +285,10 @@ export default function () {
                 </h3>
                 <p className='hidden lg:block text-sm mb-4'>{prompt}</p>
                 <div className='space-y-4 mb-8'>
-                  {group.credentialList?.map(redential => (
+                  {group.credentialList?.map(credential => (
                     <Credential
-                      redential={redential}
-                      key={redential.credentialId}
+                      credential={credential}
+                      key={credential.credentialId}
                       showVerify={!(campaignNotStart || campaignEnd)}
                       signCredential={signCredential}
                     />
