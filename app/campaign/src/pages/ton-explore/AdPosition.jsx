@@ -32,7 +32,7 @@ export default function AdPosition () {
         </defs>
       </svg>
 
-      <LazyImage src={banner} className='w-full mb-5' />
+      <LazyImage src={banner} className='w-full mb-5 aspect-[520/310]' />
     </Link>
   );
 }
