@@ -70,8 +70,8 @@ export default {
     getActionTarget: ({ eventName }) => `${eventName}`,
   },
   12: {
-    isLink: true,
-    getLink: ({ link }) => link,
+    isLink: false,
+    getLink: noop,
     getActionName: () => 'Visit',
     getActionTarget: () => `for proposal`,
   },

@@ -63,6 +63,9 @@ export default function WithVerify({
           await taskHandle();
         }
         window.open(link, isTMA ? '_blank' : pc ? '_blank' : '_self');
+      }else if(credential.labelType === 12){
+        // snapshot link
+        await taskHandle();
       }
     }
   };
