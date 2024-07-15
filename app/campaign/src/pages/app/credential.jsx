@@ -42,7 +42,7 @@ export default function Credential({ credential, showVerify }) {
   const signData = useCredentialSign(credential);
   const { signMessageAsync } = useSignMessage();
 
-  const { userLogined, wallectConnected, address, user } = useUserInfo();
+  const { userLogined, wallectConnected, evmAddress, user } = useUserInfo();
   const { pc } = useResponsive();
   const [showAirdop, setShowAirdop] = useState(false);
   const labelType = credential.labelType;
@@ -54,7 +54,7 @@ export default function Credential({ credential, showVerify }) {
   const snapshotId = getSnapshotIdBylink(credential.link);
   const { data: votes = [] } = useUserVotes(
     snapshotId,
-    address,
+    evmAddress,
     credential.isVerified
   );
   const unikey = `localkey-${user?.userId}-${credential?.credentialId}`;
@@ -65,7 +65,7 @@ export default function Credential({ credential, showVerify }) {
   const hasVoted = useMemo(() => {
     if (!votes) return false;
     return !!votes?.find(
-      (v) => v.voter?.toLowerCase() === address?.toLowerCase()
+      (v) => v.voter?.toLowerCase() === evmAddress?.toLowerCase()
     );
   }, [votes]);
   const canUseWallect = useMemo(() => {
