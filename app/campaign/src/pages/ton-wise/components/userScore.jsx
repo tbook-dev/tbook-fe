@@ -15,7 +15,7 @@ const addressLogoMap = {
   2: <TgIcon />,
 };
 
-export default function UserScore() {
+export default function UserScore({ className }) {
   const { data: user } = useWiseScore();
   const walletIcon = addressLogoMap[user?.addressType];
   const rankCF = useMemo(() => {
@@ -39,7 +39,8 @@ export default function UserScore() {
     <div
       className={cn(
         'flex items-center justify-between',
-        'bg-white/5 rounded-lg px-5 py-2'
+        'rounded-lg px-5 py-2',
+        className
       )}
     >
       <div className="flex items-center gap-x-2.5">

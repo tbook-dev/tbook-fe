@@ -68,7 +68,7 @@ export default function TonWiseScore() {
               <ArrowIcon stroke="#7a7a7a" />
             </Link>
           </div>
-          <UserScore />
+          <UserScore className="bg-white/5" />
         </div>
       </div>
     </div>
