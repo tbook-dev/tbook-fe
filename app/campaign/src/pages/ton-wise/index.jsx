@@ -4,6 +4,8 @@ import Trend from '@/images/icon/svgr/trend.svg?react';
 import { Link } from 'react-router-dom';
 import Privilege from './components/privilege';
 import Invite from './components/invite';
+import UserScore from './components/userScore';
+import ArrowIcon from '@/images/icon/svgr/arrow.svg?react';
 
 const getWiseTag = (value) => {
   // Novice(<20K)
@@ -59,6 +61,15 @@ export default function TonWiseScore() {
       <div className="space-y-6">
         <Privilege />
         <Invite />
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm text-white/40">LEADERBOARD </h2>
+            <Link to="/wise-score/leaderboard">
+              <ArrowIcon stroke="#7a7a7a" />
+            </Link>
+          </div>
+          <UserScore />
+        </div>
       </div>
     </div>
   );
