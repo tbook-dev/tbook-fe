@@ -2,6 +2,9 @@ import useWiseScore from '@/hooks/useWiseScore';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import Trend from '@/images/icon/svgr/trend.svg?react';
 import { Link } from 'react-router-dom';
+import Privilege from './components/privilege';
+import Invite from './components/invite';
+
 const getWiseTag = (value) => {
   // Novice(<20K)
   // Adept(20-50K)
@@ -25,9 +28,8 @@ const getWiseTag = (value) => {
 };
 export default function TonWiseScore() {
   const { data, isLoading } = useWiseScore();
-  console.log({ data, isLoading });
   return (
-    <div className="px-5 mt-3 lg:px-0 max-w-md mx-auto">
+    <div className="px-5 mt-3 lg:px-0 max-w-md mx-auto space-y-8">
       <div className="space-y-5">
         <h2 className="text-2xl font-light">WISE Credit Score</h2>
         <div className="flex items-end gap-x-4">
@@ -52,6 +54,11 @@ export default function TonWiseScore() {
             </div>
           </Link>
         </div>
+      </div>
+
+      <div className="space-y-6">
+        <Privilege />
+        <Invite />
       </div>
     </div>
   );
