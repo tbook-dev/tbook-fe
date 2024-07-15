@@ -3,9 +3,8 @@ import LeaderboardSkeleton from './components/leaderBoard-skeleton';
 import UserScore from './components/userScore';
 import ScoreItem from './components/scoreItem';
 import { useState } from 'react';
-import BackIcon from '@/images/icon/svgr/back.svg?react';
-import { Link } from 'react-router-dom';
 import ArrowIcon from '@/images/icon/svgr/arrow.svg?react';
+import Nav from './components/nav';
 
 const pageSize = 10;
 export default function TonWiseLeaderboard() {
@@ -19,11 +18,7 @@ export default function TonWiseLeaderboard() {
 
   return (
     <div className="flex-auto w-full min-h-[calc(100vh_-_160px)] pb-20 space-y-4 px-5 mt-3 lg:px-0 mx-auto bg-gradient-to-b from-black from-40% to-[#301952]">
-      <div className="relative flex items-center justify-between pl-8">
-        <Link to="/wise-score" className="absolute left-0">
-          <BackIcon />
-        </Link>
-        <h2 className="text-2xl font-thin">WISE Leaderboard </h2>
+      <Nav title="WISE Leaderboard">
         <div className="flex items-center gap-x-2">
           <ArrowIcon
             className="rotate-180"
@@ -43,7 +38,7 @@ export default function TonWiseLeaderboard() {
             }}
           />
         </div>
-      </div>
+      </Nav>
 
       {!data ? (
         <div className="rounded-2xl py-3">

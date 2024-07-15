@@ -1,12 +1,16 @@
 import { useMemo } from 'react';
-import sbtSVG from '@/images/wise/rewards/sbt.png';
-
+import sbtPNG from '@/images/wise/rewards/sbt.png';
+import { Link } from 'react-router-dom';
 export default function Privilege() {
   const list = useMemo(() => {
     return [
       {
         text: 'WISE SBT',
-        img: <img src={sbtSVG} className="size-[30px]" />,
+        img: (
+          <Link to="/wise-score/sbt">
+            <img src={sbtPNG} className="size-[30px]" />
+          </Link>
+        ),
       },
     ];
   }, []);

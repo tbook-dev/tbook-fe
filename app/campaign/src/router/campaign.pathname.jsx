@@ -27,6 +27,8 @@ const Boost = lazy(() => import('@/pages/renaissance/boost'));
 const Earn = lazy(() => import('@/pages/renaissance/earn'));
 const Abtain = lazy(() => import('@/pages/ton-wise/coin/abtain'));
 const Ranger = lazy(() => import('@/pages/ton-wise/coin/ranger'));
+const SBT = lazy(() => import('@/pages/ton-wise/sbt'));
+const SBTDetail = lazy(() => import('@/pages/ton-wise/sbt'));
 
 const Attestation = lazy(() => import('@/pages/attestation'));
 
@@ -145,6 +147,24 @@ const routes = [
         element: (
           <Suspense fallback={<PageFallBack />}>
             <Ranger />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'sbt',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <SBT />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'sbt/:type',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <SBTDetail />
           </Suspense>
         ),
       },
