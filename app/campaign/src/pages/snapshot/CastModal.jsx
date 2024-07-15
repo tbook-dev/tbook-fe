@@ -13,13 +13,14 @@ import { useDispatch } from 'react-redux';
 import { formatDollarV2 } from '@tbook/utils/lib/conf';
 import Arrow2Icon from '@/images/icon/arrow2.svg';
 import errorIcon from '@/images/icon/error.svg';
-import { useAccount, useWalletClient, usePublicClient } from 'wagmi';
+import { useWalletClient } from 'wagmi';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin, message } from 'antd';
 import snapshotSVG from '@/images/icon/snapshot.svg';
 import { useTelegram } from '@/hooks/useTg';
+import useUserInfo from '@/hooks/useUserInfoQuery';
 
 // import { verifyTbook } from '@/api/incentive'
 const snapshotPrompt = `powered by snapshot`;
@@ -45,14 +46,13 @@ export default function CastModal () {
   const { isTMA } = useTelegram();
   const { pc } = useResponsive();
   const dispath = useDispatch();
-  const { snapshotId, credentialId } = useParams();
-  const { address } = useAccount();
-  const publicClient = usePublicClient();
+  const { snapshotId } = useParams();
+  const { evmAddress: address } = useUserInfo();
+  // const { address } = useAccount();
   const { data: walletClient } = useWalletClient();
   const { showSnapshotCastModal, snapshotData } = useSelector(s => s.global);
   const { data, refetch } = useProposal(snapshotId);
   const { refetch: refetchVote } = useUserVotes(snapshotId, address);
-
   const [voting, setVoting] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const op = {

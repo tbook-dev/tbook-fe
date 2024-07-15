@@ -42,3 +42,13 @@ export async function loadImageUrl(coverImg) {
 export const preloadBatchImage = (imageUrls) => {
   return Promise.all(imageUrls.map(preloadImage));
 };
+
+export const getStrJSON = (str) => {
+  let ret = {};
+  try {
+    ret = JSON.parse(str);
+  } catch (e) {
+    console.error(e);
+  }
+  return ret;
+};
