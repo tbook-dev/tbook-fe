@@ -8,16 +8,16 @@ import queryClient from '../query-client';
 import App from '@/pages/app';
 import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
+import TonExplore from '@/pages/ton-explore';
 import { keptProjectUrls, defaultProjectInfo } from './conf';
 
 const Home = lazy(() => import('@/pages/home'));
-// const Explore = lazy(() => import('@/pages/explore'));
 const HomeV2 = lazy(() => import('@/pages/home-v2'));
 const Asset = lazy(() => import('@/pages/my/Asset'));
 const Campaign = lazy(() => import('@/pages/my/campaign'));
 const NFT = lazy(() => import('@/pages/my/nft'));
 const Snapshot = lazy(() => import('@/pages/snapshot'));
-const TonExplore = lazy(() => import('@/pages/ton-explore'));
+// const TonExplore = lazy(() => import('@/pages/ton-explore'));
 const WiseCredit = lazy(() => import('@/pages/ton-wise'));
 const ScoreDetail = lazy(() => import('@/pages/ton-wise/wise-score'));
 const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/wise-leaderboard'));
@@ -105,11 +105,12 @@ const routes = [
       {
         index: true,
         loader: getTbookfn,
-        element: (
-          <Suspense fallback={<PageFallBack />}>
-            <WiseCredit />
-          </Suspense>
-        ),
+        // element: (
+        //   <Suspense fallback={<PageFallBack />}>
+        //     <WiseCredit />
+        //   </Suspense>
+        // ),
+        element: <WiseCredit />,
       },
       {
         path: 'detail',
