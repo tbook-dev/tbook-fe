@@ -7,9 +7,21 @@ import Sbt50kIcon from '@/images/icon/svgr/sbt50k.svg?react';
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from './components/button';
+import { useMintSBTMutation } from '@/hooks/useWiseScore';
+import { message } from 'antd';
 
 export default function SBTDetail() {
   const { type } = useParams();
+  const mutation = useMintSBTMutation();
+  const [messageAPI, messageContext] = message.useMessage();
+  const handleClick = async () => {
+    const res = await mutation.mutateAsync({ type });
+    if (res.code === 200) {
+      window.open(res?.link, '_blank');
+    } else {
+      messageAPI.error(res.message ?? 'mint unkonwn error!');
+    }
+  };
   const sbtList = useMemo(() => {
     return [
       {
@@ -64,19 +76,16 @@ export default function SBTDetail() {
             </div>
           </div>
           <Button
-            disabled={!sbt?.isOpen}
+            disabled={!sbt?.isOpen || mutation.isLoading}
             className={'w-full h-10 disabled:opacity-40'}
-            onClick={() => {
-              window.open(
-                'https://society.ton.org/welcome/3222fb13-79f8-40fc-8db3-1b05b4662991',
-                '_blank'
-              );
-            }}
+            isLoading={mutation.isLoading}
+            onClick={handleClick}
           >
             Mint
           </Button>
         </div>
       </div>
+      {messageContext}
     </div>
   );
 }

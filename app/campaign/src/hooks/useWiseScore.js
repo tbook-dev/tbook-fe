@@ -1,8 +1,10 @@
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import {
   getWiseScore,
   reportRangerShare,
   getInvitedCreditFriends,
+  getWiseScoreStatus,
+  mintSBT,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
 import { getDirectLink } from '@/utils/tma';
@@ -126,11 +128,36 @@ export const useWiseCreditInviteFriends = () => {
       enabled: !!userId,
     }
   );
-  console.log({ data });
   return {
     data,
     ...p,
     inviteCode: data?.data?.inviteCode,
     invitedList: data?.data?.invitedList ?? [],
   };
+};
+
+export const useWiseHasWiseScore = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  return useQuery('wise-has-wise-score', () => getWiseScoreStatus(userId), {
+    enabled: !!userId,
+  });
+};
+
+export const useJoinMutation = () => {
+  // react-qeury mutation
+  return useMutation(
+    (data) =>
+      new Promise((r) => {
+        setTimeout(() => {
+          r(true);
+        }, 3000);
+      })
+  );
+};
+
+export const useMintSBTMutation = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  return useMutation(() => mintSBT(userId));
 };
