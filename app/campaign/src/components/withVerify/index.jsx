@@ -23,12 +23,7 @@ const modalConf = {
     },
   },
 };
-const extraTaskList = [
-  1, // tw
-  2,
-  3,
-  11,
-];
+
 export default function WithVerify({
   handleFn,
   evmRequire,
@@ -49,6 +44,7 @@ export default function WithVerify({
   const link = getLink(getStrJSON(credential.options));
   const a = document.createElement('A');
   a.href = link;
+  console.log({ credential });
   const handleVerify = async (evt) => {
     setStatus(verifyStatusEnum.Pending);
     try {
@@ -58,13 +54,6 @@ export default function WithVerify({
       setStatus(verifyStatusEnum.NotStarted);
 
       if (isLink) {
-        // auto complete task, beside open new link
-        if (
-          extraTaskList.includes(credential.labelType) &&
-          typeof taskHandle === 'function'
-        ) {
-          await taskHandle();
-        }
         if (isTMA) {
           if (a.hostname === 't.me') {
             webApp?.openTelegramLink(link);
