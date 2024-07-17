@@ -46,11 +46,10 @@ export default function Credential({ credential, showVerify }) {
   const { pc } = useResponsive();
   const [showAirdop, setShowAirdop] = useState(false);
   const labelType = credential.labelType;
-  const credentialType = getCrenditialType(credential.labelType);
-  const hiddenGotoButton = [12, 13].includes(credential.labelType);
-  const isAirdopType = credential.labelType === 13;
-  const isSnapshotType = credential.labelType === 12;
-  const isTwitterType = [1, 2, 3, 11].includes(credential.labelType);
+  const credentialType = getCrenditialType(labelType);
+  const hiddenGotoButton = [12, 13].includes(labelType);
+  const isAirdopType = labelType === 13;
+  const isSnapshotType = labelType === 12;
   const snapshotId = getSnapshotIdBylink(credential.link);
   const { data: votes = [] } = useUserVotes(
     snapshotId,
@@ -61,7 +60,7 @@ export default function Credential({ credential, showVerify }) {
   const { isConnected } = useAccount();
   const [count, setCount] = useState(0);
   const clearInterIdRef = useRef();
-  const retryCounter = useRef(0)
+  const retryCounter = useRef(0);
   const hasVoted = useMemo(() => {
     if (!votes) return false;
     return !!votes?.find(
@@ -103,16 +102,6 @@ export default function Credential({ credential, showVerify }) {
       // 如果是snapshot，直接提交表单， 不在此处验证
       console.log('auto exe');
     }
-    const twitterClicked = !!localStorage.getItem(unikey);
-    if (isTwitterType && !twitterClicked) {
-      localTwitterVerify();
-      // 如果是推特，点击了按钮就可以认为完成任务了, 这个逻辑由后端控制
-      // 前端只控制先后次序，即：验证之前必须要先点击任务按钮
-      hasError = true;
-      resetCount();
-      throw new Error(true);
-    }
-
     try {
       const res = await verifyCredential(credential.credentialId);
       if (res.isVerified) {
@@ -127,7 +116,7 @@ export default function Credential({ credential, showVerify }) {
           // never fail
           retryCounter.current = 1;
           hasError = false;
-          const { getLink } = actionMap[credential.labelType];
+          const { getLink } = actionMap[labelType];
           const link = getLink(getStrJSON(credential.options));
           await verifyTbook(credential.credentialId);
           window.open(link, isTMA ? '_blank' : pc ? '_blank' : '_self');
@@ -158,13 +147,7 @@ export default function Credential({ credential, showVerify }) {
     }
   };
 
-  // 点击任务，除了跳转外的额外处理。
   const taskMap = {
-    1: localTwitterVerify,
-    2: localTwitterVerify,
-    3: localTwitterVerify,
-    11: localTwitterVerify,
-
     8: async () => {
       // log event, 需要任意登录即可
       if (userLogined) {
