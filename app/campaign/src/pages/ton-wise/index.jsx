@@ -68,7 +68,7 @@ export default function TonWiseScore() {
             </div>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 pb-10">
             <Privilege />
             <Invite />
             <div className="space-y-2">
