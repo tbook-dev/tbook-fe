@@ -161,7 +161,7 @@ export default function PassportCard ({ onClose }) {
             onClick={onClose}
             className='focus-visible:outline-none w-[135px] h-6  mx-auto bg-center bg-contain font-zen-dot text-xs flex items-center justify-center gap-x-0.5'
           >
-            WISE Score
+            WISE Credit
             <svg
               width='12'
               height='12'
