@@ -1,9 +1,16 @@
-import { useQuery } from 'react-query';
-import { getWiseScore, reportRangerShare } from '@/api/incentive';
+import { useQuery, useMutation } from 'react-query';
+import {
+  getWiseScore,
+  reportRangerShare,
+  getInvitedCreditFriends,
+  getWiseScoreStatus,
+  mintSBT,
+} from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
-import { TG_BOT_NAME, getDirectLink } from '@/utils/tma';
+import { getDirectLink } from '@/utils/tma';
 import { useCallback, useMemo } from 'react';
 import WebApp from '@twa-dev/sdk';
+import { TG_BOT_NAME } from '@/utils/tma';
 
 export default function useWiseScore() {
   const { user } = useUserInfoQuery();
@@ -79,4 +86,78 @@ export const useRangerReport = () => {
   return {
     reportRangerShareFn,
   };
+};
+
+// drawer
+export const useWiseCreditInvite = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  const inviteLink = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
+  const rawText = [
+    `🎁I have obtained the WISE Credential  and 🎉 improved my WISE Credit Score.`,
+    `\n🔥Come on to obtain yours!`,
+    inviteLink,
+  ].join('\n');
+  const shareLink = useMemo(() => {
+    if (!userId) return '';
+    const link = `https://t.me/share/url?text=${encodeURIComponent(
+      rawText
+    )}&url=${encodeURIComponent(inviteLink)}`;
+    return link;
+  }, [userId]);
+  const inviteTgUser = useCallback(() => {
+    if (!shareLink) return;
+    WebApp.openTelegramLink(shareLink);
+  }, [shareLink]);
+  return {
+    inviteTgUser,
+    shareText: shareLink,
+    rawText,
+    inviteLink,
+  };
+};
+
+// api display
+export const useWiseCreditInviteFriends = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  const { data, ...p } = useQuery(
+    'wise-credit-invite-friends',
+    getInvitedCreditFriends,
+    {
+      enabled: !!userId,
+    }
+  );
+  return {
+    data,
+    ...p,
+    inviteCode: data?.data?.inviteCode,
+    invitedList: data?.data?.invitedList ?? [],
+  };
+};
+
+export const useWiseHasWiseScore = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  return useQuery('wise-has-wise-score', () => getWiseScoreStatus(userId), {
+    enabled: !!userId,
+  });
+};
+
+export const useJoinMutation = () => {
+  // react-qeury mutation
+  return useMutation(
+    (data) =>
+      new Promise((r) => {
+        setTimeout(() => {
+          r(true);
+        }, 3000);
+      })
+  );
+};
+
+export const useMintSBTMutation = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  return useMutation(() => mintSBT(userId));
 };

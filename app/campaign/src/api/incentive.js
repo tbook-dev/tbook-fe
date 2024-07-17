@@ -18,12 +18,15 @@ export const authenticate = async function (address, sign) {
 export const getUserInfo = async function () {
   return await request(`${host}/info`);
 };
-export const getTaskSign = async function(credentialId){
-  return await request.Get(`${host}/campaignSign/${credentialId}`)
-}
-export const takTaskSign = async function(credentialId, data){
-  return await request.PostFormV1(`${host}/campaignSign/${credentialId}/verify`, data,)
-}
+export const getTaskSign = async function (credentialId) {
+  return await request.Get(`${host}/campaignSign/${credentialId}`);
+};
+export const takTaskSign = async function (credentialId, data) {
+  return await request.PostFormV1(
+    `${host}/campaignSign/${credentialId}/verify`,
+    data
+  );
+};
 export const getProjectInfo = async function (projectId) {
   return await request(`${host}/project/${projectId}`);
 };
@@ -292,4 +295,27 @@ export const checkTask = async function (taskName) {
   return await request.PostFormV1(`${host}/wise-task/check-task`, {
     taskName,
   });
+};
+export const getInvitedCreditFriends = async function () {
+  return {
+    data: {
+      inviteCode: 'TB8729',
+      count: 1,
+      invitedList: [
+        {
+          userId: 12,
+          avator: '/src/images/icon/logo.svg',
+        },
+      ],
+    },
+  };
+};
+
+export const getWiseScoreStatus = async function (userId) {
+  const res = await request.Get(`${host}/wiseScore/check/${userId}`);
+  return res?.code === 200;
+};
+
+export const mintSBT = async function (userId) {
+  return await request.Get(`${host}/wiseScore/mint/${userId}`);
 };
