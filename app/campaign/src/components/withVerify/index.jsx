@@ -37,7 +37,7 @@ export default function WithVerify({
   taskHandle,
 }) {
   const { pc } = useResponsive();
-  const { isTMA } = useTelegram();
+  const { isTMA, webApp } = useTelegram();
   const [open, setOpen] = useState(false);
   const { getSocialByName } = useSocial();
   const [status, setStatus] = useState(verifyStatusEnum.NotStarted);
@@ -47,6 +47,8 @@ export default function WithVerify({
   const isSocial = !!social;
   const { isLink, getLink } = actionMap[credential.labelType];
   const link = getLink(getStrJSON(credential.options));
+  const a = document.createElement('A');
+  a.href = link;
   const handleVerify = async (evt) => {
     setStatus(verifyStatusEnum.Pending);
     try {
@@ -54,6 +56,7 @@ export default function WithVerify({
       setStatus(verifyStatusEnum.Sucess);
     } catch (e) {
       setStatus(verifyStatusEnum.NotStarted);
+
       if (isLink) {
         // auto complete task, beside open new link
         if (
@@ -62,8 +65,16 @@ export default function WithVerify({
         ) {
           await taskHandle();
         }
-        window.open(link, isTMA ? '_blank' : pc ? '_blank' : '_self');
-      }else if(credential.labelType === 12){
+        if (isTMA) {
+          if (a.hostname === 't.me') {
+            webApp?.openTelegramLink(link);
+          } else {
+            webApp?.openLink(link);
+          }
+        } else {
+          window.open(link, pc ? '_blank' : '_self');
+        }
+      } else if (credential.labelType === 12) {
         // snapshot link
         await taskHandle();
       }
