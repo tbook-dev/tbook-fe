@@ -44,7 +44,6 @@ export default function WithVerify({
   const link = getLink(getStrJSON(credential.options));
   const a = document.createElement('A');
   a.href = link;
-  console.log({ credential });
   const handleVerify = async (evt) => {
     setStatus(verifyStatusEnum.Pending);
     try {
