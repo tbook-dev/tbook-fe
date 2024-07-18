@@ -26,11 +26,16 @@ export function safeParse(start_param) {
     return {};
   }
 }
-
+const consoleMap = new Map();
 export const getDirectLink = (data) => {
-  return `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
+  const link = `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
     JSON.stringify(data)
   )}`;
+  if (location.search.includes('t=1') && !consoleMap.has(link)) {
+    consoleMap.set(link, true);
+    console.log('direct tg link --->', link);
+  }
+  return link;
 };
 window.getDirectLink = getDirectLink;
 export const getTMAsahreLink = (data) => {
