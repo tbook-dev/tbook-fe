@@ -8,7 +8,8 @@ import UserScore from './components/userScore';
 import ArrowIcon from '@/images/icon/svgr/arrow.svg?react';
 import Loading from '@/components/loading';
 import Join from './components/join';
-
+import Generating from './generating';
+import { useState } from 'react';
 const getWiseTag = (value) => {
   // Novice(<20K)
   // Adept(20-50K)
@@ -31,16 +32,25 @@ const getWiseTag = (value) => {
   }
 };
 export default function TonWiseScore() {
-  const { data: hashWiseScoreRes, isLoading: wiseStatusIsLoading } =
+  const { data: hasWiseScoreRes, isLoading: wiseStatusIsLoading } =
     useWiseHasWiseScore();
   const { data, isLoading } = useWiseScore();
+  const [showGen, setShowGen] = useState(true);
   if (wiseStatusIsLoading) {
     return <Loading />;
   }
 
   return (
-    <div className="px-5 mt-3 lg:px-0 max-w-md mx-auto space-y-8">
-      {hashWiseScoreRes ? (
+    <div className="flex flex-col px-5 mt-3 lg:px-0 max-w-md mx-auto space-y-8">
+      {showGen ? (
+        <Generating
+          hasWiseScoreRes={hasWiseScoreRes}
+          data={data}
+          hide={() => {
+            setShowGen(false);
+          }}
+        />
+      ) : hasWiseScoreRes ? (
         <>
           <div className="space-y-5">
             <h2 className="text-2xl font-light">WISE Credit Score</h2>
