@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import {
   getWiseScore,
   reportRangerShare,
@@ -11,6 +11,7 @@ import { getDirectLink } from '@/utils/tma';
 import { useCallback, useMemo } from 'react';
 import WebApp from '@twa-dev/sdk';
 import { TG_BOT_NAME } from '@/utils/tma';
+import { useEffect } from 'react';
 
 export default function useWiseScore() {
   const { user } = useUserInfoQuery();
@@ -20,8 +21,9 @@ export default function useWiseScore() {
     {
       // retry: false,
       enabled: !!user.userId,
-      retryOnMount: false,
-      refetchOnMount: false,
+      // retryOnMount: false,
+      // refetchOnMount: false,
+      staleTime: Infinity,
     }
   );
   return {
@@ -137,11 +139,24 @@ export const useWiseCreditInviteFriends = () => {
 };
 
 export const useWiseHasWiseScore = () => {
+  const queryClient = useQueryClient();
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
-  return useQuery('wise-has-wise-score', () => getWiseScoreStatus(userId), {
-    enabled: !!userId,
-  });
+  const { data, ...p } = useQuery(
+    'wise-has-wise-score',
+    () => getWiseScoreStatus(userId),
+    {
+      enabled: !!userId,
+    }
+  );
+  useEffect(() => {
+    if (data) {
+      queryClient.setQueryDefaults('wise-has-wise-score', {
+        staleTime: Infinity,
+      });
+    }
+  }, [data]);
+  return { data, ...p };
 };
 
 export const useJoinMutation = () => {

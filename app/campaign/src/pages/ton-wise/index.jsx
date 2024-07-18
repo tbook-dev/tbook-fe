@@ -36,6 +36,7 @@ export default function TonWiseScore() {
     useWiseHasWiseScore();
   const { data, isLoading } = useWiseScore();
   const [showGen, setShowGen] = useState(true);
+  const wiseTag = getWiseTag(data?.totalScore ?? 0);
   if (wiseStatusIsLoading) {
     return <Loading />;
   }
@@ -46,6 +47,7 @@ export default function TonWiseScore() {
         <Generating
           hasWiseScoreRes={hasWiseScoreRes}
           data={data}
+          wiseTag={wiseTag}
           hide={() => {
             setShowGen(false);
           }}
@@ -66,9 +68,7 @@ export default function TonWiseScore() {
               </div>
               <Link to="/wise-score/detail">
                 <div className="space-y-1 mb-2">
-                  <div className="text-color8 text-xs">
-                    {getWiseTag(data?.totalScore ?? 0)}
-                  </div>
+                  <div className="text-color8 text-xs">{wiseTag}</div>
                   <span className="flex items-center gap-x-1 text-xs rounded-md border border-white px-2 py-1">
                     <Trend />
                     Improve Now
