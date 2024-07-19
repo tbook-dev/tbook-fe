@@ -8,6 +8,9 @@ import Backeds from '@/images/wise/backeds.png';
 import LazyImage from '@/components/lazyImage';
 import { message } from 'antd';
 
+const REGEXP_ONLY_DIGITS_AND_CHARS_REG = new RegExp(
+  REGEXP_ONLY_DIGITS_AND_CHARS
+);
 function Slot(props) {
   return (
     <div
@@ -59,7 +62,7 @@ export default function Join() {
   const { refetch } = useWiseHasWiseScore();
   useEffect(() => {
     const inviteCode = getQueryParameter(window.location.href, 'inviteCode');
-    if (inviteCode) {
+    if (REGEXP_ONLY_DIGITS_AND_CHARS_REG.test(inviteCode)) {
       setCode(inviteCode);
       onComplete(inviteCode);
     }

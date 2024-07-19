@@ -11,7 +11,6 @@ import useUserInfoQuery from './useUserInfoQuery';
 import { getDirectLink } from '@/utils/tma';
 import { useCallback, useMemo } from 'react';
 import WebApp from '@twa-dev/sdk';
-import { TG_BOT_NAME } from '@/utils/tma';
 import { useEffect } from 'react';
 
 export default function useWiseScore() {
@@ -90,12 +89,31 @@ export const useRangerReport = () => {
     reportRangerShareFn,
   };
 };
-
+// api display
+export const useWiseCreditInviteFriends = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  const { data, ...p } = useQuery(
+    'wise-credit-invite-friends',
+    getInvitedCreditFriends,
+    {
+      enabled: !!userId,
+      refetchOnMount: false,
+    }
+  );
+  return {
+    data,
+    ...p,
+    inviteCode: data?.entity?.inviteCode,
+    invitedList: data?.data?.invitedList ?? [],
+  };
+};
 // drawer
 export const useWiseCreditInvite = () => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
-  const inviteLink = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
+  const { inviteCode } = useWiseCreditInviteFriends();
+  const inviteLink = getDirectLink([3, inviteCode]);
   const rawText = [
     `🎁I have obtained the WISE Credential  and 🎉 improved my WISE Credit Score.`,
     `\n🔥Come on to obtain yours!`,
@@ -117,25 +135,6 @@ export const useWiseCreditInvite = () => {
     shareText: shareLink,
     rawText,
     inviteLink,
-  };
-};
-
-// api display
-export const useWiseCreditInviteFriends = () => {
-  const { user } = useUserInfoQuery();
-  const userId = user?.userId;
-  const { data, ...p } = useQuery(
-    'wise-credit-invite-friends',
-    getInvitedCreditFriends,
-    {
-      enabled: !!userId,
-    }
-  );
-  return {
-    data,
-    ...p,
-    inviteCode: data?.data?.inviteCode,
-    invitedList: data?.data?.invitedList ?? [],
   };
 };
 

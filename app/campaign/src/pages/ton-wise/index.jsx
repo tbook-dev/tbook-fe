@@ -4,8 +4,6 @@ import Trend from '@/images/icon/svgr/trend.svg?react';
 import { Link } from 'react-router-dom';
 import Privilege from './components/privilege';
 import Invite from './components/invite';
-import UserScore from './components/userScore';
-import ArrowIcon from '@/images/icon/svgr/arrow.svg?react';
 import Loading from '@/components/loading';
 import Join from './components/join';
 import Generating from './generating';
@@ -53,45 +51,36 @@ export default function TonWiseScore() {
           }}
         />
       ) : hasWiseScoreRes ? (
-        <>
-          <div className="space-y-5">
-            <h2 className="text-2xl font-light">WISE Credit Score</h2>
-            <div className="flex items-end gap-x-4">
-              <div className="flex">
-                {isLoading ? (
-                  <span className="animate-pulse bg-[#1f1f1f] w-40 h-20" />
-                ) : (
-                  <span className="text-color8 text-[80px] leading-[80px]">
-                    {formatImpact(data?.totalScore ?? 0)}
-                  </span>
-                )}
-              </div>
-              <Link to="/wise-score/detail">
-                <div className="space-y-1 mb-2">
-                  <div className="text-color8 text-xs">{wiseTag}</div>
-                  <span className="flex items-center gap-x-1 text-xs rounded-md border border-white px-2 py-1">
-                    <Trend />
-                    Improve Now
-                  </span>
+        <div className="pb-10 space-y-6">
+          <div className="space-y-8">
+            <div className="space-y-5">
+              <h2 className="text-2xl font-light">WISE Credit Score</h2>
+              <div className="flex items-end gap-x-4">
+                <div className="flex">
+                  {isLoading ? (
+                    <span className="animate-pulse bg-[#1f1f1f] w-40 h-20" />
+                  ) : (
+                    <span className="text-color8 text-[80px] leading-[80px]">
+                      {formatImpact(data?.totalScore ?? 0)}
+                    </span>
+                  )}
                 </div>
-              </Link>
-            </div>
-          </div>
-
-          <div className="space-y-6 pb-10">
-            <Privilege />
-            <Invite />
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <h2 className="text-sm text-white/40">LEADERBOARD </h2>
-                <Link to="/wise-score/leaderboard">
-                  <ArrowIcon stroke="#7a7a7a" />
+                <Link to="/wise-score/detail">
+                  <div className="space-y-1 mb-2">
+                    <div className="text-color8 text-xs">{wiseTag}</div>
+                    <span className="flex items-center gap-x-1 text-xs rounded-md border border-white px-2 py-1">
+                      <Trend />
+                      Improve Now
+                    </span>
+                  </div>
                 </Link>
               </div>
-              <UserScore className="bg-white/5" />
             </div>
+            <Invite />
           </div>
-        </>
+
+          <Privilege />
+        </div>
       ) : (
         <Join />
       )}
