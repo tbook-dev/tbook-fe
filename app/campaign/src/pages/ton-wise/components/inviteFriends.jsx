@@ -6,7 +6,7 @@ import CopyIcon from '@/images/icon/svgr/copy.svg?react';
 import { Typography } from 'antd';
 const { Paragraph } = Typography;
 
-export default function Friends() {
+export default function InviteFriends() {
   const { inviteCode, invitedList, isLoading } = useWiseCreditInviteFriends();
   const { rawText } = useWiseCreditInvite();
   return (

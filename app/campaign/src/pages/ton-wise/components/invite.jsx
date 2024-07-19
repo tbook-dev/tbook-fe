@@ -2,52 +2,15 @@ import { useState } from 'react';
 import ShareDrawer from '@/components/drawer/share';
 import Button from './button';
 import TgIcon from '@/images/icon/svgr/tg.svg?react';
-import CopyIcon from '@/images/icon/svgr/copy.svg?react';
-import { Typography } from 'antd';
-import {
-  useWiseCreditInviteFriends,
-  useWiseCreditInvite,
-} from '@/hooks/useWiseScore';
-import { useCallback } from 'react';
+import { useWiseCreditInvite } from '@/hooks/useWiseScore';
 import tpointIcon from '@/images/wise/prize/tpoint.png';
-
-const { Paragraph } = Typography;
+import InviteFriends from './inviteFriends';
 
 export default function Invite() {
   const [open, setOpen] = useState(false);
-  const { inviteCode, invitedList, isLoading } = useWiseCreditInviteFriends();
   const { shareToChat, inviteLink, rawText, inviteTgUserFn } =
     useWiseCreditInvite();
-  const Friends = useCallback(() => {
-    return (
-      <div className="flex items-center justify-between">
-        <div className="flex items-center -space-x-3">
-          {isLoading ? (
-            <span className="size-7 rounded-full bg-white/10 animate-spin" />
-          ) : (
-            invitedList.map((v) => {
-              return (
-                <img
-                  src={v.avator}
-                  className="size-7 rounded-full object-center"
-                  key={v.userId}
-                />
-              );
-            })
-          )}
-          {invitedList.length < 3 && (
-            <span className="size-7 rounded-full bg-white/10 flex justify-center items-center">
-              +
-            </span>
-          )}
-        </div>
 
-        <div className="text-xs font-thin">
-          {invitedList.length}/3 Friends generated
-        </div>
-      </div>
-    );
-  }, [isLoading, invitedList]);
   return (
     <>
       <div className="py-3 px-4 bg-white/5 rounded-lg space-y-1.5">
@@ -90,30 +53,7 @@ export default function Invite() {
             Invite & Earn
           </h2>
 
-          <div className="py-3 px-4 bg-white/5 rounded-lg space-y-3">
-            <Paragraph
-              copyable={{
-                text: rawText,
-                icon: <CopyIcon />,
-              }}
-              className="flex justify-between gap-x-1"
-              style={{
-                marginBottom: 0,
-              }}
-            >
-              {isLoading ? (
-                <span className="animate-spin bg-[#1f1f1f] w-12 h-6">
-                  {inviteCode}
-                </span>
-              ) : (
-                <span className="text-base font-medium text-white">
-                  {inviteCode}
-                </span>
-              )}
-            </Paragraph>
-
-            <Friends />
-          </div>
+          <InviteFriends />
 
           <div className="text-center text-base">
             The invite code is valid for 3 users.Each invitee generating WISE
