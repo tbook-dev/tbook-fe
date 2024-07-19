@@ -39,7 +39,7 @@ export default function UserScore({ className }) {
     <div
       className={cn(
         'flex items-center justify-between',
-        'rounded-lg px-5 py-2',
+        'rounded-xl px-5 py-2',
         className
       )}
     >

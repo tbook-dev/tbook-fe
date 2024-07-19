@@ -8,6 +8,7 @@ import Loading from '@/components/loading';
 import Join from './components/join';
 import Generating from './generating';
 import { useState } from 'react';
+import BottomNav from './components/bottomNav';
 const getWiseTag = (value) => {
   // Novice(<20K)
   // Adept(20-50K)
@@ -80,6 +81,7 @@ export default function TonWiseScore() {
           </div>
 
           <Privilege />
+          <BottomNav />
         </div>
       ) : (
         <Join />
