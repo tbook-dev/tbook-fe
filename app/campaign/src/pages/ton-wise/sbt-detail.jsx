@@ -1,9 +1,10 @@
 import Nav from './components/nav';
-import sbtPNG from '@/images/wise/rewards/sbt.png';
-import Sbt2kIcon from '@/images/icon/svgr/sbt2k.svg?react';
-import Sbt5kIcon from '@/images/icon/svgr/sbt5k.svg?react';
-import Sbt20kIcon from '@/images/icon/svgr/sbt20k.svg?react';
-import Sbt50kIcon from '@/images/icon/svgr/sbt50k.svg?react';
+import SBTIcon from '@/images/icon/svgr/sbt.svg?react';
+import SBT20KIcon from '@/images/icon/svgr/sbt20K.svg?react';
+import SBT50KIcon from '@/images/icon/svgr/sbt50K.svg?react';
+import SBT200KIcon from '@/images/icon/svgr/sbt200K.svg?react';
+import SBT500KIcon from '@/images/icon/svgr/sbt500K.svg?react';
+import SBT1MIcon from '@/images/icon/svgr/sbt1M.svg?react';
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from './components/button';
@@ -26,33 +27,39 @@ export default function SBTDetail() {
     return [
       {
         text: 'WISE SBT I',
-        img: <img src={sbtPNG} className="size-[200px]" />,
+        img: <SBTIcon className="size-[200px]" />,
         isOpen: true,
         type: 1,
       },
       {
         text: 'WISE Credit SBT',
-        img: <Sbt2kIcon width="200px" height="200px" />,
+        img: <SBT20KIcon className="size-[200px]" />,
         isOpen: false,
         type: 2,
       },
       {
         text: 'WISE Credit SBT',
-        img: <Sbt5kIcon width="200px" height="200px" />,
+        img: <SBT50KIcon className="size-[200px]" />,
         isOpen: false,
         type: 3,
       },
       {
         text: 'WISE Credit SBT',
-        img: <Sbt20kIcon width="200px" height="200px" />,
+        img: <SBT200KIcon className="size-[200px]" />,
         isOpen: false,
         type: 4,
       },
       {
         text: 'WISE Credit SBT',
-        img: <Sbt50kIcon width="200px" height="200px" />,
+        img: <SBT500KIcon className="size-[200px]" />,
         isOpen: false,
         type: 5,
+      },
+      {
+        text: 'WISE Credit SBT',
+        img: <SBT1MIcon className="size-[200px]" />,
+        isOpen: false,
+        type: 6,
       },
     ];
   }, []);

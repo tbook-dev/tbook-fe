@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import sbtPNG from '@/images/wise/rewards/sbt.png';
+import SBTIcon from '@/images/icon/svgr/sbt.svg?react';
+
 import { Link } from 'react-router-dom';
 export default function Privilege() {
   const list = useMemo(() => {
@@ -8,7 +9,7 @@ export default function Privilege() {
         text: 'WISE SBT',
         img: (
           <Link to="/wise-score/sbt">
-            <img src={sbtPNG} className="size-[30px]" />
+            <SBTIcon className="size-[30px]" />
           </Link>
         ),
       },

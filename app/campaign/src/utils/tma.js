@@ -17,6 +17,11 @@ export function safeParse(start_param) {
         type,
         projectUrl: p[0],
       };
+    } else if (type === 3) {
+      return {
+        type,
+        inviteCode: p[1],
+      };
     } else {
       return {
         type,

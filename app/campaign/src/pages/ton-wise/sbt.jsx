@@ -1,9 +1,10 @@
 import Nav from './components/nav';
-import sbtPNG from '@/images/wise/rewards/sbt.png';
-import Sbt2kIcon from '@/images/icon/svgr/sbt2k.svg?react';
-import Sbt5kIcon from '@/images/icon/svgr/sbt5k.svg?react';
-import Sbt20kIcon from '@/images/icon/svgr/sbt20k.svg?react';
-import Sbt50kIcon from '@/images/icon/svgr/sbt50k.svg?react';
+import SBTIcon from '@/images/icon/svgr/sbt.svg?react';
+import SBT20KIcon from '@/images/icon/svgr/sbt20K.svg?react';
+import SBT50KIcon from '@/images/icon/svgr/sbt50K.svg?react';
+import SBT200KIcon from '@/images/icon/svgr/sbt200K.svg?react';
+import SBT500KIcon from '@/images/icon/svgr/sbt500K.svg?react';
+import SBT1MIcon from '@/images/icon/svgr/sbt1M.svg?react';
 import { useMemo } from 'react';
 import { cn } from '@/utils/conf';
 import { useNavigate } from 'react-router-dom';
@@ -30,33 +31,39 @@ export default function SBT() {
     return [
       {
         text: 'WISE SBT I',
-        img: <img src={sbtPNG} className="size-16" />,
+        img: <SBTIcon className="size-16" />,
         isOpen: true,
         type: 1,
       },
       {
         text: 'WISE Credit SBT',
-        img: <Sbt2kIcon width="64px" height="64px" />,
+        img: <SBT20KIcon className="size-16" />,
         isOpen: false,
         type: 2,
       },
       {
         text: 'WISE Credit SBT',
-        img: <Sbt5kIcon />,
+        img: <SBT50KIcon className="size-16" />,
         isOpen: false,
         type: 3,
       },
       {
         text: 'WISE Credit SBT',
-        img: <Sbt20kIcon />,
+        img: <SBT200KIcon className="size-16" />,
         isOpen: false,
         type: 4,
       },
       {
         text: 'WISE Credit SBT',
-        img: <Sbt50kIcon />,
+        img: <SBT500KIcon className="size-16" />,
         isOpen: false,
         type: 5,
+      },
+      {
+        text: 'WISE Credit SBT',
+        img: <SBT1MIcon className="size-16" />,
+        isOpen: false,
+        type: 6,
       },
     ];
   }, []);
@@ -66,7 +73,7 @@ export default function SBT() {
 
       <div className="flex flex-col items-center gap-y-3">
         <div className="relative">
-          <img src={sbtPNG} className="size-[150px]" />
+          <SBTIcon className="size-[150px]" />
           <Tag className="absolute top-0 -right-10" />
         </div>
         <div>

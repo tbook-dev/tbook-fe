@@ -297,20 +297,23 @@ export const checkTask = async function (taskName) {
   });
 };
 export const getInvitedCreditFriends = async function () {
-  return {
-    data: {
-      inviteCode: 'TB8729',
-      count: 1,
-      invitedList: [
-        {
-          userId: 12,
-          avator: '/src/images/icon/logo.svg',
-        },
-      ],
-    },
-  };
+  // return {
+  //   data: {
+  //     inviteCode: 'TB8729',
+  //     count: 1,
+  //     invitedList: [
+  //       {
+  //         userId: 12,
+  //         avator: '/src/images/icon/logo.svg',
+  //       },
+  //     ],
+  //   },
+  // };
+  return await request.Get(`${host}/wise-score-invite/my-code`);
 };
-
+export const applyCode = async function (data) {
+  return await request.PostFormV1(`${host}/wise-score-invite/apply-code`, data);
+};
 export const getWiseScoreStatus = async function (userId) {
   const res = await request.Get(`${host}/wiseScore/check/${userId}`);
   return res?.code === 200;

@@ -50,45 +50,18 @@ export default function Invite() {
   }, [isLoading, invitedList]);
   return (
     <>
-      <div className="space-y-2">
-        <h2 className="text-sm text-white/40">
-          Invite Friends to Generate WISE Credit
-        </h2>
-        <div className="py-3 px-4 bg-white/5 rounded-lg space-y-1.5">
-          <div className="flex items-center justify-between">
-            <Paragraph
-              copyable={{
-                text: rawText,
-                icon: <CopyIcon />,
-              }}
-              className="flex justify-between gap-x-1"
-              style={{
-                marginBottom: 0,
-              }}
-            >
-              {isLoading ? (
-                <span className="animate-spin bg-[#1f1f1f] w-12 h-6">
-                  {inviteCode}
-                </span>
-              ) : (
-                <span className="text-base font-medium text-white">
-                  {inviteCode}
-                </span>
-              )}
-            </Paragraph>
-            <Button
-              className="flex items-center gap-x-1.5 px-2 text-xs btn-click"
-              onClick={() => {
-                setOpen(true);
-              }}
-            >
-              <TgIcon width="16px" height="16px" />
-              Invite
-            </Button>
-          </div>
-
-          <Friends />
-        </div>
+      <div className="py-3 px-4 bg-white/5 rounded-lg space-y-1.5">
+        <h2 className="text-base font-medium">TBook Community</h2>
+        <p className="text-xs font-thin">Keep updated for your WISE Credit!</p>
+        <Button
+          className="flex items-center gap-x-1.5 px-2 text-xs btn-click"
+          onClick={() => {
+            setOpen(true);
+          }}
+        >
+          <TgIcon width="16px" height="16px" />
+          Join
+        </Button>
       </div>
 
       <ShareDrawer

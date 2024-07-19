@@ -1,12 +1,16 @@
 import { OTPInput, REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
 import { cn } from '@/utils/conf';
-import { useState } from 'react';
+import { getQueryParameter } from '@/utils/tma';
+import { useState, useEffect } from 'react';
 import Button from './button';
-import { useJoinMutation } from '@/hooks/useWiseScore';
+import { useJoinMutation, useWiseHasWiseScore } from '@/hooks/useWiseScore';
 import Backeds from '@/images/wise/backeds.png';
 import LazyImage from '@/components/lazyImage';
 import { message } from 'antd';
 
+const REGEXP_ONLY_DIGITS_AND_CHARS_REG = new RegExp(
+  REGEXP_ONLY_DIGITS_AND_CHARS
+);
 function Slot(props) {
   return (
     <div
@@ -55,10 +59,21 @@ export default function Join() {
   const [code, setCode] = useState('');
   const mutation = useJoinMutation();
   const [messageAPI, messageContext] = message.useMessage();
+  const { refetch } = useWiseHasWiseScore();
+  useEffect(() => {
+    const inviteCode = getQueryParameter(window.location.href, 'inviteCode');
+    if (REGEXP_ONLY_DIGITS_AND_CHARS_REG.test(inviteCode)) {
+      setCode(inviteCode);
+      onComplete(inviteCode);
+    }
+  }, []);
   const onComplete = async (val) => {
     const res = await mutation.mutateAsync({ code: val });
-    console.log({ res });
-    messageAPI.error('error code');
+    if (!res.success) {
+      await refetch();
+    } else {
+      messageAPI.error(res.message ?? 'unknown error!');
+    }
   };
   return (
     <div className="space-y-10">

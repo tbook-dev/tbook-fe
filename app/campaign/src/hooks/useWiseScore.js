@@ -1,16 +1,17 @@
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import {
   getWiseScore,
   reportRangerShare,
   getInvitedCreditFriends,
   getWiseScoreStatus,
   mintSBT,
+  applyCode,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
 import { getDirectLink } from '@/utils/tma';
 import { useCallback, useMemo } from 'react';
 import WebApp from '@twa-dev/sdk';
-import { TG_BOT_NAME } from '@/utils/tma';
+import { useEffect } from 'react';
 
 export default function useWiseScore() {
   const { user } = useUserInfoQuery();
@@ -20,8 +21,9 @@ export default function useWiseScore() {
     {
       // retry: false,
       enabled: !!user.userId,
-      retryOnMount: false,
-      refetchOnMount: false,
+      // retryOnMount: false,
+      // refetchOnMount: false,
+      staleTime: Infinity,
     }
   );
   return {
@@ -87,12 +89,31 @@ export const useRangerReport = () => {
     reportRangerShareFn,
   };
 };
-
+// api display
+export const useWiseCreditInviteFriends = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  const { data, ...p } = useQuery(
+    'wise-credit-invite-friends',
+    getInvitedCreditFriends,
+    {
+      enabled: !!userId,
+      refetchOnMount: false,
+    }
+  );
+  return {
+    data,
+    ...p,
+    inviteCode: data?.entity?.inviteCode,
+    invitedList: data?.data?.invitedList ?? [],
+  };
+};
 // drawer
 export const useWiseCreditInvite = () => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
-  const inviteLink = `https://t.me/${TG_BOT_NAME}?start=${userId}`;
+  const { inviteCode } = useWiseCreditInviteFriends();
+  const inviteLink = getDirectLink([3, inviteCode]);
   const rawText = [
     `🎁I have obtained the WISE Credential  and 🎉 improved my WISE Credit Score.`,
     `\n🔥Come on to obtain yours!`,
@@ -117,43 +138,30 @@ export const useWiseCreditInvite = () => {
   };
 };
 
-// api display
-export const useWiseCreditInviteFriends = () => {
+export const useWiseHasWiseScore = () => {
+  const queryClient = useQueryClient();
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
   const { data, ...p } = useQuery(
-    'wise-credit-invite-friends',
-    getInvitedCreditFriends,
+    'wise-has-wise-score',
+    () => getWiseScoreStatus(userId),
     {
       enabled: !!userId,
+      refetchOnMount: false,
     }
   );
-  return {
-    data,
-    ...p,
-    inviteCode: data?.data?.inviteCode,
-    invitedList: data?.data?.invitedList ?? [],
-  };
-};
-
-export const useWiseHasWiseScore = () => {
-  const { user } = useUserInfoQuery();
-  const userId = user?.userId;
-  return useQuery('wise-has-wise-score', () => getWiseScoreStatus(userId), {
-    enabled: !!userId,
-  });
+  useEffect(() => {
+    if (data) {
+      queryClient.setQueryDefaults('wise-has-wise-score', {
+        staleTime: Infinity,
+      });
+    }
+  }, [data]);
+  return { data, ...p };
 };
 
 export const useJoinMutation = () => {
-  // react-qeury mutation
-  return useMutation(
-    (data) =>
-      new Promise((r) => {
-        setTimeout(() => {
-          r(true);
-        }, 3000);
-      })
-  );
+  return useMutation((data) => applyCode(data));
 };
 
 export const useMintSBTMutation = () => {
