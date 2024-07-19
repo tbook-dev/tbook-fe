@@ -139,7 +139,7 @@ export default function Generating({ data, hasWiseScoreRes, wiseTag, hide }) {
         ),
       },
       {
-        show: data?.identityScore?.tgPremiumScore >= 0,
+        show: data?.identityScore?.tgPremiumScore > 0,
         key: 'tg-premium',
         content: ({ next }) => (
           <div className="relative px-4 h-full pb-10 flex flex-col justify-center">
@@ -162,7 +162,7 @@ export default function Generating({ data, hasWiseScoreRes, wiseTag, hide }) {
         ),
       },
       {
-        show: data?.engagementScore?.notCoinTransactionScore >= 0,
+        show: data?.engagementScore?.notCoinTransactionScore > 0,
         key: 'notcoin-liquidity-provider',
         content: ({ next }) => (
           <div className="relative px-4 h-full pb-10 flex flex-col justify-center">
@@ -185,7 +185,7 @@ export default function Generating({ data, hasWiseScoreRes, wiseTag, hide }) {
         ),
       },
       {
-        show: data?.engagementScore?.tonTransactionsScore >= 0,
+        show: data?.engagementScore?.tonTransactionsScore > 0,
         key: 'ton-liquidity-provider',
         content: ({ next }) => (
           <div className="relative px-4 h-full pb-10 flex flex-col justify-center">
@@ -208,7 +208,7 @@ export default function Generating({ data, hasWiseScoreRes, wiseTag, hide }) {
         ),
       },
       {
-        show: data?.engagementScore?.tonTransactionsScore >= 0,
+        show: data?.socialScore?.score > 0,
         key: 'fans',
         content: ({ next }) => (
           <div className="relative px-4 h-full pb-10 flex flex-col justify-center">
@@ -218,7 +218,9 @@ export default function Generating({ data, hasWiseScoreRes, wiseTag, hide }) {
             <div className="flex flex-col items-center w-full gap-y-10">
               <div className="space-y-8 w-full flex flex-col items-center">
                 <div className="text-[150px] leading-[150px]">🌟</div>
-                <p className="text-xl">{formatImpact(10000)}</p>
+                <p className="text-xl">
+                  {formatImpact(data?.socialScore?.score ?? 0)} Fans
+                </p>
               </div>
             </div>
             <Button

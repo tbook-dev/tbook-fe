@@ -5,6 +5,7 @@ import {
   getInvitedCreditFriends,
   getWiseScoreStatus,
   mintSBT,
+  applyCode,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
 import { getDirectLink } from '@/utils/tma';
@@ -147,6 +148,7 @@ export const useWiseHasWiseScore = () => {
     () => getWiseScoreStatus(userId),
     {
       enabled: !!userId,
+      refetchOnMount: false,
     }
   );
   useEffect(() => {
@@ -160,15 +162,7 @@ export const useWiseHasWiseScore = () => {
 };
 
 export const useJoinMutation = () => {
-  // react-qeury mutation
-  return useMutation(
-    (data) =>
-      new Promise((r) => {
-        setTimeout(() => {
-          r(true);
-        }, 3000);
-      })
-  );
+  return useMutation((data) => applyCode(data));
 };
 
 export const useMintSBTMutation = () => {

@@ -302,7 +302,9 @@ export const getInvitedCreditFriends = async function () {
     },
   };
 };
-
+export const applyCode = async function (data) {
+  return await request.PostFormV1(`${host}/wise-score-invite/apply-code`, data);
+};
 export const getWiseScoreStatus = async function (userId) {
   const res = await request.Get(`${host}/wiseScore/check/${userId}`);
   return res?.code === 200;
