@@ -41,7 +41,7 @@ export default function TonWiseScore() {
   }
 
   return (
-    <div className="flex flex-col px-5 mt-3 lg:px-0 max-w-md mx-auto space-y-8">
+    <div className="flex flex-col px-5 mt-3 pb-20 lg:px-0 max-w-md mx-auto space-y-8">
       {showGen ? (
         <Generating
           hasWiseScoreRes={hasWiseScoreRes}

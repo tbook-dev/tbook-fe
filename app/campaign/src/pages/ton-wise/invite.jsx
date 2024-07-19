@@ -2,8 +2,15 @@ import BottomNav from './components/bottomNav';
 import InviteFriends from './components/inviteFriends';
 import Button from './components/button';
 import TgIcon from '@/images/icon/svgr/tg.svg?react';
+import { useWiseCreditInvite } from '@/hooks/useWiseScore';
+import ShareDrawer from '@/components/drawer/share';
+import { useState } from 'react';
+import tpointIcon from '@/images/wise/prize/tpoint.png';
 
 export default function Invite() {
+  const [open, setOpen] = useState(false);
+  const { shareToChat, inviteLink, rawText, inviteTgUserFn } =
+    useWiseCreditInvite();
   return (
     <div className="flex-auto w-full  pb-20  px-5 mt-3 lg:px-0 mx-auto">
       <div className="space-y-6">
@@ -13,11 +20,52 @@ export default function Invite() {
         </div>
         <InviteFriends />
       </div>
-      <Button className="h-10 w-[310px] absolute bottom-20 inset-x-0 mx-auto z-10 flex justify-center items-center gap-x-1.5 px-2 text-xs btn-click">
+      <Button
+        onClick={() => {
+          setOpen(true);
+        }}
+        className="h-10 w-[310px] absolute bottom-20 inset-x-0 mx-auto z-10 flex justify-center items-center gap-x-1.5 px-2 text-xs btn-click"
+      >
         <TgIcon width="16px" height="16px" />
         Invite friends
       </Button>
       <BottomNav />
+
+      <ShareDrawer
+        open={open}
+        onCancel={() => {
+          setOpen(false);
+        }}
+        shareToChat={shareToChat}
+        inviteLink={inviteLink}
+        rawText={rawText}
+        inviteTgUserFn={inviteTgUserFn}
+        ShareButton={
+          <button
+            onClick={() => {
+              inviteTgUserFn();
+            }}
+            className="rounded-md bg-[#904BF6] btn-click w-full flex items-center justify-center gap-x-1.5 h-10 text-xs font-bold font-syne"
+          >
+            <TgIcon />
+            Share invite link
+          </button>
+        }
+      >
+        <div className="space-y-6">
+          <h2 className="text-3xl font-bold font-syne text-center">
+            Invite & Earn
+          </h2>
+
+          <InviteFriends />
+
+          <div className="text-center text-base">
+            The invite code is valid for 3 users.Each invitee generating WISE
+            Credit, you’ll get 5,000
+            <img src={tpointIcon} className="size-5 ms-1 inline" />
+          </div>
+        </div>
+      </ShareDrawer>
     </div>
   );
 }
