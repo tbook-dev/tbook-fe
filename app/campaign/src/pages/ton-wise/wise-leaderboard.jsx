@@ -5,6 +5,7 @@ import ScoreItem from './components/scoreItem';
 import { useState } from 'react';
 import ArrowIcon from '@/images/icon/svgr/arrow.svg?react';
 import Nav from './components/nav';
+import BottomNav from './components/bottomNav';
 
 const pageSize = 10;
 export default function TonWiseLeaderboard() {
@@ -39,24 +40,23 @@ export default function TonWiseLeaderboard() {
           />
         </div>
       </Nav>
+      <div className="space-y-2">
+        <UserScore className="bg-white/10" />
 
-      {!data ? (
-        <div className="rounded-2xl py-3">
-          <LeaderboardSkeleton size={3} height="58px" />
-        </div>
-      ) : (
-        <div className="rounded-2xl py-3">
+        {!data ? (
+          <div className="rounded-2xl py-3">
+            <LeaderboardSkeleton size={3} height="58px" />
+          </div>
+        ) : (
           <div className="space-y-2">
             {pagedList?.map((v) => (
               <ScoreItem user={v} key={v.userId} />
             ))}
           </div>
-        </div>
-      )}
-
-      <div className="fixed inset-x-0 bottom-0 rounded-t-2xl backdrop-blur bg-white/10 px-8 pt-4 pb-16">
-        <UserScore />
+        )}
       </div>
+
+      <BottomNav />
     </div>
   );
 }

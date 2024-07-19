@@ -1,31 +1,35 @@
-import { useState } from 'react';
-import ShareDrawer from '@/components/drawer/share';
-import Button from './button';
+import BottomNav from './components/bottomNav';
+import InviteFriends from './components/inviteFriends';
+import Button from './components/button';
 import TgIcon from '@/images/icon/svgr/tg.svg?react';
 import { useWiseCreditInvite } from '@/hooks/useWiseScore';
+import ShareDrawer from '@/components/drawer/share';
+import { useState } from 'react';
 import tpointIcon from '@/images/wise/prize/tpoint.png';
-import InviteFriends from './inviteFriends';
 
 export default function Invite() {
   const [open, setOpen] = useState(false);
   const { shareToChat, inviteLink, rawText, inviteTgUserFn } =
     useWiseCreditInvite();
-
   return (
-    <>
-      <div className="py-3 px-4 bg-white/5 rounded-lg space-y-1.5">
-        <h2 className="text-base font-medium">TBook Community</h2>
-        <p className="text-xs font-thin">Keep updated for your WISE Credit!</p>
-        <Button
-          className="flex items-center gap-x-1.5 px-2 text-xs btn-click"
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          <TgIcon width="16px" height="16px" />
-          Join
-        </Button>
+    <div className="flex-auto w-full  pb-20  px-5 mt-3 lg:px-0 mx-auto">
+      <div className="space-y-6">
+        <div className="text-center">
+          <h2 className="text-2xl">Invite friends to</h2>
+          <h2 className="text-2xl">Earn more Rewards</h2>
+        </div>
+        <InviteFriends />
       </div>
+      <Button
+        onClick={() => {
+          setOpen(true);
+        }}
+        className="h-10 w-[310px] absolute bottom-20 inset-x-0 mx-auto z-10 flex justify-center items-center gap-x-1.5 px-2 text-xs btn-click"
+      >
+        <TgIcon width="16px" height="16px" />
+        Invite friends
+      </Button>
+      <BottomNav />
 
       <ShareDrawer
         open={open}
@@ -62,6 +66,6 @@ export default function Invite() {
           </div>
         </div>
       </ShareDrawer>
-    </>
+    </div>
   );
 }

@@ -8,6 +8,7 @@ import Loading from '@/components/loading';
 import Join from './components/join';
 import Generating from './generating';
 import { useState } from 'react';
+import BottomNav from './components/bottomNav';
 const getWiseTag = (value) => {
   // Novice(<20K)
   // Adept(20-50K)
@@ -40,7 +41,7 @@ export default function TonWiseScore() {
   }
 
   return (
-    <div className="flex flex-col px-5 mt-3 lg:px-0 max-w-md mx-auto space-y-8">
+    <div className="flex flex-col px-5 mt-3 pb-20 lg:px-0 max-w-md mx-auto space-y-8">
       {showGen ? (
         <Generating
           hasWiseScoreRes={hasWiseScoreRes}
@@ -80,6 +81,7 @@ export default function TonWiseScore() {
           </div>
 
           <Privilege />
+          <BottomNav />
         </div>
       ) : (
         <Join />
