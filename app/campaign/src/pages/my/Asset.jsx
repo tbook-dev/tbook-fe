@@ -25,7 +25,7 @@ const tabModule = [
     com: <Point />,
   },
 ];
-export default function Asset () {
+export default function Asset() {
   const { projectId } = useLoaderData();
   const { userLogined, isLoading: userLoading } = useUserInfoQuery();
   const { pathname } = useLocation();
@@ -34,16 +34,16 @@ export default function Asset () {
   // get filter from url
   const value =
     tabModule.find(
-      v => v.value == new URLSearchParams(location.search).get('type')
+      (v) => v.value == new URLSearchParams(location.search).get('type')
     )?.value || '1';
-  const setValue = v => {
+  const setValue = (v) => {
     navigate(`${pathname}?type=${v}`, { replace: true });
     window.sessionRoutesCount -= 1;
   };
   return (
-    <div className='space-y-8 w-page-content mx-auto'>
-      <div className='flex flex-col gap-y-4 lg:gap-y-8 pt-3 pb-4 px-4 lg:px-0 border-b border-[#160b25] lg:border-none'>
-        <h2 className='font-medium text-2xl lg:font-bold font-zen-dot'>
+    <div className="space-y-8 w-page-content mx-auto">
+      <div className="flex flex-col gap-y-4 lg:gap-y-8 pt-3 pb-4 px-4 lg:px-0 border-b border-[#160b25] lg:border-none">
+        <h2 className="font-medium text-2xl lg:font-bold font-zen-dot">
           Assets
         </h2>
         <TabList
@@ -54,14 +54,14 @@ export default function Asset () {
         />
       </div>
 
-      <div className='px-4 lg:px-0'>
+      <div className="px-4 lg:px-0">
         {userLoading ? (
           <Loading />
         ) : userLogined ? (
           isLoading ? (
             <Loading />
           ) : (
-            <div>{tabModule.find(v => v.value === value).com}</div>
+            <div>{tabModule.find((v) => v.value === value).com}</div>
           )
         ) : (
           <NotConnect />

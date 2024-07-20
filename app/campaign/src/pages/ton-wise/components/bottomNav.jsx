@@ -32,6 +32,7 @@ const BottomNav = ({ rootClassName }) => {
       {list.map((v, idx) => {
         return (
           <NavLink
+            replace
             end
             key={v.text}
             to={v.link}
@@ -40,6 +41,9 @@ const BottomNav = ({ rootClassName }) => {
               idx === 1 && 'justify-self-center',
               idx === 2 && 'justify-self-end'
             )}
+            onClick={() => {
+              window.sessionRoutesCount -= 1;
+            }}
           >
             {({ isActive }) => {
               return (
