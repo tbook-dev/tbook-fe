@@ -1,4 +1,8 @@
-import useWiseScore, { useWiseHasWiseScore } from '@/hooks/useWiseScore';
+import useWiseScore, {
+  useWiseHasWiseScore,
+  useWiseGobal,
+  useWiseGobalMutation,
+} from '@/hooks/useWiseScore';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import Trend from '@/images/icon/svgr/trend.svg?react';
 import { Link } from 'react-router-dom';
@@ -7,7 +11,7 @@ import Invite from './components/invite';
 import Loading from '@/components/loading';
 import Join from './components/join';
 import Generating from './generating';
-import { useState } from 'react';
+// import { useState } from 'react';
 import BottomNav from './components/bottomNav';
 const getWiseTag = (value) => {
   // Novice(<20K)
@@ -34,7 +38,8 @@ export default function TonWiseScore() {
   const { data: hasWiseScoreRes, isLoading: wiseStatusIsLoading } =
     useWiseHasWiseScore();
   const { data, isLoading } = useWiseScore();
-  const [showGen, setShowGen] = useState(true);
+  const { data: showGen } = useWiseGobal();
+  const setShowGen = useWiseGobalMutation();
   const wiseTag = getWiseTag(data?.totalScore ?? 0);
   if (wiseStatusIsLoading) {
     return <Loading />;

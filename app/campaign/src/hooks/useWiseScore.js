@@ -115,8 +115,8 @@ export const useWiseCreditInvite = () => {
   const { inviteCode } = useWiseCreditInviteFriends();
   const inviteLink = getDirectLink([3, inviteCode]);
   const rawText = [
-    `🎁I have obtained the WISE Credential  and 🎉 improved my WISE Credit Score.`,
-    `\n🔥Come on to obtain yours!`,
+    `Hey, I have an excellent WISE Credit Score 🌟🌟🌟`,
+    `\n🎖️Come on to calculate and improve yours!!`,
     inviteLink,
   ].join('\n');
   const shareLink = useMemo(() => {
@@ -168,4 +168,24 @@ export const useMintSBTMutation = () => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
   return useMutation(() => mintSBT(userId));
+};
+
+export const useWiseGobal = () => {
+  return useQuery(
+    'golbal:wise:showGen',
+    () => {
+      return true;
+    },
+    {
+      staleTime: Infinity,
+      initialData: true,
+    }
+  );
+};
+
+export const useWiseGobalMutation = () => {
+  const queryClient = useQueryClient();
+  return (v) => {
+    queryClient.setQueryData('golbal:wise:showGen', v);
+  };
 };
