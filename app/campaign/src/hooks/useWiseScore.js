@@ -134,7 +134,7 @@ export const useWiseCreditInvite = () => {
   }, [shareLink]);
   const shareToChat = useCallback(() => {
     // todo
-    WebApp.switchInlineQuery(`share:invite:${userId}`, [
+    WebApp.switchInlineQuery(`wise:invite:${userId}`, [
       'users',
       'bots',
       'groups',
