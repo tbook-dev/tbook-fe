@@ -289,18 +289,6 @@ export const checkTask = async function (taskName) {
   });
 };
 export const getInvitedCreditFriends = async function () {
-  // return {
-  //   data: {
-  //     inviteCode: 'TB8729',
-  //     count: 1,
-  //     invitedList: [
-  //       {
-  //         userId: 12,
-  //         avator: '/src/images/icon/logo.svg',
-  //       },
-  //     ],
-  //   },
-  // };
   return await request.Get(`${host}/wise-score-invite/my-code`);
 };
 export const applyCode = async function (data) {

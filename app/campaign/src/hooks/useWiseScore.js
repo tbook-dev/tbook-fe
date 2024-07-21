@@ -153,12 +153,11 @@ export const useWiseCreditInvite = () => {
 export const useWiseHasWiseScore = () => {
   const queryClient = useQueryClient();
   const { user } = useUserInfoQuery();
-  const userId = user?.userId;
   const { data, ...p } = useQuery(
     'wise-has-wise-score',
-    () => getWiseScoreStatus(userId),
+    () => getWiseScoreStatus(user?.userId),
     {
-      enabled: !!userId,
+      enabled: !!user?.userId,
       refetchOnMount: false,
     }
   );
