@@ -62,7 +62,10 @@ export default function Join() {
   const { refetch } = useWiseHasWiseScore();
   useEffect(() => {
     const inviteCode = getQueryParameter(window.location.href, 'inviteCode');
-    if (REGEXP_ONLY_DIGITS_AND_CHARS_REG.test(inviteCode) && inviteCode?.length === 6) {
+    if (
+      REGEXP_ONLY_DIGITS_AND_CHARS_REG.test(inviteCode) &&
+      inviteCode?.length === 6
+    ) {
       setCode(inviteCode);
       onComplete(inviteCode);
     }

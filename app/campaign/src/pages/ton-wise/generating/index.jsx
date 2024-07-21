@@ -16,16 +16,23 @@ import Check from './check';
 import clsx from 'clsx';
 
 export default function Generating({ data, hasWiseScoreRes, wiseTag, hide }) {
-  const [displayIdx, setDisplayIdx] = useState(0);
+  const [displayIdx, setDisplayIdx] = useState(-1);
   useEffect(() => {
-    if (!hasWiseScoreRes) {
+    if (hasWiseScoreRes === false) {
       hide();
     }
   }, [hasWiseScoreRes]);
   useEffect(() => {
-    if (data?.isFirstCreate === false) {
-      hide();
+    let timer;
+    if (data) {
+      if (data?.isFirstCreate === false) {
+        hide();
+      }
+      timer = setTimeout(() => {
+        setDisplayIdx(0);
+      }, 100);
     }
+    return () => clearTimeout(timer);
   }, [data]);
   const Loading = useCallback(({ className }) => {
     return (
@@ -273,12 +280,11 @@ export default function Generating({ data, hasWiseScoreRes, wiseTag, hide }) {
         };
       });
   }, [data]);
-  console.log({ data });
-
+  // console.log({ data });
   const CurrentFrame = frames.find((v) => v.idx === displayIdx);
   return (
     <div className="fixed inset-0 py-12">
-      {!data ? (
+      {displayIdx === -1 ? (
         <Loading className="animate-pulse" />
       ) : (
         CurrentFrame?.content && (

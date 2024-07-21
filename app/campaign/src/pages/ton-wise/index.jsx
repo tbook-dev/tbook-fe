@@ -41,7 +41,7 @@ export default function TonWiseScore() {
   const { data: showGen } = useWiseGobal();
   const setShowGen = useWiseGobalMutation();
   const wiseTag = getWiseTag(data?.totalScore ?? 0);
-  if (wiseStatusIsLoading) {
+  if (hasWiseScoreRes === undefined) {
     return <Loading />;
   }
 
