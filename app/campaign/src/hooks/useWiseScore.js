@@ -104,8 +104,10 @@ export const useWiseCreditInviteFriends = () => {
   return {
     data,
     ...p,
-    inviteCode: data?.entity?.inviteCode,
-    invitedList: data?.data?.invitedList ?? [],
+    inviteCode: data?.entity?.code,
+    totalTimes: data?.entity?.totalTimes ?? 3,
+    usedTimes: data?.entity?.usedTimes ?? 0,
+    invitedList: data?.entity?.invitees ?? [],
   };
 };
 // drawer
@@ -130,11 +132,21 @@ export const useWiseCreditInvite = () => {
     if (!shareLink) return;
     WebApp.openTelegramLink(shareLink);
   }, [shareLink]);
+  const shareToChat = useCallback(() => {
+    // todo
+    WebApp.switchInlineQuery(`share:invite:${userId}`, [
+      'users',
+      'bots',
+      'groups',
+      'channels',
+    ]);
+  }, [userId]);
   return {
     inviteTgUser,
     shareText: shareLink,
     rawText,
     inviteLink,
+    shareToChat,
   };
 };
 
