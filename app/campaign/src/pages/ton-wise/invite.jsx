@@ -2,7 +2,10 @@ import BottomNav from './components/bottomNav';
 import InviteFriends from './components/inviteFriends';
 import Button from './components/button';
 import TgIcon from '@/images/icon/svgr/tg.svg?react';
-import { useWiseCreditInvite } from '@/hooks/useWiseScore';
+import {
+  useWiseCreditInvite,
+  useWiseCreditInviteFriends,
+} from '@/hooks/useWiseScore';
 import ShareDrawer from '@/components/drawer/share';
 import { useState } from 'react';
 import tpointIcon from '@/images/wise/prize/tpoint.png';
@@ -11,6 +14,7 @@ export default function Invite() {
   const [open, setOpen] = useState(false);
   const { shareToChat, inviteLink, rawText, inviteTgUserFn } =
     useWiseCreditInvite();
+  const { invitedList } = useWiseCreditInviteFriends();
   return (
     <div className="flex-auto w-full  pb-20  px-5 mt-3 lg:px-0 mx-auto">
       <div className="space-y-6">
@@ -19,6 +23,29 @@ export default function Invite() {
           <h2 className="text-2xl">Earn more Rewards</h2>
         </div>
         <InviteFriends />
+
+        {invitedList.length > 0 && (
+          <div className="space-y-5">
+            <h2 className="text-base font-medium">Your rewards</h2>
+            {invitedList.map((v) => {
+              return (
+                <div
+                  key={v.userId}
+                  className="flex items-center justify-between"
+                >
+                  <div className="flex gap-x-2 items-center">
+                    <img src={v.avatar} className="size-8 rounded-full" />
+                    <div className="text-sm">
+                      @{v.useName}
+                      <p className="text-white/40 text-xs">New invitee</p>
+                    </div>
+                  </div>
+                  <h4 className="text-sm font-medium">+5,000 TPoints</h4>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
       <Button
         onClick={() => {

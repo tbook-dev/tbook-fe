@@ -89,7 +89,10 @@ export default function SBT() {
             return (
               <div
                 key={v.type}
-                className="flex items-center justify-center flex-col gap-y-1 relative"
+                className={cn(
+                  'flex items-center justify-center flex-col gap-y-1 relative',
+                  v.isOpen ? 'cursor-pointer' : 'cursor-not-allowed opacity-30'
+                )}
                 onClick={() => {
                   if (v.isOpen) {
                     navigate(`/wise-score/sbt/${v.type}`);

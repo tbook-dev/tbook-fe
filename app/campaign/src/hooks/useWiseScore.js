@@ -104,8 +104,10 @@ export const useWiseCreditInviteFriends = () => {
   return {
     data,
     ...p,
-    inviteCode: data?.entity?.inviteCode,
-    invitedList: data?.data?.invitedList ?? [],
+    inviteCode: data?.entity?.code,
+    totalTimes: data?.entity?.totalTimes ?? 3,
+    usedTimes: data?.entity?.usedTimes ?? 0,
+    invitedList: data?.entity?.invitees ?? [],
   };
 };
 // drawer
@@ -130,23 +132,32 @@ export const useWiseCreditInvite = () => {
     if (!shareLink) return;
     WebApp.openTelegramLink(shareLink);
   }, [shareLink]);
+  const shareToChat = useCallback(() => {
+    // todo
+    WebApp.switchInlineQuery(`wise:invite:${userId}`, [
+      'users',
+      'bots',
+      'groups',
+      'channels',
+    ]);
+  }, [userId]);
   return {
     inviteTgUser,
     shareText: shareLink,
     rawText,
     inviteLink,
+    shareToChat,
   };
 };
 
 export const useWiseHasWiseScore = () => {
   const queryClient = useQueryClient();
   const { user } = useUserInfoQuery();
-  const userId = user?.userId;
   const { data, ...p } = useQuery(
     'wise-has-wise-score',
-    () => getWiseScoreStatus(userId),
+    () => getWiseScoreStatus(user?.userId),
     {
-      enabled: !!userId,
+      enabled: !!user?.userId,
       refetchOnMount: false,
     }
   );

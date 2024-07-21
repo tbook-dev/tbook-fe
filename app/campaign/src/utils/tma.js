@@ -20,7 +20,7 @@ export function safeParse(start_param) {
     } else if (type === 3) {
       return {
         type,
-        inviteCode: p[1],
+        inviteCode: p[0],
       };
     } else {
       return {
