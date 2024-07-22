@@ -3,11 +3,14 @@ import { cn } from '@/utils/conf';
 import { getQueryParameter } from '@/utils/tma';
 import { useState, useEffect } from 'react';
 import Button from './components/button';
-import { useJoinMutation } from '@/hooks/useWiseScore';
+import { useJoinMutation, useWiseHasWiseScore } from '@/hooks/useWiseScore';
 import Backeds from '@/images/wise/backeds.png';
 import LazyImage from '@/components/lazyImage';
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import Loading from '@/components/loading';
+import WebApp from '@twa-dev/sdk';
+import { VITE_TBOOK_TG_CHANNEL } from '@/utils/tma';
 
 const REGEXP_ONLY_DIGITS_AND_CHARS_REG = new RegExp(
   REGEXP_ONLY_DIGITS_AND_CHARS
@@ -40,13 +43,13 @@ function FakeCaret() {
   );
 }
 
-export function VerifyOTP({ value, onChange, onComplete }) {
+export function VerifyOTP({ value, onChange }) {
   return (
     <OTPInput
       maxLength={6}
       containerClassName="group grid grid-cols-6 gap-x-2 font-zen-dot has-[:disabled]:opacity-30"
       onChange={onChange}
-      onComplete={onComplete}
+      // onComplete={onComplete}
       autoFocus
       value={value}
       pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
@@ -62,49 +65,66 @@ export default function Join() {
   const mutation = useJoinMutation();
   const [messageAPI, messageContext] = message.useMessage();
   const navigate = useNavigate();
-
+  const { data: hasWiseScoreRes, refetch } = useWiseHasWiseScore();
   useEffect(() => {
     const inviteCode = getQueryParameter(window.location.href, 'inviteCode');
     if (
       REGEXP_ONLY_DIGITS_AND_CHARS_REG.test(inviteCode) &&
-      inviteCode?.length === 6
+      inviteCode?.length === 6 &&
+      hasWiseScoreRes === false
     ) {
       setCode(inviteCode);
       // onComplete(inviteCode);
     }
-  }, []);
+  }, [hasWiseScoreRes]);
   const onComplete = async (val) => {
     const res = await mutation.mutateAsync({ code: val });
     if (res.success) {
+      await refetch();
       navigate('/wise-score');
     } else {
       messageAPI.error(res.message ?? 'unknown error!');
     }
   };
+  const handleClick = () => {
+    WebApp.openTelegramLink(VITE_TBOOK_TG_CHANNEL);
+  };
+
+  if (hasWiseScoreRes === undefined) {
+    return <Loading />;
+  } else if (hasWiseScoreRes === true) {
+    navigate('/wise-score', { replace: true });
+    window.sessionRoutesCount -= 1;
+  }
   return (
-    <div className="flex flex-col px-5 mt-3 pb-20 lg:px-0 max-w-md mx-auto space-y-10">
-      <div className="space-y-2 text-center font-thin">
-        <h2 className="text-white text-2xl">Generate WISE Credit Score</h2>
-        <p className="text-white/60 text-base">
-          Enter invitation code to join the most powerful credit network on TON
-        </p>
+    hasWiseScoreRes === false && (
+      <div className="flex flex-col px-5 mt-3 pb-20 lg:px-0 max-w-md mx-auto space-y-10">
+        <div className="space-y-2 text-center font-thin">
+          <h2 className="text-white text-2xl">Generate WISE Credit Score</h2>
+          <p className="text-white/60 text-base">
+            Find an invitation code from your friends or TBook official channel
+            <button className="text-[#007AFF] ms-1" onClick={handleClick}>
+              @tbookincentive
+            </button>
+          </p>
+        </div>
+        <div className="space-y-3">
+          <VerifyOTP value={code} onChange={setCode} />
+          <Button
+            className="w-full h-10"
+            disabled={code.length !== 6 || mutation.isLoading}
+            isLoading={mutation.isLoading}
+            onClick={() => onComplete(code)}
+          >
+            Join Credit Network
+          </Button>
+        </div>
+        <div className="space-y-6">
+          <h2 className="text-base">BACKED BY</h2>
+          <LazyImage src={Backeds} className="w-full aspect-[323/168]" />
+        </div>
+        {messageContext}
       </div>
-      <div className="space-y-3">
-        <VerifyOTP value={code} onChange={setCode} onComplete={onComplete} />
-        <Button
-          className="w-full h-10"
-          disabled={code.length !== 6 || mutation.isLoading}
-          isLoading={mutation.isLoading}
-          onClick={() => onComplete(code)}
-        >
-          Join Credit Network
-        </Button>
-      </div>
-      <div className="space-y-6">
-        <h2 className="text-base">BACKED BY</h2>
-        <LazyImage src={Backeds} className="w-full aspect-[323/168]" />
-      </div>
-      {messageContext}
-    </div>
+    )
   );
 }
