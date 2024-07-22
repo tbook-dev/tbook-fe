@@ -34,7 +34,7 @@ const getWiseTag = (value) => {
     return 'Apex';
   }
 };
-export default function TonWiseScore() {
+export default function TonWise() {
   const { data: hasWiseScoreRes } = useWiseHasWiseScore();
   const { data, isLoading } = useWiseScore({
     enabled: hasWiseScoreRes !== undefined,
@@ -46,7 +46,8 @@ export default function TonWiseScore() {
   if (hasWiseScoreRes === undefined) {
     return <Loading />;
   } else if (hasWiseScoreRes === false) {
-    navigate('/wise-score/join');
+    navigate('/wise-score/join', { replace: true });
+    window.sessionRoutesCount -= 1;
   }
 
   return (

@@ -90,3 +90,15 @@ export const removeQueryParameter = (url, paramName) => {
   }
   return urlObj.toString();
 };
+
+export const VITE_TBOOK_TG_CHANNEL = `https://t.me/${
+  import.meta.env.VITE_TBOOK_TG_CHANNEL
+}`;
+
+export const VITE_TBOOK_TG_GROUP = `https://t.me/${
+  import.meta.env.VITE_TBOOK_TG_GROUP
+}`;
+
+export const VITE_TBOOK_BOOST_TG_CHANNEL = `https://t.me/boost/${
+  import.meta.env.VITE_TBOOK_TG_GROUP
+}`;
