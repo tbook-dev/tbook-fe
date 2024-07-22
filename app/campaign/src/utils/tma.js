@@ -100,5 +100,5 @@ export const VITE_TBOOK_TG_GROUP = `https://t.me/${
 }`;
 
 export const VITE_TBOOK_BOOST_TG_CHANNEL = `https://t.me/boost/${
-  import.meta.env.VITE_TBOOK_TG_GROUP
+  import.meta.env.VITE_TBOOK_TG_CHANNEL
 }`;
