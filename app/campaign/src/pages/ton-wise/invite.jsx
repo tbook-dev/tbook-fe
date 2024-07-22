@@ -16,7 +16,7 @@ export default function Invite() {
     useWiseCreditInvite();
   const { invitedList } = useWiseCreditInviteFriends();
   return (
-    <div className="flex-auto w-full  pb-20  px-5 mt-3 lg:px-0 mx-auto">
+    <div className="flex-auto w-full pb-48  px-5 mt-3 lg:px-0 mx-auto">
       <div className="space-y-6">
         <div className="text-center">
           <h2 className="text-2xl">Invite friends to</h2>
@@ -51,7 +51,7 @@ export default function Invite() {
         onClick={() => {
           setOpen(true);
         }}
-        className="h-10 w-[310px] absolute bottom-20 inset-x-0 mx-auto z-10 flex justify-center items-center gap-x-1.5 px-2 text-xs btn-click"
+        className="h-10 w-[310px] fixed bottom-32 inset-x-0 mx-auto z-10 flex justify-center items-center gap-x-1.5 px-2 text-xs btn-click"
       >
         <TgIcon width="16px" height="16px" />
         Invite friends
