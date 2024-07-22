@@ -7,7 +7,7 @@ import ChatIcon from '@/images/icon/svgr/chat.svg?react';
 import CopyIcon from '@/images/icon/svgr/copy.svg?react';
 import MoreIcon from '@/images/icon/svgr/more.svg?react';
 
-export default function ShareDrawer ({
+export default function ShareDrawer({
   open,
   onCancel,
   children,
@@ -26,7 +26,7 @@ export default function ShareDrawer ({
     messageApi.open({
       icon: null,
       content: (
-        <div className='px-3 py-4 backdrop-blur-md rounded-xl'>{content}</div>
+        <div className="px-3 py-4 backdrop-blur-md rounded-xl">{content}</div>
       ),
       className: 'mt-10',
       onClose,
@@ -64,7 +64,7 @@ export default function ShareDrawer ({
             .then(() => {
               sucessFn?.();
             })
-            .catch(err => {
+            .catch((err) => {
               if (err.message?.includes('Permission denied')) {
                 openMessage(err.message);
               }
@@ -87,19 +87,19 @@ export default function ShareDrawer ({
       >
         {contextHolder}
       </ConfigProvider>
-      <div className='text-white bg-white/10 px-8 pt-8 pb-16  space-y-6 rounded-t-2.5xl border-t-2 border-[#FFEAB5]'>
-        <div className='space-y-3'>
+      <div className="text-white bg-white/10 px-8 pt-8 pb-16  space-y-6 rounded-t-2.5xl border-t-2 border-[#FFEAB5]">
+        <div className="space-y-3">
           {children}
 
-          <div className='pt-8 flex items-center justify-center gap-x-2 pb-3'>
-            {actionList.map(a => {
+          <div className="pt-8 flex items-center justify-center gap-x-2 pb-3">
+            {actionList.map((a) => {
               return (
                 <button
-                  className='btn-click w-1/3 flex flex-col items-center gap-y-1'
+                  className="btn-click w-1/3 flex flex-col items-center gap-y-1"
                   key={a.name}
                   onClick={a.onClick}
                 >
-                  <span className='size-10 rounded-full bg-[#FFDFA2]/10 flex items-center justify-center'>
+                  <span className="size-10 rounded-full bg-[#FFDFA2]/10 flex items-center justify-center">
                     {a.svg}
                   </span>
                   {a.name}
@@ -113,9 +113,9 @@ export default function ShareDrawer ({
           ) : (
             <button
               onClick={inviteTgUserFn}
-              className='relative font-syne border border-[#FFEAB5]  overflow-hidden rounded-lg bg-linear9 px-4 py-1.5 transition-all duration-75 ease-in group-active:[transform:translate3d(0,1px,0)] text-white btn-click flex items-center justify-center gap-x-1 text-xs w-full h-10'
+              className="relative font-syne border border-[#FFEAB5]  overflow-hidden rounded-lg bg-linear9 px-4 py-1.5 transition-all duration-75 ease-in group-active:[transform:translate3d(0,1px,0)] text-white btn-click flex items-center justify-center gap-x-1 text-xs w-full h-10"
             >
-              <TgIcon width='16px' height='16px' />
+              <TgIcon width="16px" height="16px" />
               Invite friends
             </button>
           )}

@@ -12,7 +12,7 @@ import tpointIcon from '@/images/wise/prize/tpoint.png';
 
 export default function Invite() {
   const [open, setOpen] = useState(false);
-  const { shareToChat, inviteLink, rawText, inviteTgUserFn } =
+  const { shareToChat, inviteLink, rawText, inviteTgUser } =
     useWiseCreditInvite();
   const { invitedList } = useWiseCreditInviteFriends();
   return (
@@ -66,11 +66,11 @@ export default function Invite() {
         shareToChat={shareToChat}
         inviteLink={inviteLink}
         rawText={rawText}
-        inviteTgUserFn={inviteTgUserFn}
+        inviteTgUserFn={inviteTgUser}
         ShareButton={
           <button
             onClick={() => {
-              inviteTgUserFn();
+              inviteTgUser();
             }}
             className="rounded-md bg-[#904BF6] btn-click w-full flex items-center justify-center gap-x-1.5 h-10 text-xs font-bold font-syne"
           >
