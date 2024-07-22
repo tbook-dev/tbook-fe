@@ -9,10 +9,10 @@ import { Link } from 'react-router-dom';
 import Privilege from './components/privilege';
 import Invite from './components/invite';
 import Loading from '@/components/loading';
-import Join from './components/join';
 import Generating from './generating';
-// import { useState } from 'react';
 import BottomNav from './components/bottomNav';
+import { useNavigate } from 'react-router-dom';
+
 const getWiseTag = (value) => {
   // Novice(<20K)
   // Adept(20-50K)
@@ -35,14 +35,18 @@ const getWiseTag = (value) => {
   }
 };
 export default function TonWiseScore() {
-  const { data: hasWiseScoreRes, isLoading: wiseStatusIsLoading } =
-    useWiseHasWiseScore();
-  const { data, isLoading } = useWiseScore();
+  const { data: hasWiseScoreRes } = useWiseHasWiseScore();
+  const { data, isLoading } = useWiseScore({
+    enabled: hasWiseScoreRes !== undefined,
+  });
   const { data: showGen } = useWiseGobal();
   const setShowGen = useWiseGobalMutation();
   const wiseTag = getWiseTag(data?.totalScore ?? 0);
+  const navigate = useNavigate();
   if (hasWiseScoreRes === undefined) {
     return <Loading />;
+  } else if (hasWiseScoreRes === false) {
+    navigate('/wise-score/join');
   }
 
   return (
@@ -56,7 +60,7 @@ export default function TonWiseScore() {
             setShowGen(false);
           }}
         />
-      ) : hasWiseScoreRes ? (
+      ) : (
         <div className="pb-10 space-y-6">
           <div className="space-y-8">
             <div className="space-y-5">
@@ -88,8 +92,6 @@ export default function TonWiseScore() {
           <Privilege />
           <BottomNav />
         </div>
-      ) : (
-        <Join />
       )}
     </div>
   );

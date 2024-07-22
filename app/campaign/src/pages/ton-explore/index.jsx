@@ -27,9 +27,11 @@ export default function TonExplore() {
           navigate(`/${projectUrl}/`);
         } else if (type === 3) {
           const inviteCode = p.inviteCode;
-          navigate(
-            `/wise-score${inviteCode ? `?inviteCode=${inviteCode}` : ''}`
-          );
+          if (inviteCode) {
+            navigate(`/wise-score/join?inviteCode=${inviteCode}`);
+          } else {
+            navigate(`/wise-score`);
+          }
         } else if (type === 4) {
           navigate(`/event/renaissance`);
         }
