@@ -13,14 +13,16 @@ import { useCallback, useMemo } from 'react';
 import WebApp from '@twa-dev/sdk';
 import { useEffect } from 'react';
 
-export default function useWiseScore() {
+export default function useWiseScore(extraConf) {
   const { user } = useUserInfoQuery();
   const { data, ...p } = useQuery(
     'wise-score',
     () => getWiseScore(user.userId),
     {
       // retry: false,
-      enabled: !!user.userId,
+      enabled: extraConf?.enabled
+        ? extraConf?.enabled && !!user.userId
+        : !!user.userId,
       // retryOnMount: false,
       // refetchOnMount: false,
       staleTime: Infinity,
