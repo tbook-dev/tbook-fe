@@ -4,10 +4,12 @@ import {
 } from '@/hooks/useWiseScore';
 import CopyIcon from '@/images/icon/svgr/copy.svg?react';
 import { Typography } from 'antd';
+import clsx from 'clsx';
+
 const { Paragraph } = Typography;
 
-export default function InviteFriends() {
-  const { inviteCode, totalTimes, usedTimes, invitedList, isLoading } =
+export default function InviteFriends({ openDrawer }) {
+  const { inviteCode, totalTimes, usedTimes, invitedList } =
     useWiseCreditInviteFriends();
   const { rawText } = useWiseCreditInvite();
   const hasNoData = !inviteCode;
@@ -44,10 +46,25 @@ export default function InviteFriends() {
               );
             })
           )}
-          {invitedList.length < 3 && (
-            <span className="size-7 rounded-full bg-white/10 flex justify-center items-center backdrop-blur">
+          {invitedList.length < 3 && openDrawer ? (
+            <span
+              onClick={openDrawer}
+              className={clsx(
+                'size-7 rounded-full flex justify-center items-center backdrop-blur',
+                'cursor-pointer bg-white/10'
+              )}
+            >
               +
             </span>
+          ) : (
+            invitedList.length === 0 && (
+              <span
+                className={clsx(
+                  'size-7 rounded-full flex justify-center items-center backdrop-blur',
+                  'cursor-not-allowed bg-white/5 opacity-60'
+                )}
+              />
+            )
           )}
         </div>
 

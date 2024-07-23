@@ -22,7 +22,7 @@ export default function Invite() {
           <h2 className="text-2xl">Invite friends to</h2>
           <h2 className="text-2xl">Earn more Rewards</h2>
         </div>
-        <InviteFriends />
+        <InviteFriends openDrawer={() => setOpen(true)} />
 
         {invitedList.length > 0 && (
           <div className="space-y-5">

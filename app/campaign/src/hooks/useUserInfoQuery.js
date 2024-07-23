@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setShowPassportGeneratingModal } from '@/store/global';
 import { useTelegram } from './useTg';
 import { useLocation } from 'react-router-dom';
+
+const whiteList = ['/event/renaissance', '/wise-score', '/wise-score/join'];
+
 export default function useUserInfo() {
   const [firstLoad, setFirstLoad] = useState(false);
   const dispatch = useDispatch();
@@ -138,7 +141,6 @@ export default function useUserInfo() {
     ].filter(Boolean).length > 1;
 
   const sessionKey = `markNewUser-${user?.userId ?? ''}`;
-  const whiteList = ['/event/renaissance'];
 
   useEffect(() => {
     if (
