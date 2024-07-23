@@ -1,9 +1,11 @@
-import { Spin } from 'antd'
+import Loading from '../loading';
 
 export default function PageFallBack() {
   return (
-    <div className="flex flex-col items-center justify-center h-[300px]">
-      <Spin />
+    <div className="fixed inset-0 w-full">
+      <div className="lg:w-[1200px] lg:mx-auto lg:absolute lg:top-0 lg:h-full lg:left-1/2 lg:-translate-x-1/2">
+        <Loading className="absolute" />
+      </div>
     </div>
   );
 }

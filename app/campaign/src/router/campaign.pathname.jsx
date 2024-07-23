@@ -251,9 +251,8 @@ const routes = [
         loader: getProjectIdFn,
         element: (
           <Suspense fallback={<PageFallBack />}>
-            {/* <ErrorBoundary fallbackComponent={<GlobalError/>}> */}
             <HomeV2 />
-            {/* </ErrorBoundary> */}
+            {/* <PageFallBack /> */}
           </Suspense>
         ),
       },
