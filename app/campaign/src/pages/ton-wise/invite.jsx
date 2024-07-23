@@ -36,7 +36,7 @@ export default function Invite() {
                   <div className="flex gap-x-2 items-center">
                     <img src={v.avatar} className="size-8 rounded-full" />
                     <div className="text-sm">
-                      @{v.useName}
+                      @{v.userName}
                       <p className="text-white/40 text-xs">New invitee</p>
                     </div>
                   </div>
