@@ -12,28 +12,8 @@ import Loading from '@/components/loading';
 import Generating from './generating';
 import BottomNav from './components/bottomNav';
 import { useNavigate } from 'react-router-dom';
+import WiseTag from './components/wiseTag';
 
-const getWiseTag = (value) => {
-  // Novice(<20K)
-  // Adept(20-50K)
-  // Pathfinder(50-200K)
-  // Strategist(200-500K)
-  // Mentor(500K-1M)
-  // Apex(>=1M)
-  if (value < 20000) {
-    return 'Novice';
-  } else if (value < 50000) {
-    return 'Adept';
-  } else if (value < 200000) {
-    return 'Pathfinder';
-  } else if (value < 500000) {
-    return 'Strategist';
-  } else if (value < 1000000) {
-    return 'Mentor';
-  } else {
-    return 'Apex';
-  }
-};
 export default function TonWise() {
   const { data: hasWiseScoreRes } = useWiseHasWiseScore();
   const { data, isLoading } = useWiseScore({
@@ -41,8 +21,9 @@ export default function TonWise() {
   });
   const { data: showGen } = useWiseGobal();
   const setShowGen = useWiseGobalMutation();
-  const wiseTag = getWiseTag(data?.totalScore ?? 0);
   const navigate = useNavigate();
+  const totalScore = data?.totalScore ?? 0;
+
   if (hasWiseScoreRes === undefined) {
     return <Loading />;
   } else if (hasWiseScoreRes === false) {
@@ -56,7 +37,6 @@ export default function TonWise() {
         <Generating
           hasWiseScoreRes={hasWiseScoreRes}
           data={data}
-          wiseTag={wiseTag}
           hide={() => {
             setShowGen(false);
           }}
@@ -71,14 +51,14 @@ export default function TonWise() {
                   {isLoading ? (
                     <span className="animate-pulse bg-[#1f1f1f] w-40 h-20" />
                   ) : (
-                    <span className="text-color8 text-[80px] leading-[80px]">
+                    <span className="text-[80px] leading-[80px]">
                       {formatImpact(data?.totalScore ?? 0)}
                     </span>
                   )}
                 </div>
                 <Link to="/wise-score/detail">
                   <div className="space-y-1 mb-2">
-                    <div className="text-color8 text-xs">{wiseTag}</div>
+                    <WiseTag className="text-xs" value={totalScore} />
                     <span className="flex items-center gap-x-1 text-xs rounded-md border border-white px-2 py-1">
                       <Trend />
                       Improve Now
