@@ -43,13 +43,13 @@ function FakeCaret() {
   );
 }
 
-export function VerifyOTP({ value, onChange }) {
+export function VerifyOTP({ value, onChange, onComplete }) {
   return (
     <OTPInput
       maxLength={6}
       containerClassName="group grid grid-cols-6 gap-x-2 font-zen-dot has-[:disabled]:opacity-30"
       onChange={onChange}
-      // onComplete={onComplete}
+      onComplete={onComplete}
       autoFocus
       value={value}
       pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
@@ -109,7 +109,7 @@ export default function Join() {
           </p>
         </div>
         <div className="space-y-3">
-          <VerifyOTP value={code} onChange={setCode} />
+          <VerifyOTP value={code} onChange={setCode} onComplete={onComplete} />
           <Button
             className="w-full h-10"
             disabled={code.length !== 6 || mutation.isLoading}

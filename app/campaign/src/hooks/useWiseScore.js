@@ -129,7 +129,7 @@ export const useWiseCreditInvite = () => {
       rawText
     )}&url=${encodeURIComponent(inviteLink)}`;
     return link;
-  }, [userId]);
+  }, [userId, inviteLink]);
   const inviteTgUser = useCallback(() => {
     if (!shareLink) return;
     WebApp.openTelegramLink(shareLink);
