@@ -9,9 +9,11 @@ import Button from '../components/button';
 import Check from './check';
 import PassportCard from '@/components/passportGen/card';
 import Loading from '@/components/loading';
+import WiseTag from '../components/wiseTag';
 
-export default function Generating({ data, hasWiseScoreRes, wiseTag, hide }) {
+export default function Generating({ data, hasWiseScoreRes, hide }) {
   const [displayIdx, setDisplayIdx] = useState(-1);
+  const totalScore = data?.totalScore ?? 0;
   useEffect(() => {
     if (hasWiseScoreRes === false) {
       hide();
@@ -89,7 +91,7 @@ export default function Generating({ data, hasWiseScoreRes, wiseTag, hide }) {
         content: ({ next }) => (
           <div className="relative px-4 h-full pb-10 flex flex-col justify-center min-h-[580px]">
             <h2 className="text-2xl w-full absolute top-0 left-0 text-center">
-              Becoming TBook {wiseTag}!
+              Becoming TBook <WiseTag value={totalScore} />
             </h2>
             <div className="pt-5">
               <PassportCard onClose={() => null} />
@@ -226,7 +228,9 @@ export default function Generating({ data, hasWiseScoreRes, wiseTag, hide }) {
         content: ({ next }) => (
           <div className="relative px-4 h-full pb-10 flex flex-col justify-center min-h-[420px]">
             <div className="absolute top-0 left-0 text-center  w-full">
-              <h2 className="text-2xl">You are {wiseTag}!</h2>
+              <h2 className="text-2xl">
+                You are <WiseTag value={totalScore} />!
+              </h2>
               <p className="text-base"> Here is your WISE Credit Score</p>
             </div>
             <div className="flex flex-col items-center w-full gap-y-10">
