@@ -5,6 +5,7 @@ import {
   getInvitedCreditFriends,
   getWiseScoreStatus,
   mintSBT,
+  getSBTList,
   applyCode,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
@@ -202,5 +203,26 @@ export const useWiseGobalMutation = () => {
   const queryClient = useQueryClient();
   return (v) => {
     queryClient.setQueryData('golbal:wise:showGen', v);
+  };
+};
+const statusToLevelMap = {
+  minting: 2,
+  hasMinted: 3,
+  error: 4,
+};
+
+export const useSBTList = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  const { data, ...p } = useQuery('sbt-list', getSBTList, {
+    enabled: !!userId,
+  });
+
+  return {
+    list: [
+      { type: 1, level: statusToLevelMap[data?.status] ?? 1, link: data?.link },
+    ],
+    data,
+    ...p,
   };
 };
