@@ -12,6 +12,7 @@ import {
   checkTask,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
+import useWiseScore from './useWiseScore';
 import { TG_BOT_NAME } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
 import { useCallback, useState, useEffect, useMemo } from 'react';
@@ -32,14 +33,7 @@ export const useLevel = () => {
     retry: false,
     enabled: !!userId,
   });
-  const { data: wiseData } = useQuery(
-    'wise-score-event-renaissance',
-    () => getWiseScore(userId),
-    {
-      retry: false,
-      enabled: !!userId && data && data !== 1,
-    }
-  );
+  const { data: wiseData } = useWiseScore();
   const level1Mutation = useMutation(
     async () => {
       return await getWiseScore(userId);

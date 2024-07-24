@@ -306,7 +306,9 @@ export const getWiseScoreStatus = async function (userId) {
   const res = await request.Get(`${host}/wiseScore/check/${userId}`);
   return res?.code === 200;
 };
-
-export const mintSBT = async function (userId) {
-  return await request.Get(`${host}/wiseScore/mint/${userId}`);
+export const getSBTList = async function () {
+  return await request.Get(`${host}/wiseScore/mint`);
+};
+export const mintSBT = async function () {
+  return await request.Get(`${host}/wiseScore/mint`);
 };

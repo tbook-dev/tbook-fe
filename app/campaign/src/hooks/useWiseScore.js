@@ -5,6 +5,7 @@ import {
   getInvitedCreditFriends,
   getWiseScoreStatus,
   mintSBT,
+  getSBTList,
   applyCode,
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
@@ -13,27 +14,29 @@ import { useCallback, useMemo } from 'react';
 import WebApp from '@twa-dev/sdk';
 import { useEffect } from 'react';
 
-export default function useWiseScore(extraConf) {
+export default function useWiseScore() {
   const { user } = useUserInfoQuery();
   const { data, ...p } = useQuery(
     'wise-score',
     () => getWiseScore(user.userId),
     {
       // retry: false,
-      enabled: extraConf?.enabled
-        ? extraConf?.enabled && !!user.userId
-        : !!user.userId,
+      enabled: !!user.userId,
       // retryOnMount: false,
-      // refetchOnMount: false,
-      staleTime: Infinity,
+      refetchOnMount: false,
+      // staleTime: Infinity,
     }
   );
   return {
-    data,
-    engagementScore: data?.engagementScore?.score ?? 0,
-    socialScore: data?.socialScore?.score ?? 0,
-    identityScore: data?.identityScore?.score ?? 0,
-    wealthScore: data?.wealthScore?.score ?? 0,
+    data: data?.userWiseScore,
+    totalScore: data?.userWiseScore?.totalScore ?? 0,
+    engagementScore: data?.userWiseScore?.engagementScore?.score ?? 0,
+    socialScore: data?.userWiseScore?.socialScore?.score ?? 0,
+    identityScore: data?.userWiseScore?.identityScore?.score ?? 0,
+    wealthScore: data?.userWiseScore?.wealthScore?.score ?? 0,
+    isLoaded: !!data,
+    isFirstCreate: !!data?.userWiseScore?.isFirstCreate,
+    isGranted: data?.code === 200,
     ...p,
   };
 }
@@ -200,5 +203,26 @@ export const useWiseGobalMutation = () => {
   const queryClient = useQueryClient();
   return (v) => {
     queryClient.setQueryData('golbal:wise:showGen', v);
+  };
+};
+const statusToLevelMap = {
+  minting: 2,
+  hasMinted: 3,
+  error: 4,
+};
+
+export const useSBTList = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  const { data, ...p } = useQuery('sbt-list', getSBTList, {
+    enabled: !!userId,
+  });
+
+  return {
+    list: [
+      { type: 1, level: statusToLevelMap[data?.status] ?? 1, link: data?.link },
+    ],
+    data,
+    ...p,
   };
 };

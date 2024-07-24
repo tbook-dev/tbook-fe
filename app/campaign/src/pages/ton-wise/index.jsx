@@ -1,5 +1,4 @@
 import useWiseScore, {
-  useWiseHasWiseScore,
   useWiseGobal,
   useWiseGobalMutation,
 } from '@/hooks/useWiseScore';
@@ -15,18 +14,19 @@ import { useNavigate } from 'react-router-dom';
 import WiseTag from './components/wiseTag';
 
 export default function TonWise() {
-  const { data: hasWiseScoreRes } = useWiseHasWiseScore();
-  const { data, isLoading } = useWiseScore({
-    enabled: hasWiseScoreRes !== undefined,
-  });
+  const {
+    data: userWiseScore,
+    totalScore,
+    isLoaded,
+    isGranted,
+    isFirstCreate,
+  } = useWiseScore();
   const { data: showGen } = useWiseGobal();
   const setShowGen = useWiseGobalMutation();
   const navigate = useNavigate();
-  const totalScore = data?.totalScore ?? 0;
-
-  if (hasWiseScoreRes === undefined) {
+  if (!isLoaded) {
     return <Loading />;
-  } else if (hasWiseScoreRes === false) {
+  } else if (!isGranted) {
     navigate('/wise-score/join', { replace: true });
     window.sessionRoutesCount -= 1;
   }
@@ -35,8 +35,9 @@ export default function TonWise() {
     <div className="flex flex-col px-5 mt-3 pb-20 lg:px-0 max-w-md mx-auto space-y-8">
       {showGen ? (
         <Generating
-          hasWiseScoreRes={hasWiseScoreRes}
-          data={data}
+          hasWiseScoreRes={isGranted}
+          isFirstCreate={isFirstCreate}
+          data={userWiseScore}
           hide={() => {
             setShowGen(false);
           }}
@@ -48,13 +49,9 @@ export default function TonWise() {
               <h2 className="text-2xl font-light">WISE Credit Score</h2>
               <div className="flex items-end gap-x-4">
                 <div className="flex">
-                  {isLoading ? (
-                    <span className="animate-pulse bg-[#1f1f1f] w-40 h-20" />
-                  ) : (
-                    <span className="text-[80px] leading-[80px]">
-                      {formatImpact(data?.totalScore ?? 0)}
-                    </span>
-                  )}
+                  <span className="text-[80px] leading-[80px]">
+                    {formatImpact(totalScore)}
+                  </span>
                 </div>
                 <Link to="/wise-score/detail">
                   <div className="space-y-1 mb-2">

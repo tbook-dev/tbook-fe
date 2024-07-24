@@ -16,7 +16,7 @@ const addressLogoMap = {
 };
 
 export default function UserScore({ className }) {
-  const { data: user } = useWiseScore();
+  const { data: user, isGranted, isLoaded } = useWiseScore();
   const walletIcon = addressLogoMap[user?.addressType];
   const rankCF = useMemo(() => {
     const rank = user?.rank;
@@ -35,41 +35,43 @@ export default function UserScore({ className }) {
     return rt;
   }, [user]);
 
-  return user ? (
-    <div
-      className={cn(
-        'flex items-center justify-between',
-        'rounded-xl px-5 py-2',
-        className
-      )}
-    >
-      <div className="flex items-center gap-x-2.5">
-        <span
-          className={cn(
-            'size-9 text-center bg-cover bg-center flex items-center justify-center',
-            'font-medium text-xs'
-          )}
-        >
-          {rankCF.display}
-        </span>
+  return isLoaded ? (
+    isGranted && (
+      <div
+        className={cn(
+          'flex items-center justify-between',
+          'rounded-xl px-5 py-2',
+          className
+        )}
+      >
+        <div className="flex items-center gap-x-2.5">
+          <span
+            className={cn(
+              'size-9 text-center bg-cover bg-center flex items-center justify-center',
+              'font-medium text-xs'
+            )}
+          >
+            {rankCF.display}
+          </span>
 
-        <span
-          className={clsx(
-            'inline-flex items-center gap-x-0.5 font-medium text-sm',
-            user?.addressType === 1 &&
-              'bg-linear15 bg-clip-text text-transparent'
-          )}
-        >
-          {walletIcon}
-          {user?.addressType === 2
-            ? user.address
-            : shortAddressV1(user.address ?? '')}
-          (you)
-        </span>
+          <span
+            className={clsx(
+              'inline-flex items-center gap-x-0.5 font-medium text-sm',
+              user?.addressType === 1 &&
+                'bg-linear15 bg-clip-text text-transparent'
+            )}
+          >
+            {walletIcon}
+            {user?.addressType === 2
+              ? user.address
+              : shortAddressV1(user.address ?? '')}
+            (you)
+          </span>
+        </div>
+
+        <span className="text-xs">{formatImpact(user.totalScore)}</span>
       </div>
-
-      <span className="text-xs">{formatImpact(user.totalScore)}</span>
-    </div>
+    )
   ) : (
     <div className="h-[52px] bg-[#1f1f1f] animate-pulse" />
   );
