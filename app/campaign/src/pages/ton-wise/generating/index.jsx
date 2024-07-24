@@ -11,7 +11,12 @@ import PassportCard from '@/components/passportGen/card';
 import Loading from '@/components/loading';
 import WiseTag from '../components/wiseTag';
 
-export default function Generating({ data, hasWiseScoreRes, hide }) {
+export default function Generating({
+  data,
+  hasWiseScoreRes,
+  isFirstCreate,
+  hide,
+}) {
   const [displayIdx, setDisplayIdx] = useState(-1);
   const totalScore = data?.totalScore ?? 0;
   useEffect(() => {
@@ -21,14 +26,12 @@ export default function Generating({ data, hasWiseScoreRes, hide }) {
   }, [hasWiseScoreRes]);
   useEffect(() => {
     let timer;
-    if (data) {
-      if (data?.isFirstCreate === false) {
-        hide();
-      }
-      timer = setTimeout(() => {
-        setDisplayIdx(0);
-      }, 100);
+    if (isFirstCreate === false) {
+      hide();
     }
+    timer = setTimeout(() => {
+      setDisplayIdx(0);
+    }, 100);
     return () => clearTimeout(timer);
   }, [data]);
 

@@ -15,7 +15,7 @@ import { VITE_TBOOK_TG_CHANNEL } from '@/utils/tma';
 const REGEXP_ONLY_DIGITS_AND_CHARS_REG = new RegExp(
   REGEXP_ONLY_DIGITS_AND_CHARS
 );
-window.REGEXP_ONLY_DIGITS_AND_CHARS_REG = REGEXP_ONLY_DIGITS_AND_CHARS_REG;
+
 function Slot(props) {
   return (
     <div
@@ -65,7 +65,7 @@ export default function Join() {
   const mutation = useJoinMutation();
   const [messageAPI, messageContext] = message.useMessage();
   const navigate = useNavigate();
-  const { data: hasWiseScoreRes, refetch } = useWiseHasWiseScore();
+  const { data: hasWiseScoreRes } = useWiseHasWiseScore();
   useEffect(() => {
     const inviteCode = getQueryParameter(window.location.href, 'inviteCode');
     if (
@@ -80,7 +80,6 @@ export default function Join() {
   const onComplete = async (val) => {
     const res = await mutation.mutateAsync({ code: val });
     if (res.success) {
-      await refetch();
       navigate('/wise-score');
     } else {
       messageAPI.error(res.message ?? 'unknown error!');
