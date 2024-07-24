@@ -14,8 +14,13 @@ import { useNavigate } from 'react-router-dom';
 import WiseTag from './components/wiseTag';
 
 export default function TonWise() {
-  const { data, totalScore, isLoaded, isGranted, isFirstCreate } =
-    useWiseScore();
+  const {
+    data: userWiseScore,
+    totalScore,
+    isLoaded,
+    isGranted,
+    isFirstCreate,
+  } = useWiseScore();
   const { data: showGen } = useWiseGobal();
   const setShowGen = useWiseGobalMutation();
   const navigate = useNavigate();
@@ -32,7 +37,7 @@ export default function TonWise() {
         <Generating
           hasWiseScoreRes={isGranted}
           isFirstCreate={isFirstCreate}
-          data={data?.userWiseScore}
+          data={userWiseScore}
           hide={() => {
             setShowGen(false);
           }}

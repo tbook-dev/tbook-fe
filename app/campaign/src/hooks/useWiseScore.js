@@ -27,7 +27,7 @@ export default function useWiseScore() {
     }
   );
   return {
-    data,
+    data: data?.userWiseScore,
     totalScore: data?.userWiseScore?.totalScore ?? 0,
     engagementScore: data?.userWiseScore?.engagementScore?.score ?? 0,
     socialScore: data?.userWiseScore?.socialScore?.score ?? 0,
