@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import Button from './components/button';
 import { useMintSBTMutation } from '@/hooks/useWiseScore';
 import { message } from 'antd';
+import WebApp from '@twa-dev/sdk';
 
 export default function SBTDetail() {
   const { type } = useParams();
@@ -18,7 +19,8 @@ export default function SBTDetail() {
   const handleClick = async () => {
     const res = await mutation.mutateAsync({ type });
     if (res.code === 200) {
-      window.open(res?.link, '_blank');
+      // window.open(res?.link, '_blank');
+      WebApp.openLink(res?.link, {try_instant_view: true})
     } else {
       messageAPI.error(res.message ?? 'mint unkonwn error!');
     }
