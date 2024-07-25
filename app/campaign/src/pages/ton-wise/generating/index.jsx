@@ -28,11 +28,13 @@ export default function Generating({
     let timer;
     if (isFirstCreate === false) {
       hide();
+    } else {
+      timer = setTimeout(() => {
+        setDisplayIdx(0);
+      }, 100);
     }
-    timer = setTimeout(() => {
-      setDisplayIdx(0);
-    }, 100);
-    return () => clearTimeout(timer);
+
+    return () => timer && clearTimeout(timer);
   }, [isFirstCreate]);
 
   const frames = useMemo(() => {

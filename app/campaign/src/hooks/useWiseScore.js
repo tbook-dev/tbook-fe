@@ -10,11 +10,33 @@ import {
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
 import { getDirectLink } from '@/utils/tma';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useEffect, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
-import { useEffect } from 'react';
 
-export default function useWiseScore() {
+export const useWiseGobal = () => {
+  return useQuery(
+    'golbal:wise',
+    () => {
+      return {
+        showGen: true,
+      };
+    },
+    {
+      staleTime: Infinity,
+      initialData: { showGen: true },
+    }
+  );
+};
+export const useWiseGobalMutation = () => {
+  const queryClient = useQueryClient();
+  const { data } = useWiseGobal();
+  console.log({ data });
+  return (v) => {
+    queryClient.setQueryData('golbal:wise', Object.assign({}, data, v));
+  };
+};
+
+export default function useWiseScore(extraConf) {
   const { user } = useUserInfoQuery();
   const { data, ...p } = useQuery(
     'wise-score',
@@ -23,8 +45,8 @@ export default function useWiseScore() {
       // retry: false,
       enabled: !!user.userId,
       // retryOnMount: false,
-      refetchOnMount: false,
-      // staleTime: Infinity,
+      // refetchOnMount: false,
+      staleTime: Infinity,
     }
   );
   return {
@@ -186,25 +208,6 @@ export const useMintSBTMutation = () => {
   return useMutation(() => mintSBT(userId));
 };
 
-export const useWiseGobal = () => {
-  return useQuery(
-    'golbal:wise:showGen',
-    () => {
-      return true;
-    },
-    {
-      staleTime: Infinity,
-      initialData: true,
-    }
-  );
-};
-
-export const useWiseGobalMutation = () => {
-  const queryClient = useQueryClient();
-  return (v) => {
-    queryClient.setQueryData('golbal:wise:showGen', v);
-  };
-};
 const statusToLevelMap = {
   minting: 2,
   hasMinted: 3,

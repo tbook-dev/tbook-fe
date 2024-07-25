@@ -1,17 +1,19 @@
 import { OTPInput, REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
 import { cn } from '@/utils/conf';
-import { getQueryParameter } from '@/utils/tma';
+import { getQueryParameter, VITE_TBOOK_TG_CHANNEL } from '@/utils/tma';
 import { useState, useEffect } from 'react';
 import Button from './components/button';
-import { useJoinMutation, useWiseHasWiseScore } from '@/hooks/useWiseScore';
+import useWiseScore, {
+  useJoinMutation,
+  useWiseHasWiseScore,
+} from '@/hooks/useWiseScore';
 import Backeds from '@/images/wise/backeds.png';
 import LazyImage from '@/components/lazyImage';
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import Loading from '@/components/loading';
 import WebApp from '@twa-dev/sdk';
-import { VITE_TBOOK_TG_CHANNEL } from '@/utils/tma';
-
+import { useQueryClient } from 'react-query';
 const REGEXP_ONLY_DIGITS_AND_CHARS_REG = new RegExp(
   REGEXP_ONLY_DIGITS_AND_CHARS
 );
@@ -52,7 +54,7 @@ export function VerifyOTP({ value, onChange, onComplete }) {
       onComplete={onComplete}
       autoFocus
       value={value}
-      pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+      // pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
       render={({ slots }) =>
         slots.map((slot, idx) => <Slot key={idx} {...slot} />)
       }
@@ -65,7 +67,8 @@ export default function Join() {
   const mutation = useJoinMutation();
   const [messageAPI, messageContext] = message.useMessage();
   const navigate = useNavigate();
-  const { data: hasWiseScoreRes } = useWiseHasWiseScore();
+  const { data: hasWiseScoreRes, refetch } = useWiseHasWiseScore();
+  const queryClient = useQueryClient();
   useEffect(() => {
     const inviteCode = getQueryParameter(window.location.href, 'inviteCode');
     if (
@@ -80,6 +83,8 @@ export default function Join() {
   const onComplete = async (val) => {
     const res = await mutation.mutateAsync({ code: val });
     if (res.success) {
+      await refetch();
+      queryClient.invalidateQueries('wise-score');
       navigate('/wise-score');
     } else {
       messageAPI.error(res.message ?? 'unknown error!');
