@@ -3,10 +3,7 @@ import { cn } from '@/utils/conf';
 import { getQueryParameter, VITE_TBOOK_TG_CHANNEL } from '@/utils/tma';
 import { useState, useEffect } from 'react';
 import Button from './components/button';
-import useWiseScore, {
-  useJoinMutation,
-  useWiseHasWiseScore,
-} from '@/hooks/useWiseScore';
+import { useJoinMutation, useWiseHasWiseScore } from '@/hooks/useWiseScore';
 import Backeds from '@/images/wise/backeds.png';
 import LazyImage from '@/components/lazyImage';
 import { message } from 'antd';
@@ -54,7 +51,8 @@ export function VerifyOTP({ value, onChange, onComplete }) {
       onComplete={onComplete}
       autoFocus
       value={value}
-      // pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+      pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+      inputMode="text"
       render={({ slots }) =>
         slots.map((slot, idx) => <Slot key={idx} {...slot} />)
       }
