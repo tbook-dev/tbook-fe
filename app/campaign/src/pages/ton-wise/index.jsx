@@ -45,33 +45,35 @@ export default function TonWise() {
           }}
         />
       ) : (
-        <div className="pb-10 space-y-6">
-          <div className="space-y-8">
-            <div className="space-y-5">
-              <h2 className="text-2xl font-light">WISE Credit Score</h2>
-              <div className="flex items-end gap-x-4">
-                <div className="flex">
-                  <span className="text-[80px] leading-[80px]">
-                    {formatImpact(totalScore)}
-                  </span>
-                </div>
-                <Link to="/wise-score/detail">
-                  <div className="space-y-1 mb-2">
-                    <WiseTag className="text-xs" value={totalScore} />
-                    <span className="flex items-center gap-x-1 text-xs rounded-md border border-white px-2 py-1">
-                      <Trend />
-                      Improve Now
+        isGranted && (
+          <div className="pb-10 space-y-6">
+            <div className="space-y-8">
+              <div className="space-y-5">
+                <h2 className="text-2xl font-light">WISE Credit Score</h2>
+                <div className="flex items-end gap-x-4">
+                  <div className="flex">
+                    <span className="text-[80px] leading-[80px]">
+                      {formatImpact(totalScore)}
                     </span>
                   </div>
-                </Link>
+                  <Link to="/wise-score/detail">
+                    <div className="space-y-1 mb-2">
+                      <WiseTag className="text-xs" value={totalScore} />
+                      <span className="flex items-center gap-x-1 text-xs rounded-md border border-white px-2 py-1">
+                        <Trend />
+                        Improve Now
+                      </span>
+                    </div>
+                  </Link>
+                </div>
               </div>
+              <Invite />
             </div>
-            <Invite />
-          </div>
 
-          <Privilege />
-          <BottomNav />
-        </div>
+            <Privilege />
+            <BottomNav />
+          </div>
+        )
       )}
     </div>
   );

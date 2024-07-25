@@ -30,7 +30,6 @@ export const useWiseGobal = () => {
 export const useWiseGobalMutation = () => {
   const queryClient = useQueryClient();
   const { data } = useWiseGobal();
-  console.log({ data });
   return (v) => {
     queryClient.setQueryData('golbal:wise', Object.assign({}, data, v));
   };
