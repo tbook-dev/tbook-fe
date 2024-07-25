@@ -17,18 +17,20 @@ export default function TonWise() {
   const {
     data: userWiseScore,
     totalScore,
-    isLoaded,
+    isFetching,
     isGranted,
     isFirstCreate,
   } = useWiseScore();
-  const { data: showGen } = useWiseGobal();
+  const {
+    data: { showGen },
+  } = useWiseGobal();
   const setShowGen = useWiseGobalMutation();
   const navigate = useNavigate();
-  if (!isLoaded) {
+  if (isFetching) {
     return <Loading />;
   } else if (!isGranted) {
-    navigate('/wise-score/join', { replace: true });
     window.sessionRoutesCount -= 1;
+    navigate('/wise-score/join', { replace: true });
   }
 
   return (
@@ -39,7 +41,7 @@ export default function TonWise() {
           isFirstCreate={isFirstCreate}
           data={userWiseScore}
           hide={() => {
-            setShowGen(false);
+            setShowGen({ showGen: false });
           }}
         />
       ) : (
