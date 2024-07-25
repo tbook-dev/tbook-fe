@@ -1,11 +1,41 @@
-import { useQuery } from 'react-query';
-import { getWiseScore, reportRangerShare } from '@/api/incentive';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import {
+  getWiseScore,
+  reportRangerShare,
+  getInvitedCreditFriends,
+  getWiseScoreStatus,
+  mintSBT,
+  getSBTList,
+  applyCode,
+} from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
-import { TG_BOT_NAME, getDirectLink } from '@/utils/tma';
-import { useCallback, useMemo } from 'react';
+import { getDirectLink } from '@/utils/tma';
+import { useCallback, useMemo, useEffect, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
 
-export default function useWiseScore() {
+export const useWiseGobal = () => {
+  return useQuery(
+    'golbal:wise',
+    () => {
+      return {
+        showGen: true,
+      };
+    },
+    {
+      staleTime: Infinity,
+      initialData: { showGen: true },
+    }
+  );
+};
+export const useWiseGobalMutation = () => {
+  const queryClient = useQueryClient();
+  const { data } = useWiseGobal();
+  return (v) => {
+    queryClient.setQueryData('golbal:wise', Object.assign({}, data, v));
+  };
+};
+
+export default function useWiseScore(extraConf) {
   const { user } = useUserInfoQuery();
   const { data, ...p } = useQuery(
     'wise-score',
@@ -13,16 +43,21 @@ export default function useWiseScore() {
     {
       // retry: false,
       enabled: !!user.userId,
-      retryOnMount: false,
-      refetchOnMount: false,
+      // retryOnMount: false,
+      // refetchOnMount: false,
+      staleTime: Infinity,
     }
   );
   return {
-    data,
-    engagementScore: data?.engagementScore?.score ?? 0,
-    socialScore: data?.socialScore?.score ?? 0,
-    identityScore: data?.identityScore?.score ?? 0,
-    wealthScore: data?.wealthScore?.score ?? 0,
+    data: data?.userWiseScore,
+    totalScore: data?.userWiseScore?.totalScore ?? 0,
+    engagementScore: data?.userWiseScore?.engagementScore?.score ?? 0,
+    socialScore: data?.userWiseScore?.socialScore?.score ?? 0,
+    identityScore: data?.userWiseScore?.identityScore?.score ?? 0,
+    wealthScore: data?.userWiseScore?.wealthScore?.score ?? 0,
+    isLoaded: !!data,
+    isFirstCreate: !!data?.userWiseScore?.isFirstCreate,
+    isGranted: data?.code === 200,
     ...p,
   };
 }
@@ -78,5 +113,118 @@ export const useRangerReport = () => {
   );
   return {
     reportRangerShareFn,
+  };
+};
+// api display
+export const useWiseCreditInviteFriends = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  const { data, ...p } = useQuery(
+    'wise-credit-invite-friends',
+    getInvitedCreditFriends,
+    {
+      enabled: !!userId,
+      refetchOnMount: false,
+    }
+  );
+  return {
+    data,
+    ...p,
+    inviteCode: data?.entity?.code,
+    totalTimes: data?.entity?.totalTimes ?? 3,
+    usedTimes: data?.entity?.usedTimes ?? 0,
+    invitedList: data?.entity?.invitees ?? [],
+  };
+};
+// drawer
+export const useWiseCreditInvite = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  const { inviteCode } = useWiseCreditInviteFriends();
+  const inviteLink = getDirectLink([3, inviteCode]);
+  const rawText = [
+    `Hey, I have an excellent WISE Credit Score 🌟🌟🌟`,
+    `\n🎖️Come on to calculate and improve yours!!`,
+    inviteLink,
+  ].join('\n');
+  const shareLink = useMemo(() => {
+    if (!userId) return '';
+    const link = `https://t.me/share/url?text=${encodeURIComponent(
+      rawText
+    )}&url=${encodeURIComponent(inviteLink)}`;
+    return link;
+  }, [userId, inviteLink]);
+  const inviteTgUser = useCallback(() => {
+    if (!shareLink) return;
+    WebApp.openTelegramLink(shareLink);
+  }, [shareLink]);
+  const shareToChat = useCallback(() => {
+    // todo
+    WebApp.switchInlineQuery(`wise:invite:${userId}`, [
+      'users',
+      'bots',
+      'groups',
+      'channels',
+    ]);
+  }, [userId]);
+  return {
+    inviteTgUser,
+    shareText: shareLink,
+    rawText,
+    inviteLink,
+    shareToChat,
+  };
+};
+
+export const useWiseHasWiseScore = () => {
+  const queryClient = useQueryClient();
+  const { user } = useUserInfoQuery();
+  const { data, ...p } = useQuery(
+    'wise-has-wise-score',
+    () => getWiseScoreStatus(user?.userId),
+    {
+      enabled: !!user?.userId,
+      refetchOnMount: false,
+    }
+  );
+  useEffect(() => {
+    if (data) {
+      queryClient.setQueryDefaults('wise-has-wise-score', {
+        staleTime: Infinity,
+      });
+    }
+  }, [data]);
+  return { data, ...p };
+};
+
+export const useJoinMutation = () => {
+  return useMutation((data) => applyCode(data));
+};
+
+export const useMintSBTMutation = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  return useMutation(() => mintSBT(userId));
+};
+
+const statusToLevelMap = {
+  minting: 2,
+  hasMinted: 3,
+  error: 4,
+};
+
+export const useSBTList = () => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  const { data, ...p } = useQuery('sbt-list', getSBTList, {
+    enabled: !!userId,
+  });
+
+  return {
+    list: [
+      { type: 1, level: statusToLevelMap[data?.status] ?? 1, link: data?.link },
+    ],
+    data,
+    ...p,
   };
 };
