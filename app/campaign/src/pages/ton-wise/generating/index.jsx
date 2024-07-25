@@ -33,7 +33,7 @@ export default function Generating({
       setDisplayIdx(0);
     }, 100);
     return () => clearTimeout(timer);
-  }, [data]);
+  }, [isFirstCreate]);
 
   const frames = useMemo(() => {
     return [
