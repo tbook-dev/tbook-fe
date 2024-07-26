@@ -9,12 +9,15 @@ import {
 import ShareDrawer from '@/components/drawer/share';
 import { useState } from 'react';
 import tpointIcon from '@/images/wise/prize/tpoint.png';
+import { Link } from 'react-router-dom';
+import { ambassadorRequrements } from '@/hooks/useAmbassador';
 
 export default function Invite() {
   const [open, setOpen] = useState(false);
   const { shareToChat, inviteLink, rawText, inviteTgUser } =
     useWiseCreditInvite();
   const { invitedList } = useWiseCreditInviteFriends();
+
   return (
     <div className="flex-auto w-full pb-48  px-5 mt-3 lg:px-0 mx-auto">
       <div className="space-y-6">
@@ -23,7 +26,36 @@ export default function Invite() {
           <h2 className="text-2xl">Earn more Rewards</h2>
         </div>
         <InviteFriends openDrawer={() => setOpen(true)} />
-
+        <div className="space-y-2 w-full">
+          <h2 className="text-base font-medium">TBook Ambassador Call Up</h2>
+          <Link
+            to="/wise-score/ambassador-apply"
+            className="block space-y-3 px-4 py-2.5 rounded-xl bg-[#904BF6]/20"
+          >
+            <h4 className="text-center text-xs bg-clip-text text-transparent bg-gradient-to-r from-[#C668F9] to-[#6381F2] from-5% to-100%">
+              Become Ambassadors, unlock exclusive bonuses!
+            </h4>
+            <div className="flex items-center justify-center gap-x-12">
+              {ambassadorRequrements.map((v, idx, arr) => {
+                return (
+                  <>
+                    <div key={v.name} className="text-center relative">
+                      <h2 className="text-xl font-medium bg-clip-text text-transparent bg-gradient-to-r from-[#C668F9] to-[#6381F2] from-5% to-100%">
+                        {v.description}
+                      </h2>
+                      <p className="text-xs font-thin bg-clip-text text-transparent bg-gradient-to-r from-[#C668F9] to-[#6381F2] from-5% to-100%">
+                        {v.name}
+                      </p>
+                    </div>
+                    {idx !== arr.length - 1 && (
+                      <div className="h-6 w-px bg-[#C668F9]/40" key={idx} />
+                    )}
+                  </>
+                );
+              })}
+            </div>
+          </Link>
+        </div>
         {invitedList.length > 0 && (
           <div className="space-y-5">
             <h2 className="text-base font-medium">Your rewards</h2>

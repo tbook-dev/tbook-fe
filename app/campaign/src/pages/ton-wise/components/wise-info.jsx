@@ -38,7 +38,7 @@ const WiseTab = () => {
 
   return (
     <div className="space-y-4">
-      <Nav title="WISE Credit">
+      <Nav to="/wise-score" title="WISE Credit">
         <ul className="flex w-max text-xs p-1 rounded-xl bg-white/10">
           {tabs.map((item) => (
             <li

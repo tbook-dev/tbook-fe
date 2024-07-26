@@ -31,7 +31,7 @@ const Abtain = lazy(() => import('@/pages/ton-wise/coin/abtain'));
 const Ranger = lazy(() => import('@/pages/ton-wise/coin/ranger'));
 const SBT = lazy(() => import('@/pages/ton-wise/sbt'));
 const SBTDetail = lazy(() => import('@/pages/ton-wise/sbt-detail'));
-
+const Ambassador = lazy(() => import('@/pages/ton-wise/ambassador'));
 const Attestation = lazy(() => import('@/pages/attestation'));
 
 const getTbookfn = async () => {
@@ -148,6 +148,15 @@ const routes = [
         element: (
           <Suspense fallback={<PageFallBack />}>
             <WiseJoin />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'ambassador-apply',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <Ambassador />
           </Suspense>
         ),
       },

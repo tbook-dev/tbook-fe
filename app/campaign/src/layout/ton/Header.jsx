@@ -10,7 +10,7 @@ import LazyImage from '@/components/lazyImage';
 import { useLocation } from 'react-router-dom';
 
 const tonHomeLink = '/ton-explore';
-function Header () {
+function Header() {
   const { userLogined, firstLoad } = useUserInfo();
   const dispath = useDispatch();
   const { pathname } = useLocation();
@@ -18,39 +18,33 @@ function Header () {
     dispath(setLoginModal(true));
   };
   return (
-    <header
-      className={clsx(
-        'top-0 z-10  text-white',
-        'transition duration-300 ease-in-out',
-        'sticky bg-black'
-      )}
-    >
-      <div className='px-4 py-1.5 lg:px-20 bg-black'>
-        <div className='flex items-center justify-between h-10'>
-          <div className='flex items-center'>
+    <header className="text-white bg-black">
+      <div className="px-4 py-1.5 lg:px-20 bg-black">
+        <div className="flex items-center justify-between h-10">
+          <div className="flex items-center relative z-10">
             {pathname === tonHomeLink ? (
-              <LazyImage src={logo} alt='logo' className='h-6 object-contain' />
+              <LazyImage src={logo} alt="logo" className="h-6 object-contain" />
             ) : (
               <Link to={tonHomeLink}>
                 <LazyImage
                   src={logo}
-                  alt='logo'
-                  className='h-6 object-contain'
+                  alt="logo"
+                  className="h-6 object-contain"
                 />
               </Link>
             )}
           </div>
 
-          <div>
+          <div className="relative z-10">
             {!firstLoad ? (
               <AvatarSkeleton />
             ) : userLogined ? (
-              <div className='flex items-center gap-x-2'>
+              <div className="flex items-center gap-x-2">
                 <Avatar />
               </div>
             ) : (
               <button
-                className='px-2 py-1 text-sm rounded-md border border-white text-white lg:hover:opacity-70'
+                className="px-2 py-1 text-sm rounded-md border border-white text-white lg:hover:opacity-70"
                 onClick={handleClick}
               >
                 Log In

@@ -304,3 +304,11 @@ export const getSBTList = async function () {
 export const mintSBT = async function () {
   return await request.Get(`${host}/wiseScore/mint`);
 };
+export const applyAmbassador = async function () {
+  // return await request.Post(`${host}/wiseScore/applyAmbassador`);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true });
+    }, 1000);
+  });
+};
