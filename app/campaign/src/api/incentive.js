@@ -312,3 +312,10 @@ export const applyAmbassador = async function () {
     }, 1000);
   });
 };
+export const getAmbassadorLevel = async function () {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(2);
+    }, 1000);
+  });
+};

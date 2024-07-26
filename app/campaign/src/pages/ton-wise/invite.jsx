@@ -2,6 +2,7 @@ import BottomNav from './components/bottomNav';
 import InviteFriends from './components/inviteFriends';
 import Button from './components/button';
 import TgIcon from '@/images/icon/svgr/tg.svg?react';
+import AmbassadorIcon from '@/images/icon/svgr/ambassador.svg?react';
 import {
   useWiseCreditInvite,
   useWiseCreditInviteFriends,
@@ -35,7 +36,7 @@ export default function Invite() {
             <h4 className="text-center text-xs bg-clip-text text-transparent bg-gradient-to-r from-[#C668F9] to-[#6381F2] from-5% to-100%">
               Become Ambassadors, unlock exclusive bonuses!
             </h4>
-            <div className="flex items-center justify-center gap-x-12">
+            <div className="flex items-center justify-center gap-x-12 relative overflow-hidden">
               {ambassadorRequrements.map((v, idx, arr) => {
                 return (
                   <>
@@ -53,6 +54,7 @@ export default function Invite() {
                   </>
                 );
               })}
+              <AmbassadorIcon className="absolute size-10 -bottom-1 right-0 opacity-20" />
             </div>
           </Link>
         </div>

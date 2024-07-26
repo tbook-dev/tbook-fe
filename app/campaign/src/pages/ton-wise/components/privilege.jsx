@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import SBTIcon from '@/images/icon/svgr/sbt.svg?react';
+import AmbassadorIcon from '@/images/icon/svgr/ambassador.svg?react';
 
 import { Link } from 'react-router-dom';
 export default function Privilege() {
@@ -7,11 +8,13 @@ export default function Privilege() {
     return [
       {
         text: 'WISE SBT',
-        img: (
-          <Link to="/wise-score/sbt">
-            <SBTIcon className="size-[30px]" />
-          </Link>
-        ),
+        img: <SBTIcon className="size-[30px]" />,
+        link: '/wise-score/sbt',
+      },
+      {
+        text: 'Ambassador',
+        img: <AmbassadorIcon className="size-[30px]" />,
+        link: '/wise-score/ambassador',
       },
     ];
   }, []);
@@ -21,12 +24,16 @@ export default function Privilege() {
       <div className="flex items-center gap-x-2">
         {list.map((v) => {
           return (
-            <div className="space-y-1" key={v.text}>
+            <Link
+              to={v.link}
+              className="flex flex-col items-center"
+              key={v.text}
+            >
               <div className="size-12 rounded-full bg-white/5 flex items-center justify-center">
                 {v.img}
               </div>
               <span className="text-xs">{v.text}</span>
-            </div>
+            </Link>
           );
         })}
       </div>
