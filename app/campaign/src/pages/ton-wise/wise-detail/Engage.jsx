@@ -105,7 +105,7 @@ export default function Engage() {
         handle: () => {
           navigate(`/wise-score/identity/5/abtain`);
         },
-        finished: tonLiquidityProvideScore >= 0,
+        finished: tonLiquidityProvideScore > 0,
         sucess: (
           <Link to="/wise-score/identity/5/ranger" className="relative">
             <TonIcon />
