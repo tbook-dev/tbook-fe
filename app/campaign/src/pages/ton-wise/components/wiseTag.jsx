@@ -27,11 +27,21 @@ export const getWiseTag = (value) => {
     return 'Apex';
   }
 };
-
-export default function WiseTag({ value, className }) {
+// 60% 70% 80% 85% 90% 95%
+export const widthMap = {
+  Novice: '60%',
+  Adept: '70%',
+  Pathfinder: '80%',
+  Strategist: '85%',
+  Mentor: '90%',
+  Apex: '95%',
+};
+export const getWidth = (value) =>
+  widthMap[getWiseTag(value)] ?? widthMap.Novice;
+export default function WiseTag({ value, className, style = {} }) {
   const wiseTag = getWiseTag(value);
   return (
-    <span className={className} style={{ color: colorMap[wiseTag] }}>
+    <span className={className} style={{ color: colorMap[wiseTag], ...style }}>
       {wiseTag}
     </span>
   );
