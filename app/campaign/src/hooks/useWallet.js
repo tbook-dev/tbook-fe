@@ -42,7 +42,7 @@ export default function useWallet() {
     (input) => {
       const typeList = Array.isArray(input) ? input : [input];
       return typeList.map((wallet) =>
-        list.find((listWwallet) => wallet === listWwallet.type)
+        walletList.find((listWwallet) => wallet === listWwallet.type)
       );
     },
     [walletList]
