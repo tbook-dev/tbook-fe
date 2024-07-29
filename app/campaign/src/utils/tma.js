@@ -22,6 +22,11 @@ export function safeParse(start_param) {
         type,
         inviteCode: p[0],
       };
+    } else if (type === 5) {
+      return {
+        type,
+        coin: p[0],
+      };
     } else {
       return {
         type,
@@ -55,7 +60,8 @@ export const supportTMATypes = [
   // 'project',
   // 'wiseScore',
   // 'renaissance',
-  1, 2, 3, 4,
+  // 'ranger',
+  1, 2, 3, 4, 5,
 ];
 
 export const logoutRedirecrtKey = 'fromlogout';

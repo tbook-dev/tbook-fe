@@ -8,7 +8,7 @@ import RefreshIcon from '@/images/icon/svgr/refresh.svg?react';
 import TgIcon from '@/images/icon/svgr/tg.svg?react';
 import ShareDrawer from '@/components/drawer/share';
 import { useState } from 'react';
-import { useInviteTgUser, useRangerReport } from '@/hooks/useWiseScore';
+import { useShareRangerInvite, useRangerReport } from '@/hooks/useWiseScore';
 import { stonfi, dedustio } from '@/utils/conf';
 import WebApp from '@twa-dev/sdk';
 
@@ -68,7 +68,7 @@ const typeMap = {
         <RefreshIcon className="absolute bottom-0 right-0" />
       </div>
     ),
-    title: 'Toncoin Liquidity Provider',
+    title: 'Liquidity Provider',
     desc: (
       <>
         <p>
@@ -97,7 +97,7 @@ export default function Ranger() {
   const { type } = useParams();
   const [open, setOpen] = useState(false);
   const { shareToChat, inviteLink, rawText, inviteTgUserFn } =
-    useInviteTgUser(type);
+    useShareRangerInvite(type);
   const { reportRangerShareFn } = useRangerReport();
   const handleClick = () => {
     setOpen(true);
