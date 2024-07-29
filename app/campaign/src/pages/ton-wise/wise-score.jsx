@@ -1,5 +1,5 @@
 import useWiseScore from '@/hooks/useWiseScore';
-import ScoreSkeleton from './components/score-skeleton';
+import Loading from '@/components/loading';
 import WiseDetail from './wise-detail';
 import { lazy, Suspense } from 'react';
 
@@ -14,7 +14,7 @@ export default function TonWiseScore () {
         <ScoreSkeleton />
       ) : (
         <div className='space-y-16'>
-          <Suspense fallback={<ScoreSkeleton />}>
+          <Suspense fallback={<Loading />}>
             <WiseInfo />
           </Suspense>
           <WiseDetail />
