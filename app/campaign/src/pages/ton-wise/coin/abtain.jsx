@@ -4,7 +4,7 @@ import EthIcon from '@/images/icon/svgr/eth.svg?react';
 import RefreshIcon from '@/images/icon/svgr/refresh.svg?react';
 import { useCallback } from 'react';
 import WebApp from '@twa-dev/sdk';
-import { stonfi } from '@/utils/conf';
+import { stonfi, dedustio } from '@/utils/conf';
 import { useParams } from 'react-router-dom';
 
 const typeMap = {
@@ -33,7 +33,28 @@ const typeMap = {
       </div>
     ),
     title: 'Toncoin Staker',
-    desc: 'Stake Toncoin on TON.',
+    desc: (
+      <>
+        <p>
+          Stake on
+          <button
+            onClick={() => WebApp.openTelegramLink(stonfi)}
+            className="text-[#2D83EC] mx-1"
+          >
+            ston.fi
+          </button>
+          and
+          <button
+            onClick={() => WebApp.openTelegramLink(dedustio)}
+            className="text-[#2D83EC] mx-1"
+          >
+            dedust.io
+          </button>
+          are both automatically detected!
+        </p>
+        <p>More platform support coming, stay tuned!</p>
+      </>
+    ),
   },
   5: {
     icon: (
@@ -42,8 +63,29 @@ const typeMap = {
         <RefreshIcon className="absolute bottom-0 right-0" />
       </div>
     ),
-    title: 'Toncoin Liquidity Provider',
-    desc: 'Provide liquidity on TON.',
+    title: 'Liquidity Provider',
+    desc: (
+      <>
+        <p>
+          Provide liquidity
+          <button
+            onClick={() => WebApp.openTelegramLink(stonfi)}
+            className="text-[#2D83EC] mx-1"
+          >
+            ston.fi
+          </button>
+          and
+          <button
+            onClick={() => WebApp.openTelegramLink(dedustio)}
+            className="text-[#2D83EC] mx-1"
+          >
+            dedust.io
+          </button>
+          are both automatically detected!
+        </p>
+        <p>More platform support coming, stay tuned!</p>
+      </>
+    ),
   },
 };
 export default function Ranger() {
@@ -63,7 +105,7 @@ export default function Ranger() {
           <h2 className="mt-2 text-xl text-center">{title}</h2>
           <div className="px-5 py-4 space-y-4 rounded-xl bg-white/10">
             <h2 className="text-base">Prerequisite</h2>
-            <p className="text-sm text-white/60">{desc}</p>
+            <div className="text-sm text-white/60">{desc}</div>
           </div>
           <button
             onClick={handleClick}

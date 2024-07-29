@@ -253,7 +253,7 @@ export default function Generating({
               className="w-[259px] h-[212px] flex justify-center items-center bg-center bg-contain"
               style={{ backgroundImage: `url(${wisescoreRadarpng})` }}
             >
-              <span className="text-color4 font-syne text-xl font-bold">
+              <span className="font-syne text-xl font-bold">
                 {formatImpact(data?.totalScore ?? 0)}
               </span>
             </div>

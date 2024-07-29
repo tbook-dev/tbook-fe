@@ -6,35 +6,19 @@ import useSocial from '@/hooks/useSocial';
 import Address from '@tbook/ui/src/Address';
 import { useMemo } from 'react';
 import useWallet from '@/hooks/useWallet';
-import tonSVG from '@/images/wallet/ton.svg';
-import tonUnlockSVG from '@/images/wallet/ton-unlock.svg';
-import evmUnlockSVG from '@/images/wallet/evm-unlock.svg';
-import evmSVG from '@/images/wallet/evm.svg';
+import TonIcon from '@/images/icon/svgr/ton.svg?react';
+import EthIcon from '@/images/icon/svgr/eth2.svg?react';
 
 const walletIconList = [
   {
     type: 'evm',
-    connected: (
-      <img
-        src={evmUnlockSVG}
-        className="w-6 h-6 object-contain object-center"
-      />
-    ),
-    unConnected: (
-      <img src={evmSVG} className="w-6 h-6 object-contain object-center" />
-    ),
+    connected: <EthIcon className="size-6" fill="#FFBCEC" />,
+    unConnected: <EthIcon className="size-6" fill="#B585AA" />,
   },
   {
     type: 'ton',
-    connected: (
-      <img
-        src={tonUnlockSVG}
-        className="w-6 h-6 object-contain object-center"
-      />
-    ),
-    unConnected: (
-      <img src={tonSVG} className="w-6 h-6 object-contain object-center" />
-    ),
+    connected: <TonIcon className="size-6" fill="#FFBCEC" />,
+    unConnected: <TonIcon className="size-6" fill="#B585AA" />,
   },
 ];
 

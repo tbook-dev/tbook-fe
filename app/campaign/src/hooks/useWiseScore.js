@@ -10,7 +10,7 @@ import {
 } from '@/api/incentive';
 import useUserInfoQuery from './useUserInfoQuery';
 import { getDirectLink } from '@/utils/tma';
-import { useCallback, useMemo, useEffect, useState } from 'react';
+import { useCallback, useMemo, useEffect } from 'react';
 import WebApp from '@twa-dev/sdk';
 
 export const useWiseGobal = () => {
@@ -61,44 +61,6 @@ export default function useWiseScore(extraConf) {
     ...p,
   };
 }
-
-export const useInviteTgUser = (type) => {
-  const { user } = useUserInfoQuery();
-  const userId = user?.userId;
-  const inviteLink = getDirectLink([3]);
-  const rawText = [
-    `🎁I have obtained the WISE Credential  and 🎉 improved my WISE Credit Score.`,
-    `\n🔥Come on to obtain yours!`,
-    inviteLink,
-  ].join('\n');
-  const shareLink = useMemo(() => {
-    if (!userId) return '';
-    const link = `https://t.me/share/url?text=${encodeURIComponent(
-      rawText
-    )}&url=${encodeURIComponent(inviteLink)}`;
-    return link;
-  }, [userId]);
-  const inviteTgUser = useCallback(() => {
-    if (!shareLink) return;
-    WebApp.openTelegramLink(shareLink);
-  }, [shareLink]);
-  const shareToChat = useCallback(() => {
-    // todo
-    WebApp.switchInlineQuery(`share:${userId}:${type}`, [
-      'users',
-      'bots',
-      'groups',
-      'channels',
-    ]);
-  }, [userId]);
-  return {
-    inviteTgUserFn: inviteTgUser,
-    shareText: shareLink,
-    shareToChat,
-    rawText,
-    inviteLink,
-  };
-};
 
 export const useRangerReport = () => {
   const { user } = useUserInfoQuery();
@@ -226,5 +188,42 @@ export const useSBTList = () => {
     ],
     data,
     ...p,
+  };
+};
+
+export const useShareRangerInvite = (type) => {
+  const { user } = useUserInfoQuery();
+  const userId = user?.userId;
+  const inviteLink = getDirectLink([5, type]);
+  const rawText = [
+    `🎁I have obtained the WISE Credential  and 🎉 improved my WISE Credit Score.`,
+    `\n🔥Come on to obtain yours!`,
+    inviteLink,
+  ].join('\n');
+  const shareLink = useMemo(() => {
+    if (!userId) return '';
+    const link = `https://t.me/share/url?text=${encodeURIComponent(
+      rawText
+    )}&url=${encodeURIComponent(inviteLink)}`;
+    return link;
+  }, [userId]);
+  const inviteTgUser = useCallback(() => {
+    if (!shareLink) return;
+    WebApp.openTelegramLink(shareLink);
+  }, [shareLink]);
+  const shareToChat = useCallback(() => {
+    WebApp.switchInlineQuery(`share:${userId}:${type}`, [
+      'users',
+      'bots',
+      'groups',
+      'channels',
+    ]);
+  }, [userId]);
+  return {
+    inviteTgUserFn: inviteTgUser,
+    shareText: shareLink,
+    shareToChat,
+    rawText,
+    inviteLink,
   };
 };
