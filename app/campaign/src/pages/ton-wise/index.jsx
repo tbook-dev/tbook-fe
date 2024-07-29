@@ -17,7 +17,6 @@ import useUserInfo from '@/hooks/useUserInfoQuery';
 import LazyImage from '@/components/lazyImage';
 export default function TonWise() {
   const { user } = useUserInfo();
-  console.log({ user });
   const {
     data: userWiseScore,
     totalScore,
