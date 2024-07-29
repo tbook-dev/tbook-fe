@@ -9,12 +9,10 @@ import TgIcon from '@/images/icon/svgr/tg.svg?react';
 import ShareDrawer from '@/components/drawer/share';
 import { useState } from 'react';
 import { useInviteTgUser, useRangerReport } from '@/hooks/useWiseScore';
+import { stonfi, dedustio } from '@/utils/conf';
+import WebApp from '@twa-dev/sdk';
+
 const typeMap = {
-  // 1: {
-  //   icon: NotcoinIcon,
-  //   title: 'Notcoin Ranger',
-  //   desc: 'Hold at least 1 Notcoin in TON wallet.',
-  // },
   1: {
     icon: <TonIcon />,
     title: 'Toncoin Ranger',
@@ -40,7 +38,28 @@ const typeMap = {
       </div>
     ),
     title: 'Toncoin Staker',
-    desc: 'Stake Toncoin on TON.',
+    desc: (
+      <>
+        <p>
+          Stake on
+          <button
+            onClick={() => WebApp.openTelegramLink(stonfi)}
+            className="text-[#2D83EC] mx-1"
+          >
+            ston.fi
+          </button>
+          and
+          <button
+            onClick={() => WebApp.openTelegramLink(dedustio)}
+            className="text-[#2D83EC] mx-1"
+          >
+            dedust.io
+          </button>
+          are both automatically detected!
+        </p>
+        <p>More platform support coming, stay tuned!</p>
+      </>
+    ),
   },
   5: {
     icon: (
@@ -50,7 +69,28 @@ const typeMap = {
       </div>
     ),
     title: 'Toncoin Liquidity Provider',
-    desc: 'Provide liquidity on TON.',
+    desc: (
+      <>
+        <p>
+          Provide liquidity
+          <button
+            onClick={() => WebApp.openTelegramLink(stonfi)}
+            className="text-[#2D83EC] mx-1"
+          >
+            ston.fi
+          </button>
+          and
+          <button
+            onClick={() => WebApp.openTelegramLink(dedustio)}
+            className="text-[#2D83EC] mx-1"
+          >
+            dedust.io
+          </button>
+          are both automatically detected!
+        </p>
+        <p>More platform support coming, stay tuned!</p>
+      </>
+    ),
   },
 };
 export default function Ranger() {
