@@ -14,17 +14,17 @@ import WebApp from '@twa-dev/sdk';
 
 const typeMap = {
   1: {
-    icon: <TonIcon />,
+    icon: <TonIcon className="size-[180px]" />,
     title: 'Toncoin Ranger',
     desc: 'Have transaction record of Toncoin.',
   },
   2: {
-    icon: <NotcoinIcon />,
+    icon: <NotcoinIcon className="size-[180px]" />,
     title: 'Notcoin Ranger',
     desc: 'Have transaction record of Notcoin.',
   },
   3: {
-    icon: <EthIcon />,
+    icon: <EthIcon className="size-[180px]" />,
     title: 'ETH Ranger',
     desc: 'Have transaction record of ETH.',
   },
