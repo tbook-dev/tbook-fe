@@ -19,9 +19,6 @@ export default function ShareDrawer({
   sucessFn,
 }) {
   const [messageApi, contextHolder] = message.useMessage();
-  //   import { useInviteTgUser } from '@/hooks/useUserRenaissance';
-  //   const { shareToChat, inviteLink, rawText, inviteTgUserFn } =
-  //     useInviteTgUser();
   const openMessage = (content, onClose) => {
     messageApi.open({
       icon: null,

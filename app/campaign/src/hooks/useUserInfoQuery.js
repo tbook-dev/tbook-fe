@@ -116,7 +116,7 @@ export default function useUserInfo() {
       {
         type: 'twitter',
         name: twitterName,
-        weight: isTMA ? 2 : 1,
+        weight: isTMA ? 1 : 2,
       },
       {
         type: 'telegram',
