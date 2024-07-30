@@ -6,6 +6,7 @@ export default function Nav({
   to,
   title,
   children,
+  Back = BackIcon,
   algin = 'center',
   justify = 'between',
 }) {
@@ -19,7 +20,7 @@ export default function Nav({
       })}
     >
       <Link to={to} className="absolute left-0">
-        <BackIcon />
+        <Back />
       </Link>
       {title && <h2 className="text-2xl font-thin">{title}</h2>}
       {children}
