@@ -83,22 +83,22 @@ export default function Engage() {
       //     </Link>
       //   ),
       // },
-      {
-        type: 'toncoinStaker',
-        name: 'Toncoin Staker',
-        handle: () => {
-          navigate(`/wise-score/identity/4/abtain`);
-        },
-        finished: tonStakeScore > 0,
-        sucess: (
-          <Link to="/wise-score/identity/4/ranger" className="relative">
-            <TonIcon />
-            <span className="text-xs absolute -bottom-1 right-[-7px] font-medium">
-              %
-            </span>
-          </Link>
-        ),
-      },
+      // {
+      //   type: 'toncoinStaker',
+      //   name: 'Toncoin Staker',
+      //   handle: () => {
+      //     navigate(`/wise-score/identity/4/abtain`);
+      //   },
+      //   finished: tonStakeScore > 0,
+      //   sucess: (
+      //     <Link to="/wise-score/identity/4/ranger" className="relative">
+      //       <TonIcon />
+      //       <span className="text-xs absolute -bottom-1 right-[-7px] font-medium">
+      //         %
+      //       </span>
+      //     </Link>
+      //   ),
+      // },
       {
         type: 'toncoinLiquidityProvider',
         name: 'Liquidity Provider',
