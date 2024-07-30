@@ -54,7 +54,7 @@ export default function TonWise() {
                 <div className="text-2xl font-light">
                   <h2 className="flex items-center">
                     Your
-                    <LazyImage src={user?.avatar} className="size-7 mx-1" />
+                    <LazyImage src={user?.avatar} className="size-7 rounded-full mx-1" />
                     WISE Credit
                   </h2>
                   <h2>Dashboard</h2>
