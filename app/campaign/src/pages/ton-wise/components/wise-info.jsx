@@ -2,10 +2,10 @@ import WiseRadar from './wise-radar';
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils/conf';
-import BackIcon from '@/images/icon/svgr/back.svg?react';
 import useWiseScore from '@/hooks/useWiseScore';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import Nav from './nav';
+import WiseLevel from './wiseLevel';
 
 const WiseTab = () => {
   const [activeTab, setActiveTab] = useState(1);
@@ -19,10 +19,11 @@ const WiseTab = () => {
         key: 1,
         label: 'Score',
         component: (
-          <div className="flex items-center justify-center">
-            <span className="text-[80px] text-color8">
+          <div className="flex flex-col gap-y-3">
+            <span className="text-[80px] leading-[80px]  text-color8">
               {formatImpact(data?.totalScore ?? 0)}
             </span>
+            <WiseLevel totalScore={data?.totalScore ?? 0} />
           </div>
         ),
       },

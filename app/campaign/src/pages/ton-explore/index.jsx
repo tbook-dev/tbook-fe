@@ -34,6 +34,9 @@ export default function TonExplore() {
           }
         } else if (type === 4) {
           navigate(`/event/renaissance`);
+        } else if (type === 5) {
+          const coin = p.coin;
+          navigate(`/wise-score/identity/${coin}/abtain`);
         }
       }
     }

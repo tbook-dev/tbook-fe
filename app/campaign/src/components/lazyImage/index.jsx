@@ -6,7 +6,7 @@ const imgStatusMap = {
   loaded: 1,
   error: 2,
 };
-export default function ({
+export default function LazyImage({
   src,
   alt,
   className,
@@ -39,7 +39,7 @@ export default function ({
         <img
           src={fallbackSrc}
           className={className}
-          alt='fallback image'
+          alt="fallback image"
           {...props}
         />
       )}
