@@ -1,8 +1,9 @@
-import { Form, Input, Spin, Select } from 'antd';
+import { Form, Input, Spin } from 'antd';
 import dcInviteImg from '@/images/dc-invite.png';
 import Invitebot from '../components/invitebot';
 import useDcRoles from '@/hooks/queries/useDcRoles';
 import { useEffect } from 'react';
+import SelectWraper from '@/components/wraper/select';
 
 const FormItem = Form.Item;
 
@@ -162,7 +163,7 @@ export default {
       const { data: remoteRoles, isLoading } = useDcRoles(serverLink);
       useEffect(() => {
         if (remoteRoles === null) {
-          form.setFieldValue(['credential', name, 'roleId'], undefined);
+          form.setFieldValue(['credential', name, 'roleId'], []);
         }
       }, [remoteRoles]);
       return (
@@ -195,14 +196,16 @@ export default {
             rules={[
               {
                 required: true,
-                message: 'Please input valid server url first!',
+                message: 'Please input valid value!',
               },
             ]}
+            tooltip='If multiple roles selected, then user can verify the credential as long as they have any one of those roles.'
           >
-            <Select
+            <SelectWraper
               notFoundContent={
                 isLoading ? <Spin size='small' className='ml-3' /> : null
               }
+              mode='multiple'
               options={remoteRoles}
               placeholder='Select role after you input the valid Server Link'
             />

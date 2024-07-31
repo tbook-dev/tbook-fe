@@ -43,7 +43,7 @@ export default function CredentialDisplay ({
         className='w-5 h-5 object-contain mt-0.5 flex-none'
         alt='credential logo'
       />
-      <span className='flex-auto'>
+      <span className='flex-auto line-clamp-3'>
         <span className='text-[#904BF6]'>{actionName}</span>
         <span className='ml-1'>{actionTarget}</span>
       </span>
@@ -58,7 +58,7 @@ export default function CredentialDisplay ({
         className='w-5 h-5 object-contain mt-0.5 flex-none'
         alt='credential logo'
       />
-      <span className='flex-auto'>
+      <span className='flex-auto line-clamp-3 text-start'>
         <span className='text-[#904BF6]'>{actionName}</span>
         <span className='ml-1'>{actionTarget}</span>
       </span>

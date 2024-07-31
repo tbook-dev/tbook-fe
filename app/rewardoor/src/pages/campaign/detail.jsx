@@ -59,6 +59,8 @@ export default function () {
   }, [pageInfo]);
   // const isInScheduleStatus = true;
   const isInScheduleStatus = pageInfo?.campaign?.status === 2;
+  const isInOngoingStatus = pageInfo?.campaign?.status === 1;
+
   const handleEdit = useCallback(() => {
     navigate(`/campaign/${id}/update`);
   }, [id]);
@@ -132,7 +134,7 @@ export default function () {
         </div>
       </section>
 
-      <section className={isInScheduleStatus ? 'mb-36' : ''}>
+      <section className='mb-36'>
         <div className='mb-8 flex gap-x-20'>
           {tabList.map(v => {
             return (
@@ -177,6 +179,15 @@ export default function () {
             </div>
           </footer>
         </>
+      )}
+      {isInOngoingStatus && (
+        <footer className='fixed bottom-0 inset-x-0 pl-[280px] flex'>
+          <div className='w-[1080px] mx-auto h-20 flex items-center justify-end gap-x-10 relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur'>
+            <Button type='primary' onClick={handleEdit}>
+              Edit
+            </Button>
+          </div>
+        </footer>
       )}
       {contextHolder}
     </>

@@ -15,11 +15,15 @@ import {
   setShowSocicalModal,
   setsocialRedirectModalData,
   setShowSocialRedirectModal,
+  setMergeAccountData,
+  setShowMergeAccountModal,
+  setUnbindAccountData,
+  setUnbindAccountModal,
 } from '@/store/global';
 import facebookSVG from '@/images/zklogin/facebook.svg';
 import talkSVG from '@/images/zklogin/talk.svg';
 // import { getGoogleLoginUrl } from "@/utils/zklogin";
-import { useResponsive } from 'ahooks';
+import { useTelegram } from '@/hooks/useTg';
 import { delay } from '@/utils/common';
 import { useEnokiFlow } from '@mysten/enoki/react';
 
@@ -65,6 +69,7 @@ export default function useSocial() {
   // useAuthCallback();
   const dispath = useDispatch();
   // const { pc } = useResponsive();
+  const { webApp } = useTelegram();
   const allList = useMemo(() => {
     return [
       {
@@ -74,6 +79,7 @@ export default function useSocial() {
         picUrl: dcGray,
         activePic: dc,
         loginFn: async (skip = false) => {
+          webApp?.BackButton?.hide();
           !skip && localStorage.setItem('redirect_url', location.href);
           // location.href = dcCallbackUrl;
           window.open(dcCallbackUrl, '_self');
@@ -90,20 +96,10 @@ export default function useSocial() {
         picUrl: xGray,
         activePic: x,
         loginFn: async (skip = false) => {
+          webApp?.BackButton?.hide();
           !skip && localStorage.setItem('redirect_url', location.href);
           const res = await getTwLoginUrl();
-          // const a = document.createElement("a");
-          // document.body.appendChild(a);
-          // a.style = "display: none";
-          // a.href = res["url"];
-          // a.setAttribute("target", "_self");
-          // a.setAttribute("mc-deep-link", "false");
-          // a.setAttribute("rel", "nofollow noopener noreferrer");
-          // // rel='nofollow noopener noreferrer'
-          // a.click();
           window.open(res['url'], '_self');
-          // setTwCallbackUrl(() => res["url"]);
-          // location.href = res["url"];
         },
         userName: data?.userTwitter?.twitterUserName ?? '',
         failText: 'Please authorize your X account and continue to verify.',
@@ -115,9 +111,6 @@ export default function useSocial() {
         picUrl: tgGray,
         activePic: tg,
         loginFn: async (skip = false) => {
-          // !skip && localStorage.setItem("redirect_url", location.href);
-          // location.href = tgCallbackUrl;
-          // window.open(tgCallbackUrl, pc ? "_blank" : "_self");
           dispath(setShowSocicalModal(false));
           dispath(
             setsocialRedirectModalData({
@@ -141,24 +134,35 @@ export default function useSocial() {
                 return;
               }
               try {
-                const authRes = await authTgCallback(user);
-                console.log({ authRes, user });
-                if (authRes.code === 4004) {
+                const data = await authTgCallback(user);
+                console.log({ data, user });
+                if (data.code === 4004) {
                   dispath(
-                    setsocialRedirectModalData({
-                      type: 'telegram',
-                      status: 'occupied',
-                      desc: `Telegram account @${authRes.socialName} has been
-                          connected to another address
-                          ${authRes.address}`,
+                    setUnbindAccountData({
+                      passportA: data.passportA,
+                      passportB: data.passportB,
                     })
                   );
-                } else if (authRes.code === 500) {
+                  dispath(setUnbindAccountModal(true));
+                } else if (data.code === 400) {
+                  dispath(setShowSocialRedirectModal(false));
+                  dispath(
+                    setMergeAccountData({
+                      // address: shortAddress(data.address),
+                      // twitterName: data.twitterName,
+                      // twitterId: userData?.userTwitter?.twitterId,
+                      passportA: data.passportA,
+                      passportB: data.passportB,
+                      redirect: false,
+                    })
+                  );
+                  dispath(setShowMergeAccountModal(true));
+                } else if (data.code === 500) {
                   dispath(
                     setsocialRedirectModalData({
                       type: 'telegram',
                       status: 'failed',
-                      desc: authRes.msg,
+                      desc: data.msg,
                     })
                   );
                 } else {
@@ -166,7 +170,7 @@ export default function useSocial() {
                     setsocialRedirectModalData({
                       type: 'telegram',
                       status: 'sucess',
-                      desc: `Telegram account @${authRes.socialName} has been authorized. `,
+                      desc: `Telegram account @${data.socialName} has been authorized. `,
                     })
                   );
                   await refetch();

@@ -6,7 +6,6 @@ import {
   useTonConnectModal,
   useTonAddress,
 } from '@tonconnect/ui-react';
-// import { CHAIN } from '@tonconnect/ui-react';
 import { Address } from 'ton';
 import { getTonPayload, verifyTonProof } from '@/api/incentive';
 import { useDispatch } from 'react-redux';
@@ -16,42 +15,56 @@ import {
   setLoginModal,
   setShowMergeAccountModal,
   setMergeAccountData,
+  setUnbindAccountData,
+  setUnbindAccountModal,
 } from '@/store/global';
-import { conf } from '@tbook/utils';
 import { message } from 'antd';
-import { delay } from '@/utils/common';
-
-const { shortAddress } = conf;
+import { useQuery, useQueryClient } from 'react-query';
 
 const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
 const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
 
 const getCurrentDirectLink = () => {
-  const start_param = window.Telegram?.WebApp?.initDataUnsafe?.start_param;
+  // const start_param = window.Telegram?.WebApp?.initDataUnsafe?.start_param;
   const tmaHome = `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}`;
-  return start_param ? `${tmaHome}?startapp=${start_param}` : tmaHome;
+  // start_param ? `${tmaHome}?startapp=${start_param}` : tmaHome;
+  // 当前isframe, 客户端都不行
+  // if (window.Telegram?.WebView?.isIframe) {
+  //   return tmaHome;
+  // } else {
+  //   return start_param ? `${tmaHome}?startapp=${start_param}` : tmaHome;
+  // }
+  return tmaHome;
 };
 export default function useTonLogin() {
   const firstProofLoading = useRef(true);
+  const { data: payload } = useQuery(['tonproof'], getTonPayload, {
+    staleTime: 60000,
+  });
+  const queryClient = useQueryClient();
   // const [data, setData] = useState({});
   const [messageApi, contextHolder] = message.useMessage();
   const wallet = useTonWallet();
   const [authorized, setAuthorized] = useState(false);
   const [tonConnectUI] = useTonConnectUI();
-  const { refetch } = useUserInfoQuery();
+  const { refetch, userLogined } = useUserInfoQuery();
   const dispath = useDispatch();
   const [loading, setLoading] = useState(false);
   const openMergeAccountModal = useCallback(() => {
     dispath(setShowMergeAccountModal(true));
   }, []);
-  const recreateProofPayload = useCallback(async () => {
+  const openUnbindAccountModal = useCallback(() => {
+    dispath(setUnbindAccountModal(true));
+  }, []);
+
+  useEffect(() => {
     if (firstProofLoading.current) {
       tonConnectUI.setConnectRequestParameters({ state: 'loading' });
       firstProofLoading.current = false;
       setLoading(true);
     }
 
-    const payload = await getTonPayload();
+    // const payload = await getTonPayload();
     if (window.Telegram?.WebApp?.initData) {
       tonConnectUI.uiOptions = {
         actionsConfiguration: {
@@ -59,6 +72,7 @@ export default function useTonLogin() {
         },
       };
     }
+
     if (payload) {
       tonConnectUI.setConnectRequestParameters({
         state: 'ready',
@@ -67,16 +81,12 @@ export default function useTonLogin() {
     } else {
       tonConnectUI.setConnectRequestParameters(null);
     }
-  }, [tonConnectUI, firstProofLoading]);
-
-  if (firstProofLoading.current) {
-    recreateProofPayload();
-  }
+  }, [tonConnectUI, firstProofLoading, payload]);
 
   useEffect(
     () =>
       tonConnectUI.onStatusChange(async (w) => {
-        console.log('xxx', w);
+        // console.log('xxx--->', w, w?.connectItems?.tonProof);
         if (!w) {
           setAuthorized(false);
           setLoading(false);
@@ -88,6 +98,7 @@ export default function useTonLogin() {
             network: w.account.chain,
             frAddress: Address.parse(w.account.address).toString(),
             publicKey: w.account.publicKey,
+            login: !userLogined,
             tonProofItem: {
               name: 'ton_proof',
               proof: w.connectItems.tonProof.proof,
@@ -99,25 +110,34 @@ export default function useTonLogin() {
             // setShowMergeAccountModal()
             dispath(
               setMergeAccountData({
-                address: shortAddress(data.address),
-                twitterName: data.twitterName ?? data.socialName,
-                twitterId: userData?.userTwitter?.twitterId,
+                passportA: data.passportA,
+                passportB: data.passportB,
                 redirect: false,
               })
             );
             openMergeAccountModal();
-          } else {
+          } else if (data.code === 4004) {
             // 4004要解绑
-            if (data.code != 200) {
-              messageApi.error(data.message);
-              setLoading(false);
-              // handleCloseModal();
-              return;
-            } else {
-              await delay(100);
-              await refetch();
-            }
+            dispath(
+              setUnbindAccountData({
+                passportA: data.passportA,
+                passportB: data.passportB,
+              })
+            );
+            openUnbindAccountModal();
+            // if (data.code != 200) {
+            //   messageApi.error(data.message);
+            //   setLoading(false);
+            //   // handleCloseModal();
+            //   return;
+            // } else {
+            //   await delay(100);
+            //   await refetch();
+            // }
+          } else {
+            queryClient.invalidateQueries(['wise-score']);
           }
+
           await refetch();
           setLoading(false);
           //await TonProofDemoApi.checkProof(w.connectItems.tonProof.proof, w.account);

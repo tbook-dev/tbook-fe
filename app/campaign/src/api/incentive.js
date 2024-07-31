@@ -18,6 +18,15 @@ export const authenticate = async function (address, sign) {
 export const getUserInfo = async function () {
   return await request(`${host}/info`);
 };
+export const getTaskSign = async function (credentialId) {
+  return await request.Get(`${host}/campaignSign/${credentialId}`);
+};
+export const takTaskSign = async function (credentialId, data) {
+  return await request.PostFormV1(
+    `${host}/campaignSign/${credentialId}/verify`,
+    data
+  );
+};
 export const getProjectInfo = async function (projectId) {
   return await request(`${host}/project/${projectId}`);
 };
@@ -201,15 +210,18 @@ export const markNewUser = async function () {
   return await request.Post(`${host}/markNewUser`);
 };
 
-export const mergeTwitterAndAddressAccount = async function (data) {
-  return await request.PostFormV1(`${host}/twitter/merge`, data);
+export const mergePassport = async function (data) {
+  return await request.Post(`${host}/twitter/mergePassport`, data);
 };
 
 export const getTopProjects = async function () {
   return await request.Get(`${host}/project/home`);
 };
-export const disConnectAccount = async function (data) {
+export const disConnectSocialAccount = async function (data) {
   return await request.PostFormV1(`${host}/social/unbind`, data);
+};
+export const disConnectTonAddcount = async function (data) {
+  return await request.PostFormV1(`${host}/ton-proof/unbind`, data);
 };
 export const tgTMAAuth = async function (data) {
   return await request.Post(`${host}/tg/tma/auth`, data);
@@ -232,4 +244,63 @@ export const getTopBoard = async function () {
 
 export const addWiseSocialLink = async function (data) {
   return await request.Post(`${host}/wiseScore/addLink`, data);
+};
+export const getUserRenaissance = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/level/${userId}`);
+};
+export const getUserLevel = async function (userId) {
+  // return 2;
+  return await request.Get(`${host}/luckyDraw/level/${userId}`);
+};
+export const joinSBTList = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/joinSBTList/${userId}`);
+};
+export const getUserTpoints = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/tPoints/${userId}`);
+};
+export const getInvitedFriends = async function () {
+  return await request.Get(`${host}/tg/invitations`);
+};
+
+export const getWiseScoreTop3 = async function () {
+  return await request.Get(`${host}/wiseScore/top3`);
+};
+
+export const takeLuckyDraw = async function (userId) {
+  return await request.Get(`${host}/luckyDraw/${userId}`);
+};
+export const getBugCardsList = async function () {
+  return await request.Get(`${host}/tPoints/buyCards/levelMap`);
+};
+export const buyCard = async function (level) {
+  return await request.Get(`${host}/tPoints/buyCards/${level}`);
+};
+export const getBoostStatus = async function () {
+  return await request.Get(`${host}/tPoints/boost/status`);
+};
+export const reportRangerShare = async function (userId, type) {
+  return await request.PostFormV1(`${host}/wise-task/check-task`, {
+    taskName: `share:${userId}:${type}`,
+  });
+};
+export const checkTask = async function (taskName) {
+  return await request.PostFormV1(`${host}/wise-task/check-task`, {
+    taskName,
+  });
+};
+export const getInvitedCreditFriends = async function () {
+  return await request.Get(`${host}/wise-score-invite/my-code`);
+};
+export const applyCode = async function (data) {
+  return await request.PostFormV1(`${host}/wise-score-invite/apply-code`, data);
+};
+export const getWiseScoreStatus = async function (userId) {
+  const res = await request.Get(`${host}/wiseScore/check/${userId}`);
+  return res?.code === 200;
+};
+export const getSBTList = async function () {
+  return await request.Get(`${host}/wiseScore/mint`);
+};
+export const mintSBT = async function () {
+  return await request.Get(`${host}/wiseScore/mint`);
 };

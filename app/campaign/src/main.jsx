@@ -13,6 +13,7 @@ import ErrorBoundary from '@/components/errorBoundary';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import { configResponsive } from 'ahooks';
 import { TelegramProvider } from '@/hooks/useTg';
+
 configResponsive({
   pc: 1200,
 });
@@ -26,9 +27,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <TelegramProvider>
           <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools initialIsOpen={false} />
-              <EnokiFlowProvider apiKey={enoki_key} apiUrl={`${baseUrl}/zkproxy`}>
-                <App />
-              </EnokiFlowProvider>
+            <EnokiFlowProvider apiKey={enoki_key} apiUrl={`${baseUrl}/zkproxy`}>
+              <App />
+            </EnokiFlowProvider>
           </QueryClientProvider>
         </TelegramProvider>
       </Provider>

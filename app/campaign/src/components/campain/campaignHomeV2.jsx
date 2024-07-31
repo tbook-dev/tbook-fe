@@ -1,6 +1,6 @@
 import { Link, useLoaderData } from 'react-router-dom';
 import { memo, useMemo } from 'react';
-import { formatDollar } from '@tbook/utils/lib/conf';
+import { formatStandard } from '@tbook/utils/lib/conf';
 import LazyImage from '@/components/lazyImage';
 import { Statistic } from 'antd';
 import { useTelegram } from '@/hooks/useTg';
@@ -75,7 +75,7 @@ function Compaign ({
 
         <div className='space-y-3'>
           <div className='flex items-center gap-x-1 text-[#C0ABD9]'>
-            <span className='font-zen-dot'>{formatDollar(usersNum)}</span>
+            <span className='font-zen-dot'>{formatStandard(usersNum)}</span>
             {usersNum > 1 ? 'Participants' : 'Participant'}
           </div>
 

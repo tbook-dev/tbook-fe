@@ -55,7 +55,7 @@ export const TMAsocialList = ({ twitterName, tgName }) => [
   {
     type: 'twitter',
     name: twitterName,
-    weight: 2,
+    weight: 1,
   },
   {
     type: 'telegram',
@@ -73,7 +73,7 @@ export const webSocialList = ({ twitterName, tgName }) => [
   {
     type: 'telegram',
     name: tgName,
-    weight: 1,
+    weight: 2,
   },
 ];
 

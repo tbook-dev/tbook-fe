@@ -5,25 +5,19 @@ import Discord from '../modal/discord';
 import useWiseSocialMutation from '@/hooks/useWiseSocialMutation';
 import { useState, useCallback } from 'react';
 import { message } from 'antd';
-import Empty from '@/components/empty';
-
-const modlueConf = {
-  title: 'Improve your WISE Score',
-  acionMap: {
-    telegram: 'your telegram group/channel subscribers',
-    discord: 'your discord server subscribers',
-  },
-  recordTitle: 'Submission Record',
-  recordMap: {
-    // 1: 'Telegram Channel',
-    2: 'Telegram Channel/Telegram Group',
-    3: 'Discord Server',
-  },
-};
+import Button from '../components/button';
+import { useMemo } from 'react';
+import useSocial from '@/hooks/useSocial';
+import TgIcon from '@/images/icon/svgr/tg.svg?react';
+import XIcon from '@/images/icon/svgr/x.svg?react';
+import DcIcon from '@/images/icon/svgr/dc.svg?react';
 
 export default function Social () {
   const [messageApi, contextHolder] = message.useMessage();
   const mutation = useWiseSocialMutation(messageApi);
+  const { getSocialByName } = useSocial();
+  const twitter = getSocialByName('twitter');
+
   const { data } = useWiseScore();
   const [tgOpen, setTg] = useState(false);
   const [dcOpen, setDc] = useState(false);
@@ -34,102 +28,118 @@ export default function Social () {
   const handleDcClose = useCallback(() => {
     setDc(false);
   }, []);
-  const actionList = [
-    {
-      type: 'telegram',
-      actionName: modlueConf.acionMap.telegram,
-      handle: () => {
-        setTg(true);
+  const actionList = useMemo(() => {
+    const twitterFollowers = data?.socialScore?.twitterFollowerScore ?? 0;
+    const telegrams = (data?.userDcTgShareLink ?? []).filter(
+      v => v.socialType === 2
+    );
+    const dcs = (data?.userDcTgShareLink ?? []).filter(v => v.socialType === 1);
+    return [
+      {
+        type: 'telegram',
+        actionName: 'Telegram AllStar Stats',
+        handle: () => {
+          setTg(true);
+        },
+        list: telegrams.map((v, id) => ({
+          pic: <TgIcon fill='#229ED9' />,
+          title: `${formatImpact(v.memberCount)} Fans`,
+          extralInfo: v.title,
+          id,
+        })),
+        emptyText: '🔥Submit channel/group fans to improve WISE Score!',
       },
-    },
-    {
-      type: 'discord',
-      actionName: modlueConf.acionMap.discord,
-      handle: () => {
-        setDc(true);
+      {
+        type: 'twitter',
+        actionName: 'Twitter AllStar Stats',
+        handle: null,
+        list:
+          twitterFollowers >= 0
+            ? [
+                {
+                  pic: <XIcon />,
+                  title: `${formatImpact(twitterFollowers)} Followers`,
+                  extralInfo: null,
+                  id: 1,
+                },
+              ]
+            : [],
+        emptyText: (
+          <>
+            🔥
+            <button
+              onClick={twitter.loginFn}
+              className='text-[#904BF6] text-xs underline underline-offset-2'
+            >
+              Connect X
+            </button>
+            , submit followers to improve WISE Score!
+          </>
+        ),
       },
-    },
-  ];
-  const recordList = data?.userDcTgShareLink ?? [];
+      {
+        type: 'discord',
+        actionName: 'Discord AllStar Stats',
+        handle: () => {
+          setDc(true);
+        },
+        list: dcs.map((v, id) => ({
+          pic: <DcIcon fill='#5865F2' />,
+          title: `${formatImpact(v.memberCount)} Fans`,
+          extralInfo: v.title,
+          id,
+        })),
+        emptyText: '🔥Submit your server fans to improve your WISE Score!',
+      },
+    ];
+  }, [data, twitter]);
+
   return (
     <>
       {contextHolder}
       <Telegram open={tgOpen} onClose={handleTgClose} mutation={mutation} />
       <Discord open={dcOpen} onClose={handleDcClose} mutation={mutation} />
-      <div className='pt-6 space-y-16'>
-        <div className='space-y-5'>
-          <h2 className='text-base font-zen-dot'>{modlueConf.title}</h2>
 
-          <div className='flex flex-col gap-y-4'>
-            {actionList.map(v => {
-              return (
-                <button
-                  key={v.type}
-                  className='bg-gradient-to-br from-purple-500 to-pink-500 p-px flex font-medium text-sm rounded-lg'
-                  onClick={v.handle}
-                >
-                  <span className='bg-[#0E0819] flex items-center justify-between flex-1 p-4 gap-x-[30px] rounded-lg'>
-                    <span className='text-[#904BF6] text-left'>
-                      Submit
-                      <span className='text-white ms-1'>
-                        {modlueConf.acionMap[v.type]}
-                      </span>
-                    </span>
-                    <svg
-                      width='24'
-                      height='24'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <path
-                        d='M13.5 4.5L21 12M21 12L13.5 19.5M21 12H3'
-                        stroke='#A1A1AA'
-                        strokeWidth='1.5'
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                      />
-                    </svg>
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className='space-y-5'>
-          <h2 className='text-base font-zen-dot'>{modlueConf.recordTitle}</h2>
-
-          <div className='flex flex-col gap-y-4'>
-            {recordList.length > 0 ? (
-              recordList.map(v => {
-                return (
-                  <div
-                    key={v.socialType}
-                    className='bg-[rgb(144,75,246)]/[0.10] p-5 flex items-center justify-between gap-x-[30px] text-sm rounded-lg'
-                  >
-                    <div className='flex flex-col gap-y-0.5'>
-                      <span className='text-white text-sm font-medium'>
-                        {v.title}
-                      </span>
-                      <span className='text-[#C0ABD9] text-xs'>
-                        {modlueConf.recordMap[v.socialType]}
-                      </span>
-                    </div>
-                    <div className='text-[#C0ABD9]'>
-                      <span className='me-1 text-base font-medium text-white'>
-                        {formatImpact(v.memberCount)}
-                      </span>
-                      fan
-                      {v.memberCount > 1 && 's'}
-                    </div>
+      <div className='space-y-5'>
+        <div className='flex flex-col gap-y-4'>
+          {actionList.map(v => {
+            return (
+              <div key={v.type} className='space-y-3'>
+                <div className='flex justify-between items-center'>
+                  <h3 className='font-medium'>{v.actionName}</h3>
+                  {v.handle && <Button onClick={v.handle}>Improve</Button>}
+                </div>
+                {v.list.length > 0 ? (
+                  <div className='grid grid-cols-3 gap-3'>
+                    {v.list.map(p => {
+                      return (
+                        <div
+                          key={p.id}
+                          className='flex flex-col items-center text-xs gap-1'
+                        >
+                          {p.pic}
+                          <div className='space-y-0.5 text-center'>
+                            {p.title && (
+                              <h4 className='text-white'>{p.title}</h4>
+                            )}
+                            {p.extralInfo && (
+                              <p className='text-white/40 line-clamp-2'>
+                                {p.extralInfo}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })
-            ) : (
-              <Empty text='There’s no record yet.' />
-            )}
-          </div>
+                ) : (
+                  <p className='text-white/60 text-xs text-center'>
+                    {v.emptyText}
+                  </p>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </>

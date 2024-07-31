@@ -79,7 +79,7 @@ export default function RedirectSocial ({
               className='h-[42px] w-full shadow-s4 rounded border border-[rgb(255,255,255)]/[0.2] hover:opacity-70'
               onClick={() => redirectLocalStorageOnce(navigate)}
             >
-              Back to campaign page
+              Back
             </button>
           </div>
         </div>
@@ -87,16 +87,13 @@ export default function RedirectSocial ({
       {status === 'occupied' && (
         <div className='flex flex-col items-center'>
           <img src={failedSvg} className='w-14 lg:w-20 h-14 lg:h-20' />
-          <Result
-            title='Failed to authorize'
-            desc={desc || 'Account occupied!'}
-          />
+          <Result title='Failed to authorize' desc={'Account occupied!'} />
           <div className='w-[312px] mx-auto text-white mt-8 space-y-3'>
             <button
               className='bg-[#904BF6] h-[42px] w-full shadow-s4 rounded hover:opacity-70'
               onClick={() => redirectLocalStorageOnce(navigate)}
             >
-              Back to campaign page
+              Back
             </button>
           </div>
         </div>
@@ -116,7 +113,7 @@ export default function RedirectSocial ({
               className='h-[42px] w-full shadow-s4 rounded border border-[rgb(255,255,255)]/[0.2] hover:opacity-70'
               onClick={() => redirectLocalStorageOnce(navigate)}
             >
-              Back to campaign page
+              Back
             </button>
           </div>
         </div>

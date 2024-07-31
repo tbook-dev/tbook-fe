@@ -116,7 +116,9 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
   useEffect(() => {
     if (open) {
       const useDefaultValue = conf?.length === 0;
-      form.setFieldsValue({ credential: useDefaultValue ? [] : conf });
+      form.setFieldsValue({
+        credential: useDefaultValue ? [] : conf.map(c => merge(c, c.options)),
+      });
     }
   }, [open]);
 

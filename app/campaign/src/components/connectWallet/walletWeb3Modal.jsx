@@ -1,4 +1,4 @@
-import { Modal, Typography, Spin, message, App } from 'antd';
+import { Modal, Typography, Spin, message } from 'antd';
 import { useSelector } from 'react-redux';
 import { useResponsive } from 'ahooks';
 import clsx from 'clsx';
@@ -12,6 +12,8 @@ import {
   setLoginModal,
   setShowMergeAccountModal,
   setMergeAccountData,
+  setUnbindAccountModal,
+  setUnbindAccountData,
 } from '@/store/global';
 import { useWeb3Modal } from '@web3modal/wagmi/react';
 import { useAccount, useSignMessage } from 'wagmi';
@@ -24,7 +26,6 @@ import useUserInfo from '@/hooks/useUserInfoQuery';
 import { CheckOutlined } from '@ant-design/icons';
 import { delay } from '@/utils/common';
 import { changeAccountSignIn, logout, preGetNonce, isIOS } from '@/utils/web3';
-
 const { shortAddress } = conf;
 const { Paragraph } = Typography;
 
@@ -49,7 +50,13 @@ const ConnectWalletModal = () => {
     s => s.global.showConnectWalletModal
   );
   const [messageApi, contextHolder] = message.useMessage();
-  const { data: userData, evmAddress, refetch, userLogined, user } = useUserInfo();
+  const {
+    data: userData,
+    evmAddress,
+    refetch,
+    userLogined,
+    user,
+  } = useUserInfo();
   // const queryClient = useQueryClient()
   const dispath = useDispatch();
   // const { isConnected, address } = useAccount()
@@ -58,10 +65,48 @@ const ConnectWalletModal = () => {
   const [nonce, setNonce] = useState('');
   const { signMessageAsync } = useSignMessage();
   const [loading, setLoading] = useState(false);
+  const [currentAddress, setCurrentAddress] = useState('');
+
+  const { isConnected, address } = useAccount({
+    onConnect ({ address, connector, isReconnected }) {
+      console.log('Connected', { address, connector, isReconnected });
+      if (currentAddress == address) return;
+      if (currentAddress) {
+        // account change
+        changeAccountSignIn(address, walletClient).then(r => {
+          location.href = location;
+        });
+      } else {
+        // new account connect
+        if (isIOS) {
+          preGetNonce(address);
+        } else if (!/Mobi/i.test(window.navigator.userAgent)) {
+          // const signer = await getWalletClient()
+          // signLoginMetaMask(acc.address, signer)
+        }
+      }
+    },
+    onDisconnect () {
+      if (userLogined && user.evm.binded) {
+        logout().then(r => {
+          location.href = location;
+        });
+      }
+    },
+  });
 
   const openMergeAccountModal = useCallback(() => {
     dispath(setShowMergeAccountModal(true));
   }, []);
+  const openUnbindAccountModal = useCallback(() => {
+    dispath(setUnbindAccountModal(true));
+  }, []);
+
+  const updateNoce = useCallback(() => {
+    getNonce(address).then(r => {
+      setNonce(() => r);
+    });
+  }, [address]);
 
   const signIn = async () => {
     setLoading(true);
@@ -71,14 +116,24 @@ const ConnectWalletModal = () => {
       if (userLogined && !evmAddress) {
         const r = await bindEvm(address, sign);
         const data = await r.json();
-        if (data.code === 400) {
+        if (data.code !== 200) {
+          updateNoce();
+        }
+        if (data.code === 4004) {
+          dispath(
+            setUnbindAccountData({
+              passportA: data.passportA,
+              passportB: data.passportB,
+            })
+          );
+          openUnbindAccountModal();
+        } else if (data.code === 400) {
           // 400 merge
           // setShowMergeAccountModal()
           dispath(
             setMergeAccountData({
-              address: shortAddress(data.address),
-              twitterName: data.twitterName,
-              twitterId: userData?.userTwitter?.twitterId,
+              passportA: data.passportA,
+              passportB: data.passportB,
               redirect: false,
             })
           );
@@ -109,34 +164,6 @@ const ConnectWalletModal = () => {
     }
     setLoading(false);
   };
-  const [currentAddress, setCurrentAddress] = useState('');
-  const { isConnected, address } = useAccount({
-    onConnect ({ address, connector, isReconnected }) {
-      console.log('Connected', { address, connector, isReconnected });
-      if (currentAddress == address) return;
-      if (currentAddress) {
-        // account change
-        changeAccountSignIn(address, walletClient).then(r => {
-          location.href = location;
-        });
-      } else {
-        // new account connect
-        if (isIOS) {
-          preGetNonce(address);
-        } else if (!/Mobi/i.test(window.navigator.userAgent)) {
-          // const signer = await getWalletClient()
-          // signLoginMetaMask(acc.address, signer)
-        }
-      }
-    },
-    onDisconnect () {
-      if (userLogined && user.evm.binded) {
-        logout().then(r => {
-          location.href = location;
-        });
-      }
-    },
-  });
 
   useEffect(() => {
     setCurrentAddress(address);
@@ -144,9 +171,7 @@ const ConnectWalletModal = () => {
 
   useEffect(() => {
     if (isConnected) {
-      getNonce(address).then(r => {
-        setNonce(() => r);
-      });
+      updateNoce();
     }
   }, [isConnected, address]);
   // console.log(nonce)

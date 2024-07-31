@@ -9,7 +9,7 @@ const moduleConf = {
   connectText: 'Connect telegram',
   botLink: 'https://t.me/tbook_sign_bot',
   tip1: 'Invite TBook support bot as an admin to your Telegram group/channel',
-  tip2: 'Paste telegram group/channel share link',
+  tip2: 'Paste public telegram group/channel invite link',
   tip3: 'https://t.me/tbookincentive',
 };
 export default function Telegram ({ open, onClose, mutation }) {

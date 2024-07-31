@@ -35,8 +35,13 @@ export default {
   5: {
     isLink: true,
     getLink: ({ link }) => link,
-    getActionName: ({ roleName }) => `have the ${roleName} role`,
-    getActionTarget: ({ serverName }) => `in ${serverName} server`,
+    getActionName: () => 'Have',
+    getActionTarget: ({ serverName, roleName }) => {
+      const roleNamesList = roleName?.split(',').filter(Boolean);
+      return roleNamesList.length > 1
+        ? `one role of ${roleName} in server ${serverName}`
+        : `${roleName} in server ${serverName}`;
+    },
   },
   // tg
   6: {
@@ -65,8 +70,8 @@ export default {
     getActionTarget: ({ eventName }) => `${eventName}`,
   },
   12: {
-    isLink: true,
-    getLink: ({ link }) => link,
+    isLink: false,
+    getLink: noop,
     getActionName: () => 'Visit',
     getActionTarget: () => `for proposal`,
   },

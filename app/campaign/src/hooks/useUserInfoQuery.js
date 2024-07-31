@@ -10,9 +10,14 @@ import {
   TMAsocialList,
   webSocialList,
 } from '@/utils/logType';
+import { useLocation } from 'react-router-dom';
+
+const whiteList = ['/event/renaissance', '/wise-score', '/wise-score/join'];
+
 export default function useUserInfo() {
   const [firstLoad, setFirstLoad] = useState(false);
   const dispatch = useDispatch();
+  const location = useLocation();
   const { isTMA } = useTelegram();
   const showPassportGeneratingModal = useSelector(
     (s) => s.global.showPassportGeneratingModal
@@ -86,16 +91,40 @@ export default function useUserInfo() {
       .sort((a, b) => (a.weight - b.weight > 0 ? 1 : -1))
       .pop();
   }, [data, isTMA]);
+  const isMultAccount =
+    [
+      // user, evm
+      !!data?.user?.evm?.evmWallet,
+      !!data?.userTon?.binded,
+      isZK,
+      // tw
+      !!data?.userTwitter?.connected,
+      !!data?.userDc?.connected,
+      !!data?.userTg?.connected,
+    ].filter(Boolean).length > 1;
+
   const sessionKey = `markNewUser-${user?.userId ?? ''}`;
-  if (
-    data &&
-    !showPassportGeneratingModal &&
-    newUser &&
-    !sessionStorage.getItem(sessionKey)
-  ) {
-    sessionStorage.setItem(sessionKey, '1');
-    dispatch(setShowPassportGeneratingModal(true));
-  }
+
+  useEffect(() => {
+    if (
+      data &&
+      !showPassportGeneratingModal &&
+      newUser &&
+      !sessionStorage.getItem(sessionKey) &&
+      !whiteList.includes(location.pathname)
+    ) {
+      sessionStorage.setItem(sessionKey, '1');
+      dispatch(setShowPassportGeneratingModal(true));
+    }
+  }, [
+    data,
+    location,
+    showPassportGeneratingModal,
+    newUser,
+    sessionStorage,
+    dispatch,
+  ]);
+
   return {
     data,
     isLoading,
@@ -123,6 +152,7 @@ export default function useUserInfo() {
     currentAddress,
     currentSocial,
     isUsingWallet,
+    isMultAccount,
     ...props,
   };
 }

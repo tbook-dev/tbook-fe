@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { Tooltip, Image } from 'antd';
+import { Tooltip } from 'antd';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import walletGrayIcon from '@/images/icon/wallet-gray.svg';
 import useSocial from '@/hooks/useSocial';
@@ -18,53 +18,43 @@ import wiseScoreSVG from '@/images/icon/wise-score.svg';
 import fallbackAvatarSVG from '@/images/passport/avatar.svg';
 import LazyImage from '../lazyImage';
 import { useTelegram } from '@/hooks/useTg';
-import {
-  useTonConnectUI,
-  useTonWallet,
-  TonConnectButton,
-  useTonConnectModal,
-  useTonAddress,
-} from '@tonconnect/ui-react';
+import useTonToolkit from '@/components/ton/useTon';
 import TipAddress from './TipAddress';
 import clsx from 'clsx';
 
-const linkNoClickList = ['/ton-explore', '/wise-score', '/wise-leaderboard'];
-
+// const linkNoClickList = ['/ton-explore', '/wise-score', '/wise-leaderboard'];
+const footprintTips = [
+  'The feature to manage overall incentive campaigns and incentive assets is coming soon.',
+  'For now, you could open incentive passport on any campaign page to track your footprint within certain project.',
+  'Stay tuned!',
+];
 export default function PassportCard({ onClose }) {
   const {
     user,
     currentSocial,
     tonConnected,
     address,
-    data,
     evmConnected,
     evmAddress,
     currentAddress,
     tonAddress,
     isUsingWallet,
+    isZK,
   } = useUserInfo();
   const { socialList, getZkfnByName } = useSocial();
-  const { open } = useTonConnectModal();
   const dispatch = useDispatch();
-  const { isUsingSubdomain, projectUrl } = useLoaderData();
-  const { isTMA } = useTelegram();
-  const [tonConnectUI] = useTonConnectUI();
-
+  const { isUsingSubdomain, projectUrl, projectId } = useLoaderData();
+  const { isTMA, canConnectEvm } = useTelegram();
+  const { openTonModalLogin, disconnectTon } = useTonToolkit();
+  const zkGoogle = getZkfnByName('google');
   const handleConnectWallet = useCallback(() => {
     onClose();
     dispatch(setConnectWalletModal(true));
   }, []);
   const handleTonClick = async () => {
-    try {
-      await tonConnectUI.disconnect();
-    } catch (e) {
-      console.log(e);
-    }
-    open();
-    // await tonConnectUI.disconnect();
-    // tonConnectUI.modal.open();
+    onClose();
+    openTonModalLogin();
   };
-  let location = useLocation();
   const links = useMemo(() => {
     return [
       {
@@ -77,10 +67,15 @@ export default function PassportCard({ onClose }) {
       },
     ];
   }, [projectUrl]);
+  const handleDisconnectTon = () => {
+    onClose();
+    disconnectTon(600);
+  };
 
-  const linkNoClick = useMemo(() => {
-    return linkNoClickList.includes(location.pathname);
-  }, [location]);
+  // const linkNoClick = useMemo(() => {
+  //   return linkNoClickList.includes(location.pathname);
+  // }, [location]);
+  const linkNoClick = !projectId;
   const walletIconList = useMemo(() => {
     return [
       {
@@ -113,6 +108,28 @@ export default function PassportCard({ onClose }) {
               className="w-6 h-6 object-contain object-center focus-visible:outline-none"
             />
           </TipAddress>
+        ) : !canConnectEvm ? (
+          <Tooltip
+            key="evm-tma"
+            title={() => (
+              <>
+                <p>For now, you could bind EVM address in web browser.</p>
+                <a
+                  target="_blank"
+                  href={`${window.location.origin}/edit-attestation`}
+                  className="block hover:text-white underline hover:underline break-all"
+                >
+                  {window.location.origin}/edit-attestation
+                </a>
+              </>
+            )}
+          >
+            <img
+              src={walletGrayIcon}
+              alt="wallet connect"
+              className="w-6 h-6 object-contain object-center focus-visible:outline-none"
+            />
+          </Tooltip>
         ) : (
           <button
             key="ton-b"
@@ -129,9 +146,32 @@ export default function PassportCard({ onClose }) {
         name: 'evm',
         connected: evmConnected,
       },
+      {
+        render: isZK ? (
+          <Tooltip key={zkGoogle?.name} title={`${zkGoogle?.userName}`}>
+            <img
+              src={zkGoogle?.connected ? zkGoogle?.activePic : zkGoogle?.picUrl}
+              className="w-6 h-6 object-contain object-center"
+            />
+          </Tooltip>
+        ) : (
+          <button
+            className="focus-visible:outline-none"
+            key={zkGoogle.name}
+            onClick={() => zkGoogle?.loginFn(false)}
+          >
+            <img
+              src={zkGoogle?.connected ? zkGoogle?.activePic : zkGoogle?.picUrl}
+              className="w-6 h-6 object-contain object-center"
+            />
+          </button>
+        ),
+        name: 'google',
+        connected: zkGoogle?.connected,
+      },
     ];
-  }, [tonConnected, evmConnected, tonConnectUI]);
-  // console.log({ currentAddress, isTMA });
+  }, [tonConnected, evmConnected, zkGoogle]);
+
   return (
     <div className="flex-auto flex flex-col justify-start pb-16 pt-6 lg:py-0 lg:justify-center text-white">
       <div
@@ -145,7 +185,7 @@ export default function PassportCard({ onClose }) {
             onClick={onClose}
             className="focus-visible:outline-none w-[135px] h-6  mx-auto bg-center bg-contain font-zen-dot text-xs flex items-center justify-center gap-x-0.5"
           >
-            WISE Score
+            WISE Credit
             <svg
               width="12"
               height="12"
@@ -198,6 +238,11 @@ export default function PassportCard({ onClose }) {
                   <Address
                     address={address}
                     className="font-zen-dot text-xl"
+                    disconnect={
+                      currentAddress?.type === 'ton'
+                        ? handleDisconnectTon
+                        : null
+                    }
                     style={{
                       textShadow: '0px 0px 2px #CF0063',
                       color: currentAddress?.type === 'ton' ? '#1AC9FF' : '',
@@ -226,7 +271,7 @@ export default function PassportCard({ onClose }) {
           <div className="relative flex items-center justify-center gap-x-3">
             {walletIconList
               .filter((v) =>
-                isUsingWallet ? currentAddress.type !== v.name : true
+                isUsingWallet ? currentAddress?.type !== v.name : true
               )
               .map((v) => {
                 return v.render;
@@ -259,11 +304,7 @@ export default function PassportCard({ onClose }) {
               })}
           </div>
           <Link
-            to={
-              isUsingSubdomain
-                ? `/edit-attestation`
-                : `/${projectUrl}/edit-attestation`
-            }
+            to={`/edit-attestation`}
             onClick={onClose}
             className="text-[#B5859E] invisible lg:visible font-zen-dot focus-visible:outline-none group hover:text-white w-max mx-auto flex items-center gap-x-1 bg-[rgb(244,140,193)]/[0.1] px-3 py-1 rounded-xl text-xs"
           >
@@ -287,29 +328,35 @@ export default function PassportCard({ onClose }) {
         </div>
 
         <div className="relative flex flex-col px-6 py-4 gap-y-1 text-sm font-medium">
-          {links.map((v) => {
-            return linkNoClick ? (
+          {linkNoClick ? (
+            <Tooltip
+              title={footprintTips.map((t, i) => (
+                <p key={i}>{t}</p>
+              ))}
+            >
               <span
-                key={v.name}
-                to={v.path}
                 style={{ backgroundImage: `url(${shapeLink})` }}
                 className="text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm"
               >
-                {v.name}
+                Incentive Footprint
               </span>
-            ) : (
-              <Link
-                key={v.name}
-                to={v.path}
-                style={{ backgroundImage: `url(${shapeLink})` }}
-                className="text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm"
-                target={isTMA ? '_self' : '_blank'}
-                onClick={onClose}
-              >
-                {v.name}
-              </Link>
-            );
-          })}
+            </Tooltip>
+          ) : (
+            links.map((v) => {
+              return (
+                <Link
+                  key={v.name}
+                  to={v.path}
+                  style={{ backgroundImage: `url(${shapeLink})` }}
+                  className="text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm"
+                  target={isTMA ? '_self' : '_blank'}
+                  onClick={onClose}
+                >
+                  {v.name}
+                </Link>
+              );
+            })
+          )}
         </div>
       </div>
     </div>

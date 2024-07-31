@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 window.sessionRoutesCount = 0;
-export default function WatchRouter() {
+export default function WatchRouter () {
   const { isTMA, webApp } = useTelegram();
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,7 +15,7 @@ export default function WatchRouter() {
   useEffect(() => {
     if (isTMA) {
       window.sessionRoutesCount += 1;
-      console.log({ sessionRoutesCount: window.sessionRoutesCount });
+      // console.log({ sessionRoutesCount: window.sessionRoutesCount });
       if (window.sessionRoutesCount > 1) {
         // 点击了其他的
         if (!webApp.BackButton.isVisible) {
@@ -23,14 +23,13 @@ export default function WatchRouter() {
         }
       } else {
         // 初始化
-        if (webApp.BackButton.isVisible) {
-          webApp.BackButton.hide();
-        }
+        webApp.BackButton.hide();
       }
     }
   }, [location]);
   useEffect(() => {
     if (isTMA) {
+      webApp.enableClosingConfirmation();
       webApp.BackButton.onClick(backHandle);
     }
     return () => {

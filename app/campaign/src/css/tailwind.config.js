@@ -24,10 +24,25 @@ module.exports = {
         linear4:
           'linear-gradient(179deg, rgba(0, 0, 0, 0.00) 58.87%, rgba(0, 0, 0, 0.90) 91.27%, #000 104.31%)',
         linear5:
-          "linear-gradient(280deg, rgba(144, 75, 246, 0.10) 49.68%, rgba(207, 0, 99, 0.10) 108.87%)",
-        linear6: "radial-gradient(364.17% 143% at 96.13% 4.31%, #7535C4 0%, #1B0B2D 44.67%, #220F3A 91.12%)",
-        linear7: "linear-gradient(280deg, #904BF6 49.68%, #CF0063 108.87%)",
-        linear8: "linear-gradient(163deg, #904BF6 1.97%, #CF0063 92.07%)"
+          'linear-gradient(280deg, rgba(144, 75, 246, 0.10) 49.68%, rgba(207, 0, 99, 0.10) 108.87%)',
+        linear6:
+          'radial-gradient(364.17% 143% at 96.13% 4.31%, #7535C4 0%, #1B0B2D 44.67%, #220F3A 91.12%)',
+        linear7: 'linear-gradient(280deg, #904BF6 49.68%, #CF0063 108.87%)',
+        linear8: 'linear-gradient(163deg, #904BF6 1.97%, #CF0063 92.07%)',
+        linear9:
+          'linear-gradient(90deg, rgba(255, 234, 181, 0.35) 0%, rgba(242, 168, 93, 0.35) 26%, rgba(128, 82, 228, 0.35) 50%, rgba(46, 133, 234, 0.35) 74.5%, rgba(104, 239, 174, 0.35) 100%)',
+        linear10:
+          'linear-gradient(90deg, rgba(255, 234, 181, 0.05) 0%, rgba(242, 168, 93, 0.05) 26%, rgba(128, 82, 228, 0.05) 50%, rgba(46, 133, 234, 0.05) 74.5%, rgba(104, 239, 174, 0.05) 100%)',
+        linear11: 'linear-gradient(117deg, #FFDFA2 14.89%, #D97B15 94.33%)',
+        linear12:
+          'linear-gradient(180deg, rgba(0, 0, 0, 0.00) -10.88%, #000 81.5%)',
+        linear13:
+          'linear-gradient(90deg, rgba(255, 234, 181, 0.25) 0%, rgba(242, 168, 93, 0.25) 26%, rgba(128, 82, 228, 0.25) 50%, rgba(46, 133, 234, 0.25) 74.5%, rgba(104, 239, 174, 0.25) 100%)',
+        linear14:
+          'linear-gradient(90deg, rgba(255, 234, 181, 0.20) 0.22%, rgba(242, 168, 93, 0.20) 114.41%)',
+        linear15: 'linear-gradient(91deg, #2D83EC 1.27%, #1AC9FF 100.03%)',
+        linear16:
+          'linear-gradient(103deg, #000 13.97%, #C668F9 49.4%, #6381F2 81.5%, #66B1DF 95.95%, #6BE4C9 103.91%)',
       },
       boxShadow: {
         s1: ' 0px 0px 6px 0px rgba(0, 0, 0, 0.10)',
@@ -39,6 +54,7 @@ module.exports = {
       fontFamily: {
         rhd: ['Red Hat Display', 'sans-serif'],
         'zen-dot': ['zen-dot', 'sans-serif'],
+        syne: ['Syne'],
       },
       fontSize: {
         '6.5xl': '4rem',

@@ -1,36 +1,28 @@
-import { Modal } from 'antd'
-import failedSvg from '@/images/social/logo-error2.svg'
-import sucessSvg from '@/images/social/logo-ok2.svg'
+import { Modal } from 'antd';
+import failedSvg from '@/images/social/logo-error2.svg';
+import sucessSvg from '@/images/social/logo-ok2.svg';
 
 const moduleConf = {
   sucess: {
     title: 'Merge successfully',
     picUrl: sucessSvg,
-    getDesc: ({ twitterName = '', address = '' }) => {
-      return (
-        <>
-          All data from the incentive passport associated with X @
-          <span className='text-white font-medium mr-1'>{twitterName}</span>
-          and the incentive passport associated with address
-          <span className='text-white font-medium mx-1'>{address}</span> has be
-          merged successfully.
-        </>
-      )
-    }
+    getDesc: () => {
+      return '';
+    },
   },
   failed: {
     title: 'Failed to merge',
     picUrl: failedSvg,
     getDesc: ({ message }) =>
-      message ? message : `Passport merge failed. Please try again later.`
-  }
-}
+      message ? message : `Passport merge failed. Please try again later.`,
+  },
+};
 export default function MergeResult ({
   open,
   onCancel,
-  data = { status: 'failed' }
+  data = { status: 'failed' },
 }) {
-  const status = data.status
+  const status = data.status;
   return (
     <Modal
       title={null}
@@ -57,5 +49,5 @@ export default function MergeResult ({
         </div>
       </div>
     </Modal>
-  )
+  );
 }
