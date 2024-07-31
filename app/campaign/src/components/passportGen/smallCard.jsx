@@ -38,7 +38,7 @@ export default function SmallPassportCard() {
           <img
             src={getSocialByName(currentSocial.type)?.activePic}
             alt="twitter"
-            className="w-6 h-6"
+            className="size-6"
           />
         ),
         key: currentSocial?.type,
@@ -51,7 +51,7 @@ export default function SmallPassportCard() {
             <img
               src={getZkfnByName('google')?.picColorUrl}
               alt="google"
-              className="w-6 h-6"
+              className="size-6"
             />
           ) : null,
           key: 'google',

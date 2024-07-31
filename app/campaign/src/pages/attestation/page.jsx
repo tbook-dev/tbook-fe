@@ -3,32 +3,25 @@ import useSocial from '@/hooks/useSocial';
 import Box from './box';
 import Address from './address';
 import Line from './line';
-import { Skeleton } from 'antd';
+import { Skeleton, Tooltip } from 'antd';
 import LazyImage from '@/components/lazyImage';
 import clsx from 'clsx';
 import moduleConf from './conf';
 import { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
+import ActionBution from '@/components/connectWallet/actionButton';
 import {
   setConnectWalletModal,
   setShowDistoryTon,
   setunbindSocialData,
   setShowUnbindSocial,
 } from '@/store/global';
-import {
-  useTonConnectUI,
-  useTonWallet,
-  TonConnectButton,
-  useTonConnectModal,
-  useTonAddress,
-} from '@tonconnect/ui-react';
 
-export default function PageAttestation () {
-  const { user, data, isLoading, isMultAccount } = useUserInfoQuery();
+export default function PageAttestation() {
+  const { user, data, isLoading, isZK, isMultAccount } = useUserInfoQuery();
   const dispatch = useDispatch();
-  const [tonConnectUI] = useTonConnectUI();
-  const { open: openTonModal } = useTonConnectModal();
-  const { socialList } = useSocial();
+
+  const { socialList, zkList, getZkfnByName } = useSocial();
 
   const setModalData = ({ accountName, accountType }) => {
     dispatch(
@@ -51,30 +44,28 @@ export default function PageAttestation () {
     dispatch(setConnectWalletModal(true));
   }, []);
 
-  // console.log({ isMultAccount });
   const onChainConf = useMemo(() => {
-    const ton = moduleConf.onChainList.find(v => v.type === 'tonconnect');
-    const evm = moduleConf.onChainList.find(v => v.type === 'walletconnect');
+    const ton = moduleConf.onChainList.find((v) => v.type === 'tonconnect');
+    const evm = moduleConf.onChainList.find((v) => v.type === 'walletconnect');
 
     const isEvm = !!user?.evm?.evmWallet;
-    // const isZk = !!user?.zk?.address;
     const isTon = !!data?.userTon?.binded;
     return [
       {
         name: 'EVM Chain',
         label: <span>EVM Chain</span>,
         render: isEvm ? (
-          <div className='flex px-5 py-2 bg-[#1A1A1A] rounded-2.5xl'>
+          <div className="flex px-5 py-2 bg-[#1A1A1A] rounded-2.5xl">
             <Address address={user?.evm?.evmWallet} />
           </div>
         ) : (
           <button
-            className='h-10 w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
+            className="h-10 w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70"
             onClick={handleConnectWallet}
           >
             <img
               src={evm.picUrl}
-              className='w-5 h-5 object-center absolute left-4'
+              className="w-5 h-5 object-center absolute left-4"
               alt={evm.type}
             />
             {evm.text}
@@ -82,17 +73,73 @@ export default function PageAttestation () {
         ),
       },
       {
+        name: 'Sui',
+        label: <span>Sui</span>,
+        render: isZK ? (
+          <div className="flex flex-col gap-y-2 px-5 py-2 bg-[#1A1A1A] rounded-2.5xl">
+            <div className="flex gap-x-2">
+              <img
+                src={getZkfnByName('google')?.picColorUrl}
+                alt="google"
+                className="size-5"
+              />
+              {data?.user?.zk?.identity}
+            </div>
+            <Address address={data?.user?.zk?.address} />
+          </div>
+        ) : (
+          <div className="bg-[#63A1F8] border border-[rgb(99,161,248)]/[0.40] py-4 px-5 rounded-lg relative overflow-hidden">
+            <img
+              src={moduleConf.zkLogin.bg}
+              className="w-12 absolute right-4 top-0 rotate-12"
+            />
+            <div className="text-white flex items-center gap-x-2 text-sm font-medium space-y-4 mb-4">
+              <img
+                src={moduleConf.zkLogin.icon}
+                className="w-4 h-5 object-center"
+              />
+              {moduleConf.zkLogin.name}
+            </div>
+            <div className="flex items-center justify-center gap-x-8">
+              {zkList.map((v) => {
+                return v.ready ? (
+                  <ActionBution
+                    key={v.name}
+                    replace
+                    handleAsync={async () => v.loginFn(false)}
+                  >
+                    <img
+                      src={v.picColorUrl}
+                      className="w-8 h-8 object-center hover:opacity-70"
+                      alt={v.name}
+                    />
+                  </ActionBution>
+                ) : (
+                  <Tooltip title="Stay tuned" key={v.name}>
+                    <img
+                      src={v.picUrl}
+                      className="w-8 h-8 object-center"
+                      alt={v.name}
+                    />
+                  </Tooltip>
+                );
+              })}
+            </div>
+          </div>
+        ),
+      },
+      {
         name: 'TON',
         label: <span>TON</span>,
         render: isTon ? (
-          <div className='flex items-center gap-x-5'>
+          <div className="flex items-center gap-x-5">
             <Address
               icon={ton.whiteSvg}
               address={data?.userTon?.address}
-              className='px-5 bg-[#1A1A1A] flex  py-2 rounded-2.5xl flex-auto'
+              className="px-5 bg-[#1A1A1A] flex  py-2 rounded-2.5xl flex-auto"
             />
             <button
-              className='text-[#904BF6] text-base font-medium flex-none'
+              className="text-[#904BF6] text-base font-medium flex-none"
               onClick={() => {
                 if (isMultAccount) {
                   setModalData({
@@ -109,12 +156,12 @@ export default function PageAttestation () {
           </div>
         ) : (
           <button
-            className='h-10 w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70'
+            className="h-10 w-full rounded-lg bg-white text-black font-medium relative flex items-center justify-center gap-x-2 overflow-hidden hover:opacity-70"
             onClick={handleTonClick}
           >
             <img
               src={ton.picUrl}
-              className='w-5 h-5 object-center absolute left-4'
+              className="w-5 h-5 object-center absolute left-4"
               alt={ton.type}
             />
             {ton.text}
@@ -132,26 +179,27 @@ export default function PageAttestation () {
       render: (
         <LazyImage
           src={avatarUrl}
-          alt='avatar'
-          className='size-16 rounded-full'
+          alt="avatar"
+          className="size-16 rounded-full"
         />
       ),
     };
   }, [data]);
+  console.log({ isZK, onChainConf });
 
   const socialConf = useMemo(() => {
-    return socialList.map(v => {
+    return socialList.map((v) => {
       return {
         name: v.name,
-        label: <span className='capitalize'>{v.displayName} Account</span>,
+        label: <span className="capitalize">{v.displayName} Account</span>,
         render: v.connected ? (
-          <div className='flex items-center gap-x-5'>
-            <div className='flex items-center gap-x-2 w-[310px] px-5 py-2 rounded-2.5xl bg-[#1A1A1A]'>
+          <div className="flex items-center gap-x-5">
+            <div className="flex items-center gap-x-2 w-[310px] px-5 py-2 rounded-2.5xl bg-[#1A1A1A]">
               {moduleConf.connectedSocialConfMap[v.name]}@{v.userName}
             </div>
             {isMultAccount && (
               <button
-                className='text-[#904BF6] text-base font-medium'
+                className="text-[#904BF6] text-base font-medium"
                 onClick={() => {
                   setModalData({
                     accountType: v.name,
@@ -180,21 +228,24 @@ export default function PageAttestation () {
   }, [socialList, isMultAccount]);
 
   return (
-    <div className='w-[840px] mx-auto pb-16 py-2 text-white space-y-8'>
-      <h1 className='text-2xl font-zen-dot'>{moduleConf.name}</h1>
+    <div className="w-[840px] mx-auto pb-16 py-2 text-white space-y-8">
+      <h1 className="text-2xl font-zen-dot">{moduleConf.name}</h1>
 
-      <div className='space-y-4'>
+      <div className="space-y-4">
         <Skeleton active avatar={false} loading={isLoading}>
-          <Box title={moduleConf.onChain} wrapCls='divide-y divide-[#2A2A2A]'>
-            {onChainConf.map(v => {
+          <Box title={moduleConf.onChain} wrapCls="divide-y divide-[#2A2A2A]">
+            {onChainConf.map((v) => {
               return <Line key={v.name} label={v.label} render={v.render} />;
             })}
           </Box>
         </Skeleton>
 
         <Skeleton active avatar={false} loading={isLoading}>
-          <Box title={moduleConf.social} wrapCls='divide-y divide-[#2A2A2A]'>
-            {[avatarConf, ...socialConf].map(v => {
+          <Box
+            title={moduleConf.socialTitle}
+            wrapCls="divide-y divide-[#2A2A2A]"
+          >
+            {[avatarConf, ...socialConf].map((v) => {
               return <Line key={v.name} label={v.label} render={v.render} />;
             })}
           </Box>
