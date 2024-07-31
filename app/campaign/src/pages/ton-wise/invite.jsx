@@ -19,10 +19,7 @@ export default function Invite() {
   return (
     <div className="flex-auto w-full pb-48  px-5 mt-3 lg:px-0 mx-auto">
       <div className="space-y-6">
-        <div className="text-center">
-          <h2 className="text-xl">Invite friends to</h2>
-          <h2 className="text-xl">generate WISE Credit Score</h2>
-        </div>
+        <h2 className="text-xl text-center">Send Invitations!</h2>
         <InviteFriends openDrawer={() => setOpen(true)} />
 
         <div className="space-y-5">
