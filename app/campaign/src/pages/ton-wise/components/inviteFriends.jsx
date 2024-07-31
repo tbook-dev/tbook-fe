@@ -19,7 +19,7 @@ export default function InviteFriends({ openDrawer }) {
         <Paragraph
           copyable={{
             text: rawText,
-            icon: <CopyIcon />,
+            icon: <CopyIcon fill="#999" />,
           }}
           className="flex justify-center items-center gap-x-1"
           style={{

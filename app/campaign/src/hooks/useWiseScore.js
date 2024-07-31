@@ -194,7 +194,7 @@ export const useSBTList = () => {
 export const useShareRangerInvite = (type) => {
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
-  const inviteLink = getDirectLink([5, type]);
+  const inviteLink = getDirectLink([3]);
   const rawText = [
     `🎁I have obtained the WISE Credential  and 🎉 improved my WISE Credit Score.`,
     `\n🔥Come on to obtain yours!`,
