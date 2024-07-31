@@ -6,8 +6,8 @@ import { setShowPassportGeneratingModal } from '@/store/global';
 import { useTelegram } from './useTg';
 import { useLocation } from 'react-router-dom';
 
-const whiteList = ['/event/renaissance', '/wise-score', '/wise-score/join'];
-
+const whiteList = ['/event/renaissance'];
+const whitePrefixList = ['/wise-score'];
 export default function useUserInfo() {
   const [firstLoad, setFirstLoad] = useState(false);
   const dispatch = useDispatch();
@@ -148,7 +148,10 @@ export default function useUserInfo() {
       !showPassportGeneratingModal &&
       newUser &&
       !sessionStorage.getItem(sessionKey) &&
-      !whiteList.includes(location.pathname)
+      !whiteList.includes(location.pathname) &&
+      !whitePrefixList.some((whitePrefix) =>
+        location.pathname.startsWith(whitePrefix)
+      )
     ) {
       sessionStorage.setItem(sessionKey, '1');
       dispatch(setShowPassportGeneratingModal(true));

@@ -22,11 +22,6 @@ export function safeParse(start_param) {
         type,
         inviteCode: p[0],
       };
-    } else if (type === 5) {
-      return {
-        type,
-        coin: p[0],
-      };
     } else {
       return {
         type,
