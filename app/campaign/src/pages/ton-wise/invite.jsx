@@ -14,20 +14,32 @@ export default function Invite() {
   const [open, setOpen] = useState(false);
   const { shareToChat, inviteLink, rawText, inviteTgUser } =
     useWiseCreditInvite();
-  const { invitedList } = useWiseCreditInviteFriends();
+  const { invitedList, totalTimes, inviteCode } = useWiseCreditInviteFriends();
+  const hasNoData = !inviteCode;
   return (
     <div className="flex-auto w-full pb-48  px-5 mt-3 lg:px-0 mx-auto">
       <div className="space-y-6">
         <div className="text-center">
-          <h2 className="text-2xl">Invite friends to</h2>
-          <h2 className="text-2xl">Earn more Rewards</h2>
+          <h2 className="text-xl">Invite friends to</h2>
+          <h2 className="text-xl">generate WISE Credit Score</h2>
         </div>
         <InviteFriends openDrawer={() => setOpen(true)} />
 
-        {invitedList.length > 0 && (
-          <div className="space-y-5">
-            <h2 className="text-base font-medium">Your rewards</h2>
-            {invitedList.map((v) => {
+        <div className="space-y-5">
+          <h2 className="text-base font-medium">Your invitees</h2>
+          {hasNoData ? (
+            <div className="flex items-center justify-between">
+              <div className="flex gap-x-2 items-center">
+                <div className="size-8 rounded-full bg-[#1f1f1f] animate-pulse" />
+                <div className="space-y-2">
+                  <div className="h-4 w-10 bg-[#1f1f1f] animate-pulse" />
+                  <div className="h-3 w-16 bg-[#1f1f1f] animate-pulse" />
+                </div>
+              </div>
+              <h4 className="h-5 w-16 bg-[#1f1f1f] animate-pulse" />
+            </div>
+          ) : invitedList.length > 0 ? (
+            invitedList.map((v) => {
               return (
                 <div
                   key={v.userId}
@@ -43,9 +55,14 @@ export default function Invite() {
                   <h4 className="text-sm font-medium">+5,000 TPoints</h4>
                 </div>
               );
-            })}
-          </div>
-        )}
+            })
+          ) : (
+            <div className="text-sm font-thin text-center pt-5">
+              <p>There's no invitee yet.</p>
+              <p>You can invite {totalTimes} more friends. </p>
+            </div>
+          )}
+        </div>
       </div>
       <Button
         onClick={() => {
@@ -83,8 +100,6 @@ export default function Invite() {
           <h2 className="text-3xl font-bold font-syne text-center">
             Invite & Earn
           </h2>
-
-          <InviteFriends />
 
           <div className="text-center text-base">
             The invite code is valid for 3 users.Each invitee generating WISE
