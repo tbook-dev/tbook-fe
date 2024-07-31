@@ -13,7 +13,7 @@ function Board () {
   const navigate = useNavigate();
   const handleNavigate = () => {
     if (hasWiseScore) {
-      navigate(`/event/renaissance/detail`);
+      navigate(`/wise-score`);
     }
   };
   return (
