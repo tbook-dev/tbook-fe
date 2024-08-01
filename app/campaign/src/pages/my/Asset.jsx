@@ -56,10 +56,10 @@ export default function Asset() {
 
       <div className="px-4 lg:px-0">
         {userLoading ? (
-          <Loading />
+          <Loading text="Aggregating metrics..."/>
         ) : userLogined ? (
           isLoading ? (
-            <Loading />
+            <Loading text="Aggregating metrics..."/>
           ) : (
             <div>{tabModule.find((v) => v.value === value).com}</div>
           )

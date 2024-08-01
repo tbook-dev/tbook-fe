@@ -93,7 +93,7 @@ export default function Join() {
   };
 
   if (hasWiseScoreRes === undefined) {
-    return <Loading />;
+    return <Loading text="Aggregating metrics..."/>;
   } else if (hasWiseScoreRes === true) {
     navigate('/wise-score', { replace: true });
     window.sessionRoutesCount -= 1;
