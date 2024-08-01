@@ -49,16 +49,15 @@ export default function Generating({
         key: 'start',
         content: ({ next }) => (
           <div className="relative h-full flex flex-col justify-end items-center pb-10">
-            <Loading className="animate-none" />
+            <Loading sbtClassName="animate-none" />
             <div className="text-center text-base z-10 pb-20">
-              <h2>Generate WISE Credit.</h2>
-              <h3>Enjoy your web3 credit journey !</h3>
+              <h2>Generate WISE Credit Score.</h2>
             </div>
             <Button
-              className="h-10 w-[310px] absolute bottom-10 inset-x-0 mx-auto z-10"
+              className="h-10 w-[310px] font-syne absolute bottom-10 inset-x-0 mx-auto z-10"
               onClick={next}
             >
-              Let’s go
+              Generate
             </Button>
           </div>
         ),
@@ -96,12 +95,6 @@ export default function Generating({
           <Frame
             onClick={next}
             header="Your Incentive Passport is ready."
-            footer={
-              <>
-                <p>You have generated TBook incentive passport</p>
-                <p>with your telegram account.</p>
-              </>
-            }
           >
             <PassportCard />
           </Frame>
@@ -118,7 +111,7 @@ export default function Generating({
               <>
                 <p>You have joined telegram with </p>
                 <p>
-                  <span className="text-[#2E85EA] me-1">@{tg.userName}</span>in
+                  <span className="text-[#2E85EA] me-1">@{tg.userName}</span>for
                   a while.
                 </p>
               </>
@@ -134,13 +127,7 @@ export default function Generating({
         content: ({ next }) => (
           <Frame
             onClick={next}
-            header="You're one of the Telegram Premiums"
-            footer={
-              <>
-                <p>You have upgraded to Telegram Premium</p>
-                <p>to get the best.</p>
-              </>
-            }
+            header="You're a royal Telegram Premium user"
           >
             <div className="space-y-8 w-full flex flex-col items-center">
               <TgPremiumIcon className="size-[160px]" />
@@ -229,22 +216,14 @@ export default function Generating({
           <Frame
             onClick={hide}
             header={
-              <>
-                You are WISE <WiseTag value={totalScore} />!
-              </>
-            }
-            footer={
-              <>
-                <p>WISE Score represents your overall</p>
-                <p>impact in the TON community.</p>
-              </>
+              <>WISE <WiseTag value={totalScore} /></>
             }
             button={
               <Button
                 className="flex items-center justify-center font-syne gap-x-1.5 h-10 w-full "
                 onClick={hide}
               >
-                Claim Privilege with WISE Credit
+                Improve your Score
                 <ArrowIcon />
               </Button>
             }
@@ -277,7 +256,7 @@ export default function Generating({
   return (
     <div className="fixed inset-0 py-12 overflow-auto">
       {displayIdx === -1 ? (
-        <Loading />
+        <Loading text="Aggregating metrics..." />
       ) : (
         CurrentFrame?.content && (
           <CurrentFrame.content next={CurrentFrame.next} />

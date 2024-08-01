@@ -29,7 +29,7 @@ export default function TonWise() {
   const setShowGen = useWiseGobalMutation();
   const navigate = useNavigate();
   if (isFetching) {
-    return <Loading />;
+    return <Loading text="Aggregating metrics..."/>;
   } else if (!isGranted) {
     window.sessionRoutesCount -= 1;
     navigate('/wise-score/join', { replace: true });
