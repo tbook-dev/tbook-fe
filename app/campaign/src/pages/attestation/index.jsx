@@ -19,7 +19,7 @@ export default function Attestation () {
 
   return pc ? (
     !firstLoad ? (
-      <Loading />
+      <Loading text="Aggregating metrics..."/>
     ) : userLogined ? (
       <Page />
     ) : (

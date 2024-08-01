@@ -13,7 +13,7 @@ export default function Expore () {
   return (
     <main className='pb-20'>
       {isLoading ? (
-        <Loading />
+        <Loading text="Aggregating metrics..."/>
       ) : (
         <div className='lg:w-bx mx-auto px-7 lg:px-0'>
           <h1 className='py-5 lg:py-10 text-2xl font-bold lg:text-[32px] leading-tight lg:font-black'>
