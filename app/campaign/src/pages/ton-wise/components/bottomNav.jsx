@@ -1,11 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import HomeIcon from '@/images/icon/svgr/home.svg?react';
-import LeaderboardIcon from '@/images/icon/svgr/leaderboard.svg?react';
+import CreditIcon from '@/images/icon/svgr/credit.svg?react';
 import FriendIcon from '@/images/icon/svgr/friend.svg?react';
 import { clsx } from 'clsx';
 
-const BottomNav = ({ rootClassName }) => {
+const BottomNav = () => {
   const list = [
     {
       text: 'Home',
@@ -13,14 +13,14 @@ const BottomNav = ({ rootClassName }) => {
       icon: HomeIcon,
     },
     {
-      text: 'Leaderboard',
-      link: '/wise-score/leaderboard',
-      icon: LeaderboardIcon,
-    },
-    {
       text: 'Friends',
       link: '/wise-score/invite',
       icon: FriendIcon,
+    },
+    {
+      text: 'Improve Credit',
+      link: '/wise-score/detail',
+      icon: CreditIcon,
     },
   ];
   return (
