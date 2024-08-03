@@ -12,8 +12,8 @@ export default function Frame({ onClick, children, header, footer, button }) {
         {header}
       </h2>
       {children}
-      <div className="absolute inset-x-0 bottom-10 w-[310px] mx-auto space-y-5">
-        <div className="text-center text-sm">{footer}</div>
+      <div className="absolute inset-x-0 bottom-10 w-[310px] mx-auto">
+        <div className="text-center text-sm mb-5">{footer}</div>
         {button ? (
           button
         ) : (
