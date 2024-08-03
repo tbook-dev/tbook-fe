@@ -15,7 +15,7 @@ export default function Privilege() {
         img: <SBTIcon className="size-12" />,
         handle: () => {
           if (tonKit.connected) {
-            navigate('/wise-score/sbt');
+            navigate('/wise-score/sbt/1');
           } else {
             tonKit.connectHandle();
           }
