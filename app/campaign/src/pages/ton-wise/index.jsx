@@ -29,7 +29,7 @@ export default function TonWise() {
   const setShowGen = useWiseGobalMutation();
   const navigate = useNavigate();
   if (isFetching) {
-    return <Loading text="Aggregating metrics..."/>;
+    return <Loading text="Aggregating metrics..." />;
   } else if (!isGranted) {
     window.sessionRoutesCount -= 1;
     navigate('/wise-score/join', { replace: true });
@@ -54,7 +54,10 @@ export default function TonWise() {
                 <div className="text-2xl font-light">
                   <h2 className="flex items-center">
                     Your
-                    <LazyImage src={user?.avatar} className="size-7 rounded-full mx-1" />
+                    <LazyImage
+                      src={user?.avatar}
+                      className="size-7 rounded-full mx-1"
+                    />
                     WISE Credit
                   </h2>
                   <h2>Dashboard</h2>
