@@ -15,6 +15,7 @@ import useSocial from '@/hooks/useSocial';
 import { preloadImage } from '@/utils/common';
 import CheckedIcon from '@/images/icon/svgr/checked.svg?react';
 import { cn } from '@/utils/conf';
+import useWallet from '@/hooks/useWallet';
 
 preloadImage(wisescoreRadarpng);
 const wiseTexts = [
@@ -30,24 +31,24 @@ export default function Generating({
 }) {
   const { getSocialByName } = useSocial();
   const [displayIdx, setDisplayIdx] = useState(-1);
+  const { getWallets } = useWallet();
+  const [ton] = getWallets('ton');
   const totalScore = data?.totalScore ?? 0;
-
   const tg = getSocialByName('telegram');
   useEffect(() => {
     if (hasWiseScoreRes === false) {
-      // hide();
+      hide();
     }
   }, [hasWiseScoreRes]);
   useEffect(() => {
     let timer;
     if (isFirstCreate === false) {
-      // hide();
+      hide();
     } else {
       timer = setTimeout(() => {
         setDisplayIdx(0);
       }, 100);
     }
-    setDisplayIdx(1);
     return () => timer && clearTimeout(timer);
   }, [isFirstCreate]);
 
@@ -307,18 +308,29 @@ export default function Generating({
             }
             button={
               <>
-                <Button
-                  className="flex items-center justify-center font-syne gap-x-1.5 h-10 w-full "
-                  onClick={hide}
-                >
-                  View your WISE Credit Score
-                  <ArrowIcon />
-                </Button>
-                <div className="flex justify-center mt-2" onClick={hide}>
-                  <button className="text-xs underline text-white/60">
-                    Maybe later
-                  </button>
-                </div>
+                {ton.connected ? (
+                  <Button
+                    className="flex items-center justify-center font-syne gap-x-1.5 h-10 w-full "
+                    onClick={hide}
+                  >
+                    View your WISE Credit Score
+                    <ArrowIcon />
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      className="flex items-center justify-center font-syne gap-x-1.5 h-10 w-full "
+                      onClick={ton.connectHandle}
+                    >
+                      Connect wallet
+                    </Button>
+                    <div className="flex justify-center mt-2" onClick={hide}>
+                      <button className="text-xs underline text-white/60">
+                        Maybe later
+                      </button>
+                    </div>
+                  </>
+                )}
               </>
             }
           >
