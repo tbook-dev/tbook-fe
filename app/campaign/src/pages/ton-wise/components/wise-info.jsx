@@ -1,5 +1,5 @@
 import WiseRadar from './wise-radar';
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils/conf';
 import useWiseScore from '@/hooks/useWiseScore';
@@ -8,17 +8,13 @@ import WiseLevel from './wiseLevel';
 import LeaderboardIcon from '@/images/icon/svgr/leaderboard.svg?react';
 import { Link } from 'react-router-dom';
 
-const WiseTab = () => {
-  const [activeTab, setActiveTab] = useState(1);
+const WiseTab = ({ activeTab, handleTabClick }) => {
   const { data, ...p } = useWiseScore();
-  const handleTabClick = (tabKey) => {
-    setActiveTab(tabKey);
-  };
   const tabs = useMemo(
     () => [
       {
         key: 1,
-        label: 'Score',
+        label: 'Insights',
         component: (
           <div className="flex flex-col gap-y-3">
             <div className="flex justify-between items-center">
@@ -40,7 +36,7 @@ const WiseTab = () => {
       },
       {
         key: 2,
-        label: 'Radar',
+        label: 'Details',
         component: <WiseRadar data={data} {...p} />,
       },
     ],
@@ -75,7 +71,7 @@ const WiseTab = () => {
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.1 }}
           >
             {activeTabItem.component}
           </motion.div>

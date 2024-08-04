@@ -9,7 +9,7 @@ import TgIcon from '@/images/icon/svgr/tg.svg?react';
 import ShareDrawer from '@/components/drawer/share';
 import { useState } from 'react';
 import { useShareRangerInvite, useRangerReport } from '@/hooks/useWiseScore';
-import { stonfi, dedustio } from '@/utils/conf';
+import { stonfi, dedustio } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
 
 const typeMap = {

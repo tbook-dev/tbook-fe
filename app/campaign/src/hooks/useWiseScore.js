@@ -227,3 +227,9 @@ export const useShareRangerInvite = (type) => {
     inviteLink,
   };
 };
+
+export function useWiseScoreKit() {
+  const client = useQueryClient();
+  const invalidateWiseScore = client.invalidateQueries('wise-score');
+  return { invalidateWiseScore };
+}

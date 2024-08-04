@@ -1,10 +1,17 @@
 import useWiseScore from '@/hooks/useWiseScore';
 import Loading from '@/components/loading';
 import WiseDetail from './wise-detail';
+import Insights from './components/insights';
 import WiseInfo from './components/wise-info';
 import BottomNav from './components/bottomNav';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function TonWiseScore() {
+  const [activeTab, setActiveTab] = useState(1);
+  const handleTabClick = (tabKey) => {
+    setActiveTab(tabKey);
+  };
   const { data } = useWiseScore();
 
   return (
@@ -12,9 +19,30 @@ export default function TonWiseScore() {
       {!data ? (
         <Loading text="Aggregating metrics..." />
       ) : (
-        <div className="space-y-16">
-          <WiseInfo />
-          <WiseDetail />
+        <div className="space-y-7">
+          <WiseInfo activeTab={activeTab} handleTabClick={handleTabClick} />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              transition={{ duration: 0.1 }}
+            >
+              {activeTab === 1 && <Insights />}
+            </motion.div>
+          </AnimatePresence>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              transition={{ duration: 0.1 }}
+            >
+              {activeTab === 2 && <WiseDetail />}
+            </motion.div>
+          </AnimatePresence>
         </div>
       )}
       <BottomNav />
