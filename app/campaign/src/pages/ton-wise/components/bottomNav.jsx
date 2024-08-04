@@ -1,26 +1,35 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { NavLink } from 'react-router-dom';
 import HomeIcon from '@/images/icon/svgr/home.svg?react';
 import CreditIcon from '@/images/icon/svgr/credit.svg?react';
 import FriendIcon from '@/images/icon/svgr/friend.svg?react';
 import { clsx } from 'clsx';
+import { useHasWiseCreditInviteCode } from '@/hooks/useWiseScore';
 
 const BottomNav = () => {
+  const { hasInviteCode } = useHasWiseCreditInviteCode();
   const list = [
     {
       text: 'Home',
       link: '/wise-score',
-      icon: HomeIcon,
+      icon: ({ className }) => <HomeIcon className={className} />,
     },
     {
       text: 'Friends',
       link: '/wise-score/invite',
-      icon: FriendIcon,
+      icon: ({ className }) => (
+        <div className="relative">
+          <FriendIcon className={className} />
+          {!hasInviteCode && (
+            <div className="absolute -right-1 -top-1 size-1.5 rounded-full bg-[#FF0000]" />
+          )}
+        </div>
+      ),
     },
     {
       text: 'Improve Credit',
       link: '/wise-score/detail',
-      icon: CreditIcon,
+      icon: ({ className }) => <CreditIcon className={className} />,
     },
   ];
   return (
@@ -68,4 +77,4 @@ const BottomNav = () => {
   );
 };
 
-export default BottomNav;
+export default memo(BottomNav);

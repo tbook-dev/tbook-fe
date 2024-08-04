@@ -3,6 +3,7 @@ import {
   getWiseScore,
   reportRangerShare,
   getInvitedCreditFriends,
+  hasInviteCode,
   getWiseScoreStatus,
   mintSBT,
   getSBTList,
@@ -79,6 +80,7 @@ export const useRangerReport = () => {
 };
 // api display
 export const useWiseCreditInviteFriends = () => {
+  const client = useQueryClient();
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
   const { data, ...p } = useQuery(
@@ -89,6 +91,13 @@ export const useWiseCreditInviteFriends = () => {
       refetchOnMount: false,
     }
   );
+  const previousHas = client.getQueryData('has-wise-credit-invite-code');
+
+  useEffect(() => {
+    if (data?.success && previousHas?.hasCode === false) {
+      client.setQueryData('wise-credit-invite-friends', { hasCode: true });
+    }
+  }, [data, previousHas]);
   return {
     data,
     ...p,
@@ -233,3 +242,19 @@ export function useWiseScoreKit() {
   const invalidateWiseScore = client.invalidateQueries('wise-score');
   return { invalidateWiseScore };
 }
+
+export const useHasWiseCreditInviteCode = () => {
+  const { data, ...p } = useQuery(
+    'has-wise-credit-invite-code',
+    hasInviteCode,
+    {
+      staleTime: Infinity,
+      placeholderData: { hasCode: true },
+    }
+  );
+  return {
+    data,
+    hasInviteCode: data?.hasCode,
+    ...p,
+  };
+};
