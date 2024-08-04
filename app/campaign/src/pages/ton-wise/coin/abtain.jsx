@@ -4,7 +4,7 @@ import EthIcon from '@/images/icon/svgr/eth.svg?react';
 import RefreshIcon from '@/images/icon/svgr/refresh.svg?react';
 import { useCallback } from 'react';
 import WebApp from '@twa-dev/sdk';
-import { stonfi, dedustio } from '@/utils/conf';
+import { stonfi, dedustio } from '@/utils/tma';
 import { useParams } from 'react-router-dom';
 
 const typeMap = {

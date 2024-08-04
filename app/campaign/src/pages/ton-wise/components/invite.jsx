@@ -1,23 +1,60 @@
 import Button from './button';
 import TgIcon from '@/images/icon/svgr/tg.svg?react';
-import SBTIcon from '@/images/icon/svgr/sbt.svg?react';
-import WebApp from '@twa-dev/sdk';
-import { VITE_TBOOK_TG_CHANNEL } from '@/utils/tma';
-
+import TpointIcon from '@/images/icon/svgr/tpoint.svg?react';
+import ShareDrawer from '@/components/drawer/share';
+import { useWiseCreditInvite } from '@/hooks/useWiseScore';
+import { useState } from 'react';
 export default function Invite() {
+  const [open, setOpen] = useState(false);
+  const { shareToChat, inviteLink, rawText, inviteTgUser } =
+    useWiseCreditInvite();
   return (
     <div className="py-3 px-4 bg-white/5 rounded-lg relative overflow-hidden">
-      <h2 className="text-base mb-6">Join our channel for more surprises!</h2>
-      <Button
-        className="flex items-center gap-x-1.5 px-2 text-xs btn-click"
-        onClick={() => {
-          WebApp.openTelegramLink(VITE_TBOOK_TG_CHANNEL);
+      <div className="mb-6">
+        <h2 className="text-base">Invite Friends. Show your influence.</h2>
+        <h2 className="text-base">Grow WISE Credit together. </h2>
+      </div>
+      <ShareDrawer
+        open={open}
+        onCancel={() => {
+          setOpen(false);
         }}
+        shareToChat={shareToChat}
+        inviteLink={inviteLink}
+        rawText={rawText}
+        inviteTgUserFn={inviteTgUser}
+        ShareButton={
+          <button
+            onClick={() => {
+              inviteTgUser();
+            }}
+            className="rounded-md bg-[#904BF6] btn-click w-full flex items-center justify-center gap-x-1.5 h-10 text-xs font-bold font-syne"
+          >
+            <TgIcon />
+            Share invite link
+          </button>
+        }
+      >
+        <div className="space-y-6">
+          <h2 className="text-3xl font-bold font-syne text-center">
+            Invite & Earn
+          </h2>
+
+          <div className="text-center text-base">
+            The invite code is valid for 3 users.Each invitee generating WISE
+            Credit, you'll get 5,000
+            <TpointIcon className="size-5 ms-1 inline" />
+          </div>
+        </div>
+      </ShareDrawer>
+      <Button
+        onClick={() => setOpen(true)}
+        className="flex items-center gap-x-1.5 px-2 text-xs btn-click"
       >
         <TgIcon width="16px" height="16px" />
-        Join
+        Invite
       </Button>
-      <SBTIcon className="size-[120px] absolute -bottom-4 right-1 rotate-[-13deg] opacity-20" />
+      <TpointIcon className="size-[120px] absolute -bottom-4 right-1 rotate-[-13deg] opacity-20" />
     </div>
   );
 }

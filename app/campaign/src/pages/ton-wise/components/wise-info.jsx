@@ -1,35 +1,42 @@
 import WiseRadar from './wise-radar';
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils/conf';
 import useWiseScore from '@/hooks/useWiseScore';
 import { formatImpact } from '@tbook/utils/lib/conf';
-import Nav from './nav';
 import WiseLevel from './wiseLevel';
+import LeaderboardIcon from '@/images/icon/svgr/leaderboard.svg?react';
+import { Link } from 'react-router-dom';
 
-const WiseTab = () => {
-  const [activeTab, setActiveTab] = useState(1);
+const WiseTab = ({ activeTab, handleTabClick }) => {
   const { data, ...p } = useWiseScore();
-  const handleTabClick = (tabKey) => {
-    setActiveTab(tabKey);
-  };
   const tabs = useMemo(
     () => [
       {
         key: 1,
-        label: 'Score',
+        label: 'Insights',
         component: (
           <div className="flex flex-col gap-y-3">
-            <span className="text-[80px] leading-[80px]  text-color8">
-              {formatImpact(data?.totalScore ?? 0)}
-            </span>
+            <div className="flex justify-between items-center">
+              <span className="text-[80px] leading-[80px]  text-color8">
+                {formatImpact(data?.totalScore ?? 0)}
+              </span>
+              <Link
+                to="/wise-score/leaderboard"
+                className="flex items-center gap-x-1 px-2 py-1 rounded-lg bg-white/10 border border-white/10"
+              >
+                <LeaderboardIcon className="size-4" />
+                Leaderboard
+              </Link>
+            </div>
+
             <WiseLevel totalScore={data?.totalScore ?? 0} />
           </div>
         ),
       },
       {
         key: 2,
-        label: 'Radar',
+        label: 'Details',
         component: <WiseRadar data={data} {...p} />,
       },
     ],
@@ -39,7 +46,8 @@ const WiseTab = () => {
 
   return (
     <div className="space-y-4">
-      <Nav title="WISE Credit">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl">WISE Credit Score</h2>
         <ul className="flex w-max text-xs p-1 rounded-xl bg-white/10">
           {tabs.map((item) => (
             <li
@@ -54,7 +62,7 @@ const WiseTab = () => {
             </li>
           ))}
         </ul>
-      </Nav>
+      </div>
 
       <main>
         <AnimatePresence mode="wait">
@@ -63,7 +71,7 @@ const WiseTab = () => {
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.1 }}
           >
             {activeTabItem.component}
           </motion.div>

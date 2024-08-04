@@ -312,3 +312,7 @@ export const getSBTList = async function () {
 export const mintSBT = async function () {
   return await request.Get(`${host}/wiseScore/mint`);
 };
+
+export const hasInviteCode = async function () {
+  return await request.Get(`${host}/wise-score-invite/has-code`);
+};

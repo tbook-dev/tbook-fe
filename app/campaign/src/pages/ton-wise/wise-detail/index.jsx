@@ -41,7 +41,7 @@ const modlueConf = {
   ],
 };
 
-export default function WiseDetail () {
+export default function WiseDetail() {
   const { wealthScore, identityScore, socialScore, engagementScore } =
     useWiseScore();
 
@@ -54,13 +54,13 @@ export default function WiseDetail () {
   };
 
   const CurrentComponent = modlueConf.btnList.find(
-    v => v.value === currentBtn
+    (v) => v.value === currentBtn
   )?.component;
 
   return (
-    <div className='pb-10'>
-      <div className='flex justify-between -mx-5 px-5 pb-4 border-b border-[#CFDBD5]/[0.15]'>
-        {modlueConf.btnList.map(v => {
+    <div className="pb-10">
+      <div className="flex justify-between -mx-5 px-5 pb-4 border-b border-[#CFDBD5]/[0.15]">
+        {modlueConf.btnList.map((v) => {
           const isCurrent = v.value === currentBtn;
           return (
             <button
@@ -75,7 +75,7 @@ export default function WiseDetail () {
                 setCurrentBtn(v.value);
               }}
             >
-              <span className='font-zen-dot text-sm'>
+              <span className="font-zen-dot text-sm">
                 {wiseScoreMap[v.value]}
               </span>
               <span>{v.display}</span>
@@ -84,7 +84,7 @@ export default function WiseDetail () {
         })}
       </div>
 
-      <div className='pt-3'>
+      <div className="pt-3">
         <CurrentComponent />
       </div>
     </div>

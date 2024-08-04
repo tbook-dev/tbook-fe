@@ -13,8 +13,16 @@ import PassportCard from '@/components/passportGen/smallCard';
 import Frame from './frame';
 import useSocial from '@/hooks/useSocial';
 import { preloadImage } from '@/utils/common';
+import CheckedIcon from '@/images/icon/svgr/checked.svg?react';
+import { cn } from '@/utils/conf';
+import useWallet from '@/hooks/useWallet';
 
 preloadImage(wisescoreRadarpng);
+const wiseTexts = [
+  'Claim free WISE SBT on Ton Society',
+  'Unlock more opportunities and rewards',
+];
+const swiperKeyList = ['passport', 'tg-user', 'tg-premium'];
 export default function Generating({
   data,
   hasWiseScoreRes,
@@ -23,6 +31,8 @@ export default function Generating({
 }) {
   const { getSocialByName } = useSocial();
   const [displayIdx, setDisplayIdx] = useState(-1);
+  const { getWallets } = useWallet();
+  const [ton] = getWallets('ton');
   const totalScore = data?.totalScore ?? 0;
   const tg = getSocialByName('telegram');
   useEffect(() => {
@@ -48,22 +58,50 @@ export default function Generating({
         show: true,
         key: 'start',
         content: ({ next }) => (
-          <div className="relative h-full flex flex-col justify-end items-center pb-10">
-            <Loading sbtClassName="animate-none" />
-            <div className="text-center text-base z-10 pb-20">
-              <h2>Generate WISE Credit Score.</h2>
+          <Frame
+            header={
+              <>
+                <p className="text-white">
+                  After generating WISE Credit Score,
+                </p>
+                <p className="text-white">you could</p>
+              </>
+            }
+            footer={
+              <>
+                <p className="text-white/60">
+                  Only a few steps to generate your
+                </p>
+                <p className="text-white/60">WISE Credit Score</p>
+              </>
+            }
+            button={
+              <Button
+                className="flex items-center justify-center font-syne gap-x-1.5 h-10 w-full "
+                onClick={next}
+              >
+                Start
+              </Button>
+            }
+          >
+            <div className="flex flex-col items-center justify-center gap-y-8">
+              {wiseTexts.map((t, i) => {
+                return (
+                  <div
+                    key={i}
+                    className="flex items-center gap-x-2 text-base py-4 px-2 rounded-xl bg-white/10"
+                  >
+                    <CheckedIcon className="size-7" />
+                    {t}
+                  </div>
+                );
+              })}
             </div>
-            <Button
-              className="h-10 w-[310px] font-syne absolute bottom-10 inset-x-0 mx-auto z-10"
-              onClick={next}
-            >
-              Generate
-            </Button>
-          </div>
+          </Frame>
         ),
       },
       {
-        show: true,
+        show: false,
         key: 'check',
         content: ({ next }) => {
           useEffect(() => {
@@ -94,7 +132,20 @@ export default function Generating({
         content: ({ next }) => (
           <Frame
             onClick={next}
-            header="Your Incentive Passport is ready."
+            header={
+              <>
+                <p className="text-white">Great Job!</p>
+                <p className="text-white">Your Incentive Passport is ready.</p>
+              </>
+            }
+            button={
+              <Button
+                className="flex items-center justify-center font-syne gap-x-1.5 h-10 w-full "
+                onClick={next}
+              >
+                Check your WISE Credit Score
+              </Button>
+            }
           >
             <PassportCard />
           </Frame>
@@ -106,38 +157,57 @@ export default function Generating({
         content: ({ next }) => (
           <Frame
             onClick={next}
-            header="You're a loyal telegram user! "
-            footer={
+            header={
               <>
-                <p>You have joined telegram with </p>
-                <p>
-                  <span className="text-[#2E85EA] me-1">@{tg.userName}</span>for
-                  a while.
-                </p>
+                <p className="text-white">Wow!</p>
+                <p className="text-white">You're a loyal telegram user</p>
               </>
             }
+            footer={
+              <div className="leading-none">
+                <p>This improves your WISE Credit Score by</p>
+                <p className="text-white text-[40px]">+10K</p>
+              </div>
+            }
           >
-            <TgIcon className="size-[160px]" />
-          </Frame>
-        ),
-      },
-      {
-        show: data?.identityScore?.tgPremiumScore > 0,
-        key: 'tg-premium',
-        content: ({ next }) => (
-          <Frame
-            onClick={next}
-            header="You're a royal Telegram Premium user"
-          >
-            <div className="space-y-8 w-full flex flex-col items-center">
-              <TgPremiumIcon className="size-[160px]" />
-              <p className="text-xl">Premium User</p>
+            <div className="flex flex-col items-center">
+              <TgIcon className="size-[160px]" />
+              <p>You're granted with a special WISE Credential</p>
+              <p className="text-xl">Telegram Veteran</p>
             </div>
           </Frame>
         ),
       },
       {
-        show: data?.engagementScore?.tonLiquidityProvideScore > 0,
+        show: data?.identityScore?.tgPremiumScore >= 0,
+        key: 'tg-premium',
+        content: ({ next }) => (
+          <Frame
+            header={
+              <>
+                <p className="text-white">As a royal Telegram Premium, </p>
+                <p className="text-white">you stand out as 10%</p>
+              </>
+            }
+            footer={
+              <div className="leading-none">
+                <p>The Credential improves your WISE Credit Score</p>
+                <p className="text-white text-[40px]">+10K</p>
+              </div>
+            }
+            onClick={next}
+          >
+            <div className="w-full flex flex-col items-center">
+              <TgPremiumIcon className="size-[160px]" />
+              <p className="text-sm">So you awarded an extra WISE Credential</p>
+              <p className="text-xl">#Telegram Premium</p>
+            </div>
+          </Frame>
+        ),
+      },
+      {
+        // show: data?.engagementScore?.tonLiquidityProvideScore > 0,
+        show: false,
         key: 'ton-liquidity-provider',
         content: ({ next }) => (
           <Frame
@@ -164,9 +234,10 @@ export default function Generating({
         ),
       },
       {
-        show:
-          data?.engagementScore?.tonTransactionsScore > 0 ||
-          data?.engagementScore?.notCoinTransactionScore > 0,
+        // show:
+        //   data?.engagementScore?.tonTransactionsScore > 0 ||
+        //   data?.engagementScore?.notCoinTransactionScore > 0,
+        show: false,
         key: 'tonchain-header',
         content: ({ next }) => (
           <Frame
@@ -187,7 +258,8 @@ export default function Generating({
         ),
       },
       {
-        show: data?.socialScore?.score > 0,
+        // show: data?.socialScore?.score > 0,
+        show: false,
         key: 'fans',
         content: ({ next }) => (
           <Frame
@@ -216,16 +288,50 @@ export default function Generating({
           <Frame
             onClick={hide}
             header={
-              <>WISE <WiseTag value={totalScore} /></>
+              <>
+                <p className="text-white">Bravo!</p>
+                <p className="text-white">
+                  You level up to WISE
+                  <WiseTag value={totalScore} className="mx-1" />
+                </p>
+              </>
+            }
+            footer={
+              <>
+                <p className="text-white/80">
+                  Now, you could connect your TON wallet to
+                </p>
+                <p className="text-white/80">
+                  improve WISE Credit Score by 10K.
+                </p>
+              </>
             }
             button={
-              <Button
-                className="flex items-center justify-center font-syne gap-x-1.5 h-10 w-full "
-                onClick={hide}
-              >
-                Improve your Score
-                <ArrowIcon />
-              </Button>
+              <>
+                {ton.connected ? (
+                  <Button
+                    className="flex items-center justify-center font-syne gap-x-1.5 h-10 w-full "
+                    onClick={hide}
+                  >
+                    View your WISE Credit Score
+                    <ArrowIcon />
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      className="flex items-center justify-center font-syne gap-x-1.5 h-10 w-full "
+                      onClick={ton.connectHandle}
+                    >
+                      Connect wallet
+                    </Button>
+                    <div className="flex justify-center mt-2" onClick={hide}>
+                      <button className="text-xs underline text-white/60">
+                        Maybe later
+                      </button>
+                    </div>
+                  </>
+                )}
+              </>
             }
           >
             <div
@@ -246,21 +352,42 @@ export default function Generating({
           ...c,
           idx,
           next() {
+            if (swiperKeyList.includes(c.name)) {
+              // slideTo()
+            }
             setDisplayIdx(idx + 1);
           },
         };
       });
   }, [data, tg]);
   // console.log({ data });
+  const swiperList = frames.filter((f) => swiperKeyList.includes(f.key));
   const CurrentFrame = frames.find((v) => v.idx === displayIdx);
+
   return (
     <div className="fixed inset-0 py-12 overflow-auto">
       {displayIdx === -1 ? (
         <Loading text="Aggregating metrics..." />
       ) : (
-        CurrentFrame?.content && (
-          <CurrentFrame.content next={CurrentFrame.next} />
-        )
+        <>
+          {swiperKeyList.includes(CurrentFrame.key) && (
+            <div className="flex h-0.5 items-center gap-x-2 px-10 mx-auto absolute inset-0 top-14">
+              {swiperList.map((v) => (
+                <div
+                  className={cn(
+                    'h-0.5 rounded-full',
+                    v.key === CurrentFrame.key ? 'bg-white' : 'bg-white/20'
+                  )}
+                  style={{ width: `${(1 / swiperList.length) * 100}%` }}
+                  key={v.key}
+                />
+              ))}
+            </div>
+          )}
+          {CurrentFrame?.content && (
+            <CurrentFrame.content next={CurrentFrame.next} />
+          )}
+        </>
       )}
     </div>
   );
