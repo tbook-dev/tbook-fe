@@ -53,7 +53,7 @@ export default function Generating({
         setDisplayIdx(0);
       }, 100);
     }
-    return () => timer && clearTimeout(timer);
+    // setDisplayIdx(0);
   }, [isFirstCreate]);
 
   const frames = useMemo(() => {
@@ -64,14 +64,6 @@ export default function Generating({
         content: ({ next }) => (
           <Frame
             style={{ backgroundImage: `url(${genBg1})` }}
-            header={
-              <>
-                <p className="text-white">
-                  After generating WISE Credit Score,
-                </p>
-                <p className="text-white">you could</p>
-              </>
-            }
             footer={
               <>
                 <p className="text-white/60">
@@ -90,11 +82,17 @@ export default function Generating({
             }
           >
             <div className="flex flex-col items-center justify-center gap-y-8">
+              <div className='pb-2 w-full text-xl font-thin'>
+                <p className="text-white">
+                  After generating WISE Credit Score,
+                </p>
+                <p className="text-white">you could</p>
+              </div>
               {wiseTexts.map((t, i) => {
                 return (
                   <div
                     key={i}
-                    className="flex items-center gap-x-2 text-base py-4 px-2 rounded-xl bg-white/10"
+                    className="w-full flex items-center gap-x-2 text-base py-4 px-2 rounded-xl bg-white/10"
                   >
                     <CheckedIcon className="size-7" fill="#fff" />
                     {t}
@@ -173,7 +171,9 @@ export default function Generating({
             footer={
               <div className="leading-none">
                 <p>This improves your WISE Credit Score by</p>
-                <p className="text-white text-[40px]">+10K</p>
+                <p className="text-white text-[40px]">
+                  <span className="text-color8">+10K</span>
+                </p>
               </div>
             }
           >
@@ -200,7 +200,9 @@ export default function Generating({
             footer={
               <div className="leading-none">
                 <p>The Credential improves your WISE Credit Score</p>
-                <p className="text-white text-[40px]">+10K</p>
+                <p className="text-white text-[40px]">
+                  <span className="text-color8">+10K</span>
+                </p>
               </div>
             }
             onClick={next}

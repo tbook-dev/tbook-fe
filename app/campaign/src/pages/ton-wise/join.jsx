@@ -125,7 +125,7 @@ export default function Join() {
             </Button>
             <div className="text-white/60 text-base font-thin">
               <p>
-                Find an invitation code from your friends or , or in the TBook
+                Find an invitation code from your friends, or in the TBook
                 Community
               </p>
               <p>
