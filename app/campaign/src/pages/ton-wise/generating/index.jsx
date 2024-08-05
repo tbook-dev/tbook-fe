@@ -23,7 +23,7 @@ import genBg4 from '@/images/wise/gen/bg4.svg';
 
 preloadImage(wisescoreRadarpng);
 const wiseTexts = [
-  'Claim free WISE SBT on Ton Society',
+  'Claim a free WISE SBT on Ton Society',
   'Unlock more opportunities and rewards',
 ];
 const swiperKeyList = ['passport', 'tg-user', 'tg-premium'];
@@ -82,23 +82,25 @@ export default function Generating({
             }
           >
             <div className="flex flex-col items-center justify-center gap-y-8">
-              <div className='pb-2 w-full text-xl font-thin'>
+              <div className="pb-2 w-full text-xl font-thin">
                 <p className="text-white">
                   After generating WISE Credit Score,
                 </p>
                 <p className="text-white">you could</p>
               </div>
-              {wiseTexts.map((t, i) => {
-                return (
-                  <div
-                    key={i}
-                    className="w-full flex items-center gap-x-2 text-base py-4 px-2 rounded-xl bg-white/10"
-                  >
-                    <CheckedIcon className="size-7" fill="#fff" />
-                    {t}
-                  </div>
-                );
-              })}
+              <div className='space-y-4'>
+                {wiseTexts.map((t, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className="w-full flex items-center gap-x-2 text-base py-3 px-2 rounded-xl bg-white/10"
+                    >
+                      <CheckedIcon className="size-7" fill="#fff" />
+                      {t}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </Frame>
         ),
@@ -186,7 +188,7 @@ export default function Generating({
         ),
       },
       {
-        show: data?.identityScore?.tgPremiumScore >= 0,
+        show: data?.identityScore?.tgPremiumScore > 0,
         key: 'tg-premium',
         content: ({ next }) => (
           <Frame
