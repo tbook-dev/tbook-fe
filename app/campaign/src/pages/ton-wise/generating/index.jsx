@@ -16,6 +16,10 @@ import { preloadImage } from '@/utils/common';
 import CheckedIcon from '@/images/icon/svgr/checked.svg?react';
 import { cn } from '@/utils/conf';
 import useWallet from '@/hooks/useWallet';
+import genBg1 from '@/images/wise/gen/bg1.svg';
+import genBg2 from '@/images/wise/gen/bg2.svg';
+import genBg3 from '@/images/wise/gen/bg3.svg';
+import genBg4 from '@/images/wise/gen/bg4.svg';
 
 preloadImage(wisescoreRadarpng);
 const wiseTexts = [
@@ -59,6 +63,7 @@ export default function Generating({
         key: 'start',
         content: ({ next }) => (
           <Frame
+            style={{ backgroundImage: `url(${genBg1})` }}
             header={
               <>
                 <p className="text-white">
@@ -91,7 +96,7 @@ export default function Generating({
                     key={i}
                     className="flex items-center gap-x-2 text-base py-4 px-2 rounded-xl bg-white/10"
                   >
-                    <CheckedIcon className="size-7" />
+                    <CheckedIcon className="size-7" fill="#fff" />
                     {t}
                   </div>
                 );
@@ -131,6 +136,7 @@ export default function Generating({
         key: 'passport',
         content: ({ next }) => (
           <Frame
+            style={{ backgroundImage: `url(${genBg2})` }}
             onClick={next}
             header={
               <>
@@ -156,6 +162,7 @@ export default function Generating({
         key: 'tg-user',
         content: ({ next }) => (
           <Frame
+            style={{ backgroundImage: `url(${genBg3})` }}
             onClick={next}
             header={
               <>
@@ -183,6 +190,7 @@ export default function Generating({
         key: 'tg-premium',
         content: ({ next }) => (
           <Frame
+            style={{ backgroundImage: `url(${genBg4})` }}
             header={
               <>
                 <p className="text-white">As a royal Telegram Premium, </p>
@@ -297,14 +305,20 @@ export default function Generating({
               </>
             }
             footer={
-              <>
+              ton.connected ? (
                 <p className="text-white/80">
-                  Now, you could connect your TON wallet to
+                  Connect TON wallet successfully👏
                 </p>
-                <p className="text-white/80">
-                  improve WISE Credit Score by 10K.
-                </p>
-              </>
+              ) : (
+                <>
+                  <p className="text-white/80">
+                    Now, you could connect your TON wallet to
+                  </p>
+                  <p className="text-white/80">
+                    improve WISE Credit Score by 10K.
+                  </p>
+                </>
+              )
             }
             button={
               <>
