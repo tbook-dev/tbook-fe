@@ -1,12 +1,23 @@
 import { cn } from '@/utils/conf';
 import Button from '../components/button';
 
-export default function Frame({ onClick, children, header, footer, button }) {
+export default function Frame({
+  className,
+  onClick,
+  children,
+  header,
+  footer,
+  button,
+  style,
+}) {
   return (
     <div
       className={cn(
-        'relative px-4 h-full pt-20 pb-36 flex flex-col items-center justify-center min-h-[570px]'
+        'relative px-4 h-full pt-20 pb-36 flex flex-col items-center justify-center min-h-[570px]',
+        'bg-cover bg-center',
+        className
       )}
+      style={style}
     >
       <h2 className="text-xl w-full absolute top-10 left-0 text-center">
         {header}
