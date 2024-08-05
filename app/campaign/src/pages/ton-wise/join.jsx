@@ -1,6 +1,6 @@
 import { OTPInput, REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
 import { cn } from '@/utils/conf';
-import { getQueryParameter, VITE_TBOOK_TG_CHANNEL } from '@/utils/tma';
+import { getQueryParameter, VITE_TBOOK_TG_CHANNEL, realTBook } from '@/utils/tma';
 import { useState, useEffect } from 'react';
 import Button from './components/button';
 import { useJoinMutation, useWiseHasWiseScore } from '@/hooks/useWiseScore';
@@ -88,30 +88,27 @@ export default function Join() {
       messageAPI.error(res.message ?? 'unknown error!');
     }
   };
-  const handleClick = () => {
+  const handleTgClick = () => {
     WebApp.openTelegramLink(VITE_TBOOK_TG_CHANNEL);
+  };
+  const handleXClick = () => {
+    WebApp.openLink(realTBook, { try_instant_view: true });
   };
 
   if (hasWiseScoreRes === undefined) {
-    return <Loading text="Aggregating metrics..."/>;
+    return <Loading text="Aggregating metrics..." />;
   } else if (hasWiseScoreRes === true) {
     navigate('/wise-score', { replace: true });
     window.sessionRoutesCount -= 1;
+    return null;
   }
   return (
     hasWiseScoreRes === false && (
-      <div className="flex flex-col px-5 mt-3 pb-20 lg:px-0 max-w-md mx-auto gap-y-[160px]">
-        <div className='space-y-10'>
-          <div className="space-y-2 text-center font-thin">
-            <h2 className="text-white text-2xl">Generate WISE Credit Score</h2>
-            <p className="text-white/60 text-base">
-              Find an invitation code from your friends or TBook official
-              channel
-              <button className="text-[#007AFF] ms-1" onClick={handleClick}>
-                @tbookincentive
-              </button>
-            </p>
-          </div>
+      <div className="flex flex-col px-5 mt-3 pb-20 lg:px-0 max-w-md mx-auto gap-y-[120px]">
+        <div className="space-y-10">
+          <h2 className="text-white text-2xl text-center font-thin">
+            Generate WISE Credit Score
+          </h2>
           <div className="space-y-3">
             <VerifyOTP
               value={code}
@@ -126,6 +123,35 @@ export default function Join() {
             >
               Join Credit Network
             </Button>
+            <div className="text-white/60 text-base font-thin">
+              <p>
+                Find an invitation code from your friends or , or in the TBook
+                Community
+              </p>
+              <p>
+                X
+                <button
+                  className="text-[#2D83EC] ms-1 underline underline-offset-2"
+                  onClick={handleXClick}
+                >
+                  @realtbook
+                </button>
+              </p>
+              <p>
+                Telegram Channel
+                <button
+                  className="text-[#2D83EC] ms-1 underline underline-offset-2"
+                  onClick={handleTgClick}
+                >
+                  @tbookincentive
+                </button>
+              </p>
+
+              <p className='mt-6'>
+                Leave a comment on X and we will randomly distribute invitation
+                codes.
+              </p>
+            </div>
           </div>
         </div>
 
