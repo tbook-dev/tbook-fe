@@ -9,11 +9,24 @@ export default function Invite() {
   const { shareToChat, inviteLink, rawText, inviteTgUser } =
     useWiseCreditInvite();
   return (
-    <div className="py-3 px-4 bg-white/5 rounded-lg relative overflow-hidden">
-      <div className="mb-6">
-        <h2 className="text-base">Invite Friends. Show your influence.</h2>
-        <h2 className="text-base">Grow WISE Credit together. </h2>
-      </div>
+    <>
+      <button
+        onClick={() => {
+          setOpen(true);
+        }}
+        className="block w-full py-3 px-4 text-left bg-white/5 rounded-lg relative overflow-hidden"
+      >
+        <div className="mb-6">
+          <h2 className="text-base">Invite Friends. Show your influence.</h2>
+          <h2 className="text-base">Grow WISE Credit together. </h2>
+        </div>
+
+        <Button className="flex items-center gap-x-1.5 px-2 text-xs">
+          <TgIcon width="16px" height="16px" />
+          Invite
+        </Button>
+        <TpointIcon className="size-[120px] absolute -bottom-4 right-1 rotate-[-13deg] opacity-20" />
+      </button>
       <ShareDrawer
         open={open}
         onCancel={() => {
@@ -41,20 +54,12 @@ export default function Invite() {
           </h2>
 
           <div className="text-center text-base">
-            The invite code is valid for 3 users.Each invitee generating WISE
-            Credit, you'll get 5,000
-            <TpointIcon className="size-5 ms-1 inline" />
+            <p> You can invite 3 more friends.</p>
+            <p>Each friend generating WISE Credit,</p>
+            <p>you'll improve WISE Credit Score by 1K.</p>
           </div>
         </div>
       </ShareDrawer>
-      <Button
-        onClick={() => setOpen(true)}
-        className="flex items-center gap-x-1.5 px-2 text-xs btn-click"
-      >
-        <TgIcon width="16px" height="16px" />
-        Invite
-      </Button>
-      <TpointIcon className="size-[120px] absolute -bottom-4 right-1 rotate-[-13deg] opacity-20" />
-    </div>
+    </>
   );
 }
