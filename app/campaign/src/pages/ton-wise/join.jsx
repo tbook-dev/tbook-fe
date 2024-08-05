@@ -4,7 +4,7 @@ import { getQueryParameter, VITE_TBOOK_TG_CHANNEL, realTBook } from '@/utils/tma
 import { useState, useEffect } from 'react';
 import Button from './components/button';
 import { useJoinMutation, useWiseHasWiseScore } from '@/hooks/useWiseScore';
-import Backeds from '@/images/wise/backeds.png';
+import Backeds from '@/images/wise/backeds.svg';
 import LazyImage from '@/components/lazyImage';
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -156,7 +156,7 @@ export default function Join() {
         </div>
 
         <div className="space-y-6">
-          <h2 className="text-base text-center">BACKED BY</h2>
+          <h2 className="text-base text-center text-[#999]">BACKED BY</h2>
           <LazyImage src={Backeds} className="h-6 aspect-[134/24] mx-auto" />
         </div>
         {messageContext}
