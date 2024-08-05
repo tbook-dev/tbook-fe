@@ -48,7 +48,7 @@ export default function Invite() {
                       <p className="text-white/40 text-xs">New invitee</p>
                     </div>
                   </div>
-                  <h4 className="text-sm font-medium">+1K TPoints</h4>
+                  <h4 className="text-sm font-medium">+1K WISE Score</h4>
                 </div>
               );
             })

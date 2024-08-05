@@ -8,7 +8,7 @@ import TpointIcon from '@/images/icon/svgr/tpoint.svg?react';
 
 const { Paragraph } = Typography;
 
-export default function InviteFriends({ openDrawer }) {
+export default function InviteFriends() {
   const { inviteCode } = useWiseCreditInviteFriends();
   const { rawText } = useWiseCreditInvite();
   const hasNoData = !inviteCode;
@@ -36,9 +36,7 @@ export default function InviteFriends({ openDrawer }) {
         )}
       </div>
       <div className="text-sm text-white/60">
-        Each friend generating WISE Credit Score, you'll get
-        <TpointIcon className="size-5 inline mx-1" />
-        1K TPoints
+        Each friend generating WISE Credit Score, you'll improve WISE Credit Score by 1K.
       </div>
     </div>
   );
