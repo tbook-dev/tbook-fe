@@ -114,8 +114,8 @@ export const useWiseCreditInvite = () => {
   const { inviteCode } = useWiseCreditInviteFriends();
   const inviteLink = getDirectLink([3, inviteCode]);
   const rawText = [
-    `Hey, I have an excellent WISE Credit Score 🌟🌟🌟`,
-    `\n🎖️Come on to calculate and improve yours!!`,
+    `Checkout my WISE Credit Score! 🌟`,
+    `\nCheck yours and claim a WISE Credit SBT on Ton Society🤩`,
     inviteLink,
   ].join('\n');
   const shareLink = useMemo(() => {
