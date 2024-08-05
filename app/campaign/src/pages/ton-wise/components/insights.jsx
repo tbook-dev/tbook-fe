@@ -20,9 +20,9 @@ import useWiseSocialMutation from '@/hooks/useWiseSocialMutation';
 function Insights() {
   const { data: wiseScore } = useWiseScore();
   const { getWallets } = useWallet('ton');
-  const { socialList } = useSocial();
+  const { getSocialByName } = useSocial();
   const [ton] = getWallets(['ton']);
-  const [discord, twitter] = socialList;
+  const [discord, twitter] = [getSocialByName('discord'),getSocialByName('twitter')];
   const [messageApi, contextHolder] = message.useMessage();
   const mutation = useWiseSocialMutation(messageApi);
   const [tgOpen, setTg] = useState(false);
