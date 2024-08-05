@@ -19,9 +19,12 @@ export default function Frame({
       )}
       style={style}
     >
-      <h2 className="text-xl w-full absolute top-10 left-0 text-center">
-        {header}
-      </h2>
+      {header && (
+        <h2 className="text-xl w-full absolute top-10 left-0 text-center">
+          {header}
+        </h2>
+      )}
+
       {children}
       <div className="absolute inset-x-0 bottom-10 w-[310px] mx-auto">
         <div className="text-center text-sm mb-5">{footer}</div>
