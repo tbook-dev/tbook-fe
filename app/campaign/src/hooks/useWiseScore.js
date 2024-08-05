@@ -95,7 +95,7 @@ export const useWiseCreditInviteFriends = () => {
 
   useEffect(() => {
     if (data?.success && previousHas?.hasCode === false) {
-      client.setQueryData('wise-credit-invite-friends', { hasCode: true });
+      client.setQueryData('has-wise-credit-invite-code', { hasCode: true });
     }
   }, [data, previousHas]);
   return {
