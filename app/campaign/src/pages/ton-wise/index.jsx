@@ -69,13 +69,13 @@ export default function TonWise() {
                         {formatImpact(totalScore)}
                       </span>
                     </div>
-                    <Link
+                    {/* <Link
                       to="/wise-score/detail"
                       className="flex items-center gap-x-1 text-xs rounded-md border border-white/20 px-3 py-1.5 mb-3"
                     >
                       <Trend />
                       Improve Now
-                    </Link>
+                    </Link> */}
                   </div>
                   <WiseLevel totalScore={totalScore} />
                 </div>
