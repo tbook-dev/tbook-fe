@@ -10,7 +10,7 @@ export default function Invite() {
     useWiseCreditInvite();
   return (
     <>
-      <button
+      <div
         onClick={() => {
           setOpen(true);
         }}
@@ -26,7 +26,7 @@ export default function Invite() {
           Invite
         </Button>
         <TpointIcon className="size-[120px] absolute -bottom-4 right-1 rotate-[-13deg] opacity-20" />
-      </button>
+      </div>
       <ShareDrawer
         open={open}
         onCancel={() => {

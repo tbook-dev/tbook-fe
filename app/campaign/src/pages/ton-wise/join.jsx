@@ -100,30 +100,38 @@ export default function Join() {
   }
   return (
     hasWiseScoreRes === false && (
-      <div className="flex flex-col px-5 mt-3 pb-20 lg:px-0 max-w-md mx-auto space-y-10">
-        <div className="space-y-2 text-center font-thin">
-          <h2 className="text-white text-2xl">Generate WISE Credit Score</h2>
-          <p className="text-white/60 text-base">
-            Find an invitation code from your friends or TBook official channel
-            <button className="text-[#007AFF] ms-1" onClick={handleClick}>
-              @tbookincentive
-            </button>
-          </p>
+      <div className="flex flex-col px-5 mt-3 pb-20 lg:px-0 max-w-md mx-auto gap-y-[160px]">
+        <div className='space-y-10'>
+          <div className="space-y-2 text-center font-thin">
+            <h2 className="text-white text-2xl">Generate WISE Credit Score</h2>
+            <p className="text-white/60 text-base">
+              Find an invitation code from your friends or TBook official
+              channel
+              <button className="text-[#007AFF] ms-1" onClick={handleClick}>
+                @tbookincentive
+              </button>
+            </p>
+          </div>
+          <div className="space-y-3">
+            <VerifyOTP
+              value={code}
+              onChange={setCode}
+              onComplete={onComplete}
+            />
+            <Button
+              className="w-full h-10"
+              disabled={code.length !== 6 || mutation.isLoading}
+              isLoading={mutation.isLoading}
+              onClick={() => onComplete(code)}
+            >
+              Join Credit Network
+            </Button>
+          </div>
         </div>
-        <div className="space-y-3">
-          <VerifyOTP value={code} onChange={setCode} onComplete={onComplete} />
-          <Button
-            className="w-full h-10"
-            disabled={code.length !== 6 || mutation.isLoading}
-            isLoading={mutation.isLoading}
-            onClick={() => onComplete(code)}
-          >
-            Join Credit Network
-          </Button>
-        </div>
+
         <div className="space-y-6">
-          <h2 className="text-base">BACKED BY</h2>
-          <LazyImage src={Backeds} className="w-full aspect-[323/168]" />
+          <h2 className="text-base text-center">BACKED BY</h2>
+          <LazyImage src={Backeds} className="h-6 aspect-[134/24] mx-auto" />
         </div>
         {messageContext}
       </div>
