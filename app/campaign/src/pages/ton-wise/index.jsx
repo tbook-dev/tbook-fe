@@ -33,6 +33,7 @@ export default function TonWise() {
   } else if (!isGranted) {
     window.sessionRoutesCount -= 1;
     navigate('/wise-score/join', { replace: true });
+    return null;
   }
 
   return (

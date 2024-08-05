@@ -107,3 +107,4 @@ export const premiumLink = `https://t.me/premium`;
 
 export const stonfi = `https://t.me/ston_app_bot/swap`;
 export const dedustio = `https://t.me/dedustBot/swap`;
+export const realTBook = `https://x.com/realtbook`
