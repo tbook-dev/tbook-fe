@@ -20,6 +20,7 @@ import genBg1 from '@/images/wise/gen/bg1.svg';
 import genBg2 from '@/images/wise/gen/bg2.svg';
 import genBg3 from '@/images/wise/gen/bg3.svg';
 import genBg4 from '@/images/wise/gen/bg4.svg';
+import useWiseScore from '@/hooks/useWiseScore';
 
 preloadImage(wisescoreRadarpng);
 const wiseTexts = [
@@ -27,34 +28,19 @@ const wiseTexts = [
   'Unlock more opportunities and rewards',
 ];
 const swiperKeyList = ['passport', 'tg-user', 'tg-premium'];
-export default function Generating({
-  data,
-  hasWiseScoreRes,
-  isFirstCreate,
-  hide,
-}) {
+
+export default function Generating({ hide }) {
+  const { data, totalScore, isLoaded } = useWiseScore();
   const { getSocialByName } = useSocial();
   const [displayIdx, setDisplayIdx] = useState(-1);
   const { getWallets } = useWallet();
   const [ton] = getWallets('ton');
-  const totalScore = data?.totalScore ?? 0;
   const tg = getSocialByName('telegram');
   useEffect(() => {
-    if (hasWiseScoreRes === false) {
-      hide();
+    if (isLoaded === true) {
+      setDisplayIdx(0);
     }
-  }, [hasWiseScoreRes]);
-  useEffect(() => {
-    let timer;
-    if (isFirstCreate === false) {
-      hide();
-    } else {
-      timer = setTimeout(() => {
-        setDisplayIdx(0);
-      }, 100);
-    }
-    // setDisplayIdx(0);
-  }, [isFirstCreate]);
+  }, [isLoaded]);
 
   const frames = useMemo(() => {
     return [
@@ -88,7 +74,7 @@ export default function Generating({
                 </p>
                 <p className="text-white">you could</p>
               </div>
-              <div className='space-y-4'>
+              <div className="space-y-4">
                 {wiseTexts.map((t, i) => {
                   return (
                     <div
@@ -370,9 +356,6 @@ export default function Generating({
           ...c,
           idx,
           next() {
-            if (swiperKeyList.includes(c.name)) {
-              // slideTo()
-            }
             setDisplayIdx(idx + 1);
           },
         };

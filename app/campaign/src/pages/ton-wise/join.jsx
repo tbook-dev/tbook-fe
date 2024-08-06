@@ -1,6 +1,10 @@
 import { OTPInput, REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
 import { cn } from '@/utils/conf';
-import { getQueryParameter, VITE_TBOOK_TG_CHANNEL, realTBook } from '@/utils/tma';
+import {
+  getQueryParameter,
+  VITE_TBOOK_TG_CHANNEL,
+  realTBook,
+} from '@/utils/tma';
 import { useState, useEffect } from 'react';
 import Button from './components/button';
 import { useJoinMutation, useWiseHasWiseScore } from '@/hooks/useWiseScore';
@@ -10,7 +14,8 @@ import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import Loading from '@/components/loading';
 import WebApp from '@twa-dev/sdk';
-import { useQueryClient } from 'react-query';
+import Generating from './generating';
+
 const REGEXP_ONLY_DIGITS_AND_CHARS_REG = new RegExp(
   REGEXP_ONLY_DIGITS_AND_CHARS
 );
@@ -65,25 +70,12 @@ export default function Join() {
   const mutation = useJoinMutation();
   const [messageAPI, messageContext] = message.useMessage();
   const navigate = useNavigate();
-  const { data: hasWiseScoreRes, refetch } = useWiseHasWiseScore();
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    const inviteCode = getQueryParameter(window.location.href, 'inviteCode');
-    if (
-      REGEXP_ONLY_DIGITS_AND_CHARS_REG.test(inviteCode) &&
-      inviteCode?.length === 6 &&
-      hasWiseScoreRes === false
-    ) {
-      setCode(inviteCode);
-      // onComplete(inviteCode);
-    }
-  }, [hasWiseScoreRes]);
+  const { data: hasWiseScoreRes } = useWiseHasWiseScore();
+  const [showGen, setShowGen] = useState(false);
   const onComplete = async (val) => {
     const res = await mutation.mutateAsync({ code: val });
     if (res.success) {
-      await refetch();
-      queryClient.invalidateQueries('wise-score');
-      navigate('/wise-score');
+      setShowGen(true);
     } else {
       messageAPI.error(res.message ?? 'unknown error!');
     }
@@ -94,73 +86,86 @@ export default function Join() {
   const handleXClick = () => {
     WebApp.openLink(realTBook, { try_instant_view: true });
   };
+  const navToWiseScore = () => {
+    navigate('/wise-score', { replace: true });
+    window.sessionRoutesCount -= 1;
+  };
+
+  useEffect(() => {
+    const inviteCode = getQueryParameter(window.location.href, 'inviteCode');
+    if (
+      REGEXP_ONLY_DIGITS_AND_CHARS_REG.test(inviteCode) &&
+      inviteCode?.length === 6 &&
+      hasWiseScoreRes === false
+    ) {
+      setCode(inviteCode);
+      // onComplete(inviteCode);
+    }
+    if (hasWiseScoreRes === true) {
+      navToWiseScore();
+    }
+  }, [hasWiseScoreRes]);
 
   if (hasWiseScoreRes === undefined) {
     return <Loading text="Aggregating metrics..." />;
   } else if (hasWiseScoreRes === true) {
-    navigate('/wise-score', { replace: true });
-    window.sessionRoutesCount -= 1;
     return null;
   }
-  return (
-    hasWiseScoreRes === false && (
-      <div className="flex flex-col px-5 mt-3 pb-20 lg:px-0 max-w-md mx-auto gap-y-[120px]">
-        <div className="space-y-10">
-          <h2 className="text-white text-2xl text-center font-thin">
-            Generate WISE Credit Score
-          </h2>
-          <div className="space-y-3">
-            <VerifyOTP
-              value={code}
-              onChange={setCode}
-              onComplete={onComplete}
-            />
-            <Button
-              className="w-full h-10"
-              disabled={code.length !== 6 || mutation.isLoading}
-              isLoading={mutation.isLoading}
-              onClick={() => onComplete(code)}
-            >
-              Join Credit Network
-            </Button>
-            <div className="text-white/60 text-base font-thin">
-              <p>
-                Find an invitation code from your friends, or in the TBook
-                Community
-              </p>
-              <p>
-                X
-                <button
-                  className="text-[#2D83EC] ms-1 underline underline-offset-2"
-                  onClick={handleXClick}
-                >
-                  @realtbook
-                </button>
-              </p>
-              <p>
-                Telegram Channel
-                <button
-                  className="text-[#2D83EC] ms-1 underline underline-offset-2"
-                  onClick={handleTgClick}
-                >
-                  @tbookincentive
-                </button>
-              </p>
+  return showGen ? (
+    <Generating hide={navToWiseScore} />
+  ) : (
+    <div className="flex flex-col px-5 mt-3 pb-20 lg:px-0 max-w-md mx-auto gap-y-[120px]">
+      <div className="space-y-10">
+        <h2 className="text-white text-2xl text-center font-thin">
+          Generate WISE Credit Score
+        </h2>
+        <div className="space-y-3">
+          <VerifyOTP value={code} onChange={setCode} onComplete={onComplete} />
+          <Button
+            className="w-full h-10"
+            disabled={code.length !== 6 || mutation.isLoading}
+            isLoading={mutation.isLoading}
+            onClick={() => onComplete(code)}
+          >
+            Join Credit Network
+          </Button>
+          <div className="text-white/60 text-base font-thin">
+            <p>
+              Find an invitation code from your friends, or in the TBook
+              Community
+            </p>
+            <p>
+              X
+              <button
+                className="text-[#2D83EC] ms-1 underline underline-offset-2"
+                onClick={handleXClick}
+              >
+                @realtbook
+              </button>
+            </p>
+            <p>
+              Telegram Channel
+              <button
+                className="text-[#2D83EC] ms-1 underline underline-offset-2"
+                onClick={handleTgClick}
+              >
+                @tbookincentive
+              </button>
+            </p>
 
-              <p className='mt-6'>
-                Leave a comment on X and we will randomly distribute invitation
-                codes.
-              </p>
-            </div>
+            <p className="mt-6">
+              Leave a comment on X and we will randomly distribute invitation
+              codes.
+            </p>
           </div>
         </div>
-
-        <div className="space-y-6">
-          <h2 className="text-base text-center text-[#999]">BACKED BY</h2>
-          <LazyImage src={Backeds} className="h-6 aspect-[134/24] mx-auto" />
-        </div>
-        {messageContext}
       </div>
-    )
+
+      <div className="space-y-6">
+        <h2 className="text-base text-center text-[#999]">BACKED BY</h2>
+        <LazyImage src={Backeds} className="h-6 aspect-[134/24] mx-auto" />
+      </div>
+      {messageContext}
+    </div>
   );
 }
