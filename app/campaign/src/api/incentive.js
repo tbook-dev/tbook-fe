@@ -235,7 +235,7 @@ export const verifyTonProof = async function (data) {
 };
 
 export const getWiseScore = async function () {
-  return await request.Get(`${host}/wiseScore`);
+  return await request.Get(`${host}/wiseScore/score`);
 };
 
 export const getTopBoard = async function () {
