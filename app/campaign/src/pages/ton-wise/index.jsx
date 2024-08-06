@@ -12,7 +12,7 @@ import { useLayoutEffect, memo } from 'react';
 
 function TonWise() {
   const { user } = useUserInfo();
-  const { totalScore, isGranted, isLoaded } = useWiseScore();
+  const { totalScore, isGranted, isLoaded, isFetching } = useWiseScore();
   const navigate = useNavigate();
   useLayoutEffect(() => {
     if (isLoaded && !isGranted) {
@@ -20,7 +20,7 @@ function TonWise() {
       navigate('/wise-score/join', { replace: true });
     }
   }, [isLoaded, isGranted]);
-  if (!isLoaded || !isGranted) {
+  if (!isLoaded || !isGranted || isFetching) {
     return <Loading text="Aggregating metrics..." />;
   }
   return (
