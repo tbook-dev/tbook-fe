@@ -12,17 +12,17 @@ import WiseTag from '../components/wiseTag';
 import PassportCard from '@/components/passportGen/smallCard';
 import Frame from './frame';
 import useSocial from '@/hooks/useSocial';
-import { preloadImage } from '@/utils/common';
+import { preloadBatchImage } from '@/utils/common';
 import CheckedIcon from '@/images/icon/svgr/checked.svg?react';
 import { cn } from '@/utils/conf';
 import useWallet from '@/hooks/useWallet';
-import genBg1 from '@/images/wise/gen/bg1.svg';
+import genBg1 from '@/images/wise/gen/bg1.png';
 import genBg2 from '@/images/wise/gen/bg2.svg';
 import genBg3 from '@/images/wise/gen/bg3.svg';
 import genBg4 from '@/images/wise/gen/bg4.svg';
 import useWiseScore from '@/hooks/useWiseScore';
 
-preloadImage(wisescoreRadarpng);
+preloadBatchImage([wisescoreRadarpng, genBg1, genBg2, genBg3, genBg4]);
 const wiseTexts = [
   'Claim a free WISE SBT on Ton Society',
   'Unlock more opportunities and rewards',
@@ -58,6 +58,12 @@ export default function Generating({ hide }) {
                 <p className="text-white/60">WISE Credit Score</p>
               </>
             }
+            header={
+              <>
+                <p className="text-3xl font-bold bg-clip-text bg-gradient-to-b from-white to-white/50 text-transparent">Welcome to</p>
+                <p className="text-3xl font-bold bg-clip-text bg-gradient-to-b from-white to-white/50 text-transparent">TBook WISE Credit</p>
+              </>
+            }
             button={
               <Button
                 className="flex items-center justify-center font-syne gap-x-1.5 h-10 w-full "
@@ -67,8 +73,8 @@ export default function Generating({ hide }) {
               </Button>
             }
           >
-            <div className="flex flex-col items-center justify-center gap-y-8">
-              <div className="pb-2 w-full text-xl font-thin">
+            <div className="flex flex-col items-center justify-center gap-y-4">
+              <div className="w-full text-xl font-medium text-white/50">
                 <p className="text-white">
                   After generating WISE Credit Score,
                 </p>
@@ -156,19 +162,17 @@ export default function Generating({ hide }) {
                 <p className="text-white">You're a loyal telegram user</p>
               </>
             }
-            footer={
-              <div className="leading-none">
-                <p>This improves your WISE Credit Score by</p>
-                <p className="text-white text-[40px]">
-                  <span className="text-color8">+10K</span>
-                </p>
-              </div>
-            }
           >
             <div className="flex flex-col items-center">
               <TgIcon className="size-[160px]" />
-              <p>You've earned a special WISE Credential</p>
-              <p className="text-xl">Telegram Veteran</p>
+              <p className='text-white/80 pt-4'>You've earned a special WISE Credential</p>
+              <p className="text-xl text-white">Telegram Veteran</p>
+              <div className="leading-none text-sm pt-2.5 text-center">
+                <p className='text-white/80'>This improves your WISE Credit Score by</p>
+                <p className="text-white font-medium">
+                  <span className="text-color8 text-4xl">+10K</span>
+                </p>
+              </div>
             </div>
           </Frame>
         ),
@@ -186,19 +190,17 @@ export default function Generating({ hide }) {
                 <p className="text-white">you stand out as 10%</p>
               </>
             }
-            footer={
-              <div className="leading-none">
-                <p>The Credential improves your WISE Credit Score</p>
-                <p className="text-white text-[40px]">
-                  <span className="text-color8">+10K</span>
-                </p>
-              </div>
-            }
           >
             <div className="w-full flex flex-col items-center">
               <TgPremiumIcon className="size-[160px]" />
-              <p className="text-sm">So you awarded an extra WISE Credential</p>
-              <p className="text-xl">#Telegram Premium</p>
+              <p className='text-white/80 pt-4'>So you awarded an extra WISE Credential</p>
+              <p className="text-xl text-white">Telegram Premium</p>
+              <div className="leading-none text-sm pt-2.5 text-center">
+                <p className='text-white/80'>This improves your WISE Credit Score by</p>
+                <p className="text-white font-medium">
+                  <span className="text-color8 text-4xl">+10K</span>
+                </p>
+              </div>
             </div>
           </Frame>
         ),
