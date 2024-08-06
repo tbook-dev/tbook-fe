@@ -1,6 +1,6 @@
 import Drawer from '@/components/drawer';
 import { ConfigProvider, message } from 'antd';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import copy from 'copy-to-clipboard';
 import TgIcon from '@/images/icon/svgr/tg.svg?react';
 import ChatIcon from '@/images/icon/svgr/chat.svg?react';
@@ -76,6 +76,20 @@ export default function ShareDrawer({
       },
     ];
   }, [inviteLink, rawText]);
+
+  useEffect(() => {
+    if (open) {
+      WebApp.MainButton.setText('CLOSE');
+      WebApp.MainButton.show();
+      WebApp.MainButton.onClick(onCancel);
+    } else {
+      WebApp.MainButton.hide();
+      WebApp.MainButton.offClick(onCancel);
+    }
+    return () => {
+      WebApp.MainButton.offClick(onCancel);
+    };
+  }, [open]);
   return (
     <Drawer open={open} onCancel={onCancel}>
       <ConfigProvider
