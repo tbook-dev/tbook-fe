@@ -179,6 +179,7 @@ export default function Generating({ hide }) {
         content: ({ next }) => (
           <Frame
             style={{ backgroundImage: `url(${genBg4})` }}
+            onClick={next}
             header={
               <>
                 <p className="text-white">As a royal Telegram Premium, </p>
@@ -193,7 +194,6 @@ export default function Generating({ hide }) {
                 </p>
               </div>
             }
-            onClick={next}
           >
             <div className="w-full flex flex-col items-center">
               <TgPremiumIcon className="size-[160px]" />
@@ -284,7 +284,6 @@ export default function Generating({ hide }) {
         key: 'wise-credit',
         content: () => (
           <Frame
-            onClick={hide}
             header={
               <>
                 <p className="text-white">Bravo!</p>

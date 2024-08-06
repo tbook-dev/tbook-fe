@@ -106,10 +106,8 @@ export default function Join() {
     }
   }, [hasWiseScoreRes]);
 
-  if (hasWiseScoreRes === undefined) {
+  if (hasWiseScoreRes === undefined || hasWiseScoreRes === true) {
     return <Loading text="Aggregating metrics..." />;
-  } else if (hasWiseScoreRes === true) {
-    return null;
   }
   return showGen ? (
     <Generating hide={navToWiseScore} />
