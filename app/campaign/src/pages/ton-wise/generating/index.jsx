@@ -167,7 +167,7 @@ export default function Generating({ hide }) {
           >
             <div className="flex flex-col items-center">
               <TgIcon className="size-[160px]" />
-              <p>You're granted with a special WISE Credential</p>
+              <p>You've earned a special WISE Credential</p>
               <p className="text-xl">Telegram Veteran</p>
             </div>
           </Frame>
