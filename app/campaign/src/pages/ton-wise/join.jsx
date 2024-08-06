@@ -72,6 +72,7 @@ export default function Join() {
   const navigate = useNavigate();
   const { data: hasWiseScoreRes } = useWiseHasWiseScore();
   const [showGen, setShowGen] = useState(false);
+  const [autoJump, setAutoJump] = useState(true);
   const onComplete = async (val) => {
     const res = await mutation.mutateAsync({ code: val });
     if (res.success) {
@@ -93,20 +94,19 @@ export default function Join() {
 
   useEffect(() => {
     const inviteCode = getQueryParameter(window.location.href, 'inviteCode');
-    if (
-      REGEXP_ONLY_DIGITS_AND_CHARS_REG.test(inviteCode) &&
-      inviteCode?.length === 6 &&
-      hasWiseScoreRes === false
-    ) {
-      setCode(inviteCode);
-      // onComplete(inviteCode);
-    }
-    if (hasWiseScoreRes === true) {
+    if (hasWiseScoreRes === false) {
+      setAutoJump(false);
+      if (
+        REGEXP_ONLY_DIGITS_AND_CHARS_REG.test(inviteCode) &&
+        inviteCode?.length === 6
+      ) {
+        setCode(inviteCode);
+      }
+    } else if (hasWiseScoreRes === true && autoJump) {
       navToWiseScore();
     }
-  }, [hasWiseScoreRes]);
-
-  if (hasWiseScoreRes === undefined || hasWiseScoreRes === true) {
+  }, [hasWiseScoreRes, autoJump]);
+  if (hasWiseScoreRes === undefined || (autoJump && hasWiseScoreRes === true)) {
     return <Loading text="Aggregating metrics..." />;
   }
   return showGen ? (
