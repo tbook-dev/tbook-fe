@@ -234,8 +234,8 @@ export const verifyTonProof = async function (data) {
   return await request.Post(`${host}/ton-proof/verify`, data);
 };
 
-export const getWiseScore = async function (uid) {
-  return await request.Get(`${host}/wiseScore/${uid}`);
+export const getWiseScore = async function () {
+  return await request.Get(`${host}/wiseScore/score`);
 };
 
 export const getTopBoard = async function () {
@@ -303,4 +303,8 @@ export const getSBTList = async function () {
 };
 export const mintSBT = async function () {
   return await request.Get(`${host}/wiseScore/mint`);
+};
+
+export const hasInviteCode = async function () {
+  return await request.Get(`${host}/wise-score-invite/has-code`);
 };

@@ -64,10 +64,10 @@ export default function Campaign () {
 
       <div className='px-4 lg:px-0'>
         {userLoading ? (
-          <Loading />
+          <Loading text="Aggregating metrics..."/>
         ) : userLogined ? (
           isLoading ? (
-            <Loading />
+            <Loading text="Aggregating metrics..."/>
           ) : data.length === 0 ? (
             <div className='lg:h-[330px] lg:bg-[#0F081A] lg:rounded-xl flex justify-center items-center'>
               <Empty text='There’s no campaign yet.' />

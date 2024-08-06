@@ -3,6 +3,7 @@ import {
   getWiseScore,
   reportRangerShare,
   getInvitedCreditFriends,
+  hasInviteCode,
   getWiseScoreStatus,
   mintSBT,
   getSBTList,
@@ -35,19 +36,15 @@ export const useWiseGobalMutation = () => {
   };
 };
 
-export default function useWiseScore(extraConf) {
-  const { user } = useUserInfoQuery();
-  const { data, ...p } = useQuery(
-    'wise-score',
-    () => getWiseScore(user.userId),
-    {
-      // retry: false,
-      enabled: !!user.userId,
-      // retryOnMount: false,
-      // refetchOnMount: false,
-      staleTime: Infinity,
-    }
-  );
+export default function useWiseScore() {
+  const { userLogined } = useUserInfoQuery();
+  const { data, ...p } = useQuery('wise-score', () => getWiseScore(), {
+    // retry: false,
+    enabled: userLogined,
+    // retryOnMount: false,
+    // refetchOnMount: false,
+    staleTime: Infinity,
+  });
   return {
     data: data?.userWiseScore,
     totalScore: data?.userWiseScore?.totalScore ?? 0,
@@ -79,6 +76,7 @@ export const useRangerReport = () => {
 };
 // api display
 export const useWiseCreditInviteFriends = () => {
+  const client = useQueryClient();
   const { user } = useUserInfoQuery();
   const userId = user?.userId;
   const { data, ...p } = useQuery(
@@ -89,6 +87,13 @@ export const useWiseCreditInviteFriends = () => {
       refetchOnMount: false,
     }
   );
+  const previousHas = client.getQueryData('has-wise-credit-invite-code');
+
+  useEffect(() => {
+    if (data?.success && previousHas?.hasCode === false) {
+      client.setQueryData('has-wise-credit-invite-code', { hasCode: true });
+    }
+  }, [data, previousHas]);
   return {
     data,
     ...p,
@@ -105,8 +110,8 @@ export const useWiseCreditInvite = () => {
   const { inviteCode } = useWiseCreditInviteFriends();
   const inviteLink = getDirectLink([3, inviteCode]);
   const rawText = [
-    `Hey, I have an excellent WISE Credit Score 🌟🌟🌟`,
-    `\n🎖️Come on to calculate and improve yours!!`,
+    `Checkout my WISE Credit Score! 🌟`,
+    `\nCheck yours and claim a WISE Credit SBT on Ton Society🤩`,
     inviteLink,
   ].join('\n');
   const shareLink = useMemo(() => {
@@ -225,5 +230,27 @@ export const useShareRangerInvite = (type) => {
     shareToChat,
     rawText,
     inviteLink,
+  };
+};
+
+export function useWiseScoreKit() {
+  const client = useQueryClient();
+  const invalidateWiseScore = client.invalidateQueries('wise-score');
+  return { invalidateWiseScore };
+}
+
+export const useHasWiseCreditInviteCode = () => {
+  const { data, ...p } = useQuery(
+    'has-wise-credit-invite-code',
+    hasInviteCode,
+    {
+      staleTime: Infinity,
+      placeholderData: { hasCode: true },
+    }
+  );
+  return {
+    data,
+    hasInviteCode: data?.hasCode,
+    ...p,
   };
 };

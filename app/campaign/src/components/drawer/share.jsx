@@ -6,7 +6,10 @@ import TgIcon from '@/images/icon/svgr/tg.svg?react';
 import ChatIcon from '@/images/icon/svgr/chat.svg?react';
 import CopyIcon from '@/images/icon/svgr/copy.svg?react';
 import MoreIcon from '@/images/icon/svgr/more.svg?react';
+import WebApp from '@twa-dev/sdk';
+import { cn } from '@/utils/conf';
 
+const androidPlatform = ['android', 'android_x'];
 export default function ShareDrawer({
   open,
   onCancel,
@@ -35,6 +38,7 @@ export default function ShareDrawer({
       {
         name: 'Share to chat',
         svg: <ChatIcon />,
+        show: true,
         onClick: () => {
           shareToChat();
           sucessFn?.();
@@ -43,6 +47,7 @@ export default function ShareDrawer({
       {
         name: 'Copy link',
         svg: <CopyIcon />,
+        show: true,
         onClick: () => {
           copy(rawText);
           openMessage('You have copied. Send to your friend now!');
@@ -52,6 +57,7 @@ export default function ShareDrawer({
       {
         name: 'More',
         svg: <MoreIcon />,
+        show: !androidPlatform.includes(WebApp.platform),
         onClick: () => {
           navigator
             .share({
@@ -89,20 +95,26 @@ export default function ShareDrawer({
           {children}
 
           <div className="pt-8 flex items-center justify-center gap-x-2 pb-3">
-            {actionList.map((a) => {
-              return (
-                <button
-                  className="btn-click w-1/3 flex flex-col items-center gap-y-1"
-                  key={a.name}
-                  onClick={a.onClick}
-                >
-                  <span className="size-10 rounded-full bg-[#FFDFA2]/10 flex items-center justify-center">
-                    {a.svg}
-                  </span>
-                  {a.name}
-                </button>
-              );
-            })}
+            {actionList
+              .filter((a) => a.show)
+              .map((a, _, l) => {
+                return (
+                  <button
+                    className={cn(
+                      'btn-click w-1/3 flex flex-col items-center gap-y-1',
+                      l.length === 2 && 'w-1/2',
+                      l.length === 3 && 'w-1/3'
+                    )}
+                    key={a.name}
+                    onClick={a.onClick}
+                  >
+                    <span className="size-10 rounded-full bg-[#FFDFA2]/10 flex items-center justify-center">
+                      {a.svg}
+                    </span>
+                    {a.name}
+                  </button>
+                );
+              })}
           </div>
 
           {ShareButton ? (

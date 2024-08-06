@@ -8,7 +8,6 @@ import {
 } from '@/hooks/useWiseScore';
 import ShareDrawer from '@/components/drawer/share';
 import { useState } from 'react';
-import tpointIcon from '@/images/wise/prize/tpoint.png';
 
 export default function Invite() {
   const [open, setOpen] = useState(false);
@@ -49,7 +48,7 @@ export default function Invite() {
                       <p className="text-white/40 text-xs">New invitee</p>
                     </div>
                   </div>
-                  <h4 className="text-sm font-medium">+5,000 TPoints</h4>
+                  <h4 className="text-sm font-medium">+1K WISE Score</h4>
                 </div>
               );
             })
@@ -99,9 +98,9 @@ export default function Invite() {
           </h2>
 
           <div className="text-center text-base">
-            The invite code is valid for 3 users.Each invitee generating WISE
-            Credit, you’ll get 5,000
-            <img src={tpointIcon} className="size-5 ms-1 inline" />
+            <p> You can invite 3 more friends.</p>
+            <p>Each friend generating WISE Credit,</p>
+            <p>you'll improve WISE Credit Score by 1K.</p>
           </div>
         </div>
       </ShareDrawer>

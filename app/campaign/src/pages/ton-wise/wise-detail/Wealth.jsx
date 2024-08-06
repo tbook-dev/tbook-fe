@@ -3,10 +3,10 @@ import WebApp from '@twa-dev/sdk';
 import { Tooltip } from 'antd';
 import useWiseScore from '@/hooks/useWiseScore';
 import CheckedIcon from '@/images/icon/svgr/checked.svg?react';
-import { stonfi } from '@/utils/conf';
+import { stonfi } from '@/utils/tma';
 import Button from '../components/button';
 
-function Wealth () {
+function Wealth() {
   const { data } = useWiseScore();
   const actionList = useMemo(() => {
     return [
@@ -27,26 +27,34 @@ function Wealth () {
   }, [data]);
 
   return (
-    <div className='space-y-1'>
-      {actionList.map(a => {
-        return (
-          <div
-            key={a.title}
-            className='flex justify-between items-center border border-white/30 rounded-lg px-5 py-1.5 text-sm text-white'
-          >
-            {a.title}
-            {a.isFinished ? (
-              <CheckedIcon width='32px' height='32px' />
-            ) : a.tip ? (
-              <Tooltip title={a.tip}>
-                <Button>Improve</Button>
-              </Tooltip>
-            ) : (
-              <Button onClick={a.onClick}>Improve</Button>
-            )}
-          </div>
-        );
-      })}
+    <div className='space-y-3'>
+      <div className="space-y-1">
+        {actionList.map((a) => {
+          return (
+            <div
+              key={a.title}
+              className="flex justify-between items-center border border-white/30 rounded-lg px-5 py-1.5 text-sm text-white"
+            >
+              {a.title}
+              {a.isFinished ? (
+                <CheckedIcon width="32px" height="32px" />
+              ) : a.tip ? (
+                <Tooltip title={a.tip}>
+                  <Button>Improve</Button>
+                </Tooltip>
+              ) : (
+                <Button onClick={a.onClick}>Improve</Button>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className='text-xs text-white/40'>
+        WealthScore is calculated based on the number of tokens you hold and the
+        token prices. Your on-chain wealth data is analyzed real time. Token
+        prices are updated every 24 hours.
+      </div>
     </div>
   );
 }
