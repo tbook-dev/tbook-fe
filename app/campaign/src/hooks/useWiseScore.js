@@ -36,19 +36,15 @@ export const useWiseGobalMutation = () => {
   };
 };
 
-export default function useWiseScore(extraConf) {
-  const { user } = useUserInfoQuery();
-  const { data, ...p } = useQuery(
-    'wise-score',
-    () => getWiseScore(user.userId),
-    {
-      // retry: false,
-      enabled: !!user.userId,
-      // retryOnMount: false,
-      // refetchOnMount: false,
-      staleTime: Infinity,
-    }
-  );
+export default function useWiseScore() {
+  const { userLogined } = useUserInfoQuery();
+  const { data, ...p } = useQuery('wise-score', () => getWiseScore(), {
+    // retry: false,
+    enabled: userLogined,
+    // retryOnMount: false,
+    // refetchOnMount: false,
+    staleTime: Infinity,
+  });
   return {
     data: data?.userWiseScore,
     totalScore: data?.userWiseScore?.totalScore ?? 0,
