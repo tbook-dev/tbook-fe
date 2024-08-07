@@ -21,9 +21,11 @@
 }
 @font-face {
   font-family: 'sf';
-  src: url(./static/SF-Pro-Display-Medium.otf) format('opentype');
+  font-weight: 500;
+  src: url(./static/SF-Pro-Display-Medium.ttf) format('truetype'), url(./static/SF-Pro-Display-Medium.otf) format('opentype');
 }
 @font-face {
   font-family: 'sf-bold';
-  src: url(./static/SF-Pro-Display-Bold.otf) format('opentype');
+  font-weight: 700;
+  src: url(./static/SF-Pro-Display-Bold.ttf) format('truetype'), url(./static/SF-Pro-Display-Bold.otf) format('opentype');
 }
