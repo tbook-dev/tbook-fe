@@ -201,7 +201,7 @@ export default function Generating({ hide }) {
               <h2 className="text-[#F36EBD]">Telegram Premium</h2>
             </div>
             <div className="text-[35px] leading-tight w-full text-center ">
-              <h2 className="text-[#22306D]">improves your WISE</h2>
+              <h2 className="text-[#22306D]">This improves your WISE</h2>
               <h2 className="text-[#22306D]">Credit Score by extra</h2>
               <h2 className="text-[#F36EBD]">+10K</h2>
             </div>

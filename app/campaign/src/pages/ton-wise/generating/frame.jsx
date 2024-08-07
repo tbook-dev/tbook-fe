@@ -31,7 +31,10 @@ export default function Frame({
         {button ? (
           button
         ) : (
-          <Button className="h-10 w-full mx-auto font-syne" onClick={onClick}>
+          <Button
+            className="h-10 w-full mx-auto font-sf-bold"
+            onClick={onClick}
+          >
             Continue
           </Button>
         )}
