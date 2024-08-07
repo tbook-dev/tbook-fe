@@ -5,6 +5,7 @@ import Button from '../components/button';
 import Loading from '@/components/loading';
 import WiseTag from '../components/wiseTag';
 import PassportCard from '@/components/passportGen/smallCard';
+import PassportCardPng from '@/images/passport/small-passport.png';
 import Frame from './frame';
 import useSocial from '@/hooks/useSocial';
 import { preloadBatchImage } from '@/utils/common';
@@ -21,6 +22,7 @@ import useWiseScore from '@/hooks/useWiseScore';
 import Header from '@/layout/ton/HeaderTransparent';
 
 preloadBatchImage([
+  PassportCardPng,
   wisescoreRadarpng,
   genBg1,
   genBg2,
