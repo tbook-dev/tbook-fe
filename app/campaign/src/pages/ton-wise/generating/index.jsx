@@ -18,6 +18,7 @@ import genBg5 from '@/images/wise/gen/bg5.svg';
 import genBg6 from '@/images/wise/gen/bg6.svg';
 import genBg7 from '@/images/wise/gen/bg7.svg';
 import useWiseScore from '@/hooks/useWiseScore';
+import Header from '@/layout/ton/HeaderTransparent';
 
 preloadBatchImage([
   wisescoreRadarpng,
@@ -29,10 +30,6 @@ preloadBatchImage([
   genBg6,
   genBg7,
 ]);
-const wiseTexts = [
-  `Ready to discover your unique TON Credit Score? `,
-  `As a special welcome, you'll also receive a free WISE SBT on Ton Society for your credit!`,
-];
 
 export default function Generating({ hide }) {
   const { data, totalScore, isLoaded } = useWiseScore();
@@ -70,13 +67,15 @@ export default function Generating({ hide }) {
                 <p className="text-[#503658] leading-none">TON WISE Credit</p>
               </div>
               <div className="space-y-4 text-[#503658] text-center">
-                {wiseTexts.map((t, i) => {
-                  return (
-                    <div key={i} className="w-full ">
-                      {t}
-                    </div>
-                  );
-                })}
+                <div className="w-full ">
+                  <p>Ready to discover your unique</p>
+                  <p>TON Credit Score?</p>
+                </div>
+                <div className="w-full ">
+                  <p>As a special welcome, you'll also</p>
+                  <p>receive a free WISE SBT</p>
+                  <p>on Ton Society for your credit!</p>
+                </div>
               </div>
             </div>
           </Frame>
@@ -87,18 +86,24 @@ export default function Generating({ hide }) {
         key: 'gift',
         content: ({ next }) => (
           <Frame style={{ backgroundImage: `url(${genBg2})` }} onClick={next}>
-            <div className="flex flex-col items-center justify-center gap-y-7 text-[#ABEDBB]">
+            <div className="flex flex-col items-center justify-center text-center gap-y-7 text-[#ABEDBB]">
               <div className="w-full text-[40px]">
                 <p className="leading-none">A Gift for you</p>
               </div>
-              <div className="text-center text-base">
+              <div className="text-base">
                 <div className="w-full">
-                  We've created something special just for you, your own
-                  <span className="text-[#F36EBD]">incentive passport.</span>
+                  <p>We've created something special just</p>
+                  <p>
+                    for you, your own
+                    <span className="text-[#F36EBD] ms-1">
+                      incentive passport
+                    </span>
+                    .
+                  </p>
                 </div>
                 <div className="w-full">
-                  We've created something special just for you, your own
-                  incentive passport.
+                  <p>This is your gateway to unlocking more</p>
+                  <p>rewards and benefits</p>
                 </div>
               </div>
             </div>
@@ -312,7 +317,7 @@ export default function Generating({ hide }) {
   const CurrentFrame = frames.find((v) => v.idx === displayIdx);
 
   return (
-    <div className="fixed inset-0 pt-12 pb-0 overflow-auto z-10">
+    <div className="fixed top-0 left-0 inset-0 overflow-auto z-10">
       {displayIdx === -1 ? (
         <Loading text="Aggregating metrics..." />
       ) : (
@@ -331,9 +336,13 @@ export default function Generating({ hide }) {
               ))}
             </div>
           )}
-          {CurrentFrame?.content && (
-            <CurrentFrame.content next={CurrentFrame.next} />
-          )}
+
+          <>
+            <Header />
+            {CurrentFrame?.content && (
+              <CurrentFrame.content next={CurrentFrame.next} />
+            )}
+          </>
         </>
       )}
     </div>
