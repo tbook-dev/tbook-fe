@@ -13,7 +13,7 @@ export default function Frame({
   return (
     <div
       className={cn(
-        'relative px-4 h-full pt-20 pb-36 flex flex-col items-center justify-center min-h-[570px]',
+        'relative px-4 flex flex-col items-center justify-center h-screen min-h-[570px]',
         'bg-cover bg-center font-sf-bold',
         className
       )}
