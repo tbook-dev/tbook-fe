@@ -14,13 +14,13 @@ export default function Frame({
     <div
       className={cn(
         'relative px-4 h-full pt-20 pb-36 flex flex-col items-center justify-center min-h-[570px]',
-        'bg-cover bg-center',
+        'bg-cover bg-center font-sf-bold',
         className
       )}
       style={style}
     >
       {header && (
-        <h2 className="text-xl w-full absolute top-10 left-0 text-center">
+        <h2 className="text-xl w-full absolute top-20 left-0 text-center">
           {header}
         </h2>
       )}

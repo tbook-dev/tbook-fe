@@ -55,6 +55,8 @@ module.exports = {
         rhd: ['Red Hat Display', 'sans-serif'],
         'zen-dot': ['zen-dot', 'sans-serif'],
         syne: ['Syne'],
+        sf: ['sf', 'sans-serif'],
+        'sf-bold': ['sf-bold', 'sans-serif'],
       },
       fontSize: {
         '6.5xl': '4rem',
