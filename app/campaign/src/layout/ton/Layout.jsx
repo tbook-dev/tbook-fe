@@ -9,7 +9,6 @@ const isDev = import.meta.env.DEV;
 
 export default function Layout({ children, className, layout = false }) {
   const { isTMA } = useTelegram();
-  const isTest = location.href.includes('t=1');
   return isTMA || isDev ? (
     <div className="flex flex-col  min-h-dvh bg-black text-white ">
       <Header type="ton" />
