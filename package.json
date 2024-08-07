@@ -32,7 +32,7 @@
     "@tailwindcss/forms": "^0.5.2",
     "@tinymce/tinymce-react": "^4.3.2",
     "@tonconnect/ui-react": "^2.0.0",
-    "@twa-dev/sdk": "^7.0.0",
+    "@twa-dev/sdk": "^7.8.0",
     "@types/react": "^18.2.20",
     "@wagmi/core": "^1.4.3",
     "@web3modal/wagmi": "^3.5.3",
