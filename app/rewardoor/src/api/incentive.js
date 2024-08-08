@@ -165,8 +165,11 @@ export const getAdminNonce = async function (data) {
 };
 
 export const getDcRoles = async function (url) {
-  await new Promise((r) => {
-    setTimeout(r, 1000);
-  });
   return await request.Post(`${host}/dc/roles`, { payload: url });
+};
+
+export const syncTONSociety = async function (values) {
+  return await new Promise((r) => {
+    setTimeout(() => r(values), 1000);
+  });
 };

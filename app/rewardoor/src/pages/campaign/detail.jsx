@@ -1,10 +1,10 @@
 import clsx from 'clsx';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useMemo } from 'react';
 import Breadcrumb from '@/components/breadcrumb';
 import { campaignStatus } from '@/utils/conf';
 import { useState } from 'react';
-import { Spin, notification } from 'antd';
+import { Spin, notification, Popover } from 'antd';
 import CampaignInfo from './info/campaign';
 import ParticipationInfo from './info/participation';
 import { useLayoutEffect } from 'react';
@@ -17,6 +17,7 @@ import { deleteCampaign } from '@/api/incentive';
 import useCampaignList from '@/hooks/queries/useCampaignList';
 import useUserInfo from '@/hooks/queries/useUserInfo';
 import { useQueryClient } from 'react-query';
+import TonSocietyIcon from '@/images/icon/ton-society.svg';
 
 const moduleMap = {
   0: <CampaignInfo />,
@@ -72,8 +73,8 @@ export default function () {
     try {
       const res = await deleteCampaign(id);
       // op mutation
-      queryClient.setQueryData(['campaignList', projectId], old => {
-        const newData = old?.filter(v => v.campaign?.campaignId != id);
+      queryClient.setQueryData(['campaignList', projectId], (old) => {
+        const newData = old?.filter((v) => v.campaign?.campaignId != id);
         return newData;
       });
       getCampaignList();
@@ -98,12 +99,25 @@ export default function () {
       setSelectedStatus(2);
     }
   }, [tabList.length]);
-
+  const { showSyncTon, showEdit, showDelete, canSyncTon } = useMemo(() => {
+    // return (
+    //   pageInfo?.campaign?.syncToTon || isInOngoingStatus || isInScheduleStatus
+    // );
+    return {
+      // showSyncTon:
+      //   pageInfo?.campaign?.syncToTon &&
+      //   (isInOngoingStatus || isInScheduleStatus),
+      canSyncTon: true,
+      showSyncTon: true,
+      showEdit: isInOngoingStatus || isInScheduleStatus,
+      showDelete: isInScheduleStatus,
+    };
+  }, [isInScheduleStatus, isInOngoingStatus, pageInfo]);
   if (isLoading) {
     return <Spin />;
   }
   const campaignCurrentStatus = campaignStatus.find(
-    v => v.value === pageInfo?.campaign?.status
+    (v) => v.value === pageInfo?.campaign?.status
   );
 
   return (
@@ -119,12 +133,12 @@ export default function () {
           },
         ]}
       />
-      <section className='mb-10 pt-0.5 flex items-center gap-x-4'>
-        <h2 className='font-bold text-5xl mb-0.5 text-t-1'>
+      <section className="mb-10 pt-0.5 flex items-center gap-x-4">
+        <h2 className="font-bold text-5xl mb-0.5 text-white">
           {pageInfo?.campaign?.name}
         </h2>
         <div
-          className='px-4 py-0.5 rounded-xl border'
+          className="px-4 py-0.5 rounded-xl border"
           style={{
             color: campaignCurrentStatus?.color,
             borderColor: campaignCurrentStatus?.color,
@@ -134,9 +148,9 @@ export default function () {
         </div>
       </section>
 
-      <section className='mb-36'>
-        <div className='mb-8 flex gap-x-20'>
-          {tabList.map(v => {
+      <section className="mb-36">
+        <div className="mb-8 flex gap-x-20">
+          {tabList.map((v) => {
             return (
               <button
                 key={v.value}
@@ -158,37 +172,74 @@ export default function () {
         {moduleMap[selectStatus]}
       </section>
 
-      {isInScheduleStatus && (
-        <>
-          <DeleteModal
-            open={showDeleteModal}
-            onClose={handleHideDeleteModal}
-            loading={deletePenging}
-            onConfirm={handleDelelteConfirm}
-          />
+      <DeleteModal
+        open={showDeleteModal}
+        onClose={handleHideDeleteModal}
+        loading={deletePenging}
+        onConfirm={handleDelelteConfirm}
+      />
 
-          <footer className='fixed bottom-0 inset-x-0 pl-[280px] flex'>
-            <div className='w-[1080px] mx-auto h-20 flex items-center justify-end gap-x-10 relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur'>
+      <footer className="fixed bottom-0 inset-x-0 pl-[280px] flex">
+        <div
+          className={clsx(
+            'w-[1080px] mx-auto h-20 flex items-center gap-x-10 backdrop-blur',
+            showSyncTon ? 'justify-between' : 'justify-end '
+          )}
+        >
+          {showSyncTon &&
+            (canSyncTon ? (
+              <Link to={`/campaign/${id}/sync-ton-society`}>
+                <Button className="text-white">
+                  Sync to
+                  <img
+                    src={TonSocietyIcon}
+                    alt="ton society"
+                    className="ms-1"
+                  />
+                </Button>
+              </Link>
+            ) : (
+              <Popover
+                placement="top"
+                content={
+                  <div className="text-sm w-[320px]">
+                    You have submitted a sync application. Once approved, you
+                    can view the results on the TON Society page:
+                    <a
+                      className="text-[#904BF6] hover:text-[#904BF6] ms-1 hover:underline hover:underline-offset-2"
+                      target="_blank"
+                      href="https://society.ton.org"
+                    >
+                      https://society.ton.org
+                    </a>
+                  </div>
+                }
+              >
+                <Button className="text-white" disabled>
+                  Sync to
+                  <img
+                    src={TonSocietyIcon}
+                    alt="ton society"
+                    className="ms-1"
+                  />
+                </Button>
+              </Popover>
+            ))}
+          <div className="flex justify-between items-center gap-x-10">
+            {showDelete && (
               <Button onClick={handleDelete} loading={deletePenging}>
                 Delete
               </Button>
+            )}
 
-              <Button type='primary' onClick={handleEdit}>
+            {showEdit && (
+              <Button type="primary" onClick={handleEdit}>
                 Edit
               </Button>
-            </div>
-          </footer>
-        </>
-      )}
-      {isInOngoingStatus && (
-        <footer className='fixed bottom-0 inset-x-0 pl-[280px] flex'>
-          <div className='w-[1080px] mx-auto h-20 flex items-center justify-end gap-x-10 relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur'>
-            <Button type='primary' onClick={handleEdit}>
-              Edit
-            </Button>
+            )}
           </div>
-        </footer>
-      )}
+        </div>
+      </footer>
       {contextHolder}
     </>
   );
