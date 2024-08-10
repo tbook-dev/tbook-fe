@@ -52,6 +52,11 @@ const typeMap = {
         <p>More platform support coming, stay tuned!</p>
       </>
     ),
+    handle: () => {
+      WebApp.openLink('https://tonstakers.com/', {
+        try_instant_view: true,
+      });
+    },
   },
   5: {
     icon: (
@@ -94,6 +99,7 @@ export default function Ranger() {
   const Icon = typeMap[type]?.icon;
   const title = typeMap[type]?.title;
   const desc = typeMap[type]?.desc;
+  const handle = typeMap[type]?.handle;
   return (
     <div className="px-5 mt-3 lg:px-0 max-w-md mx-auto">
       <div className="flex flex-col items-center gap-12">
@@ -105,7 +111,7 @@ export default function Ranger() {
             <div className="text-sm text-white/60">{desc}</div>
           </div>
           <button
-            onClick={handleClick}
+            onClick={handle ?? handleClick}
             className="rounded-md bg-[#904BF6] text-white hover:opacity-70 btn-click w-full h-10"
           >
             Go Obtain
