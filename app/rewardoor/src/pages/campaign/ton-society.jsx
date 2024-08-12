@@ -1,6 +1,7 @@
 import Breadcrumb from '@/components/breadcrumb';
 import useCampaign, {
   useSyncTONSocietyMutation,
+  useTonPrivilege,
 } from '@/hooks/queries/useCampaign';
 import { useParams, Link } from 'react-router-dom';
 import { Form, Input, Upload, notification } from 'antd';
@@ -9,26 +10,40 @@ import Button from '@/components/button';
 import uploadFile, { fileValidator } from '@/utils/upload';
 import uploadIcon from '@/images/icon/upload.svg';
 
-export default function SyncTonSociety() {
+export default function SyncTonSociety () {
   const [api, contextHolder] = notification.useNotification();
   const { id } = useParams();
   const { data: pageInfo = {}, isLoading } = useCampaign(id);
+  const { data: tonPrivilege } = useTonPrivilege(id);
   const [form] = Form.useForm();
   const campaignCurrentStatus = campaignStatus.find(
-    (v) => v.value === pageInfo?.campaign?.status
+    v => v.value === pageInfo?.campaign?.status
   );
+  const canSync =
+    tonPrivilege?.hasPrivilege && [1, 2].includes(campaignCurrentStatus?.value);
   const hanleUpload = ({ onSuccess, onError, file }) => {
     uploadFile(file).then(onSuccess).catch(onError);
   };
-  const SBTImageLink = Form.useWatch('SBTImageLink ', form);
-
+  const sbtImage = Form.useWatch('sbtImage ', form);
+  console.log({ sbtImage }, form.getFieldsValue());
   const syncTONSocietyMutation = useSyncTONSocietyMutation();
-  // console.log({ syncTONSocietyMutation });
-  console.log({ api });
   const handleSync = () => {
-    form.validateFields().then(async (values) => {
-      // syncTONSocietyMutation.mutate
-      const res = await syncTONSocietyMutation.mutateAsync(values);
+    const { campaign = {} } = pageInfo || {};
+    const campaignBaseInfo = {
+      projectId: campaign.projectId,
+      campaignId: campaign.campaignId,
+      title: campaign.title,
+      description: campaign.description,
+      startDate: campaign.startAt,
+      endDate: campaign.endAt,
+    };
+    form.validateFields().then(async values => {
+      console.log({ campaignBaseInfo, values });
+      const res = await syncTONSocietyMutation.mutateAsync({
+        ...campaignBaseInfo,
+        ...values,
+        sbtImage: values.sbtImage?.[0]?.response,
+      });
       if (res.success) {
         api.success({
           message: 'Successfully submit!',
@@ -44,13 +59,14 @@ export default function SyncTonSociety() {
     });
   };
 
-  const normFile = (e) => {
+  const normFile = e => {
+    console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }
     return e?.fileList;
   };
-  const canSync = true;
+
   return (
     <main>
       <Breadcrumb
@@ -68,7 +84,7 @@ export default function SyncTonSociety() {
           },
         ]}
       />
-      <div className="space-y-1 mb-5">
+      <div className='space-y-1 mb-5'>
         <h2
           className={
             isLoading
@@ -87,40 +103,40 @@ export default function SyncTonSociety() {
         </div>
       </div>
 
-      <Form className="w-[520px]" form={form} layout="vertical">
+      <Form className='w-[520px]' form={form} layout='vertical'>
         <Form.Item
-          label="Link to Registration/Details (TON Society Button Link)"
-          name="link"
+          label='Subtitle'
+          name='subtitle'
+          rules={[{ required: true }]}
+        >
+          <Input placeholder='Please enter the subtitle which will show on the TonSociety page' />
+        </Form.Item>
+        <Form.Item
+          label='Link to Registration/Details (TON Society Button Link)'
+          name='buttonLink'
           rules={[{ required: true, type: 'url' }]}
         >
-          <Input placeholder="http://t.me/tbook_incentive_bot/campaignDeepLink" />
+          <Input placeholder='http://t.me/tbook_incentive_bot/campaignDeepLink' />
         </Form.Item>
         <Form.Item
-          label="SBT Collection Title"
-          name="SBTCollectionTitle"
+          label='SBT Collection Title'
+          name='sbtCollectionTitle'
           rules={[{ required: true }]}
         >
-          <Input placeholder="SBT Collection Title will show on TonSociety page and NFT Marketplace" />
+          <Input placeholder='SBT Collection Title will show on TonSociety page and NFT Marketplace' />
         </Form.Item>
         <Form.Item
-          label="SBT Collection Description"
-          name="SBTCollectionDescription"
+          label='SBT Collection Description'
+          name='sbtCollectionDesc'
           rules={[{ required: true }]}
         >
-          <Input placeholder="SBT Collection Description will show on TonSociety page and NFT Marketplace" />
+          <Input placeholder='SBT Collection Description will show on TonSociety page and NFT Marketplace' />
         </Form.Item>
-        {/* <Form.Item
-          label="Link to SBT Image"
-          name="SBTImageLink"
-          rules={[{ required: true }]}
-        >
-          <Input placeholder="If you have an image that you want to use as SBT, please give us a link to it" />
-        </Form.Item> */}
         <Form.Item
-          valuePropName="fileList"
+          valuePropName='fileList'
           getValueFromEvent={normFile}
-          label="Link to SBT Image"
-          name="SBTImageLink"
+          label='Link to SBT Image'
+          name='sbtImage'
           rules={[
             {
               required: true,
@@ -133,41 +149,41 @@ export default function SyncTonSociety() {
           <Upload.Dragger
             customRequest={hanleUpload}
             multiple={false}
-            accept="image/*"
+            accept='image/*'
             maxCount={1}
           >
-            {SBTImageLink?.[0]?.response ? (
+            {sbtImage?.[0]?.response ? (
               <img
-                src={picUrl?.[0]?.response}
-                className="w-full h-[180px] object-contain object-center"
+                src={sbtImage?.[0]?.response}
+                className='w-full h-[180px] object-contain object-center'
               />
             ) : (
               <>
-                <p className="ant-upload-drag-icon flex justify-center">
+                <p className='ant-upload-drag-icon flex justify-center'>
                   <img src={uploadIcon} />
                 </p>
-                <p className="ant-upload-text">Upload an image</p>
+                <p className='ant-upload-text'>Upload an image</p>
               </>
             )}
           </Upload.Dragger>
         </Form.Item>
         <Form.Item
-          label="SBT Description"
-          name="SBTDescription"
+          label='SBT Description'
+          name='sbtDesc'
           rules={[{ required: true }]}
         >
-          <Input placeholder="If you have an image that you want to use as SBT, please give us a link to it" />
+          <Input placeholder='If you have an image that you want to use as SBT, please give us a link to it' />
         </Form.Item>
       </Form>
-      <footer className="fixed bottom-0 inset-x-0 pl-[280px] flex">
-        <div className="w-[1080px] mx-auto h-20 flex items-center gap-x-10 backdrop-blur justify-end">
-          <div className="flex justify-between items-center gap-x-10">
+      <footer className='fixed bottom-0 inset-x-0 pl-[280px] flex'>
+        <div className='w-[1080px] mx-auto h-20 flex items-center gap-x-10 backdrop-blur justify-end'>
+          <div className='flex justify-between items-center gap-x-10'>
             <Link to={`/campaign/${id}/detail`}>
               <Button>Cancel</Button>
             </Link>
 
             <Button
-              type="primary"
+              type='primary'
               onClick={handleSync}
               loading={syncTONSocietyMutation.isLoading}
               disabled={!canSync}
