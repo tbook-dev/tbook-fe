@@ -1,10 +1,10 @@
 import clsx from 'clsx';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useMemo } from 'react';
 import Breadcrumb from '@/components/breadcrumb';
 import { campaignStatus } from '@/utils/conf';
 import { useState } from 'react';
-import { Spin, notification } from 'antd';
+import { Spin, notification, Popover } from 'antd';
 import CampaignInfo from './info/campaign';
 import ParticipationInfo from './info/participation';
 import { useLayoutEffect } from 'react';
@@ -12,11 +12,12 @@ import Reward from './info/reward';
 import Button from '@/components/button';
 import { useCallback } from 'react';
 import DeleteModal from './modal/delete';
-import useCampaign from '@/hooks/queries/useCampaign';
+import useCampaign, { useTonPrivilege } from '@/hooks/queries/useCampaign';
 import { deleteCampaign } from '@/api/incentive';
 import useCampaignList from '@/hooks/queries/useCampaignList';
 import useUserInfo from '@/hooks/queries/useUserInfo';
 import { useQueryClient } from 'react-query';
+import TonSocietyIcon from '@/images/icon/ton-society.svg';
 
 const moduleMap = {
   0: <CampaignInfo />,
@@ -32,6 +33,7 @@ export default function () {
   const { id } = useParams();
   const [api, contextHolder] = notification.useNotification();
   const { data: pageInfo = {}, isLoading } = useCampaign(id);
+  const { data: tonPrivilege } = useTonPrivilege(id);
   const { refetch: getCampaignList } = useCampaignList();
   const queryClient = useQueryClient();
   const [showDeleteModal, setDeteleModal] = useState(false);
@@ -98,10 +100,21 @@ export default function () {
       setSelectedStatus(2);
     }
   }, [tabList.length]);
-
+  const { hasPrivilegeSyncTon, showEdit, showDelete, showSyncTon } =
+    useMemo(() => {
+      return {
+        showSyncTon:
+          tonPrivilege?.hasPrivilege &&
+          (isInOngoingStatus || isInScheduleStatus),
+        hasPrivilegeSyncTon: tonPrivilege?.hasPrivilege,
+        showEdit: isInOngoingStatus || isInScheduleStatus,
+        showDelete: isInScheduleStatus,
+      };
+    }, [isInScheduleStatus, isInOngoingStatus, pageInfo, tonPrivilege]);
   if (isLoading) {
     return <Spin />;
   }
+  console.log({ hasPrivilegeSyncTon, showSyncTon });
   const campaignCurrentStatus = campaignStatus.find(
     v => v.value === pageInfo?.campaign?.status
   );
@@ -120,7 +133,7 @@ export default function () {
         ]}
       />
       <section className='mb-10 pt-0.5 flex items-center gap-x-4'>
-        <h2 className='font-bold text-5xl mb-0.5 text-t-1'>
+        <h2 className='font-bold text-5xl mb-0.5 text-white'>
           {pageInfo?.campaign?.name}
         </h2>
         <div
@@ -158,37 +171,74 @@ export default function () {
         {moduleMap[selectStatus]}
       </section>
 
-      {isInScheduleStatus && (
-        <>
-          <DeleteModal
-            open={showDeleteModal}
-            onClose={handleHideDeleteModal}
-            loading={deletePenging}
-            onConfirm={handleDelelteConfirm}
-          />
+      <DeleteModal
+        open={showDeleteModal}
+        onClose={handleHideDeleteModal}
+        loading={deletePenging}
+        onConfirm={handleDelelteConfirm}
+      />
 
-          <footer className='fixed bottom-0 inset-x-0 pl-[280px] flex'>
-            <div className='w-[1080px] mx-auto h-20 flex items-center justify-end gap-x-10 relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur'>
+      <footer className='fixed bottom-0 inset-x-0 pl-[280px] flex'>
+        <div
+          className={clsx(
+            'w-[1080px] mx-auto h-20 flex items-center gap-x-10 backdrop-blur',
+            showSyncTon ? 'justify-between' : 'justify-end '
+          )}
+        >
+          {hasPrivilegeSyncTon &&
+            (showSyncTon ? (
+              <Link to={`/campaign/${id}/sync-ton-society`}>
+                <Button className='text-white'>
+                  Sync to
+                  <img
+                    src={TonSocietyIcon}
+                    alt='ton society'
+                    className='ms-1'
+                  />
+                </Button>
+              </Link>
+            ) : (
+              <Popover
+                placement='top'
+                content={
+                  <div className='text-sm w-[320px]'>
+                    You have submitted a sync application. Once approved, you
+                    can view the results on the TON Society page:
+                    <a
+                      className='text-[#904BF6] hover:text-[#904BF6] ms-1 hover:underline hover:underline-offset-2'
+                      target='_blank'
+                      href='https://society.ton.org'
+                    >
+                      https://society.ton.org
+                    </a>
+                  </div>
+                }
+              >
+                <Button className='text-white' disabled>
+                  Sync to
+                  <img
+                    src={TonSocietyIcon}
+                    alt='ton society'
+                    className='ms-1'
+                  />
+                </Button>
+              </Popover>
+            ))}
+          <div className='flex justify-between items-center gap-x-10'>
+            {showDelete && (
               <Button onClick={handleDelete} loading={deletePenging}>
                 Delete
               </Button>
+            )}
 
+            {showEdit && (
               <Button type='primary' onClick={handleEdit}>
                 Edit
               </Button>
-            </div>
-          </footer>
-        </>
-      )}
-      {isInOngoingStatus && (
-        <footer className='fixed bottom-0 inset-x-0 pl-[280px] flex'>
-          <div className='w-[1080px] mx-auto h-20 flex items-center justify-end gap-x-10 relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur'>
-            <Button type='primary' onClick={handleEdit}>
-              Edit
-            </Button>
+            )}
           </div>
-        </footer>
-      )}
+        </div>
+      </footer>
       {contextHolder}
     </>
   );

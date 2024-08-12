@@ -75,7 +75,7 @@ export default function () {
     isLoading: isCampaignLoading,
   } = useCampaign(campaignId);
   const isInOngoingStatus = pageInfo?.campaign?.status === 1;
-  console.log({ isInOngoingStatus });
+  // console.log({ isInOngoingStatus });
   const handleStepUp = async () => {
     const values = await setUpForm.validateFields();
     fd.current = {
