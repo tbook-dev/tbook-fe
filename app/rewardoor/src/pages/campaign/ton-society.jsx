@@ -24,8 +24,7 @@ export default function SyncTonSociety () {
   const hanleUpload = ({ onSuccess, onError, file }) => {
     uploadFile(file).then(onSuccess).catch(onError);
   };
-  const sbtImage = Form.useWatch('sbtImage ', form);
-  console.log({ sbtImage }, form.getFieldsValue());
+  const sbtImage = Form.useWatch(['sbtImage'], form);
   const syncTONSocietyMutation = useSyncTONSocietyMutation();
   const handleSync = () => {
     const { campaign = {} } = pageInfo || {};
