@@ -74,8 +74,8 @@ export default function () {
     try {
       const res = await deleteCampaign(id);
       // op mutation
-      queryClient.setQueryData(['campaignList', projectId], old => {
-        const newData = old?.filter(v => v.campaign?.campaignId != id);
+      queryClient.setQueryData(['campaignList', projectId], (old) => {
+        const newData = old?.filter((v) => v.campaign?.campaignId != id);
         return newData;
       });
       getCampaignList();
@@ -105,6 +105,7 @@ export default function () {
       return {
         showSyncTon:
           tonPrivilege?.hasPrivilege &&
+          !tonPrivilege?.synced &&
           (isInOngoingStatus || isInScheduleStatus),
         hasPrivilegeSyncTon: tonPrivilege?.hasPrivilege,
         showEdit: isInOngoingStatus || isInScheduleStatus,
@@ -114,9 +115,9 @@ export default function () {
   if (isLoading) {
     return <Spin />;
   }
-  console.log({ hasPrivilegeSyncTon, showSyncTon });
+
   const campaignCurrentStatus = campaignStatus.find(
-    v => v.value === pageInfo?.campaign?.status
+    (v) => v.value === pageInfo?.campaign?.status
   );
 
   return (
@@ -132,12 +133,12 @@ export default function () {
           },
         ]}
       />
-      <section className='mb-10 pt-0.5 flex items-center gap-x-4'>
-        <h2 className='font-bold text-5xl mb-0.5 text-white'>
+      <section className="mb-10 pt-0.5 flex items-center gap-x-4">
+        <h2 className="font-bold text-5xl mb-0.5 text-white">
           {pageInfo?.campaign?.name}
         </h2>
         <div
-          className='px-4 py-0.5 rounded-xl border'
+          className="px-4 py-0.5 rounded-xl border"
           style={{
             color: campaignCurrentStatus?.color,
             borderColor: campaignCurrentStatus?.color,
@@ -147,9 +148,9 @@ export default function () {
         </div>
       </section>
 
-      <section className='mb-36'>
-        <div className='mb-8 flex gap-x-20'>
-          {tabList.map(v => {
+      <section className="mb-36">
+        <div className="mb-8 flex gap-x-20">
+          {tabList.map((v) => {
             return (
               <button
                 key={v.value}
@@ -178,53 +179,53 @@ export default function () {
         onConfirm={handleDelelteConfirm}
       />
 
-      <footer className='fixed bottom-0 inset-x-0 pl-[280px] flex'>
+      <footer className="fixed bottom-0 inset-x-0 pl-[280px] flex">
         <div
           className={clsx(
             'w-[1080px] mx-auto h-20 flex items-center gap-x-10 backdrop-blur',
-            showSyncTon ? 'justify-between' : 'justify-end '
+            hasPrivilegeSyncTon ? 'justify-between' : 'justify-end '
           )}
         >
           {hasPrivilegeSyncTon &&
             (showSyncTon ? (
               <Link to={`/campaign/${id}/sync-ton-society`}>
-                <Button className='text-white'>
+                <Button className="text-white">
                   Sync to
                   <img
                     src={TonSocietyIcon}
-                    alt='ton society'
-                    className='ms-1'
+                    alt="ton society"
+                    className="ms-1"
                   />
                 </Button>
               </Link>
             ) : (
               <Popover
-                placement='top'
+                placement="top"
                 content={
-                  <div className='text-sm w-[320px]'>
+                  <div className="text-sm w-[320px]">
                     You have submitted a sync application. Once approved, you
                     can view the results on the TON Society page:
                     <a
-                      className='text-[#904BF6] hover:text-[#904BF6] ms-1 hover:underline hover:underline-offset-2'
-                      target='_blank'
-                      href='https://society.ton.org'
+                      className="text-[#904BF6] hover:text-[#904BF6] ms-1 hover:underline hover:underline-offset-2"
+                      target="_blank"
+                      href="https://society.ton.org"
                     >
                       https://society.ton.org
                     </a>
                   </div>
                 }
               >
-                <Button className='text-white' disabled>
+                <Button className="text-white" disabled>
                   Sync to
                   <img
                     src={TonSocietyIcon}
-                    alt='ton society'
-                    className='ms-1'
+                    alt="ton society"
+                    className="ms-1"
                   />
                 </Button>
               </Popover>
             ))}
-          <div className='flex justify-between items-center gap-x-10'>
+          <div className="flex justify-between items-center gap-x-10">
             {showDelete && (
               <Button onClick={handleDelete} loading={deletePenging}>
                 Delete
@@ -232,7 +233,7 @@ export default function () {
             )}
 
             {showEdit && (
-              <Button type='primary' onClick={handleEdit}>
+              <Button type="primary" onClick={handleEdit}>
                 Edit
               </Button>
             )}
