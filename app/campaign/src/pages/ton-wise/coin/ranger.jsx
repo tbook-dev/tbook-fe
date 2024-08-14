@@ -43,19 +43,16 @@ const typeMap = {
         <p>
           Stake on
           <button
-            onClick={() => WebApp.openTelegramLink(stonfi)}
+            onClick={() =>
+              WebApp.openLink('https://tonstakers.com/', {
+                try_instant_view: true,
+              })
+            }
             className="text-[#2D83EC] mx-1"
           >
-            ston.fi
+            Tonstakers.com
           </button>
-          and
-          <button
-            onClick={() => WebApp.openTelegramLink(dedustio)}
-            className="text-[#2D83EC] mx-1"
-          >
-            dedust.io
-          </button>
-          are both automatically detected!
+          is automatically detected!
         </p>
         <p>More platform support coming, stay tuned!</p>
       </>
