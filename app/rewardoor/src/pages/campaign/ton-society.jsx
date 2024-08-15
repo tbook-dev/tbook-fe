@@ -3,12 +3,13 @@ import useCampaign, {
   useSyncTONSocietyMutation,
   useTonPrivilege,
 } from '@/hooks/queries/useCampaign';
-import { useParams, Link } from 'react-router-dom';
-import { Form, Input, Upload, notification } from 'antd';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Form, Input, Upload, notification, Popover } from 'antd';
 import { campaignStatus } from '@/utils/conf';
 import Button from '@/components/button';
 import uploadFile, { fileValidator } from '@/utils/upload';
 import uploadIcon from '@/images/icon/upload.svg';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 export default function SyncTonSociety() {
   const [api, contextHolder] = notification.useNotification();
@@ -19,6 +20,7 @@ export default function SyncTonSociety() {
   const campaignCurrentStatus = campaignStatus.find(
     (v) => v.value === pageInfo?.campaign?.status
   );
+  const navigate = useNavigate();
   const canSync =
     tonPrivilege?.hasPrivilege &&
     !tonPrivilege?.synced &&
@@ -50,6 +52,9 @@ export default function SyncTonSociety() {
           message: 'Successfully submit!',
           description:
             'Your campaign has submitted to the TON Society for review. ',
+          onClose() {
+            navigate(`/campaign/${id}/detail`);
+          },
         });
       } else {
         api.error({
@@ -94,6 +99,26 @@ export default function SyncTonSociety() {
           }
         >
           {pageInfo?.campaign?.name}
+          <Popover
+            placement="top"
+            content={
+              <div className="text-sm w-[320px]">
+                For more synchronization info and guideline, please refer to the
+                link
+                <br />
+                <br />
+                <a
+                  className="text-[#904BF6] hover:text-[#904BF6] ms-1 hover:underline hover:underline-offset-2"
+                  target="_blank"
+                  href="https://docs.tbook.com/ton-society-campaign-guidelines/"
+                >
+                  https://docs.tbook.com/ton-society-campaign-guidelines/
+                </a>
+              </div>
+            }
+          >
+            <InfoCircleOutlined className="cursor-pointer text-white/20 ms-2" />
+          </Popover>
         </h2>
         <div
           className={

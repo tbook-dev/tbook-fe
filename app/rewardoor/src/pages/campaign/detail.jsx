@@ -18,6 +18,7 @@ import useCampaignList from '@/hooks/queries/useCampaignList';
 import useUserInfo from '@/hooks/queries/useUserInfo';
 import { useQueryClient } from 'react-query';
 import TonSocietyIcon from '@/images/icon/ton-society.svg';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 const moduleMap = {
   0: <CampaignInfo />,
@@ -189,41 +190,85 @@ export default function () {
           {hasPrivilegeSyncTon &&
             (showSyncTon ? (
               <Link to={`/campaign/${id}/sync-ton-society`}>
-                <Button className="text-white">
-                  Sync to
-                  <img
-                    src={TonSocietyIcon}
-                    alt="ton society"
-                    className="ms-1"
-                  />
+                <Button className="text-white flex">
+                  <span className="flex me-2">
+                    <img
+                      src={TonSocietyIcon}
+                      alt="ton society"
+                      className="mx-1"
+                    />
+                    Sync to
+                  </span>
+                  <Popover
+                    placement="top"
+                    content={
+                      <div className="text-sm w-[320px]">
+                        For more synchronization info and guideline, please
+                        refer to the link
+                        <br />
+                        <br />
+                        <a
+                          className="text-[#904BF6] hover:text-[#904BF6] ms-1 hover:underline hover:underline-offset-2"
+                          target="_blank"
+                          href="https://docs.tbook.com/ton-society-campaign-guidelines/"
+                        >
+                          https://docs.tbook.com/ton-society-campaign-guidelines/
+                        </a>
+                      </div>
+                    }
+                  >
+                    <InfoCircleOutlined className="cursor-pointer" />
+                  </Popover>
                 </Button>
               </Link>
             ) : (
-              <Popover
-                placement="top"
-                content={
-                  <div className="text-sm w-[320px]">
-                    You have submitted a sync application. Once approved, you
-                    can view the results on the TON Society page:
-                    <a
-                      className="text-[#904BF6] hover:text-[#904BF6] ms-1 hover:underline hover:underline-offset-2"
-                      target="_blank"
-                      href="https://society.ton.org"
-                    >
-                      https://society.ton.org
-                    </a>
-                  </div>
-                }
-              >
-                <Button className="text-white" disabled>
-                  Sync to
-                  <img
-                    src={TonSocietyIcon}
-                    alt="ton society"
-                    className="ms-1"
-                  />
-                </Button>
-              </Popover>
+              <Button className="text-white flex" disabled>
+                <Popover
+                  placement="top"
+                  content={
+                    <div className="text-sm w-[320px]">
+                      You have submitted a sync application. Once approved, you
+                      can view the results on the TON Society page:
+                      <a
+                        className="text-[#904BF6] hover:text-[#904BF6] ms-1 hover:underline hover:underline-offset-2"
+                        target="_blank"
+                        href="https://society.ton.org"
+                      >
+                        https://society.ton.org
+                      </a>
+                    </div>
+                  }
+                >
+                  <span className="flex me-2">
+                    <img
+                      src={TonSocietyIcon}
+                      alt="ton society"
+                      className="mx-1"
+                    />
+                    Sync to
+                  </span>
+                </Popover>
+                <Popover
+                  placement="top"
+                  content={
+                    <div className="text-sm w-[320px]">
+                      For more synchronization info and guideline, please refer
+                      to the link
+                      <br />
+                      <br />
+                      <a
+                        className="text-[#904BF6] hover:text-[#904BF6] ms-1 hover:underline hover:underline-offset-2"
+                        target="_blank"
+                        href="https://docs.tbook.com/ton-society-campaign-guidelines/"
+                      >
+                        https://docs.tbook.com/ton-society-campaign-guidelines/
+                      </a>
+                    </div>
+                  }
+                >
+                  <InfoCircleOutlined />
+                </Popover>
+              </Button>
             ))}
           <div className="flex justify-between items-center gap-x-10">
             {showDelete && (
