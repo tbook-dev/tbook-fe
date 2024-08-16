@@ -19,6 +19,7 @@ import useUserInfo from '@/hooks/queries/useUserInfo';
 import { useQueryClient } from 'react-query';
 import TonSocietyIcon from '@/images/icon/ton-society.svg';
 import { InfoCircleOutlined } from '@ant-design/icons';
+import { TonSocietyGuideLine } from './ton-society';
 
 const moduleMap = {
   0: <CampaignInfo />,
@@ -199,26 +200,8 @@ export default function () {
                     />
                     Sync to
                   </span>
-                  <Popover
-                    placement="top"
-                    content={
-                      <div className="text-sm w-[320px]">
-                        For more synchronization info and guideline, please
-                        refer to the link
-                        <br />
-                        <br />
-                        <a
-                          className="text-[#904BF6] hover:text-[#904BF6] ms-1 hover:underline hover:underline-offset-2"
-                          target="_blank"
-                          href="https://docs.tbook.com/ton-society-campaign-guidelines/"
-                        >
-                          https://docs.tbook.com/ton-society-campaign-guidelines/
-                        </a>
-                      </div>
-                    }
-                  >
-                    <InfoCircleOutlined className="cursor-pointer" />
-                  </Popover>
+
+                  <TonSocietyGuideLine className="cursor-pointer" />
                 </Button>
               </Link>
             ) : (
@@ -248,26 +231,8 @@ export default function () {
                     Sync to
                   </span>
                 </Popover>
-                <Popover
-                  placement="top"
-                  content={
-                    <div className="text-sm w-[320px]">
-                      For more synchronization info and guideline, please refer
-                      to the link
-                      <br />
-                      <br />
-                      <a
-                        className="text-[#904BF6] hover:text-[#904BF6] ms-1 hover:underline hover:underline-offset-2"
-                        target="_blank"
-                        href="https://docs.tbook.com/ton-society-campaign-guidelines/"
-                      >
-                        https://docs.tbook.com/ton-society-campaign-guidelines/
-                      </a>
-                    </div>
-                  }
-                >
-                  <InfoCircleOutlined />
-                </Popover>
+
+                <TonSocietyGuideLine />
               </Button>
             ))}
           <div className="flex justify-between items-center gap-x-10">
