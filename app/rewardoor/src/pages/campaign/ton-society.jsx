@@ -11,6 +11,29 @@ import uploadFile, { fileValidator } from '@/utils/upload';
 import uploadIcon from '@/images/icon/upload.svg';
 import { InfoCircleOutlined } from '@ant-design/icons';
 
+export const TonSocietyGuideLine = ({ className }) => {
+  return (
+    <Popover
+      placement="top"
+      content={
+        <div className="text-sm w-[320px]">
+          For more synchronization info and guideline, please refer to the link
+          <br />
+          <br />
+          <a
+            className="text-[#904BF6] hover:text-[#904BF6] ms-1 hover:underline hover:underline-offset-2"
+            target="_blank"
+            href="https://docs.tbook.com/ton-society-campaign-guidelines/"
+          >
+            https://docs.tbook.com/ton-society-campaign-guidelines/
+          </a>
+        </div>
+      }
+    >
+      <InfoCircleOutlined className={className} />
+    </Popover>
+  );
+};
 export default function SyncTonSociety() {
   const [api, contextHolder] = notification.useNotification();
   const { id } = useParams();
@@ -99,26 +122,8 @@ export default function SyncTonSociety() {
           }
         >
           {pageInfo?.campaign?.name}
-          <Popover
-            placement="top"
-            content={
-              <div className="text-sm w-[320px]">
-                For more synchronization info and guideline, please refer to the
-                link
-                <br />
-                <br />
-                <a
-                  className="text-[#904BF6] hover:text-[#904BF6] ms-1 hover:underline hover:underline-offset-2"
-                  target="_blank"
-                  href="https://docs.tbook.com/ton-society-campaign-guidelines/"
-                >
-                  https://docs.tbook.com/ton-society-campaign-guidelines/
-                </a>
-              </div>
-            }
-          >
-            <InfoCircleOutlined className="cursor-pointer text-white/20 ms-2" />
-          </Popover>
+
+          <TonSocietyGuideLine className="cursor-pointer text-white/20 ms-2" />
         </h2>
         <div
           className={
