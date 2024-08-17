@@ -7,6 +7,7 @@ import { useState, useLayoutEffect } from 'react';
 import LazyImage from '@/components/lazyImage';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import CheckedIcon from '@/images/icon/svgr/checked2.svg?react';
+import { AmbassadorSwiper } from './components/ambassadorSwiper';
 
 const levelMap = {
   1: {
@@ -52,8 +53,9 @@ export default function Ambassador() {
             />
             <CheckedIcon className="size-4 absolute bottom-0 -right-2" />
           </div>
-          <p className="text-sm font-medium">@${currentSocial?.name}</p>
+          <p className="text-sm font-medium">@{currentSocial?.name}</p>
         </div>
+        <AmbassadorSwiper userLevel={level}/>
       </div>
     </div>
   );

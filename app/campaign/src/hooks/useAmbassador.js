@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from 'react-query';
-import { applyAmbassador, getAmbassadorLevel } from '@/api/incentive';
+import { applyAmbassador, getAmbassadorLevel, getAmbassadorLevels } from '@/api/incentive';
 import useUserInfo from './useUserInfoQuery';
 export const ambassadorRequrements = [
   {
@@ -26,3 +26,9 @@ export const useAmbassadorLevel = () => {
     enabled: !!user?.userId,
   });
 };
+
+export const useAmbassadorLevels = () => {
+  return useQuery('ambassadorLevel-list', () => getAmbassadorLevels(), {
+    staleTime: Infinity
+  });
+}
