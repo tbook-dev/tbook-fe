@@ -22,10 +22,10 @@ function Header() {
       className={clsx(
         'top-0 z-10  text-white',
         'transition duration-300 ease-in-out',
-        'sticky bg-black'
+        'sticky'
       )}
     >
-      <div className="px-4 py-1.5 lg:px-20 bg-black">
+      <div className="px-4 py-1.5 lg:px-20">
         <div className="flex items-center justify-between h-10">
           <div className="flex items-center">
             {pathname === tonHomeLink ? (

@@ -24,7 +24,11 @@ export default function Privilege() {
       },
       {
         text: 'Ambassador',
-        img: <AmbassadorIcon className="size-[30px]" />,
+        img: (
+          <div className="size-12 flex items-center justify-center rounded-full bg-white/5">
+            <AmbassadorIcon className="size-[30px]" />
+          </div>
+        ),
         handle: () => {
           navigate('/wise-score/ambassador');
         },
@@ -36,17 +40,15 @@ export default function Privilege() {
       <h2 className="text-sm text-white">
         Claim Rewards based on your WISE Credit Rating!
       </h2>
-      <div className="flex items-center gap-x-2">
+      <div className="grid grid-cols-3 gap-x-5">
         {list.map((v) => {
           return (
             <div
-              className="space-y-1 cursor-pointer"
+              className="flex flex-col items-center gap-y-1 cursor-pointer"
               key={v.text}
               onClick={v.handle}
             >
-              <div className="rounded-full bg-white/5 flex items-center justify-center">
-                {v.img}
-              </div>
+              <div className="flex items-center justify-center">{v.img}</div>
               <span className="text-xs">{v.text}</span>
             </div>
           );

@@ -2,18 +2,21 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useAmbassadorLevels } from '@/hooks/useAmbassador';
 import { motion } from 'framer-motion';
+import clsx from 'clsx';
 
 const levelMap = {
-  1: {
-    bg: '',
+  0: {
     color: '#63691D',
+    bg: 'bg-gradient-to-b from-[#EEECC0] to-[#D0D86F]',
+    img: '',
   },
-  2: {
-    bg: '',
+  1: {
     color: '#63691D',
+    bg: 'bg-gradient-to-b from-[#EEECC0] to-[#D0D86F]',
+    img: '',
   },
 };
-const ArrowIcon = ({ stroke, ...props }) => (
+export const ArrowIcon = ({ stroke = '#63691D', ...props }) => (
   <svg
     width={12}
     height={12}
@@ -24,23 +27,23 @@ const ArrowIcon = ({ stroke, ...props }) => (
   >
     <path
       d="M4.125 2.25L7.875 6 4.125 9.75"
-      stroke="#63691D"
+      stroke={stroke}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
   </svg>
 );
-export const AmbassadorSwiper = ({ userLevel }) => {
+const AmbassadorSwiper = ({ userLevel = 0 }) => {
   const { data: list = [] } = useAmbassadorLevels();
-  console.log({ list });
   const userConf = levelMap[userLevel];
+  console.log({ userConf, userLevel });
   return Array.isArray(list) && list.length > 0 ? (
-    <Swiper>
+    <Swiper slidesPerView={1.1} spaceBetween={10} className="h-[120px] w-full">
       {list.map((v) => {
         return (
           <SwiperSlide key={v.level}>
             <div
-              className="p-5 h-[129px] space-y-3"
+              className={clsx('p-5 space-y-3 rounded-xl', userConf?.bg)}
               style={{ color: userConf?.color }}
             >
               <div className="flex items-baseline gap-x-2.5">
@@ -70,3 +73,5 @@ export const AmbassadorSwiper = ({ userLevel }) => {
     <div key="empty"></div>
   );
 };
+
+export default AmbassadorSwiper;

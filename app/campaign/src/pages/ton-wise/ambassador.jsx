@@ -7,9 +7,13 @@ import { useState, useLayoutEffect } from 'react';
 import LazyImage from '@/components/lazyImage';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import CheckedIcon from '@/images/icon/svgr/checked2.svg?react';
-import { AmbassadorSwiper } from './components/ambassadorSwiper';
-
+import AmbassadorSwiper from './components/ambassadorSwiper';
+import AmbassadorPrivilege from './components/ambassadorPrivilege';
+import AmbassadorPower from './components/ambassadorPower';
 const levelMap = {
+  0: {
+    wrap: 'bg-gradient-to-b from-[#C5C74E] to-[#72B55A] from-0% to-80%',
+  },
   1: {
     wrap: 'bg-gradient-to-b from-[#8FC74E] to-[#5AB5AB] to-80%',
   },
@@ -24,7 +28,7 @@ export default function Ambassador() {
   const { user, currentSocial } = useUserInfo();
   useLayoutEffect(() => {
     if (isLoaded) {
-      setLevel(level);
+      // setLevel(level);
     }
   }, [isLoaded]);
   console.log({ currentLevel, user, currentSocial });
@@ -33,11 +37,11 @@ export default function Ambassador() {
   ) : (
     <div
       className={cn(
-        'fixed inset-x-0 top-0 flex flex-col h-screen overflow-scroll pt-14 px-5 lg:px-0 mx-auto ',
-        levelMap[level]?.wrap
+        'fixed inset-x-0 top-0 h-screen  flex flex-col overflow-auto pt-14 pb-[230px] px-5 lg:px-0 mx-auto ',
+        levelMap[currentLevel]?.wrap
       )}
     >
-      <div className="flex-auto space-y-6 pb-32 relative">
+      <div className="flex-auto space-y-6 relative">
         <Nav
           Back={BackIcon}
           title="Ambassador Power"
@@ -55,7 +59,9 @@ export default function Ambassador() {
           </div>
           <p className="text-sm font-medium">@{currentSocial?.name}</p>
         </div>
-        <AmbassadorSwiper userLevel={level}/>
+        <AmbassadorSwiper userLevel={0} />
+        <AmbassadorPrivilege userLevel={0} />
+        <AmbassadorPower userLevel={0} />
       </div>
     </div>
   );
