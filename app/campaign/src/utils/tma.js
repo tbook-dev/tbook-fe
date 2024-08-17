@@ -22,11 +22,6 @@ export function safeParse(start_param) {
         type,
         inviteCode: p[0],
       };
-    } else if (type === 5) {
-      return {
-        type,
-        coin: p[0],
-      };
     } else {
       return {
         type,
@@ -108,3 +103,8 @@ export const VITE_TBOOK_TG_GROUP = `https://t.me/${
 export const VITE_TBOOK_BOOST_TG_CHANNEL = `https://t.me/boost/${
   import.meta.env.VITE_TBOOK_TG_CHANNEL
 }`;
+export const premiumLink = `https://t.me/premium`;
+
+export const stonfi = `https://t.me/ston_app_bot/swap`;
+export const dedustio = `https://t.me/dedustBot/swap`;
+export const realTBook = `https://x.com/realtbook`

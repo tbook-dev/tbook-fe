@@ -9,22 +9,22 @@ import TgIcon from '@/images/icon/svgr/tg.svg?react';
 import ShareDrawer from '@/components/drawer/share';
 import { useState } from 'react';
 import { useShareRangerInvite, useRangerReport } from '@/hooks/useWiseScore';
-import { stonfi, dedustio } from '@/utils/conf';
+import { stonfi, dedustio } from '@/utils/tma';
 import WebApp from '@twa-dev/sdk';
 
 const typeMap = {
   1: {
-    icon: <TonIcon />,
+    icon: <TonIcon className="size-[180px]" />,
     title: 'Toncoin Ranger',
     desc: 'Have transaction record of Toncoin.',
   },
   2: {
-    icon: <NotcoinIcon />,
+    icon: <NotcoinIcon className="size-[180px]" />,
     title: 'Notcoin Ranger',
     desc: 'Have transaction record of Notcoin.',
   },
   3: {
-    icon: <EthIcon />,
+    icon: <EthIcon className="size-[180px]" />,
     title: 'ETH Ranger',
     desc: 'Have transaction record of ETH.',
   },
@@ -43,19 +43,16 @@ const typeMap = {
         <p>
           Stake on
           <button
-            onClick={() => WebApp.openTelegramLink(stonfi)}
+            onClick={() =>
+              WebApp.openLink('https://tonstakers.com/', {
+                try_instant_view: true,
+              })
+            }
             className="text-[#2D83EC] mx-1"
           >
-            ston.fi
+            Tonstakers.com
           </button>
-          and
-          <button
-            onClick={() => WebApp.openTelegramLink(dedustio)}
-            className="text-[#2D83EC] mx-1"
-          >
-            dedust.io
-          </button>
-          are both automatically detected!
+          is automatically detected!
         </p>
         <p>More platform support coming, stay tuned!</p>
       </>

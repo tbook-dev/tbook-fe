@@ -5,7 +5,6 @@ import ScoreItem from './components/scoreItem';
 import { useState } from 'react';
 import ArrowIcon from '@/images/icon/svgr/arrow.svg?react';
 import Nav from './components/nav';
-import BottomNav from './components/bottomNav';
 
 const pageSize = 10;
 export default function TonWiseLeaderboard() {
@@ -18,8 +17,8 @@ export default function TonWiseLeaderboard() {
   const disableEnd = cusor === totalPageNum - 1;
 
   return (
-    <div className="flex-auto w-full min-h-[calc(100vh_-_160px)] pb-20 space-y-4 px-5 mt-3 lg:px-0 mx-auto bg-gradient-to-b from-black from-40% to-[#301952]">
-      <Nav to="/wise-score" title="WISE Leaderboard">
+    <div className="flex-auto w-full min-h-[calc(100vh_-_160px)] pb-2 space-y-4 px-5 mt-3 lg:px-0 mx-auto bg-gradient-to-b from-black from-40% to-[#301952]">
+      <Nav title="WISE Leaderboard">
         <div className="flex items-center gap-x-2">
           <ArrowIcon
             className="rotate-180"
@@ -55,8 +54,6 @@ export default function TonWiseLeaderboard() {
           </div>
         )}
       </div>
-
-      <BottomNav />
     </div>
   );
 }
