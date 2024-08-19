@@ -6,21 +6,18 @@ import { useLayoutEffect, useState } from 'react';
 import PageFallBack from '@/components/pageFallback';
 import { safeParse, supportTMATypes } from '@/utils/tma';
 
-let openFromDirectLink = true;
 export default function TonExplore() {
   const { webApp } = useTelegram();
   const navigate = useNavigate();
   const [isSubpage, setSubpage] = useState(false);
   useLayoutEffect(() => {
-    window.sessionRoutesCount = 0;
     if (webApp?.initDataUnsafe.start_param) {
       const { type, projectUrl, campaignId, ...p } = safeParse(
         webApp?.initDataUnsafe.start_param
       );
-      if (supportTMATypes.includes(type) && openFromDirectLink) {
+      if (supportTMATypes.includes(type)) {
         setSubpage(true);
-        // direct link can open only once!
-        openFromDirectLink = false;
+        window.sessionRoutesCount -= 1;
         if (type === 1) {
           navigate(`/${projectUrl}/${campaignId}`);
         } else if (type === 2) {
