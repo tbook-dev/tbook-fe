@@ -315,7 +315,7 @@ export const applyAmbassador = async function () {
 export const getAmbassadorLevel = async function () {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(1);
+      resolve(0);
     }, 1000);
   });
 };

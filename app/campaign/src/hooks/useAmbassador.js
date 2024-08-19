@@ -1,6 +1,11 @@
 import { useMutation, useQuery } from 'react-query';
-import { applyAmbassador, getAmbassadorLevel, getAmbassadorLevels } from '@/api/incentive';
+import {
+  applyAmbassador,
+  getAmbassadorLevel,
+  getAmbassadorLevels,
+} from '@/api/incentive';
 import useUserInfo from './useUserInfoQuery';
+
 export const ambassadorRequrements = [
   {
     name: 'WISE Credit Score',
@@ -29,6 +34,6 @@ export const useAmbassadorLevel = () => {
 
 export const useAmbassadorLevels = () => {
   return useQuery('ambassadorLevel-list', () => getAmbassadorLevels(), {
-    staleTime: Infinity
+    staleTime: Infinity,
   });
-}
+};

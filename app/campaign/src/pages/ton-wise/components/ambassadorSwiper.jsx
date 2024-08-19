@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { preloadBatchImage } from '@/utils/common';
 import lv0cat from '@/images/cat/0.png';
 import lv1cat from '@/images/cat/1.png';
+import LockIcon from '@/images/icon/svgr/lock.svg?react';
 
 preloadBatchImage([lv0cat, lv1cat]);
 

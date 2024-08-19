@@ -33,9 +33,13 @@ export default function AmbassadorPrivilege({ userLevel, dispalyLevel }) {
       },
     ];
   }, [userLevel, dispalyLevel]);
+  const isGranted = userLevel >= dispalyLevel;
+
   return (
     <div className="space-y-2">
-      <h1 className="text-base font-medium">Privilege</h1>
+      <h1 className="text-base font-medium">
+        {isGranted ? 'Privilege' : `Privileges unlocked at Lv ${dispalyLevel}`}
+      </h1>
       <div className="grid grid-cols-4 gap-2">
         {list.map((v, i) => (
           <div

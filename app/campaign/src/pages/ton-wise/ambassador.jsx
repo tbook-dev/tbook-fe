@@ -10,6 +10,7 @@ import CheckedIcon from '@/images/icon/svgr/checked2.svg?react';
 import AmbassadorSwiper from './components/ambassadorSwiper';
 import AmbassadorPrivilege from './components/ambassadorPrivilege';
 import AmbassadorPower from './components/ambassadorPower';
+
 const levelMap = {
   0: {
     wrap: 'bg-gradient-to-b from-[#C5C74E] to-[#72B55A] from-0% to-80%',
@@ -21,7 +22,7 @@ const levelMap = {
 
 export default function Ambassador() {
   const { data: level } = useAmbassadorLevel();
-  const isLoaded = !!level;
+  const isLoaded = level != undefined;
   const [dispalyLevel, setDisplayLevel] = useState(0);
   const { user, currentSocial } = useUserInfo();
   useLayoutEffect(() => {
@@ -35,7 +36,7 @@ export default function Ambassador() {
   ) : (
     <div
       className={cn(
-        'fixed inset-x-0 top-0 h-screen  flex flex-col overflow-auto pt-14 pb-[230px] px-4 lg:px-0 mx-auto ',
+        'fixed inset-x-0 top-0 h-screen  flex flex-col overflow-auto pt-14 pb-[230px] px-4 lg:px-0 mx-auto',
         levelMap[dispalyLevel]?.wrap
       )}
     >

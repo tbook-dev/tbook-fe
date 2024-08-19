@@ -2,7 +2,7 @@ import BottomNav from './components/bottomNav';
 import InviteFriends from './components/inviteFriends';
 import Button from './components/button';
 import TgIcon from '@/images/icon/svgr/tg.svg?react';
-import AmbassadorIcon from '@/images/icon/svgr/ambassador.svg?react';
+// import AmbassadorIcon from '@/images/icon/svgr/ambassador.svg?react';
 import {
   useWiseCreditInvite,
   useWiseCreditInviteFriends,
