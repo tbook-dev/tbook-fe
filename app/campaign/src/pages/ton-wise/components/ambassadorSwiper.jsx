@@ -12,12 +12,10 @@ preloadBatchImage([lv0cat, lv1cat]);
 
 const levelMap = {
   0: {
-    color: '#63691D',
     bg: 'bg-gradient-to-b from-[#EEECC0] to-[#D0D86F]',
     cat: lv0cat,
   },
   1: {
-    color: '#43691D',
     bg: 'bg-gradient-to-br from-[#dfeec0] to-[#B4d86f]',
     cat: lv1cat,
   },
@@ -39,9 +37,16 @@ export const ArrowIcon = ({ stroke = '#63691D', ...props }) => (
     />
   </svg>
 );
-const AmbassadorSwiper = ({ dispalyLevel = 0, setDisplayLevel }) => {
+const AmbassadorSwiper = ({
+  userLevel = 0,
+  dispalyLevel = 0,
+  setDisplayLevel,
+  color = '#63691D',
+}) => {
   const { data: list = [] } = useAmbassadorLevels();
   const userConf = levelMap[dispalyLevel];
+  const isGranted = userLevel >= dispalyLevel;
+
   return Array.isArray(list) && list.length > 0 ? (
     <Swiper
       slidesPerView={1.1}
@@ -59,31 +64,40 @@ const AmbassadorSwiper = ({ dispalyLevel = 0, setDisplayLevel }) => {
                 'p-5 space-y-3 rounded-xl relative',
                 userConf?.bg
               )}
-              style={{ color: userConf?.color }}
+              style={{ color }}
             >
               <div className="flex items-baseline gap-x-2.5">
                 <div className="font-sf font-bold text-3xl">Lv {v.level}</div>
                 <div className="text-xs font-thin flex items-center gap-x-1">
-                  WISE Credit Score 150K <ArrowIcon stroke={userConf?.color} />
+                  WISE Credit Score 150K <ArrowIcon stroke={color} />
                 </div>
               </div>
               <div className="relative w-[192px] h-1 rounded-full bg-white/40">
                 <motion.div
                   className="absolute inset-y-0 left-0 rounded-full"
-                  style={{ backgroundColor: userConf?.color }}
+                  style={{ backgroundColor: color }}
                   initial={{ width: 0 }}
                   animate={{ width: '100%' }}
                   transition={{ ease: 'easeOut', duration: 1 }}
                 />
               </div>
               <div className="text-xs font-thin flex items-center gap-x-1">
-                TPoints 10,000 <ArrowIcon stroke={userConf?.color} />
+                TPoints 10,000 <ArrowIcon stroke={color} />
               </div>
             </div>
             <img
               src={userConf.cat}
               className="size-[112px] absolute top-0 right-0"
             />
+            {isGranted ? null : (
+              <div
+                className="absolute bottom-1 right-2 px-1.5 py-0.5 rounded-2.5xl bg-white/40 flex items-center gap-x-0.5 text-xs"
+                style={{ color: color }}
+              >
+                <LockIcon className="size-[14px]" fill={color} />
+                to unlock
+              </div>
+            )}
           </SwiperSlide>
         );
       })}

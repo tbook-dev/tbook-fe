@@ -14,9 +14,11 @@ import AmbassadorPower from './components/ambassadorPower';
 const levelMap = {
   0: {
     wrap: 'bg-gradient-to-b from-[#C5C74E] to-[#72B55A] from-0% to-80%',
+    color: '#63691D',
   },
   1: {
     wrap: 'bg-gradient-to-b from-[#8FC74E] to-[#5AB5AB] to-80%',
+    color: '#43691D',
   },
 };
 
@@ -61,8 +63,13 @@ export default function Ambassador() {
         <AmbassadorSwiper
           dispalyLevel={dispalyLevel}
           setDisplayLevel={setDisplayLevel}
+          color={levelMap[dispalyLevel]?.color}
         />
-        <AmbassadorPrivilege userLevel={level} dispalyLevel={dispalyLevel} />
+        <AmbassadorPrivilege
+          userLevel={level}
+          dispalyLevel={dispalyLevel}
+          color={levelMap[dispalyLevel]?.color}
+        />
         <AmbassadorPower userLevel={level} />
       </div>
     </div>
