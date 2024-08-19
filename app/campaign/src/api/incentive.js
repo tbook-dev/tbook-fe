@@ -315,7 +315,7 @@ export const applyAmbassador = async function () {
 export const getAmbassadorLevel = async function () {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(2);
+      resolve(1);
     }, 1000);
   });
 };
@@ -328,17 +328,17 @@ export const getAmbassadorLevels = async function () {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
-      {
-        level: 0,
-        tpoints: 10_000,
-        wiseScore: 150_000,
-      },
-      {
-        level: 1,
-        tpoints: 506_000,
-        wiseScore: 450_000,
-      }
-    ]);
+        {
+          level: 0,
+          tpoints: 10_000,
+          wiseScore: 150_000,
+        },
+        {
+          level: 1,
+          tpoints: 506_000,
+          wiseScore: 450_000,
+        },
+      ]);
     }, 1000);
   });
-}
+};

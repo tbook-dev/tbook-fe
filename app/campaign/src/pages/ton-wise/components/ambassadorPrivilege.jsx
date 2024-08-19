@@ -3,29 +3,36 @@ import SBTIcon from '@/images/icon/svgr/sbt.svg?react';
 import TpointIcon from '@/images/icon/svgr/tpoint.svg?react';
 import clsx from 'clsx';
 
-export default function AmbassadorPrivilege() {
+export default function AmbassadorPrivilege({ userLevel, dispalyLevel }) {
   const list = useMemo(() => {
+    const isGranted = userLevel >= dispalyLevel;
     return [
       {
-        type: 'invite',
+        type: 1,
         content: '500 Invite',
         icon: <SBTIcon className="size-8" />,
-        isGranted: true,
+        isGranted,
       },
       {
-        type: 'tpoint',
+        type: 2,
         content: '1.2x TPoints',
         icon: <TpointIcon className="size-8" />,
-        isGranted: true,
+        isGranted,
       },
       {
-        type: 'tpoint',
-        content: '1.2x TPoints',
-        icon: <TpointIcon className="size-8" />,
-        isGranted: false,
+        type: 3,
+        content: 'Exclusive SBT',
+        icon: <span className="text-[24px]">🪙</span>,
+        isGranted,
+      },
+      {
+        type: 4,
+        content: 'Invite Perks',
+        icon: <span className="text-[24px]">🥂</span>,
+        isGranted,
       },
     ];
-  }, []);
+  }, [userLevel, dispalyLevel]);
   return (
     <div className="space-y-2">
       <h1 className="text-base font-medium">Privilege</h1>

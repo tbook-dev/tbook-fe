@@ -3,17 +3,22 @@ import 'swiper/css';
 import { useAmbassadorLevels } from '@/hooks/useAmbassador';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
+import { preloadBatchImage } from '@/utils/common';
+import lv0cat from '@/images/cat/0.png';
+import lv1cat from '@/images/cat/1.png';
+
+preloadBatchImage([lv0cat, lv1cat]);
 
 const levelMap = {
   0: {
     color: '#63691D',
     bg: 'bg-gradient-to-b from-[#EEECC0] to-[#D0D86F]',
-    img: '',
+    cat: lv0cat,
   },
   1: {
-    color: '#63691D',
-    bg: 'bg-gradient-to-b from-[#EEECC0] to-[#D0D86F]',
-    img: '',
+    color: '#43691D',
+    bg: 'bg-gradient-to-br from-[#dfeec0] to-[#B4d86f]',
+    cat: lv1cat,
   },
 };
 export const ArrowIcon = ({ stroke = '#63691D', ...props }) => (
@@ -33,17 +38,26 @@ export const ArrowIcon = ({ stroke = '#63691D', ...props }) => (
     />
   </svg>
 );
-const AmbassadorSwiper = ({ userLevel = 0 }) => {
+const AmbassadorSwiper = ({ dispalyLevel = 0, setDisplayLevel }) => {
   const { data: list = [] } = useAmbassadorLevels();
-  const userConf = levelMap[userLevel];
-  console.log({ userConf, userLevel });
+  const userConf = levelMap[dispalyLevel];
   return Array.isArray(list) && list.length > 0 ? (
-    <Swiper slidesPerView={1.1} spaceBetween={10} className="h-[120px] w-full">
+    <Swiper
+      slidesPerView={1.1}
+      spaceBetween={10}
+      className="h-[120px] w-full"
+      onSlideChange={(s) => {
+        setDisplayLevel(s.activeIndex);
+      }}
+    >
       {list.map((v) => {
         return (
-          <SwiperSlide key={v.level}>
+          <SwiperSlide key={v.level} className="relative">
             <div
-              className={clsx('p-5 space-y-3 rounded-xl', userConf?.bg)}
+              className={clsx(
+                'p-5 space-y-3 rounded-xl relative',
+                userConf?.bg
+              )}
               style={{ color: userConf?.color }}
             >
               <div className="flex items-baseline gap-x-2.5">
@@ -65,12 +79,23 @@ const AmbassadorSwiper = ({ userLevel = 0 }) => {
                 TPoints 10,000 <ArrowIcon stroke={userConf?.color} />
               </div>
             </div>
+            <img
+              src={userConf.cat}
+              className="size-[112px] absolute top-0 right-0"
+            />
           </SwiperSlide>
         );
       })}
     </Swiper>
   ) : (
-    <div key="empty"></div>
+    <div
+      key="empty"
+      className={clsx(
+        'h-[120px] w-full',
+        'p-5 space-y-3 rounded-xl relative',
+        'animate-pulse bg-[#1f1f1f]/30'
+      )}
+    ></div>
   );
 };
 

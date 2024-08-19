@@ -17,28 +17,26 @@ const levelMap = {
   1: {
     wrap: 'bg-gradient-to-b from-[#8FC74E] to-[#5AB5AB] to-80%',
   },
-  2: {
-    wrap: 'bg-gradient-to-b from-[#8FC74E] to-[#5AB5AB] to-80%',
-  },
 };
+
 export default function Ambassador() {
   const { data: level } = useAmbassadorLevel();
   const isLoaded = !!level;
-  const [currentLevel, setLevel] = useState(0);
+  const [dispalyLevel, setDisplayLevel] = useState(0);
   const { user, currentSocial } = useUserInfo();
   useLayoutEffect(() => {
     if (isLoaded) {
-      // setLevel(level);
+      setDisplayLevel(level);
     }
   }, [isLoaded]);
-  console.log({ currentLevel, user, currentSocial });
+
   return !isLoaded ? (
     <Loading />
   ) : (
     <div
       className={cn(
-        'fixed inset-x-0 top-0 h-screen  flex flex-col overflow-auto pt-14 pb-[230px] px-5 lg:px-0 mx-auto ',
-        levelMap[currentLevel]?.wrap
+        'fixed inset-x-0 top-0 h-screen  flex flex-col overflow-auto pt-14 pb-[230px] px-4 lg:px-0 mx-auto ',
+        levelMap[dispalyLevel]?.wrap
       )}
     >
       <div className="flex-auto space-y-6 relative">
@@ -59,9 +57,12 @@ export default function Ambassador() {
           </div>
           <p className="text-sm font-medium">@{currentSocial?.name}</p>
         </div>
-        <AmbassadorSwiper userLevel={0} />
-        <AmbassadorPrivilege userLevel={0} />
-        <AmbassadorPower userLevel={0} />
+        <AmbassadorSwiper
+          dispalyLevel={dispalyLevel}
+          setDisplayLevel={setDisplayLevel}
+        />
+        <AmbassadorPrivilege userLevel={level} dispalyLevel={dispalyLevel} />
+        <AmbassadorPower userLevel={level} />
       </div>
     </div>
   );
