@@ -1,47 +1,49 @@
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import SBTIcon from '@/images/icon/svgr/sbt.svg?react';
 import TpointIcon from '@/images/icon/svgr/tpoint.svg?react';
 import clsx from 'clsx';
 import LockIcon from '@/images/icon/svgr/lock.svg?react';
+import { useAmbassadorLevels } from '@/hooks/useAmbassador';
+import { formatImpact } from '@tbook/utils/lib/conf';
+function AmbassadorPrivilege({ userLevel, dispalyLevel, color }) {
+  const { data: confList = [] } = useAmbassadorLevels();
 
-export default function AmbassadorPrivilege({
-  userLevel,
-  dispalyLevel,
-  color,
-}) {
   const list = useMemo(() => {
-    const isGranted = userLevel >= dispalyLevel;
+    const hasLock = dispalyLevel > userLevel;
+    const privilege =
+      confList.find((v) => v.level === dispalyLevel)?.vanguardPrivilege ?? {};
+
     return [
       {
         type: 1,
-        content: '500 Invite',
+        content: `${formatImpact(privilege.wiseInviteNum)} Invite`,
         icon: <SBTIcon className="size-8" />,
-        isGranted,
-        isLocked: true,
+        isGranted: privilege.wiseInviteNum > 0,
+        hasLock,
       },
       {
         type: 2,
         content: '1.2x TPoints',
         icon: <TpointIcon className="size-8" />,
-        isGranted,
-        isLocked: true,
+        isGranted: privilege.onePointTwoTPoints > 0,
+        hasLock,
       },
       {
         type: 3,
         content: 'Exclusive SBT',
         icon: <span className="text-[24px]">🪙</span>,
-        isGranted,
-        isLocked: false,
+        isGranted: privilege.exclusiveSBT > 0,
+        hasLock: false,
       },
       {
         type: 4,
         content: 'Invite Perks',
         icon: <span className="text-[24px]">🥂</span>,
-        isGranted,
-        isLocked: false,
+        isGranted: privilege.inviteVanguardNum > 0,
+        hasLock: false,
       },
     ];
-  }, [userLevel, dispalyLevel]);
+  }, [userLevel, dispalyLevel, confList]);
   const isGranted = userLevel >= dispalyLevel;
 
   return (
@@ -51,7 +53,7 @@ export default function AmbassadorPrivilege({
       </h1>
       <div className="grid grid-cols-4 gap-2">
         {list.map((v, i) => {
-          const showLock = !v.isGranted && v.isLocked;
+          const showLock = v.hasLock;
           return (
             <div
               key={i}
@@ -77,3 +79,5 @@ export default function AmbassadorPrivilege({
     </div>
   );
 }
+
+export default memo(AmbassadorPrivilege);

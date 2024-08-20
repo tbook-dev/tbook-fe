@@ -54,6 +54,7 @@ const AmbassadorSwiper = ({
     <Swiper
       slidesPerView={1.1}
       spaceBetween={10}
+      initialSlide={userLevel}
       className="h-[120px] w-full"
       onSlideChange={(s) => {
         setDisplayLevel(s.activeIndex);

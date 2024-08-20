@@ -314,7 +314,6 @@ export const applyAmbassador = async function () {
 };
 export const getAmbassadorLevel = async function (userId) {
   const res = await request.Get(`${host}/vanguard/level/${userId}`);
-  console.log('res', res);
   if (res.code === 400) {
     return {
       level: -1,
@@ -324,6 +323,7 @@ export const getAmbassadorLevel = async function (userId) {
   } else {
     return {
       level: res.tPointsVanguard?.level ?? 0,
+      // level: 1,
       tpointsNum: res.tPointsVanguard?.tpointsNum ?? 0,
       wiseScoreNum: res.tPointsVanguard?.wiseScoreNum ?? 0,
     };

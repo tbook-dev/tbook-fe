@@ -61,11 +61,12 @@ export default function Ambassador() {
           <p className="text-sm font-medium">@{currentSocial?.name}</p>
         </div>
         <AmbassadorSwiper
+          userLevel={level}
           dispalyLevel={dispalyLevel}
-          setDisplayLevel={setDisplayLevel}
           tpointsNum={userLevel.tpointsNum}
-          wiseScoreNum={userLevel.wiseScoreNum}
+          setDisplayLevel={setDisplayLevel}
           color={levelMap[dispalyLevel]?.color}
+          wiseScoreNum={userLevel.wiseScoreNum}
         />
         <AmbassadorPrivilege
           userLevel={level}
