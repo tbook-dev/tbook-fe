@@ -23,18 +23,19 @@ const levelMap = {
 };
 
 export default function Ambassador() {
-  const { data: level } = useAmbassadorLevel();
-  const isLoaded = level != undefined;
+  const { data: userLevel } = useAmbassadorLevel();
+  const isLoaded = !!userLevel;
   const [dispalyLevel, setDisplayLevel] = useState(0);
   const { user, currentSocial } = useUserInfo();
   useLayoutEffect(() => {
     if (isLoaded) {
-      setDisplayLevel(level);
+      setDisplayLevel(userLevel.level);
     }
   }, [isLoaded]);
+  const level = userLevel?.level ?? 0;
 
   return !isLoaded ? (
-    <Loading />
+    <Loading text="Aggregating metrics..." />
   ) : (
     <div
       className={cn(

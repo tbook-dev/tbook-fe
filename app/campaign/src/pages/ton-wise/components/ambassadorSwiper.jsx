@@ -77,7 +77,7 @@ const AmbassadorSwiper = ({
                   className="absolute inset-y-0 left-0 rounded-full"
                   style={{ backgroundColor: color }}
                   initial={{ width: 0 }}
-                  animate={{ width: '100%' }}
+                  animate={{ width: '80%' }}
                   transition={{ ease: 'easeOut', duration: 1 }}
                 />
               </div>

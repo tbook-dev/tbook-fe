@@ -27,8 +27,9 @@ export const useApplyAmbassadorMutation = () => {
 
 export const useAmbassadorLevel = () => {
   const { user } = useUserInfo();
-  return useQuery('ambassadorLevel', () => getAmbassadorLevel(), {
+  return useQuery('ambassadorLevel', () => getAmbassadorLevel(user?.userId), {
     enabled: !!user?.userId,
+    staleTime: Infinity,
   });
 };
 
