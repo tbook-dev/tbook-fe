@@ -59,44 +59,52 @@ const AmbassadorSwiper = ({
       {list.map((v) => {
         return (
           <SwiperSlide key={v.level} className="relative">
-            <div
-              className={clsx(
-                'p-5 space-y-3 rounded-xl relative',
-                userConf?.bg
-              )}
-              style={{ color }}
-            >
-              <div className="flex items-baseline gap-x-2.5">
-                <div className="font-sf font-bold text-3xl">Lv {v.level}</div>
-                <div className="text-xs font-thin flex items-center gap-x-1">
-                  WISE Credit Score 150K <ArrowIcon stroke={color} />
+            {({ isActive }) => (
+              <>
+                <div
+                  className={clsx(
+                    'p-5 space-y-3 rounded-xl relative',
+                    userConf?.bg
+                  )}
+                  style={{ color }}
+                >
+                  <div className="flex items-baseline gap-x-2.5">
+                    <div className="font-sf font-bold text-3xl">
+                      Lv {v.level}
+                    </div>
+                    <div className="text-xs font-thin flex items-center gap-x-1">
+                      WISE Credit Score 150K <ArrowIcon stroke={color} />
+                    </div>
+                  </div>
+                  <div className="relative w-[192px] h-1 rounded-full bg-white/40">
+                    <motion.div
+                      className="absolute inset-y-0 left-0 rounded-full"
+                      style={{ backgroundColor: color }}
+                      initial={{ width: 0 }}
+                      animate={{ width: '80%' }}
+                      transition={{ ease: 'easeOut', duration: 1 }}
+                    />
+                  </div>
+                  <div className="text-xs font-thin flex items-center gap-x-1">
+                    TPoints 10,000 <ArrowIcon stroke={color} />
+                  </div>
                 </div>
-              </div>
-              <div className="relative w-[192px] h-1 rounded-full bg-white/40">
-                <motion.div
-                  className="absolute inset-y-0 left-0 rounded-full"
-                  style={{ backgroundColor: color }}
-                  initial={{ width: 0 }}
-                  animate={{ width: '80%' }}
-                  transition={{ ease: 'easeOut', duration: 1 }}
+                <img
+                  src={userConf.cat}
+                  className="size-[112px] absolute top-0 right-0"
                 />
-              </div>
-              <div className="text-xs font-thin flex items-center gap-x-1">
-                TPoints 10,000 <ArrowIcon stroke={color} />
-              </div>
-            </div>
-            <img
-              src={userConf.cat}
-              className="size-[112px] absolute top-0 right-0"
-            />
-            {isGranted ? null : (
-              <div
-                className="absolute bottom-1 right-2 px-1.5 py-0.5 rounded-2.5xl bg-white/40 flex items-center gap-x-0.5 text-xs"
-                style={{ color: color }}
-              >
-                <LockIcon className="size-[14px]" fill={color} />
-                to unlock
-              </div>
+                {isGranted
+                  ? null
+                  : isActive && (
+                      <div
+                        className="absolute bottom-1 right-2 px-1.5 py-0.5 rounded-2.5xl bg-white/40 flex items-center gap-x-0.5 text-xs"
+                        style={{ color: color }}
+                      >
+                        <LockIcon className="size-[14px]" fill={color} />
+                        to unlock
+                      </div>
+                    )}
+              </>
             )}
           </SwiperSlide>
         );
