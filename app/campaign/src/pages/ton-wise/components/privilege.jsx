@@ -15,7 +15,7 @@ export default function Privilege() {
     return [
       {
         text: 'WISE Credit SBT',
-        img: <SBTIcon className="size-12" />,
+        img: <SBTIcon className="size-[34px]" />,
         handle: () => {
           if (tonKit.connected) {
             navigate('/wise-score/sbt/1');
@@ -27,11 +27,7 @@ export default function Privilege() {
       },
       {
         text: 'Ambassador',
-        img: (
-          <div className="size-12 flex items-center justify-center rounded-full bg-white/5">
-            <AmbassadorIcon className="size-[30px]" />
-          </div>
-        ),
+        img: <AmbassadorIcon className="size-[30px]" />,
         handle: () => {
           navigate('/wise-score/ambassador');
         },
@@ -54,7 +50,9 @@ export default function Privilege() {
                 key={v.text}
                 onClick={v.handle}
               >
-                <div className="flex items-center justify-center">{v.img}</div>
+                <div className="size-12 flex items-center justify-center rounded-full bg-white/5">
+                  {v.img}
+                </div>
                 <span className="text-xs">{v.text}</span>
               </div>
             );

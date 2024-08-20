@@ -33,7 +33,6 @@ export default function Ambassador() {
     }
   }, [isLoaded]);
   const level = userLevel?.level ?? 0;
-
   return !isLoaded ? (
     <Loading text="Aggregating metrics..." />
   ) : (
@@ -62,9 +61,12 @@ export default function Ambassador() {
           <p className="text-sm font-medium">@{currentSocial?.name}</p>
         </div>
         <AmbassadorSwiper
+          userLevel={level}
           dispalyLevel={dispalyLevel}
+          tpointsNum={userLevel.tpointsNum}
           setDisplayLevel={setDisplayLevel}
           color={levelMap[dispalyLevel]?.color}
+          wiseScoreNum={userLevel.wiseScoreNum}
         />
         <AmbassadorPrivilege
           userLevel={level}

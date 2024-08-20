@@ -21,7 +21,7 @@ function Header() {
     <header
       className={clsx(
         'top-0 z-10  text-white',
-        'transition duration-300 ease-in-out',
+        'transition duration-300 ease-in-out backdrop-blur',
         'sticky'
       )}
     >
