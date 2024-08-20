@@ -314,15 +314,18 @@ export const applyAmbassador = async function () {
 };
 export const getAmbassadorLevel = async function (userId) {
   const res = await request.Get(`${host}/vanguard/level/${userId}`);
+  console.log('res', res);
   if (res.code === 400) {
     return {
       level: -1,
       tpointsNum: 0,
+      wiseScoreNum: 0,
     };
   } else {
     return {
       level: res.tPointsVanguard?.level ?? 0,
-      tpointsNum: res.tPointsVanguard?.tPoints ?? 0,
+      tpointsNum: res.tPointsVanguard?.tpointsNum ?? 0,
+      wiseScoreNum: res.tPointsVanguard?.wiseScoreNum ?? 0,
     };
   }
 };
@@ -332,20 +335,6 @@ export const hasInviteCode = async function () {
 };
 
 export const getAmbassadorLevels = async function () {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        {
-          level: 0,
-          tpoints: 10_000,
-          wiseScore: 150_000,
-        },
-        {
-          level: 1,
-          tpoints: 506_000,
-          wiseScore: 450_000,
-        },
-      ]);
-    }, 1000);
-  });
+  const res = await request.Get(`${host}/vanguard/level/config`);
+  return Array.isArray(res) ? res.slice(0, 2) : [];
 };

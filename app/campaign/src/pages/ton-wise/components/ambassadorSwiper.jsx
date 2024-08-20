@@ -7,6 +7,9 @@ import { preloadBatchImage } from '@/utils/common';
 import lv0cat from '@/images/cat/0.png';
 import lv1cat from '@/images/cat/1.png';
 import LockIcon from '@/images/icon/svgr/lock.svg?react';
+import { formatStandard, formatImpact } from '@tbook/utils/lib/conf';
+import { divide } from 'lodash';
+import { Link } from 'react-router-dom';
 
 preloadBatchImage([lv0cat, lv1cat]);
 
@@ -40,8 +43,10 @@ export const ArrowIcon = ({ stroke = '#63691D', ...props }) => (
 const AmbassadorSwiper = ({
   userLevel = 0,
   dispalyLevel = 0,
+  tpointsNum = 0,
   setDisplayLevel,
   color = '#63691D',
+  wiseScoreNum: totalScore,
 }) => {
   const { data: list = [] } = useAmbassadorLevels();
   const userConf = levelMap[dispalyLevel];
@@ -66,22 +71,39 @@ const AmbassadorSwiper = ({
             >
               <div className="flex items-baseline gap-x-2.5">
                 <div className="font-sf font-bold text-3xl">Lv {v.level}</div>
-                <div className="text-xs font-thin flex items-center gap-x-1">
-                  WISE Credit Score 150K <ArrowIcon stroke={color} />
-                </div>
+                <Link
+                  className="text-xs font-thin flex items-center gap-x-1"
+                  to="/wise-score"
+                >
+                  WISE Credit Score {formatImpact(totalScore)}
+                  <ArrowIcon stroke={color} />
+                </Link>
               </div>
-              <div className="relative w-[192px] h-1 rounded-full bg-white/40">
+              <div className="relative w-[192px] h-1 rounded-full bg-white/40 overflow-hidden">
                 <motion.div
                   className="absolute inset-y-0 left-0 rounded-full"
                   style={{ backgroundColor: color }}
                   initial={{ width: 0 }}
-                  animate={{ width: '80%' }}
+                  animate={{
+                    width:
+                      userLevel === v.level
+                        ? `${
+                            v.nextLevelPointsNum === 0
+                              ? 100
+                              : divide(tpointsNum * 100, v.nextLevelPointsNum)
+                          }%`
+                        : 0,
+                  }}
                   transition={{ ease: 'easeOut', duration: 1 }}
                 />
               </div>
-              <div className="text-xs font-thin flex items-center gap-x-1">
-                TPoints 10,000 <ArrowIcon stroke={color} />
-              </div>
+              <Link
+                className="text-xs font-thin flex items-center gap-x-1"
+                to="/event/renaissance"
+              >
+                TPoints {formatStandard(v.nextLevelPointsNum)}
+                <ArrowIcon stroke={color} />
+              </Link>
             </div>
             <img
               src={userConf.cat}
