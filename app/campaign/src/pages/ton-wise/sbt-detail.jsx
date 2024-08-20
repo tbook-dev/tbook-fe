@@ -110,7 +110,7 @@ export default function SBTDetail() {
   const sbt = sbtList.find((v) => v.type === Number(type));
   return (
     <div className="flex-auto w-full pb-10 space-y-6 px-5 mt-3 lg:px-0 mx-auto">
-      <Nav title="WISE SBT" />
+      <Nav to="/wise-score" title="WISE SBT" />
 
       <div className="flex flex-col items-center gap-y-4">
         {sbt?.img}

@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 window.sessionRoutesCount = 0;
-export default function WatchRouter () {
+export default function WatchRouter() {
   const { isTMA, webApp } = useTelegram();
   const navigate = useNavigate();
   const location = useLocation();

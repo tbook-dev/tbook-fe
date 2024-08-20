@@ -79,7 +79,7 @@ export default function SBT() {
   }, [type1]);
   return (
     <div className="flex-auto w-full pb-10 space-y-6 px-5 mt-3 lg:px-0 mx-auto">
-      <Nav title="WISE SBT" />
+      <Nav to="/wise-score" title="WISE SBT" />
 
       <div className="flex flex-col items-center gap-y-3">
         <div className="relative">

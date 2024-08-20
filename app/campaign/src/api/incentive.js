@@ -312,7 +312,48 @@ export const getSBTList = async function () {
 export const mintSBT = async function () {
   return await request.Get(`${host}/wiseScore/mint`);
 };
+export const applyAmbassador = async function () {
+  // return await request.Post(`${host}/wiseScore/applyAmbassador`);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true });
+    }, 1000);
+  });
+};
+export const getAmbassadorLevel = async function (userId) {
+  const res = await request.Get(`${host}/vanguard/level/${userId}`);
+  if (res.code === 400) {
+    return {
+      level: -1,
+      tpointsNum: 0,
+    };
+  } else {
+    return {
+      level: res.tPointsVanguard?.level ?? 0,
+      tpointsNum: res.tPointsVanguard?.tPoints ?? 0,
+    };
+  }
+};
 
 export const hasInviteCode = async function () {
   return await request.Get(`${host}/wise-score-invite/has-code`);
+};
+
+export const getAmbassadorLevels = async function () {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([
+        {
+          level: 0,
+          tpoints: 10_000,
+          wiseScore: 150_000,
+        },
+        {
+          level: 1,
+          tpoints: 506_000,
+          wiseScore: 450_000,
+        },
+      ]);
+    }, 1000);
+  });
 };
