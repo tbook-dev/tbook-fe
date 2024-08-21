@@ -134,7 +134,7 @@ export default function SyncTonSociety() {
         </div>
       </div>
 
-      <Form className="w-[520px]" form={form} layout="vertical">
+      <Form className="w-[520px] mb-36" form={form} layout="vertical">
         <Form.Item
           label="Subtitle"
           name="subtitle"
