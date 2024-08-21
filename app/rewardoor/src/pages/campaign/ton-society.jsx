@@ -64,7 +64,7 @@ export default function SyncTonSociety() {
       endDate: campaign.endAt,
     };
     form.validateFields().then(async (values) => {
-      console.log({ campaignBaseInfo, values });
+      // console.log({ campaignBaseInfo, values });
       const res = await syncTONSocietyMutation.mutateAsync({
         ...campaignBaseInfo,
         ...values,
@@ -89,7 +89,6 @@ export default function SyncTonSociety() {
   };
 
   const normFile = (e) => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -219,7 +218,7 @@ export default function SyncTonSociety() {
               loading={syncTONSocietyMutation.isLoading}
               disabled={!canSync}
             >
-              Subscribe
+              Submit
             </Button>
           </div>
         </div>
