@@ -219,7 +219,7 @@ export default function SyncTonSociety() {
               loading={syncTONSocietyMutation.isLoading}
               disabled={!canSync}
             >
-              Subscribe
+              Submit
             </Button>
           </div>
         </div>
