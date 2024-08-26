@@ -45,7 +45,7 @@ export default function Ambassador() {
       <div className="flex-auto space-y-6 relative">
         <Nav
           Back={BackIcon}
-          title="Ambassador Power"
+          title="Vanguard Passport"
           justify="center"
           to="/wise-score"
         />
@@ -53,7 +53,7 @@ export default function Ambassador() {
           <div className="relative w-max">
             <LazyImage
               src={user?.avatar}
-              alt="Ambassador avatar"
+              alt="Vanguard avatar"
               className="size-7 rounded-full"
             />
             <CheckedIcon className="size-4 absolute bottom-0 -right-2" />

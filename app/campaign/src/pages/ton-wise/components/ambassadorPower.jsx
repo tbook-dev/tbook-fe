@@ -22,7 +22,7 @@ const AmbassadorPower = () => {
   }, []);
   return (
     <div className="space-y-2 fixed px-5 pt-4 bottom-0 inset-x-0 h-[220px] overflow-auto rounded-t-2xl bg-black/40">
-      <h2 className="text-base font-medium">Max Ambassador Power</h2>
+      <h2 className="text-base font-medium">Build Your Vanguard Crowd</h2>
       <div className="space-y-1">
         {list.map((v, i) => {
           return (
