@@ -102,12 +102,15 @@ const AmbassadorSwiper = ({
                 className="text-xs font-thin flex items-center gap-x-1"
                 to="/event/renaissance"
               >
-                TPoints {formatStandard(userLevel === v.level ? tpointsNum : v.nextLevelPointsNum)}
+                TPoints{' '}
+                {formatStandard(
+                  userLevel === v.level ? tpointsNum : v.nextLevelPointsNum
+                )}
                 <ArrowIcon stroke={color} />
               </Link>
             </div>
             <img
-              src={userConf.cat}
+              src={userConf?.cat}
               className="size-[112px] absolute top-0 right-0"
             />
             {userLevel >= v.level ? null : (

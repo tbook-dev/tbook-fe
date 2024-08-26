@@ -26,7 +26,7 @@ export default function Privilege() {
         show: true,
       },
       {
-        text: 'Ambassador',
+        text: 'Vanguard',
         img: <AmbassadorIcon className="size-[30px]" />,
         handle: () => {
           navigate('/wise-score/ambassador');
