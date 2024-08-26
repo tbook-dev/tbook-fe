@@ -1,13 +1,28 @@
 import { Link } from 'react-router-dom';
 import BackIcon from '@/images/icon/svgr/back.svg?react';
+import { cn } from '@/utils/conf';
 
-export default function Nav({ title, children }) {
+export default function Nav({
+  to,
+  title,
+  children,
+  Back = BackIcon,
+  algin = 'center',
+  justify = 'between',
+}) {
   return (
-    <div className="relative flex items-center justify-between pl-8">
-      <Link to="/wise-score" className="absolute left-0">
-        <BackIcon />
+    <div
+      className={cn('relative flex justify-between pl-8', {
+        'items-center': algin === 'center',
+        'items-start': algin === 'top',
+        'justify-between ': justify === 'between',
+        'justify-center ': justify === 'center',
+      })}
+    >
+      <Link to={to} className="absolute left-0">
+        <Back />
       </Link>
-      <h2 className="text-2xl font-thin">{title}</h2>
+      {title && <h2 className="text-2xl font-thin">{title}</h2>}
       {children}
     </div>
   );

@@ -8,7 +8,7 @@ import { Suspense, lazy } from 'react';
 
 const Modals = lazy(() => import('./Modals'));
 
-export default function Header ({ type }) {
+export default function Header({ type }) {
   return (
     <>
       {type === 'fixed' && <FixedHeader />}
