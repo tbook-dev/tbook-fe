@@ -15,7 +15,7 @@ const AmbassadorPower = () => {
       {
         type: 'invite',
         content: '+6,000 TPoints',
-        title: 'Invite 1 friends to generate WISE Score',
+        title: ' Invite 1 friend to generate WISE Score',
         arrowColor: '#CDE69E',
       },
     ];
@@ -33,7 +33,7 @@ const AmbassadorPower = () => {
               }}
               className="w-full px-4 py-3 flex items-center justify-between gap-x-1 border border-white/10 rounded-lg bg-white/10"
             >
-              <div>
+              <div className="text-left">
                 <div className="text-base"> {v.title}</div>
                 <div className="text-sm flex items-center gap-x-1">
                   <TpointIcon className="size-3" />
