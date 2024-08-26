@@ -18,7 +18,7 @@ export default function TonWiseLeaderboard() {
 
   return (
     <div className="flex-auto w-full min-h-[calc(100vh_-_160px)] pb-2 space-y-4 px-5 mt-3 lg:px-0 mx-auto bg-gradient-to-b from-black from-40% to-[#301952]">
-      <Nav title="WISE Leaderboard">
+      <Nav title="WISE Leaderboard" to="/wise-score">
         <div className="flex items-center gap-x-2">
           <ArrowIcon
             className="rotate-180"
