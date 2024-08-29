@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import { logUserReport } from '@/api/incentive';
 import { useParams, useSearchParams } from 'react-router-dom';
 import pointIcon from '@/images/icon/point-modal.svg';
 import arrow3Icon from '@/images/icon/arrow3.svg';
@@ -11,7 +10,6 @@ import { useDispatch } from 'react-redux';
 import { setLoginModal, setShowWalletConnectModal } from '@/store/global';
 import LazyImage from '@/components/lazyImage';
 import { formatImpact } from '@tbook/utils/lib/conf';
-import ColorCaptial from '@/components/colorCaptial';
 import { formatStandard } from '@tbook/utils/lib/conf';
 import ViewReward from './viewReward';
 import Credential from './credential';
@@ -19,16 +17,19 @@ import { useLoaderData } from 'react-router-dom';
 import usePageFooterTip from '@/hooks/usePageFooterTip';
 import TMAShare from '@/components/TMAShare';
 import Unavailable from './unavailable';
+import ParticipantIcon from '@/images/icon/svgr/participant.svg?react';
+import TimeIcon from '@/images/icon/svgr/time.svg?react';
 
 const { Countdown } = Statistic;
 
 const prompt =
   'You may get the rewards once you have accomplished all tasks in the group!';
-
+const defiTip =
+  'On-chain tasks will take some time to track your transaction. After completing the tasks, you can retry to verify later.';
 export default function () {
   const dispath = useDispatch();
   const { campaignId } = useParams();
-  const { user, twitterConnected, userLogined, isUsingWallet } = useUserInfo();
+  const { userLogined, isUsingWallet } = useUserInfo();
   const {
     data: page,
     isLoading,
@@ -36,6 +37,7 @@ export default function () {
     campaignEnd,
     campaignOngoing,
     campaignUnavailable,
+    hasDefi,
   } = useCampaignQuery(campaignId);
 
   const { projectUrl } = useLoaderData();
@@ -97,25 +99,11 @@ export default function () {
     }
   }, [searchParams]);
 
-  useEffect(() => {
-    if (userLogined && campaignOngoing && user?.userId) {
-      const key = `logUserCampaign-${user?.userId}-${campaignId}`;
-      if (!localStorage.getItem(key)) {
-        logUserReport({
-          userId: user?.userId,
-          campaignId,
-          address: user?.wallet,
-          isTwitterLogin: twitterConnected,
-        });
-        localStorage.setItem(key, '1');
-      }
-    }
-  }, [userLogined, campaignOngoing, user]);
   if (campaignUnavailable) {
     return <Unavailable projectUrl={projectUrl} />;
   }
   return (
-    <div className="space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-t-1">
+    <div className="space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-white font-sf">
       {refBackLink && (
         <a
           href={refBackLink}
@@ -151,57 +139,67 @@ export default function () {
           />
         </div>
 
-        <div className="p-4 lg:p-0 lg:flex-auto">
+        <div className="p-4 lg:p-0 lg:flex-auto flex flex-col justify-between">
           {isLoading ? (
             <Skeleton active />
           ) : (
             <>
-              <h2 className="text-xl  font-bold  mb-5 lg:text-4xl lg:mb-8 font-zen-dot">
-                <ColorCaptial text={page?.campaign?.name} />
-              </h2>
+              <div className="space-y-3 lg:space-y-8">
+                <h2 className="text-2xl lg:text-4xl font-sf-bold">
+                  {page?.campaign?.name}
+                </h2>
 
-              <div className="text-sm lg:text-base font-normal mb-8 text-[#C4C4C4]">
-                <RichMore value={page?.campaign?.description} />
-              </div>
-              <div className="flex items-center text-sm text-[#A1A1A2] mb-4">
-                <span className="mr-1 text-sm font-medium text-white">
-                  {formatStandard(page?.participantNum)}
-                </span>
-                participant{page?.participantNum > 1 ? 's' : ''}
+                <div className="text-sm lg:text-base font-sf mb-5 lg:mb-8 text-white/60">
+                  <RichMore value={page?.campaign?.description} />
+                </div>
               </div>
 
-              <div className="flex items-center gap-x-1 text-sm text-[#A1A1A2]">
-                {campaignEnd ? (
-                  <div>This campaign has ended.</div>
-                ) : campaignNotStart ? (
-                  <>
-                    <div>start in</div>
-                    <Countdown
-                      value={page?.campaign?.startAt}
-                      format="D[d] H[h] m[m] s[s]"
-                      valueStyle={{
-                        color: '#fff',
-                        fontSize: '14px',
-                        lineHeight: '20px',
-                        fontWeight: 500,
-                      }}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <div>End in</div>
-                    <Countdown
-                      value={page?.campaign?.endAt}
-                      format="D[d] H[h] m[m] s[s]"
-                      valueStyle={{
-                        color: '#fff',
-                        fontSize: '14px',
-                        lineHeight: '20px',
-                        fontWeight: 500,
-                      }}
-                    />
-                  </>
-                )}
+              <div className="space-y-4">
+                <div className="flex items-center gap-x-1 text-sm font-sf">
+                  <ParticipantIcon />
+                  <span className="me-0.5">
+                    {formatStandard(page?.participantNum)}
+                  </span>
+                  participant{page?.participantNum > 1 ? 's' : ''}
+                </div>
+
+                <div className="flex items-center gap-x-1">
+                  {campaignNotStart && (
+                    <>
+                      <TimeIcon />
+                      <Countdown
+                        value={page?.campaign?.startAt}
+                        format="D[d] H[h] m[m] s[s]"
+                        valueStyle={{
+                          color: '#CFF469',
+                          fontSize: '12px',
+                          lineHeight: '16px',
+                          fontWeight: 500,
+                        }}
+                      />
+                    </>
+                  )}
+                  {campaignOngoing && (
+                    <>
+                      <TimeIcon />
+                      <Countdown
+                        value={page?.campaign?.endAt}
+                        format="D[d] H[h] m[m] s[s]"
+                        valueStyle={{
+                          color: '#CFF469',
+                          fontSize: '12px',
+                          lineHeight: '16px',
+                          fontWeight: 500,
+                        }}
+                      />
+                    </>
+                  )}
+                  {campaignEnd && (
+                    <div className="text-xs text-white/60">
+                      This campaign has ended.
+                    </div>
+                  )}
+                </div>
               </div>
             </>
           )}
@@ -213,7 +211,9 @@ export default function () {
           <Skeleton />
         </div>
       )}
-
+      {hasDefi && (
+        <div className="text-sm text-white/60 px-4 lg:px-0">{defiTip}</div>
+      )}
       <section className="px-4 lg:px-0 space-y-4 lg:space-y-8">
         {page?.groups?.map((group, index) => {
           return (
@@ -222,9 +222,6 @@ export default function () {
               className="rounded-lg flex flex-col lg:flex-row  lg:overflow-hidden lg:items-stretch"
             >
               <div className="lg:w-[634px] lg:bg-[#160b25] lg:px-8 lg:py-5 lg:flex lg:flex-col">
-                <h3 className="text-base font-bold mb-8 lg:hidden font-zen-dot">
-                  Tasks and Rewards
-                </h3>
                 <p className="hidden lg:block text-sm mb-4">{prompt}</p>
                 <div className="space-y-4 mb-8">
                   {group.credentialList?.map((credential) => (

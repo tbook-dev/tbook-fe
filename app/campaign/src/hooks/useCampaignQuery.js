@@ -1,15 +1,20 @@
 import { useQuery } from 'react-query';
-import { getCampaignDetail, getTaskSign } from '@/api/incentive';
+import { getCampaignDetail, getTaskSign, logUserReport } from '@/api/incentive';
 import { useEffect, useState } from 'react';
 import useUserInfoQuery from './useUserInfoQuery';
 import { merge } from 'lodash';
 
 const notStartList = [2, 0];
 const endList = [3, 4, 5];
-
+const defiLabelTypes = [10, 11];
 export default function useCampaignQuery(campaignId) {
   const [firstLoad, setFirstLoad] = useState(false);
-  const { userLogined, firstLoad: userLoaded } = useUserInfoQuery();
+  const {
+    userLogined,
+    user,
+    twitterConnected,
+    firstLoad: userLoaded,
+  } = useUserInfoQuery();
   const { isLoading, data, isError, ...props } = useQuery(
     ['campaignDetail', `${campaignId}`, userLogined],
     () => getCampaignDetail(campaignId),
@@ -26,7 +31,10 @@ export default function useCampaignQuery(campaignId) {
   const campaignDeleted = page?.code === 204;
   const compaignNotExist = page?.code === 404;
   const campaignUnavailable = campaignDeleted || compaignNotExist || isError;
-
+  const hasDefi = page?.groups
+    ?.map((v) => v.credentialList)
+    .flat()
+    .some((v) => defiLabelTypes.includes(v.labelType));
   useEffect(() => {
     if (!firstLoad && !isLoading) {
       setFirstLoad(true);
@@ -34,10 +42,25 @@ export default function useCampaignQuery(campaignId) {
     }
   }, [isLoading]);
 
+  useEffect(() => {
+    if (userLogined && campaignOngoing && user?.userId) {
+      const key = `logUserCampaign-${user?.userId}-${campaignId}`;
+      if (!localStorage.getItem(key)) {
+        logUserReport({
+          userId: user?.userId,
+          campaignId,
+          address: user?.wallet,
+          isTwitterLogin: twitterConnected,
+        });
+        localStorage.setItem(key, '1');
+      }
+    }
+  }, [userLogined, campaignOngoing, user]);
+
   return {
     ...props,
     data: page,
-
+    hasDefi,
     firstLoad,
     isLoading: !userLoaded || isLoading,
     campaignNotStart,
