@@ -12,20 +12,20 @@ import LazyImage from '@/components/lazyImage';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import { formatStandard } from '@tbook/utils/lib/conf';
 import ViewReward from './viewReward';
-import Credential from './credential';
 import { useLoaderData } from 'react-router-dom';
 import usePageFooterTip from '@/hooks/usePageFooterTip';
 import TMAShare from '@/components/TMAShare';
 import Unavailable from './unavailable';
 import ParticipantIcon from '@/images/icon/svgr/participant.svg?react';
-import TimeIcon from '@/images/icon/svgr/time.svg?react';
-
-const { Countdown } = Statistic;
+import Timeline from '@/components/timeline';
+import AppCountDown from './AppCountDown';
+import GroupCard from './groupCard';
 
 const prompt =
   'You may get the rewards once you have accomplished all tasks in the group!';
 const defiTip =
   'On-chain tasks will take some time to track your transaction. After completing the tasks, you can retry to verify later.';
+
 export default function () {
   const dispath = useDispatch();
   const { campaignId } = useParams();
@@ -163,43 +163,22 @@ export default function () {
                   participant{page?.participantNum > 1 ? 's' : ''}
                 </div>
 
-                <div className="flex items-center gap-x-1">
-                  {campaignNotStart && (
-                    <>
-                      <TimeIcon />
-                      <Countdown
-                        value={page?.campaign?.startAt}
-                        format="D[d] H[h] m[m] s[s]"
-                        valueStyle={{
-                          color: '#CFF469',
-                          fontSize: '12px',
-                          lineHeight: '16px',
-                          fontWeight: 500,
-                        }}
-                      />
-                    </>
-                  )}
-                  {campaignOngoing && (
-                    <>
-                      <TimeIcon />
-                      <Countdown
-                        value={page?.campaign?.endAt}
-                        format="D[d] H[h] m[m] s[s]"
-                        valueStyle={{
-                          color: '#CFF469',
-                          fontSize: '12px',
-                          lineHeight: '16px',
-                          fontWeight: 500,
-                        }}
-                      />
-                    </>
-                  )}
-                  {campaignEnd && (
-                    <div className="text-xs text-white/60">
-                      This campaign has ended.
-                    </div>
-                  )}
-                </div>
+                <AppCountDown
+                  status={
+                    campaignNotStart
+                      ? 'notStart'
+                      : campaignOngoing
+                      ? 'ongoing'
+                      : 'end'
+                  }
+                  value={
+                    campaignNotStart
+                      ? page?.campaign?.startAt
+                      : campaignOngoing
+                      ? page?.campaign?.endAt
+                      : null
+                  }
+                />
               </div>
             </>
           )}
@@ -214,8 +193,20 @@ export default function () {
       {hasDefi && (
         <div className="text-sm text-white/60 px-4 lg:px-0">{defiTip}</div>
       )}
-      <section className="px-4 lg:px-0 space-y-4 lg:space-y-8">
-        {page?.groups?.map((group, index) => {
+      <section className="px-4 lg:px-0 space-y-2">
+        <Timeline
+          steps={page?.groups?.map((group) => {
+            return {
+              name: group.name,
+              children: (
+                <GroupCard group={group} showVerify={campaignOngoing} />
+              ),
+              isFinished: group.credentialList.every((c) => c.isVerified),
+            };
+          })}
+        />
+        {/* {page?.groups?.map((group, index) => {
+          console.log({ group });
           return (
             <div
               key={index}
@@ -317,7 +308,7 @@ export default function () {
               </div>
             </div>
           );
-        })}
+        })} */}
       </section>
 
       {viewModalData && (

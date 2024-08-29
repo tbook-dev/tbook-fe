@@ -62,6 +62,7 @@ export default function Credential({ credential, showVerify }) {
   const [count, setCount] = useState(0);
   const clearInterIdRef = useRef();
   const retryCounter = useRef(0);
+  const isVerified = Boolean(credential.isVerified);
   const hasVoted = useMemo(() => {
     if (!votes) return false;
     return !!votes?.find(
@@ -213,6 +214,8 @@ export default function Credential({ credential, showVerify }) {
   const options = useMemo(() => {
     return getStrJSON(credential.options);
   }, [credential]);
+
+  console.log({ isVerified });
   return (
     <div className="border border-[#904BF6] transition-all duration-300 ease-in-out lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5">
       <div className="flex items-start justify-between w-full gap-x-1">
