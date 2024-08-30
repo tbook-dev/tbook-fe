@@ -10,7 +10,7 @@ import { useResponsive } from 'ahooks';
 import { actionMap } from '@tbook/credential';
 import { getStrJSON } from '@/utils/common';
 import { useTelegram } from '@/hooks/useTg';
-
+import useWallet from '@/hooks/useWallet';
 const modalConf = {
   title: 'Verify',
   step1: {
@@ -27,6 +27,7 @@ const modalConf = {
 export default function WithVerify({
   handleFn,
   evmRequire,
+  tvmRequire,
   credentialType,
   credential,
   taskHandle,
@@ -36,12 +37,14 @@ export default function WithVerify({
   const [open, setOpen] = useState(false);
   const { getSocialByName } = useSocial();
   const [status, setStatus] = useState(verifyStatusEnum.NotStarted);
-  const { userLogined, wallectConnected } = useUserInfo();
+  const { userLogined, evmConnected, tonConnected } = useUserInfo();
   const dispath = useDispatch();
   const social = getSocialByName(credentialType);
   const isSocial = !!social;
   const { isLink, getLink } = actionMap[credential.labelType];
   const link = getLink(getStrJSON(credential.options));
+  const { getWallets } = useWallet();
+  const [ton] = getWallets('ton');
   const a = document.createElement('A');
   a.href = link;
   const handleVerify = async (evt) => {
@@ -84,15 +87,17 @@ export default function WithVerify({
               verifyStatusEnum.Sucess,
               verifyStatusEnum.Pending,
             ].includes(status),
-            'text-white bg-[#904BF6]': status === verifyStatusEnum.NotStarted,
+            'text-black bg-[#CFF469]': status === verifyStatusEnum.NotStarted,
             'cursor-not-allowed': verifyStatusEnum.Pending === status,
           }
         )}
         onClick={(evt) => {
           if (!userLogined) {
             dispath(setLoginModal(true));
-          } else if (evmRequire && !wallectConnected) {
+          } else if (evmRequire && !evmConnected) {
             dispath(setConnectWalletModal(true));
+          } else if (tvmRequire && !tonConnected) {
+            ton.connectHandle();
           } else {
             if (isSocial && !social.connected) {
               setOpen(true);

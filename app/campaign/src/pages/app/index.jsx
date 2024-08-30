@@ -37,7 +37,7 @@ export default function () {
     campaignEnd,
     campaignOngoing,
     campaignUnavailable,
-    hasDefi,
+    isDefi,
   } = useCampaignQuery(campaignId);
 
   const { projectUrl } = useLoaderData();
@@ -190,16 +190,21 @@ export default function () {
           <Skeleton />
         </div>
       )}
-      {hasDefi && (
+      {isDefi && (
         <div className="text-sm text-white/60 px-4 lg:px-0">{defiTip}</div>
       )}
       <section className="px-4 lg:px-0 space-y-2">
         <Timeline
-          steps={page?.groups?.map((group) => {
+          steps={page?.groups?.map((group, idx) => {
             return {
               name: group.name,
               children: (
-                <GroupCard group={group} showVerify={campaignOngoing} />
+                <GroupCard
+                  index={idx}
+                  group={group}
+                  showVerify={campaignOngoing}
+                  isDefi={isDefi}
+                />
               ),
               isFinished: group.credentialList.every((c) => c.isVerified),
             };

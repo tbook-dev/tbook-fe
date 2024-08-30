@@ -4,16 +4,25 @@ import { cn } from '@/utils/conf';
 import { motion } from 'framer-motion';
 import GiftIcon from '@/images/icon/svgr/gift.svg?react';
 
-const getBgColor = (group) => {
+const getColor = (index) => {
+  const white = '#fff';
+  const black = '#12172F';
+  const defiColors = {
+    tonstakers: ['bg-[#DBFAFF]', black],
+  };
   const colors = [
-    'bg-gradient-to-b from-[#0FD9B4] via-[#0082F9] via-30% to-black',
+    ['bg-[#DBFAFF]', black],
+    ['bg-gradient-to-b from-[#A434E9] via-[#3D95EA] via-30% to-black', black],
+    ['bg-gradient-to-b from-[#0FD9B4] via-[#0082F9] via-30% to-black', black],
   ];
-  // 内置多个背景色，以groupId获取背景色
-  //   console.log({ group });
-  return colors[0];
+  const color = colors[index % colors.length];
+  return {
+    bg: color[0],
+    text: color[1],
+  };
 };
-const GroupCard = ({ group, showVerify }) => {
-  const bg = getBgColor(group);
+const GroupCard = ({ group, index, showVerify, isDefi }) => {
+  const { bg } = getColor(index, isDefi);
   console.log({ bg, group });
   const verifyCnt =
     group.credentialList?.filter((c) => c.isVerified).length ?? 0;
@@ -41,7 +50,7 @@ const GroupCard = ({ group, showVerify }) => {
         </div>
       </div>
 
-      <div className="p-4 space-y-4 rounded-2xl bg-black/10 backdrop-blur-2xl">
+      <div className="p-4 space-y-4 rounded-2xl bg-gradient-to-b from-black/10 to-black/30 backdrop-blur-2xl">
         {group.credentialList?.map((credential) => (
           <Credential
             credential={credential}
