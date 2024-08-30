@@ -15,6 +15,19 @@ import snapshotblack from './logos/snapshot-black.svg';
 import airdropwhite from './logos/airdrop-white.svg';
 import airdropblack from './logos/airdrop-black.svg';
 
+import tonstakerWhite from './logos/tonstaker-white.svg';
+import tonstakerBlack from './logos/tonstaker-black.svg';
+import bemoWhite from './logos/bemo-white.svg';
+import bemoBlack from './logos/bemo-black.svg';
+import EVAAWhite from './logos/EVAA-white.svg';
+import EVAABlack from './logos/EVAA-black.svg';
+import tonfiWhite from './logos/stonfi-white.svg';
+import tonfiBlack from './logos/stonfi-black.svg';
+import dedustWhite from './logos/dedust-white.svg';
+import dedustBlack from './logos/dedust-black.svg';
+import stormtradeWhite from './logos/stormtrade-white.svg';
+import stormtradeBlack from './logos/stormtrade-black.svg';
+
 export default [
   //  groupType: 2,
   {
@@ -106,5 +119,56 @@ export default [
     picUrl: airdropwhite,
     groupType: 7,
     picUrl2: airdropblack,
+  },
+
+  //   groupType: 8,
+  {
+    name: 'Stake some TON',
+    labelType: 14,
+    picUrl: tonstakerWhite,
+    groupType: 8,
+    picUrl2: tonstakerBlack,
+  },
+  {
+    name: 'Stake some TON',
+    labelType: 15,
+    picUrl: bemoWhite,
+    groupType: 8,
+    picUrl2: bemoBlack,
+  },
+  {
+    name: 'Borrow USDT',
+    labelType: 16,
+    picUrl: EVAAWhite,
+    groupType: 8,
+    picUrl2: EVAABlack,
+  },
+  {
+    name: 'Provide Liquidity for TON + USDT or ts/stTON + USDT',
+    labelType: 17,
+    picUrl: tonfiWhite,
+    groupType: 8,
+    picUrl2: tonfiBlack,
+  },
+  {
+    name: 'Provide Liquidity for TON + USDT or ts/stTON + USDT',
+    labelType: 18,
+    picUrl: dedustWhite,
+    groupType: 8,
+    picUrl2: dedustBlack,
+  },
+  {
+    name: 'Vault USDT or TON',
+    labelType: 19,
+    picUrl: stormtradeWhite,
+    groupType: 8,
+    picUrl2: stormtradeBlack,
+  },
+  {
+    name: 'Open a trade in any trading pair ',
+    labelType: 20,
+    picUrl: stormtradeWhite,
+    groupType: 8,
+    picUrl2: stormtradeBlack,
   },
 ];
