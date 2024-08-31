@@ -16,6 +16,7 @@ const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
 export const incentiveAssetsTypeList = [
   { label: '🎁  NFT', icon: nftIcon, text: 'NFT', value: 1 },
   { label: '💎 POINTS', icon: pointIcon, text: 'Points', value: 2 },
+  { label: '💎 SBT', icon: pointIcon, text: 'SBT', value: 3 },
 ];
 
 export const rewardDistributionMethod = [

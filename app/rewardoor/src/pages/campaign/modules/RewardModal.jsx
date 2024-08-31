@@ -149,7 +149,7 @@ export default function CredentialModal ({
                   const asset = incentiveAssetsTypeList.find(
                     v => v.value === rewardType
                   );
-                  const nftPicUrl = rewardForm.getFieldValue([
+                  const picUrl = rewardForm.getFieldValue([
                     'reward',
                     name,
                     'picUrl',
@@ -173,7 +173,7 @@ export default function CredentialModal ({
                         />
                       </div>
 
-                      {rewardType === 1 ? (
+                      {rewardType === 1 && (
                         <>
                           <Form.Item
                             {...restField}
@@ -263,9 +263,9 @@ export default function CredentialModal ({
                               accept='image/*'
                               maxCount={1}
                             >
-                              {nftPicUrl?.[0]?.response ? (
+                              {picUrl?.[0]?.response ? (
                                 <img
-                                  src={nftPicUrl?.[0]?.response}
+                                  src={picUrl?.[0]?.response}
                                   className='w-full h-[180px] object-contain object-center'
                                 />
                               ) : (
@@ -287,7 +287,9 @@ export default function CredentialModal ({
                             </Upload.Dragger>
                           </Form.Item>
                         </>
-                      ) : (
+                      )}
+
+                      {rewardType === 2 && (
                         <>
                           <Form.Item
                             name={[name, 'number']}
@@ -300,6 +302,54 @@ export default function CredentialModal ({
                               min={1}
                               step={1}
                             />
+                          </Form.Item>
+                        </>
+                      )}
+                      {rewardType === 3 && (
+                        <>
+                          <Form.Item
+                            valuePropName='fileList'
+                            getValueFromEvent={normFile}
+                            label='SBT Media File'
+                            name={[name, 'picUrl']}
+                            rules={[
+                              {
+                                required: true,
+                                message: 'image is required',
+                              },
+                              {
+                                validator: fileValidator,
+                              },
+                            ]}
+                          >
+                            <Upload.Dragger
+                              customRequest={hanleUpload}
+                              multiple={false}
+                              accept='image/*'
+                              maxCount={1}
+                            >
+                              {picUrl?.[0]?.response ? (
+                                <img
+                                  src={picUrl?.[0]?.response}
+                                  className='w-full h-[180px] object-contain object-center'
+                                />
+                              ) : (
+                                <>
+                                  <p className='ant-upload-drag-icon flex justify-center'>
+                                    <img src={uploadIcon} />
+                                  </p>
+                                  <p className='ant-upload-text'>
+                                    Upload an image
+                                  </p>
+                                  <p className='ant-upload-hint'>
+                                    296*312 or higher
+                                  </p>
+                                  <p className='ant-upload-hint'>
+                                    recommended Max 20MB.
+                                  </p>
+                                </>
+                              )}
+                            </Upload.Dragger>
                           </Form.Item>
                         </>
                       )}
