@@ -12,7 +12,7 @@ import SelectNFT from '@/components/SelectNFT';
 import useSupportChains from '@/hooks/queries/useSupportChains';
 
 const title = 'Set Up Reward';
-const defaultIncentive = { rewardType: 1, limited: false };
+const defaultIncentive = { rewardType: 1, limited: false, activityId: 371 };
 const nftText = {
   title: 'NFT Contracts List',
   desc: 'You could use the TBOOK contract to mint NFT items for incentive, or deploy your own NFT contract.',
@@ -308,6 +308,16 @@ export default function CredentialModal ({
                       {rewardType === 3 && (
                         <>
                           <Form.Item
+                            label='Activity id'
+                            name={[name, 'activityId']}
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <Input
+                              placeholder='Third party identifier, for example ton society is 371 '
+                              className='w-full'
+                            />
+                          </Form.Item>
+                          <Form.Item
                             valuePropName='fileList'
                             getValueFromEvent={normFile}
                             label='SBT Media File'
@@ -386,7 +396,7 @@ export default function CredentialModal ({
                       </Form.Item>
                       {limited && (
                         <>
-                          {rewardType === 1 ? (
+                          {[1, 2].includes(rewardType) && (
                             <Form.Item
                               label='Minting Cap'
                               name={[name, 'mintCap']}
@@ -399,7 +409,9 @@ export default function CredentialModal ({
                                 step={1}
                               />
                             </Form.Item>
-                          ) : (
+                          )}
+
+                          {rewardType === 1 && (
                             <Form.Item
                               label='Number of Reward'
                               name={[name, 'rewardNum']}
