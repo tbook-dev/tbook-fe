@@ -13,7 +13,7 @@ const getSchema = (labelTypes = [], index) => {
   const defiColorsMap = {
     14: ['bg-[#DBFAFF]', true, 'Tonstakers'],
     15: [
-      'bg-gradient-to-b from-[#A434E9] via-[#3D95EA] via-30% to-[#3D95EA]',
+      'bg-gradient-to-b from-[#A434E9] via-[#3D95EA] via-30% to-[#3D95EA]/60',
       true,
       'Bemo',
     ],
@@ -57,7 +57,7 @@ const getSchema = (labelTypes = [], index) => {
 const GroupCard = ({ group, index, showVerify }) => {
   const { bg, isDark, title } = getSchema(
     // group.credentialList?.map(c => c.labelType),
-    [14],
+    [15],
     index
   );
   console.log({ bg, isDark, group });
@@ -71,11 +71,16 @@ const GroupCard = ({ group, index, showVerify }) => {
     return showCredential;
   }, [showCredential, isGroupVerified]);
   return (
-    <div className={cn('rounded-2xl overflow-hidden relative shadow-xl', bg)}>
+    <div
+      className={cn(
+        'rounded-2xl overflow-hidden relative shadow-xl lg:flex lg:items-stretch lg:justify-between',
+        bg
+      )}
+    >
       <div
         className={cn(
           'relative p-4 rounded-2xl',
-          'flex items-center justify-between gap-x-3'
+          'flex items-center justify-between gap-x-3 lg:w-[420px] lg:items-start'
         )}
       >
         <div
@@ -113,37 +118,56 @@ const GroupCard = ({ group, index, showVerify }) => {
             </div>
           </div>
         </div>
-        <div className="size-20 bg-fuchsia-500 flex-none"></div>
+        <div className="size-20 bg-fuchsia-500 flex-none lg:hidden"></div>
       </div>
 
-      {showRewardButton ? (
-        <div className="p-4 rounded-t-2xl bg-black/90 backdrop-blur-2xl flex flex-col gap-y-2">
-          <button
-            className="flex items-center gap-x-2"
-            onClick={() => {
-              setShowCredential(true);
-            }}
-          >
-            <ArrowIcon />
-            <p className="text-sm font-medium">
-              {totalCnt} Credentials Verified
-            </p>
-          </button>
-          <Button className="flex items-center justify-center gap-x-1 h-10">
-            Mint SBT on <TonSocietyIcon />
-          </Button>
-        </div>
-      ) : (
-        <div className="p-4 space-y-4 rounded-t-2xl bg-gradient-to-b from-black/65 to-black/85">
-          {group.credentialList?.map((credential) => (
-            <Credential
-              credential={credential}
-              key={credential.credentialId}
-              showVerify={showVerify}
-            />
-          ))}
-        </div>
-      )}
+      <div className="w-full lg:w-[720px]">
+        {showRewardButton ? (
+          <div className="p-4 rounded-t-2xl bg-black/70 backdrop-blur-2xl flex flex-col gap-y-2">
+            <button
+              className="flex items-center gap-x-2"
+              onClick={() => {
+                setShowCredential(true);
+              }}
+            >
+              <ArrowIcon />
+              <p className="text-sm font-medium">
+                {totalCnt} Credentials Verified
+              </p>
+            </button>
+            <Button className="flex items-center justify-center gap-x-1 h-10">
+              Mint SBT on <TonSocietyIcon />
+            </Button>
+          </div>
+        ) : (
+          <div className="p-4 space-y-4 rounded-t-2xl bg-gradient-to-b from-black/65 to-black/85 backdrop-blur-2xl">
+            <div className="space-y-2">
+              {group.credentialList?.map((credential) => (
+                <Credential
+                  credential={credential}
+                  key={credential.credentialId}
+                  showVerify={showVerify}
+                />
+              ))}
+            </div>
+            <div className="relative w-full">
+              {isGroupVerified && (
+                <button
+                  className="rotate-180"
+                  onClick={() => {
+                    setShowCredential(false);
+                  }}
+                >
+                  <ArrowIcon />
+                </button>
+              )}
+              <Button className="w-full flex items-center justify-center gap-x-1 h-10">
+                Mint SBT on <TonSocietyIcon />
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
