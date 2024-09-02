@@ -157,6 +157,44 @@ const GroupCard = ({ group, index, showVerify }) => {
       },
     ];
   }, [rewardList, displayIdx, campaignNotStart, campaignEnd, campaignOngoing]);
+  const RewardPreview = (
+    <Swiper
+      className="size-20 flex-none"
+      modules={[EffectCards]}
+      effect="cards"
+      grabCursor={true}
+      onSwiper={() => {
+        setDisplayIdx(0);
+      }}
+      onSlideChange={(s) => {
+        setDisplayIdx(s.activeIndex);
+      }}
+    >
+      {rewardList.map((r) => {
+        return (
+          <SwiperSlide key={r.id} className="rounded-xl">
+            {r.type === 'point' && (
+              <div className="w-full size-20 bg-[#CFF469] rounded-xl flex flex-col items-center gap-x-2">
+                <img src={pointIcon} className="w-14" />
+                <p className="text-[#503658] font-bold text-xs">
+                  {r.number} Pts
+                </p>
+              </div>
+            )}
+            {(r.type === 'nft' || r.type === 'sbt') && (
+              <div className="w-full size-20 bg-[#12172F] rounded-xl flex justify-center items-center gap-x-2">
+                <LazyImage
+                  className="size-14 rounded-full object-center object-cover"
+                  src={r.picUrl}
+                  alt={`${r.type} picturl`}
+                />
+              </div>
+            )}
+          </SwiperSlide>
+        );
+      })}
+    </Swiper>
+  );
   return (
     <div
       className={cn(
@@ -201,45 +239,10 @@ const GroupCard = ({ group, index, showVerify }) => {
               </div>
             </div>
           </div>
-          <div className="size-20 bg-fuchsia-500 flex-none lg:hidden"></div>
+          <div className="size-20 flex-none lg:hidden">{RewardPreview}</div>
         </div>
         <div className="rounded-xl p-3 bg-[#12162F]/15 lg:flex gap-x-5 justify-start w-max hidden">
-          <Swiper
-            className="size-20 flex-none"
-            modules={[EffectCards]}
-            effect="cards"
-            grabCursor={true}
-            onSwiper={() => {
-              setDisplayIdx(0);
-            }}
-            onSlideChange={(s) => {
-              setDisplayIdx(s.activeIndex);
-            }}
-          >
-            {rewardList.map((r) => {
-              return (
-                <SwiperSlide key={r.id} className="rounded-xl">
-                  {r.type === 'point' && (
-                    <div className="w-full size-20 bg-[#CFF469] rounded-xl flex flex-col items-center gap-x-2">
-                      <img src={pointIcon} className="w-14" />
-                      <p className="text-[#503658] font-bold text-xs">
-                        {r.number} Pts
-                      </p>
-                    </div>
-                  )}
-                  {(r.type === 'nft' || r.type === 'sbt') && (
-                    <div className="w-full size-20 bg-[#12172F] rounded-xl flex justify-center items-center gap-x-2">
-                      <LazyImage
-                        className="size-14 rounded-full object-center object-cover"
-                        src={r.picUrl}
-                        alt={`${r.type} picturl`}
-                      />
-                    </div>
-                  )}
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
+          {RewardPreview}
           <div className="space-y-1">
             {rewardLabels
               .filter((v) => v.show)
