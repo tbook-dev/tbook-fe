@@ -1,5 +1,6 @@
 import pointIcon from '@/images/icon/point.svg';
 import nftIcon from '@/images/icon/nft.svg';
+import sbtIcon from '@/images/icon/nft.svg';
 import fcfsIcon from '@/images/icon/fcfs.svg';
 import ldIcon from '@/images/icon/ld.svg';
 import { clsx } from 'clsx';
@@ -12,6 +13,7 @@ export function cn(...inputs) {
 export const incentiveAssetsTypeList = [
   { icon: nftIcon, text: 'NFT', value: 1 },
   { icon: pointIcon, text: 'POINTS', value: 2 },
+  { icon: sbtIcon, text: 'SBT', value: 3 },
 ];
 
 export const rewardDistributionMethod = [

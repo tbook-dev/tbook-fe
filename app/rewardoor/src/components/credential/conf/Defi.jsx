@@ -29,4 +29,8 @@ export default {
     render: renderNoop,
     pick: ['name'],
   },
+  21: {
+    render: renderNoop,
+    pick: ['name'],
+  },
 };

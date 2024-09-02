@@ -216,7 +216,7 @@ export default function Credential({ credential, showVerify }) {
     return getStrJSON(credential.options);
   }, [credential]);
 
-  console.log({ canVerify });
+  // console.log({ canVerify });
   return (
     <div
       className={cn(

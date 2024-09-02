@@ -117,6 +117,24 @@ export default function () {
               ],
             }))
           );
+          if (Array.isArray(v.sbtList) && v.sbtList.length > 0) {
+            //////////// sbt type
+            reward.push(
+              ...v.sbtList.map((p) => ({
+                ...p,
+                rewardType: 3,
+                limited: !p.unlimited,
+                picUrl: [
+                  {
+                    uid: '-1',
+                    status: 'done',
+                    url: p.picUrl,
+                    response: p.picUrl,
+                  },
+                ],
+              }))
+            );
+          }
         }
         return {
           credential: v.credentialList.map((c) => {
@@ -182,12 +200,22 @@ export default function () {
               unlimited: !v.limited,
             };
           });
+        const sbtList = v.reward
+          .filter((v) => v.rewardType === 3)
+          .map((v) => ({ ...v, picUrl: v.picUrl?.[0]?.response }))
+          .map((v) => {
+            return {
+              ...v,
+              unlimited: !v.limited,
+            };
+          });
         const fdata = {
           status: 1,
           projectId,
           credentialList,
           pointList,
           nftList,
+          sbtList,
           groupType: credentialList[0]?.groupType,
           name: credentialList[0]?.name,
         };

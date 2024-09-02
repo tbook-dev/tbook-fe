@@ -171,4 +171,11 @@ export default [
     groupType: 8,
     picUrl2: stormtradeBlack,
   },
+  {
+    name: 'Supply tsTON or stTON',
+    labelType: 21,
+    picUrl: EVAAWhite,
+    groupType: 8,
+    picUrl2: EVAABlack,
+  },
 ];
