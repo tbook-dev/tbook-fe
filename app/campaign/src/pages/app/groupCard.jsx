@@ -7,6 +7,7 @@ import ArrowIcon from '@/images/icon/svgr/arrow3.svg?react';
 import TonSocietyIcon from '@/images/icon/svgr/ton-society.svg?react';
 import Button from '@/pages/ton-wise/components/button';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCards } from 'swiper';
 import pointIcon from '@/images/icon/point-modal.svg';
 import LazyImage from '@/components/lazyImage';
 import { incentiveMethodList } from '@/utils/conf';
@@ -15,6 +16,9 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import useCampaignQuery from '@/hooks/useCampaignQuery';
 import { formatImpact } from '@tbook/utils/lib/conf';
+import 'swiper/css';
+import 'swiper/css/effect-cards';
+
 const { Countdown } = Statistic;
 const defiLableTypes = [14, 15, 16, 17, 18, 19, 20];
 
@@ -201,8 +205,10 @@ const GroupCard = ({ group, index, showVerify }) => {
         </div>
         <div className="rounded-xl p-3 bg-[#12162F]/15 lg:flex gap-x-5 justify-start w-max hidden">
           <Swiper
-            effect="cube"
             className="size-20 flex-none"
+            modules={[EffectCards]}
+            effect="cards"
+            grabCursor={true}
             onSwiper={() => {
               setDisplayIdx(0);
             }}
@@ -212,7 +218,7 @@ const GroupCard = ({ group, index, showVerify }) => {
           >
             {rewardList.map((r) => {
               return (
-                <SwiperSlide key={r.id}>
+                <SwiperSlide key={r.id} className="rounded-xl">
                   {r.type === 'point' && (
                     <div className="w-full size-20 bg-[#CFF469] rounded-xl flex flex-col items-center gap-x-2">
                       <img src={pointIcon} className="w-14" />
