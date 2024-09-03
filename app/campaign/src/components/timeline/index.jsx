@@ -3,7 +3,7 @@ import { cn } from '@/utils/conf';
 
 const Timeline = ({ steps = [], showProcess = false }) => {
   return (
-    <ol role="list" className="space-y-2 lg:space-y-3">
+    <ol role="list" className="space-y-2">
       {steps.map((step, stepIdx) => {
         const isLast = stepIdx === steps.length - 1;
         const showLine = showProcess && steps.length > 1;
@@ -18,7 +18,7 @@ const Timeline = ({ steps = [], showProcess = false }) => {
             {showLine && !isLast && (
               <div
                 className={cn(
-                  'absolute left-0 top-2.5  h-full w-px ',
+                  'absolute left-0 top-3  h-full w-px ',
                   step.isFinished ? 'bg-white' : 'bg-[#6F6F6F]'
                 )}
               />

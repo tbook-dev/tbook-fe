@@ -1,4 +1,4 @@
-import { useMemo, memo, useState } from 'react';
+import { memo, useState } from 'react';
 import Credential from './credential';
 import { cn } from '@/utils/conf';
 import { motion } from 'framer-motion';
@@ -6,16 +6,12 @@ import GiftIcon from '@/images/icon/svgr/gift.svg?react';
 import ArrowIcon from '@/images/icon/svgr/arrow3.svg?react';
 import TonSocietyIcon from '@/images/icon/svgr/ton-society.svg?react';
 import Button from '@/pages/ton-wise/components/button';
-import { incentiveMethodList } from '@/utils/conf';
-import { Popover, Statistic } from 'antd';
 import { useParams } from 'react-router-dom';
 import useCampaignQuery from '@/hooks/useCampaignQuery';
-import { formatImpact } from '@tbook/utils/lib/conf';
 import ViewReward from './viewReward';
 import RewardSwiper from './rewardSwiper';
 import RewardLabels from './rewardLabels';
 
-const { Countdown } = Statistic;
 const defiLableTypes = [14, 15, 16, 17, 18, 19, 20];
 
 const getSchema = (labelTypes = [], index) => {
@@ -88,10 +84,6 @@ const GroupCard = ({ group, index, showVerify }) => {
   const totalCnt = group.credentialList?.length ?? 1;
   const isGroupVerified = verifyCnt === totalCnt;
   const [showCredential, setShowCredential] = useState(false);
-  const showRewardButton = useMemo(() => {
-    if (isGroupVerified) return false;
-    return showCredential;
-  }, [showCredential, isGroupVerified]);
   const [displayIdx, setDisplayIdx] = useState(0);
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const rewardList = [
@@ -100,7 +92,7 @@ const GroupCard = ({ group, index, showVerify }) => {
     ...group.pointList.map((v) => ({ ...v, id: v.pointId, type: 'point' })),
   ];
   const reward = rewardList[displayIdx];
-
+  const hasSbt = rewardList.some((v) => v.type === 'sbt');
   return (
     <>
       <div
@@ -175,56 +167,60 @@ const GroupCard = ({ group, index, showVerify }) => {
           </div>
         </div>
 
-        <div className="w-full lg:w-[720px]">
-          {showRewardButton ? (
-            <div className="h-full p-4 rounded-2xl bg-black/70 backdrop-blur-2xl flex flex-col gap-y-2">
-              <button
-                className="flex items-center gap-x-2"
-                onClick={() => {
-                  setShowCredential(true);
-                }}
-              >
-                <ArrowIcon />
-                <p className="text-sm font-medium">
-                  {totalCnt} Credentials Verified
-                </p>
-              </button>
-              <Button className="flex items-center justify-center gap-x-1 h-10">
-                Mint SBT on <TonSocietyIcon />
-              </Button>
-            </div>
-          ) : (
-            <div className="h-full flex flex-col justify-between p-4 space-y-4 rounded-2xl bg-gradient-to-b from-black/65 to-black/85 backdrop-blur-2xl">
-              <div className="space-y-2">
-                {group.credentialList?.map((credential) => (
-                  <Credential
-                    credential={credential}
-                    key={credential.credentialId}
-                    showVerify={showVerify}
-                  />
-                ))}
+        <div className="w-full p-4 lg:w-[720px]  rounded-2xl bg-gradient-to-b from-black/65 to-black/85 backdrop-blur-2xl flex flex-col justify-between gap-y-2">
+          {isGroupVerified ? (
+            <>
+              <div className="space-y-2.5">
+                <button
+                  className="flex items-center gap-x-2"
+                  onClick={() => {
+                    setShowCredential((v) => !v);
+                  }}
+                >
+                  <ArrowIcon className={cn(showCredential && 'rotate-90')} />
+                  <p className="text-sm font-medium">
+                    {totalCnt} Credentials Verified
+                  </p>
+                </button>
+                {showCredential && (
+                  <div className="space-y-2">
+                    {group.credentialList?.map((credential) => (
+                      <Credential
+                        credential={credential}
+                        key={credential.credentialId}
+                        showVerify={showVerify}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
 
-              {!isGroupVerified && (
-                <div className="relative w-full flex justify-center lg:justify-end">
-                  <button
-                    className="rotate-180"
-                    onClick={() => {
-                      setShowCredential(false);
-                    }}
-                  >
-                    <ArrowIcon />
-                  </button>
-                  <Button
-                    onClick={() => {
-                      setViewModalOpen(true);
-                    }}
-                    className="w-[300px] lg:w-[200px] flex items-center justify-center gap-x-1 h-10"
-                  >
-                    Mint SBT on <TonSocietyIcon />
-                  </Button>
-                </div>
-              )}
+              <div className="flex justify-center lg:justify-end">
+                <Button
+                  onClick={() => {
+                    setViewModalOpen(true);
+                  }}
+                  className="flex items-center justify-center gap-x-1 h-10 w-full lg:w-[200px]"
+                >
+                  {hasSbt ? (
+                    <>
+                      Mint SBT on <TonSocietyIcon />
+                    </>
+                  ) : (
+                    'Claim Rewards'
+                  )}
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div className="space-y-2">
+              {group.credentialList?.map((credential) => (
+                <Credential
+                  credential={credential}
+                  key={credential.credentialId}
+                  showVerify={showVerify}
+                />
+              ))}
             </div>
           )}
         </div>

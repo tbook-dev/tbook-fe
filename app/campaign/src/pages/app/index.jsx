@@ -192,10 +192,10 @@ export default function () {
       {hasDefi && (
         <div className="text-sm text-white/60 px-4 lg:px-0">{defiTip}</div>
       )}
-      <section className="px-4 lg:px-0 space-y-2">
+      <section className="px-4 lg:px-0">
         <Timeline
           showProcess={isDefi}
-          steps={groupList.map(([category, group], idx) => {
+          steps={groupList.map(([category, group]) => {
             const isFinished = group
               .map((v) => v.credentialList)
               .every((c) => c.isVerified);
