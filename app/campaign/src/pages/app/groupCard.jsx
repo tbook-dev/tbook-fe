@@ -6,20 +6,14 @@ import GiftIcon from '@/images/icon/svgr/gift.svg?react';
 import ArrowIcon from '@/images/icon/svgr/arrow3.svg?react';
 import TonSocietyIcon from '@/images/icon/svgr/ton-society.svg?react';
 import Button from '@/pages/ton-wise/components/button';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCards } from 'swiper';
-import pointIcon from '@/images/icon/point.svg';
-import LazyImage from '@/components/lazyImage';
 import { incentiveMethodList } from '@/utils/conf';
 import { Popover, Statistic } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import useCampaignQuery from '@/hooks/useCampaignQuery';
 import { formatImpact } from '@tbook/utils/lib/conf';
-import Drawer from '@/components/drawer';
-import 'swiper/css';
-import 'swiper/css/effect-cards';
 import ViewReward from './viewReward';
+import RewardSwiper from './rewardSwiper';
+import RewardLabels from './rewardLabels';
 
 const { Countdown } = Statistic;
 const defiLableTypes = [14, 15, 16, 17, 18, 19, 20];
@@ -76,11 +70,7 @@ const getSchema = (labelTypes = [], index) => {
     title: conf[2],
   };
 };
-const typeMap = {
-  nft: 'NFT',
-  point: 'Points',
-  sbt: 'SBT',
-};
+
 const GroupCard = ({ group, index, showVerify }) => {
   const { campaignId } = useParams();
   const {
@@ -106,106 +96,11 @@ const GroupCard = ({ group, index, showVerify }) => {
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const rewardList = [
     ...group.nftList.map((v) => ({ ...v, id: v.nftId, type: 'nft' })),
-    ...group.pointList.map((v) => ({ ...v, id: v.pointId, type: 'point' })),
     ...group.sbtList.map((v) => ({ ...v, id: v.sbtId, type: 'sbt' })),
+    ...group.pointList.map((v) => ({ ...v, id: v.pointId, type: 'point' })),
   ];
   const reward = rewardList[displayIdx];
-  const rewardLabels = useMemo(() => {
-    const incentiveMethodItem = incentiveMethodList.find(
-      (v) => v.value === reward.methodType
-    );
-    return [
-      {
-        label: 'Reward Type',
-        show: true,
-        value: typeMap[reward.type],
-      },
-      {
-        label: 'How to earn',
-        show: true,
-        value: (
-          <div className="flex items-center justify-center gap-x-0.5">
-            {incentiveMethodItem?.title}
-            <Popover
-              content={
-                <div className="max-w-[calc(100vw_-_60px)] lg:max-w-[400px]">
-                  {incentiveMethodItem?.pop}
-                </div>
-              }
-              trigger="click"
-              placement="top"
-            >
-              <InfoCircleOutlined className="size-4 cursor-pointer" />
-            </Popover>
-          </div>
-        ),
-      },
-      {
-        label: 'Lucky Draw in',
-        show: reward.methodType === 2,
-        value: campaignNotStart ? (
-          'Wait to go'
-        ) : campaignEnd ? (
-          'Ended'
-        ) : (
-          <Countdown
-            value={page?.campaign?.endAt ?? 0}
-            format="D[d] H[h] m[m] s[s]"
-            valueStyle={{
-              color: '#12172F',
-              fontSize: '12px',
-              lineHeight: '16px',
-              fontWeight: 500,
-              fontFamily: 'sf',
-            }}
-          />
-        ),
-      },
-      {
-        label: 'Winners Num',
-        show: true,
-        value: reward.unlimited ? 'No Limit' : formatImpact(reward.number),
-      },
-    ];
-  }, [reward, campaignNotStart, campaignEnd, campaignOngoing]);
-  const RewardPreview = ({ size }) => (
-    <Swiper
-      className={cn('size-20 flex-none', size)}
-      modules={[EffectCards]}
-      effect="cards"
-      grabCursor={true}
-      onSwiper={() => {
-        setDisplayIdx(0);
-      }}
-      onSlideChange={(s) => {
-        setDisplayIdx(s.activeIndex);
-      }}
-    >
-      {rewardList.map((r) => {
-        return (
-          <SwiperSlide key={r.id} className="rounded-xl">
-            {r.type === 'point' && (
-              <div className="w-full h-full bg-[#CFF469] rounded-xl flex flex-col justify-center items-center gap-x-2">
-                <img src={pointIcon} className="w-14" />
-                <p className="text-[#503658] font-bold text-xs">
-                  {r.number} Pts
-                </p>
-              </div>
-            )}
-            {(r.type === 'nft' || r.type === 'sbt') && (
-              <div className="w-full h-full bg-[#12172F] rounded-xl flex justify-center items-center gap-x-2">
-                <LazyImage
-                  className="size-14 rounded-full object-center object-cover"
-                  src={r.picUrl}
-                  alt={`${r.type} picturl`}
-                />
-              </div>
-            )}
-          </SwiperSlide>
-        );
-      })}
-    </Swiper>
-  );
+
   return (
     <>
       <div
@@ -257,28 +152,26 @@ const GroupCard = ({ group, index, showVerify }) => {
               </div>
             </div>
             <div className="size-20 flex-none lg:hidden">
-              <RewardPreview />
+              <RewardSwiper
+                displayIdx={displayIdx}
+                setDisplayIdx={setDisplayIdx}
+                rewardList={rewardList}
+              />
             </div>
           </div>
           <div className="rounded-xl p-3 bg-[#12162F]/15 lg:flex gap-x-5 justify-start w-max hidden">
-            <RewardPreview />
-            <div className="flex flex-col gap-y-1 justify-center">
-              {rewardLabels
-                .filter((v) => v.show)
-                .map(({ label, value }, idx) => {
-                  return (
-                    <div
-                      key={idx}
-                      className={cn(
-                        'w-[200px] flex justify-between items-center text-xs'
-                      )}
-                    >
-                      <div>{label}</div>
-                      <div className="font-medium">{value}</div>
-                    </div>
-                  );
-                })}
-            </div>
+            <RewardSwiper
+              displayIdx={displayIdx}
+              setDisplayIdx={setDisplayIdx}
+              rewardList={rewardList}
+            />
+            <RewardLabels
+              reward={reward}
+              endAt={page?.campaign?.endAt}
+              campaignNotStart={campaignNotStart}
+              campaignEnd={campaignEnd}
+              campaignOngoing={campaignOngoing}
+            />
           </div>
         </div>
 
@@ -341,10 +234,8 @@ const GroupCard = ({ group, index, showVerify }) => {
         onClose={() => {
           setViewModalOpen(false);
         }}
-        reward={reward}
         rewardList={rewardList}
-        rewardLabels={rewardLabels}
-        RewardPreview={RewardPreview}
+        reward={reward}
       />
     </>
   );

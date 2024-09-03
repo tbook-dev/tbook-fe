@@ -4,6 +4,8 @@ import multiplyIcon from '@/images/icon/multiply.svg';
 import noticeSvg from '@/images/icon/notice.svg';
 import { credentialStatus, incentiveMethodList } from '@/utils/conf';
 import TimeDown from './timeDown';
+import { CloseOutlined } from '@ant-design/icons';
+import useCampaignQuery from '@/hooks/useCampaignQuery';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useResponsive } from 'ahooks';
 import {
@@ -27,22 +29,12 @@ import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import { useDispatch } from 'react-redux';
 import { setConnectWalletModal } from '@/store/global';
 import { formatImpact } from '@tbook/utils/lib/conf';
-import clsx from 'clsx';
 import Drawer from '@/components/drawer';
+import Button from '@/components/button';
+import RewardSwiper from './rewardSwiper';
+import RewardLabels from './rewardLabels';
 
-const moduleConf = {
-  typeTitleEnum: {
-    nft: 'NFT',
-    point: 'points',
-    sbt: 'SBT',
-  },
-};
-export default function ViewReward({
-  open,
-  onClose,
-  rewardLabels,
-  RewardPreview,
-}) {
+export default function ViewReward({ open, onClose, rewardList }) {
   const { pc } = useResponsive();
 
   const [loading, updateLoading] = useState(false);
@@ -50,13 +42,21 @@ export default function ViewReward({
   // const incentiveMethodItem = incentiveMethodList.find(
   //   (v) => v.value === data.methodType
   // );
+  const [displayIdx, setDisplayIdx] = useState(0);
   const dispath = useDispatch();
   const queryClient = useQueryClient();
   const { campaignId } = useParams();
+  const {
+    data: page,
+    campaignNotStart,
+    campaignEnd,
+    campaignOngoing,
+  } = useCampaignQuery(campaignId);
   const { address, isConnected, ...others } = useAccount();
   const { switchNetworkAsync, data: currentChain } = useSwitchNetwork();
   const [supportChains, setSupportChains] = useState([]);
   const { wallectConnected } = useUserInfoQuery();
+
   useEffect(() => {
     const getData = async () => {
       const contractChains = await getNFTSupportedChains();
@@ -137,16 +137,46 @@ export default function ViewReward({
     }
     // await queryClient.refetchQueries(['campaignDetail', campaignId])
   };
-  // const ponitVal = `${formatImpact(data.number)}`;
-  // const ponitValLen = ponitVal.length;
-  // console.log({ponitValLen})
+
+  const reward = rewardList[displayIdx];
   return (
-    <Drawer open={open} onCancel={onClose} title={null} showClose={!pc}>
-      <div className="flex flex-col items-center">
-        <h2 className="text-[#CFF469] text-2xl font-medium">
-          NFT Collection Name is eligible!
-        </h2>
-        <RewardPreview size="size-[88px]" />
+    <Drawer open={open} onCancel={onClose} title={null} showClose>
+      <div className="bg-[#121212] pt-4 pb-14">
+        <div className="w-full flex justify-end">
+          <CloseOutlined
+            className="text-white cursor-pointer w-6 mr-4"
+            onClick={onClose}
+          />
+        </div>
+        <div className="space-y-10 pt-10">
+          <h2 className="text-[#CFF469] font-sf-bold text-2xl text-center">
+            {reward.type === 'point' && `${formatImpact(reward.number)} Pts`}
+            {reward.type === 'nft' && 'NFT'}
+            {reward.type === 'sbt' && 'SBT'}
+
+            <span className="ml-1">is eligible!</span>
+          </h2>
+          <div className="space-y-4">
+            <RewardSwiper
+              size="large"
+              displayIdx={displayIdx}
+              setDisplayIdx={setDisplayIdx}
+              rewardList={rewardList}
+            />
+            <div className="text-white">
+              <RewardLabels
+                reward={reward}
+                endAt={page?.campaign?.endAt}
+                campaignNotStart={campaignNotStart}
+                campaignEnd={campaignEnd}
+                campaignOngoing={campaignOngoing}
+              />
+            </div>
+          </div>
+          <Button type="purple" className="w-[300px] mx-auto">
+            Claim Rewards
+          </Button>
+        </div>
       </div>
     </Drawer>
   );
