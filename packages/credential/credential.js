@@ -128,6 +128,7 @@ export default [
     picUrl: tonstakerWhite,
     groupType: 8,
     picUrl2: tonstakerBlack,
+    category: 'Liquidity Staking',
   },
   {
     name: 'Stake some TON',
@@ -135,6 +136,7 @@ export default [
     picUrl: bemoWhite,
     groupType: 8,
     picUrl2: bemoBlack,
+    category: 'Liquidity Staking',
   },
   {
     name: 'Borrow USDT',
@@ -142,6 +144,7 @@ export default [
     picUrl: EVAAWhite,
     groupType: 8,
     picUrl2: EVAABlack,
+    category: 'Lending',
   },
   {
     name: 'Provide Liquidity for TON + USDT or ts/stTON + USDT',
@@ -149,6 +152,7 @@ export default [
     picUrl: tonfiWhite,
     groupType: 8,
     picUrl2: tonfiBlack,
+    category: 'DEXs',
   },
   {
     name: 'Provide Liquidity for TON + USDT or ts/stTON + USDT',
@@ -156,6 +160,7 @@ export default [
     picUrl: dedustWhite,
     groupType: 8,
     picUrl2: dedustBlack,
+    category: 'DEXs',
   },
   {
     name: 'Vault USDT or TON',
@@ -163,6 +168,7 @@ export default [
     picUrl: stormtradeWhite,
     groupType: 8,
     picUrl2: stormtradeBlack,
+    category: 'Storm Trade',
   },
   {
     name: 'Open a trade in any trading pair ',
@@ -170,6 +176,7 @@ export default [
     picUrl: stormtradeWhite,
     groupType: 8,
     picUrl2: stormtradeBlack,
+    category: 'Storm Trade',
   },
   {
     name: 'Supply tsTON or stTON',
@@ -177,5 +184,6 @@ export default [
     picUrl: EVAAWhite,
     groupType: 8,
     picUrl2: EVAABlack,
+    name: 'Borrow USDT',
   },
 ];

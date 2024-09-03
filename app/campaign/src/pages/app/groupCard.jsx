@@ -32,7 +32,7 @@ const getSchema = (labelTypes = [], index) => {
     ],
     16: [
       'bg-gradient-to-b lg:bg-gradient-to-r from-[#6C31F0] via-[#4300D5] via-30% to-[#4300D5]',
-      true,
+      false,
       'EVAA',
     ],
     17: [
@@ -61,9 +61,13 @@ const getSchema = (labelTypes = [], index) => {
       'Storm Trade',
     ],
   };
+  const normalMap = {
+    0: ['bg-[#E5AB8A]', true, ''],
+    1: ['bg-[#C0AFD0]', true, ''],
+  };
   const defiTypes = labelTypes.filter((v) => defiLableTypes.includes(v));
-  const renderType = defiTypes.length > 0 ? defiTypes[0] : index;
-  const conf = defiColorsMap[renderType];
+  const renderType = defiTypes.length > 0 ? defiTypes[0] : index % 2;
+  const conf = defiColorsMap[renderType] ?? normalMap[renderType];
   return {
     bg: conf[0],
     isDark: conf[1],
@@ -85,7 +89,6 @@ const GroupCard = ({ group, index, showVerify }) => {
   } = useCampaignQuery(campaignId);
   const { bg, isDark, title } = getSchema(
     group.credentialList?.map((c) => c.labelType),
-    // [15],
     index
   );
   const verifyCnt =
@@ -207,7 +210,12 @@ const GroupCard = ({ group, index, showVerify }) => {
         bg
       )}
     >
-      <div className={cn('relative p-4 rounded-2xl lg:w-[420px] lg:space-y-5')}>
+      <div
+        className={cn(
+          'relative p-4 rounded-2xl lg:w-[420px] lg:space-y-5',
+          isDark ? 'text-[#12172F]' : 'text-white'
+        )}
+      >
         <div className="flex items-center justify-between gap-x-3 lg:items-start">
           <div
             className={cn(
@@ -216,10 +224,10 @@ const GroupCard = ({ group, index, showVerify }) => {
               isDark ? 'text-[#12172F]' : 'text-white'
             )}
           >
-            <p className="text-base font-sf-bold font-bold text-black">
+            <p className={cn('text-base font-sf-bold font-bold')}>
               {title ? `Complete Tasks On ${title}` : 'Complete Tasks'}
             </p>
-            <div className="text-[#12172F] text-xs space-y-0.5 w-full">
+            <div className={cn('text-xs space-y-0.5 w-full')}>
               <div>
                 {verifyCnt}/{totalCnt}
               </div>
@@ -255,10 +263,12 @@ const GroupCard = ({ group, index, showVerify }) => {
                 return (
                   <div
                     key={idx}
-                    className="w-[200px] flex justify-between items-center text-xs"
+                    className={cn(
+                      'w-[200px] flex justify-between items-center text-xs'
+                    )}
                   >
-                    <div className="text-[#12172F]">{label}</div>
-                    <div className="text-black font-medium">{value}</div>
+                    <div>{label}</div>
+                    <div className="font-medium">{value}</div>
                   </div>
                 );
               })}

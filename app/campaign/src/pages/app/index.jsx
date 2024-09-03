@@ -20,6 +20,7 @@ import ParticipantIcon from '@/images/icon/svgr/participant.svg?react';
 import Timeline from '@/components/timeline';
 import AppCountDown from './AppCountDown';
 import GroupCard from './groupCard';
+import { credential } from '@tbook/credential';
 
 const prompt =
   'You may get the rewards once you have accomplished all tasks in the group!';
@@ -38,6 +39,8 @@ export default function () {
     campaignOngoing,
     campaignUnavailable,
     isDefi,
+    hasDefi,
+    groupList,
   } = useCampaignQuery(campaignId);
 
   const { projectUrl } = useLoaderData();
@@ -190,24 +193,32 @@ export default function () {
           <Skeleton />
         </div>
       )}
-      {isDefi && (
+      {hasDefi && (
         <div className="text-sm text-white/60 px-4 lg:px-0">{defiTip}</div>
       )}
       <section className="px-4 lg:px-0 space-y-2">
         <Timeline
-          showProcess={true}
-          steps={page?.groups?.map((group, idx) => {
+          showProcess={isDefi}
+          steps={groupList.map(([category, group], idx) => {
+            const isFinished = group
+              .map((v) => v.credentialList)
+              .every((c) => c.isVerified);
             return {
-              name: group.name,
+              name: category,
               children: (
-                <GroupCard
-                  index={idx}
-                  group={group}
-                  showVerify={campaignOngoing}
-                  isDefi={isDefi}
-                />
+                <div className="flex flex-wrap gap-4">
+                  {group.map((g, i) => (
+                    <GroupCard
+                      key={i}
+                      index={i}
+                      group={g}
+                      showVerify={campaignOngoing}
+                      isDefi={isDefi}
+                    />
+                  ))}
+                </div>
               ),
-              isFinished: group.credentialList.every((c) => c.isVerified),
+              isFinished: isFinished,
             };
           })}
         />

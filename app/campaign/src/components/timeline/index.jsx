@@ -9,7 +9,7 @@ const Timeline = ({ steps = [], showProcess = false }) => {
         const showLine = showProcess && steps.length > 1;
         return (
           <li
-            key={step.name}
+            key={stepIdx}
             className={cn(
               stepIdx !== steps.length - 1 ? 'pb-2' : '',
               'relative'
@@ -45,9 +45,7 @@ const Timeline = ({ steps = [], showProcess = false }) => {
               </div>
             )}
 
-            <div className={cn(showProcess && 'pl-4 pt-6')}>
-              {step.children}
-            </div>
+            <div className={cn(showLine && 'pl-4 pt-6')}>{step.children}</div>
           </li>
         );
       })}
