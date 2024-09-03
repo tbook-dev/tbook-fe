@@ -31,27 +31,32 @@ const getSchema = (labelTypes = [], index) => {
       'Bemo',
     ],
     16: [
-      'bg-gradient-to-b from-[#0FD9B4] via-[#0082F9] via-30% to-[#0082F9]',
+      'bg-gradient-to-b lg:bg-gradient-to-r from-[#6C31F0] via-[#4300D5] via-30% to-[#4300D5]',
       true,
       'EVAA',
     ],
     17: [
-      'bg-gradient-to-b from-[#0FD9B4] via-[#0082F9] via-30% to-[#0082F9]',
+      'bg-gradient-to-b  lg:bg-gradient-to-r from-[#0fd9b4] via-[#0082f9] via-30% to-[#0082f9]',
+      false,
+      'STON.fi',
+    ],
+    21: [
+      'bg-gradient-to-b  lg:bg-gradient-to-r from-[#0fd9b4] via-[#0082f9] via-30% to-[#0082f9]',
       false,
       'STON.fi',
     ],
     18: [
-      'bg-gradient-to-b from-[#0FD9B4] via-[#0082F9] via-30% to-[#0082F9]',
+      'bg-gradient-to-b  lg:bg-gradient-to-r from-[#ffdb2e] via-[#cc7401] via-30% to-[#cc7401]',
       true,
       'DeDust',
     ],
     19: [
-      'bg-gradient-to-b from-[#0FD9B4] via-[#0082F9] via-30% to-[#0082F9]',
+      'bg-gradient-to-b  lg:bg-gradient-to-r from-[#ffe11b] via-[#f09f0c] via-30% to-[#f09f0c]',
       true,
       'Storm Trade',
     ],
     20: [
-      'bg-gradient-to-b from-[#0FD9B4] via-[#0082F9] via-30% to-[#0082F9]',
+      'bg-gradient-to-b  lg:bg-gradient-to-r from-[#ffe11b] via-[#f09f0c] via-30% to-[#f09f0c]',
       true,
       'Storm Trade',
     ],
@@ -263,7 +268,7 @@ const GroupCard = ({ group, index, showVerify }) => {
 
       <div className="w-full lg:w-[720px]">
         {showRewardButton ? (
-          <div className="p-4 rounded-t-2xl bg-black/70 backdrop-blur-2xl flex flex-col gap-y-2">
+          <div className="h-full p-4 rounded-2xl bg-black/70 backdrop-blur-2xl flex flex-col gap-y-2">
             <button
               className="flex items-center gap-x-2"
               onClick={() => {
@@ -280,7 +285,7 @@ const GroupCard = ({ group, index, showVerify }) => {
             </Button>
           </div>
         ) : (
-          <div className="p-4 space-y-4 rounded-t-2xl bg-gradient-to-b from-black/65 to-black/85 backdrop-blur-2xl">
+          <div className="h-full p-4 space-y-4 rounded-2xl bg-gradient-to-b from-black/65 to-black/85 backdrop-blur-2xl">
             <div className="space-y-2">
               {group.credentialList?.map((credential) => (
                 <Credential

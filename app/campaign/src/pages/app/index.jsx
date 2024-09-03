@@ -195,6 +195,7 @@ export default function () {
       )}
       <section className="px-4 lg:px-0 space-y-2">
         <Timeline
+          showProcess={true}
           steps={page?.groups?.map((group, idx) => {
             return {
               name: group.name,
@@ -210,110 +211,6 @@ export default function () {
             };
           })}
         />
-        {/* {page?.groups?.map((group, index) => {
-          console.log({ group });
-          return (
-            <div
-              key={index}
-              className="rounded-lg flex flex-col lg:flex-row  lg:overflow-hidden lg:items-stretch"
-            >
-              <div className="lg:w-[634px] lg:bg-[#160b25] lg:px-8 lg:py-5 lg:flex lg:flex-col">
-                <p className="hidden lg:block text-sm mb-4">{prompt}</p>
-                <div className="space-y-4 mb-8">
-                  {group.credentialList?.map((credential) => (
-                    <Credential
-                      credential={credential}
-                      key={credential.credentialId}
-                      showVerify={!(campaignNotStart || campaignEnd)}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="lg:w-[566px] pb-4  lg:bg-[#1c0e2f] lg:px-8 lg:pb-0 lg:flex lg:flex-col lg:justify-center">
-                <p className="text-xs mb-4 lg:hidden">{prompt}</p>
-                <div className="space-y-4 lg:space-y-0 lg:divide-y lg:divide-[#281545]">
-                  {group.nftList?.map((nft, idx) => {
-                    return (
-                      <div
-                        key={nft.nftId}
-                        className="p-5 rounded-lg bg-linear1 lg:bg-none lg:px-0 lg:py-8 flex lg:flex-row-reverse lg:gap-x-8 lg:rounded-none"
-                      >
-                        <div className="flex-auto flex flex-col justify-between">
-                          <div>
-                            <h2 className="text-sm lg:text-base text-[#A1A1A2]">
-                              nft
-                            </h2>
-                            <h3 className="text-base lg:text-lg font-medium">
-                              {nft.name}
-                            </h3>
-                          </div>
-                          <button
-                            className="flex items-center w-max text-sm font-medium"
-                            onClick={() => {
-                              if (isUsingWallet) {
-                                setViewModalDataCallbcak(index, idx, 'nft');
-                              } else {
-                                dispath(setShowWalletConnectModal(true));
-                              }
-                            }}
-                          >
-                            <span className="text-color1">View Rewards</span>
-                            <img src={arrow3Icon} alt="view reward" />
-                          </button>
-                        </div>
-                        <img
-                          src={nft.picUrl}
-                          className="w-20 h-20 lg:w-[120px] lg:h-[120px] object-center rounded-lg flex-none"
-                          alt="nft reward"
-                        />
-                      </div>
-                    );
-                  })}
-
-                  {group.pointList?.map((point) => {
-                    return (
-                      <div
-                        key={point.pointId}
-                        className="p-5 rounded-lg  bg-linear1 lg:bg-none lg:px-0 lg:py-8 flex lg:flex-row-reverse lg:gap-x-8 lg:rounded-none"
-                      >
-                        <div className="flex-auto flex flex-col justify-between">
-                          <div>
-                            <h2 className="text-sm lg:text-base text-[#A1A1A2]">
-                              points
-                            </h2>
-                            <h3 className="text-base lg:text-lg font-medium">
-                              {formatImpact(point.number)}
-                              <span className="ml-1">points</span>
-                            </h3>
-                          </div>
-                          <button
-                            className="flex items-center w-max text-sm font-medium"
-                            onClick={() => {
-                              if (isUsingWallet) {
-                                setViewModalDataCallbcak(index, 0, 'point');
-                              } else {
-                                dispath(setShowWalletConnectModal(true));
-                              }
-                            }}
-                          >
-                            <span className="text-color1">View Rewards</span>
-                            <img src={arrow3Icon} alt="view reward" />
-                          </button>
-                        </div>
-                        <img
-                          src={pointIcon}
-                          className="w-20 h-20 lg:w-[120px] lg:h-[120px] object-center rounded-lg flex-none"
-                          alt="point reward"
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          );
-        })} */}
       </section>
 
       {viewModalData && (
