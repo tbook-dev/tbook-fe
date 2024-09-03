@@ -1,15 +1,12 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import pointIcon from '@/images/icon/point-modal.svg';
-import arrow3Icon from '@/images/icon/arrow3.svg';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import useCampaignQuery from '@/hooks/useCampaignQuery';
 import RichMore from '@/components/textMore/rich';
-import { Skeleton, Statistic } from 'antd';
+import { Skeleton } from 'antd';
 import { useDispatch } from 'react-redux';
 import { setLoginModal, setShowWalletConnectModal } from '@/store/global';
 import LazyImage from '@/components/lazyImage';
-import { formatImpact } from '@tbook/utils/lib/conf';
 import { formatStandard } from '@tbook/utils/lib/conf';
 import ViewReward from './viewReward';
 import { useLoaderData } from 'react-router-dom';
@@ -20,7 +17,6 @@ import ParticipantIcon from '@/images/icon/svgr/participant.svg?react';
 import Timeline from '@/components/timeline';
 import AppCountDown from './AppCountDown';
 import GroupCard from './groupCard';
-import { credential } from '@tbook/credential';
 
 const prompt =
   'You may get the rewards once you have accomplished all tasks in the group!';
@@ -206,7 +202,7 @@ export default function () {
             return {
               name: category,
               children: (
-                <div className="flex flex-wrap gap-4">
+                <>
                   {group.map((g, i) => (
                     <GroupCard
                       key={i}
@@ -216,7 +212,7 @@ export default function () {
                       isDefi={isDefi}
                     />
                   ))}
-                </div>
+                </>
               ),
               isFinished: isFinished,
             };

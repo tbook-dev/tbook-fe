@@ -1,4 +1,4 @@
-import { useMemo, memo, useState, useCallback } from 'react';
+import { useMemo, memo, useState } from 'react';
 import Credential from './credential';
 import { cn } from '@/utils/conf';
 import { motion } from 'framer-motion';
@@ -8,7 +8,7 @@ import TonSocietyIcon from '@/images/icon/svgr/ton-society.svg?react';
 import Button from '@/pages/ton-wise/components/button';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCards } from 'swiper';
-import pointIcon from '@/images/icon/point-modal.svg';
+import pointIcon from '@/images/icon/point.svg';
 import LazyImage from '@/components/lazyImage';
 import { incentiveMethodList } from '@/utils/conf';
 import { Popover, Statistic } from 'antd';
@@ -16,8 +16,10 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
 import useCampaignQuery from '@/hooks/useCampaignQuery';
 import { formatImpact } from '@tbook/utils/lib/conf';
+import Drawer from '@/components/drawer';
 import 'swiper/css';
 import 'swiper/css/effect-cards';
+import ViewReward from './viewReward';
 
 const { Countdown } = Statistic;
 const defiLableTypes = [14, 15, 16, 17, 18, 19, 20];
@@ -101,13 +103,14 @@ const GroupCard = ({ group, index, showVerify }) => {
     return showCredential;
   }, [showCredential, isGroupVerified]);
   const [displayIdx, setDisplayIdx] = useState(0);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
   const rewardList = [
     ...group.nftList.map((v) => ({ ...v, id: v.nftId, type: 'nft' })),
     ...group.pointList.map((v) => ({ ...v, id: v.pointId, type: 'point' })),
     ...group.sbtList.map((v) => ({ ...v, id: v.sbtId, type: 'sbt' })),
   ];
+  const reward = rewardList[displayIdx];
   const rewardLabels = useMemo(() => {
-    const reward = rewardList[displayIdx];
     const incentiveMethodItem = incentiveMethodList.find(
       (v) => v.value === reward.methodType
     );
@@ -164,10 +167,10 @@ const GroupCard = ({ group, index, showVerify }) => {
         value: reward.unlimited ? 'No Limit' : formatImpact(reward.number),
       },
     ];
-  }, [rewardList, displayIdx, campaignNotStart, campaignEnd, campaignOngoing]);
-  const RewardPreview = (
+  }, [reward, campaignNotStart, campaignEnd, campaignOngoing]);
+  const RewardPreview = ({ size }) => (
     <Swiper
-      className="size-20 flex-none"
+      className={cn('size-20 flex-none', size)}
       modules={[EffectCards]}
       effect="cards"
       grabCursor={true}
@@ -182,7 +185,7 @@ const GroupCard = ({ group, index, showVerify }) => {
         return (
           <SwiperSlide key={r.id} className="rounded-xl">
             {r.type === 'point' && (
-              <div className="w-full size-20 bg-[#CFF469] rounded-xl flex flex-col items-center gap-x-2">
+              <div className="w-full h-full bg-[#CFF469] rounded-xl flex flex-col justify-center items-center gap-x-2">
                 <img src={pointIcon} className="w-14" />
                 <p className="text-[#503658] font-bold text-xs">
                   {r.number} Pts
@@ -190,7 +193,7 @@ const GroupCard = ({ group, index, showVerify }) => {
               </div>
             )}
             {(r.type === 'nft' || r.type === 'sbt') && (
-              <div className="w-full size-20 bg-[#12172F] rounded-xl flex justify-center items-center gap-x-2">
+              <div className="w-full h-full bg-[#12172F] rounded-xl flex justify-center items-center gap-x-2">
                 <LazyImage
                   className="size-14 rounded-full object-center object-cover"
                   src={r.picUrl}
@@ -204,126 +207,146 @@ const GroupCard = ({ group, index, showVerify }) => {
     </Swiper>
   );
   return (
-    <div
-      className={cn(
-        'rounded-2xl overflow-hidden relative shadow-xl lg:flex lg:items-stretch lg:justify-between',
-        bg
-      )}
-    >
+    <>
       <div
         className={cn(
-          'relative p-4 rounded-2xl lg:w-[420px] lg:space-y-5',
-          isDark ? 'text-[#12172F]' : 'text-white'
+          'rounded-2xl overflow-hidden relative shadow-xl lg:flex lg:items-stretch lg:justify-between',
+          bg
         )}
       >
-        <div className="flex items-center justify-between gap-x-3 lg:items-start">
-          <div
-            className={cn(
-              'flex-auto h-20',
-              'flex flex-col justify-between',
-              isDark ? 'text-[#12172F]' : 'text-white'
-            )}
-          >
-            <p className={cn('text-base font-sf-bold font-bold')}>
-              {title ? `Complete Tasks On ${title}` : 'Complete Tasks'}
-            </p>
-            <div className={cn('text-xs space-y-0.5 w-full')}>
-              <div>
-                {verifyCnt}/{totalCnt}
-              </div>
-              <div
-                className={cn(
-                  isDark ? 'bg-[#12172F]/10' : 'bg-white',
-                  'h-2 relative calc(100%_-_40px) rounded-full'
-                )}
-              >
-                <motion.div
-                  className={cn(
-                    'h-2 absolute inset-y-0 left-0  rounded-full',
-                    isDark ? 'bg-[#12172F]' : 'bg-white'
-                  )}
-                  initial={{ width: 0 }}
-                  animate={{ width: `${(verifyCnt * 100) / totalCnt}%` }}
-                />
-                <GiftIcon
-                  className="absolute -right-1 -bottom-2"
-                  fill={isDark ? '#12172F' : '#fff'}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="size-20 flex-none lg:hidden">{RewardPreview}</div>
-        </div>
-        <div className="rounded-xl p-3 bg-[#12162F]/15 lg:flex gap-x-5 justify-start w-max hidden">
-          {RewardPreview}
-          <div className="space-y-1">
-            {rewardLabels
-              .filter((v) => v.show)
-              .map(({ label, value }, idx) => {
-                return (
-                  <div
-                    key={idx}
-                    className={cn(
-                      'w-[200px] flex justify-between items-center text-xs'
-                    )}
-                  >
-                    <div>{label}</div>
-                    <div className="font-medium">{value}</div>
-                  </div>
-                );
-              })}
-          </div>
-        </div>
-      </div>
-
-      <div className="w-full lg:w-[720px]">
-        {showRewardButton ? (
-          <div className="h-full p-4 rounded-2xl bg-black/70 backdrop-blur-2xl flex flex-col gap-y-2">
-            <button
-              className="flex items-center gap-x-2"
-              onClick={() => {
-                setShowCredential(true);
-              }}
-            >
-              <ArrowIcon />
-              <p className="text-sm font-medium">
-                {totalCnt} Credentials Verified
-              </p>
-            </button>
-            <Button className="flex items-center justify-center gap-x-1 h-10">
-              Mint SBT on <TonSocietyIcon />
-            </Button>
-          </div>
-        ) : (
-          <div className="h-full p-4 space-y-4 rounded-2xl bg-gradient-to-b from-black/65 to-black/85 backdrop-blur-2xl">
-            <div className="space-y-2">
-              {group.credentialList?.map((credential) => (
-                <Credential
-                  credential={credential}
-                  key={credential.credentialId}
-                  showVerify={showVerify}
-                />
-              ))}
-            </div>
-            <div className="relative w-full">
-              {isGroupVerified && (
-                <button
-                  className="rotate-180"
-                  onClick={() => {
-                    setShowCredential(false);
-                  }}
-                >
-                  <ArrowIcon />
-                </button>
+        <div
+          className={cn(
+            'relative p-4 rounded-2xl lg:w-[420px] lg:space-y-5',
+            isDark ? 'text-[#12172F]' : 'text-white'
+          )}
+        >
+          <div className="flex items-center justify-between gap-x-3 lg:items-start">
+            <div
+              className={cn(
+                'flex-auto h-20',
+                'flex flex-col justify-between',
+                isDark ? 'text-[#12172F]' : 'text-white'
               )}
-              <Button className="w-full flex items-center justify-center gap-x-1 h-10">
+            >
+              <p className={cn('text-base font-sf-bold font-bold')}>
+                {title ? `Complete Tasks On ${title}` : 'Complete Tasks'}
+              </p>
+              <div className={cn('text-xs space-y-0.5 w-full')}>
+                <div>
+                  {verifyCnt}/{totalCnt}
+                </div>
+                <div
+                  className={cn(
+                    isDark ? 'bg-[#12172F]/10' : 'bg-white',
+                    'h-2 relative calc(100%_-_40px) rounded-full'
+                  )}
+                >
+                  <motion.div
+                    className={cn(
+                      'h-2 absolute inset-y-0 left-0  rounded-full',
+                      isDark ? 'bg-[#12172F]' : 'bg-white'
+                    )}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${(verifyCnt * 100) / totalCnt}%` }}
+                  />
+                  <GiftIcon
+                    className="absolute -right-1 -bottom-2"
+                    fill={isDark ? '#12172F' : '#fff'}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="size-20 flex-none lg:hidden">
+              <RewardPreview />
+            </div>
+          </div>
+          <div className="rounded-xl p-3 bg-[#12162F]/15 lg:flex gap-x-5 justify-start w-max hidden">
+            <RewardPreview />
+            <div className="flex flex-col gap-y-1 justify-center">
+              {rewardLabels
+                .filter((v) => v.show)
+                .map(({ label, value }, idx) => {
+                  return (
+                    <div
+                      key={idx}
+                      className={cn(
+                        'w-[200px] flex justify-between items-center text-xs'
+                      )}
+                    >
+                      <div>{label}</div>
+                      <div className="font-medium">{value}</div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full lg:w-[720px]">
+          {showRewardButton ? (
+            <div className="h-full p-4 rounded-2xl bg-black/70 backdrop-blur-2xl flex flex-col gap-y-2">
+              <button
+                className="flex items-center gap-x-2"
+                onClick={() => {
+                  setShowCredential(true);
+                }}
+              >
+                <ArrowIcon />
+                <p className="text-sm font-medium">
+                  {totalCnt} Credentials Verified
+                </p>
+              </button>
+              <Button className="flex items-center justify-center gap-x-1 h-10">
                 Mint SBT on <TonSocietyIcon />
               </Button>
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="h-full flex flex-col justify-between p-4 space-y-4 rounded-2xl bg-gradient-to-b from-black/65 to-black/85 backdrop-blur-2xl">
+              <div className="space-y-2">
+                {group.credentialList?.map((credential) => (
+                  <Credential
+                    credential={credential}
+                    key={credential.credentialId}
+                    showVerify={showVerify}
+                  />
+                ))}
+              </div>
+
+              {!isGroupVerified && (
+                <div className="relative w-full flex justify-center lg:justify-end">
+                  <button
+                    className="rotate-180"
+                    onClick={() => {
+                      setShowCredential(false);
+                    }}
+                  >
+                    <ArrowIcon />
+                  </button>
+                  <Button
+                    onClick={() => {
+                      setViewModalOpen(true);
+                    }}
+                    className="w-[300px] lg:w-[200px] flex items-center justify-center gap-x-1 h-10"
+                  >
+                    Mint SBT on <TonSocietyIcon />
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+      <ViewReward
+        open={viewModalOpen}
+        onClose={() => {
+          setViewModalOpen(false);
+        }}
+        reward={reward}
+        rewardList={rewardList}
+        rewardLabels={rewardLabels}
+        RewardPreview={RewardPreview}
+      />
+    </>
   );
 };
 
