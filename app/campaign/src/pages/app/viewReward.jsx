@@ -1,19 +1,8 @@
-import { Popover, message } from 'antd';
-import pointIcon from '@/images/icon/point-modal.svg';
-import multiplyIcon from '@/images/icon/multiply.svg';
-import noticeSvg from '@/images/icon/notice.svg';
-import { credentialStatus, incentiveMethodList } from '@/utils/conf';
-import TimeDown from './timeDown';
+import { message } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import useCampaignQuery from '@/hooks/useCampaignQuery';
-import { useEffect, useState, useMemo, useCallback } from 'react';
-import { useResponsive } from 'ahooks';
-import {
-  claimCampaign,
-  getNftClaimInfo,
-  updateClaimed,
-  getNFTSupportedChains,
-} from '@/api/incentive';
+import { useState, useMemo, useCallback } from 'react';
+import { claimCampaign, getNftClaimInfo, updateClaimed } from '@/api/incentive';
 import { useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { useAccount, useSwitchNetwork } from 'wagmi';
@@ -24,7 +13,6 @@ import {
   waitForTransaction,
 } from '@wagmi/core';
 import abi from '@/abi/st';
-import WithClaim from './withClaim';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import { useDispatch } from 'react-redux';
 import { setConnectWalletModal } from '@/store/global';
@@ -33,15 +21,13 @@ import Drawer from '@/components/drawer';
 import Button from '@/components/button';
 import RewardSwiper from './rewardSwiper';
 import RewardLabels from './rewardLabels';
+import useSupportedChains from '@/hooks/useSupportedChains';
 
 export default function ViewReward({ open, onClose, rewardList }) {
-  const { pc } = useResponsive();
-
   const [loading, updateLoading] = useState(false);
-  // const itemStatus = credentialStatus.find((v) => v.value === data.claimedType);
-  // const incentiveMethodItem = incentiveMethodList.find(
-  //   (v) => v.value === data.methodType
-  // );
+  const { data: supportChains = [] } = useSupportedChains({
+    enabled: rewardList.some((v) => v.type === 'nft'),
+  });
   const [displayIdx, setDisplayIdx] = useState(0);
   const dispath = useDispatch();
   const queryClient = useQueryClient();
@@ -54,17 +40,8 @@ export default function ViewReward({ open, onClose, rewardList }) {
   } = useCampaignQuery(campaignId);
   const { address, isConnected, ...others } = useAccount();
   const { switchNetworkAsync, data: currentChain } = useSwitchNetwork();
-  const [supportChains, setSupportChains] = useState([]);
   const { wallectConnected } = useUserInfoQuery();
-
-  useEffect(() => {
-    const getData = async () => {
-      const contractChains = await getNFTSupportedChains();
-      setSupportChains(contractChains);
-    };
-    getData();
-  }, []);
-
+  const reward = rewardList[displayIdx];
   const handleClaim = async (data) => {
     updateLoading(true);
     try {
@@ -83,9 +60,13 @@ export default function ViewReward({ open, onClose, rewardList }) {
   const connectWallect = useCallback(() => {
     dispath(setConnectWalletModal(true));
   }, []);
-
   const handleClaimNFT = async (nft) => {
     try {
+      if (!canUseWallect) {
+        onClose();
+        connectWallect();
+        return;
+      }
       updateLoading(true);
       const info = await getNftClaimInfo(nft.nftId, nft.groupId);
 
@@ -137,8 +118,20 @@ export default function ViewReward({ open, onClose, rewardList }) {
     }
     // await queryClient.refetchQueries(['campaignDetail', campaignId])
   };
+  const handleClaimRewards = async () => {
+    console.log(reward, rewardList);
+    // claim all rewards]
+    // await Promise.all(
+    //   rewardList.map(async (r) => {
+    //     if (r.type === 'point') {
+    //       await handleClaim(r);
+    //     } else if (r.type === 'nft') {
+    //       await handleClaimNFT(r);
+    //     }
+    //   })
+    // );
+  };
 
-  const reward = rewardList[displayIdx];
   return (
     <Drawer open={open} onCancel={onClose} title={null} showClose>
       <div className="bg-[#121212] pt-4 pb-14">
@@ -173,7 +166,11 @@ export default function ViewReward({ open, onClose, rewardList }) {
               />
             </div>
           </div>
-          <Button type="purple" className="w-[300px] mx-auto">
+          <Button
+            type="purple"
+            className="w-[300px] mx-auto"
+            onClick={handleClaimRewards}
+          >
             Claim Rewards
           </Button>
         </div>
