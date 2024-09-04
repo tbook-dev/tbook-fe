@@ -80,7 +80,7 @@ const GroupCard = ({ group, index, showVerify }) => {
     index
   );
   const verifyCnt =
-    group.credentialList?.filter((c) => c.isVerified).length ?? 0;
+    group.credentialList?.filter((c) => c.isVerified === 1).length ?? 0;
   const totalCnt = group.credentialList?.length ?? 1;
   const isGroupVerified = verifyCnt === totalCnt;
   const [showCredential, setShowCredential] = useState(false);
