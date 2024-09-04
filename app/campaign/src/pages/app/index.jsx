@@ -1,14 +1,12 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import useCampaignQuery from '@/hooks/useCampaignQuery';
 import RichMore from '@/components/textMore/rich';
 import { Skeleton } from 'antd';
 import { useDispatch } from 'react-redux';
-import { setLoginModal, setShowWalletConnectModal } from '@/store/global';
 import LazyImage from '@/components/lazyImage';
 import { formatStandard } from '@tbook/utils/lib/conf';
-import ViewReward from './viewReward';
 import { useLoaderData } from 'react-router-dom';
 import usePageFooterTip from '@/hooks/usePageFooterTip';
 import TMAShare from '@/components/TMAShare';
@@ -18,20 +16,15 @@ import Timeline from '@/components/timeline';
 import AppCountDown from './AppCountDown';
 import GroupCard from './groupCard';
 
-const prompt =
-  'You may get the rewards once you have accomplished all tasks in the group!';
 const defiTip =
   'On-chain tasks will take some time to track your transaction. After completing the tasks, you can retry to verify later.';
 
 export default function () {
-  const dispath = useDispatch();
   const { campaignId } = useParams();
-  const { userLogined, isUsingWallet } = useUserInfo();
   const {
     data: page,
     isLoading,
     campaignNotStart,
-    campaignEnd,
     campaignOngoing,
     campaignUnavailable,
     isDefi,
@@ -40,54 +33,8 @@ export default function () {
   } = useCampaignQuery(campaignId);
 
   const { projectUrl } = useLoaderData();
-  const [viewIdx, setViewIdx] = useState(null);
-  const [subIdx, setSubIdx] = useState(null);
-  const [viewType, setViewType] = useState(null);
-  const [viewModalOpen, setViewModalOpen] = useState(false);
   const [searchParams] = useSearchParams();
   usePageFooterTip();
-  const signIn = useCallback(() => {
-    dispath(setLoginModal(true));
-  }, []);
-
-  const handleCancel = useCallback(() => {
-    setViewModalOpen(false);
-    setViewIdx(null);
-    setSubIdx(null);
-    setViewType(null);
-  }, []);
-  const viewModalData = useMemo(() => {
-    if (viewIdx !== null && viewType !== null && subIdx !== null && page) {
-      try {
-        const group = page?.groups?.[viewIdx];
-        let data = {};
-        if (viewType === 'nft') {
-          data = group.nftList[subIdx];
-        } else {
-          data = group.pointList[subIdx];
-        }
-        return { ...data, type: viewType };
-      } catch (e) {
-        console.log(e);
-        return null;
-      }
-    } else {
-      return null;
-    }
-  }, [viewIdx, subIdx, viewType, page]);
-  const setViewModalDataCallbcak = useCallback(
-    (idx, subIdx, type) => {
-      if (userLogined) {
-        setViewIdx(idx);
-        setSubIdx(subIdx);
-        setViewType(type);
-        setViewModalOpen(true);
-      } else {
-        signIn();
-      }
-    },
-    [userLogined]
-  );
 
   const refBackLink = useMemo(() => {
     const refUnsafeUrl = searchParams && searchParams.get('ref');
@@ -219,14 +166,6 @@ export default function () {
           })}
         />
       </section>
-
-      {viewModalData && (
-        <ViewReward
-          data={viewModalData}
-          open={viewModalOpen}
-          onCancel={handleCancel}
-        />
-      )}
     </div>
   );
 }

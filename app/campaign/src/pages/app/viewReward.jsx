@@ -22,6 +22,9 @@ import Button from '@/components/button';
 import RewardSwiper from './rewardSwiper';
 import RewardLabels from './rewardLabels';
 import useSupportedChains from '@/hooks/useSupportedChains';
+import WebApp from '@twa-dev/sdk';
+import TonSocietyIcon from '@/images/icon/svgr/ton-society.svg?react';
+import { credentialStatus } from '@/utils/conf';
 
 export default function ViewReward({ open, onClose, rewardList }) {
   const [loading, updateLoading] = useState(false);
@@ -42,7 +45,11 @@ export default function ViewReward({ open, onClose, rewardList }) {
   const { switchNetworkAsync, data: currentChain } = useSwitchNetwork();
   const { wallectConnected } = useUserInfoQuery();
   const reward = rewardList[displayIdx];
-  const handleClaim = async (data) => {
+  // reward.claimedType = 1;
+  const rewardStatus = credentialStatus.find(
+    (v) => v.value === reward.claimedType
+  );
+  const handleClaimPoint = async (data) => {
     updateLoading(true);
     try {
       console.log('handleClaimPoint');
@@ -118,19 +125,54 @@ export default function ViewReward({ open, onClose, rewardList }) {
     }
     // await queryClient.refetchQueries(['campaignDetail', campaignId])
   };
-  const handleClaimRewards = async () => {
-    console.log(reward, rewardList);
-    // claim all rewards]
-    // await Promise.all(
-    //   rewardList.map(async (r) => {
-    //     if (r.type === 'point') {
-    //       await handleClaim(r);
-    //     } else if (r.type === 'nft') {
-    //       await handleClaimNFT(r);
-    //     }
-    //   })
-    // );
+  const handleClaimSbt = async (reward) => {
+    updateLoading(true);
+    try {
+      console.log('handleClaimSBT');
+      // const sbtLink = await claimCampaign(reward.groupId);
+      const sbtLink = '';
+      WebApp.openLink(sbtLink, { try_instant_view: true });
+    } catch (error) {
+      console.log(error);
+    }
+    updateLoading(false);
   };
+  const handleClaimRewards = () => {
+    if (reward.type === 'point') {
+      handleClaimPoint(reward);
+    } else if (reward.type === 'nft') {
+      handleClaimNFT(reward);
+    } else if (reward.type === 'sbt') {
+      handleClaimSbt(reward);
+    }
+  };
+  const title = useMemo(() => {
+    if (!reward) return;
+    let name = '';
+    if (reward.type === 'point') {
+      name = `${formatImpact(reward.number)} Pts`;
+    } else if (reward.type === 'nft') {
+      name = 'NFT';
+    } else if (reward.type === 'sbt') {
+      name = 'SBT';
+    }
+    return rewardStatus?.title(name);
+  }, [reward]);
+  const buttonText = useMemo(() => {
+    if (!reward) return;
+    if (loading) return "let's see……";
+    if (reward.type === 'point') {
+      return 'Claim Points';
+    } else if (reward.type === 'nft') {
+      return 'Claim NFT';
+    } else if (reward.type === 'sbt') {
+      return (
+        <>
+          Mint SBT on <TonSocietyIcon />
+        </>
+      );
+    }
+  }, [reward, loading]);
 
   return (
     <Drawer open={open} onCancel={onClose} title={null} showClose>
@@ -143,11 +185,7 @@ export default function ViewReward({ open, onClose, rewardList }) {
         </div>
         <div className="space-y-10 pt-10">
           <h2 className="text-[#CFF469] font-sf-bold text-2xl text-center">
-            {reward.type === 'point' && `${formatImpact(reward.number)} Pts`}
-            {reward.type === 'nft' && 'NFT'}
-            {reward.type === 'sbt' && 'SBT'}
-
-            <span className="ml-1">is eligible!</span>
+            {title}
           </h2>
           <div className="space-y-4">
             <RewardSwiper
@@ -166,13 +204,34 @@ export default function ViewReward({ open, onClose, rewardList }) {
               />
             </div>
           </div>
-          <Button
-            type="purple"
-            className="w-[300px] mx-auto"
-            onClick={handleClaimRewards}
-          >
-            Claim Rewards
-          </Button>
+          <div className="space-y-1">
+            {rewardStatus?.showButton && (
+              <>
+                <Button
+                  type="purple"
+                  className="w-[300px] flex items-center justify-center gap-x-1 mx-auto hover:opacity-100 notbtn-click"
+                  onClick={handleClaimRewards}
+                  loading={loading}
+                >
+                  {buttonText}
+                </Button>
+                {reward.type === 'sbt' && (
+                  <div className="text-xs text-white/60 w-[300px] mx-auto">
+                    The minting process takes place on Ton Society. It usually
+                    takes 1-3 days. For minting updates and results, please
+                    check on Ton Society.
+                  </div>
+                )}
+              </>
+            )}
+            {rewardStatus?.tip && (
+              <div className="text-sm text-white text-center font-medium w-[300px] mx-auto">
+                {rewardStatus?.tip?.split('\n').map((v, i) => (
+                  <p key={i}>{v}</p>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Drawer>

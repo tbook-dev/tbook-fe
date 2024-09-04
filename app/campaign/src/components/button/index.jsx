@@ -1,4 +1,4 @@
-import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { cn } from '@/utils/conf';
 
 const clsMap = {
@@ -30,7 +30,7 @@ export default function Button({
       {...props}
     >
       {props.children}
-      {loading && <Spin className="ml-2" />}
+      {loading && <LoadingOutlined className="ml-2" />}
     </button>
   );
 }
