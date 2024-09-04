@@ -2,7 +2,12 @@ import { message } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import useCampaignQuery from '@/hooks/useCampaignQuery';
 import { useState, useMemo, useCallback } from 'react';
-import { claimCampaign, getNftClaimInfo, updateClaimed } from '@/api/incentive';
+import {
+  claimCampaign,
+  getNftClaimInfo,
+  updateClaimed,
+  claimSBT,
+} from '@/api/incentive';
 import { useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { useAccount, useSwitchNetwork } from 'wagmi';
@@ -28,6 +33,7 @@ import { credentialStatus } from '@/utils/conf';
 
 export default function ViewReward({ open, onClose, rewardList }) {
   const [loading, updateLoading] = useState(false);
+  const [messageAPI, messageContext] = message.useMessage();
   const { data: supportChains = [] } = useSupportedChains({
     enabled: rewardList.some((v) => v.type === 'nft'),
   });
@@ -81,7 +87,7 @@ export default function ViewReward({ open, onClose, rewardList }) {
         await switchNetworkAsync(nft.chainId);
       }
       if (nft.chainId != getNetwork().chain?.id) {
-        message.error('wrong network, please switch in your wallet');
+        messageAPI.error('wrong network, please switch in your wallet');
         return;
       }
       const currentInfo = supportChains.find((c) => c.chainId == nft.chainId);
@@ -116,9 +122,9 @@ export default function ViewReward({ open, onClose, rewardList }) {
         error.shortMessage &&
         error.shortMessage.indexOf('Already minted') >= 0
       ) {
-        message.error('Claim failed: Already minted');
+        messageAPI.error('Claim failed: Already minted');
       } else {
-        message.error('Claim failed');
+        messageAPI.error('Claim failed');
       }
       console.log(error);
       updateLoading(false);
@@ -128,12 +134,15 @@ export default function ViewReward({ open, onClose, rewardList }) {
   const handleClaimSbt = async (reward) => {
     updateLoading(true);
     try {
-      console.log('handleClaimSBT');
-      // const sbtLink = await claimCampaign(reward.groupId);
-      const sbtLink = '';
-      WebApp.openLink(sbtLink, { try_instant_view: true });
+      const res = await claimSBT(reward.sbtId);
+      if (res?.link) {
+        WebApp.openLink(res?.link, { try_instant_view: true });
+      } else {
+        messageAPI.error(res?.message ?? 'mint unkonwn error!');
+      }
     } catch (error) {
       console.log(error);
+      messageAPI.error(error.message ?? 'mint unkonwn error!');
     }
     updateLoading(false);
   };
@@ -234,6 +243,7 @@ export default function ViewReward({ open, onClose, rewardList }) {
           </div>
         </div>
       </div>
+      {messageContext}
     </Drawer>
   );
 }

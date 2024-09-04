@@ -312,6 +312,9 @@ export const getSBTList = async function () {
 export const mintSBT = async function () {
   return await request.Get(`${host}/wiseScore/mint`);
 };
+export const claimSBT = async function (sbtId) {
+  return await request.Get(`${host}/campaignNew/claimSBT/${sbtId}`);
+};
 export const applyAmbassador = async function () {
   // return await request.Post(`${host}/wiseScore/applyAmbassador`);
   return new Promise((resolve) => {
