@@ -147,7 +147,7 @@ export default function () {
             return {
               name: category,
               children: (
-                <>
+                <div className="space-y-2 lg:space-y-3">
                   {group.map((g, i) => (
                     <GroupCard
                       key={i}
@@ -157,7 +157,7 @@ export default function () {
                       isDefi={isDefi}
                     />
                   ))}
-                </>
+                </div>
               ),
               isFinished: isFinished,
             };
