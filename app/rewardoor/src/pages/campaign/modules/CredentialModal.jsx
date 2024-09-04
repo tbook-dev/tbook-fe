@@ -62,7 +62,7 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
           values.credential.map(async (c) => {
             const res = await parseLinkParams({
               ...c,
-              url: c.link,
+              url: c.url ?? c.link,
               labelType: c.labelType,
             });
             if (res.code === 200) {

@@ -16,7 +16,7 @@ export default {
     render: ({ name }) => {
       return (
         <FormItem
-          label='Tweet Link'
+          label="Tweet Link"
           name={[name, 'link']}
           rules={[
             {
@@ -30,7 +30,7 @@ export default {
             },
           ]}
         >
-          <Input placeholder='Paste tweet link here!' />
+          <Input placeholder="Paste tweet link here!" />
         </FormItem>
       );
     },
@@ -40,7 +40,7 @@ export default {
     render: ({ name }) => {
       return (
         <FormItem
-          label='Tweet Link'
+          label="Tweet Link"
           name={[name, 'link']}
           rules={[
             {
@@ -54,7 +54,7 @@ export default {
             },
           ]}
         >
-          <Input placeholder='Paste tweet link here!' />
+          <Input placeholder="Paste tweet link here!" />
         </FormItem>
       );
     },
@@ -64,7 +64,7 @@ export default {
     render: ({ name }) => {
       return (
         <FormItem
-          label='Tweet Link'
+          label="Tweet Link"
           name={[name, 'link']}
           rules={[
             {
@@ -78,7 +78,7 @@ export default {
             },
           ]}
         >
-          <Input placeholder='Paste tweet link here!' />
+          <Input placeholder="Paste tweet link here!" />
         </FormItem>
       );
     },
@@ -88,7 +88,7 @@ export default {
     render: ({ name }) => {
       return (
         <FormItem
-          label='Tweet Space Link'
+          label="Tweet Space Link"
           name={[name, 'link']}
           rules={[
             {
@@ -102,7 +102,7 @@ export default {
             },
           ]}
         >
-          <Input placeholder='Paste twitter space link here!' />
+          <Input placeholder="Paste twitter space link here!" />
         </FormItem>
       );
     },
@@ -113,22 +113,22 @@ export default {
   4: {
     render: ({ name }) => {
       return (
-        <div className='space-y-3'>
+        <div className="space-y-3">
           <Invitebot
             botLink={dcBotLink}
-            inviteHelpLink='https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord'
+            inviteHelpLink="https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord"
           />
 
           <FormItem
-            label='Server Invite Link'
+            label="Server Invite Link"
             tooltip={{
               title: (
-                <div className='rounded-2.5xl p-4 relative space-y-2'>
-                  <p className='text-sm font-medium'>
+                <div className="rounded-2.5xl p-4 relative space-y-2">
+                  <p className="text-sm font-medium">
                     It has to be a never expire and no max number of users
                     limitation invite link.
                   </p>
-                  <img src={dcInviteImg} alt='dc bot invite img' />
+                  <img src={dcInviteImg} alt="dc bot invite img" />
                 </div>
               ),
               overlayInnerStyle: {
@@ -148,7 +148,7 @@ export default {
               },
             ]}
           >
-            <Input placeholder='https://discord.gg/xxxx!' />
+            <Input placeholder="https://discord.gg/xxxx!" />
           </FormItem>
         </div>
       );
@@ -167,14 +167,14 @@ export default {
         }
       }, [remoteRoles]);
       return (
-        <div className='space-y-3'>
+        <div className="space-y-3">
           <Invitebot
             botLink={dcBotLink}
-            inviteHelpLink='https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord'
+            inviteHelpLink="https://app.gitbook.com/o/XmLEuzCUK0IIbhY5X44k/s/xLOTfURQ4EC9jmYQjFob/how-to-get-role-id-in-discord"
           />
 
           <FormItem
-            label='Server Invite Link'
+            label="Server Invite Link"
             name={[name, 'link']}
             rules={[
               {
@@ -188,10 +188,10 @@ export default {
               },
             ]}
           >
-            <Input placeholder='https://discord.gg/xxxx!' />
+            <Input placeholder="https://discord.gg/xxxx!" />
           </FormItem>
           <FormItem
-            label='Role'
+            label="Role"
             name={[name, 'roleId']}
             rules={[
               {
@@ -199,15 +199,15 @@ export default {
                 message: 'Please input valid value!',
               },
             ]}
-            tooltip='If multiple roles selected, then user can verify the credential as long as they have any one of those roles.'
+            tooltip="If multiple roles selected, then user can verify the credential as long as they have any one of those roles."
           >
             <SelectWraper
               notFoundContent={
-                isLoading ? <Spin size='small' className='ml-3' /> : null
+                isLoading ? <Spin size="small" className="ml-3" /> : null
               }
-              mode='multiple'
+              mode="multiple"
               options={remoteRoles}
-              placeholder='Select role after you input the valid Server Link'
+              placeholder="Select role after you input the valid Server Link"
             />
           </FormItem>
         </div>
@@ -220,20 +220,20 @@ export default {
   6: {
     render: ({ name }) => {
       return (
-        <div className='space-y-3'>
-          <div className='text-sm font-medium text-c-9'>
+        <div className="space-y-3">
+          <div className="text-sm font-medium text-c-9">
             <p>Add TBOOK support bot as an admin to your group</p>
             <a
-              href='https://t.me/tbook_sign_bot'
-              className='underline text-[#1D9BF0]'
-              target='_blank'
+              href="https://t.me/tbook_sign_bot"
+              className="underline text-[#1D9BF0]"
+              target="_blank"
             >
               Invite bot
             </a>
           </div>
           <FormItem
-            label='Group Invite Link'
-            name={[name, 'link']}
+            label="Group Invite Link"
+            name={[name, 'url']}
             rules={[
               {
                 required: true,
@@ -246,30 +246,30 @@ export default {
               },
             ]}
           >
-            <Input placeholder='Please paste the invite link to your telegram group' />
+            <Input placeholder="Please paste the invite link to your telegram group" />
           </FormItem>
         </div>
       );
     },
-    pick: ['link'],
+    pick: ['url'],
   },
   7: {
     render: ({ name }) => {
       return (
-        <div className='space-y-3'>
-          <div className='text-sm font-medium text-c-9'>
+        <div className="space-y-3">
+          <div className="text-sm font-medium text-c-9">
             <p>Add TBOOK support bot as an admin to your channel</p>
             <a
-              href='https://t.me/tbook_sign_bot'
-              className='underline text-[#1D9BF0]'
-              target='_blank'
+              href="https://t.me/tbook_sign_bot"
+              className="underline text-[#1D9BF0]"
+              target="_blank"
             >
               Invite bot
             </a>
           </div>
           <FormItem
-            label='Channel Invite Link'
-            name={[name, 'link']}
+            label="Channel Invite Link"
+            name={[name, 'url']}
             rules={[
               {
                 required: true,
@@ -282,11 +282,11 @@ export default {
               },
             ]}
           >
-            <Input placeholder='Please paste the invite link to your telegram channel' />
+            <Input placeholder="Please paste the invite link to your telegram channel" />
           </FormItem>
         </div>
       );
     },
-    pick: ['link'],
+    pick: ['url'],
   },
 };

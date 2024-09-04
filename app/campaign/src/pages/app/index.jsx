@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import useUserInfo from '@/hooks/useUserInfoQuery';
 import useCampaignQuery from '@/hooks/useCampaignQuery';
 import RichMore from '@/components/textMore/rich';
 import { Skeleton } from 'antd';
-import { useDispatch } from 'react-redux';
 import LazyImage from '@/components/lazyImage';
 import { formatStandard } from '@tbook/utils/lib/conf';
 import { useLoaderData } from 'react-router-dom';
@@ -149,7 +147,7 @@ export default function () {
             return {
               name: category,
               children: (
-                <>
+                <div className="space-y-2 lg:space-y-3">
                   {group.map((g, i) => (
                     <GroupCard
                       key={i}
@@ -159,7 +157,7 @@ export default function () {
                       isDefi={isDefi}
                     />
                   ))}
-                </>
+                </div>
               ),
               isFinished: isFinished,
             };

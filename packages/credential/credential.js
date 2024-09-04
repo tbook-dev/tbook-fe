@@ -184,6 +184,6 @@ export default [
     picUrl: EVAAWhite,
     groupType: 8,
     picUrl2: EVAABlack,
-    name: 'Borrow USDT',
+    category: 'Lending',
   },
 ];
