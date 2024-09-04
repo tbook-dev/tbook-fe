@@ -56,7 +56,7 @@ export default function Credential({ credential, showVerify }) {
   const { data: votes = [] } = useUserVotes(
     snapshotId,
     evmAddress,
-    credential.isVerified
+    credential.isVerified === 1
   );
   const unikey = `localkey-${user?.userId}-${credential?.credentialId}`;
   const { isConnected } = useAccount();
@@ -116,7 +116,7 @@ export default function Credential({ credential, showVerify }) {
     }
     try {
       const res = await verifyCredential(credential.credentialId);
-      if (res.isVerified) {
+      if (res.isVerified === 1) {
         hasError = false;
         await queryClient.refetchQueries(['campaignDetail', campaignId, true]);
       } else {
