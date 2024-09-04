@@ -162,7 +162,7 @@ export const credentialStatus = [
     name: 'Ineligible',
     value: 0,
     tip: '',
-    title: (name) => `${name} is eligible!`,
+    title: (name) => `${name} is Ineligible!`,
   },
   {
     name: 'Eligible',
