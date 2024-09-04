@@ -14,21 +14,20 @@ import {
 } from '@tbook/credential';
 import credentialMap from '@/components/credential/form';
 import { merge, pick } from 'lodash';
-
 const title = 'Set Up Credential Group';
 const placeholder = 'Enter Credential Title to search for Cred';
 const titleGroup = 'Edit Credential Group';
 const emptyPrompt = 'The selected credential will be displayed here.';
-
-export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
+export default function CredentialModal({ open, setOpen, handleSave, conf }) {
   const [api, contextHolder] = notification.useNotification();
 
   const [confirmaLoading, setConfirmaLoading] = useState(false);
   const [form] = Form.useForm();
   const [searchVal, setSearchVal] = useState('');
   const credentialsFormValues = Form.useWatch('credential', form);
-  const credentialSet = credentialList.map(c => {
-    const category = categoryList.find(v => v.groupType === c.groupType) || {};
+  const credentialSet = credentialList.map((c) => {
+    const category =
+      categoryList.find((v) => v.groupType === c.groupType) || {};
     return {
       ...c,
       groupType: category.groupType,
@@ -37,12 +36,12 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
   });
 
   const formatCredential = categoryList
-    .map(v => {
+    .map((v) => {
       return {
         id: v.groupType,
         groupType: v.groupType,
         name: v.name,
-        credentialList: credentialList.filter(c => {
+        credentialList: credentialList.filter((c) => {
           return (
             c.groupType === v.groupType &&
             c?.name.toLowerCase().includes(searchVal?.toLowerCase()?.trim())
@@ -50,18 +49,17 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
         }),
       };
     })
-    .filter(v => v.credentialList.length > 0);
+    .filter((v) => v.credentialList.length > 0);
 
   // console.log({ formatCredential });
   const handleOk = async () => {
     form
       .validateFields()
-      .then(async values => {
+      .then(async (values) => {
         setConfirmaLoading(true);
         // parse
         const parseResult = await Promise.all(
-          values.credential.map(async c => {
-            // console.log(values, c, '--->');
+          values.credential.map(async (c) => {
             const res = await parseLinkParams({
               ...c,
               url: c.link,
@@ -84,9 +82,9 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
           })
         );
         // format
-        values.credential = parseResult.map(v => {
+        values.credential = parseResult.map((v) => {
           const credential = credentialSet.find(
-            n => n.labelType === v.labelType
+            (n) => n.labelType === v.labelType
           );
           return {
             ...v,
@@ -99,7 +97,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
         setConfirmaLoading(false);
         closeModal();
       })
-      .catch(err => {
+      .catch((err) => {
         // console.log(err);
         // form.setFields([
         //   {
@@ -117,7 +115,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
     if (open) {
       const useDefaultValue = conf?.length === 0;
       form.setFieldsValue({
-        credential: useDefaultValue ? [] : conf.map(c => merge(c, c.options)),
+        credential: useDefaultValue ? [] : conf.map((c) => merge(c, c.options)),
       });
     }
   }, [open]);
@@ -131,7 +129,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
     <Modal
       width={1160}
       title={
-        <div className='text-2xl font-black font-zen-dot pt-3'>{title}</div>
+        <div className="text-2xl font-black font-zen-dot pt-3">{title}</div>
       }
       open={open}
       onCancel={closeModal}
@@ -139,24 +137,24 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
       maskClosable={false}
       centered
       footer={
-        <div className='flex justify-end' onClick={handleOk}>
-          <Button type='primary' loading={confirmaLoading}>
+        <div className="flex justify-end" onClick={handleOk}>
+          <Button type="primary" loading={confirmaLoading}>
             Save
           </Button>
         </div>
       }
     >
-      <div className='pt-8 grid grid-cols-2 gap-x-10'>
+      <div className="pt-8 grid grid-cols-2 gap-x-10">
         <div>
-          <div className='relative mb-5'>
+          <div className="relative mb-5">
             <Input
-              type='text'
+              type="text"
               placeholder={placeholder}
-              className='pr-8 pl-4'
+              className="pr-8 pl-4"
               value={searchVal}
-              onChange={e => setSearchVal(e.target.value)}
+              onChange={(e) => setSearchVal(e.target.value)}
             />
-            <div className='absolute inset-y-0 right-1 flex items-center cursor-pointer'>
+            <div className="absolute inset-y-0 right-1 flex items-center cursor-pointer">
               <img src={SearchIcon} />
             </div>
           </div>
@@ -164,23 +162,23 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
           <div>
             <Tabs
               defaultActiveKey={credentialList?.[0]?.id}
-              items={formatCredential.map(v => {
+              items={formatCredential.map((v) => {
                 return {
                   key: v.id,
-                  label: <span className='capitalize'>{v.name}</span>,
+                  label: <span className="capitalize">{v.name}</span>,
                   children: (
-                    <div className='flex flex-wrap gap-x-4 gap-y-5 select-none'>
-                      {v.credentialList?.map(c => {
+                    <div className="flex flex-wrap gap-x-4 gap-y-5 select-none">
+                      {v.credentialList?.map((c) => {
                         return (
                           <div
                             key={c.labelType}
-                            className='px-4 py-2.5 rounded-2.5xl bg-gray flex items-center gap-x-2 cursor-pointer hover:opacity-70'
+                            className="px-4 py-2.5 rounded-2.5xl bg-gray flex items-center gap-x-2 cursor-pointer hover:opacity-70"
                             onClick={() => {
                               form.setFieldsValue({
                                 credential: [
                                   ...(form.getFieldValue('credential') ?? []),
                                   credentialSet.find(
-                                    v => v.labelType === c.labelType
+                                    (v) => v.labelType === c.labelType
                                   ),
                                 ],
                               });
@@ -188,7 +186,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                           >
                             <img
                               src={c.picUrl || x}
-                              className='w-5 h-5 object-contain'
+                              className="w-5 h-5 object-contain"
                             />
                             {c.name}
                             <PlusOutlined />
@@ -203,10 +201,10 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
           </div>
         </div>
         <div>
-          <h2 className='text-xl font-black text-t-1 mb-5'>{titleGroup}</h2>
-          <Form form={form} layout='vertical'>
+          <h2 className="text-xl font-black text-t-1 mb-5">{titleGroup}</h2>
+          <Form form={form} layout="vertical">
             <Form.List
-              name='credential'
+              name="credential"
               // rules={[
               //   {
               //     validator: async (x, values) => {
@@ -217,13 +215,13 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
             >
               {(fields, { remove }) => {
                 return (
-                  <div className='space-y-3'>
+                  <div className="space-y-3">
                     {fields.length > 0 ? (
                       fields.map(({ key, name, ...restField }) => {
                         const currentLabelType =
                           credentialsFormValues?.[name]?.labelType;
                         const credential = credentialSet.find(
-                          v => v.labelType === currentLabelType
+                          (v) => v.labelType === currentLabelType
                         );
                         const CC =
                           credentialMap[currentLabelType]?.render ??
@@ -232,20 +230,20 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                         return (
                           <div
                             key={key}
-                            className='px-4 py-2.5 rounded-2.5xl bg-gray relative'
+                            className="px-4 py-2.5 rounded-2.5xl bg-gray relative space-y-3"
                           >
                             <img
                               src={closeIcon}
-                              className='absolute right-4 top-4 w-2 h-2 object-contain cursor-pointer'
+                              className="absolute right-4 top-4 w-2 h-2 object-contain cursor-pointer"
                               onClick={() => remove(name)}
                             />
                             <div>
-                              <div className='flex items-center gap-x-2 mb-3'>
+                              <div className="flex items-center gap-x-2">
                                 <img
                                   src={credential.picUrl || x}
-                                  className='w-5 h-5 object-contain'
+                                  className="w-5 h-5 object-contain"
                                 />
-                                <p className='text-t-1 text-sm font-medium'>
+                                <p className="text-t-1 text-sm font-medium">
                                   {credential.name}
                                 </p>
                               </div>
@@ -261,7 +259,7 @@ export default function CredentialModal ({ open, setOpen, handleSave, conf }) {
                         );
                       })
                     ) : (
-                      <div className='h-20 rounded-2.5xl flex items-center justify-center bg-gray text-center'>
+                      <div className="h-20 rounded-2.5xl flex items-center justify-center bg-gray text-center">
                         {emptyPrompt}
                       </div>
                     )}

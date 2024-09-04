@@ -15,4 +15,8 @@ export default [
     groupType: 7,
     name: 'Submit',
   },
+  {
+    groupType: 8,
+    name: 'Defi',
+  },
 ];

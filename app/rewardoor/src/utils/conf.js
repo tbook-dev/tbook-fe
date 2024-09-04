@@ -1,6 +1,8 @@
 import opIcon from '@/images/icon/crypto/op.svg';
 import pointIcon from '@/images/icon/point.svg';
 import nftIcon from '@/images/icon/nft.svg';
+import sbtIcon from '@/images/icon/sbt.svg';
+
 import fcfsIcon from '@/images/icon/fcfs.svg';
 import ldIcon from '@/images/icon/ld.svg';
 // Small utility to merge class names.
@@ -16,6 +18,7 @@ const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
 export const incentiveAssetsTypeList = [
   { label: '🎁  NFT', icon: nftIcon, text: 'NFT', value: 1 },
   { label: '💎 POINTS', icon: pointIcon, text: 'Points', value: 2 },
+  { label: '💎 SBT', icon: sbtIcon, text: 'SBT', value: 3 },
 ];
 
 export const rewardDistributionMethod = [

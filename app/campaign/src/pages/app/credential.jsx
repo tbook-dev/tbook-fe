@@ -31,6 +31,7 @@ import DisableVerify from '@/components/withVerify/disableVerify';
 import { useTelegram } from '@/hooks/useTg';
 import { getStrJSON, delay } from '@/utils/common';
 import { useSignMessage } from 'wagmi';
+import { cn } from '@/utils/conf';
 
 export default function Credential({ credential, showVerify }) {
   const { isUsingSubdomain, projectUrl, project } = useLoaderData();
@@ -62,6 +63,7 @@ export default function Credential({ credential, showVerify }) {
   const [count, setCount] = useState(0);
   const clearInterIdRef = useRef();
   const retryCounter = useRef(0);
+  const canVerify = credential.isVerified === 0;
   const hasVoted = useMemo(() => {
     if (!votes) return false;
     return !!votes?.find(
@@ -213,13 +215,23 @@ export default function Credential({ credential, showVerify }) {
   const options = useMemo(() => {
     return getStrJSON(credential.options);
   }, [credential]);
+
+  // console.log({ canVerify });
   return (
-    <div className="border border-[#904BF6] transition-all duration-300 ease-in-out lg:hover:border-[#904BF6] lg:border-[#281545] p-4 rounded-lg bg-linear1 lg:bg-none space-y-5">
+    <div
+      className={cn(
+        'border transition-all duration-300 ease-in-out p-4 rounded-lg lg:bg-none space-y-5 border-white/15',
+        canVerify
+          ? 'text-white hover:border-white'
+          : 'text-white/40 bg-[#CFF469]/5'
+      )}
+    >
       <div className="flex items-start justify-between w-full gap-x-1">
         <Display
           pc={pc}
           labelType={credential.labelType}
           options={options}
+          canVerify={canVerify}
           clickHandle={
             typeof taskMap[credential.labelType] === 'function'
               ? taskMap[credential.labelType]
@@ -227,7 +239,7 @@ export default function Credential({ credential, showVerify }) {
           }
         />
         {credential.isVerified === 1 ? (
-          <span className="flex-none flex items-center gap-x-1 text-md whitespace-nowrap">
+          <span className="flex-none flex items-center gap-x-1 text-[#CFF469] text-md whitespace-nowrap">
             <VerifyStatus status={verifyStatusEnum.Sucess} />
             Verified
           </span>
@@ -238,6 +250,7 @@ export default function Credential({ credential, showVerify }) {
             <WithVerify
               handleFn={() => handleVerify(credential)}
               evmRequire={!!project?.evmRequire || labelType === 10}
+              tvmRequire={!!project?.tvmRequire}
               credentialType={credentialType}
               credential={credential}
               taskHandle={taskMap[credential.labelType]}

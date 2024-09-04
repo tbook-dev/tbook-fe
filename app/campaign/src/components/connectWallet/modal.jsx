@@ -56,7 +56,7 @@ export default function Modal ({ children, open, onCancel, title, logout }) {
           <div className='fixed inset-0 overflow-hidden'>
             <div
               className={clsx('absolute inset-0 overflow-hidden', {
-                'bg-black/[0.8]': userLogined,
+                'bg-black/[0.8]': !pc,
               })}
             >
               <div

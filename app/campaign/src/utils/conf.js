@@ -1,5 +1,6 @@
 import pointIcon from '@/images/icon/point.svg';
 import nftIcon from '@/images/icon/nft.svg';
+import sbtIcon from '@/images/icon/nft.svg';
 import fcfsIcon from '@/images/icon/fcfs.svg';
 import ldIcon from '@/images/icon/ld.svg';
 import { clsx } from 'clsx';
@@ -12,6 +13,7 @@ export function cn(...inputs) {
 export const incentiveAssetsTypeList = [
   { icon: nftIcon, text: 'NFT', value: 1 },
   { icon: pointIcon, text: 'POINTS', value: 2 },
+  { icon: sbtIcon, text: 'SBT', value: 3 },
 ];
 
 export const rewardDistributionMethod = [
@@ -157,79 +159,44 @@ export const getCrenditialType = (labelType) => {
 // 结束点为活动结束时间
 export const credentialStatus = [
   {
-    label: 'Ineligible',
     name: 'Ineligible',
     value: 0,
-    bgColor: '#fff',
-    color: '#000',
-    desc: 'You will know if you are selected when the campaign closes.',
-    showTimeClock: true,
-    comment: '任务未完成认证',
-    showBtn: false,
-    showTips: true, // 展示luck draw
+    tip: '',
+    title: (name) => `${name} is eligible!`,
   },
   {
-    label: 'Eligible',
     name: 'Eligible',
     value: 1,
-    bgColor: '#fff',
-    color: '#000',
-    desc: 'You will know if you could claim this reward after the campaign is closed.',
-    showTimeClock: true,
-    comment: '已完成等待抽奖',
-    showBtn: false,
-    showTips: true,
+    title: (name) => `${name} is eligible!`,
+    tip: '',
+    showButton: true,
   },
+  // {
+  // label: 'Claim',
+  // name: 'Claim不可点击',
+  // value: 2, //目前没有白名单了，这个保留但是逻辑上不会显示
+  //  'You could claim your reward after whitelist updated.',
+  // },
   {
-    label: 'Claim',
-    name: 'Claim不可点击',
-    value: 2, //目前没有白名单了，这个保留但是逻辑上不会显示
-    bgColor: '#fff',
-    color: '#000',
-    desc: 'You could claim your reward after whitelist updated.',
-    showTimeClock: false,
-    comment: 'waiting',
-    showBtn: true,
-    showTips: false,
-  },
-  {
-    label: 'Claim',
     name: 'Claim可点击',
-    value: 3,
-    bgColor: '#fff',
-    color: '#000',
-    desc: '',
-    showTimeClock: false,
-    comment: 'claimable',
-    loadingBtn: 'Claiming...',
-    loadingText: 'We are checking your claiming status.',
-    showBtn: true,
-    showTips: false,
+    value: 3, //在抽奖当中
+    tip: "Let's see if you're one of the winners after the draw.",
+    title: (name) => `${name} is eligible!`,
+    showButton: false,
   },
   {
-    label: 'You have claimed this reward 🎉',
     name: 'Claimed',
     value: 4,
-    bgColor: 'transparent',
-    color: '#65C467',
-    desc: '🎉🎉🎉 Successfully claimed',
-    showTimeClock: false,
-    comment: 'Claimed',
-    showBtn: false,
-    showTips: false,
+    tip: 'You claimed your reward! 🎉',
+    title: () => 'Awesome!',
+    showButton: false,
   },
   {
-    label: 'Missed',
     name: 'Missed',
     value: 5,
-    bgColor: '#fff',
-    color: '#000',
-    desc: 'You missed the reward according to the distribution method.',
-    showTimeClock: false,
-    comment: 'missed未获取',
-    showBtn: false,
-    showTips: false,
-    // nft置灰
+    tip: 'Miss the reward this time.\n More explore, better luck next time!',
+    title: () => 'Almost there!',
+    showButton: false,
   },
 ];
 

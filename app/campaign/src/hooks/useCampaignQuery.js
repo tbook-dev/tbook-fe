@@ -1,15 +1,21 @@
 import { useQuery } from 'react-query';
-import { getCampaignDetail, getTaskSign } from '@/api/incentive';
+import { getCampaignDetail, getTaskSign, logUserReport } from '@/api/incentive';
 import { useEffect, useState } from 'react';
 import useUserInfoQuery from './useUserInfoQuery';
 import { merge } from 'lodash';
+import { credential } from '@tbook/credential';
 
 const notStartList = [2, 0];
 const endList = [3, 4, 5];
 
 export default function useCampaignQuery(campaignId) {
   const [firstLoad, setFirstLoad] = useState(false);
-  const { userLogined, firstLoad: userLoaded } = useUserInfoQuery();
+  const {
+    userLogined,
+    user,
+    twitterConnected,
+    firstLoad: userLoaded,
+  } = useUserInfoQuery();
   const { isLoading, data, isError, ...props } = useQuery(
     ['campaignDetail', `${campaignId}`, userLogined],
     () => getCampaignDetail(campaignId),
@@ -26,6 +32,37 @@ export default function useCampaignQuery(campaignId) {
   const campaignDeleted = page?.code === 204;
   const compaignNotExist = page?.code === 404;
   const campaignUnavailable = campaignDeleted || compaignNotExist || isError;
+  const hasDefi = page?.groups
+    ?.map((v) => v.credentialList)
+    .flat()
+    .some((v) => 8 === v.groupType);
+  const isDefi = page?.groups?.every((v) =>
+    v?.credentialList?.some((c) => 8 === c.groupType)
+  );
+  const groupList =
+    page?.groups
+      ?.map((group) => {
+        const firstDefi = group.credentialList.find((v) => v.groupType === 8);
+        const defaultCategory =
+          group.credentialList[0].category ?? group.credentialList[0].labelType;
+        const category = firstDefi
+          ? credential.find((c) => c.labelType === firstDefi.labelType)
+              ?.category
+          : defaultCategory;
+        return {
+          ...group,
+          firstCategory: category,
+        };
+      })
+      .reduce((acc, cur) => {
+        const savedKeys = acc.map((c) => c[0] ?? []);
+        if (savedKeys.includes(cur.firstCategory)) {
+          acc[savedKeys.indexOf(cur.firstCategory)][1].push(cur);
+        } else {
+          acc.push([cur.firstCategory, [cur]]);
+        }
+        return acc;
+      }, []) ?? [];
 
   useEffect(() => {
     if (!firstLoad && !isLoading) {
@@ -34,11 +71,27 @@ export default function useCampaignQuery(campaignId) {
     }
   }, [isLoading]);
 
+  useEffect(() => {
+    if (userLogined && campaignOngoing && user?.userId) {
+      const key = `logUserCampaign-${user?.userId}-${campaignId}`;
+      if (!localStorage.getItem(key)) {
+        logUserReport({
+          userId: user?.userId,
+          campaignId,
+          address: user?.wallet,
+          isTwitterLogin: twitterConnected,
+        });
+        localStorage.setItem(key, '1');
+      }
+    }
+  }, [userLogined, campaignOngoing, user]);
   return {
     ...props,
     data: page,
-
+    hasDefi,
+    isDefi,
     firstLoad,
+    groupList,
     isLoading: !userLoaded || isLoading,
     campaignNotStart,
     campaignEnd,

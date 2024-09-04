@@ -140,7 +140,7 @@ export const authDcCallback = async function () {
 };
 
 export const getNFTSupportedChains = async function () {
-  return await request(`${host}/nft/supportedChains`);
+  return await request.Get(`${host}/nft/supportedChains`);
 };
 
 export const bindEvm = async function (address, sign) {
