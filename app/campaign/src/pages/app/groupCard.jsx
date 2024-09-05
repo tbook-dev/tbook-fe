@@ -124,7 +124,7 @@ const GroupCard = ({ group, index, showVerify }) => {
                 </div>
                 <div
                   className={cn(
-                    isDark ? 'bg-[#12172F]/10' : 'bg-white',
+                    isDark ? 'bg-[#12172F]/10' : 'bg-white/10',
                     'h-2 relative calc(100%_-_40px) rounded-full'
                   )}
                 >
