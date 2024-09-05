@@ -1,13 +1,11 @@
-import dataJSON from '@/images/social/verified.json';
 import verifiedSvg from '@/images/social/verified.svg';
-import { lazy, Suspense } from 'react';
+import { LoadingOutlined } from '@ant-design/icons';
 
 export const verifyStatusEnum = {
   NotStarted: 0,
   Pending: 1,
   Sucess: 2,
 };
-const Lottie = lazy(() => import('lottie-react'));
 
 export default function VerifyStatus({ status }) {
   return (
@@ -28,14 +26,7 @@ export default function VerifyStatus({ status }) {
       )}
 
       {status === verifyStatusEnum.Pending && (
-        <Suspense>
-          <Lottie
-            loop
-            autoplay={true}
-            animationData={dataJSON}
-            style={{ height: '24px', width: '24px' }}
-          />
-        </Suspense>
+        <LoadingOutlined className="size-4" />
       )}
 
       {status === verifyStatusEnum.Sucess && (

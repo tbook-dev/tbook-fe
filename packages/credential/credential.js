@@ -147,6 +147,14 @@ export default [
     category: 'Lending',
   },
   {
+    name: 'Supply tsTON or stTON',
+    labelType: 21,
+    picUrl: EVAAWhite,
+    groupType: 8,
+    picUrl2: EVAABlack,
+    category: 'Lending',
+  },
+  {
     name: 'Provide Liquidity for TON + USDT or ts/stTON + USDT',
     labelType: 17,
     picUrl: tonfiWhite,
@@ -177,13 +185,5 @@ export default [
     groupType: 8,
     picUrl2: stormtradeBlack,
     category: 'Storm Trade',
-  },
-  {
-    name: 'Supply tsTON or stTON',
-    labelType: 21,
-    picUrl: EVAAWhite,
-    groupType: 8,
-    picUrl2: EVAABlack,
-    category: 'Lending',
   },
 ];
