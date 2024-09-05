@@ -71,7 +71,7 @@ export default function () {
         </a>
       )}
 
-      <section className="overflow-hidden mb-16 lg:flex lg:justify-between lg:gap-x-[80px]">
+      <section className="overflow-hidden mb-10 lg:mb-16 lg:flex lg:justify-between lg:gap-x-[80px]">
         <div className="relative w-full h-[172px] lg:w-[566px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center">
           <TMAShare data={[1, projectUrl, campaignId]} />
 
@@ -98,7 +98,7 @@ export default function () {
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <div className="flex items-center gap-x-1 text-sm font-sf">
                   <ParticipantIcon />
                   <span className="me-0.5">
@@ -123,6 +123,10 @@ export default function () {
                       : null
                   }
                 />
+
+                {hasDefi && (
+                  <div className="text-sm text-white/60">{defiTip}</div>
+                )}
               </div>
             </>
           )}
@@ -134,9 +138,7 @@ export default function () {
           <Skeleton />
         </div>
       )}
-      {hasDefi && (
-        <div className="text-sm text-white/60 px-4 lg:px-0">{defiTip}</div>
-      )}
+
       <section className="px-4 lg:px-0">
         <Timeline
           showProcess={isDefi}
