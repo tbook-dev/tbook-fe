@@ -349,3 +349,7 @@ export const getAmbassadorLevels = async function () {
   const res = await request.Get(`${host}/vanguard/level/config`);
   return Array.isArray(res) ? res.slice(0, 2) : [];
 };
+
+export const getDeFi = async function () {
+  return await request.Get(`${host}/campaignNew/defi`);
+};

@@ -161,9 +161,9 @@ export default function ViewReward({ open, onClose, rewardList }) {
     if (reward.type === 'point') {
       name = `${formatImpact(reward.number)} Pts`;
     } else if (reward.type === 'nft') {
-      name = 'NFT';
+      name = reward.name ?? 'NFT';
     } else if (reward.type === 'sbt') {
-      name = 'SBT';
+      name = reward.name ?? 'SBT';
     }
     return rewardStatus?.title(name);
   }, [reward]);

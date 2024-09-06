@@ -307,6 +307,15 @@ export default function CredentialModal({
                       {rewardType === 3 && (
                         <>
                           <Form.Item
+                            {...restField}
+                            name={[name, 'name']}
+                            label="SBT Name"
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <Input placeholder="Enter SBT Name" />
+                          </Form.Item>
+
+                          <Form.Item
                             label="Activity id"
                             name={[name, 'activityId']}
                             rules={[{ required: true, message: 'Missing!' }]}
