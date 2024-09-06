@@ -22,7 +22,10 @@ function Insights() {
   const { getWallets } = useWallet('ton');
   const { getSocialByName } = useSocial();
   const [ton] = getWallets(['ton']);
-  const [discord, twitter] = [getSocialByName('discord'),getSocialByName('twitter')];
+  const [discord, twitter] = [
+    getSocialByName('discord'),
+    getSocialByName('twitter'),
+  ];
   const [messageApi, contextHolder] = message.useMessage();
   const mutation = useWiseSocialMutation(messageApi);
   const [tgOpen, setTg] = useState(false);
