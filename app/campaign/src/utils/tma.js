@@ -11,6 +11,7 @@ export function safeParse(start_param) {
         type,
         projectUrl: p[0],
         campaignId: p[1],
+        renderLabel: p[2],
       };
     } else if (type === 2) {
       return {
@@ -107,4 +108,4 @@ export const premiumLink = `https://t.me/premium`;
 
 export const stonfi = `https://t.me/ston_app_bot/swap`;
 export const dedustio = `https://t.me/dedustBot/swap`;
-export const realTBook = `https://x.com/realtbook`
+export const realTBook = `https://x.com/realtbook`;
