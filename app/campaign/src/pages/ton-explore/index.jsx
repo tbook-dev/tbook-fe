@@ -19,7 +19,13 @@ export default function TonExplore() {
         setSubpage(true);
         window.sessionRoutesCount -= 1;
         if (type === 1) {
-          navigate(`/${projectUrl}/${campaignId}`);
+          if (p.renderLabel) {
+            navigate(
+              `/${projectUrl}/${campaignId}?renderLabel=${p.renderLabel}`
+            );
+          } else {
+            navigate(`/${projectUrl}/${campaignId}`);
+          }
         } else if (type === 2) {
           navigate(`/${projectUrl}/`);
         } else if (type === 3) {
