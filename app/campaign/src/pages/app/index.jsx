@@ -32,7 +32,7 @@ export default function () {
 
   const { projectUrl } = useLoaderData();
   const [searchParams] = useSearchParams();
-  // usePageFooterTip();
+  usePageFooterTip();
 
   const refBackLink = useMemo(() => {
     const refUnsafeUrl = searchParams && searchParams.get('ref');
