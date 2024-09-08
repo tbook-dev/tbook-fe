@@ -12,6 +12,7 @@ import ViewReward from './viewReward';
 import RewardSwiper from './rewardSwiper';
 import RewardLabels from './rewardLabels';
 import { useSearchParams } from 'react-router-dom';
+import WebApp from '@twa-dev/sdk';
 
 const defiLableTypes = [14, 15, 16, 17, 18, 19, 20];
 
@@ -98,10 +99,17 @@ const GroupCard = ({ group, index, showVerify }) => {
   ];
   const reward = rewardList[displayIdx];
   const hasSbt = rewardList.some((v) => v.type === 'sbt');
-
+  
   useEffect(() => {
     if (searchParams.get('renderLabel') == renderType) {
-      ctxRef.current?.scrollIntoView({ behavior: 'smooth' });
+      if(WebApp.platform === "weba" || WebApp.platform === "webk"){
+        const rect = ctxRef.current.getBoundingClientRect();
+        window.scrollTo({ left: 0, top: window.scrollY + rect.top, behavior: 'smooth' })
+      }else{
+        setTimeout(() => {
+          ctxRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
     }
   }, []);
   return (
@@ -110,7 +118,7 @@ const GroupCard = ({ group, index, showVerify }) => {
         ref={ctxRef}
         className={cn(
           'rounded-2xl overflow-hidden relative shadow-xl lg:flex lg:items-stretch lg:justify-between',
-          bg
+          bg,renderType
         )}
       >
         <div
