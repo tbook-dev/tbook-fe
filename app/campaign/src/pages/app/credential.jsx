@@ -250,7 +250,7 @@ export default function Credential({ credential, showVerify }) {
             <WithVerify
               handleFn={() => handleVerify(credential)}
               evmRequire={!!project?.evmRequire || labelType === 10}
-              tvmRequire={!!project?.tvmRequire}
+              tvmRequire={!!project?.tonRequire}
               credentialType={credentialType}
               credential={credential}
               taskHandle={taskMap[credential.labelType]}

@@ -33,10 +33,11 @@ export function safeParse(start_param) {
   }
 }
 const consoleMap = new Map();
-export const getDirectLink = (data) => {
-  const link = `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
-    JSON.stringify(data)
-  )}`;
+export const getDirectLink = (data, isBot) => {
+  const appLink = `https://t.me/${TG_BOT_NAME}`
+  const encodedData = btoa(JSON.stringify(data))
+  const link = appLink + (isBot ? `?start=camp_${encodedData}` : `/${TG_BOT_APP}?startapp=${encodedData}`);
+
   if (location.search.includes('t=1') && !consoleMap.has(link)) {
     consoleMap.set(link, true);
     console.log('direct tg link --->', link);
@@ -44,10 +45,10 @@ export const getDirectLink = (data) => {
   return link;
 };
 window.getDirectLink = getDirectLink;
-export const getTMAsahreLink = (data) => {
+export const getTMAsahreLink = (data, isBot) => {
   const link = isEmpty(data)
     ? `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}`
-    : getDirectLink(data);
+    : getDirectLink(data, isBot);
   return `https://t.me/share/url?url=${encodeURIComponent(link)}`;
 };
 
