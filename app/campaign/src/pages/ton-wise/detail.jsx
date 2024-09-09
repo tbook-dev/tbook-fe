@@ -40,10 +40,10 @@ export default function TonWiseScore() {
                 <div className="space-y-2">
                   <h2 className="text-sm">DeFi Investment</h2>
                   <div className="text-xs flex items-center gap-x-1">
-                    <div className="font-sf-bold px-2 py-1 rounded bg-[#CFF469]">
+                    <div className="font-bold px-2 py-1 rounded bg-[#CFF469]">
                       TON Investor
                     </div>
-                    <div className="font-sf-bold px-2 py-1 rounded bg-[#F36EBD]">
+                    <div className="font-bold px-2 py-1 rounded bg-[#F36EBD]">
                       SBTs
                     </div>
                     can improve by 10-80K

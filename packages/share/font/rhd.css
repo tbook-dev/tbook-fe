@@ -20,12 +20,12 @@
   src: url(./static/Syne-VariableFont_wght.ttf) format('truetype-variations');
 }
 @font-face {
-  font-family: 'sf';
-  font-weight: 500;
-  src: url(./static/SF-Pro-Display-Medium.ttf) format('truetype'), url(./static/SF-Pro-Display-Medium.otf) format('opentype');
+	src: url('./static/SFNS.woff2') format('woff2-variations');
+	font-family:'sf';
+	font-style: normal;
 }
 @font-face {
-  font-family: 'sf-bold';
-  font-weight: 700;
-  src: url(./static/SF-Pro-Display-Bold.ttf) format('truetype'), url(./static/SF-Pro-Display-Bold.otf) format('opentype');
+	src: url('./static/SFNSItalic.woff2') format('woff2-variations');
+	font-family:'sf';
+	font-style: italic;
 }

@@ -71,7 +71,7 @@ const AmbassadorSwiper = ({
               style={{ color }}
             >
               <div className="flex items-baseline gap-x-2.5">
-                <div className="font-sf font-bold text-3xl">Lv {v.level}</div>
+                <div className=" font-bold text-3xl">Lv {v.level}</div>
                 <Link
                   className="text-xs font-thin flex items-center gap-x-1"
                   to="/wise-score"

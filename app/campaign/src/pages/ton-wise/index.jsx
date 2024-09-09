@@ -60,11 +60,11 @@ function TonWise() {
             className="block p-4 space-y-6 rounded-2xl bg-[#ABEDBB] text-[#22306D] relative overflow-hidden"
           >
             <HotIcon className="absolute right-0 -top-1.5" />
-            <div className="font-sf">
+            <div className="">
               <p>Invest with TON Society.</p>
               <p>WIN SBTs!</p>
             </div>
-            <button className="text-xs font-sf-bold px-2 py-1 rounded-md bg-[#F36EBD]">
+            <button className="text-xs font-bold px-2 py-1 rounded-md bg-[#F36EBD]">
               🔥WIN NOW
             </button>
           </Link>
