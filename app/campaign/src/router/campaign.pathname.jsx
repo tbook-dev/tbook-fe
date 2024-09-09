@@ -34,7 +34,7 @@ const SBTDetail = lazy(() => import('@/pages/ton-wise/sbt-detail'));
 const AmbassadorApply = lazy(() => import('@/pages/ton-wise/ambassador-apply'));
 const Ambassador = lazy(() => import('@/pages/ton-wise/ambassador'));
 const Attestation = lazy(() => import('@/pages/attestation'));
-
+const DeFiGuide = lazy(() => import('@/pages/defi/guide'));
 const getTbookfn = async () => {
   return defaultProjectInfo;
 };
@@ -256,6 +256,15 @@ const routes = [
             ),
           },
         ],
+      },
+      {
+        path: 'defi',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <DeFiGuide />
+          </Suspense>
+        ),
       },
     ],
   },
