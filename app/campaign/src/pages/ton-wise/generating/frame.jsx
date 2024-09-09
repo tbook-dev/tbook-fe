@@ -14,7 +14,7 @@ export default function Frame({
     <div
       className={cn(
         'relative px-4 flex flex-col items-center justify-center h-screen min-h-[570px]',
-        'bg-cover bg-center font-sf-bold',
+        'bg-cover bg-center font-bold',
         className
       )}
       style={style}
@@ -31,10 +31,7 @@ export default function Frame({
         {button ? (
           button
         ) : (
-          <Button
-            className="h-10 w-full mx-auto font-sf-bold"
-            onClick={onClick}
-          >
+          <Button className="h-10 w-full mx-auto font-bold" onClick={onClick}>
             Continue
           </Button>
         )}

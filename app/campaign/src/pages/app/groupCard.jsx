@@ -140,7 +140,7 @@ const GroupCard = ({ group, index, showVerify }) => {
                 isDark ? 'text-[#12172F]' : 'text-white'
               )}
             >
-              <p className={cn('text-base font-sf-bold font-bold')}>
+              <p className={cn('text-base  font-bold')}>
                 {title ? `Complete Tasks On ${title}` : 'Complete Tasks'}
               </p>
               <div className={cn('text-xs space-y-0.5 w-full')}>

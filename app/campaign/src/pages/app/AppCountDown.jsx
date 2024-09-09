@@ -37,7 +37,7 @@ const AppCountdown = ({ status, value }) => {
   const color = colorMap[status];
   const text = textMap[status];
   return (
-    <div className="flex items-center gap-x-1 font-sf-bold">
+    <div className="flex items-center gap-x-1 font-bold">
       <TimeIcon color={color} />
       {status !== 'end' && (
         <Countdown

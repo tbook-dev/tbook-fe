@@ -265,7 +265,7 @@ export default function Generating({ hide }) {
                 <>
                   {ton.connected ? (
                     <Button
-                      className="flex items-center justify-center font-sf-bold text-[#904BF6] gap-x-1.5 h-10 w-full bg-white"
+                      className="flex items-center justify-center font-bold text-[#904BF6] gap-x-1.5 h-10 w-full bg-white"
                       onClick={hide}
                     >
                       View your WISE Credit Credit
