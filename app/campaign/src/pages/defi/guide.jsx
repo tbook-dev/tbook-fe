@@ -7,20 +7,27 @@ import { useCallback } from 'react';
 import { cn } from '@/utils/conf';
 import { preloadBatchImage } from '@/utils/common';
 import Page404 from '@/pages/404';
-import genBg1 from '@/images/wise/gen/bg1.svg';
-preloadBatchImage([genBg1]);
+import Header from '@/layout/ton/HeaderTransparent';
+import Bg1 from '@/images/defi/1.png';
+import Bg2 from '@/images/defi/2.png';
+import Bg3 from '@/images/defi/3.png';
+import Bg4 from '@/images/defi/4.png';
+
+preloadBatchImage([Bg1, Bg2, Bg3, Bg4]);
 const DeFiGuide = () => {
   const { pc } = useResponsive();
   const navigate = useNavigate();
 
   const { data: defi } = useDeFi();
   const handleNav = useCallback(() => {
-    navigate(`/${defi?.projectUrl}/${defi?.campaignId}`);
+    window.sessionRoutesCount -= 1;
+    navigate(`/${defi?.projectUrl}/${defi?.campaignId}`,{ replace: true});
   }, [defi]);
   const [displayIdx, setDisplayIdx] = useState(0);
   const slides = useMemo(() => {
     return [
       {
+        bg: Bg1,
         content: (
           <div className="space-y-3 font-bold">
             <div className="text-lg">
@@ -49,6 +56,7 @@ const DeFiGuide = () => {
         ),
       },
       {
+        bg: Bg2,
         content: (
           <div className="text-3xl font-bold">
             <h2>But you should be </h2>
@@ -63,11 +71,12 @@ const DeFiGuide = () => {
               setDisplayIdx(2);
             }}
           >
-            Continue2
+            Continue
           </Button>
         ),
       },
       {
+        bg: Bg3,
         content: (
           <div className="text-3xl font-bold">
             It's time to <span className="text-[#CFF469] mx-1">DeFi.</span>
@@ -81,11 +90,12 @@ const DeFiGuide = () => {
               setDisplayIdx(3);
             }}
           >
-            Continue3
+            Continue
           </Button>
         ),
       },
       {
+        bg: Bg4,
         content: (
           <div className="space-y-3 font-bold">
             <h2 className="text-lg">In DeFi you can earn more.</h2>
@@ -114,14 +124,15 @@ const DeFiGuide = () => {
   return pc ? (
     <Page404 />
   ) : (
-    <div className="fixed top-0 left-0 inset-0 h-screen overflow-auto">
+    <div className="fixed top-0 left-0 inset-0 z-10 h-screen overflow-auto">
+      <Header />
       <div
         className={cn(
           'relative px-4 flex flex-col items-center justify-center h-screen min-h-[570px]',
           'bg-cover bg-center font-bold'
         )}
         style={{
-          backgroundImage: `url(${genBg1})`,
+          backgroundImage: `url(${CurrentFrame.bg})`,
         }}
       >
         <div className="text-center">{CurrentFrame.content}</div>
