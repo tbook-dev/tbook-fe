@@ -4,18 +4,16 @@ import useCampaignQuery from '@/hooks/useCampaignQuery';
 import RichMore from '@/components/textMore/rich';
 import { Skeleton } from 'antd';
 import LazyImage from '@/components/lazyImage';
-import { formatStandard } from '@tbook/utils/lib/conf';
 import { useLoaderData } from 'react-router-dom';
 import usePageFooterTip from '@/hooks/usePageFooterTip';
 import TMAShare from '@/components/TMAShare';
 import Unavailable from './unavailable';
-import ParticipantIcon from '@/images/icon/svgr/participant.svg?react';
 import Timeline from '@/components/timeline';
 import AppCountDown from './AppCountDown';
 import GroupCard from './groupCard';
 
 const defiTip =
-  'On-chain tasks will take some time to track your transaction. After completing the tasks, you can retry to verify later.';
+  'It may take some time to track your on-chain transactions. After completing the tasks, you can retry to verify later.';
 
 export default function () {
   const { campaignId } = useParams();
@@ -73,7 +71,7 @@ export default function () {
 
       <section className="overflow-hidden mb-3 lg:mb-16 lg:flex lg:justify-between lg:gap-x-[80px]">
         <div className="relative w-full h-[172px] lg:w-[566px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center">
-          <TMAShare data={[1, projectUrl, campaignId]} isBot/>
+          <TMAShare data={[1, projectUrl, campaignId]} isBot text={hasDefi ? defiTip : null}/>
 
           <LazyImage
             src={page?.campaign?.picUrl}

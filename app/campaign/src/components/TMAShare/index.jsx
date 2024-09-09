@@ -2,10 +2,9 @@ import shareIcon from '@/images/icon/share.svg';
 import { getTMAsahreLink } from '@/utils/tma';
 import { useTelegram } from '@/hooks/useTg';
 
-export default function TMAsahreLink ({ data, isBot = false}) {
+export default function TMAsahreLink ({ data, text, isBot = false}) {
   const { isTMA } = useTelegram();
-  const TMAsahreLink = getTMAsahreLink(data, isBot);
-
+  const TMAsahreLink = getTMAsahreLink({ data, text, isBot });
   return (
     isTMA && (
       <a
