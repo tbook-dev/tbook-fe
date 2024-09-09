@@ -45,11 +45,11 @@ export const getDirectLink = (data, isBot) => {
   return link;
 };
 window.getDirectLink = getDirectLink;
-export const getTMAsahreLink = (data, isBot) => {
+export const getTMAsahreLink = ({ data, isBot, text }) => {
   const link = isEmpty(data)
     ? `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}`
     : getDirectLink(data, isBot);
-  return `https://t.me/share/url?url=${encodeURIComponent(link)}`;
+  return `https://t.me/share/url?url=${encodeURIComponent(link)}${text ? `&text=${encodeURIComponent(text)}`: ""}`;
 };
 
 export const supportTMATypes = [
