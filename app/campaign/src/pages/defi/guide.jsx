@@ -27,6 +27,7 @@ const DeFiGuide = () => {
   const slides = useMemo(() => {
     return [
       {
+        className:"pb-[144px]",
         bg: Bg1,
         content: (
           <div className="space-y-3 font-bold">
@@ -95,6 +96,7 @@ const DeFiGuide = () => {
         ),
       },
       {
+        className:"pb-[144px]",
         bg: Bg4,
         content: (
           <div className="space-y-3 font-bold">
@@ -129,7 +131,8 @@ const DeFiGuide = () => {
       <div
         className={cn(
           'relative px-4 flex flex-col items-center justify-center h-screen min-h-[570px]',
-          'bg-cover bg-center font-bold'
+          'bg-cover bg-center font-bold',
+          CurrentFrame.className
         )}
         style={{
           backgroundImage: `url(${CurrentFrame.bg})`,
