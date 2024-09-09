@@ -1,4 +1,4 @@
-import { memo, useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Credential from './credential';
 import { cn } from '@/utils/conf';
 import { motion } from 'framer-motion';
@@ -99,13 +99,17 @@ const GroupCard = ({ group, index, showVerify }) => {
   ];
   const reward = rewardList[displayIdx];
   const hasSbt = rewardList.some((v) => v.type === 'sbt');
-  
+
   useEffect(() => {
     if (searchParams.get('renderLabel') == renderType) {
-      if(WebApp.platform === "weba" || WebApp.platform === "webk"){
+      if (WebApp.platform === 'weba' || WebApp.platform === 'webk') {
         const rect = ctxRef.current.getBoundingClientRect();
-        window.scrollTo({ left: 0, top: window.scrollY + rect.top, behavior: 'smooth' })
-      }else{
+        window.scrollTo({
+          left: 0,
+          top: window.scrollY + rect.top,
+          behavior: 'smooth',
+        });
+      } else {
         setTimeout(() => {
           ctxRef.current?.scrollIntoView({ behavior: 'smooth' });
         }, 100);
@@ -118,7 +122,8 @@ const GroupCard = ({ group, index, showVerify }) => {
         ref={ctxRef}
         className={cn(
           'rounded-2xl overflow-hidden relative shadow-xl lg:flex lg:items-stretch lg:justify-between',
-          bg,renderType
+          bg,
+          renderType
         )}
       >
         <div
@@ -257,4 +262,4 @@ const GroupCard = ({ group, index, showVerify }) => {
   );
 };
 
-export default memo(GroupCard);
+export default GroupCard;
