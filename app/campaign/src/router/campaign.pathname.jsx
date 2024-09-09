@@ -36,6 +36,7 @@ const Ambassador = lazy(() => import('@/pages/ton-wise/ambassador'));
 const Attestation = lazy(() => import('@/pages/attestation'));
 const AirDrop = lazy(() => import('@/pages/airdrop'));
 
+const DeFiGuide = lazy(() => import('@/pages/defi/guide'));
 const getTbookfn = async () => {
   return defaultProjectInfo;
 };
@@ -257,6 +258,15 @@ const routes = [
             ),
           },
         ],
+      },
+      {
+        path: 'defi',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <DeFiGuide />
+          </Suspense>
+        ),
       },
     ],
   },

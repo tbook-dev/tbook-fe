@@ -22,7 +22,7 @@ export default function Button({
     <button
       disabled={loading}
       className={cn(
-        'h-12 px-10 rounded-3xl  hover:opacity-70 flex justify-center items-center',
+        'h-12 px-10 rounded-3xl  lg:hover:opacity-70 flex justify-center items-center',
         clsMap[type],
         disabledClsMap[type],
         className

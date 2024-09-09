@@ -45,7 +45,7 @@ export default function () {
     return <Unavailable projectUrl={projectUrl} />;
   }
   return (
-    <div className="space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-white font-sf">
+    <div className="space-y-2.5 lg:pt-5 lg:w-[1200px] mx-auto pb-16 lg:py-2  text-white">
       {refBackLink && (
         <a
           href={refBackLink}
@@ -71,7 +71,11 @@ export default function () {
 
       <section className="overflow-hidden mb-3 lg:mb-16 lg:flex lg:justify-between lg:gap-x-[80px]">
         <div className="relative w-full h-[172px] lg:w-[566px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center">
-          <TMAShare data={[1, projectUrl, campaignId]} isBot text={hasDefi ? defiTip : null}/>
+          <TMAShare
+            data={[1, projectUrl, campaignId]}
+            isBot
+            text={hasDefi ? defiTip : null}
+          />
 
           <LazyImage
             src={page?.campaign?.picUrl}
@@ -87,11 +91,11 @@ export default function () {
           ) : (
             <>
               <div className="space-y-3 lg:space-y-8">
-                <h2 className="text-2xl lg:text-4xl font-sf-bold">
+                <h2 className="text-2xl lg:text-4xl font-bold">
                   {page?.campaign?.name}
                 </h2>
 
-                <div className="text-sm lg:text-base font-sf mb-5 lg:mb-8 text-white/60">
+                <div className="text-sm lg:text-base  mb-5 lg:mb-8 text-white/60">
                   <RichMore value={page?.campaign?.description} />
                 </div>
               </div>

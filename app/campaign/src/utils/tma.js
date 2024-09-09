@@ -57,8 +57,9 @@ export const supportTMATypes = [
   // 'project',
   // 'wiseScore',
   // 'renaissance',
-  // 'ranger',
-  1, 2, 3, 4, 5,
+  // 'ranger', no longer use
+  // "event defi"
+  1, 2, 3, 4, 5, 6
 ];
 
 export const logoutRedirecrtKey = 'fromlogout';
