@@ -2,17 +2,16 @@ import shareIcon from '@/images/icon/share.svg';
 import { getTMAsahreLink } from '@/utils/tma';
 import { useTelegram } from '@/hooks/useTg';
 
-export default function TMAsahreLink ({ data }) {
+export default function TMAsahreLink ({ data, text, isBot = false}) {
   const { isTMA } = useTelegram();
-  const TMAsahreLink = getTMAsahreLink(data);
-
+  const TMAsahreLink = getTMAsahreLink({ data, text, isBot });
   return (
     isTMA && (
       <a
         href={TMAsahreLink}
-        className='size-10 fixed top-16 right-4 cursor-pointer z-[11] backdrop-blur-md'
+        className='size-10 fixed top-16 right-4 cursor-pointer z-[11]'
       >
-        <img alt='share icon' src={shareIcon} className='size-10' />
+        <img alt='share icon' src={shareIcon} className='size-10 backdrop-blur-md rounded-lg' />
       </a>
     )
   );

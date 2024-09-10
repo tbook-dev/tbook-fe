@@ -140,7 +140,7 @@ export const authDcCallback = async function () {
 };
 
 export const getNFTSupportedChains = async function () {
-  return await request(`${host}/nft/supportedChains`);
+  return await request.Get(`${host}/nft/supportedChains`);
 };
 
 export const bindEvm = async function (address, sign) {
@@ -304,6 +304,9 @@ export const getSBTList = async function () {
 export const mintSBT = async function () {
   return await request.Get(`${host}/wiseScore/mint`);
 };
+export const claimSBT = async function (sbtId) {
+  return await request.Get(`${host}/campaignNew/claimSBT/${sbtId}`);
+};
 export const applyAmbassador = async function () {
   // return await request.Post(`${host}/wiseScore/applyAmbassador`);
   return new Promise((resolve) => {
@@ -337,4 +340,8 @@ export const hasInviteCode = async function () {
 export const getAmbassadorLevels = async function () {
   const res = await request.Get(`${host}/vanguard/level/config`);
   return Array.isArray(res) ? res.slice(0, 2) : [];
+};
+
+export const getDeFi = async function () {
+  return await request.Get(`${host}/campaignNew/defi`);
 };

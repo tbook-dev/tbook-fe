@@ -81,4 +81,52 @@ export default {
     getActionName: () => 'Submit',
     getActionTarget: ({ title }) => title,
   },
+  14: {
+    isLink: true,
+    getLink: ({ link }) => link,
+    getActionName: noop,
+    getActionTarget: ({ name }) => name,
+  },
+  15: {
+    isLink: true,
+    getLink: ({ link }) => link,
+    getActionName: noop,
+    getActionTarget: ({ name }) => name,
+  },
+  16: {
+    isLink: true,
+    getLink: ({ link }) => link,
+    getActionName: noop,
+    getActionTarget: ({ name }) => name,
+  },
+  17: {
+    isLink: true,
+    getLink: ({ link }) => link,
+    getActionName: noop,
+    getActionTarget: ({ name }) => name,
+  },
+  18: {
+    isLink: true,
+    getLink: ({ link }) => link,
+    getActionName: noop,
+    getActionTarget: ({ name }) => name,
+  },
+  19: {
+    isLink: true,
+    getLink: ({ link }) => link,
+    getActionName: noop,
+    getActionTarget: ({ name }) => name,
+  },
+  20: {
+    isLink: true,
+    getLink: ({ link }) => link,
+    getActionName: noop,
+    getActionTarget: ({ name }) => name,
+  },
+  21: {
+    isLink: true,
+    getLink: ({ link }) => link,
+    getActionName: noop,
+    getActionTarget: ({ name }) => name,
+  },
 };

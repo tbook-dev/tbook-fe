@@ -11,6 +11,7 @@ export function safeParse(start_param) {
         type,
         projectUrl: p[0],
         campaignId: p[1],
+        renderLabel: p[2],
       };
     } else if (type === 2) {
       return {
@@ -32,10 +33,11 @@ export function safeParse(start_param) {
   }
 }
 const consoleMap = new Map();
-export const getDirectLink = (data) => {
-  const link = `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}?startapp=${btoa(
-    JSON.stringify(data)
-  )}`;
+export const getDirectLink = (data, isBot) => {
+  const appLink = `https://t.me/${TG_BOT_NAME}`
+  const encodedData = btoa(JSON.stringify(data))
+  const link = appLink + (isBot ? `?start=camp_${encodedData}` : `/${TG_BOT_APP}?startapp=${encodedData}`);
+
   if (location.search.includes('t=1') && !consoleMap.has(link)) {
     consoleMap.set(link, true);
     console.log('direct tg link --->', link);
@@ -43,11 +45,11 @@ export const getDirectLink = (data) => {
   return link;
 };
 window.getDirectLink = getDirectLink;
-export const getTMAsahreLink = (data) => {
+export const getTMAsahreLink = ({ data, isBot, text }) => {
   const link = isEmpty(data)
     ? `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}`
-    : getDirectLink(data);
-  return `https://t.me/share/url?url=${encodeURIComponent(link)}`;
+    : getDirectLink(data, isBot);
+  return `https://t.me/share/url?url=${encodeURIComponent(link)}${text ? `&text=${encodeURIComponent(text)}`: ""}`;
 };
 
 export const supportTMATypes = [
@@ -55,8 +57,9 @@ export const supportTMATypes = [
   // 'project',
   // 'wiseScore',
   // 'renaissance',
-  // 'ranger',
-  1, 2, 3, 4, 5,
+  // 'ranger', no longer use
+  // "event defi"
+  1, 2, 3, 4, 5, 6
 ];
 
 export const logoutRedirecrtKey = 'fromlogout';
@@ -107,4 +110,4 @@ export const premiumLink = `https://t.me/premium`;
 
 export const stonfi = `https://t.me/ston_app_bot/swap`;
 export const dedustio = `https://t.me/dedustBot/swap`;
-export const realTBook = `https://x.com/realtbook`
+export const realTBook = `https://x.com/realtbook`;

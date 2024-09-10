@@ -19,7 +19,13 @@ export default function TonExplore() {
         setSubpage(true);
         window.sessionRoutesCount -= 1;
         if (type === 1) {
-          navigate(`/${projectUrl}/${campaignId}`);
+          if (p.renderLabel) {
+            navigate(
+              `/${projectUrl}/${campaignId}?renderLabel=${p.renderLabel}`
+            );
+          } else {
+            navigate(`/${projectUrl}/${campaignId}`);
+          }
         } else if (type === 2) {
           navigate(`/${projectUrl}/`);
         } else if (type === 3) {
@@ -31,6 +37,8 @@ export default function TonExplore() {
           }
         } else if (type === 4) {
           navigate(`/event/renaissance`);
+        }else if (type === 6) {
+          navigate(`/event/defi`);
         }
       }
     }

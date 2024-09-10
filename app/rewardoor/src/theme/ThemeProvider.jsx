@@ -1,6 +1,6 @@
 // 跟随暗黑亮色调整antd
-import { ConfigProvider, theme } from 'antd'
-import components from '@/theme/conf'
+import { ConfigProvider, theme } from 'antd';
+import components from '@/theme/conf';
 // 可能revise
 export default function ({ children, ...props }) {
   return (
@@ -12,12 +12,12 @@ export default function ({ children, ...props }) {
         token: {
           colorPrimary: '#4D0BEF',
           borderRadiusLG: 16,
-          fontFamily: "'Red Hat Display', sans-serif;"
-        }
+          fontFamily: "'sf', 'Red Hat Display', sans-serif;",
+        },
       }}
       {...props}
     >
       {children}
     </ConfigProvider>
-  )
+  );
 }

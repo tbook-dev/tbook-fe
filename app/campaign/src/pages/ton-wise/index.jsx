@@ -1,7 +1,6 @@
 import useWiseScore from '@/hooks/useWiseScore';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import Privilege from './components/privilege';
-import Invite from './components/invite';
 import Loading from '@/components/loading';
 import BottomNav from './components/bottomNav';
 import { useNavigate } from 'react-router-dom';
@@ -9,11 +8,15 @@ import useUserInfo from '@/hooks/useUserInfoQuery';
 import LazyImage from '@/components/lazyImage';
 import WiseLevel from './components/wiseLevel';
 import { useLayoutEffect, memo } from 'react';
+import { Link } from 'react-router-dom';
+import HotIcon from '@/images/icon/svgr/hot.svg?react';
+import useDeFi from '@/hooks/useDeFi';
 
 function TonWise() {
   const { user } = useUserInfo();
   const { totalScore, isGranted, isLoaded, isFetching } = useWiseScore();
   const navigate = useNavigate();
+  const { data: defi } = useDeFi();
   useLayoutEffect(() => {
     if (isLoaded && !isGranted) {
       window.sessionRoutesCount -= 1;
@@ -46,19 +49,26 @@ function TonWise() {
                     {formatImpact(totalScore)}
                   </span>
                 </div>
-                {/* <Link
-                      to="/wise-score/detail"
-                      className="flex items-center gap-x-1 text-xs rounded-md border border-white/20 px-3 py-1.5 mb-3"
-                    >
-                      <Trend />
-                      Improve Now
-                    </Link> */}
               </div>
               <WiseLevel totalScore={totalScore} />
             </div>
           </div>
-          <Invite />
         </div>
+        {defi && (
+          <Link
+            to={`/${defi?.projectUrl}/${defi?.campaignId}`}
+            className="block p-4 space-y-6 rounded-2xl bg-[#ABEDBB] text-[#22306D] relative overflow-hidden"
+          >
+            <HotIcon className="absolute right-0 -top-1.5" />
+            <div className="">
+              <p>Invest with TON Society.</p>
+              <p>WIN SBTs!</p>
+            </div>
+            <button className="text-xs font-bold px-2 py-1 rounded-md bg-[#F36EBD]">
+              🔥WIN NOW
+            </button>
+          </Link>
+        )}
 
         <Privilege />
         <BottomNav />

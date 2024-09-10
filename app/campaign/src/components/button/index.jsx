@@ -1,17 +1,18 @@
-import clsx from 'clsx'
-import { Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons';
+import { cn } from '@/utils/conf';
 
 const clsMap = {
   primary: 'bg-cw2 text-white',
   default: 'text-c-9 font-medium text-sm border border-c-9',
-  text: 'text-c-9 text-xs px-0 font-medium'
-}
+  text: 'text-c-9 text-xs px-0 font-medium',
+  purple: 'text-white font-medium text-sm bg-[#904BF6] rounded px-3 py-1.5',
+};
 const disabledClsMap = {
   primary:
-    'disabled:bg-none disabled:text-[#333] disabled:bg-[#1A1A1A] disabled:hover:opacity-100'
-}
+    'disabled:bg-none disabled:text-[#333] disabled:bg-[#1A1A1A] disabled:hover:opacity-100',
+};
 
-export default function Button ({
+export default function Button({
   type = 'default',
   loading = false,
   className,
@@ -20,8 +21,8 @@ export default function Button ({
   return (
     <button
       disabled={loading}
-      className={clsx(
-        'h-12 px-10 rounded-3xl  hover:opacity-70 flex justify-center items-center',
+      className={cn(
+        'h-12 px-10 rounded-3xl  lg:hover:opacity-70 flex justify-center items-center',
         clsMap[type],
         disabledClsMap[type],
         className
@@ -29,7 +30,7 @@ export default function Button ({
       {...props}
     >
       {props.children}
-      {loading && <Spin className='ml-2' />}
+      {loading && <LoadingOutlined className="ml-2" />}
     </button>
-  )
+  );
 }

@@ -50,13 +50,13 @@ module.exports = {
         s3: '0px 0px 4px 0px rgba(0, 0, 0, 0.08)',
         s4: '0px 4px 20px 0px rgba(0, 110, 233, 0.02)',
         s5: ' 0px 10px 10px -5px rgba(0, 0, 0, 0.04), 0px 20px 25px -5px rgba(0, 0, 0, 0.10)',
+        s6: ' 0px -4px 12px 0 rgba(0, 0, 0, 0.25)',
       },
       fontFamily: {
         rhd: ['Red Hat Display', 'sans-serif'],
         'zen-dot': ['zen-dot', 'sans-serif'],
         syne: ['Syne'],
         sf: ['sf', 'sans-serif'],
-        'sf-bold': ['sf-bold', 'sans-serif'],
       },
       fontSize: {
         '6.5xl': '4rem',
