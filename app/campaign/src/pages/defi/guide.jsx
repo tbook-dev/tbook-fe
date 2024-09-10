@@ -21,13 +21,13 @@ const DeFiGuide = () => {
   const { data: defi } = useDeFi();
   const handleNav = useCallback(() => {
     window.sessionRoutesCount -= 1;
-    navigate(`/${defi?.projectUrl}/${defi?.campaignId}`,{ replace: true});
+    navigate(`/${defi?.projectUrl}/${defi?.campaignId}`, { replace: true });
   }, [defi]);
   const [displayIdx, setDisplayIdx] = useState(0);
   const slides = useMemo(() => {
     return [
       {
-        className:"pb-[144px]",
+        className: 'pb-[144px]',
         bg: Bg1,
         content: (
           <div className="space-y-3 font-bold">
@@ -96,7 +96,7 @@ const DeFiGuide = () => {
         ),
       },
       {
-        className:"pb-[144px]",
+        className: 'pb-[144px]',
         bg: Bg4,
         content: (
           <div className="space-y-3 font-bold">
@@ -111,16 +111,20 @@ const DeFiGuide = () => {
         ),
         button: (
           <Button
-            className="h-10 w-full mx-auto btn-click"
+            className={cn(
+              'h-10 w-full mx-auto ',
+              defi ? 'btn-click' : 'opacity-70'
+            )}
             type="purple"
             onClick={handleNav}
+            loading={!defi}
           >
             Earn Now
           </Button>
         ),
       },
     ];
-  }, [handleNav, setDisplayIdx]);
+  }, [handleNav, setDisplayIdx, defi]);
   const CurrentFrame = slides[displayIdx];
 
   return pc ? (
@@ -130,7 +134,7 @@ const DeFiGuide = () => {
       <Header />
       <div
         className={cn(
-          'relative px-4 flex flex-col items-center justify-center h-screen min-h-[570px]',
+          'relative px-4 flex flex-col items-center justify-center h-screen min-h-[500px]',
           'bg-cover bg-center font-bold',
           CurrentFrame.className
         )}
