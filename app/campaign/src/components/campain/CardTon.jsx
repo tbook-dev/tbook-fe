@@ -18,7 +18,7 @@ const colorMap = {
   },
 };
 // 目前只在tma里面展示
-function Compaign ({
+function Compaign({
   title,
   campaignId,
   picUrl,
@@ -27,6 +27,7 @@ function Compaign ({
   participantNum,
   status,
   hasNFT,
+  hasSBT,
   hasPoint,
   projectLogoUrl,
   projectName,
@@ -43,16 +44,16 @@ function Compaign ({
     >
       {[1, 2].includes(status) && (
         <div
-          className='absolute top-3 right-3 px-2 py-0.5 flex items-center gap-x-1.5 rounded'
+          className="absolute top-3 right-3 px-2 py-0.5 flex items-center gap-x-1.5 rounded"
           style={colorMap[status]}
         >
           <span
-            className='w-2 h-2 rounded-full'
+            className="w-2 h-2 rounded-full"
             style={{ background: colorMap[status].color }}
           />
           <Countdown
             value={status === 2 ? startAt : endAt}
-            format='D[d] H[h] m[m]'
+            format="D[d] H[h] m[m]"
             valueStyle={{
               fontWeight: 500,
               color: colorMap[status].color,
@@ -65,34 +66,39 @@ function Compaign ({
 
       <LazyImage
         src={picUrl}
-        className='w-full h-[160px] lg:h-[140px] object-cover object-center'
-        alt='campaign banner'
+        className="w-full h-[160px] lg:h-[140px] object-cover object-center"
+        alt="campaign banner"
       />
-      <div className='p-5 flex-auto flex flex-col justify-between gap-y-3'>
-        <div className='space-y-2'>
-          <div className='flex items-center gap-x-2 text-sm'>
-            <img className='size-4' src={projectLogoUrl} alt='project logo' />
+      <div className="p-5 flex-auto flex flex-col justify-between gap-y-3">
+        <div className="space-y-2">
+          <div className="flex items-center gap-x-2 text-sm">
+            <img className="size-4" src={projectLogoUrl} alt="project logo" />
             {projectName}
           </div>
-          <h2 className='font-medium text-base'>{title}</h2>
+          <h2 className="font-medium text-base">{title}</h2>
         </div>
 
-        <div className='space-y-3'>
+        <div className="space-y-3">
           {/* <div className='flex items-center gap-x-1 text-[#C0ABD9]'>
             <span className='font-zen-dot'>{formatImpact(participantNum)}</span>
             {participantNum > 1 ? 'Participants' : 'Participant'}
           </div> */}
 
-          <div className='flex flex-wrap text-xs font-medium space-x-3'>
+          <div className="flex flex-wrap text-xs font-medium space-x-3">
             {hasNFT && (
-              <div className='px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]'>
+              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
                 NFT
               </div>
             )}
 
             {hasPoint && (
-              <div className='px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]'>
+              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
                 Points
+              </div>
+            )}
+            {hasSBT && (
+              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
+                SBT
               </div>
             )}
           </div>
