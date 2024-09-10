@@ -27,7 +27,6 @@ export default function () {
     hasDefi,
     groupList,
   } = useCampaignQuery(campaignId);
-
   const { projectUrl } = useLoaderData();
   const [searchParams] = useSearchParams();
   usePageFooterTip();
@@ -74,7 +73,7 @@ export default function () {
           <TMAShare
             data={[1, projectUrl, campaignId]}
             isBot
-            text={hasDefi ? defiTip : null}
+            text={page?.campaign?.shareText}
           />
 
           <LazyImage
