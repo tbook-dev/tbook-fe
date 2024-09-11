@@ -1,4 +1,6 @@
 import verifiedSvg from '@/images/social/verified.svg';
+import optionalVerifiedSvg from '@/images/social/optionalVerified.svg';
+
 import { LoadingOutlined } from '@ant-design/icons';
 
 export const verifyStatusEnum = {
@@ -7,7 +9,7 @@ export const verifyStatusEnum = {
   Sucess: 2,
 };
 
-export default function VerifyStatus({ status }) {
+export default function VerifyStatus({ status, optional }) {
   return (
     <>
       {status === verifyStatusEnum.NotStarted && (
@@ -30,7 +32,11 @@ export default function VerifyStatus({ status }) {
       )}
 
       {status === verifyStatusEnum.Sucess && (
-        <img src={verifiedSvg} className="w-4 h-4" alt="sucess" />
+        <img
+          src={optional ? optionalVerifiedSvg : verifiedSvg}
+          className="w-4 h-4"
+          alt="sucess"
+        />
       )}
     </>
   );

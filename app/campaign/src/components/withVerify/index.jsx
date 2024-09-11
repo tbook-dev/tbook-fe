@@ -41,7 +41,7 @@ export default function WithVerify({
   const dispath = useDispatch();
   const social = getSocialByName(credentialType);
   const isSocial = !!social;
-  const { isLink, getLink } = actionMap[credential.labelType];
+  const { isLink, getLink, optional } = actionMap[credential.labelType];
   const link = getLink(getStrJSON(credential.options));
   const { getWallets } = useWallet();
   const [ton] = getWallets('ton');
@@ -87,7 +87,8 @@ export default function WithVerify({
               verifyStatusEnum.Sucess,
               verifyStatusEnum.Pending,
             ].includes(status),
-            'text-black bg-[#CFF469]': status === verifyStatusEnum.NotStarted,
+            [optional ? 'bg-[#FFDE1C] text-black' : 'text-black bg-[#CFF469]']:
+              status === verifyStatusEnum.NotStarted,
             'cursor-not-allowed': verifyStatusEnum.Pending === status,
           }
         )}
@@ -108,10 +109,13 @@ export default function WithVerify({
         }}
       >
         <>
-          <VerifyStatus status={status} />
-          {status === verifyStatusEnum.Sucess && 'Verified'}
-          {status === verifyStatusEnum.Pending && 'Verify...'}
-          {status === verifyStatusEnum.NotStarted && 'Verify'}
+          <VerifyStatus status={status} optional={optional} />
+          {status === verifyStatusEnum.Sucess &&
+            (optional ? 'Done' : 'Verified')}
+          {status === verifyStatusEnum.Pending &&
+            (optional ? 'Check...' : 'Verify...')}
+          {status === verifyStatusEnum.NotStarted &&
+            (optional ? 'Go Do it!' : 'Verify')}
         </>
       </button>
       {isSocial && (

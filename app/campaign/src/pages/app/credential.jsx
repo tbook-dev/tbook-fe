@@ -42,7 +42,7 @@ export default function Credential({ credential, showVerify }) {
   const [messageApi, contextHolder] = message.useMessage();
   const signData = useCredentialSign(credential);
   const { signMessageAsync } = useSignMessage();
-
+  const { optional } = actionMap[credential.labelType];
   const { userLogined, wallectConnected, evmAddress, user } = useUserInfo();
   const { pc } = useResponsive();
   const [showAirdop, setShowAirdop] = useState(false);
@@ -216,7 +216,6 @@ export default function Credential({ credential, showVerify }) {
     return getStrJSON(credential.options);
   }, [credential]);
 
-  // console.log({ canVerify });
   return (
     <div
       className={cn(
@@ -239,9 +238,17 @@ export default function Credential({ credential, showVerify }) {
           }
         />
         {credential.isVerified === 1 ? (
-          <span className="flex-none flex items-center gap-x-1 text-[#CFF469] text-md whitespace-nowrap">
-            <VerifyStatus status={verifyStatusEnum.Sucess} />
-            Verified
+          <span
+            className={clsx(
+              'flex-none flex items-center gap-x-1 text-md whitespace-nowrap',
+              optional ? 'text-[#FFDE1C]' : 'text-[#CFF469] '
+            )}
+          >
+            <VerifyStatus
+              status={verifyStatusEnum.Sucess}
+              optional={optional}
+            />
+            {optional ? 'Done' : 'Verified'}
           </span>
         ) : credential.isVerified === -1 ? (
           <DisableVerify />
