@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import Credential from './credential';
 import { cn } from '@/utils/conf';
 import { motion } from 'framer-motion';
 import GiftIcon from '@/images/icon/svgr/gift.svg?react';
+import GiftOpen from '@/images/icon/svgr/gift-open.svg?react';
 import ArrowIcon from '@/images/icon/svgr/arrow3.svg?react';
 import TonSocietyIcon from '@/images/icon/svgr/ton-society.svg?react';
 import Button from '@/pages/ton-wise/components/button';
@@ -11,8 +12,6 @@ import useCampaignQuery from '@/hooks/useCampaignQuery';
 import ViewReward from './viewReward';
 import RewardSwiper from './rewardSwiper';
 import RewardLabels from './rewardLabels';
-import { useSearchParams } from 'react-router-dom';
-import WebApp from '@twa-dev/sdk';
 
 const defiLableTypes = [14, 15, 16, 17, 18, 19, 20];
 
@@ -72,8 +71,6 @@ const getSchema = (labelTypes = [], index) => {
 
 const GroupCard = ({ group, index, showVerify }) => {
   const { campaignId } = useParams();
-  const ctxRef = useRef();
-  const [searchParams] = useSearchParams();
 
   const {
     data: page,
@@ -100,26 +97,9 @@ const GroupCard = ({ group, index, showVerify }) => {
   const reward = rewardList[displayIdx];
   const hasSbt = rewardList.some((v) => v.type === 'sbt');
 
-  useEffect(() => {
-    if (searchParams.get('renderLabel') == renderType) {
-      if (WebApp.platform === 'weba' || WebApp.platform === 'webk') {
-        const rect = ctxRef.current.getBoundingClientRect();
-        window.scrollTo({
-          left: 0,
-          top: window.scrollY + rect.top,
-          behavior: 'smooth',
-        });
-      } else {
-        setTimeout(() => {
-          ctxRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      }
-    }
-  }, []);
   return (
     <>
       <div
-        ref={ctxRef}
         className={cn(
           'rounded-2xl overflow-hidden relative shadow-xl lg:flex lg:items-stretch lg:justify-between',
           bg,
@@ -147,24 +127,34 @@ const GroupCard = ({ group, index, showVerify }) => {
                 <div>
                   {verifyCnt}/{totalCnt}
                 </div>
-                <div
-                  className={cn(
-                    isDark ? 'bg-[#12172F]/10' : 'bg-white/10',
-                    'h-2 relative calc(100%_-_40px) rounded-full'
-                  )}
-                >
-                  <motion.div
+                <div className="relative">
+                  <div
                     className={cn(
-                      'h-2 absolute inset-y-0 left-0  rounded-full',
-                      isDark ? 'bg-[#12172F]' : 'bg-white'
+                      isDark ? 'bg-[#12172F]/10' : 'bg-white/10',
+                      'h-2 relative w-[calc(100%_-_25px)] rounded-l-full'
                     )}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${(verifyCnt * 100) / totalCnt}%` }}
-                  />
-                  <GiftIcon
-                    className="absolute -right-1 -bottom-2"
-                    fill={isDark ? '#12172F' : '#fff'}
-                  />
+                  >
+                    <motion.div
+                      className={cn(
+                        'h-2 absolute inset-y-0 left-0  rounded-l-full',
+                        isDark ? 'bg-[#12172F]' : 'bg-white'
+                      )}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(verifyCnt * 100) / totalCnt}%` }}
+                    />
+                  </div>
+
+                  {isGroupVerified ? (
+                    <GiftOpen
+                      className="absolute -right-1 -bottom-2"
+                      fill={isDark ? '#12172F' : '#fff'}
+                    />
+                  ) : (
+                    <GiftIcon
+                      className="absolute -right-1 -bottom-2"
+                      fill={isDark ? '#12172F' : '#fff'}
+                    />
+                  )}
                 </div>
               </div>
             </div>

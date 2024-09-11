@@ -138,7 +138,9 @@ export default function () {
           steps={groupList.map(([category, group]) => {
             const isFinished = group
               .map((v) => v.credentialList)
+              .flat()
               .every((c) => c.isVerified === 1);
+
             return {
               name: category,
               children: (
@@ -154,7 +156,7 @@ export default function () {
                   ))}
                 </div>
               ),
-              isFinished: isFinished,
+              isFinished,
             };
           })}
         />

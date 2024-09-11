@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { cn } from '@/utils/conf';
 
 const Timeline = ({ steps = [], showProcess = false }) => {
@@ -53,4 +52,4 @@ const Timeline = ({ steps = [], showProcess = false }) => {
   );
 };
 
-export default memo(Timeline);
+export default Timeline;
