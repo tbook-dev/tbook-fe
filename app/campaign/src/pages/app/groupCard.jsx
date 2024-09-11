@@ -3,6 +3,7 @@ import Credential from './credential';
 import { cn } from '@/utils/conf';
 import { motion } from 'framer-motion';
 import GiftIcon from '@/images/icon/svgr/gift.svg?react';
+import GiftOpen from '@/images/icon/svgr/gift-open.svg?react';
 import ArrowIcon from '@/images/icon/svgr/arrow3.svg?react';
 import TonSocietyIcon from '@/images/icon/svgr/ton-society.svg?react';
 import Button from '@/pages/ton-wise/components/button';
@@ -140,10 +141,17 @@ const GroupCard = ({ group, index, showVerify }) => {
                     initial={{ width: 0 }}
                     animate={{ width: `${(verifyCnt * 100) / totalCnt}%` }}
                   />
-                  <GiftIcon
-                    className="absolute -right-1 -bottom-2"
-                    fill={isDark ? '#12172F' : '#fff'}
-                  />
+                  {isGroupVerified ? (
+                    <GiftOpen
+                      className="absolute -right-1 -bottom-2"
+                      fill={isDark ? '#12172F' : '#fff'}
+                    />
+                  ) : (
+                    <GiftIcon
+                      className="absolute -right-1 -bottom-2"
+                      fill={isDark ? '#12172F' : '#fff'}
+                    />
+                  )}
                 </div>
               </div>
             </div>
