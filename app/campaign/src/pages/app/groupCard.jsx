@@ -127,20 +127,23 @@ const GroupCard = ({ group, index, showVerify }) => {
                 <div>
                   {verifyCnt}/{totalCnt}
                 </div>
-                <div
-                  className={cn(
-                    isDark ? 'bg-[#12172F]/10' : 'bg-white/10',
-                    'h-2 relative calc(100%_-_40px) rounded-full'
-                  )}
-                >
-                  <motion.div
+                <div className="relative">
+                  <div
                     className={cn(
-                      'h-2 absolute inset-y-0 left-0  rounded-full',
-                      isDark ? 'bg-[#12172F]' : 'bg-white'
+                      isDark ? 'bg-[#12172F]/10' : 'bg-white/10',
+                      'h-2 relative w-[calc(100%_-_25px)] rounded-l-full'
                     )}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${(verifyCnt * 100) / totalCnt}%` }}
-                  />
+                  >
+                    <motion.div
+                      className={cn(
+                        'h-2 absolute inset-y-0 left-0  rounded-l-full',
+                        isDark ? 'bg-[#12172F]' : 'bg-white'
+                      )}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(verifyCnt * 100) / totalCnt}%` }}
+                    />
+                  </div>
+
                   {isGroupVerified ? (
                     <GiftOpen
                       className="absolute -right-1 -bottom-2"
