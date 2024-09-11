@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import Credential from './credential';
 import { cn } from '@/utils/conf';
 import { motion } from 'framer-motion';
@@ -11,8 +11,6 @@ import useCampaignQuery from '@/hooks/useCampaignQuery';
 import ViewReward from './viewReward';
 import RewardSwiper from './rewardSwiper';
 import RewardLabels from './rewardLabels';
-import { useSearchParams } from 'react-router-dom';
-import WebApp from '@twa-dev/sdk';
 
 const defiLableTypes = [14, 15, 16, 17, 18, 19, 20];
 
@@ -72,8 +70,6 @@ const getSchema = (labelTypes = [], index) => {
 
 const GroupCard = ({ group, index, showVerify }) => {
   const { campaignId } = useParams();
-  const ctxRef = useRef();
-  const [searchParams] = useSearchParams();
 
   const {
     data: page,
@@ -100,26 +96,9 @@ const GroupCard = ({ group, index, showVerify }) => {
   const reward = rewardList[displayIdx];
   const hasSbt = rewardList.some((v) => v.type === 'sbt');
 
-  useEffect(() => {
-    if (searchParams.get('renderLabel') == renderType) {
-      if (WebApp.platform === 'weba' || WebApp.platform === 'webk') {
-        const rect = ctxRef.current.getBoundingClientRect();
-        window.scrollTo({
-          left: 0,
-          top: window.scrollY + rect.top,
-          behavior: 'smooth',
-        });
-      } else {
-        setTimeout(() => {
-          ctxRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      }
-    }
-  }, []);
   return (
     <>
       <div
-        ref={ctxRef}
         className={cn(
           'rounded-2xl overflow-hidden relative shadow-xl lg:flex lg:items-stretch lg:justify-between',
           bg,
