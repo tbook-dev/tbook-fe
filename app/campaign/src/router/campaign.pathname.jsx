@@ -5,7 +5,7 @@ import { Suspense, lazy } from 'react';
 import PageFallBack from '@/components/pageFallback';
 import { getProjectId } from '@/api/incentive';
 import queryClient from '../query-client';
-import App from '@/pages/app';
+
 import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import TonExplore from '@/pages/ton-explore';
@@ -35,6 +35,10 @@ const AmbassadorApply = lazy(() => import('@/pages/ton-wise/ambassador-apply'));
 const Ambassador = lazy(() => import('@/pages/ton-wise/ambassador'));
 const Attestation = lazy(() => import('@/pages/attestation'));
 const DeFiGuide = lazy(() => import('@/pages/defi/guide'));
+
+const ProjectPageWrap = lazy(() => import('@/pages/ProjectPageWrap'));
+const ProjectPageDetailWrap = lazy(() => import('@/pages/ProjectPageDetailWrap'));
+
 const getTbookfn = async () => {
   return defaultProjectInfo;
 };
@@ -277,12 +281,7 @@ const routes = [
       {
         path: ':projectName',
         loader: getProjectIdFn,
-        element: (
-          <Suspense fallback={<PageFallBack />}>
-            <HomeV2 />
-            {/* <PageFallBack /> */}
-          </Suspense>
-        ),
+        element: <ProjectPageWrap />,
       },
       {
         path: ':projectName/asset',
@@ -305,7 +304,7 @@ const routes = [
       {
         path: ':projectName/:campaignId',
         loader: getProjectIdFn,
-        element: <App />,
+        element: <ProjectPageDetailWrap />,
       },
       {
         path: ':projectName/nft/:groupId/:nftId',

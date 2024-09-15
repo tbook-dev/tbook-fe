@@ -12,9 +12,15 @@ export default function LazyImage({
   className,
   loadingComponent,
   fallbackSrc,
+  theme = 'dark',
+  themeBgColor,
   ...props
 }) {
   const [status, setStatus] = useState(imgStatusMap.loading);
+  const getBackgroundColor = () => {
+    if (themeBgColor) return themeBgColor;
+    return theme === 'light' ? 'bg-[#eee]' : 'bg-[#1f1f1f]';
+  };
   const Loading = loadingComponent || (
     <div className={clsx('animate-pulse bg-[#1f1f1f]', className)} />
   );
