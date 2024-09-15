@@ -62,13 +62,15 @@ const getProjectIdFn = async ({ params }) => {
         cacheTime: Infinity,
       }
     );
+    const theme = res?.theme || 0;
     return {
       projectUrl,
       isUsingSubdomain: false,
       projectId: res?.projectId,
       project: res,
       // TODO: use 'theme'
-      isLightTheme: theme === 'rewardoortest001',
+      // isLightTheme: projectUrl === 'rewardoortest001',
+      isLightTheme: theme === 1,
     };
   } catch (e) {
     return defaultProjectInfo;

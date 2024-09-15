@@ -13,9 +13,11 @@ import LazyImage from '@/components/lazyImage';
 import TMAShare from '@/components/TMAShare';
 import Timeline from '@/components/timeline';
 
-import Unavailable from './unavailable';
+// same as /app
+import Unavailable from '../app/unavailable';
+import GroupCard from '../app/groupCard';
+
 import AppCountDown from './AppCountDown';
-import GroupCard from './groupCard';
 
 const defiTip =
   'It may take some time to track your on-chain transactions. After completing the tasks, you can retry to verify later.';

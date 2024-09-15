@@ -1,12 +1,16 @@
-import RichMore from '@/components/textMore/rich';
 import { useMemo } from 'react';
+
+import RichMore from '@/components/textMore/rich';
+import LazyImage from '@/components/lazyImage';
+
 import x from '@/images/icon/x-white.svg';
 import dc from '@/images/icon/dc.svg';
 import tg from '@/images/icon/tg.svg';
-import { Tooltip } from 'antd';
+
+import { Tooltip, Skeleton } from 'antd';
+
 import { formatStandard } from '@tbook/utils/lib/conf';
-import LazyImage from '@/components/lazyImage';
-import { Skeleton } from 'antd';
+
 import { useTelegram } from '@/hooks/useTg';
 
 export default function Banner ({
@@ -55,6 +59,8 @@ export default function Banner ({
 
   return (
     <div className='flex flex-col gap-8 lg:flex-row'>
+
+      {/* for Large size */}
       <LazyImage
         src={ avatarUrl }
         alt={ projectName + 'logo' }

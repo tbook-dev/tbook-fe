@@ -92,18 +92,18 @@ function CampaignCardWithLightStyle ({
 
           <div className="flex flex-wrap text-xs font-medium text-white">
             { rewardOpt.hasNFT && (
-              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
+              <div className="mr-2 px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
                 NFT
               </div>
             ) }
 
             { rewardOpt.hasPoint && (
-              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
+              <div className="mr-2 px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
                 Points
               </div>
             ) }
             { rewardOpt.hasSBT && (
-              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
+              <div className="mr-2 px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
                 SBT
               </div>
             ) }
