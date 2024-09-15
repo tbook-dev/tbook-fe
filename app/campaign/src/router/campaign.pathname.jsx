@@ -1,3 +1,4 @@
+import React from 'react';
 import { useLoaderData } from 'react-router-dom'
 import MyLayout from '@/layout/my/Layout';
 import TMALayout from '@/layout/ton/Layout';
@@ -11,6 +12,13 @@ import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import TonExplore from '@/pages/ton-explore';
 import { keptProjectUrls, defaultProjectInfo } from './conf';
+import theme from '../theme';
+
+const App = lazy(() => import('@/pages/app'));
+const AppV3 = lazy(() => import('@/pages/app-v3'));
+
+const HomeV2 = lazy(() => import('@/pages/home-v2'));
+const HomeV3 = lazy(() => import('@/pages/home-v3'));
 
 const Home = lazy(() => import('@/pages/home'));
 const Asset = lazy(() => import('@/pages/my/Asset'));
@@ -60,17 +68,11 @@ const getProjectIdFn = async ({ params }) => {
       projectId: res?.projectId,
       project: res,
       // TODO: use 'theme'
-      isLightTheme: projectUrl === 'rewardoortest001',
+      isLightTheme: theme === 'rewardoortest001',
     };
   } catch (e) {
     return defaultProjectInfo;
   }
-};
-
-const PageWrapper = ({ LightThemeComponent, DarkThemeComponent }) => {
-  const { isLightTheme } = useLoaderData();
-  const Component = isLightTheme ? LightThemeComponent : DarkThemeComponent;
-  return <Component />;
 };
 
 const routes = [
@@ -286,22 +288,14 @@ const routes = [
       {
         path: ':projectName',
         loader: getProjectIdFn,
-        async lazy () {
-          const [ LightThemeComponent, DarkThemeComponent ] = await Promise.all([
-            import('@/pages/home-v3').then(module => module.default),
-            import('@/pages/home-v2').then(module => module.default)
-          ]);
-          return {
-            element: (
-              <Suspense fallback={ <PageFallBack /> }>
-                <PageWrapper
-                  LightThemeComponent={ LightThemeComponent }
-                  DarkThemeComponent={ DarkThemeComponent }
-                />
-              </Suspense>
-            ),
-          };
-        },
+        element: React.createElement(() => {
+          const { isLightTheme } = useLoaderData();
+          return (
+            <Suspense fallback={ <PageFallBack /> }>
+              { isLightTheme ? <HomeV3 /> : <HomeV2 /> }
+            </Suspense>
+          );
+        }),
       },
       {
         path: ':projectName/asset',
@@ -324,22 +318,14 @@ const routes = [
       {
         path: ':projectName/:campaignId',
         loader: getProjectIdFn,
-        async lazy () {
-          const [ LightThemeComponent, DarkThemeComponent ] = await Promise.all([
-            import('@/pages/app-v3').then(module => module.default),
-            import('@/pages/app').then(module => module.default)
-          ]);
-          return {
-            element: (
-              <Suspense fallback={ <PageFallBack /> }>
-                <PageWrapper
-                  LightThemeComponent={ LightThemeComponent }
-                  DarkThemeComponent={ DarkThemeComponent }
-                />
-              </Suspense>
-            ),
-          };
-        },
+        element: React.createElement(() => {
+          const { isLightTheme } = useLoaderData();
+          return (
+            <Suspense fallback={ <PageFallBack /> }>
+              { isLightTheme ? <AppV3 /> : <App /> }
+            </Suspense>
+          );
+        }),
       },
       {
         path: ':projectName/nft/:groupId/:nftId',
