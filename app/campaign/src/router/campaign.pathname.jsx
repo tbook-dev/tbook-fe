@@ -1,3 +1,4 @@
+import { useLoaderData } from 'react-router-dom'
 import MyLayout from '@/layout/my/Layout';
 import TMALayout from '@/layout/ton/Layout';
 import HomeLayout from '@/layout/fixed/Layout';
@@ -12,7 +13,6 @@ import TonExplore from '@/pages/ton-explore';
 import { keptProjectUrls, defaultProjectInfo } from './conf';
 
 const Home = lazy(() => import('@/pages/home'));
-const HomeV2 = lazy(() => import('@/pages/home-v2'));
 const Asset = lazy(() => import('@/pages/my/Asset'));
 const Campaign = lazy(() => import('@/pages/my/campaign'));
 const NFT = lazy(() => import('@/pages/my/nft'));
@@ -35,9 +35,6 @@ const AmbassadorApply = lazy(() => import('@/pages/ton-wise/ambassador-apply'));
 const Ambassador = lazy(() => import('@/pages/ton-wise/ambassador'));
 const Attestation = lazy(() => import('@/pages/attestation'));
 const DeFiGuide = lazy(() => import('@/pages/defi/guide'));
-
-const ProjectPageWrap = lazy(() => import('@/pages/ProjectPageWrap'));
-const ProjectPageDetailWrap = lazy(() => import('@/pages/ProjectPageDetailWrap'));
 
 const getTbookfn = async () => {
   return defaultProjectInfo;
@@ -62,10 +59,18 @@ const getProjectIdFn = async ({ params }) => {
       isUsingSubdomain: false,
       projectId: res?.projectId,
       project: res,
+      // TODO: use 'theme'
+      isLightTheme: projectUrl === 'rewardoortest001',
     };
   } catch (e) {
     return defaultProjectInfo;
   }
+};
+
+const PageWrapper = ({ LightThemeComponent, DarkThemeComponent }) => {
+  const { isLightTheme } = useLoaderData();
+  const Component = isLightTheme ? LightThemeComponent : DarkThemeComponent;
+  return <Component />;
 };
 
 const routes = [
@@ -281,7 +286,22 @@ const routes = [
       {
         path: ':projectName',
         loader: getProjectIdFn,
-        element: <ProjectPageWrap />,
+        async lazy () {
+          const [ LightThemeComponent, DarkThemeComponent ] = await Promise.all([
+            import('@/pages/home-v3').then(module => module.default),
+            import('@/pages/home-v2').then(module => module.default)
+          ]);
+          return {
+            element: (
+              <Suspense fallback={ <PageFallBack /> }>
+                <PageWrapper
+                  LightThemeComponent={ LightThemeComponent }
+                  DarkThemeComponent={ DarkThemeComponent }
+                />
+              </Suspense>
+            ),
+          };
+        },
       },
       {
         path: ':projectName/asset',
@@ -304,7 +324,22 @@ const routes = [
       {
         path: ':projectName/:campaignId',
         loader: getProjectIdFn,
-        element: <ProjectPageDetailWrap />,
+        async lazy () {
+          const [ LightThemeComponent, DarkThemeComponent ] = await Promise.all([
+            import('@/pages/app-v3').then(module => module.default),
+            import('@/pages/app').then(module => module.default)
+          ]);
+          return {
+            element: (
+              <Suspense fallback={ <PageFallBack /> }>
+                <PageWrapper
+                  LightThemeComponent={ LightThemeComponent }
+                  DarkThemeComponent={ DarkThemeComponent }
+                />
+              </Suspense>
+            ),
+          };
+        },
       },
       {
         path: ':projectName/nft/:groupId/:nftId',
