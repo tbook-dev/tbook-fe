@@ -72,7 +72,7 @@ export default function HomeProject () {
                           selectStatus === v.value
                             ? 'before:absolute before:w-full before:h-0.5 before:left-0 before:-bottom-[7px] before:bg-[#904BF6]'
                             : 'text-[#9A81E6]',
-                          isLoading ? '' : 'lg:hover:text-white',
+                          isLoading ? '' : 'lg:hover:text-[#904BF6]',
                           'text-base lg:text-xl relative w-[50%] h-7 text-[#904BF6]'
                         ) }
                         onClick={ () => {
