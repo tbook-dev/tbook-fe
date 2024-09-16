@@ -112,7 +112,7 @@ export default function HomeProject () {
                     : 'grid-cols-1 lg:grid-cols-4'
                 ) }
               >
-                { listFilter.length > 2 ? (
+                { listFilter.length > 0 ? (
                   listFilter.map(v => (
                     <CampaignCardV3
                       key={ v.campaign?.campaignId }
