@@ -32,7 +32,7 @@ const AppCountdown = ({ status, value }) => {
           } }
         />
       ) }
-      <span className="text-sm text-black" style={ { color } }>
+      <span className="text-[14px] text-black" style={ { color } }>
         { text }
       </span>
     </div>

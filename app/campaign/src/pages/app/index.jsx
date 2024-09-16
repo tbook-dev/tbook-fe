@@ -50,7 +50,7 @@ export default function () {
           href={refBackLink}
           className="pl-4 lg:pl-0 flex items-center gap-x-1 text-sm font-semibold py-2.5 text-[#717374] group hover:text-white"
         >
-          <div className="w-6 h-6 flex items-center justify-center">
+          <div className="flex items-center justify-center w-6 h-6">
             <svg
               width="12"
               height="12"
@@ -79,22 +79,22 @@ export default function () {
           <LazyImage
             src={page?.campaign?.picUrl}
             alt="main banner"
-            className="w-full h-full object-cover object-center"
+            className="object-cover object-center w-full h-full"
             fetchpriority="high"
           />
         </div>
 
-        <div className="p-4 lg:p-0 lg:flex-auto flex flex-col justify-between">
+        <div className="flex flex-col justify-between p-4 lg:p-0 lg:flex-auto">
           {isLoading ? (
             <Skeleton active />
           ) : (
             <>
               <div className="space-y-3 lg:space-y-8">
-                <h2 className="text-2xl lg:text-4xl font-bold">
+                <h2 className="text-2xl font-bold lg:text-4xl">
                   {page?.campaign?.name}
                 </h2>
 
-                <div className="text-sm lg:text-base  mb-5 lg:mb-8 text-white/60">
+                <div className="mb-5 text-sm lg:text-base lg:mb-8 text-white/60">
                   <RichMore value={page?.campaign?.description} />
                 </div>
               </div>
@@ -127,7 +127,7 @@ export default function () {
       </section>
 
       {isLoading && (
-        <div className="px-5 lg:px-0 rounded-lg lg:rounded-2xl py-3">
+        <div className="px-5 py-3 rounded-lg lg:px-0 lg:rounded-2xl">
           <Skeleton />
         </div>
       )}

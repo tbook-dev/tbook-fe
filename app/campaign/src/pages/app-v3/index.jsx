@@ -75,7 +75,7 @@ export default function () {
           <div className="space-y-3 text-black lg:space-y-8">
 
             {/* Title */ }
-            <h2 className="text-2xl font-bold lg:text-4xl">
+            <h2 className="text-2xl font-bold lg:text-4xl w-[90%]">
               { page?.campaign?.name }
             </h2>
 
@@ -107,6 +107,7 @@ export default function () {
               {/* TODO: 这是什么 */ }
               <div className="relative w-full h-[172px] lg:w-[566px] lg:h-[275px] lg:flex-none lg:order-last object-cover object-center">
                 <TMAShare
+                  color="dark"
                   data={ [ 1, projectUrl, campaignId ] }
                   isBot
                   text={ page?.campaign?.shareText }
@@ -164,7 +165,7 @@ export default function () {
             return {
               name: category,
               children: (
-                <div className="space-y-2 lg:space-y-3">
+                <div className="space-y-2 text-white lg:space-y-3">
                   { group.map((g, i) => (
                     <GroupCard
                       key={ i }
