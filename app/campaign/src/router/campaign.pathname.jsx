@@ -68,8 +68,6 @@ const getProjectIdFn = async ({ params }) => {
       isUsingSubdomain: false,
       projectId: res?.projectId,
       project: res,
-      // TODO: use 'theme'
-      // isLightTheme: projectUrl === 'rewardoortest001',
       isLightTheme: theme === 1,
     };
   } catch (e) {

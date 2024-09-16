@@ -3,9 +3,9 @@ import { useMemo } from 'react';
 import RichMore from '@/components/textMore/rich';
 import LazyImage from '@/components/lazyImage';
 
-import x from '@/images/icon/x-white.svg';
+import x from '@/images/icon/x-black.svg';
 import dc from '@/images/icon/dc.svg';
-import tg from '@/images/icon/tg.svg';
+import tg from '@/images/icon/tg-blue.svg';
 
 import { Tooltip, Skeleton } from 'antd';
 
@@ -82,7 +82,6 @@ export default function Banner ({
         <div className='text-sm'>
           <RichMore value={ projectDescription } />
         </div>
-
         { socialList.length > 0 && (
           <div className='flex items-center gap-x-3'>
             { socialList.map(v => {
