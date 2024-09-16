@@ -1,3 +1,5 @@
+import React from 'react';
+import { useLoaderData } from 'react-router-dom'
 import MyLayout from '@/layout/my/Layout';
 import TMALayout from '@/layout/ton/Layout';
 import HomeLayout from '@/layout/fixed/Layout';
@@ -5,14 +7,20 @@ import { Suspense, lazy } from 'react';
 import PageFallBack from '@/components/pageFallback';
 import { getProjectId } from '@/api/incentive';
 import queryClient from '../query-client';
-import App from '@/pages/app';
+
 import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import TonExplore from '@/pages/ton-explore';
 import { keptProjectUrls, defaultProjectInfo } from './conf';
+import theme from '../theme';
+
+const App = lazy(() => import('@/pages/app'));
+const AppV3 = lazy(() => import('@/pages/app-v3'));
+
+const HomeV2 = lazy(() => import('@/pages/home-v2'));
+const HomeV3 = lazy(() => import('@/pages/home-v3'));
 
 const Home = lazy(() => import('@/pages/home'));
-const HomeV2 = lazy(() => import('@/pages/home-v2'));
 const Asset = lazy(() => import('@/pages/my/Asset'));
 const Campaign = lazy(() => import('@/pages/my/campaign'));
 const NFT = lazy(() => import('@/pages/my/nft'));
@@ -37,6 +45,7 @@ const Attestation = lazy(() => import('@/pages/attestation'));
 const AirDrop = lazy(() => import('@/pages/airdrop'));
 
 const DeFiGuide = lazy(() => import('@/pages/defi/guide'));
+
 const getTbookfn = async () => {
   return defaultProjectInfo;
 };
@@ -55,11 +64,15 @@ const getProjectIdFn = async ({ params }) => {
         cacheTime: Infinity,
       }
     );
+    const theme = res?.theme || 0;
     return {
       projectUrl,
       isUsingSubdomain: false,
       projectId: res?.projectId,
       project: res,
+      // TODO: use 'theme'
+      // isLightTheme: projectUrl === 'rewardoortest001',
+      isLightTheme: theme === 1,
     };
   } catch (e) {
     return defaultProjectInfo;
@@ -279,12 +292,14 @@ const routes = [
       {
         path: ':projectName',
         loader: getProjectIdFn,
-        element: (
-          <Suspense fallback={<PageFallBack />}>
-            <HomeV2 />
-            {/* <PageFallBack /> */}
-          </Suspense>
-        ),
+        element: React.createElement(() => {
+          const { isLightTheme } = useLoaderData();
+          return (
+            <Suspense fallback={ <PageFallBack /> }>
+              { isLightTheme ? <HomeV3 /> : <HomeV2 /> }
+            </Suspense>
+          );
+        }),
       },
       {
         path: ':projectName/asset',
@@ -307,7 +322,14 @@ const routes = [
       {
         path: ':projectName/:campaignId',
         loader: getProjectIdFn,
-        element: <App />,
+        element: React.createElement(() => {
+          const { isLightTheme } = useLoaderData();
+          return (
+            <Suspense fallback={ <PageFallBack /> }>
+              { isLightTheme ? <AppV3 /> : <App /> }
+            </Suspense>
+          );
+        }),
       },
       {
         path: ':projectName/nft/:groupId/:nftId',
