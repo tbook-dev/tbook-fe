@@ -37,7 +37,7 @@ function App () {
             router={createBrowserRouter(
               isUsingSubdomain ? hostRoutes : pathRoutes
             )}
-            fallbackElement={<PageFallBack />}
+            fallbackElement={ <PageFallBack />}
           />
         </TonConnectUIProvider>
         {/* all modal move into avator components */}

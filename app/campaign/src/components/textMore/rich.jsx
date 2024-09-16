@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { useEventListener } from 'ahooks';
 import './rich.css';
 
-export default function Markdown({ value, className }) {
+export default function Markdown({ value, className, theme }) {
   const [showMore, setShowMore] = useState(false);
   const [hasMore, setHasMore] = useState(false);
   const textRef = useRef(null);
@@ -35,7 +35,8 @@ export default function Markdown({ value, className }) {
           showMore ? '' : 'max-h-[180px] overflow-hidden',
           hasMore &&
             !showMore &&
-            'after:absolute after:inset-0 after:bg-linear4'
+            'after:absolute after:inset-0',
+          theme === 'light' ? 'after:bg-linear17' : 'after:bg-linear4'
         )}
         ref={textRef}
         onLoad={calcFn}
@@ -46,7 +47,8 @@ export default function Markdown({ value, className }) {
           onClick={() => setShowMore((v) => !v)}
           className={clsx(
             showMore ? 'mt-2' : '-mt-5',
-            'text-white font-medium px-5 py-2 bg-black border border-[#333] rounded-full text-sm absolute left-1/2 -translate-x-1/2'
+            'font-medium px-5 py-2 border rounded-full text-sm absolute left-1/2 -translate-x-1/2 border-[#333] ',
+            theme === 'light' ? 'bg-white text-black' : 'bg-black text-white ' 
           )}
         >
           {showMore ? 'Show Less' : 'Show More'}

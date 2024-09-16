@@ -10,7 +10,7 @@ import Avatar from '../common/Avatar';
 import fallbackLogo from '@/images/error/logo.svg';
 import LazyImage from '@/components/lazyImage';
 
-function Header () {
+function Header ({ backgroundColor = 'bg-black' }) {
   const { project, projectUrl, isUsingSubdomain } = useLoaderData();
   const { userLogined, firstLoad } = useUserInfo();
   const dispath = useDispatch();
@@ -25,7 +25,7 @@ function Header () {
         'backdrop-blur-sm'
       )}
     >
-      <div className='px-4 py-1.5 lg:px-20 bg-black'>
+      <div className={ clsx('px-4 py-1.5 lg:px-20', backgroundColor) }>
         <div className='flex items-center justify-between h-10'>
           <div className='flex items-center'>
             <Link
@@ -39,7 +39,7 @@ function Header () {
                   src={logoUrl}
                   fallbackSrc={fallbackLogo}
                   alt='logo'
-                  className='h-6 object-contain'
+                  className='object-contain h-6'
                 />
               )}
             </Link>
@@ -56,7 +56,7 @@ function Header () {
               </div>
             ) : (
               <button
-                className='px-2 py-1 text-sm rounded-md border border-white text-white lg:hover:opacity-70'
+                className='px-2 py-1 text-sm text-white border border-white rounded-md lg:hover:opacity-70'
                 onClick={handleClick}
               >
                 Log In
