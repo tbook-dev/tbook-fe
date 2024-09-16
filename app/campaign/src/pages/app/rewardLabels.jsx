@@ -61,7 +61,6 @@ const RewardLabels = ({
             value={endAt ?? 0}
             format="D[d] H[h] m[m] s[s]"
             valueStyle={{
-              color: '#12172F',
               fontSize: '12px',
               lineHeight: '16px',
               fontWeight: 500,
