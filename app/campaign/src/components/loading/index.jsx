@@ -48,7 +48,7 @@ export default function Loading({ className, sbtClassName, text = '' }) {
       />
       <div className="absolute inset-0 z-10 bg-gradient-to-b	from-black/50 to-black/80 from-50%" />
       {text && (
-        <p className="text-white/60 text-base text-center inset-x-0 absolute z-20 bottom-36">
+        <p className="absolute inset-x-0 z-20 text-base text-center text-white/60 bottom-36">
           {text}
         </p>
       )}
