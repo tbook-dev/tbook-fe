@@ -48,7 +48,7 @@ export default function HomeProject () {
     <main className='pb-20'>
       <div className='mx-auto space-y-3 lg:w-bx lg:px-0'>
         <div className='px-4'>
-          <TMAShare data={ [ 2, projectUrl ] } />
+          <TMAShare data={ [ 2, projectUrl ] } color="dark" />
           <Banner
             { ...project }
             isLoading={ isLoading }
@@ -60,7 +60,7 @@ export default function HomeProject () {
         <div className='space-y-3'>
           <Affix offsetTop={ 0 }>
             <div className=''>
-              <div className='flex items-center justify-between lg:justify-start lg:gap-x-20 h-10 border-b border-[#DBBEE8] bg-[#f7f2fb]'>
+              <div className='flex items-center justify-between lg:justify-start lg:gap-x-20 h-10 border-b border-[#DBBEE8] bg-[#FCFAFD]'>
                 { campaignStatus
                   .filter(status => status.label !== 'Scheduled')
                   .map(v => {

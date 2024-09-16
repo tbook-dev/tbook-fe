@@ -7,7 +7,7 @@ export default function Layout () {
 
   if (isLightTheme) {
     return (
-      <div className='flex flex-col min-h-dvh bg-gradient-to-b from-[#FCFAFD]  to-[#F0E5F6]'>
+      <div className='flex flex-col min-h-dvh bg-[#FCFAFD]'>
         <Header type="light" />
         <div className='relative flex-auto overflow-x-hidden overflow-y-auto'>
           <Outlet />
