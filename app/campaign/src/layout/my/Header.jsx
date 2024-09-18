@@ -10,7 +10,7 @@ import Avatar from '../common/Avatar';
 import fallbackLogo from '@/images/error/logo.svg';
 import LazyImage from '@/components/lazyImage';
 
-function Header ({ backgroundColor = 'bg-black' }) {
+function Header ({ backgroundColor = 'bg-black', textColor = 'text-white', borderColor = 'border-white' }) {
   const { project, projectUrl, isUsingSubdomain } = useLoaderData();
   const { userLogined, firstLoad } = useUserInfo();
   const dispath = useDispatch();
@@ -56,7 +56,8 @@ function Header ({ backgroundColor = 'bg-black' }) {
               </div>
             ) : (
               <button
-                className='px-2 py-1 text-sm text-white border border-white rounded-md lg:hover:opacity-70'
+                className={clsx("px-2 py-1 text-sm  border rounded-md lg:hover:opacity-70", textColor, borderColor
+                )}
                 onClick={handleClick}
               >
                 Log In

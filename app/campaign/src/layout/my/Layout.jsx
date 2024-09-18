@@ -12,6 +12,7 @@ export default function Layout () {
         <div className='relative flex-auto overflow-x-hidden overflow-y-auto'>
           <Outlet />
         </div>
+        <Footer theme="light" />
       </div>
     )
   }
