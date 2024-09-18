@@ -145,7 +145,7 @@ export default function () {
 
         {/* Description */ }
         <div className="text-sm lg:text-base lg:mb-8 text-black/60">
-          <RichMore value={ page?.campaign?.description } />
+          <RichMore value={ page?.campaign?.description } theme="light" />
         </div>
       </div>
 
