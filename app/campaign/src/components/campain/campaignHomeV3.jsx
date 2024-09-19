@@ -46,7 +46,7 @@ function CampaignCardWithLightStyle ({
   return (
     <Link
       to={ `${isUsingSubdomain ? '' : `/${project?.projectUrl}`}/${campaignId}` }
-      className="relative rounded-xl overflow-hidden flex flex-col shadow-s2 bg-[#490081] border-[1px] border-[#490081]"
+      className="relative rounded-xl overflow-hidden flex flex-col shadow-s2 bg-white border-[1px] border-[#C0ABD9]"
       target={ isTMA ? '_self' : '_blank' }
     >
       { [ 1, 2 ].includes(status) && (
@@ -76,39 +76,33 @@ function CampaignCardWithLightStyle ({
         className="w-full h-[160px] lg:h-[140px] object-cover object-center"
         alt="campaign banner"
       />
+      <div className="flex flex-col justify-between flex-auto p-5 gap-y-3">
+        <h2 className="text-base font-medium">{ title }</h2>
 
-      {/* Gradient Background */ }
-      <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black/70 to-transparent"></div>
-
-      <div className="absolute bottom-0 flex flex-col justify-between flex-auto px-6 py-2 gap-y-1">
-
-        <h2 className="text-lg font-bold text-white">{ title }</h2>
-
-        <div className="flex items-center">
-          <div className="flex items-center mr-2 text-white gap-x-1">
-            <span>{ formatStandard(usersNum) }</span>
+        <div className="space-y-3">
+          <div className="flex items-center gap-x-1 text-[#904BF6]">
+            <span className="font-zen-dot">{ formatStandard(usersNum) }</span>
             { usersNum > 1 ? 'Participants' : 'Participant' }
           </div>
 
-          <div className="flex flex-wrap text-xs font-medium text-white">
+          <div className="flex flex-wrap space-x-3 text-xs font-medium text-white">
             { rewardOpt.hasNFT && (
-              <div className="mr-2 px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
+              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
                 NFT
               </div>
             ) }
 
             { rewardOpt.hasPoint && (
-              <div className="mr-2 px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
+              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
                 Points
               </div>
             ) }
             { rewardOpt.hasSBT && (
-              <div className="mr-2 px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
+              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
                 SBT
               </div>
             ) }
           </div>
-
         </div>
       </div>
     </Link>

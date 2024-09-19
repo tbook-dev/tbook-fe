@@ -32,7 +32,7 @@ export default function CampaignCard ({
         </h2>
       </div>
 
-      <div className='flex items-center text-xs font-medium gap-x-2'>
+      <div className='flex items-center text-xs font-medium text-white gap-x-2'>
         {nft > 0 && <div className='px-1.5 bg-[#904BF6] rounded-full'>nft</div>}
         {points > 0 && (
           <div className='px-1.5 bg-[#904BF6] rounded-full'>points</div>
