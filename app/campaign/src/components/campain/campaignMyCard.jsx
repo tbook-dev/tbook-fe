@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from 'react-router-dom';
 import { formatStandard } from '@tbook/utils/lib/conf';
+import clsx from 'clsx'
 
 export default function CampaignCard ({
   campaignId,
@@ -10,7 +11,7 @@ export default function CampaignCard ({
   project,
   participantNum = 0,
 }) {
-  const { isUsingSubdomain, projectUrl } = useLoaderData();
+  const { isUsingSubdomain, projectUrl, isLightTheme } = useLoaderData();
 
   return (
     <Link
@@ -22,18 +23,18 @@ export default function CampaignCard ({
       <div className='flex justify-between'>
         <div className='w-[180px]'>
           <h1 className='text-base font-medium'>{name}</h1>
-          <h2 className='text-[#C4C4C4] text-xs'>
+          <h2 className={ clsx("text-xs", isLightTheme ? 'text-[#333]' : 'text-[#C4C4C4] ') }>
             {formatStandard(participantNum)} Participants
           </h2>
         </div>
 
         <img
           src={picUrl}
-          className='rounded-lg h-20 w-20 object-center object-cover hover:scale-150 transition-all'
+          className='object-cover object-center w-20 h-20 transition-all rounded-lg hover:scale-150'
         />
       </div>
 
-      <div className='flex items-center gap-x-2 text-xs font-medium'>
+      <div className='flex items-center text-xs font-medium text-white gap-x-2'>
         {nft > 0 && <div className='px-1.5 bg-[#904BF6] rounded-full'>nft</div>}
         {points > 0 && (
           <div className='px-1.5 bg-[#904BF6] rounded-full'>points</div>

@@ -1,5 +1,6 @@
 import { Link, useLoaderData } from 'react-router-dom';
 import { formatStandard } from '@tbook/utils/lib/conf';
+import clsx from 'clsx'
 
 // 上下解构
 export default function CampaignCard ({
@@ -11,7 +12,7 @@ export default function CampaignCard ({
   project,
   participantNum = 0,
 }) {
-  const { isUsingSubdomain, projectUrl } = useLoaderData();
+  const { isUsingSubdomain, projectUrl, isLightTheme } = useLoaderData();
 
   return (
     <Link
@@ -26,12 +27,12 @@ export default function CampaignCard ({
           className='rounded-lg w-full h-[200px] object-center object-cover mb-4'
         />
         <h1 className='text-base font-medium'>{name}</h1>
-        <h2 className='text-[#C4C4C4] text-xs'>
+        <h2 className={ clsx("text-xs", isLightTheme ? 'text-[#333]' : 'text-[#C4C4C4] ')}>
           {formatStandard(participantNum)} Participants
         </h2>
       </div>
 
-      <div className='flex items-center gap-x-2 text-xs font-medium'>
+      <div className='flex items-center text-xs font-medium gap-x-2'>
         {nft > 0 && <div className='px-1.5 bg-[#904BF6] rounded-full'>nft</div>}
         {points > 0 && (
           <div className='px-1.5 bg-[#904BF6] rounded-full'>points</div>

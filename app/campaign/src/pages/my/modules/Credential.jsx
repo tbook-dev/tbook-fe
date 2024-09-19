@@ -7,7 +7,7 @@ import { groupBy } from 'lodash';
 import { Display } from '@tbook/credential';
 
 export default function Credentials () {
-  const { projectId } = useLoaderData();
+  const { projectId, isLightTheme } = useLoaderData();
   const { data: assets, isLoading } = useAssetQuery(projectId);
   const data = assets?.credentials || [];
   const credentialListWithUnikey = data.map(v => {
@@ -57,12 +57,12 @@ export default function Credentials () {
                     }
                     return (
                       <div
-                        className='flex items-center gap-x-1  bg-white text-black py-1 px-3 w-max rounded-[18px] border-b-2 border-l-2 lg:border-b-4 lg:border-l-4 border-[#904BF6]'
+                        className={ clsx("flex items-center gap-x-1 py-1 px-3 w-max rounded-[18px] border-b-2 border-l-2 lg:border-b-4 lg:border-l-4", isLightTheme ? 'border-[#dbbee8] text-white bg-[#9a81e6]' : 'border-[#904BF6] text-black bg-white')}
                         key={k}
                       >
                         {/* <img
                           src={item.picUrl}
-                          className='w-5 h-5 object-contain object-center'
+                          className='object-contain object-center w-5 h-5'
                         />
                         <div className='flex'>
                           <div
@@ -97,7 +97,7 @@ export default function Credentials () {
 
                 {/* <img
                   src={item.picUrl}
-                  className='w-5 h-5 object-contain object-center'
+                  className='object-contain object-center w-5 h-5'
                 />
                 <div
                   className={'max-w-[calc(100vw_-_80px)] truncate'}
@@ -113,11 +113,11 @@ export default function Credentials () {
           ) : (
             <div
               key={k}
-              className='flex items-center gap-x-1  bg-white text-black py-1 px-3 w-max rounded-[18px] border-b-2 border-l-2 lg:border-b-4 lg:border-l-4 border-[#904BF6]'
+                className={ clsx("flex items-center gap-x-1   py-1 px-3 w-max rounded-[18px] border-b-2 border-l-2 lg:border-b-4 lg:border-l-4", isLightTheme ? 'border-[#dbbee8] bg-[#9a81e6] text-white' : 'border-[#904BF6] bg-white text-black')}
             >
               {/* <img
                 src={item.picUrl}
-                className='w-5 h-5 object-contain object-center'
+                className='object-contain object-center w-5 h-5'
               />
               <div
                 className={'max-w-[calc(100vw_-_80px)] truncate'}

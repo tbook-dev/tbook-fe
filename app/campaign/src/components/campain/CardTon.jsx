@@ -69,13 +69,13 @@ function Compaign({
         className="w-full h-[160px] lg:h-[140px] object-cover object-center"
         alt="campaign banner"
       />
-      <div className="p-5 flex-auto flex flex-col justify-between gap-y-3">
+      <div className="flex flex-col justify-between flex-auto p-5 gap-y-3">
         <div className="space-y-2">
-          <div className="flex items-center gap-x-2 text-sm">
+          <div className="flex items-center text-sm gap-x-2">
             <img className="size-4" src={projectLogoUrl} alt="project logo" />
             {projectName}
           </div>
-          <h2 className="font-medium text-base">{title}</h2>
+          <h2 className="text-base font-medium">{title}</h2>
         </div>
 
         <div className="space-y-3">
@@ -84,7 +84,7 @@ function Compaign({
             {participantNum > 1 ? 'Participants' : 'Participant'}
           </div> */}
 
-          <div className="flex flex-wrap text-xs font-medium space-x-3">
+          <div className="flex flex-wrap space-x-3 text-xs font-medium">
             {hasNFT && (
               <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
                 NFT
