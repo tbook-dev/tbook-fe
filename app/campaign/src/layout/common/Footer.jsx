@@ -8,20 +8,20 @@ const chanelTips = [
   ` https://t.me/tbookincentive`,
 ];
 
-export default function Footer () {
+export default function Footer ({theme}) {
   const showFooterTip = useSelector(state => state.global.showFooterTip);
   const { pc } = useResponsive();
 
   return (
     <footer className='w-full'>
-      <div className='bx text-xs text-center text-white/60 border-t border-white/10'>
+      <div className={ clsx("text-xs text-center border-t bx", theme === 'light' ? 'text-black/60 border-black/10' : "text-white/60 border-white/10")}>
         {showFooterTip && (
           <h5 className={clsx('py-2', pc ? 'flex justify-center gap-x-1' : '')}>
             <p>{chanelTips[0]}</p>
             <a
               href={chanelTips[1]}
               target='_blank'
-              className='underline hover:text-white transition-all'
+              className={ clsx("underline transition-all", theme === 'light' ? 'hover:text-black' : 'hover:text-white') }
             >
               {chanelTips[1]}
             </a>

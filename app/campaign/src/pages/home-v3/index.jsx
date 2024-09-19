@@ -73,7 +73,7 @@ export default function HomeProject () {
                             ? 'before:absolute before:w-full before:h-0.5 before:left-0 before:-bottom-[7px] before:bg-[#904BF6]'
                             : 'text-[#9A81E6]',
                           isLoading ? '' : 'lg:hover:text-[#904BF6]',
-                          'text-base lg:text-xl relative w-[50%] h-7 text-[#904BF6]'
+                          'text-base lg:text-xl relative w-[50%] lg:w-[120px] h-7 text-[#904BF6]'
                         ) }
                         onClick={ () => {
                           setSelectedStatus(v.value);
@@ -89,16 +89,18 @@ export default function HomeProject () {
 
           <section className='px-4 mb-20'>
             { isLoading ? (
-              <div className='grid grid-cols-1 gap-6 lg:grid-cols-4'>
+              <div className='grid grid-cols-1 gap-6 lg:grid-cols-4 '>
                 { new Array(3).fill(0).map((_, i) => {
                   return (
-                    <div className='space-y-4' key={ i }>
+                    <div className='space-y-4 rounded-xl  shadow-s2 bg-white border-[1px] border-[#C0ABD9]' key={ i }>
                       <div
                         className={ clsx(
                           'animate-pulse bg-[#F0E1F7] rounded-xl',
                           'w-full h-[160px] lg:h-[140px]'
                         ) }
                       />
+                      <div className='h-[132px]'>
+                      </div>
                     </div>
                   );
                 }) }

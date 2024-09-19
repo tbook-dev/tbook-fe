@@ -17,12 +17,12 @@ export default function Point() {
   return (
     <div className="space-y-2">
       {isLoading ? (
-        <div className="pt-10 flex justify-center">
+        <div className="flex justify-center pt-10">
           <PageLoading />
         </div>
       ) : (
         <>
-          <div className="flex items-center justify-between p-5 rounded-lg bg-[#0e0819] border border-[#904BF6] mb-8">
+            <div className="flex items-center justify-between p-5 rounded-lg bg-[#0e0819] border border-[#904BF6] mb-8 text-white">
             <div className="space-y-2 lg:space-y-4">
               <div className="text-sm lg:text-lg">points</div>
               <div className="font-bold text-4.2xl leading-[44px] mb-1 lg:text-[48px] lg:font-medium font-zen-dot">
@@ -41,7 +41,7 @@ export default function Point() {
                   key={idx}
                   className="p-5 bg-[#0e0819] rounded-lg flex justify-between items-center"
                 >
-                  <div className="w-[250px] lg:w-[1000px] flex flex-col">
+                  <div className="w-[250px] lg:w-[1000px] flex flex-col text-white">
                     <Link
                       className="text-sm font-medium"
                       to={`${isUsingSubdomain ? '' : `/${projectUrl}`}/${
@@ -59,7 +59,7 @@ export default function Point() {
                       {dayjs(v.claimedDate).format('MMMM DD, YYYY')}
                     </span>
                   </div>
-                  <div className="text-base font-medium">
+                  <div className="text-base font-medium text-white">
                     +{formatStandard(v.number)}
                   </div>
                 </div>
