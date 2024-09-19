@@ -10,6 +10,7 @@ import NotConnect from './modules/NotConnect'
 import Loading from '@/components/loading'
 import Empty from '@/components/empty'
 import { useResponsive } from 'ahooks'
+import clsx from 'clsx'
 const moduleConf = {
   tab: [
     {
@@ -29,7 +30,7 @@ const moduleConf = {
 }
 export default function Campaign () {
   const { pc } = useResponsive()
-  const { projectId } = useLoaderData()
+  const { projectId, isLightTheme } = useLoaderData()
   const { userLogined, isLoading: userLoading } = useUserInfoQuery()
   const [value, setValue] = useState(moduleConf.tab[0].value)
   const { data: resData, isLoading } = useUserCampaignQuery(projectId)
@@ -49,9 +50,9 @@ export default function Campaign () {
   }, [resData, value])
 
   return (
-    <div className='space-y-8 w-page-content mx-auto'>
-      <div className='flex flex-col gap-y-4 lg:gap-y-8 pt-3 pb-4 px-4 lg:px-0 border-b border-[#160b25] lg:border-none'>
-        <h2 className='font-medium text-2xl lg:font-bold font-zen-dot'>
+    <div className='mx-auto space-y-8 w-page-content'>
+      <div className={ clsx('flex flex-col gap-y-4 lg:gap-y-8 pt-3 pb-4 px-4 lg:px-0 border-b  lg:border-none', isLightTheme ? 'border-[#dbbee8]' : 'border-[#160b25]')}>
+        <h2 className='text-2xl font-medium lg:font-bold font-zen-dot'>
           {moduleConf.title}
         </h2>
         <TabList
