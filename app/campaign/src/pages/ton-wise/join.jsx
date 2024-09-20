@@ -5,6 +5,8 @@ import { useJoinMutation, useWiseHasWiseScore } from '@/hooks/useWiseScore';
 import { useNavigate } from 'react-router-dom';
 import Loading from '@/components/loading';
 import Generating from './generating';
+import { useDispatch } from 'react-redux';
+import { setWiseScoreShowGen } from '@/store/global';
 
 const REGEXP_ONLY_DIGITS_AND_CHARS_REG = new RegExp(
   REGEXP_ONLY_DIGITS_AND_CHARS
@@ -15,8 +17,10 @@ export default function Join() {
   const navigate = useNavigate();
   const { data: hasWiseScoreRes } = useWiseHasWiseScore();
   const [showGen, setShowGen] = useState(false);
+  const disptch = useDispatch();
 
   const navToWiseScore = () => {
+    disptch(setWiseScoreShowGen(false));
     navigate('/wise-score', { replace: true });
     window.sessionRoutesCount -= 1;
   };
