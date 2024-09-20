@@ -10,14 +10,28 @@ import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import HotIcon from '@/images/icon/svgr/hot.svg?react';
 import useDeFi from '@/hooks/useDeFi';
+import Generating from './generating';
+import { useDispatch, useSelector } from 'react-redux';
+import { setWiseScoreShowGen } from '@/store/global';
 
 function TonWise() {
   const { user } = useUserInfo();
-  const { totalScore, isLoaded, isFetching } = useWiseScore();
+  const { totalScore, isLoaded, isFetching, isFirstCreate } = useWiseScore();
   const { data: defi } = useDeFi();
+  const showGen = useSelector((s) => s.global.wiseScoreShowGen);
+  const disptch = useDispatch();
 
   if (!isLoaded || isFetching) {
     return <Loading text="Aggregating metrics..." />;
+  }
+  if (isFirstCreate && showGen) {
+    return (
+      <Generating
+        hide={() => {
+          disptch(setWiseScoreShowGen(false));
+        }}
+      />
+    );
   }
   return (
     <div className="flex flex-col px-5 mt-3 pb-20 lg:px-0 max-w-md mx-auto space-y-8">
