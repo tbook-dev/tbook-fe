@@ -3,27 +3,20 @@ import { formatImpact } from '@tbook/utils/lib/conf';
 import Privilege from './components/privilege';
 import Loading from '@/components/loading';
 import BottomNav from './components/bottomNav';
-import { useNavigate } from 'react-router-dom';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import LazyImage from '@/components/lazyImage';
 import WiseLevel from './components/wiseLevel';
-import { useLayoutEffect, memo } from 'react';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import HotIcon from '@/images/icon/svgr/hot.svg?react';
 import useDeFi from '@/hooks/useDeFi';
 
 function TonWise() {
   const { user } = useUserInfo();
-  const { totalScore, isGranted, isLoaded, isFetching } = useWiseScore();
-  const navigate = useNavigate();
+  const { totalScore, isLoaded, isFetching } = useWiseScore();
   const { data: defi } = useDeFi();
-  useLayoutEffect(() => {
-    if (isLoaded && !isGranted) {
-      window.sessionRoutesCount -= 1;
-      navigate('/wise-score/join', { replace: true });
-    }
-  }, [isLoaded, isGranted]);
-  if (!isLoaded || !isGranted || isFetching) {
+
+  if (!isLoaded || isFetching) {
     return <Loading text="Aggregating metrics..." />;
   }
   return (

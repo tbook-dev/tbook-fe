@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom';
 import MyLayout from '@/layout/my/Layout';
 import TMALayout from '@/layout/ton/Layout';
 import HomeLayout from '@/layout/fixed/Layout';
@@ -12,7 +12,6 @@ import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import TonExplore from '@/pages/ton-explore';
 import { keptProjectUrls, defaultProjectInfo } from './conf';
-import theme from '../theme';
 
 const App = lazy(() => import('@/pages/app'));
 const AppV3 = lazy(() => import('@/pages/app-v3'));
@@ -291,8 +290,8 @@ const routes = [
         element: React.createElement(() => {
           const { isLightTheme } = useLoaderData();
           return (
-            <Suspense fallback={ <PageFallBack /> }>
-              { isLightTheme ? <HomeV3 /> : <HomeV2 /> }
+            <Suspense fallback={<PageFallBack />}>
+              {isLightTheme ? <HomeV3 /> : <HomeV2 />}
             </Suspense>
           );
         }),
@@ -321,8 +320,8 @@ const routes = [
         element: React.createElement(() => {
           const { isLightTheme } = useLoaderData();
           return (
-            <Suspense fallback={ <PageFallBack /> }>
-              { isLightTheme ? <AppV3 /> : <App /> }
+            <Suspense fallback={<PageFallBack />}>
+              {isLightTheme ? <AppV3 /> : <App />}
             </Suspense>
           );
         }),
