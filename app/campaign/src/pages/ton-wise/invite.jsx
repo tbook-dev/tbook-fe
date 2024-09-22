@@ -9,9 +9,8 @@ import {
 import ShareDrawer from '@/components/drawer/share';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Tooltip } from 'antd';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
-import { cn } from '../../utils/conf';
+import { cn } from '@/utils/conf';
 
 export default function Invite() {
   const [open, setOpen] = useState(false);

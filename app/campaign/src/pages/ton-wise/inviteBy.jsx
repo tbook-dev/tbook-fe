@@ -5,9 +5,9 @@ import Button from './components/button';
 import { useJoinMutation } from '@/hooks/useWiseScore';
 import Backeds from '@/images/wise/backeds.svg';
 import LazyImage from '@/components/lazyImage';
-import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import Nav from './components/nav';
+import { ConfigProvider, message } from 'antd';
 
 function Slot(props) {
   return (
@@ -59,13 +59,23 @@ export default function Join() {
   const mutation = useJoinMutation();
   const [messageAPI, messageContext] = message.useMessage();
   const navigate = useNavigate();
+  const openMessage = (content, onClose) => {
+    messageAPI.open({
+      icon: null,
+      content: (
+        <div className="px-3 py-4 backdrop-blur-md rounded-xl">{content}</div>
+      ),
+      className: 'mt-10',
+      onClose,
+    });
+  };
   const onComplete = async (val) => {
     const res = await mutation.mutateAsync({ code: val });
     if (res.success) {
-      messageAPI.success(res.message ?? 'sucess!');
+      openMessage(`🌟🌟 ${res.message ?? 'sucess!'} 🌟🌟`);
       navToWiseInvite();
     } else {
-      messageAPI.error(res.message ?? 'unknown error!');
+      openMessage(res.message ?? 'unknown error!');
     }
   };
 
@@ -105,7 +115,18 @@ export default function Join() {
         <h2 className="text-base text-center text-[#999]">BACKED BY</h2>
         <LazyImage src={Backeds} className="h-6 aspect-[134/24] mx-auto" />
       </div>
-      {messageContext}
+      <ConfigProvider
+        theme={{
+          components: {
+            Message: {
+              contentBg: `rgba(255, 223, 162, 0.15)`,
+              contentPadding: 0,
+            },
+          },
+        }}
+      >
+        {messageContext}
+      </ConfigProvider>
     </div>
   );
 }
