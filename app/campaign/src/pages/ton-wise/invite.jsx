@@ -2,13 +2,16 @@ import BottomNav from './components/bottomNav';
 import InviteFriends from './components/inviteFriends';
 import Button from './components/button';
 import TgIcon from '@/images/icon/svgr/tg.svg?react';
-// import AmbassadorIcon from '@/images/icon/svgr/ambassador.svg?react';
 import {
   useWiseCreditInvite,
   useWiseCreditInviteFriends,
 } from '@/hooks/useWiseScore';
 import ShareDrawer from '@/components/drawer/share';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Tooltip } from 'antd';
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
+import { cn } from '../../utils/conf';
 
 export default function Invite() {
   const [open, setOpen] = useState(false);
@@ -16,11 +19,61 @@ export default function Invite() {
     useWiseCreditInvite();
   const { invitedList, totalTimes, inviteCode } = useWiseCreditInviteFriends();
   const hasNoData = !inviteCode;
+  const hasInviter = invitedList.length > 0;
   return (
     <div className="flex-auto w-full pb-48  px-5 mt-3 lg:px-0 mx-auto">
       <div className="space-y-6">
-        <h2 className="text-xl text-center">Send Invitations!</h2>
-        <InviteFriends openDrawer={() => setOpen(true)} />
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl">Send Invitations!</h2>
+            {hasNoData ? (
+              <div className="h-6 w-16 bg-[#1f1f1f] animate-pulse" />
+            ) : !hasInviter ? (
+              <Popover>
+                <PopoverButton
+                  className={cn(
+                    'flex items-center gap-x-1 text-xs text-white bg-white/10 px-2.5 py-1.5 rounded-lg',
+                    'data-[active]:text-white/60 data-[active]:outline data-[active]:outline-1 data-[active]:outline-white/60 data-[hover]:text-white data-[focus]:outline-1'
+                  )}
+                >
+                  Your inviter{' '}
+                  <img
+                    className="size-5 rounded-full"
+                    src={
+                      'https://pbs.twimg.com/profile_images/1479058803748663298/Vb46S1fi_normal.jpg'
+                    }
+                  />
+                </PopoverButton>
+                <PopoverPanel
+                  anchor={{
+                    to: 'bottom',
+                    gap: '10px',
+                  }}
+                  className="bg-[#333] rounded-xl max-w-max transition duration-200 ease-in-out"
+                >
+                  <div className="flex items-center gap-x-2 text-sm p-3">
+                    <img
+                      className="size-8 rounded-full"
+                      src={
+                        'https://pbs.twimg.com/profile_images/1479058803748663298/Vb46S1fi_normal.jpg'
+                      }
+                    />
+                    <span className="text-white">@Guy_Hawkins</span>
+                    <span className="text-[#904BF6] italic ms-4">#57709A</span>
+                  </div>
+                </PopoverPanel>
+              </Popover>
+            ) : (
+              <Link
+                to="/wise-score/inviteBy"
+                className="text-[#904BF6] text-xs font-medium bg-[#904BF6]/15 rounded-md px-2 py-1"
+              >
+                Enter your inviter
+              </Link>
+            )}
+          </div>
+          <InviteFriends openDrawer={() => setOpen(true)} />
+        </div>
 
         <div className="space-y-5">
           <h2 className="text-base font-medium">Your invitees</h2>

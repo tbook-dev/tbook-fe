@@ -29,6 +29,7 @@ const WiseCredit = lazy(() => import('@/pages/ton-wise'));
 const ScoreDetail = lazy(() => import('@/pages/ton-wise/detail'));
 const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/leaderboard'));
 const WiseInvite = lazy(() => import('@/pages/ton-wise/invite'));
+const InviteBy = lazy(() => import('@/pages/ton-wise/inviteBy'));
 const WiseJoin = lazy(() => import('@/pages/ton-wise/join'));
 const Renaissance = lazy(() => import('@/pages/renaissance'));
 const RenaissanceDetail = lazy(() => import('@/pages/renaissance/detail'));
@@ -159,6 +160,15 @@ const routes = [
         element: (
           <Suspense fallback={<PageFallBack />}>
             <WiseJoin />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'inviteBy',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <InviteBy />
           </Suspense>
         ),
       },
