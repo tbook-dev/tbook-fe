@@ -28,40 +28,51 @@ export default function Invite() {
             <h2 className="text-2xl">Send Invitations!</h2>
             {hasNoData ? (
               <div className="h-6 w-16 bg-[#1f1f1f] animate-pulse" />
-            ) : !hasInviter ? (
+            ) : hasInviter ? (
               <Popover>
-                <PopoverButton
-                  className={cn(
-                    'flex items-center gap-x-1 text-xs text-white bg-white/10 px-2.5 py-1.5 rounded-lg',
-                    'data-[active]:text-white/60 data-[active]:outline data-[active]:outline-1 data-[active]:outline-white/60 data-[hover]:text-white data-[focus]:outline-1'
-                  )}
-                >
-                  Your inviter{' '}
-                  <img
-                    className="size-5 rounded-full"
-                    src={
-                      'https://pbs.twimg.com/profile_images/1479058803748663298/Vb46S1fi_normal.jpg'
-                    }
-                  />
-                </PopoverButton>
-                <PopoverPanel
-                  anchor={{
-                    to: 'bottom',
-                    gap: '10px',
-                  }}
-                  className="bg-[#333] rounded-xl max-w-max transition duration-200 ease-in-out"
-                >
-                  <div className="flex items-center gap-x-2 text-sm p-3">
-                    <img
-                      className="size-8 rounded-full"
-                      src={
-                        'https://pbs.twimg.com/profile_images/1479058803748663298/Vb46S1fi_normal.jpg'
-                      }
-                    />
-                    <span className="text-white">@Guy_Hawkins</span>
-                    <span className="text-[#904BF6] italic ms-4">#57709A</span>
-                  </div>
-                </PopoverPanel>
+                {({ open }) => (
+                  <>
+                    <PopoverButton
+                      className={cn(
+                        'flex items-center gap-x-1 text-xs text-white bg-white/10 px-2.5 py-1.5 rounded-lg relative',
+                        open
+                          ? 'text-white/60 outline outline-1 outline-white/60'
+                          : 'outline-none'
+                      )}
+                    >
+                      Your inviter{' '}
+                      <img
+                        className="size-5 rounded-full"
+                        src={
+                          'https://pbs.twimg.com/profile_images/1479058803748663298/Vb46S1fi_normal.jpg'
+                        }
+                      />
+                      {open && (
+                        <div className="size-4 rotate-[135deg] bg-[#333] absolute right-3 -bottom-5" />
+                      )}
+                    </PopoverButton>
+                    <PopoverPanel
+                      anchor={{
+                        to: 'bottom',
+                        gap: '10px',
+                      }}
+                      className="bg-[#333] rounded-xl max-w-max transition duration-200 ease-in-out"
+                    >
+                      <div className="flex items-center gap-x-2 text-sm p-3">
+                        <img
+                          className="size-8 rounded-full"
+                          src={
+                            'https://pbs.twimg.com/profile_images/1479058803748663298/Vb46S1fi_normal.jpg'
+                          }
+                        />
+                        <span className="text-white">@Guy_Hawkins</span>
+                        <span className="text-[#904BF6] italic ms-4">
+                          #57709A
+                        </span>
+                      </div>
+                    </PopoverPanel>
+                  </>
+                )}
               </Popover>
             ) : (
               <Link
