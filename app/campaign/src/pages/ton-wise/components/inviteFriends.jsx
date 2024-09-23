@@ -36,7 +36,7 @@ export default function InviteFriends() {
         )}
       </div>
       <div className="text-sm text-white/60">
-        Each friend generating WISE Credit Score, you'll improve WISE Credit Score by 1K.
+        Improve your credit by inviting.
       </div>
     </div>
   );
