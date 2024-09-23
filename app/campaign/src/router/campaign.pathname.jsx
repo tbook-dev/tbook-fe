@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom';
 import MyLayout from '@/layout/my/Layout';
 import TMALayout from '@/layout/ton/Layout';
 import HomeLayout from '@/layout/fixed/Layout';
@@ -12,7 +12,6 @@ import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import TonExplore from '@/pages/ton-explore';
 import { keptProjectUrls, defaultProjectInfo } from './conf';
-import theme from '../theme';
 
 const App = lazy(() => import('@/pages/app'));
 const AppV3 = lazy(() => import('@/pages/app-v3'));
@@ -30,6 +29,7 @@ const WiseCredit = lazy(() => import('@/pages/ton-wise'));
 const ScoreDetail = lazy(() => import('@/pages/ton-wise/detail'));
 const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/leaderboard'));
 const WiseInvite = lazy(() => import('@/pages/ton-wise/invite'));
+const InviteBy = lazy(() => import('@/pages/ton-wise/inviteBy'));
 const WiseJoin = lazy(() => import('@/pages/ton-wise/join'));
 const Renaissance = lazy(() => import('@/pages/renaissance'));
 const RenaissanceDetail = lazy(() => import('@/pages/renaissance/detail'));
@@ -164,6 +164,15 @@ const routes = [
         ),
       },
       {
+        path: 'inviteBy',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <InviteBy />
+          </Suspense>
+        ),
+      },
+      {
         path: 'ambassador',
         loader: getTbookfn,
         element: (
@@ -291,8 +300,8 @@ const routes = [
         element: React.createElement(() => {
           const { isLightTheme } = useLoaderData();
           return (
-            <Suspense fallback={ <PageFallBack /> }>
-              { isLightTheme ? <HomeV3 /> : <HomeV2 /> }
+            <Suspense fallback={<PageFallBack />}>
+              {isLightTheme ? <HomeV3 /> : <HomeV2 />}
             </Suspense>
           );
         }),
@@ -321,8 +330,8 @@ const routes = [
         element: React.createElement(() => {
           const { isLightTheme } = useLoaderData();
           return (
-            <Suspense fallback={ <PageFallBack /> }>
-              { isLightTheme ? <AppV3 /> : <App /> }
+            <Suspense fallback={<PageFallBack />}>
+              {isLightTheme ? <AppV3 /> : <App />}
             </Suspense>
           );
         }),

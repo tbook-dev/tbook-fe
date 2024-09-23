@@ -14,28 +14,6 @@ import { getDirectLink } from '@/utils/tma';
 import { useCallback, useMemo, useEffect } from 'react';
 import WebApp from '@twa-dev/sdk';
 
-export const useWiseGobal = () => {
-  return useQuery(
-    'golbal:wise',
-    () => {
-      return {
-        showGen: true,
-      };
-    },
-    {
-      staleTime: Infinity,
-      initialData: { showGen: true },
-    }
-  );
-};
-export const useWiseGobalMutation = () => {
-  const queryClient = useQueryClient();
-  const { data } = useWiseGobal();
-  return (v) => {
-    queryClient.setQueryData('golbal:wise', Object.assign({}, data, v));
-  };
-};
-
 export default function useWiseScore() {
   const { userLogined } = useUserInfoQuery();
   const { data, ...p } = useQuery('wise-score', () => getWiseScore(), {
@@ -101,6 +79,9 @@ export const useWiseCreditInviteFriends = () => {
     totalTimes: data?.entity?.totalTimes ?? 3,
     usedTimes: data?.entity?.usedTimes ?? 0,
     invitedList: data?.entity?.invitees ?? [],
+    inviterCode: data?.entity?.inviterCode,
+    inviterTgName: data?.entity?.inviterTgName,
+    inviterAvatar: data?.entity?.avatar,
   };
 };
 // drawer

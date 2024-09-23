@@ -22,7 +22,7 @@ export default function Nav({
       <Link to={to} className="absolute left-0">
         <Back />
       </Link>
-      {title && <h2 className="text-2xl font-thin">{title}</h2>}
+      {title && <h2 className="text-2xl font-medium">{title}</h2>}
       {children}
     </div>
   );

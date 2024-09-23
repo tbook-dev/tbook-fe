@@ -37,7 +37,7 @@ export default function TonExplore() {
           }
         } else if (type === 4) {
           navigate(`/event/renaissance`);
-        }else if (type === 6) {
+        } else if (type === 6) {
           navigate(`/event/defi`);
         }
       }

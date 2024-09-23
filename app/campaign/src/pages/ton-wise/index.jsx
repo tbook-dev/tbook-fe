@@ -3,28 +3,35 @@ import { formatImpact } from '@tbook/utils/lib/conf';
 import Privilege from './components/privilege';
 import Loading from '@/components/loading';
 import BottomNav from './components/bottomNav';
-import { useNavigate } from 'react-router-dom';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 import LazyImage from '@/components/lazyImage';
 import WiseLevel from './components/wiseLevel';
-import { useLayoutEffect, memo } from 'react';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import HotIcon from '@/images/icon/svgr/hot.svg?react';
 import useDeFi from '@/hooks/useDeFi';
+import Generating from './generating';
+import { useDispatch, useSelector } from 'react-redux';
+import { setWiseScoreShowGen } from '@/store/global';
 
 function TonWise() {
   const { user } = useUserInfo();
-  const { totalScore, isGranted, isLoaded, isFetching } = useWiseScore();
-  const navigate = useNavigate();
+  const { totalScore, isLoaded, isFetching, isFirstCreate } = useWiseScore();
   const { data: defi } = useDeFi();
-  useLayoutEffect(() => {
-    if (isLoaded && !isGranted) {
-      window.sessionRoutesCount -= 1;
-      navigate('/wise-score/join', { replace: true });
-    }
-  }, [isLoaded, isGranted]);
-  if (!isLoaded || !isGranted || isFetching) {
+  const showGen = useSelector((s) => s.global.wiseScoreShowGen);
+  const disptch = useDispatch();
+
+  if (!isLoaded || isFetching) {
     return <Loading text="Aggregating metrics..." />;
+  }
+  if (isFirstCreate && showGen) {
+    return (
+      <Generating
+        hide={() => {
+          disptch(setWiseScoreShowGen(false));
+        }}
+      />
+    );
   }
   return (
     <div className="flex flex-col px-5 mt-3 pb-20 lg:px-0 max-w-md mx-auto space-y-8">
