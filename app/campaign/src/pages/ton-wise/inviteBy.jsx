@@ -98,8 +98,7 @@ export default function Join() {
           </Nav>
 
           <div className="text-sm text-white/60 font-thin">
-            Enter your friend’s invitation code to help improve his/her WISE
-            Credit Score!
+            Enter your friend's code to grow his/her Credit!
           </div>
         </div>
 
