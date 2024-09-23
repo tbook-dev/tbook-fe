@@ -57,7 +57,7 @@ export default function Invite() {
                     </PopoverButton>
                     <PopoverPanel
                       anchor={{
-                        to: 'bottom',
+                        to: 'bottom end',
                         gap: '10px',
                       }}
                       className="bg-[#333] rounded-xl max-w-max transition duration-200 ease-in-out"
