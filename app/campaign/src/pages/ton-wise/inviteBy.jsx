@@ -2,7 +2,10 @@ import { OTPInput, REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
 import { cn } from '@/utils/conf';
 import { useState } from 'react';
 import Button from './components/button';
-import { useJoinMutation } from '@/hooks/useWiseScore';
+import {
+  useJoinMutation,
+  useWiseCreditInviteFriends,
+} from '@/hooks/useWiseScore';
 import Backeds from '@/images/wise/backeds.svg';
 import LazyImage from '@/components/lazyImage';
 import { useNavigate } from 'react-router-dom';
@@ -59,6 +62,8 @@ export default function Join() {
   const mutation = useJoinMutation();
   const [messageAPI, messageContext] = message.useMessage();
   const navigate = useNavigate();
+  const { refetch: refetchInviteCode } = useWiseCreditInviteFriends();
+
   const openMessage = (content, onClose) => {
     messageAPI.open({
       icon: null,
@@ -72,8 +77,8 @@ export default function Join() {
   const onComplete = async (val) => {
     const res = await mutation.mutateAsync({ code: val });
     if (res.success) {
-      openMessage(`🌟🌟 ${res.message ?? 'sucess!'} 🌟🌟`);
-      navToWiseInvite();
+      await refetchInviteCode();
+      openMessage(`🌟🌟 ${res.message ?? 'sucess!'} 🌟🌟`, navToWiseInvite);
     } else {
       openMessage(res.message ?? 'unknown error!');
     }

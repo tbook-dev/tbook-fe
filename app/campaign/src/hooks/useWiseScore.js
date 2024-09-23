@@ -79,6 +79,9 @@ export const useWiseCreditInviteFriends = () => {
     totalTimes: data?.entity?.totalTimes ?? 3,
     usedTimes: data?.entity?.usedTimes ?? 0,
     invitedList: data?.entity?.invitees ?? [],
+    inviterCode: data?.entity?.inviterCode,
+    inviterTgName: data?.entity?.inviterTgName,
+    inviterAvatar: data?.entity?.avatar,
   };
 };
 // drawer

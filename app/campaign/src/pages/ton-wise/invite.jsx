@@ -16,9 +16,16 @@ export default function Invite() {
   const [open, setOpen] = useState(false);
   const { shareToChat, inviteLink, rawText, inviteTgUser } =
     useWiseCreditInvite();
-  const { invitedList, totalTimes, inviteCode } = useWiseCreditInviteFriends();
+  const {
+    invitedList,
+    totalTimes,
+    inviteCode,
+    inviterCode,
+    inviterTgName,
+    inviterAvatar,
+  } = useWiseCreditInviteFriends();
   const hasNoData = !inviteCode;
-  const hasInviter = invitedList.length > 0;
+  const hasInviter = !!inviterCode;
   return (
     <div className="flex-auto w-full pb-48  px-5 mt-3 lg:px-0 mx-auto">
       <div className="space-y-6">
@@ -42,9 +49,7 @@ export default function Invite() {
                       Your inviter{' '}
                       <img
                         className="size-5 rounded-full"
-                        src={
-                          'https://pbs.twimg.com/profile_images/1479058803748663298/Vb46S1fi_normal.jpg'
-                        }
+                        src={inviterAvatar}
                       />
                       {open && (
                         <div className="size-4 rotate-[135deg] bg-[#333] absolute right-3 -bottom-5" />
@@ -60,13 +65,11 @@ export default function Invite() {
                       <div className="flex items-center gap-x-2 text-sm p-3">
                         <img
                           className="size-8 rounded-full"
-                          src={
-                            'https://pbs.twimg.com/profile_images/1479058803748663298/Vb46S1fi_normal.jpg'
-                          }
+                          src={inviterAvatar}
                         />
-                        <span className="text-white">@Guy_Hawkins</span>
+                        <span className="text-white">@{inviterTgName}</span>
                         <span className="text-[#904BF6] italic ms-4">
-                          #57709A
+                          #{inviterCode}
                         </span>
                       </div>
                     </PopoverPanel>
