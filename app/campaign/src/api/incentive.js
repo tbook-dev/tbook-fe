@@ -346,3 +346,7 @@ export const getAmbassadorLevels = async function () {
 export const getDeFi = async function () {
   return await request.Get(`${host}/campaignNew/defi`);
 };
+
+export const getCompanyProjects = async function (companyName) {
+  return fetch(`${host}/company/${companyName}`).then((res) => res.json());
+};

@@ -59,7 +59,8 @@ export const supportTMATypes = [
   // 'renaissance',
   // 'ranger', no longer use
   // "event defi"
-  1, 2, 3, 4, 5, 6
+  // "company"
+  1, 2, 3, 4, 5, 6, 7
 ];
 
 export const logoutRedirecrtKey = 'fromlogout';
