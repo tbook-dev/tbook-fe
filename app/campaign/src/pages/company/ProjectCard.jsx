@@ -3,6 +3,7 @@ import LazyImage from '@/components/lazyImage';
 
 export default function ProjectCard({ info }) {
   const { projectUrl, avatarUrl, projectName, projectDescription } = info;
+  
   const link = `/${projectUrl}`
 
   return (
@@ -25,7 +26,9 @@ export default function ProjectCard({ info }) {
 
         </div>
         <div>
-          <p className="overflow-hidden text-sm text-black line-clamp-2">{ projectDescription }</p>
+          <p className="overflow-hidden text-sm text-black line-clamp-2"
+            dangerouslySetInnerHTML={ { __html: projectDescription } }>
+          </p>
         </div>
       </div>
     </Link>

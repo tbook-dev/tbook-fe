@@ -10,9 +10,8 @@ import Avatar from '../common/Avatar';
 import fallbackLogo from '@/images/error/logo.svg';
 import LazyImage from '@/components/lazyImage';
 
-function CompanyHeader ({ backgroundColor = 'bg-black', textColor = 'text-white', borderColor = 'border-white' }) {
-  const { companyId } = useParams();
-  const { companyName } = useLoaderData();
+function CompanyHeader ({ link = '', title = '', backgroundColor = '', textColor = 'text-white', borderColor = 'border-white' }) {
+
   // const { project, projectUrl, isUsingSubdomain } = useLoaderData();
   const { userLogined, firstLoad } = useUserInfo();
   const dispath = useDispatch();
@@ -31,10 +30,10 @@ function CompanyHeader ({ backgroundColor = 'bg-black', textColor = 'text-white'
         <div className='flex items-center justify-between h-10'>
           <div className='flex items-center'>
             <Link
-              to={ `/company/${companyId}` }
+              to={ link }
               className='mr-1 text-lg font-bold lg:mr-16'
             >
-              { companyName }
+              { title }
             </Link>
           </div>
 

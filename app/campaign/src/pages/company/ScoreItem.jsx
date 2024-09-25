@@ -37,7 +37,6 @@ const RankDisplay = ({ rank }) => {
 };
 
 export default function ScoreItem({ user }) {
-  console.log(user)
   const walletUrl = addressLogoMap[user?.addressType || 1];
 
   const getBgColor = (rank) => {
