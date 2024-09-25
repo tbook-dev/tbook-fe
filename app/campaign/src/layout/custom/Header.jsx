@@ -9,7 +9,6 @@ const Modals = lazy(() => import('../common/Modals'));
 
 export default function Header ({ title }) {
   const { companyId } = useLoaderData()
-
   const link = `/company/${companyId}`
   return (
     <>

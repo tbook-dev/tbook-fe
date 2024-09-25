@@ -14,6 +14,7 @@ const Asset = lazy(() => import('@/pages/my/Asset'));
 const Campaign = lazy(() => import('@/pages/my/campaign'));
 const NFT = lazy(() => import('@/pages/my/nft'));
 const Attestation = lazy(() => import('@/pages/attestation'));
+const AirDrop = lazy(() => import('@/pages/airdrop'));
 
 const getProjectIdFn = async () => {
   const host = location.hostname;
@@ -72,6 +73,15 @@ const routes = [
         element: (
           <Suspense fallback={<PageFallBack />}>
             <Asset />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/airdrop',
+        loader: getProjectIdFn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <AirDrop />
           </Suspense>
         ),
       },

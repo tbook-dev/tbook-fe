@@ -28,7 +28,7 @@ const footprintTips = [
   'For now, you could open incentive passport on any campaign page to track your footprint within certain project.',
   'Stay tuned!',
 ];
-export default function PassportCard ({ onClose }) {
+export default function PassportCard({ onClose }) {
   const {
     user,
     currentSocial,
@@ -39,12 +39,14 @@ export default function PassportCard ({ onClose }) {
     currentAddress,
     tonAddress,
     isUsingWallet,
+    isZK,
   } = useUserInfo();
-  const { socialList } = useSocial();
+  const { socialList, getZkfnByName } = useSocial();
   const dispatch = useDispatch();
   const { isUsingSubdomain, projectUrl, projectId } = useLoaderData();
   const { isTMA, canConnectEvm } = useTelegram();
   const { openTonModalLogin, disconnectTon } = useTonToolkit();
+  const zkGoogle = getZkfnByName('google');
   const handleConnectWallet = useCallback(() => {
     onClose();
     dispatch(setConnectWalletModal(true));
@@ -53,7 +55,6 @@ export default function PassportCard ({ onClose }) {
     onClose();
     openTonModalLogin();
   };
-  let location = useLocation();
   const links = useMemo(() => {
     return [
       {
@@ -79,19 +80,19 @@ export default function PassportCard ({ onClose }) {
     return [
       {
         render: tonConnected ? (
-          <TipAddress address={tonAddress} key='evm-t'>
-            <img src={tonUnlockSVG} className='w-5 h-5 object-center' />
+          <TipAddress address={tonAddress} key="evm-t">
+            <img src={tonUnlockSVG} className="w-5 h-5 object-center" />
           </TipAddress>
         ) : (
           <button
             onClick={handleTonClick}
-            className='focus-visible:outline-none'
-            key='evm-b'
+            className="focus-visible:outline-none"
+            key="evm-b"
           >
             <img
               src={tonUnlockSVG}
-              alt='ton connect'
-              className='w-5 h-5 object-center'
+              alt="ton connect"
+              className="w-5 h-5 object-center"
             />
           </button>
         ),
@@ -100,23 +101,23 @@ export default function PassportCard ({ onClose }) {
       },
       {
         render: evmConnected ? (
-          <TipAddress address={evmAddress} key='ton-t'>
+          <TipAddress address={evmAddress} key="ton-t">
             <img
               src={evmUnlockSVG}
-              alt='wallet connect'
-              className='w-6 h-6 object-contain object-center focus-visible:outline-none'
+              alt="wallet connect"
+              className="w-6 h-6 object-contain object-center focus-visible:outline-none"
             />
           </TipAddress>
         ) : !canConnectEvm ? (
           <Tooltip
-            key='evm-tma'
+            key="evm-tma"
             title={() => (
               <>
                 <p>For now, you could bind EVM address in web browser.</p>
                 <a
-                  target='_blank'
+                  target="_blank"
                   href={`${window.location.origin}/edit-attestation`}
-                  className='block hover:text-white underline hover:underline break-all'
+                  className="block hover:text-white underline hover:underline break-all"
                 >
                   {window.location.origin}/edit-attestation
                 </a>
@@ -125,95 +126,118 @@ export default function PassportCard ({ onClose }) {
           >
             <img
               src={walletGrayIcon}
-              alt='wallet connect'
-              className='w-6 h-6 object-contain object-center focus-visible:outline-none'
+              alt="wallet connect"
+              className="w-6 h-6 object-contain object-center focus-visible:outline-none"
             />
           </Tooltip>
         ) : (
           <button
-            key='ton-b'
+            key="ton-b"
             onClick={handleConnectWallet}
-            className='focus-visible:outline-none'
+            className="focus-visible:outline-none"
           >
             <img
               src={walletGrayIcon}
-              alt='wallet connect'
-              className='w-6 h-6 object-contain object-center'
+              alt="wallet connect"
+              className="w-6 h-6 object-contain object-center"
             />
           </button>
         ),
         name: 'evm',
         connected: evmConnected,
       },
+      {
+        render: isZK ? (
+          <Tooltip key={zkGoogle?.name} title={`${zkGoogle?.userName}`}>
+            <img
+              src={zkGoogle?.connected ? zkGoogle?.activePic : zkGoogle?.picUrl}
+              className="w-6 h-6 object-contain object-center"
+            />
+          </Tooltip>
+        ) : (
+          <button
+            className="focus-visible:outline-none"
+            key={zkGoogle.name}
+            onClick={() => zkGoogle?.loginFn(false)}
+          >
+            <img
+              src={zkGoogle?.connected ? zkGoogle?.activePic : zkGoogle?.picUrl}
+              className="w-6 h-6 object-contain object-center"
+            />
+          </button>
+        ),
+        name: 'google',
+        connected: zkGoogle?.connected,
+      },
     ];
-  }, [tonConnected, evmConnected]);
-  // console.log({ currentAddress, isTMA });
+  }, [tonConnected, evmConnected, zkGoogle]);
+
   return (
-    <div className='flex-auto flex flex-col justify-start pb-16 pt-6 lg:py-0 lg:justify-center text-white'>
+    <div className="flex-auto flex flex-col justify-start pb-16 pt-6 lg:py-0 lg:justify-center text-white">
       <div
-        className='relative mx-auto h-[452px] w-[317px] flex flex-col justify-center items-center bg-cover bg-center'
+        className="relative mx-auto h-[452px] w-[317px] flex flex-col justify-center items-center bg-cover bg-center"
         style={{ backgroundImage: `url(${passportlg})` }}
       >
         <div className={clsx('mb-3', isTMA ? '' : 'invisible')}>
           <Link
-            to='/wise-score'
+            to="/wise-score"
             style={{ backgroundImage: `url("${wiseScoreSVG}")` }}
             onClick={onClose}
-            className='focus-visible:outline-none w-[135px] h-6  mx-auto bg-center bg-contain font-zen-dot text-xs flex items-center justify-center gap-x-0.5'
+            className="focus-visible:outline-none w-[135px] h-6  mx-auto bg-center bg-contain font-zen-dot text-xs flex items-center justify-center gap-x-0.5"
           >
             WISE Credit
             <svg
-              width='12'
-              height='12'
-              viewBox='0 0 12 12'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d='M3 9L9 3M9 3H4.5M9 3V7.5'
-                stroke='white'
-                strokeLinecap='round'
-                strokeLinejoin='round'
+                d="M3 9L9 3M9 3H4.5M9 3V7.5"
+                stroke="white"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </Link>
         </div>
-        <div className='relative flex flex-col items-center gap-y-5  text-lg font-medium mb-3'>
+        <div className="relative flex flex-col items-center gap-y-5  text-lg font-medium mb-3">
           <LazyImage
             fallbackSrc={fallbackAvatarSVG}
             src={user?.avatar}
-            alt='passport avatar'
-            className='w-20 h-20 rounded-full object-center'
+            alt="passport avatar"
+            className="w-20 h-20 rounded-full object-center"
           />
-          <div className='space-y-2'>
-            <div className='text-center'>
+          <div className="space-y-2">
+            <div className="text-center">
               {/* 优先展示wallet,然后就是social */}
               {isUsingWallet ? (
-                <div className='flex items-center gap-x-1.5 font-zen-dot'>
+                <div className="flex items-center gap-x-1.5 font-zen-dot">
                   {currentAddress?.type === 'zk' && (
                     <img
                       src={suiSVG}
-                      alt='zk'
-                      className='w-5 h-5 object-center'
+                      alt="zk"
+                      className="w-5 h-5 object-center"
                     />
                   )}
                   {currentAddress?.type === 'ton' && (
                     <img
                       src={tonSVG}
-                      alt='ton'
-                      className='w-5 h-5 object-center'
+                      alt="ton"
+                      className="w-5 h-5 object-center"
                     />
                   )}
                   {currentAddress?.type === 'evm' && (
                     <img
                       src={evmSVG}
-                      alt='evm'
-                      className='w-5 h-5 object-center'
+                      alt="evm"
+                      className="w-5 h-5 object-center"
                     />
                   )}
                   <Address
                     address={address}
-                    className='font-zen-dot text-xl'
+                    className="font-zen-dot text-xl"
                     disconnect={
                       currentAddress?.type === 'ton'
                         ? handleDisconnectTon
@@ -227,14 +251,14 @@ export default function PassportCard ({ onClose }) {
                 </div>
               ) : (
                 currentSocial && (
-                  <div className='flex items-center gap-x-0.5 text-[#717374] text-base'>
+                  <div className="flex items-center gap-x-0.5 text-[#717374] text-base">
                     {`@${currentSocial.name}`}
                     <img
                       src={
-                        socialList.find(v => v.name === currentSocial.type)
+                        socialList.find((v) => v.name === currentSocial.type)
                           ?.activePic
                       }
-                      className='w-5 h-5 object-center'
+                      className="w-5 h-5 object-center"
                     />
                   </div>
                 )
@@ -243,37 +267,37 @@ export default function PassportCard ({ onClose }) {
           </div>
         </div>
 
-        <div className='space-y-2 mb-5'>
-          <div className='relative flex items-center justify-center gap-x-3'>
+        <div className="space-y-2 mb-5">
+          <div className="relative flex items-center justify-center gap-x-3">
             {walletIconList
-              .filter(v =>
+              .filter((v) =>
                 isUsingWallet ? currentAddress?.type !== v.name : true
               )
-              .map(v => {
+              .map((v) => {
                 return v.render;
               })}
 
             {socialList
-              .filter(v =>
+              .filter((v) =>
                 isUsingWallet ? true : currentSocial?.type !== v.name
               )
-              .map(v => {
+              .map((v) => {
                 return v.connected ? (
                   <Tooltip key={v.name} title={`${v.userName}`}>
                     <img
                       src={v.connected ? v.activePic : v.picUrl}
-                      className='w-6 h-6 object-contain object-center'
+                      className="w-6 h-6 object-contain object-center"
                     />
                   </Tooltip>
                 ) : (
                   <button
-                    className='focus-visible:outline-none'
+                    className="focus-visible:outline-none"
                     key={v.name}
                     onClick={() => v.loginFn(false)}
                   >
                     <img
                       src={v.connected ? v.activePic : v.picUrl}
-                      className='w-6 h-6 object-contain object-center'
+                      className="w-6 h-6 object-contain object-center"
                     />
                   </button>
                 );
@@ -282,28 +306,28 @@ export default function PassportCard ({ onClose }) {
           <Link
             to={`/edit-attestation`}
             onClick={onClose}
-            className='text-[#B5859E] invisible lg:visible font-zen-dot focus-visible:outline-none group hover:text-white w-max mx-auto flex items-center gap-x-1 bg-[rgb(244,140,193)]/[0.1] px-3 py-1 rounded-xl text-xs'
+            className="text-[#B5859E] invisible lg:visible font-zen-dot focus-visible:outline-none group hover:text-white w-max mx-auto flex items-center gap-x-1 bg-[rgb(244,140,193)]/[0.1] px-3 py-1 rounded-xl text-xs"
           >
             Edit Identity Attestation
             <svg
-              width='12'
-              height='12'
-              viewBox='0 0 12 12'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d='M6.75 2.25L10.5 6M10.5 6L6.75 9.75M10.5 6H1.5'
-                className='stroke-[#B5859E] group-hover:stroke-white'
-                strokeWidth='1.2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
+                d="M6.75 2.25L10.5 6M10.5 6L6.75 9.75M10.5 6H1.5"
+                className="stroke-[#B5859E] group-hover:stroke-white"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </Link>
         </div>
 
-        <div className='relative flex flex-col px-6 py-4 gap-y-1 text-sm font-medium'>
+        <div className="relative flex flex-col px-6 py-4 gap-y-1 text-sm font-medium">
           {linkNoClick ? (
             <Tooltip
               title={footprintTips.map((t, i) => (
@@ -312,19 +336,19 @@ export default function PassportCard ({ onClose }) {
             >
               <span
                 style={{ backgroundImage: `url(${shapeLink})` }}
-                className='text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm'
+                className="text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm"
               >
                 Incentive Footprint
               </span>
             </Tooltip>
           ) : (
-            links.map(v => {
+            links.map((v) => {
               return (
                 <Link
                   key={v.name}
                   to={v.path}
                   style={{ backgroundImage: `url(${shapeLink})` }}
-                  className='text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm'
+                  className="text-[#FFBCDC] h-12 w-[240px] font-medium focus-visible:outline-none flex items-center justify-center hover:text-white bg-cover backdrop-blur-sm"
                   target={isTMA ? '_self' : '_blank'}
                   onClick={onClose}
                 >

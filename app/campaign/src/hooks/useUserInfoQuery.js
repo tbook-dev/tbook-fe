@@ -4,6 +4,12 @@ import { useEffect, useState, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShowPassportGeneratingModal } from '@/store/global';
 import { useTelegram } from './useTg';
+import {
+  TMAAddressList,
+  webAddressList,
+  TMAsocialList,
+  webSocialList,
+} from '@/utils/logType';
 import { useLocation } from 'react-router-dom';
 
 const whiteList = ['/event/renaissance'];
@@ -54,48 +60,10 @@ export default function useUserInfo() {
 
   // const address = data?.user?.zk?.address || data?.user?.wallet;
   const currentAddress = useMemo(() => {
-    let addressList = [];
     // 在ton之中，优先展示TON地址>SUI地址>EVM地址
-    const tonAddressList = [
-      {
-        type: 'ton',
-        address: tonAddress,
-        weight: 3,
-      },
-      // {
-      //   type: 'zk',
-      //   address: zkAddress,
-      //   weight: 2,
-      // },
-      {
-        type: 'evm',
-        address: evmAddress,
-        weight: 1,
-      },
-    ];
-    // 浏览器之中，优先展示SUI地址>TON地址>EVM地址
-    const webAddressList = [
-      {
-        type: 'ton',
-        address: tonAddress,
-        weight: 2,
-      },
-      // {
-      //   type: 'zk',
-      //   address: zkAddress,
-      //   weight: 3,
-      // },
-      {
-        type: 'evm',
-        address: evmAddress,
-        weight: 1,
-      },
-    ];
-    if (isTMA) {
-      addressList = tonAddressList;
-    } else {
-      addressList = webAddressList;
-    }
+    const addressList = isTMA
+      ? TMAAddressList({ tonAddress, zkAddress, evmAddress })
+      : webAddressList({ tonAddress, zkAddress, evmAddress });
     return addressList
       .filter((v) => Boolean(v.address))
       .sort((a, b) => (a.weight - b.weight > 0 ? 1 : -1))
@@ -112,18 +80,12 @@ export default function useUserInfo() {
       ? data?.userTg?.username ||
         `${data?.userTg?.firstName}_${data?.userTg?.lastName}`
       : '';
-    const socialList = [
-      {
-        type: 'twitter',
-        name: twitterName,
-        weight: isTMA ? 1 : 2,
-      },
-      {
-        type: 'telegram',
-        name: tgName,
-        weight: isTMA ? 2 : 1,
-      },
-    ];
+    const socialList = isTMA
+      ? TMAsocialList({ twitterName, tgName })
+      : webSocialList({
+          twitterName,
+          tgName,
+        });
     return socialList
       .filter((v) => Boolean(v.name))
       .sort((a, b) => (a.weight - b.weight > 0 ? 1 : -1))
@@ -134,6 +96,7 @@ export default function useUserInfo() {
       // user, evm
       !!data?.user?.evm?.evmWallet,
       !!data?.userTon?.binded,
+      isZK,
       // tw
       !!data?.userTwitter?.connected,
       !!data?.userDc?.connected,

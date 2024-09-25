@@ -46,6 +46,8 @@ const SBTDetail = lazy(() => import('@/pages/ton-wise/sbt-detail'));
 const AmbassadorApply = lazy(() => import('@/pages/ton-wise/ambassador-apply'));
 const Ambassador = lazy(() => import('@/pages/ton-wise/ambassador'));
 const Attestation = lazy(() => import('@/pages/attestation'));
+const AirDrop = lazy(() => import('@/pages/airdrop'));
+
 const DeFiGuide = lazy(() => import('@/pages/defi/guide'));
 
 const getTbookfn = async () => {
@@ -361,6 +363,15 @@ const routes = [
             <Snapshot />
           </Suspense>
         ),
+      },
+      {
+        path: ':projectName/air-drop',
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <AirDrop />
+          </Suspense>
+        ),
+        errorElement: <GlobalError />,
       },
     ],
   },

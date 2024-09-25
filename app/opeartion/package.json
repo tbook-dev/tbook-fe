@@ -1,0 +1,18 @@
+{
+  "name": "@tbook/opeartion",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "vite",
+    "build-staging": "vite build",
+    "build": "vite build --mode prod",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tbook/share": "workspace:*",
+    "@tbook/utils": "workspace:*",
+    "@tbook/wallet": "workspace:*",
+    "@tbook/ui": "workspace:*",
+    "@tbook/credential": "workspace:*",
+    "alchemy-sdk": "^2.8.3"
+  }
+}

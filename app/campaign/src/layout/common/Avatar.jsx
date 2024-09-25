@@ -63,18 +63,7 @@ export default function Avatar() {
     );
   };
   const { logo, userInfo } = useMemo(() => {
-    if (currentSocial) {
-      return {
-        logo: (
-          <img
-            src={getSocialByName(currentSocial.type)?.activePic}
-            alt="twitter"
-            className="w-6 h-6"
-          />
-        ),
-        userInfo: <p>{currentSocial?.name}</p>,
-      };
-    } else {
+    if (currentSocial || isZK) {
       if (isZK) {
         return {
           logo: isGoogle ? (
@@ -88,10 +77,21 @@ export default function Avatar() {
         };
       } else {
         return {
-          logo: null,
-          userInfo: <Address address={currentAddress?.address} />,
+          logo: (
+            <img
+              src={getSocialByName(currentSocial?.type)?.activePic}
+              alt="twitter"
+              className="w-6 h-6"
+            />
+          ),
+          userInfo: <p>{currentSocial?.name}</p>,
         };
       }
+    } else {
+      return {
+        logo: null,
+        userInfo: <Address address={currentAddress?.address} />,
+      };
     }
   }, [currentAddress, currentSocial, isZK, isGoogle, data]);
 
