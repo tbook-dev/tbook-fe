@@ -7,14 +7,13 @@ import { useLoaderData, Link, useParams } from 'react-router-dom';
 import WatchRouter from '../common/WatchRouter';
 const Modals = lazy(() => import('../common/Modals'));
 
-export default function Header ({ type }) {
+export default function Header ({ title }) {
   const { companyId } = useLoaderData()
-  // debugger
-  const title = 'GameBuild'
+
   const link = `/company/${companyId}`
   return (
     <>
-      <CompanyHeader backgroundColor='bg-[#FCFAFD]' textColor="text-black" borderColor="border-black" link={link} title={title} />
+      <CompanyHeader backgroundColor='bg-[#FCFAFD]' textColor="text-black" borderColor="border-black" link={ link } title={ title } />
       <WatchRouter />
       <Suspense>
         <Modals />
