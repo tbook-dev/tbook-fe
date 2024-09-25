@@ -17,6 +17,7 @@ export default function CompanyLeaderboard () {
   const { companyId } = useParams();
   const { data = [], isLoading } = useCompanyLeaderboard(companyId);
   const list = data?.data?.leaderboard ?? [];
+  const companyName = data?.data?.companyName || ''
 
   const [ cursor, setCursor ] = useState(0);
 
@@ -26,7 +27,7 @@ export default function CompanyLeaderboard () {
   const disableEnd = cursor === totalPageNum - 1;
 
   return (
-    <Layout title={ companyInfo.companyName }>
+    <Layout title={ companyName }>
       <div className="flex-auto w-full min-h-[calc(100vh_-_160px)] space-y-4 px-6 mt-3 lg:px-0 mx-auto bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] pb-32">
         
         <LeaderBoardNav title="Leaderboard">

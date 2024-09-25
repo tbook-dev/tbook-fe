@@ -2,7 +2,8 @@ import LeaderboardSkeleton from './LeaderBoardSkeleton';
 
 import { formatImpact, shortAddressV1 } from '@tbook/utils/lib/conf';
 
-import TonIcon from '@/images/icon/svgr/ton.svg?react';
+import TonIcon from './icons/Ton.svg?react';
+import TonLight from './icons/TonLight.svg?react';
 import EthIcon from '@/images/icon/svgr/eth.svg?react';
 import TgIcon from '@/images/icon/tg-blue.svg?react';
 
@@ -12,11 +13,16 @@ import Rank3 from './icons/Rank3.svg?react';
 
 import clsx from 'clsx';
 
-const addressLogoMap = {
-  0: <EthIcon />,
-  1: <TonIcon />,
-  2: <TgIcon />,
+const getAddressLogo = (addressType, rank) => {
+  const addressLogoMap = {
+    0: <EthIcon />,
+    1: rank <= 3 ? <TonIcon /> : <TonLight />,
+    2: <TgIcon />,
+  };
+
+  return addressLogoMap[ addressType ] || null;
 };
+
 
 const RankDisplay = ({ rank }) => {
 
@@ -38,7 +44,7 @@ const RankDisplay = ({ rank }) => {
 
 export default function ScoreItem({ user }) {
 
-  const walletUrl = addressLogoMap[user?.addressType];
+  const walletUrl = getAddressLogo(user?.addressType, user?.rank);
 
   const getBgColor = (rank) => {
     switch (rank) {
@@ -64,17 +70,13 @@ export default function ScoreItem({ user }) {
         className={clsx(
           'flex-auto flex items-center gap-x-1 font-medium text-md',
           user?.addressType === 1
-            ? 'bg-gradient-to-r from-[#2D83EC] to-[#1AC9FF]  bg-clip-text text-transparent'
+            ? 'bg-clip-text text-transparent'
             : 'text-black'
         )}
       >
         {walletUrl}
-        <span className='text-[#5812B1] text-lg ml-1'>
+        <span className={ clsx("text-lg ml-1", [ 1, 2, 3 ].includes(user.rank) ? 'text-[#5812B1]' : 'text-[#9A81E6]')}>
           { shortAddressV1(user.address ?? '') }
-          {/* { user?.addressType === 2
-            ? // ? user.address  直接显示一眼就处理的逻辑
-            user.address
-            : shortAddressV1(user.address ?? '') } */}
         </span>
 
       </div>
