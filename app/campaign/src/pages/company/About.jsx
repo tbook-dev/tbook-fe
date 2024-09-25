@@ -17,7 +17,7 @@ export default function About () {
 
   const { data, isLoading } = useCompanyProjects(companyId);
 
-  const companyInfo = data?.data ?? null;
+  const companyInfo = data?.data?.company ?? null;
 
   return (
     <Layout>
@@ -46,7 +46,7 @@ export default function About () {
           <div className='flex items-center justify-center my-2 gap-x-3'>
             <a
               target={ isTMA ? '_self' : '_blank' }
-              href={ isTMA ? companyInfo.webUrl : `https://t.me/${companyInfo.channelLink}` }
+              href={ companyInfo.webUrl }
               rel='nofollow noopener noreferrer'
             >
               <Tooltip title={ companyInfo.webUrl } placement='top'>
@@ -58,7 +58,7 @@ export default function About () {
             </a>
             <a
               target={ isTMA ? '_self' : '_blank' }
-              href={ isTMA ? companyInfo.twitterLink : `https://t.me/${companyInfo.channelLink}` }
+              href={ companyInfo.twitterLink }
               rel='nofollow noopener noreferrer'
             >
               <Tooltip title={ companyInfo.webUrl } placement='top'>
