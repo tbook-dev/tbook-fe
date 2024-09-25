@@ -1,7 +1,7 @@
 import { Outlet, useLoaderData } from 'react-router-dom'
 import Header from '../common/Header'
 import Footer from '../common/Footer'
-import BottomNav from '@/layout/custom/bottomNav'
+import BottomNav from '@/layout/custom/BottomNav'
 
 export default function Layout () {
   const { isLightTheme, companyId } = useLoaderData();
