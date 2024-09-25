@@ -8,9 +8,9 @@ import WatchRouter from '../common/WatchRouter';
 const Modals = lazy(() => import('../common/Modals'));
 
 export default function Header ({ type }) {
-  const { companyName, companyId } = useLoaderData()
+  const { companyId } = useLoaderData()
   // debugger
-  const title = companyName
+  const title = 'GameBuild'
   const link = `/company/${companyId}`
   return (
     <>

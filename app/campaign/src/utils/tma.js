@@ -23,6 +23,11 @@ export function safeParse(start_param) {
         type,
         inviteCode: p[0],
       };
+    } else if (type === 7) {
+      return {
+        type,
+        companyId: p[0],
+      };
     } else {
       return {
         type,

@@ -4,7 +4,7 @@ import { formatImpact, shortAddressV1 } from '@tbook/utils/lib/conf';
 
 import TonIcon from '@/images/icon/svgr/ton.svg?react';
 import EthIcon from '@/images/icon/svgr/eth.svg?react';
-import TgIcon from '@/images/icon/svgr/tg.svg?react';
+import TgIcon from '@/images/icon/tg-blue.svg?react';
 
 import Rank1 from './icons/Rank1.svg?react';
 import Rank2 from './icons/Rank2.svg?react';
@@ -37,7 +37,8 @@ const RankDisplay = ({ rank }) => {
 };
 
 export default function ScoreItem({ user }) {
-  const walletUrl = addressLogoMap[user?.addressType || 1];
+
+  const walletUrl = addressLogoMap[user?.addressType];
 
   const getBgColor = (rank) => {
     switch (rank) {
@@ -69,10 +70,11 @@ export default function ScoreItem({ user }) {
       >
         {walletUrl}
         <span className='text-[#5812B1] text-lg ml-1'>
-          { user?.addressType === 2
+          { shortAddressV1(user.address ?? '') }
+          {/* { user?.addressType === 2
             ? // ? user.address  直接显示一眼就处理的逻辑
             user.address
-            : shortAddressV1(user.address ?? '') }
+            : shortAddressV1(user.address ?? '') } */}
         </span>
 
       </div>
