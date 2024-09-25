@@ -11,6 +11,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { cn } from '@/utils/conf';
+import dayjs from 'dayjs';
+import { formatImpact } from '@tbook/utils/lib/conf';
 
 export default function Invite() {
   const [open, setOpen] = useState(false);
@@ -112,10 +114,14 @@ export default function Invite() {
                     <img src={v.avatar} className="size-8 rounded-full" />
                     <div className="text-sm">
                       @{v.userName}
-                      <p className="text-white/40 text-xs">New invitee</p>
+                      <p className="text-white/40 text-xs">
+                        {dayjs(v.inviteDate).format('MMM D, YYYY h:mm A')}
+                      </p>
                     </div>
                   </div>
-                  <h4 className="text-sm font-medium">+1K WISE Score</h4>
+                  <h4 className="text-sm font-medium flex-none">
+                    +{formatImpact(v.inviteAddScore ?? 0)} WISE Score
+                  </h4>
                 </div>
               );
             })
