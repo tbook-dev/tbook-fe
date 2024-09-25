@@ -119,7 +119,7 @@ export default function Invite() {
                       </p>
                     </div>
                   </div>
-                  <h4 className="text-sm font-medium">
+                  <h4 className="text-sm font-medium flex-none">
                     +{formatImpact(v.inviteAddScore ?? 0)} WISE Score
                   </h4>
                 </div>
