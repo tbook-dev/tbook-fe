@@ -11,6 +11,11 @@ import queryClient from '../query-client';
 import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import TonExplore from '@/pages/ton-explore';
+
+import CompanyHome from '@/pages/company/Home';
+import CompanyLeaderboard from '@/pages/company/Leaderboard';
+import CompanyAbout from '@/pages/company/About';
+
 import { keptProjectUrls, defaultProjectInfo } from './conf';
 
 const App = lazy(() => import('@/pages/app'));
@@ -24,7 +29,6 @@ const Asset = lazy(() => import('@/pages/my/Asset'));
 const Campaign = lazy(() => import('@/pages/my/campaign'));
 const NFT = lazy(() => import('@/pages/my/nft'));
 const Snapshot = lazy(() => import('@/pages/snapshot'));
-// const TonExplore = lazy(() => import('@/pages/ton-explore'));
 const WiseCredit = lazy(() => import('@/pages/ton-wise'));
 const ScoreDetail = lazy(() => import('@/pages/ton-wise/detail'));
 const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/leaderboard'));
@@ -65,7 +69,11 @@ const getProjectIdFn = async ({ params }) => {
       }
     );
     const theme = res?.theme || 0;
+    console.log('res', res)
     return {
+      // mock 
+      companyId: res.companyId || 1,
+      companyName: res?.companyName || 'GameBuild',
       projectUrl,
       isUsingSubdomain: false,
       projectId: res?.projectId,
@@ -367,6 +375,38 @@ const routes = [
       },
     ],
   },
+  // company homepage
+  {
+    path: '/company/:companyId',
+    loader: getTbookfn,
+    element: (
+      <Suspense fallback={ <PageFallBack /> }>
+        <CompanyHome />
+      </Suspense>
+    ),
+    errorElement: <GlobalError />,
+  },
+  // company leaderBoard
+  {
+    path: '/company/:companyId/leaderboard',
+    loader: getTbookfn,
+    element: (
+      <Suspense fallback={ <PageFallBack /> }>
+        <CompanyLeaderboard />
+      </Suspense>
+    ),
+    errorElement: <GlobalError />,
+  },
+  // company about page
+  {
+    path: '/company/:companyId/about',
+    loader: getTbookfn,
+    element: (
+      <Suspense fallback={ <PageFallBack /> }>
+        <CompanyAbout />
+      </Suspense>
+    ),
+  }
 ];
 
 export default [...routes, ...commonRoutes];

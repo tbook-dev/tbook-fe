@@ -43,7 +43,7 @@ export default function TonWiseLeaderboard() {
         <UserScore className="bg-white/10" />
 
         {!data ? (
-          <div className="rounded-2xl py-3">
+          <div className="py-3 rounded-2xl">
             <LeaderboardSkeleton size={3} height="58px" />
           </div>
         ) : (

@@ -71,6 +71,7 @@ const initialState = {
     accountType: '',
   },
   wiseScoreShowGen: true,
+  companyInfo: null
 };
 
 export const globalSlice = createSlice({
@@ -145,6 +146,9 @@ export const globalSlice = createSlice({
     setWiseScoreShowGen: (state, action) => {
       state.wiseScoreShowGen = action.payload;
     },
+    setCompanyInfo: (state, action) => {
+      state.companyInfo = action.payload;
+    },
   },
 });
 
@@ -171,6 +175,7 @@ export const {
   setShowUnbindSocial,
   setunbindSocialData,
   setWiseScoreShowGen,
+  setCompanyInfo
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

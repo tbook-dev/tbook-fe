@@ -12,7 +12,7 @@ export default function TonExplore() {
   const [isSubpage, setSubpage] = useState(false);
   useLayoutEffect(() => {
     if (webApp?.initDataUnsafe.start_param) {
-      const { type, projectUrl, campaignId, ...p } = safeParse(
+      const { type, projectUrl, campaignId, companyId, ...p } = safeParse(
         webApp?.initDataUnsafe.start_param
       );
       if (supportTMATypes.includes(type)) {
@@ -39,6 +39,8 @@ export default function TonExplore() {
           navigate(`/event/renaissance`);
         } else if (type === 6) {
           navigate(`/event/defi`);
+        } else if (type === 7) {
+          navigate(`/company/${companyId}`);
         }
       }
     }

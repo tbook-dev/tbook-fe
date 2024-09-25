@@ -354,3 +354,17 @@ export const getAmbassadorLevels = async function () {
 export const getDeFi = async function () {
   return await request.Get(`${host}/campaignNew/defi`);
 };
+
+export const getCompanyProjects = async function (companyId) {
+  return fetch(`${host}/company/${companyId}`, {
+    method: 'GET',
+    credentials: 'include',
+  }).then((res) => res.json());
+};
+
+export const getCompanyLeaderboard = async function (companyId) {
+  return fetch(`${host}/company/leaderboard/${companyId}`, {
+    method: 'GET',
+    credentials: 'include',
+  }).then((res) => res.json());
+};

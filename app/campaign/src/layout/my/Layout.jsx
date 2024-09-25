@@ -1,18 +1,27 @@
 import { Outlet, useLoaderData } from 'react-router-dom'
 import Header from '../common/Header'
 import Footer from '../common/Footer'
+import BottomNav from '@/layout/custom/bottomNav'
 
 export default function Layout () {
-  const { isLightTheme } = useLoaderData();
+  const { isLightTheme, companyId } = useLoaderData();
 
+  const showCompanyHomePage = companyId > 0;
+  
   if (isLightTheme) {
     return (
       <div className='flex flex-col min-h-dvh bg-[#FCFAFD]'>
         <Header type="light" />
         <div className='relative flex-auto overflow-x-hidden overflow-y-auto'>
-          <Outlet />
+          <div className='pb-20'>
+            <Outlet />
+          </div>
+
+          {/* TODO: has company 的再展示 bottom nav */}
+          { showCompanyHomePage && <BottomNav /> }
+          
         </div>
-        <Footer theme="light" />
+        { !showCompanyHomePage  && <Footer theme="light" /> }
       </div>
     )
   }
