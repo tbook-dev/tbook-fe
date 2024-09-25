@@ -1,5 +1,6 @@
 import Header from './Header'
 import BottomNav from './BottomNav'
+// import { useParams } from 'react-router-dom'
 
 export default function Layout ({ children }) {
   return (
