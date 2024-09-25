@@ -10,7 +10,7 @@ const Modals = lazy(() => import('../common/Modals'));
 export default function Header ({ type }) {
   const { companyId } = useLoaderData()
   // debugger
-  const title = 'GameBuild'
+  const title = 'GameBuildTest'
   const link = `/company/${companyId}`
   return (
     <>
