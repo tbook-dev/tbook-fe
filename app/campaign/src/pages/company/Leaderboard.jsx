@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 
 import ArrowIcon from '@/images/icon/svgr/arrow.svg?react';
 import useTopBoard from '@/hooks/useTopBoard';
+import useCompanyLeaderboard from '@/hooks/useCompanyLeaderboard';
 
 import Layout from '@/layout/custom/Layout';
 import LeaderboardSkeleton from './LeaderBoardSkeleton';
@@ -12,9 +14,9 @@ import ScoreItem from './ScoreItem';
 const pageSize = 10;
 
 
-
 export default function CompanyLeaderboard () {
-  // const { data } = useTopBoard();
+  const { companyId } = useParams();
+  // const { data = [], isLoading } = useCompanyLeaderboard(companyId);
   const data =
     [
       {
@@ -119,7 +121,7 @@ export default function CompanyLeaderboard () {
           ) : (
             <div className="space-y-2">
               { pagedList?.map((v, index) => (
-                <ScoreItem user={ v } rank={ index + 1 } key={ v.userId } />
+                <ScoreItem user={ v } key={ v.userId } />
               )) }
             </div>
           ) }

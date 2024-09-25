@@ -67,7 +67,11 @@ const getProjectIdFn = async ({ params }) => {
       }
     );
     const theme = res?.theme || 0;
+    console.log('res', res)
     return {
+      // mock 
+      companyId: res.companyId || 1,
+      companyName: res?.companyName || 'GameBuild',
       projectUrl,
       isUsingSubdomain: false,
       projectId: res?.projectId,
@@ -362,7 +366,7 @@ const routes = [
   },
   // company homepage
   {
-    path: '/company/:companyName',
+    path: '/company/:companyId',
     loader: getTbookfn,
     element: (
       <Suspense fallback={ <PageFallBack /> }>
@@ -373,7 +377,7 @@ const routes = [
   },
   // company leaderBoard
   {
-    path: '/company/:companyName/leaderboard',
+    path: '/company/:companyId/leaderboard',
     loader: getTbookfn,
     element: (
       <Suspense fallback={ <PageFallBack /> }>
@@ -384,7 +388,7 @@ const routes = [
   },
   // company about page
   {
-    path: '/company/:companyName/about',
+    path: '/company/:companyId/about',
     loader: getTbookfn,
     element: (
       <Suspense fallback={ <PageFallBack /> }>

@@ -5,7 +5,7 @@ import BottomNav from './BottomNav'
 export default function Layout ({ children }) {
   return (
     <div className='flex flex-col min-h-dvh bg-[#FCFAFD]'>
-      <Header type="light" />
+      <Header type="company" />
       <div className='relative flex-auto overflow-x-hidden overflow-y-auto'>
         { children }
         <BottomNav />
