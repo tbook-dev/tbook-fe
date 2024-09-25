@@ -347,6 +347,10 @@ export const getDeFi = async function () {
   return await request.Get(`${host}/campaignNew/defi`);
 };
 
-export const getCompanyProjects = async function (companyName) {
-  return fetch(`${host}/company/${companyName}`).then((res) => res.json());
+export const getCompanyProjects = async function (companyId) {
+  return fetch(`${host}/company/${companyId}`).then((res) => res.json());
+};
+
+export const getCompanyLeaderboard = async function (companyId) {
+  return fetch(`${host}/company/${companyId}/leaderboard`).then((res) => res.json());
 };

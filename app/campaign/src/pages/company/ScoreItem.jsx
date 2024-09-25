@@ -36,12 +36,11 @@ const RankDisplay = ({ rank }) => {
   );
 };
 
-export default function ScoreItem({ user, rank }) {
+export default function ScoreItem({ user }) {
   console.log(user)
   const walletUrl = addressLogoMap[user?.addressType || 1];
 
   const getBgColor = (rank) => {
-    console.log('rank', rank);
     switch (rank) {
       case 1: return 'bg-[#9A81E6]';
       case 2: return 'bg-[#C0ACFD]';
@@ -54,13 +53,13 @@ export default function ScoreItem({ user, rank }) {
     <div
       className={clsx(
         'p-4 flex items-center justify-between gap-x-3 rounded-2xl text-lg',
-        getBgColor(rank),
-        [1, 2, 3].includes(rank)
+        getBgColor(user.rank),
+        [ 1, 2, 3 ].includes(user.rank)
           ? 'h-[70px] border border-white/10  rounded-2xl'
           : 'opacity-100'
       )}
     >
-      <RankDisplay rank={ rank } />
+      <RankDisplay rank={ user.rank } />
       <div
         className={clsx(
           'flex-auto flex items-center gap-x-1 font-medium text-md',
@@ -79,7 +78,7 @@ export default function ScoreItem({ user, rank }) {
 
       </div>
 
-      <span className={ clsx("flex-none font-bold text-black", [ 1, 2, 3 ].includes(rank) ? "text-2xl" : "text-lg")}>
+      <span className={ clsx("flex-none font-bold text-black", [ 1, 2, 3 ].includes(user.rank) ? "text-2xl" : "text-lg")}>
         { formatImpact(user.pointNum)}
       </span>
     </div>

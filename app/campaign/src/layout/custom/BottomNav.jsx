@@ -1,27 +1,29 @@
 import React from 'react';
 import { memo } from 'react';
 
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, useLoaderData } from 'react-router-dom';
 import HomeIcon from './icons/HomeIcon'
 import LeaderboardIcon from './icons/LeaderboardIcon'
 import AboutIcon from './icons/AboutIcon'
 
 import { clsx } from 'clsx';
-import { useHasWiseCreditInviteCode } from '@/hooks/useWiseScore';
 
 const BottomNav = () => {
-  const { hasInviteCode } = useHasWiseCreditInviteCode();
-  
-  const { companyName } = useParams();
+  const { companyId: companyIdParma } = useParams();
+  let parma = companyIdParma;
+  if (!parma) {
+    const { companyId } = useLoaderData();
+    parma = companyId
+  }
   const list = [
     {
       text: 'Home',
-      link: `/company/${companyName}`,
+      link: `/company/${parma}`,
       icon: ({ color }) => <HomeIcon color={ color } />,
     },
     {
       text: 'Leaderboard',
-      link: `/company/${companyName}/leaderboard`,
+      link: `/company/${parma}/leaderboard`,
       icon: ({ color }) => (
         <div className="relative">
           <LeaderboardIcon color={ color } />
@@ -30,7 +32,7 @@ const BottomNav = () => {
     },
     {
       text: 'About',
-      link: `/company/${companyName}/about`,
+      link: `/company/${parma}/about`,
       icon: ({ color }) => <AboutIcon color={ color } />,
     },
   ];

@@ -4,9 +4,9 @@ import Footer from '../common/Footer'
 import BottomNav from '@/layout/custom/bottomNav'
 
 export default function Layout () {
-  const { isLightTheme } = useLoaderData();
+  const { isLightTheme, companyId } = useLoaderData();
 
-  const showCompanyHomePage = true;
+  const showCompanyHomePage = companyId > 0;
   
   if (isLightTheme) {
     return (
