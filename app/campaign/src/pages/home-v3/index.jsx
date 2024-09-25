@@ -62,7 +62,6 @@ export default function HomeProject () {
             <div className=''>
               <div className='flex items-center justify-between lg:justify-start lg:gap-x-20 h-10 border-b border-[#DBBEE8] bg-[#FCFAFD]'>
                 { campaignStatus
-                  .filter(status => status.label !== 'Scheduled')
                   .map(v => {
                     return (
                       <button

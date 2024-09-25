@@ -20,19 +20,13 @@ export default function CompanyHome () {
         <div className='flex justify-center w-full mb-4 h-fit min-h-[178px]'>
           { isLoading ? (
             <div className="w-full h-fit rounded-3xl bg-[#dad8ff] animate-pulse" />
-          ) : companyInfo ? (
-              <Link to={ `/company/${companyInfo.companyId}/leaderboard` }>
-                <LazyImage
-                  className="w-full h-auto rounded-3xl bg-[#dad8ff] object-cover object-center"
-                    src={ companyInfo.homePoster }
-                  alt='Company poster'
-                />
-              </Link>
-          ) : (
-              <LazyImage
-                className="bg-[#dad8ff] w-full h-[178px] rounded-3xl"
-              />
-          ) }
+          ) : <Link to={ `/company/${companyInfo.companyId}/leaderboard` }>
+            <LazyImage
+              className="w-full h-auto rounded-3xl bg-[#dad8ff] object-cover object-center"
+              src={ companyInfo.homePoster }
+              alt='Company poster'
+            />
+          </Link> }
         </div>
         <h1 className='text-xl font-bold'>Trending Games</h1>
         { projects.map((item) => {
