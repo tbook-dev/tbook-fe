@@ -8,7 +8,7 @@ import useCompanyLeaderboard from '@/hooks/useCompanyLeaderboard';
 import Layout from '@/layout/custom/Layout';
 import LeaderboardSkeleton from './LeaderBoardSkeleton';
 import LeaderBoardNav from './LeaderBoardNav';
-import UserScore from './UserScore';
+// import UserScore from './UserScore';
 import ScoreItem from './ScoreItem';
 
 const pageSize = 10;
