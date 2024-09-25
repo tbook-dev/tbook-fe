@@ -15,7 +15,7 @@ export default function CompanyHome () {
   const projects = data?.data?.projects ?? [];
 
   return (
-    <Layout title={ companyInfo.companyName }>
+    <Layout title={ companyInfo?.companyName || '' }>
       <div className='px-6 pb-32 bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] min-h-screen'>
         <div className='flex justify-center w-full mb-4 h-fit min-h-[178px]'>
           { isLoading ? (
