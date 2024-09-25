@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { useTelegram } from '@/hooks/useTg';
 
 import x from '@/images/icon/x-black.svg';
-import gamebuildIcon from './icons/gamebuild.svg';
+import gamebuildIcon from './icons/Gamebuild.svg';
 
 import LazyImage from '../../components/lazyImage';
 import useCompanyProjects from '@/hooks/useCompanyProjects';
@@ -20,7 +20,7 @@ export default function About () {
   const companyInfo = data?.data?.company ?? null;
 
   return (
-    <Layout>
+    <Layout title={ `About ${companyInfo?.companyName}` }>
       { !isLoading && <div className='bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] min-h-screen'>
         <div className='relative h-[228px] '>
           <LazyImage className="w-full h-[178px] rounded-3xl absolute bg-[#dad8ff]" src={ companyInfo.aboutBgImage } alt='poster' />
