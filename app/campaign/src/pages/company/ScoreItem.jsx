@@ -11,6 +11,8 @@ import Rank1 from './icons/Rank1.svg?react';
 import Rank2 from './icons/Rank2.svg?react';
 import Rank3 from './icons/Rank3.svg?react';
 
+// import useUserInfo from '@/hooks/useUserInfoQuery';
+
 import clsx from 'clsx';
 
 const getAddressLogo = (addressType, rank) => {
@@ -43,6 +45,9 @@ const RankDisplay = ({ rank }) => {
 };
 
 export default function ScoreItem({ user }) {
+
+  const data = useUserInfo();
+  console.log(data);
 
   const walletUrl = getAddressLogo(user?.addressType, user?.rank);
 
