@@ -19,17 +19,12 @@ export default function CompanyHome () {
 
   const companyInfo = data?.data?.company ?? null;
   const projects = data?.data?.projects ?? [];
+  const layerOneList = data?.data?.layerOneList ?? []
 
-  const list = [{
-    name: 'TON',
-    icon: <TonIcon />,
-  }, {
-    name: 'Solana',
-    icon: <SolanaIcon />,
-  }, {
-    name: 'Sui',
-    icon: <SuiIcon />,
-  }];
+  const LinkToProjectList = ({ status }) => {
+    if (status === 0) return;
+    // TODO: Link to project list
+  }
 
   return (
     <Layout title={ companyInfo?.companyName || '' }>
@@ -46,25 +41,26 @@ export default function CompanyHome () {
           </Link> }
         </div>
         
-        { companyInfo?.companyId === 1 && (
+        { layerOneList.length > 0 && (
           <>
             <h1 className='mt-4 text-xl font-bold'>Layer1 Blockchains</h1>
             <div className='flex'>
-              { list.map((item, index) => {
-                return (
-                  <div key={ index } className='relative flex items-center mt-4 mr-4'>
-                    { item.icon }
-                    <ComingIcon className="absolute bottom-0 right-[-4px]" />
-                  </div>
-                )
-              }) }
+              { layerOneList.map((item, index) => {
+                  return (
+                    <div key={ index } className='relative flex items-center mt-4 mr-4' onClick={ () => LinkToProjectList(item) }>
+                      <LazyImage className="w-[60px] h-[60px] rounded-full " src={ item.icon } alt={ item.name }></LazyImage>
+                      { item.status === 0 && <ComingIcon className="absolute bottom-0 right-[-4px]" /> }
+                    </div>
+                  )
+                })
+             }
             </div> 
           </>
         )}
 
         <h1 className='mt-4 text-xl font-bold'>Trending Games</h1>
         { isLoading ? (
-          new Array(5).fill(0).map(() => (
+          new Array(2).fill(0).map(() => (
             <ProjectCardSkeleton />
           ))
         ) : (
