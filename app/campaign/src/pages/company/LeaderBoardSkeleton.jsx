@@ -20,8 +20,3 @@ export default function LeaderboardSkeleton({size = 2, height}) {
     </div>
   );
 }
-
-
-            // <div className="animate-pulse bg-[#9A81E6] size-9 rounded" />
-            // <div className="animate-pulse bg-[#C0ACFD] rounded-full size-10" />
-            // <div className="animate-pulse bg-[#D5C8FF] h-10 rounded flex-auto" />
