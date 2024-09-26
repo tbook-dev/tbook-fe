@@ -46,8 +46,8 @@ const RankDisplay = ({ rank }) => {
 
 export default function ScoreItem({ user }) {
 
-  const data = useUserInfo();
-  console.log(data);
+  // const data = useUserInfo();
+  // console.log(data);
 
   const walletUrl = getAddressLogo(user?.addressType, user?.rank);
 
