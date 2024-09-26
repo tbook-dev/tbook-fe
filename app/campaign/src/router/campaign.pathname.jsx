@@ -15,6 +15,7 @@ import TonExplore from '@/pages/ton-explore';
 import CompanyHome from '@/pages/company/Home';
 import CompanyLeaderboard from '@/pages/company/Leaderboard';
 import CompanyAbout from '@/pages/company/About';
+import CompanyProjects from '@/pages/company/ProjectList';
 
 import { keptProjectUrls, defaultProjectInfo } from './conf';
 
@@ -397,6 +398,17 @@ const routes = [
     ),
     errorElement: <GlobalError />,
   },
+  // company project list
+  // {
+  //   path: '/company/:companyId/projects',
+  //   loader: getTbookfn,
+  //   element: (
+  //     <Suspense fallback={ <PageFallBack /> }>
+  //       <CompanyProjects />
+  //     </Suspense>
+  //   ),
+  //   errorElement: <GlobalError />,
+  // },
   // company about page
   {
     path: '/company/:companyId/about',

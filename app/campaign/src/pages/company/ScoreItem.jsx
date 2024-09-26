@@ -15,9 +15,9 @@ import clsx from 'clsx';
 
 const getAddressLogo = (addressType, rank) => {
   const addressLogoMap = {
-    0: <EthIcon />,
-    1: rank <= 3 ? <TonIcon /> : <TonLight />,
-    2: <TgIcon />,
+    1: <EthIcon />,
+    2: rank <= 3 ? <TonIcon /> : <TonLight />,
+    0: <TgIcon />,
   };
 
   return addressLogoMap[ addressType ] || null;

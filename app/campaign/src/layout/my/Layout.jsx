@@ -17,7 +17,6 @@ export default function Layout () {
             <Outlet />
           </div>
 
-          {/* TODO: has company 的再展示 bottom nav */}
           { showCompanyHomePage && <BottomNav /> }
           
         </div>
