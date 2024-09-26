@@ -8,7 +8,7 @@ import ProjectCardSkeleton from './ProjectCardSkeleton'
 import Layout from '@/layout/custom/Layout';
 import LazyImage from '@/components/lazyImage';
 
-import ComingIcon from './icons/coming.svg?react';
+import ComingIcon from './icons/Coming.svg?react';
 import TonIcon from './layerIcons/Ton.svg?react';
 import SuiIcon from './layerIcons/Sui.svg?react';
 import SolanaIcon from './layerIcons/Solana.svg?react';
