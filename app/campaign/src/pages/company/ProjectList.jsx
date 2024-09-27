@@ -8,7 +8,6 @@ import ProjectCardSkeleton from './ProjectCardSkeleton'
 import Layout from '@/layout/custom/Layout';
 import LazyImage from '@/components/lazyImage';
 
-import TonIcon from './layerIcons/Ton.svg?react';
 
 import { Dropdown, Space } from 'antd';
 import { DownOutlined, SmileOutlined } from '@ant-design/icons';
@@ -28,31 +27,31 @@ export default function CompanyHome () {
     setSelected(e.key);
   };
 
-  const mappedItems = list.map((name, index) => {
-    const getIcon = () => {
-      switch (name) {
-        case 'TON':
-          return <TonIcon />;
-        case 'ETH':
-          return <TonIcon />;
-        case 'Solana':
-          return <TonIcon />;
-        default:
-          return null;
-      }
-    };
+  // const mappedItems = list.map((name, index) => {
+  //   const getIcon = () => {
+  //     switch (name) {
+  //       case 'TON':
+  //         return <TonIcon />;
+  //       case 'ETH':
+  //         return <TonIcon />;
+  //       case 'Solana':
+  //         return <TonIcon />;
+  //       default:
+  //         return null;
+  //     }
+  //   };
 
-    return {
-      key: name,
-      default: index === 0,
-      label: (
-        <span className='text-lg'>
-          { name }
-        </span>
-      ),
-      icon: <TonIcon className="w-6 h-6" />,
-    };
-  });
+  //   return {
+  //     key: name,
+  //     default: index === 0,
+  //     label: (
+  //       <span className='text-lg'>
+  //         { name }
+  //       </span>
+  //     ),
+  //     icon: <TonIcon className="w-6 h-6" />,
+  //   };
+  // });
 
   console.log(mappedItems);
 
@@ -68,7 +67,7 @@ export default function CompanyHome () {
           <h1 className='pr-4 text-xl font-bold border-r-[1px] border-[#DBBEE8]'>
             Trending Games
           </h1>
-          <Dropdown
+          {/* <Dropdown
             className='mx-4'
             placement="bottomLeft"
             menu={ menuProps }
@@ -80,7 +79,7 @@ export default function CompanyHome () {
                 <DownOutlined />
               </Space>
             </div>
-          </Dropdown>
+          </Dropdown> */}
         </div>
         { isLoading ? (
           new Array(5).fill(0).map(() => (

@@ -2,82 +2,94 @@ import { useMemo } from 'react';
 
 import { formatImpact, shortAddressV1 } from '@tbook/utils/lib/conf';
 
-import starSVG from '@/images/wise/star2.svg';
-import timerSVG from '@/images/wise/timer.svg';
-
 import clsx from 'clsx';
 
 import { cn } from '@/utils/conf';
-import useWiseScore from '@/hooks/useWiseScore';
+import useUserInfo from '@/hooks/useUserInfoQuery';
 
-import TonIcon from '@/images/icon/svgr/ton.svg?react';
+import TonLight from './icons/TonLight.svg?react';
 import EthIcon from '@/images/icon/svgr/eth.svg?react';
-import TgIcon from '@/images/icon/svgr/tg.svg?react';
+import TgIcon from '@/images/icon/tg-blue.svg?react';
 
-const addressLogoMap = {
-  0: <EthIcon />,
-  1: <TonIcon />,
-  2: <TgIcon />,
+const getAddressLogo = (addressType, rank) => {
+
+  const addressLogoMap = {
+    0: <EthIcon />,
+    1: <TonLight />,
+    2: <TgIcon />,
+  };
+
+  return addressLogoMap[ addressType ] || null;
 };
 
-export default function UserScore({ className }) {
-  const { data: user, isGranted, isLoaded } = useWiseScore();
-  const walletIcon = addressLogoMap[user?.addressType || 1];
-  const rankCF = useMemo(() => {
-    const rank = user?.rank;
-    const rt = {};
-    if (rank === 0) {
-      // 没有更新
-      rt.display = '500+';
-      rt.background = timerSVG;
-    } else if (rank === -1) {
-      rt.display = '500+';
-      rt.background = starSVG;
-    } else {
-      rt.display = rank;
-      rt.background = starSVG;
+export default function UserScore ({ list, className }) {
+
+  const colorConfig = {
+    userScoreBgColor: '#e4fa73',
+    userScoreTextColor1: '#9A81E6',
+    userScoreTextColor2: '#000000',
+  }
+
+  const userData = useUserInfo();
+
+  const userScoreInfo = useMemo(() => {
+    // 检查列表是否存在且非空
+    if (!list || list.length === 0) {
+      console.log("列表为空或不存在");
+      return null;
     }
-    return rt;
-  }, [user]);
 
-  return isLoaded ? (
-    isGranted && (
+    // 检查用户数据是否存在
+    if (!userData || !userData.user || !userData.user.userId) {
+      console.log("用户数据不存在或不完整");
+      return null;
+    }
+
+    // 在列表中查找用户
+    const res = list.find(item => item.userId === userData.user.userId);
+
+    // 用户不在列表中
+    if (!res) {
+      return {
+        rank: list.length >= 500 ? '500+' : `${list.length}+`,
+        pointNum: 0,
+        addressType: null,
+        address: null,
+        walletUrl: null
+      };
+    }
+
+    // 用户在列表中
+    return {
+      ...res,
+      walletUrl: getAddressLogo(res.addressType, res.rank)
+    };
+
+  }, [ list, userData ]);
+
+  return (userScoreInfo) ? (
+    <div
+      className={ clsx("p-4 flex items-center justify-between gap-x-3 rounded-2xl text-lg h-[60px]", `bg-[${colorConfig.userScoreBgColor}]`) }
+    >
+      <span className={ clsx("flex-none w-8 pl-3 text-lg font-medium", `text-[${colorConfig.userScoreTextColor1}]`) }>
+        { userScoreInfo.rank }
+      </span>
+
       <div
-        className={cn(
-          'flex items-center justify-between',
-          'rounded-xl px-5 py-2',
-          className
-        )}
+        className={ clsx('flex-auto flex items-center gap-x-1 font-medium text-md') }
       >
-        <div className="flex items-center gap-x-2.5">
-          <span
-            className={cn(
-              'size-9 text-center bg-cover bg-center flex items-center justify-center',
-              'font-medium text-xs'
-            )}
-          >
-            {rankCF.display}
-          </span>
+        <span className='w-5'>{ userScoreInfo.walletUrl }</span>
+        <span className={ clsx("text-lg ml-1 font-bold", `text-[${colorConfig.userScoreTextColor1}]`) }>
+          { shortAddressV1(userScoreInfo.address ?? '') } (YOU)
+        </span>
 
-          <span
-            className={clsx(
-              'inline-flex items-center gap-x-0.5 font-bold text-sm',
-              user?.addressType === 1 &&
-                'bg-linear15 bg-clip-text text-transparent'
-            )}
-          >
-            {walletIcon}
-            {user?.addressType === 2
-              ? user.address
-              : shortAddressV1(user.address ?? '')}
-            (YOU)
-          </span>
-        </div>
-
-        <span className="text-lg font-bold">{formatImpact(user.totalScore)}</span>
       </div>
-    )
+
+      <span className={ clsx("flex-none font-bold", `text-[${colorConfig.userScoreTextColor2}]`) }>
+        { formatImpact(userScoreInfo.pointNum) }
+      </span>
+    </div>
   ) : (
-      <div className="h-[52px] bg-[#e4fa73]/60 animate-pulse rounded-xl" />
+      <div className={ clsx("h-[52px] animate-pulse rounded-xl", `bg-[${colorConfig.userScoreBgColor}]/60`)} />
   );
 }

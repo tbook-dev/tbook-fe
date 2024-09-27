@@ -11,20 +11,17 @@ import Rank1 from './icons/Rank1.svg?react';
 import Rank2 from './icons/Rank2.svg?react';
 import Rank3 from './icons/Rank3.svg?react';
 
-// import useUserInfo from '@/hooks/useUserInfoQuery';
-
 import clsx from 'clsx';
 
 const getAddressLogo = (addressType, rank) => {
   const addressLogoMap = {
-    1: <EthIcon />,
-    2: rank <= 3 ? <TonIcon /> : <TonLight />,
-    0: <TgIcon />,
+    0: <EthIcon />,
+    1: rank <= 3 ? <TonIcon /> : <TonLight />,
+    2: <TgIcon />,
   };
 
   return addressLogoMap[ addressType ] || null;
 };
-
 
 const RankDisplay = ({ rank }) => {
 
@@ -46,9 +43,6 @@ const RankDisplay = ({ rank }) => {
 
 export default function ScoreItem({ user }) {
 
-  // const data = useUserInfo();
-  // console.log(data);
-
   const walletUrl = getAddressLogo(user?.addressType, user?.rank);
 
   const getBgColor = (rank) => {
@@ -60,37 +54,35 @@ export default function ScoreItem({ user }) {
     }
   };
 
-  return user ? (
+  return (
     <div
-      className={clsx(
+      className={ clsx(
         'p-4 flex items-center justify-between gap-x-3 rounded-2xl text-lg',
         getBgColor(user.rank),
         [ 1, 2, 3 ].includes(user.rank)
           ? 'h-[70px] border border-white/10  rounded-2xl'
-          : 'opacity-100'
-      )}
+          : 'opacity-100 h-[60px]'
+      ) }
     >
       <RankDisplay rank={ user.rank } />
       <div
-        className={clsx(
+        className={ clsx(
           'flex-auto flex items-center gap-x-1 font-medium text-md',
           user?.addressType === 1
             ? 'bg-clip-text text-transparent'
             : 'text-black'
-        )}
+        ) }
       >
-        {walletUrl}
-        <span className={ clsx("text-lg ml-1", [ 1, 2, 3 ].includes(user.rank) ? 'text-[#5812B1]' : 'text-[#9A81E6]')}>
+        { walletUrl }
+        <span className={ clsx("text-lg ml-1", [ 1, 2, 3 ].includes(user.rank) ? 'text-[#5812B1]' : 'text-[#9A81E6]') }>
           { shortAddressV1(user.address ?? '') }
         </span>
 
       </div>
 
-      <span className={ clsx("flex-none font-bold text-black", [ 1, 2, 3 ].includes(user.rank) ? "text-2xl" : "text-lg")}>
-        { formatImpact(user.pointNum)}
+      <span className={ clsx("flex-none font-bold text-black", [ 1, 2, 3 ].includes(user.rank) ? "text-2xl font-zen-dot" : "text-lg") }>
+        { formatImpact(user.pointNum) }
       </span>
     </div>
-  ) : (
-    <LeaderboardSkeleton size={1} />
-  );
+  )
 }

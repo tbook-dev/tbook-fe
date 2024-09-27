@@ -9,9 +9,6 @@ import Layout from '@/layout/custom/Layout';
 import LazyImage from '@/components/lazyImage';
 
 import ComingIcon from './icons/Coming.svg?react';
-import TonIcon from './layerIcons/Ton.svg?react';
-import SuiIcon from './layerIcons/Sui.svg?react';
-import SolanaIcon from './layerIcons/Solana.svg?react';
 
 export default function CompanyHome () {
   const { companyId } = useParams();
@@ -34,7 +31,7 @@ export default function CompanyHome () {
             <div className="w-full aspect-[2/1]  rounded-3xl bg-[#D5C8FF] animate-pulse" />
           ) : <Link to={ `/company/${companyInfo.companyId}/leaderboard` }>
             <LazyImage
-              className="w-full h-auto rounded-3xl bg-[#dad8ff] object-cover object-center"
+              className="w-full h-auto rounded-3xl bg-[#D5C8FF] object-cover object-center"
               src={ companyInfo.homePoster }
               alt='Company poster'
             />
@@ -49,7 +46,7 @@ export default function CompanyHome () {
                   return (
                     <div key={ index } className='relative flex items-center mt-4 mr-4' onClick={ () => LinkToProjectList(item) }>
                       <LazyImage className="w-[60px] h-[60px] rounded-full " src={ item.icon } alt={ item.name }></LazyImage>
-                      { item.status === 0 && <ComingIcon className="absolute bottom-0 right-[-4px]" /> }
+                      { item.status === 0 && <ComingIcon className="absolute bottom-[-1px] right-[-4px]" /> }
                     </div>
                   )
                 })
