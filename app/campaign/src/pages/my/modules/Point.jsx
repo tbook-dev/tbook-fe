@@ -8,9 +8,9 @@ import dayjs from 'dayjs';
 import pointIcon from '@/images/icon/point.svg';
 import arrow3Icon from '@/images/icon/arrow2.svg';
 
-export default function Point() {
-  const { projectId, projectUrl, isUsingSubdomain } = useLoaderData();
-  const { data: assets, isLoading } = useAssetQuery(projectId);
+export default function Point ({ isCompany = false }) {
+  const { projectId, projectUrl, isUsingSubdomain, companyId } = useLoaderData();
+  const { data: assets, isLoading } = useAssetQuery(projectId, companyId, isCompany);
   const data = assets?.points || [];
   const total = _.sum(data.map((v) => v.number));
 

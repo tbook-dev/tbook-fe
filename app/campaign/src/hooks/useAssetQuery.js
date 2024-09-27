@@ -1,14 +1,26 @@
 import { useQuery } from "react-query";
-import { getUserAsset } from "@/api/incentive";
+import { getUserAsset, getUserAssetByCompany } from "@/api/incentive";
 import useUserInfoQuery from "./useUserInfoQuery";
 
-export default function useAssetQuery(projectId) {
+export default function useAssetQuery(projectId, companyId, isCompany) {
   const { userLogined } = useUserInfoQuery();
-  return useQuery(
-    ["asset", projectId, userLogined],
-    () => getUserAsset(projectId),
-    {
-      enabled: !!projectId,
-    }
-  );
+
+  if (isCompany) {
+    return useQuery(
+      ["asset-company", companyId, userLogined],
+      () => getUserAssetByCompany(companyId),
+      {
+        enabled: !!companyId,
+      }
+    );
+  } else {
+    return useQuery(
+      [ "asset", projectId, userLogined ],
+      () => getUserAsset(projectId),
+      {
+        enabled: !!projectId,
+      }
+    );
+  }
+
 }
