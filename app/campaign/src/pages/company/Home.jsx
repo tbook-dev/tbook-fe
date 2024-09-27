@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 
 import useCompanyProjects from '@/hooks/useCompanyProjects';
 // import TMAShare from '@/components/TMAShare';
@@ -11,6 +11,7 @@ import LazyImage from '@/components/lazyImage';
 import ComingIcon from './icons/Coming.svg?react';
 
 export default function CompanyHome () {
+  const location = useLocation();
   const { companyId } = useParams();
   const { data, isLoading } = useCompanyProjects(companyId);
 
@@ -18,7 +19,12 @@ export default function CompanyHome () {
   const projects = data?.data?.projects ?? [];
   const layerOneList = data?.data?.layerOneList ?? []
 
-  const LinkToProjectList = ({ status }) => {
+  // TODO: mock
+  if(!companyInfo.homePosterLink) {
+    companyInfo.homePosterLink = `https://${window.location.hostname}/company/${companyId}/asset`
+  }
+
+  function LinkToProjectList ({ status }) {
     if (status === 0) return;
     // TODO: Link to project list
   }
@@ -29,13 +35,13 @@ export default function CompanyHome () {
         <div className='flex justify-center w-full mb-4 h-fit min-h-[178px]'>
           { isLoading ? (
             <div className="w-full aspect-[2/1]  rounded-3xl bg-[#D5C8FF] animate-pulse" />
-          ) : <Link to={ `/company/${companyInfo.companyId}/leaderboard` }>
+          ) : <a href={ companyInfo.homePosterLink }>
             <LazyImage
               className="w-full h-auto rounded-3xl bg-[#D5C8FF] object-cover object-center"
               src={ companyInfo.homePoster }
               alt='Company poster'
             />
-          </Link> }
+          </a> }
         </div>
         
         { layerOneList.length > 0 && (

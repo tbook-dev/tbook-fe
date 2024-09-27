@@ -73,7 +73,7 @@ function CampaignCardWithLightStyle ({
 
       <LazyImage
         src={ picUrl }
-        className="w-full h-[160px] lg:h-[140px] object-cover object-center"
+        className="w-full h-[160px] lg:h-[140px] object-cover object-center bg-[#F0E1F7]"
         alt="campaign banner"
       />
       <div className="flex flex-col justify-between flex-auto p-5 gap-y-3">
