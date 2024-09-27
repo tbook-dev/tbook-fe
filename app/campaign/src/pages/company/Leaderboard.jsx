@@ -8,7 +8,7 @@ import useCompanyLeaderboard from '@/hooks/useCompanyLeaderboard';
 import Layout from '@/layout/custom/Layout';
 import LeaderboardSkeleton from './LeaderBoardSkeleton';
 import LeaderBoardNav from './LeaderBoardNav';
-// import UserScore from './UserScore';
+import UserScore from './UserScore';
 import ScoreItem from './ScoreItem';
 
 const pageSize = 10;
@@ -35,7 +35,7 @@ export default function CompanyLeaderboard () {
             <div className="flex items-center gap-x-2">
               <ArrowIcon
                 className="rotate-180"
-                stroke={ disableStart ? '#7a7a7a' : 'white' }
+                stroke={ disableStart ? '#FCFAFD' : 'black' }
                 onClick={ () => {
                   if (cursor > 0) {
                     setCursor((v) => v - 1);
@@ -43,7 +43,7 @@ export default function CompanyLeaderboard () {
                 } }
               />
               <ArrowIcon
-                stroke={ disableEnd ? '#7a7a7a' : 'white' }
+                stroke={ disableEnd ? '#FCFAFD' : 'black' }
                 onClick={ () => {
                   if (cursor < totalPageNum - 1) {
                     setCursor((v) => v + 1);
@@ -56,12 +56,10 @@ export default function CompanyLeaderboard () {
         </LeaderBoardNav>
 
         <div className="space-y-2">
-          {/* <UserScore className="bg-[#E4FA73]" /> */}
+          <UserScore list={ list } className="bg-[#E4FA73]" />
 
-          { !data ? (
-            <div className="py-3 rounded-2xl">
-              <LeaderboardSkeleton size={ 3 } height="70px" />
-            </div>
+          { isLoading ? (
+            <LeaderboardSkeleton />
           ) : (
             <div className="space-y-2">
               { pagedList?.map((v, index) => (
