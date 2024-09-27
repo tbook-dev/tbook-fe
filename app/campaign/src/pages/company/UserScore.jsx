@@ -69,7 +69,7 @@ export default function UserScore ({ list, className }) {
 
   return (userScoreInfo) ? (
     <div
-      className={ clsx("p-4 flex items-center justify-between gap-x-3 rounded-2xl text-lg h-[60px]", `bg-[${colorConfig.userScoreBgColor}]`) }
+      className={ clsx("p-4 flex items-center justify-between gap-x-3 rounded-2xl text-lg h-[60px]", `bg-[#e4fa73]`) }
     >
       <span className={ clsx("flex-none w-8 pl-3 text-lg font-medium", `text-[${colorConfig.userScoreTextColor1}]`) }>
         { userScoreInfo.rank }
