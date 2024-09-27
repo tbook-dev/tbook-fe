@@ -27,7 +27,8 @@ const tabModule = [
   },
 ];
 export default function Asset() {
-  const { projectId, isLightTheme } = useLoaderData();
+  const { projectId, isLightTheme, companyId } = useLoaderData();
+
   const { userLogined, isLoading: userLoading } = useUserInfoQuery();
   const { pathname } = useLocation();
   const navigate = useNavigate();

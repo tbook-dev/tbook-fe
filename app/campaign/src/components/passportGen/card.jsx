@@ -5,7 +5,7 @@ import walletGrayIcon from '@/images/icon/wallet-gray.svg';
 import useSocial from '@/hooks/useSocial';
 import { useDispatch } from 'react-redux';
 import { setConnectWalletModal } from '@/store/global';
-import { Link, useLoaderData, useLocation } from 'react-router-dom';
+import { Link, useLoaderData, useLocation, useParams } from 'react-router-dom';
 import Address from '@tbook/ui/src/Address';
 import suiSVG from '@/images/zklogin/sui.svg';
 import tonSVG from '@/images/wallet/ton.svg';
@@ -41,8 +41,10 @@ export default function PassportCard ({ onClose }) {
     isUsingWallet,
   } = useUserInfo();
   const { socialList } = useSocial();
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const { isUsingSubdomain, projectUrl, projectId } = useLoaderData();
+  const { isUsingSubdomain, projectUrl, projectId, companyId  } = useLoaderData();
+
   const { isTMA, canConnectEvm } = useTelegram();
   const { openTonModalLogin, disconnectTon } = useTonToolkit();
   const handleConnectWallet = useCallback(() => {
@@ -53,8 +55,20 @@ export default function PassportCard ({ onClose }) {
     onClose();
     openTonModalLogin();
   };
-  let location = useLocation();
+
+  const checkIsCompanyPage = () => pathname.indexOf('/company') > -1;
   const links = useMemo(() => {
+    const isCompanyPage = checkIsCompanyPage()
+
+    if (isCompanyPage) {
+      return [
+        {
+          name: 'Incentive Assets',
+          path: `/company/${companyId}/asset`,
+        },
+      ];
+    }
+
     return [
       {
         name: 'Incentive Campaigns',
@@ -65,22 +79,24 @@ export default function PassportCard ({ onClose }) {
         path: `${isUsingSubdomain ? '' : `/${projectUrl}`}/asset`,
       },
     ];
-  }, [projectUrl]);
+  }, [ pathname, projectUrl, companyId, isUsingSubdomain ]);
+
   const handleDisconnectTon = () => {
     onClose();
     disconnectTon(600);
   };
 
-  // const linkNoClick = useMemo(() => {
-  //   return linkNoClickList.includes(location.pathname);
-  // }, [location]);
-  const linkNoClick = !projectId;
+  const isShowList = () => {
+    const isCompanyPage = checkIsCompanyPage()
+    return projectId || isCompanyPage;
+  }
+
   const walletIconList = useMemo(() => {
     return [
       {
         render: tonConnected ? (
-          <TipAddress address={tonAddress} key='evm-t'>
-            <img src={tonUnlockSVG} className='w-5 h-5 object-center' />
+          <TipAddress address={tonAddress} key="evm-t">
+            <img src={tonUnlockSVG} className="object-center w-5 h-5" />
           </TipAddress>
         ) : (
           <button
@@ -90,8 +106,8 @@ export default function PassportCard ({ onClose }) {
           >
             <img
               src={tonUnlockSVG}
-              alt='ton connect'
-              className='w-5 h-5 object-center'
+              alt="ton connect"
+              className="object-center w-5 h-5"
             />
           </button>
         ),
@@ -103,8 +119,8 @@ export default function PassportCard ({ onClose }) {
           <TipAddress address={evmAddress} key='ton-t'>
             <img
               src={evmUnlockSVG}
-              alt='wallet connect'
-              className='w-6 h-6 object-contain object-center focus-visible:outline-none'
+              alt="wallet connect"
+              className="object-contain object-center w-6 h-6 focus-visible:outline-none"
             />
           </TipAddress>
         ) : !canConnectEvm ? (
@@ -116,7 +132,7 @@ export default function PassportCard ({ onClose }) {
                 <a
                   target='_blank'
                   href={`${window.location.origin}/edit-attestation`}
-                  className='block hover:text-white underline hover:underline break-all'
+                  className="block underline break-all hover:text-white hover:underline"
                 >
                   {window.location.origin}/edit-attestation
                 </a>
@@ -125,8 +141,8 @@ export default function PassportCard ({ onClose }) {
           >
             <img
               src={walletGrayIcon}
-              alt='wallet connect'
-              className='w-6 h-6 object-contain object-center focus-visible:outline-none'
+              alt="wallet connect"
+              className="object-contain object-center w-6 h-6 focus-visible:outline-none"
             />
           </Tooltip>
         ) : (
@@ -137,8 +153,8 @@ export default function PassportCard ({ onClose }) {
           >
             <img
               src={walletGrayIcon}
-              alt='wallet connect'
-              className='w-6 h-6 object-contain object-center'
+              alt="wallet connect"
+              className="object-contain object-center w-6 h-6"
             />
           </button>
         ),
@@ -149,7 +165,7 @@ export default function PassportCard ({ onClose }) {
   }, [tonConnected, evmConnected]);
   // console.log({ currentAddress, isTMA });
   return (
-    <div className='flex-auto flex flex-col justify-start pb-16 pt-6 lg:py-0 lg:justify-center text-white'>
+    <div className="flex flex-col justify-start flex-auto pt-6 pb-16 text-white lg:py-0 lg:justify-center">
       <div
         className='relative mx-auto h-[452px] w-[317px] flex flex-col justify-center items-center bg-cover bg-center'
         style={{ backgroundImage: `url(${passportlg})` }}
@@ -178,12 +194,12 @@ export default function PassportCard ({ onClose }) {
             </svg>
           </Link>
         </div>
-        <div className='relative flex flex-col items-center gap-y-5  text-lg font-medium mb-3'>
+        <div className="relative flex flex-col items-center mb-3 text-lg font-medium gap-y-5">
           <LazyImage
             fallbackSrc={fallbackAvatarSVG}
             src={user?.avatar}
-            alt='passport avatar'
-            className='w-20 h-20 rounded-full object-center'
+            alt="passport avatar"
+            className="object-center w-20 h-20 rounded-full"
           />
           <div className='space-y-2'>
             <div className='text-center'>
@@ -193,27 +209,27 @@ export default function PassportCard ({ onClose }) {
                   {currentAddress?.type === 'zk' && (
                     <img
                       src={suiSVG}
-                      alt='zk'
-                      className='w-5 h-5 object-center'
+                      alt="zk"
+                      className="object-center w-5 h-5"
                     />
                   )}
                   {currentAddress?.type === 'ton' && (
                     <img
                       src={tonSVG}
-                      alt='ton'
-                      className='w-5 h-5 object-center'
+                      alt="ton"
+                      className="object-center w-5 h-5"
                     />
                   )}
                   {currentAddress?.type === 'evm' && (
                     <img
                       src={evmSVG}
-                      alt='evm'
-                      className='w-5 h-5 object-center'
+                      alt="evm"
+                      className="object-center w-5 h-5"
                     />
                   )}
                   <Address
                     address={address}
-                    className='font-zen-dot text-xl'
+                    className="text-xl font-zen-dot"
                     disconnect={
                       currentAddress?.type === 'ton'
                         ? handleDisconnectTon
@@ -234,7 +250,7 @@ export default function PassportCard ({ onClose }) {
                         socialList.find(v => v.name === currentSocial.type)
                           ?.activePic
                       }
-                      className='w-5 h-5 object-center'
+                      className="object-center w-5 h-5"
                     />
                   </div>
                 )
@@ -243,8 +259,8 @@ export default function PassportCard ({ onClose }) {
           </div>
         </div>
 
-        <div className='space-y-2 mb-5'>
-          <div className='relative flex items-center justify-center gap-x-3'>
+        <div className="mb-5 space-y-2">
+          <div className="relative flex items-center justify-center gap-x-3">
             {walletIconList
               .filter(v =>
                 isUsingWallet ? currentAddress?.type !== v.name : true
@@ -262,7 +278,7 @@ export default function PassportCard ({ onClose }) {
                   <Tooltip key={v.name} title={`${v.userName}`}>
                     <img
                       src={v.connected ? v.activePic : v.picUrl}
-                      className='w-6 h-6 object-contain object-center'
+                      className="object-contain object-center w-6 h-6"
                     />
                   </Tooltip>
                 ) : (
@@ -273,7 +289,7 @@ export default function PassportCard ({ onClose }) {
                   >
                     <img
                       src={v.connected ? v.activePic : v.picUrl}
-                      className='w-6 h-6 object-contain object-center'
+                      className="object-contain object-center w-6 h-6"
                     />
                   </button>
                 );
@@ -303,8 +319,8 @@ export default function PassportCard ({ onClose }) {
           </Link>
         </div>
 
-        <div className='relative flex flex-col px-6 py-4 gap-y-1 text-sm font-medium'>
-          {linkNoClick ? (
+        <div className="relative flex flex-col px-6 py-4 text-sm font-medium gap-y-1">
+          { !isShowList() ? (
             <Tooltip
               title={footprintTips.map((t, i) => (
                 <p key={i}>{t}</p>

@@ -90,6 +90,11 @@ export const getNftClaimInfo = async function (nftId, groupId) {
 export const getUserAsset = async function (projectId) {
   return await request(`${host}/user/${projectId}/assets`);
 };
+
+export const getUserAssetByCompany = async function (companyId) {
+  return await request(`${host}/company/user/${companyId}/assets`);
+};
+
 export const getNft = async function (groupId, nftId) {
   return await request(`${host}/user/${groupId}/nftInfo/${nftId}`);
 };

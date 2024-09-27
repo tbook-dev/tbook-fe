@@ -57,8 +57,8 @@ export default function CompanyHome () {
 
         <h1 className='mt-4 text-xl font-bold'>Trending Games</h1>
         { isLoading ? (
-          new Array(2).fill(0).map(() => (
-            <ProjectCardSkeleton />
+          new Array(2).fill(0).map((key, index) => (
+            <ProjectCardSkeleton key={index} />
           ))
         ) : (
           projects.map((item) => (

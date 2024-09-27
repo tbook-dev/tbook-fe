@@ -5,7 +5,7 @@ import TMALayout from '@/layout/ton/Layout';
 import HomeLayout from '@/layout/fixed/Layout';
 import { Suspense, lazy } from 'react';
 import PageFallBack from '@/components/pageFallback';
-import { getProjectId } from '@/api/incentive';
+import { getProjectId, getCompanyProjects } from '@/api/incentive';
 import queryClient from '../query-client';
 
 import commonRoutes from './common';
@@ -15,6 +15,9 @@ import TonExplore from '@/pages/ton-explore';
 import CompanyHome from '@/pages/company/Home';
 import CompanyLeaderboard from '@/pages/company/Leaderboard';
 import CompanyAbout from '@/pages/company/About';
+
+import CompanyAsset from '@/pages/company/Asset';
+
 import CompanyProjects from '@/pages/company/ProjectList';
 
 import { keptProjectUrls, defaultProjectInfo } from './conf';
@@ -68,7 +71,6 @@ const getProjectIdFn = async ({ params }) => {
       }
     );
     const theme = res?.theme || 0;
-    console.log('res', res)
     return {
       // mock 
       companyId: res.companyId || 1,
@@ -79,6 +81,38 @@ const getProjectIdFn = async ({ params }) => {
       project: res,
       isLightTheme: theme === 1,
     };
+  } catch (e) {
+    return defaultProjectInfo;
+  }
+};
+const getCompanyIdFn = async ({ params }) => {
+  let companyId = params.companyId;
+
+  // if (!companyId && keptProjectUrls.includes(projectUrl)) {
+  //   return defaultProjectInfo;
+  // }
+  try {
+    const res = await queryClient.fetchQuery(
+      [ 'company-projects', companyId ],
+      () => getCompanyProjects(companyId),
+      {
+        staleTime: Infinity,
+        cacheTime: Infinity,
+      }
+    );
+    // const theme = res?.theme || 0;
+    console.log('res', res)
+    const { company } = res?.data || {};
+    if (company?.companyId)  {
+      return {
+        // mock 
+        companyId: company?.companyId || 0,
+        companyName: company?.companyName,
+        isLightTheme: company?.companyId > 0
+      };
+    } return {
+
+    }
   } catch (e) {
     return defaultProjectInfo;
   }
@@ -368,7 +402,7 @@ const routes = [
   // company homepage
   {
     path: '/company/:companyId',
-    loader: getTbookfn,
+    loader: getCompanyIdFn,
     element: (
       <Suspense fallback={ <PageFallBack /> }>
         <CompanyHome />
@@ -379,7 +413,7 @@ const routes = [
   // company leaderBoard
   {
     path: '/company/:companyId/leaderboard',
-    loader: getTbookfn,
+    loader: getCompanyIdFn,
     element: (
       <Suspense fallback={ <PageFallBack /> }>
         <CompanyLeaderboard />
@@ -407,7 +441,16 @@ const routes = [
         <CompanyAbout />
       </Suspense>
     ),
-  }
+  },
+  {
+    path: '/company/:companyId/asset',
+    loader: getCompanyIdFn,
+    element: (
+      <Suspense fallback={ <PageFallBack /> }>
+        <CompanyAsset />
+      </Suspense>
+    ),
+  },
 ];
 
 export default [...routes, ...commonRoutes];
