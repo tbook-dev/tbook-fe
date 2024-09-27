@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import LazyImage from '@/components/lazyImage';
 
 export default function ProjectCard({ info }) {
-  const { projectUrl, avatarUrl, projectName, projectDescription } = info;
+  const { projectUrl, avatarUrl, projectName, projectDescription, banner } = info;
   
   const link = `/${projectUrl}`
 
@@ -10,7 +10,7 @@ export default function ProjectCard({ info }) {
     <Link to={ link } className="bg-white rounded-2xl border-[1px] border-[#E0CEEE] my-4 block">
       <div>
         <LazyImage
-          src={ avatarUrl }
+          src={ banner }
           alt="logo"
           className="h-[143px] object-cover object-center w-full rounded-t-2xl border-[1px] border-[#490081]"
         />

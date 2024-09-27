@@ -73,8 +73,8 @@ const getProjectIdFn = async ({ params }) => {
     const theme = res?.theme || 0;
     return {
       // mock 
-      companyId: res.companyId || 1,
-      companyName: res?.companyName || 'GameBuild',
+      companyId: res.companyId || 0,
+      companyName: res?.companyName || '',
       projectUrl,
       isUsingSubdomain: false,
       projectId: res?.projectId,
