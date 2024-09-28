@@ -1,17 +1,22 @@
 import { formatImpact, shortAddressV1 } from '@tbook/utils/lib/conf';
 import AssetTabList from './AssetTabList';
 import PointRecord from '../my/modules/Point';
-
+import { useCompanyOnboardQuery } from '@/hooks/useCompanyOnboardQuery';
 import { useState } from 'react';
-
+import { Skeleton } from 'antd';
+import LightProvider from '@/theme/LightProvider';
+import Credential from '@/pages/app/credential';
+import { useParams } from 'react-router-dom';
+import { useMemo } from 'react';
 export default function AssetPoints() {
   const [tabValue, setTabValue] = useState('1');
-  
+
   const userInfo = {
-    point: 330000
-  }
-  
-  const bgImage = 'https://static.tbook.vip/img/1a87d2e5bf3c498693f0c8ca64919797'
+    point: 330000,
+  };
+
+  const bgImage =
+    'https://static.tbook.vip/img/1a87d2e5bf3c498693f0c8ca64919797';
 
   const tabModule = [
     {
@@ -28,25 +33,58 @@ export default function AssetPoints() {
 
   return (
     <div>
-      <div className='w-full h-[232px] relative' style={ { backgroundImage: `url(${bgImage})` } }>
-        <h1 className='absolute text-6xl font-bold bottom-6 left-10 font-zen-dot'>{ formatImpact(userInfo.point) }</h1>
+      <div
+        className="w-full h-[232px] relative"
+        style={{ backgroundImage: `url(${bgImage})` }}
+      >
+        <h1 className="absolute text-6xl font-bold bottom-6 left-10 font-zen-dot">
+          {formatImpact(userInfo.point)}
+        </h1>
       </div>
 
-      <div className='p-6'>
+      <div className="p-6">
         <AssetTabList
-          tabs={ tabModule }
-          value={ tabValue }
-          onSelect={ setTabValue }
+          tabs={tabModule}
+          value={tabValue}
+          onSelect={setTabValue}
         />
 
-        <div className='py-6'>{ tabModule.find((v) => v.value === tabValue).com }</div>
+        <div className="py-6">
+          {tabModule.find((v) => v.value === tabValue).com}
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
-function OnBoardCampaign () {
+function OnBoardCampaign() {
+  const { companyId } = useParams();
+  const { data, isLoading } = useCompanyOnboardQuery(companyId);
+  const credentialList = useMemo(() => {
+    return data?.data?.groups
+      ?.map((v) => {
+        return v.credentialList;
+      })
+      .flat();
+  }, [data]);
   return (
-    <div>on Board Campaign</div>
-  )
+    <div className="space-y-2.5">
+      {isLoading ? (
+        <LightProvider>
+          {Array.from({ length: 2 })
+            .fill(1)
+            .map((_, index) => (
+              <Skeleton key={index} />
+            ))}
+        </LightProvider>
+      ) : (
+        Array.isArray(credentialList) &&
+        credentialList.map((v) => (
+          <div className="bg-white rounded-lg" key={v.credentialId}>
+            <Credential credential={v} theme="white" showVerify />
+          </div>
+        ))
+      )}
+    </div>
+  );
 }
