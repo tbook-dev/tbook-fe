@@ -16,7 +16,8 @@ import CompanyHome from '@/pages/company/Home';
 import CompanyLeaderboard from '@/pages/company/Leaderboard';
 import CompanyAbout from '@/pages/company/About';
 
-import CompanyAsset from '@/pages/company/Asset';
+// import CompanyAsset from '@/pages/company/Asset';
+const CompanyAsset = lazy(() => import('@/pages/company/Asset'));
 
 import CompanyProjects from '@/pages/company/ProjectList';
 
@@ -72,7 +73,7 @@ const getProjectIdFn = async ({ params }) => {
     );
     const theme = res?.theme || 0;
     return {
-      // mock 
+      // mock
       companyId: res.companyId || 0,
       companyName: res?.companyName || '',
       projectUrl,
@@ -93,7 +94,7 @@ const getCompanyIdFn = async ({ params }) => {
   // }
   try {
     const res = await queryClient.fetchQuery(
-      [ 'company-projects', companyId ],
+      ['company-projects', companyId],
       () => getCompanyProjects(companyId),
       {
         staleTime: Infinity,
@@ -101,18 +102,17 @@ const getCompanyIdFn = async ({ params }) => {
       }
     );
     // const theme = res?.theme || 0;
-    console.log('res', res)
+    console.log('res', res);
     const { company } = res?.data || {};
-    if (company?.companyId)  {
+    if (company?.companyId) {
       return {
-        // mock 
+        // mock
         companyId: company?.companyId || 0,
         companyName: company?.companyName,
-        isLightTheme: company?.companyId > 0
+        isLightTheme: company?.companyId > 0,
       };
-    } return {
-
     }
+    return {};
   } catch (e) {
     return defaultProjectInfo;
   }
@@ -404,7 +404,7 @@ const routes = [
     path: '/company/:companyId',
     loader: getCompanyIdFn,
     element: (
-      <Suspense fallback={ <PageFallBack /> }>
+      <Suspense fallback={<PageFallBack />}>
         <CompanyHome />
       </Suspense>
     ),
@@ -415,7 +415,7 @@ const routes = [
     path: '/company/:companyId/leaderboard',
     loader: getCompanyIdFn,
     element: (
-      <Suspense fallback={ <PageFallBack /> }>
+      <Suspense fallback={<PageFallBack />}>
         <CompanyLeaderboard />
       </Suspense>
     ),
@@ -437,7 +437,7 @@ const routes = [
     path: '/company/:companyId/about',
     loader: getTbookfn,
     element: (
-      <Suspense fallback={ <PageFallBack /> }>
+      <Suspense fallback={<PageFallBack />}>
         <CompanyAbout />
       </Suspense>
     ),
@@ -446,7 +446,7 @@ const routes = [
     path: '/company/:companyId/asset',
     loader: getCompanyIdFn,
     element: (
-      <Suspense fallback={ <PageFallBack /> }>
+      <Suspense fallback={<PageFallBack />}>
         <CompanyAsset />
       </Suspense>
     ),
