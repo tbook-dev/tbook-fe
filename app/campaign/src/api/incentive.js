@@ -361,15 +361,13 @@ export const getDeFi = async function () {
 };
 
 export const getCompanyProjects = async function (companyId) {
-  return fetch(`${host}/company/${companyId}`, {
-    method: 'GET',
-    credentials: 'include',
-  }).then((res) => res.json());
+  return await request.Get(`${host}/company/${companyId}`);
 };
 
 export const getCompanyLeaderboard = async function (companyId) {
-  return fetch(`${host}/company/leaderboard/${companyId}`, {
-    method: 'GET',
-    credentials: 'include',
-  }).then((res) => res.json());
+  return await request.Get(`${host}/company/leaderboard/${companyId}`);
+};
+
+export const getCompanyOnboardCampaignInfo = async function (companyId) {
+  return await request.Get(`${host}/company/${companyId}/onboardCampaign`);
 };

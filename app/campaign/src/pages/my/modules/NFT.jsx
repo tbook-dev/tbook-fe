@@ -4,13 +4,16 @@ import clsx from 'clsx';
 import PageLoading from '@/components/pageFallback';
 import { Link } from 'react-router-dom';
 import { useLoaderData } from 'react-router-dom';
-import { C } from '../../../../dist/assets/verdor-558ff01f';
 
-export default function NFT ({ isCompany = false }) {
-  const { projectId, projectUrl, isUsingSubdomain, companyId, isLightTheme } = useLoaderData();
-  const { data: assets, isLoading } = useAssetQuery(projectId, companyId, isCompany);
+export default function NFT({ isCompany = false }) {
+  const { projectId, projectUrl, isUsingSubdomain, companyId, isLightTheme } =
+    useLoaderData();
+  const { data: assets, isLoading } = useAssetQuery(
+    projectId,
+    companyId,
+    isCompany
+  );
   const data = assets?.nfts || [];
-
 
   return (
     <div
@@ -29,7 +32,10 @@ export default function NFT ({ isCompany = false }) {
               to={`${isUsingSubdomain ? '' : `/${projectUrl}`}/nft/${
                 v.groupId
               }/${v.nftId}`}
-              className={ clsx("rounded-lg block overflow-hidden", isLightTheme ? 'bg-[#dbbee8]/60 ' : 'bg-[#0e0819] ')}
+              className={clsx(
+                'rounded-lg block overflow-hidden',
+                isLightTheme ? 'bg-[#dbbee8]/60 ' : 'bg-[#0e0819] '
+              )}
               key={v.nftId}
             >
               <img
@@ -37,7 +43,12 @@ export default function NFT ({ isCompany = false }) {
                 alt="nft"
                 className="w-full h-[187px] lg:h-[225px] rounded-t-lg object-contain flex-none"
               />
-              <div className={ clsx("w-full h-px", isLightTheme ? 'bg-[#904bf6]' : 'bg-linear3')} />
+              <div
+                className={clsx(
+                  'w-full h-px',
+                  isLightTheme ? 'bg-[#904bf6]' : 'bg-linear3'
+                )}
+              />
               <div className="p-4">
                 <h2 className="text-sm font-bold lg:text-xl lg:text-medium">
                   {v.name}
