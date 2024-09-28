@@ -6,8 +6,8 @@ export default function AssetTabList ({ disabled, tabs, value, onSelect, classNa
   const colorConfig = {
     light: {
       defaultTextColor: '#6D6C6E',
-      activeTextColor: '#000000',
-      bottomLineColor: '#000000',
+      activeTextColor: 'black',
+      bottomLineColor: 'black',
     },
     dark: {
       defaultTextColor: '#c4c4c4',
@@ -26,7 +26,8 @@ export default function AssetTabList ({ disabled, tabs, value, onSelect, classNa
     const themeStyles = `text-[${colors.defaultTextColor}]`;
 
     const activeStyles = m.value === value
-      ? `lg:bg-[rgb(255,255,255)]/[0.1] lg:after:hidden after:absolute after:inset-x-0 after:bottom-[-8px] after:h-0.5 after:bg-[${colors.bottomLineColor}] text-[${colors.activeTextColor}]`
+      ? `lg:bg-[rgb(255,255,255)]/[0.1] lg:after:hidden after:absolute after:inset-x-0 after:bottom-[-8px] after:h-0.5 
+      after:bg-[#000] text-[#000]`
       : `text-[${colors.defaultTextColor}]`;
 
     const hoverStyles = !disabled && `hover:text-[${colors.activeTextColor}]`;
