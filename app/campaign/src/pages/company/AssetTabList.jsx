@@ -3,9 +3,6 @@ import { useLoaderData } from 'react-router-dom'
 
 export default function AssetTabList ({ disabled, tabs, value, onSelect, className }) {
 
-  console.log('AssetTabList', tabs)
-  console.log('value', value)
-
   const colorConfig = {
     light: {
       defaultTextColor: '#6D6C6E',

@@ -1,4 +1,5 @@
 import { useNavigate, useLocation, useLoaderData } from 'react-router-dom';
+import useAssetQuery from '@/hooks/useAssetQuery';
 
 import AssetTabList from './AssetTabList';
 import Credentials from '../my/modules/Credential';
@@ -39,8 +40,11 @@ export default function CompanyAsset ({ pageType = 'project' }) {
   const { isLightTheme, companyId, companyName } = useLoaderData();
 
   const { userLogined, isLoading: userLoading } = useUserInfoQuery();
+
   const { pathname } = useLocation();
   const navigate = useNavigate();
+
+
   
   // const { isLoading } = useAssetCompanyQuery(companyId);
   const isLoading = false;
