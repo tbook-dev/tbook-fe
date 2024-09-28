@@ -126,10 +126,13 @@ export default function HomeProject () {
                 ) : (
                   <div className='lg:h-[330px] lg:bg-[##F0E1F7] lg:rounded-xl flex justify-center items-center'>
                     <div className='bg-[#F0E1F7] w-full h-[250px] rounded-xl flex flex-row items-center justify-center'>
-                      <p 
-                        className='text-[#5812B1] text-sm w-40 text-center' 
-                            dangerouslySetInnerHTML={ { __html: project?.emptyCampaignText || 'Coming Soon!' } }>
-                      </p>
+                          { selectStatus === 1 ? (
+                            <p
+                              className='text-[#5812B1] text-sm w-40 text-center'
+                              dangerouslySetInnerHTML={ { __html: project?.emptyCampaignText || 'Coming Soon!' } }>
+                            </p>
+                          ) : <p className='text-[#5812B1] text-sm w-80 text-center'> No campaigns yet!</p>}
+                   
                     </div>
                   </div>
                 ) }

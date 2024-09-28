@@ -13,7 +13,7 @@ import Credential from '@/pages/app/credential';
 import { useParams } from 'react-router-dom';
 import { useMemo } from 'react';
 export default function AssetPoints() {
-  const { companyId }  = useLoaderData();
+  const { companyId, companyInfo }  = useLoaderData();
   const [tabValue, setTabValue] = useState('1');
 
   const userInfo = {
@@ -42,7 +42,7 @@ export default function AssetPoints() {
     <div>
       <div
         className="w-full h-[232px] relative"
-        style={{ backgroundImage: `url(${bgImage})` }}
+        style={ { backgroundImage: `url(${companyInfo?.pointBgImage})` }}
       >
         <h1 className="absolute text-6xl font-bold bottom-6 left-10 font-zen-dot">
           {formatImpact(userInfo.point)}

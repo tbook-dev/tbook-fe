@@ -19,11 +19,6 @@ export default function CompanyHome () {
   const projects = data?.data?.projects ?? [];
   const layerOneList = data?.data?.layerOneList ?? []
 
-  // TODO: mock
-  if(!companyInfo.homePosterLink) {
-    companyInfo.homePosterLink = `https://${window.location.hostname}/company/${companyId}/asset`
-  }
-
   function LinkToProjectList ({ status }) {
     if (status === 0) return;
     // TODO: Link to project list

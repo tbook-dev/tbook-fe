@@ -58,14 +58,12 @@ export default function PassportCard ({ onClose }) {
 
   const checkIsCompanyPage = () => pathname.indexOf('/company') > -1;
   const links = useMemo(() => {
-
-
     // 存在 companyId(非默认的 0 值)，只展示 asset
     if (companyId > 0) {
       return [
         {
           name: 'Incentive Assets',
-          path: `/company/${companyId}/asset`,
+          path: `/company/${companyId}/asset?type=3`,
         },
       ];
     }

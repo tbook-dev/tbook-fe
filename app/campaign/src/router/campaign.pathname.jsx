@@ -110,6 +110,7 @@ const getCompanyIdFn = async ({ params }) => {
         companyId: company?.companyId || 0,
         companyName: company?.companyName,
         isLightTheme: company?.companyId > 0,
+        companyInfo: company,
       };
     }
     return {};
