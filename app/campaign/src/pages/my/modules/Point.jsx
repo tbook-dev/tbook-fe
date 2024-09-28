@@ -6,10 +6,11 @@ import _ from 'lodash';
 import { useLoaderData, Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import pointIcon from '@/images/icon/point.svg';
-import arrow3Icon from '@/images/icon/arrow2.svg';
+import arrow3Icon from '@/images/icon/arrow2-white.svg';
+import clsx from 'clsx';
 
-export default function Point ({ isCompany = false }) {
-  const { projectId, projectUrl, isUsingSubdomain, companyId } = useLoaderData();
+export default function Point ({ isCompany = false, showTotalScore = true }) {
+  const { projectId, projectUrl, isUsingSubdomain, companyId, isLightTheme } = useLoaderData();
   const { data: assets, isLoading } = useAssetQuery(projectId, companyId, isCompany);
   const data = assets?.points || [];
   const total = _.sum(data.map((v) => v.number));
@@ -22,24 +23,27 @@ export default function Point ({ isCompany = false }) {
         </div>
       ) : (
         <>
-            <div className="flex items-center justify-between p-5 rounded-lg bg-[#0e0819] border border-[#904BF6] mb-8 text-white">
-            <div className="space-y-2 lg:space-y-4">
-              <div className="text-sm lg:text-lg">points</div>
-              <div className="font-bold text-4.2xl leading-[44px] mb-1 lg:text-[48px] lg:font-medium font-zen-dot">
-                {formatStandard(total)}
+          {showTotalScore && (
+              <div className="flex items-center justify-between p-5 rounded-lg bg-[#0e0819] border border-[#904BF6] mb-8 text-white">
+                <div className="space-y-2 lg:space-y-4">
+                  <div className="text-sm lg:text-lg">points</div>
+                  <div className="font-bold text-4.2xl leading-[44px] mb-1 lg:text-[48px] lg:font-medium font-zen-dot">
+                    { formatStandard(total) }
+                  </div>
+                </div>
+                <img
+                  src={ pointIcon }
+                  className="w-20 h-20 lg:w-[120px] lg:h-[120px]"
+                />
               </div>
-            </div>
-            <img
-              src={pointIcon}
-              className="w-20 h-20 lg:w-[120px] lg:h-[120px]"
-            />
-          </div>
+          )}
+
           <div className="space-y-2">
             {data.map((v, idx) => {
               return (
                 <div
                   key={idx}
-                  className="p-5 bg-[#0e0819] rounded-lg flex justify-between items-center"
+                  className={ clsx("p-5 rounded-lg flex justify-between items-center", isLightTheme ? 'bg-[#9A81E6]' : 'bg-[#0e0819]') }
                 >
                   <div className="w-[250px] lg:w-[1000px] flex flex-col text-white">
                     <Link
@@ -55,7 +59,7 @@ export default function Point ({ isCompany = false }) {
                         className="inline-block ml-0.5 w-4 h-4 object-contain"
                       />
                     </Link>
-                    <span className="text-xs text-[#C0ABD9]">
+                    <span className={ clsx("text-xs", isLightTheme ? 'text-[#fff]/90' : 'text-[#C0ABD9]')}>
                       {dayjs(v.claimedDate).format('MMMM DD, YYYY')}
                     </span>
                   </div>
