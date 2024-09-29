@@ -42,7 +42,7 @@ const themeSchema = {
     disabled: 'text-white/40 bg-[#CFF469]/5',
   },
 };
-export default function Credential({ credential, showVerify, theme = 'dark' }) {
+export default function Credential ({ credential, showVerify, theme = 'dark', onVerifySuccess }) {
   const { isUsingSubdomain, projectUrl, project } = useLoaderData();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
@@ -128,6 +128,7 @@ export default function Credential({ credential, showVerify, theme = 'dark' }) {
       if (res.isVerified === 1) {
         hasError = false;
         await queryClient.refetchQueries(['campaignDetail', campaignId, true]);
+        onVerifySuccess && onVerifySuccess(credential.credentialId);
       } else {
         hasError = true;
         if (isAirdopType && !showAirdop) {
@@ -279,10 +280,10 @@ export default function Credential({ credential, showVerify, theme = 'dark' }) {
       </div>
       {showErrorTip && (
         <div className="pt-5 border-t border-[#281545] space-y-4">
-          <div className="text-sm flex gap-x-3 items-start">
+          <div className="flex items-start text-sm gap-x-3">
             <img
               src={warningSvg}
-              className="w-5 h-5 object-center"
+              className="object-center w-5 h-5"
               alt="verify error"
             />
             It seems you have not finished the task. Please finish task, then
