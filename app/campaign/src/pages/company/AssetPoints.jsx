@@ -37,9 +37,8 @@ export default function AssetPoints() {
   return (
     <div>
       <div
-        className="w-full h-[232px] relative"
-        style={ { backgroundImage: `url(${companyInfo?.pointBgImage})` }}
-      >
+        className="w-full h-[232px] relative">
+        <img width="w-screen h-[232px] absolute" src={ companyInfo?.pointBgImage } alt="point image" />
         <h1 className="absolute text-6xl font-bold bottom-6 left-10 font-zen-dot">
           { formatImpact(userTotalPoint)}
         </h1>
@@ -76,7 +75,7 @@ function OnBoardCampaign() {
   const handleVerifySuccess = useCallback(async (credentialId) => {
     setTimeout(async () => {
       await queryClient.invalidateQueries([ 'asset-company', companyId, userLogined ]);
-    }, 2000);
+    }, 1000);
   }, [ queryClient, companyId ]);
 
   return (
