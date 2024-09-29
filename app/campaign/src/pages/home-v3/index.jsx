@@ -131,7 +131,7 @@ export default function HomeProject () {
                               className='text-[#5812B1] text-sm w-40 text-center'
                               dangerouslySetInnerHTML={ { __html: project?.emptyCampaignText || 'Coming Soon!' } }>
                             </p>
-                          ) : <p className='text-[#5812B1] text-sm w-80 text-center'> No campaigns yet!</p>}
+                          ) : <p className='text-[#5812B1] text-sm w-80 text-center'> Stay tuned for awesome campaigns !</p>}
                    
                     </div>
                   </div>
