@@ -6,6 +6,7 @@ import TonIcon from './icons/Ton.svg?react';
 import TonLight from './icons/TonLight.svg?react';
 import EthIcon from '@/images/icon/svgr/eth.svg?react';
 import TgIcon from '@/images/icon/tg-blue.svg?react';
+import XIcon from '@/images/icon/x-purple.svg?react';
 
 import Rank1 from './icons/Rank1.svg?react';
 import Rank2 from './icons/Rank2.svg?react';
@@ -18,6 +19,7 @@ const getAddressLogo = (addressType, rank) => {
     0: <EthIcon />,
     1: rank <= 3 ? <TonIcon /> : <TonLight />,
     2: <TgIcon />,
+    3: <XIcon />,
   };
 
   return addressLogoMap[ addressType ] || null;
