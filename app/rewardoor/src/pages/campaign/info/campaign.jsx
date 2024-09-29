@@ -35,9 +35,9 @@ export default function Campaign () {
     return <Loading h='h-[300px]' />;
   }
   return (
-    <div className='space-y-10 mb-10'>
+    <div className='mb-10 space-y-10'>
       <div>
-        <h2 className='font-bold text-base mb-4 text-t-1'>Campaign Sharing</h2>
+        <h2 className='mb-4 text-base font-bold text-t-1'>Campaign Sharing</h2>
         <ShareLink
           shareLink={`${getUrl()}/${project?.projectUrl}/${id}`}
           TMALink={getTMALink({
@@ -52,7 +52,7 @@ export default function Campaign () {
       </div>
 
       <div className='space-y-3'>
-        <h2 className='font-bold text-base text-t-1'>
+        <h2 className='text-base font-bold text-t-1'>
           Credential Group & Reward
         </h2>
         <div className='space-y-5 text-c-9'>
@@ -85,7 +85,7 @@ export default function Campaign () {
                                 <p>Credential ID</p>
                                 <Paragraph
                                   style={{ marginBottom: 0 }}
-                                  className='flex justify-center items-center'
+                                  className='flex items-center justify-center'
                                   copyable={{
                                     text: v.credentialId,
                                     icon: [
@@ -115,7 +115,7 @@ export default function Campaign () {
                 </div>
 
                 <div className='flex items-center'>
-                  <div className='space-y-6 w-full'>
+                  <div className='w-full space-y-6'>
                     <div className='space-y-6'>
                       {cr.nftList.map((v, idx) => {
                         const m = incentiveAssetsTypeList.find(
@@ -161,8 +161,8 @@ export default function Campaign () {
       </div>
 
       <div>
-        <h2 className='font-bold text-base mb-4 text-t-1'>Campaign Schedule</h2>
-        <div className='font-medium text-base text-c-9'>
+        <h2 className='mb-4 text-base font-bold text-t-1'>Campaign Schedule</h2>
+        <div className='text-base font-medium text-c-9'>
           {`${dayjs(pageInfo?.campaign?.startAt).format(dateFormat)}-${dayjs(
             pageInfo?.campaign?.endAt
           ).format(dateFormat)}`}
@@ -170,11 +170,11 @@ export default function Campaign () {
       </div>
 
       <div>
-        <h2 className='font-bold text-base mb-4 text-t-1'>
+        <h2 className='mb-4 text-base font-bold text-t-1'>
           Campaign Description
         </h2>
         <div
-          className='font-medium text-base text-c-9'
+          className='text-base font-medium text-c-9'
           dangerouslySetInnerHTML={{ __html: pageInfo?.campaign?.description }}
         />
       </div>
