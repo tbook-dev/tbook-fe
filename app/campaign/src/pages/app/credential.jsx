@@ -254,7 +254,7 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
           <span
             className={clsx(
               'flex-none flex items-center gap-x-1 text-md whitespace-nowrap',
-              optional ? 'text-[#FFDE1C]' : 'text-[#CFF469] '
+              optional ? 'text-[#FFDE1C]' : 'text-[#CFF469]'
             )}
           >
             <VerifyStatus

@@ -26,7 +26,7 @@ export default function CredentialDisplay({
     actionHandle: typeof clickHandle === 'function' ? clickHandle : null,
   };
   const wrapclx = `flex items-start flex-nowrap break-words gap-x-1 pt-[3px] flex-auto text-base ${
-    canVerify ? '' : 'opacity-40'
+    canVerify ? '' : theme==='dark' ? 'opacity-40' : 'opacity-60'
   }`;
   //   console.log({
   //     isLink,
