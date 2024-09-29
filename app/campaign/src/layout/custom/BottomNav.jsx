@@ -39,7 +39,7 @@ const BottomNav = () => {
 
   return (
     <nav
-      className="fixed inset-x-0 px-8 pb-8 pt-3 rounded-t-3xl grid grid-cols-3 backdrop-blur-md bg-white/90 border-[1px] border-[#E0CEEE] shadow-[0_0_14px_0_rgba(154,129,230,0.4)] z-50 bottom-0"
+      className="fixed inset-x-0 px-8 pb-8 pt-3 rounded-t-3xl grid grid-cols-3 backdrop-blur-md bg-white/90 border-[1px] border-[#E0CEEE] shadow-[0_0_14px_0_rgba(154,129,230,0.4)] z-20 bottom-0"
     >
       { list.map((v, idx) => {
         return (

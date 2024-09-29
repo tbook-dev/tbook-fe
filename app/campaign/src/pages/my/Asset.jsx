@@ -58,10 +58,10 @@ export default function Asset() {
 
       <div className="px-4 lg:px-0">
         {userLoading ? (
-          <Loading className={ clsx(isLightTheme ? 'bg-black' : 'bg-white', "z-60")} text="Aggregating metrics..."/>
+          <Loading className={ clsx("z-60 bg-black") } text="Aggregating metrics..."/>
         ) : userLogined ? (
           isLoading ? (
-              <Loading className={ clsx(isLightTheme ? 'bg-black' : 'bg-white', "z-60")} text="Aggregating metrics..."/>
+              <Loading className={ clsx("z-60 bg-black") } text="Aggregating metrics..."/>
           ) : (
             <div>{tabModule.find((v) => v.value === value).com}</div>
           )
