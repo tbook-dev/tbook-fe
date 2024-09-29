@@ -186,13 +186,13 @@ export default function ViewReward({ open, onClose, rewardList }) {
   return (
     <Drawer open={open} onCancel={onClose} title={null} showClose>
       <div className="bg-[#121212] pt-4 pb-14">
-        <div className="w-full flex justify-end">
+        <div className="flex justify-end w-full">
           <CloseOutlined
-            className="text-white cursor-pointer w-6 mr-4"
+            className="w-6 mr-4 text-white cursor-pointer"
             onClick={onClose}
           />
         </div>
-        <div className="space-y-10 pt-10">
+        <div className="pt-10 space-y-10">
           <h2 className="text-[#CFF469] font-bold text-2xl text-center">
             {title}
           </h2>

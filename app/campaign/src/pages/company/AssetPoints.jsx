@@ -1,8 +1,8 @@
 import { formatImpact, shortAddressV1 } from '@tbook/utils/lib/conf';
 import { useLoaderData } from 'react-router-dom';
 import useAssetQuery from '@/hooks/useAssetQuery';
-
-
+import { useQueryClient } from 'react-query';
+import useUserInfo from '@/hooks/useUserInfoQuery';
 import AssetTabList from './AssetTabList';
 import PointRecord from '../my/modules/Point';
 import { useCompanyOnboardQuery } from '@/hooks/useCompanyOnboardQuery';
@@ -11,7 +11,7 @@ import { Skeleton } from 'antd';
 import LightProvider from '@/theme/LightProvider';
 import Credential from '@/pages/app/credential';
 import { useParams } from 'react-router-dom';
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 export default function AssetPoints() {
   const { companyId, companyInfo }  = useLoaderData();
   const [tabValue, setTabValue] = useState('1');
@@ -61,7 +61,9 @@ export default function AssetPoints() {
 }
 
 function OnBoardCampaign() {
+  const queryClient = useQueryClient();
   const { companyId } = useParams();
+  const { userLogined } = useUserInfo();
   const { data, isLoading } = useCompanyOnboardQuery(companyId);
   const credentialList = useMemo(() => {
     return data?.data?.groups
@@ -70,6 +72,13 @@ function OnBoardCampaign() {
       })
       .flat();
   }, [data]);
+
+  const handleVerifySuccess = useCallback(async (credentialId) => {
+    setTimeout(async () => {
+      await queryClient.invalidateQueries([ 'asset-company', companyId, userLogined ]);
+    }, 2000);
+  }, [ queryClient, companyId ]);
+
   return (
     <div className="space-y-2.5">
       {isLoading ? (
@@ -84,7 +93,12 @@ function OnBoardCampaign() {
         Array.isArray(credentialList) &&
         credentialList.map((v) => (
           <div className="bg-white rounded-lg" key={v.credentialId}>
-            <Credential credential={v} theme="white" showVerify />
+            <Credential 
+              credential={v}
+              theme="white"
+              showVerify
+              onVerifySuccess={ handleVerifySuccess }
+            />
           </div>
         ))
       )}

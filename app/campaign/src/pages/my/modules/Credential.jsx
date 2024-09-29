@@ -114,7 +114,7 @@ export default function Credentials ({ isCompany = false}) {
           ) : (
             <div
               key={k}
-                className={ clsx("flex items-center gap-x-1   py-1 px-3 w-max rounded-[18px] border-b-2 border-l-2 lg:border-b-4 lg:border-l-4", isLightTheme ? 'border-[#dbbee8] bg-[#9a81e6] text-white' : 'border-[#904BF6] bg-white text-black')}
+                className={ clsx("flex items-center gap-x-1   py-1 px-3 w-max rounded-[18px] border-b-2 border-l-2 lg:border-b-4 lg:border-l-4", isLightTheme ? 'border-[#dbbee8] bg-white text-black' : 'border-[#904BF6] bg-white text-black')}
             >
               {/* <img
                 src={item.picUrl}

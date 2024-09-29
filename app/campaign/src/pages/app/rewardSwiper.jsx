@@ -24,7 +24,7 @@ const RewardSwiper = ({ rewardList, size, setDisplayIdx }) => (
       return (
         <SwiperSlide key={r.id} className="rounded-xl">
           {r.type === 'point' && (
-            <div className="w-full h-full bg-[#CFF469] rounded-xl flex flex-col justify-center items-center gap-x-2">
+            <div className="w-full h-full bg-[#CFF469] rounded-xl flex flex-col justify-center items-center gap-x-2 z-0">
               <img
                 src={pointIcon}
                 className={cn('w-14', size === 'large' && 'w-44')}
