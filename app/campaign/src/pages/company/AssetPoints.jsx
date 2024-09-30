@@ -72,9 +72,8 @@ function OnBoardCampaign() {
   }, [data]);
 
   const handleVerifySuccess = useCallback(async (credentialId) => {
-    setTimeout(async () => {
-      await queryClient.invalidateQueries([ 'asset-company', companyId, userLogined ]);
-    }, 1000);
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    await queryClient.refetchQueries([ 'asset-company', companyId, userLogined ]);
   }, [ queryClient, companyId ]);
 
   return (
