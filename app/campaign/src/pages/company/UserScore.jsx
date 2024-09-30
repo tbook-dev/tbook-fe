@@ -35,13 +35,11 @@ export default function UserScore ({ list, className }) {
   const userScoreInfo = useMemo(() => {
     // 检查列表是否存在且非空
     if (!list || list.length === 0) {
-      console.log("列表为空或不存在");
       return null;
     }
 
     // 检查用户数据是否存在
     if (!userData || !userData.user || !userData.user.userId) {
-      console.log("用户数据不存在或不完整");
       return null;
     }
 
