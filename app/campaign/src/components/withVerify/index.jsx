@@ -89,6 +89,7 @@ export default function WithVerify({
             ].includes(status),
             [optional ? 'bg-[#FFDE1C] text-black' : 'text-black bg-[#CFF469]']:
               status === verifyStatusEnum.NotStarted,
+            [optional ? 'text-[#FFDE1C]' : 'text-[#CFF469]']: verifyStatusEnum.Sucess === status,
             'cursor-not-allowed': verifyStatusEnum.Pending === status,
           }
         )}

@@ -6,9 +6,10 @@ import { useLoaderData } from 'react-router-dom';
 import { groupBy } from 'lodash';
 import { Display } from '@tbook/credential';
 
-export default function Credentials () {
-  const { projectId, isLightTheme } = useLoaderData();
-  const { data: assets, isLoading } = useAssetQuery(projectId);
+export default function Credentials ({ isCompany = false}) {
+  const { projectId, isLightTheme, companyId } = useLoaderData();
+
+  const { data: assets, isLoading } = useAssetQuery(projectId, companyId, isCompany);
   const data = assets?.credentials || [];
   const credentialListWithUnikey = data.map(v => {
     return {
@@ -87,7 +88,7 @@ export default function Credentials () {
                 </div>
               }
             >
-              <div className='flex items-center gap-x-1  bg-white text-black py-1 px-3 lg:w-max rounded-[18px] border-b-2 border-l-2 lg:border-b-4 lg:border-l-4 border-[#904BF6]'>
+              <div className={ clsx("flex items-center gap-x-1  py-1 px-3 lg:w-max rounded-[18px] border-b-2 border-l-2 lg:border-b-4 lg:border-l-4 ", isLightTheme ? "text-white border-[#dbbee8] bg-[#9a81e6]" : "bg-white text-black border-[#904BF6]")}>
                 <Display
                   labelType={item.labelType}
                   pc
@@ -113,7 +114,7 @@ export default function Credentials () {
           ) : (
             <div
               key={k}
-                className={ clsx("flex items-center gap-x-1   py-1 px-3 w-max rounded-[18px] border-b-2 border-l-2 lg:border-b-4 lg:border-l-4", isLightTheme ? 'border-[#dbbee8] bg-[#9a81e6] text-white' : 'border-[#904BF6] bg-white text-black')}
+                className={ clsx("flex items-center gap-x-1 py-1 px-3 w-max rounded-[18px] border-b-2 border-l-2 lg:border-b-4 lg:border-l-4", isLightTheme ? 'border-[#dbbee8] bg-white text-black' : 'border-[#904BF6] bg-white text-black')}
             >
               {/* <img
                 src={item.picUrl}

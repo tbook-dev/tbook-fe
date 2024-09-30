@@ -27,7 +27,8 @@ const tabModule = [
   },
 ];
 export default function Asset() {
-  const { projectId, isLightTheme } = useLoaderData();
+  const { projectId, isLightTheme, companyId } = useLoaderData();
+
   const { userLogined, isLoading: userLoading } = useUserInfoQuery();
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -57,10 +58,10 @@ export default function Asset() {
 
       <div className="px-4 lg:px-0">
         {userLoading ? (
-          <Loading text="Aggregating metrics..."/>
+          <Loading className={ clsx("z-60 bg-black") } text="Aggregating metrics..."/>
         ) : userLogined ? (
           isLoading ? (
-            <Loading text="Aggregating metrics..."/>
+              <Loading className={ clsx("z-60 bg-black") } text="Aggregating metrics..."/>
           ) : (
             <div>{tabModule.find((v) => v.value === value).com}</div>
           )

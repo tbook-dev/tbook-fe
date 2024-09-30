@@ -5,9 +5,14 @@ import PageLoading from '@/components/pageFallback';
 import { Link } from 'react-router-dom';
 import { useLoaderData } from 'react-router-dom';
 
-export default function NFT() {
-  const { projectId, projectUrl, isUsingSubdomain } = useLoaderData();
-  const { data: assets, isLoading } = useAssetQuery(projectId);
+export default function NFT({ isCompany = false }) {
+  const { projectId, projectUrl, isUsingSubdomain, companyId, isLightTheme } =
+    useLoaderData();
+  const { data: assets, isLoading } = useAssetQuery(
+    projectId,
+    companyId,
+    isCompany
+  );
   const data = assets?.nfts || [];
 
   return (
@@ -27,7 +32,10 @@ export default function NFT() {
               to={`${isUsingSubdomain ? '' : `/${projectUrl}`}/nft/${
                 v.groupId
               }/${v.nftId}`}
-              className="rounded-lg block bg-[#0e0819] overflow-hidden"
+              className={clsx(
+                'rounded-lg block overflow-hidden',
+                isLightTheme ? 'bg-[#dbbee8]/60 ' : 'bg-[#0e0819] '
+              )}
               key={v.nftId}
             >
               <img
@@ -35,7 +43,12 @@ export default function NFT() {
                 alt="nft"
                 className="w-full h-[187px] lg:h-[225px] rounded-t-lg object-contain flex-none"
               />
-              <div className="h-px w-full bg-linear3" />
+              <div
+                className={clsx(
+                  'w-full h-px',
+                  isLightTheme ? 'bg-[#904bf6]' : 'bg-linear3'
+                )}
+              />
               <div className="p-4">
                 <h2 className="text-sm font-bold lg:text-xl lg:text-medium">
                   {v.name}

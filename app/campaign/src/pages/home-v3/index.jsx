@@ -7,7 +7,6 @@ import dayjs from 'dayjs';
 import clsx from 'clsx';
 
 import CampaignCardV3 from '@/components/campain/campaignHomeV3';
-import Empty from '@/components/empty';
 import TMAShare from '@/components/TMAShare';
 
 import Banner from './Banner';
@@ -18,6 +17,7 @@ import { campaignStatus } from '@/utils/conf';
 export default function HomeProject () {
   const [ selectStatus, setSelectedStatus ] = useState(-1);
   const { projectId, project, projectUrl } = useLoaderData();
+
   const { data: list = [], isLoading } = useCampaignList(projectId);
   const [ defaultLoaded, setDefaultLoaded ] = useState(false);
   const listFilter = list
@@ -62,7 +62,6 @@ export default function HomeProject () {
             <div className=''>
               <div className='flex items-center justify-between lg:justify-start lg:gap-x-20 h-10 border-b border-[#DBBEE8] bg-[#FCFAFD]'>
                 { campaignStatus
-                  .filter(status => status.label !== 'Scheduled')
                   .map(v => {
                     return (
                       <button
@@ -125,9 +124,15 @@ export default function HomeProject () {
                     />
                   ))
                 ) : (
-                  <div className='lg:h-[330px] lg:bg-[#F0E1F7] lg:rounded-xl flex justify-center items-center'>
+                  <div className='lg:h-[330px] lg:bg-[##F0E1F7] lg:rounded-xl flex justify-center items-center'>
                     <div className='bg-[#F0E1F7] w-full h-[250px] rounded-xl flex flex-row items-center justify-center'>
-                      <Empty text='Stay tuned for awesome campaigns!' /> 
+                          { selectStatus === 1 ? (
+                            <p
+                              className='text-[#5812B1] text-sm w-40 text-center'
+                              dangerouslySetInnerHTML={ { __html: project?.emptyCampaignText || 'Coming Soon!' } }>
+                            </p>
+                          ) : <p className='text-[#5812B1] text-sm w-80 text-center'> Stay tuned for awesome campaigns !</p>}
+                   
                     </div>
                   </div>
                 ) }

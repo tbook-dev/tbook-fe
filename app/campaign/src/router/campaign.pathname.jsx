@@ -5,12 +5,23 @@ import TMALayout from '@/layout/ton/Layout';
 import HomeLayout from '@/layout/fixed/Layout';
 import { Suspense, lazy } from 'react';
 import PageFallBack from '@/components/pageFallback';
-import { getProjectId } from '@/api/incentive';
+import { getProjectId, getCompanyProjects } from '@/api/incentive';
 import queryClient from '../query-client';
 
 import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import TonExplore from '@/pages/ton-explore';
+
+
+const CompanyHome = lazy(() => import('@/pages/company/Home'));
+const CompanyLeaderboard = lazy(() => import('@/pages/company/Leaderboard'));
+const CompanyAbout = lazy(() => import('@/pages/company/About'));
+
+// import CompanyAsset from '@/pages/company/Asset';
+const CompanyAsset = lazy(() => import('@/pages/company/Asset'));
+
+import CompanyProjects from '@/pages/company/ProjectList';
+
 import { keptProjectUrls, defaultProjectInfo } from './conf';
 
 const App = lazy(() => import('@/pages/app'));
@@ -24,7 +35,6 @@ const Asset = lazy(() => import('@/pages/my/Asset'));
 const Campaign = lazy(() => import('@/pages/my/campaign'));
 const NFT = lazy(() => import('@/pages/my/nft'));
 const Snapshot = lazy(() => import('@/pages/snapshot'));
-// const TonExplore = lazy(() => import('@/pages/ton-explore'));
 const WiseCredit = lazy(() => import('@/pages/ton-wise'));
 const ScoreDetail = lazy(() => import('@/pages/ton-wise/detail'));
 const WiseLeaderboard = lazy(() => import('@/pages/ton-wise/leaderboard'));
@@ -64,12 +74,47 @@ const getProjectIdFn = async ({ params }) => {
     );
     const theme = res?.theme || 0;
     return {
+      // mock
+      companyId: res.companyId || 0,
+      companyName: res?.companyName || '',
       projectUrl,
       isUsingSubdomain: false,
       projectId: res?.projectId,
       project: res,
       isLightTheme: theme === 1,
     };
+  } catch (e) {
+    return defaultProjectInfo;
+  }
+};
+const getCompanyIdFn = async ({ params }) => {
+  let companyId = params.companyId;
+
+  // if (!companyId && keptProjectUrls.includes(projectUrl)) {
+  //   return defaultProjectInfo;
+  // }
+  try {
+    const res = await queryClient.fetchQuery(
+      ['company-projects', companyId],
+      () => getCompanyProjects(companyId),
+      {
+        staleTime: Infinity,
+        cacheTime: Infinity,
+      }
+    );
+    // const theme = res?.theme || 0;
+    console.log('res', res);
+    const { company } = res?.data || {};
+    if (company?.companyId) {
+      return {
+        // mock
+        companyId: company?.companyId || 0,
+        companyName: company?.companyName,
+        isLightTheme: company?.companyId > 0,
+        companyInfo: company,
+      };
+    }
+    return {};
   } catch (e) {
     return defaultProjectInfo;
   }
@@ -355,6 +400,58 @@ const routes = [
         ),
       },
     ],
+  },
+  // company homepage
+  {
+    path: '/company/:companyId',
+    loader: getCompanyIdFn,
+    element: (
+      <Suspense fallback={<PageFallBack />}>
+        <CompanyHome />
+      </Suspense>
+    ),
+    errorElement: <GlobalError />,
+  },
+  // company leaderBoard
+  {
+    path: '/company/:companyId/leaderboard',
+    loader: getCompanyIdFn,
+    element: (
+      <Suspense fallback={<PageFallBack />}>
+        <CompanyLeaderboard />
+      </Suspense>
+    ),
+    errorElement: <GlobalError />,
+  },
+  // company project list
+  // {
+  //   path: '/company/:companyId/projects',
+  //   loader: getTbookfn,
+  //   element: (
+  //     <Suspense fallback={ <PageFallBack /> }>
+  //       <CompanyProjects />
+  //     </Suspense>
+  //   ),
+  //   errorElement: <GlobalError />,
+  // },
+  // company about page
+  {
+    path: '/company/:companyId/about',
+    loader: getTbookfn,
+    element: (
+      <Suspense fallback={<PageFallBack />}>
+        <CompanyAbout />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/company/:companyId/asset',
+    loader: getCompanyIdFn,
+    element: (
+      <Suspense fallback={<PageFallBack />}>
+        <CompanyAsset />
+      </Suspense>
+    ),
   },
 ];
 

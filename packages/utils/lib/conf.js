@@ -235,11 +235,16 @@ export const shortAddress = (address) => {
   );
 };
 export const shortAddressV1 = (address) => {
-  return (
-    `${address}`.slice(0, 4) +
-    '...' +
-    `${address}`.slice(`${address}`.length - 4)
-  );
+  if (address) {
+    return (
+      `${address}`.slice(0, 4) +
+      '...' +
+      `${address}`.slice(`${address}`.length - 4)
+    );
+  } else {
+    return '***'
+  }
+
 };
 
 export const chains = [

@@ -1,6 +1,8 @@
 import credentialList from './credential';
 import actionMap from './action';
 
+import clsx from 'clsx';
+
 /**
  * labelType: number, credential的类型
  * clickHandle: function, 点击处理函数
@@ -24,7 +26,7 @@ export default function CredentialDisplay({
     actionHandle: typeof clickHandle === 'function' ? clickHandle : null,
   };
   const wrapclx = `flex items-start flex-nowrap break-words gap-x-1 pt-[3px] flex-auto text-base ${
-    canVerify ? '' : 'opacity-40'
+    canVerify ? '' : theme==='dark' ? 'opacity-40' : 'opacity-60'
   }`;
   //   console.log({
   //     isLink,
@@ -47,8 +49,8 @@ export default function CredentialDisplay({
         className="w-5 h-5 object-contain mt-0.5 flex-none"
         alt="credential logo"
       />
-      <span className="flex-auto line-clamp-3">
-        <span className="text-[#CFF469]">{actionName}</span>
+      <span className={ clsx("flex-auto line-clamp-3", theme !== 'dark' && 'font-semibold')}>
+        <span className={ clsx(theme === 'dark' ? 'text-[#CFF469]' : 'text-[#9a81e6]')}>{actionName}</span>
         <span className="ml-1">{actionTarget}</span>
       </span>
     </a>
@@ -60,7 +62,7 @@ export default function CredentialDisplay({
         alt="credential logo"
       />
       <span className="flex-auto line-clamp-3 text-start">
-        <span className="text-[#CFF469]">{actionName}</span>
+          <span className={ clsx(theme === 'dark' ? 'text-[#CFF469]' : 'text-[#9a81e6]') }>{actionName}</span>
         <span className="ml-1">{actionTarget}</span>
       </span>
     </button>

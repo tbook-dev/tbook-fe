@@ -33,7 +33,16 @@ import { getStrJSON, delay } from '@/utils/common';
 import { useSignMessage } from 'wagmi';
 import { cn } from '@/utils/conf';
 
-export default function Credential({ credential, showVerify }) {
+const themeSchema = {
+  white: {
+    text: 'text-black hover:border-black',
+  },
+  dark: {
+    text: 'text-white hover:border-white',
+    disabled: 'text-white/40 bg-[#CFF469]/5',
+  },
+};
+export default function Credential ({ credential, showVerify, theme = 'dark', onVerifySuccess }) {
   const { isUsingSubdomain, projectUrl, project } = useLoaderData();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
@@ -119,6 +128,7 @@ export default function Credential({ credential, showVerify }) {
       if (res.isVerified === 1) {
         hasError = false;
         await queryClient.refetchQueries(['campaignDetail', campaignId, true]);
+        onVerifySuccess && onVerifySuccess(credential.credentialId);
       } else {
         hasError = true;
         if (isAirdopType && !showAirdop) {
@@ -221,9 +231,10 @@ export default function Credential({ credential, showVerify }) {
     <div
       className={cn(
         'border transition-all duration-300 ease-in-out p-4 rounded-lg lg:bg-none space-y-5 border-white/15',
-        canVerify
-          ? 'text-white hover:border-white'
-          : 'text-white/40 bg-[#CFF469]/5'
+        // canVerify
+        //   ? 'text-white hover:border-white'
+        //   : 'text-white/40 bg-[#CFF469]/5'
+        canVerify ? themeSchema[theme].text : themeSchema[theme].disabled
       )}
     >
       <div className="flex items-start justify-between w-full gap-x-1">
@@ -232,6 +243,7 @@ export default function Credential({ credential, showVerify }) {
           labelType={credential.labelType}
           options={options}
           canVerify={canVerify}
+          theme={theme}
           clickHandle={
             typeof taskMap[credential.labelType] === 'function'
               ? taskMap[credential.labelType]
@@ -242,7 +254,7 @@ export default function Credential({ credential, showVerify }) {
           <span
             className={clsx(
               'flex-none flex items-center gap-x-1 text-md whitespace-nowrap',
-              optional ? 'text-[#FFDE1C]' : 'text-[#CFF469] '
+              optional ? 'text-[#FFDE1C]' : 'text-[#CFF469]'
             )}
           >
             <VerifyStatus
@@ -268,10 +280,10 @@ export default function Credential({ credential, showVerify }) {
       </div>
       {showErrorTip && (
         <div className="pt-5 border-t border-[#281545] space-y-4">
-          <div className="text-sm flex gap-x-3 items-start">
+          <div className="flex items-start text-sm gap-x-3">
             <img
               src={warningSvg}
-              className="w-5 h-5 object-center"
+              className="object-center w-5 h-5"
               alt="verify error"
             />
             It seems you have not finished the task. Please finish task, then
@@ -282,7 +294,7 @@ export default function Credential({ credential, showVerify }) {
             (!actionMap[labelType]?.isLink ? (
               <div
                 onClick={taskMap[credential.labelType]}
-                className="cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
+                className="cursor-pointer flex justify-center items-center bg-[#E4FA73] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
               >
                 Go to finish
                 <svg
@@ -306,7 +318,7 @@ export default function Credential({ credential, showVerify }) {
                 to={actionMap[labelType]?.getLink({ ...options, pc })}
                 target={isTMA ? '_self' : '_blank'}
                 rel="nofollow noopener noreferrer"
-                className="cursor-pointer flex justify-center items-center bg-[#904BF6] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
+                className="cursor-pointer flex justify-center items-center bg-[#E4FA73] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
               >
                 Go to finish
                 <svg
