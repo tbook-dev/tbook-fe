@@ -13,6 +13,9 @@ import tonUnlockSVG from '@/images/wallet/ton-unlock.svg';
 import evmUnlockSVG from '@/images/wallet/evm-unlock.svg';
 import evmSVG from '@/images/wallet/evm.svg';
 import passportlg from '@/images/passport/passport.png';
+
+import passportGamebuild from '@/images/passport/passport-gamebuild.png';
+
 import shapeLink from '@/images/shape-link.png';
 import wiseScoreSVG from '@/images/icon/wise-score.svg';
 import fallbackAvatarSVG from '@/images/passport/avatar.svg';
@@ -194,7 +197,7 @@ export default function PassportCard({ onClose }) {
     <div className="flex flex-col justify-start flex-auto pt-6 pb-16 text-white lg:py-0 lg:justify-center">
       <div
         className="relative mx-auto h-[452px] w-[317px] flex flex-col justify-center items-center bg-cover bg-center"
-        style={{ backgroundImage: `url(${passportlg})` }}
+        style={ { backgroundImage: `url(${companyId === 1 ? passportGamebuild : passportlg})` }}
       >
         <div className={clsx('mb-3', isTMA ? '' : 'invisible')}>
           { companyId === 1 ? (
