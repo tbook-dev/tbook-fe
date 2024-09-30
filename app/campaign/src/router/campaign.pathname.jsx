@@ -437,7 +437,7 @@ const routes = [
   // company about page
   {
     path: '/company/:companyId/about',
-    loader: getTbookfn,
+    loader: getCompanyIdFn,
     element: (
       <Suspense fallback={<PageFallBack />}>
         <CompanyAbout />
