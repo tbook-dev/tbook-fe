@@ -12,9 +12,10 @@ import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import TonExplore from '@/pages/ton-explore';
 
-import CompanyHome from '@/pages/company/Home';
-import CompanyLeaderboard from '@/pages/company/Leaderboard';
-import CompanyAbout from '@/pages/company/About';
+
+const CompanyHome = lazy(() => import('@/pages/company/Home'));
+const CompanyLeaderboard = lazy(() => import('@/pages/company/Leaderboard'));
+const CompanyAbout = lazy(() => import('@/pages/company/About'));
 
 // import CompanyAsset from '@/pages/company/Asset';
 const CompanyAsset = lazy(() => import('@/pages/company/Asset'));

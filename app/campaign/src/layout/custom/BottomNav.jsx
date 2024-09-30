@@ -9,21 +9,17 @@ import AboutIcon from './icons/AboutIcon'
 import { clsx } from 'clsx';
 
 const BottomNav = () => {
-  const { companyId: companyIdParma } = useParams();
-  let parma = companyIdParma;
-  if (!parma) {
-    const { companyId } = useLoaderData();
-    parma = companyId
-  }
+  const { companyId } = useLoaderData();
+
   const list = [
     {
       text: 'Home',
-      link: `/company/${parma}`,
+      link: `/company/${companyId}`,
       icon: ({ color }) => <HomeIcon color={ color } />,
     },
     {
       text: 'Leaderboard',
-      link: `/company/${parma}/leaderboard`,
+      link: `/company/${companyId}/leaderboard`,
       icon: ({ color }) => (
         <div className="relative">
           <LeaderboardIcon color={ color } />
@@ -32,7 +28,7 @@ const BottomNav = () => {
     },
     {
       text: 'About',
-      link: `/company/${parma}/about`,
+      link: `/company/${companyId}/about`,
       icon: ({ color }) => <AboutIcon color={ color } />,
     },
   ];
