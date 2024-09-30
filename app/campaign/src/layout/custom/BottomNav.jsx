@@ -11,15 +11,18 @@ import { clsx } from 'clsx';
 const BottomNav = () => {
   const { companyId } = useLoaderData();
 
+  const { companyId: paramsCompanyId } = useParams();
+  const id = companyId || paramsCompanyId;
+
   const list = [
     {
       text: 'Home',
-      link: `/company/${companyId}`,
+      link: `/company/${id}`,
       icon: ({ color }) => <HomeIcon color={ color } />,
     },
     {
       text: 'Leaderboard',
-      link: `/company/${companyId}/leaderboard`,
+      link: `/company/${id}/leaderboard`,
       icon: ({ color }) => (
         <div className="relative">
           <LeaderboardIcon color={ color } />
@@ -28,7 +31,7 @@ const BottomNav = () => {
     },
     {
       text: 'About',
-      link: `/company/${companyId}/about`,
+      link: `/company/${id}/about`,
       icon: ({ color }) => <AboutIcon color={ color } />,
     },
   ];
