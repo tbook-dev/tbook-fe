@@ -37,7 +37,7 @@ const RankDisplay = ({ rank }) => {
   }
 
   return (
-    <span className="flex-none w-8 pl-3 text-lg font-medium text-[#9A81E6]">
+    <span className="flex-none w-10 pl-3 text-lg font-medium text-[#9A81E6]">
       { rank }
     </span>
   );

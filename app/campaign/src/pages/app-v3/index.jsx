@@ -37,6 +37,7 @@ export default function () {
   // const isLoading = true
   const { projectUrl } = useLoaderData();
   const [ searchParams ] = useSearchParams();
+
   usePageFooterTip();
 
   const refBackLink = useMemo(() => {
@@ -136,10 +137,10 @@ export default function () {
         {/* Participant Number */ }
         <div className="flex items-center mt-5 gap-x-1">
           <span className="text-[#5812B1] font-bold">
-            { formatStandard(page?.campaign?.participantNum) || '-' }
+            { formatStandard(page?.participantNum) || '-' }
           </span>
           <span className='text-black '>
-            { page?.campaign?.participantNum > 1 ? 'Participants' : 'Participant' }
+            { page?.participantNum > 1 ? 'Participants' : 'Participant' }
           </span>
         </div>
 
