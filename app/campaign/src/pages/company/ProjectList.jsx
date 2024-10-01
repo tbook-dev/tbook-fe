@@ -1,5 +1,5 @@
 import { useParams, Link, useSearchParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import useCompanyProjects from '@/hooks/useCompanyProjects';
 // import TMAShare from '@/components/TMAShare';
 import ProjectCard from './ProjectCard'
@@ -7,33 +7,51 @@ import ProjectCardSkeleton from './ProjectCardSkeleton'
 
 import LazyImage from '@/components/lazyImage';
 
-
 import { Dropdown, Space } from 'antd';
-import { DownOutlined, SmileOutlined } from '@ant-design/icons';
+import { DownOutlined } from '@ant-design/icons';
 
 export default function CompanyHome () {
   const { companyId } = useParams();
-  let [ searchParams, setSearchParams ] = useSearchParams();
+  const [ searchParams, setSearchParams ] = useSearchParams();
+  const [ layerOneList, setLayerOneList ] = useState([]);
 
-  const initialType = searchParams.get('type')
+  // 使用 useMemo 来计算有效的初始类型
+  const validInitialType = useMemo(() => {
+    const urlType = searchParams.get('type');
+    return layerOneList.find(item => item.name.toLowerCase() === urlType?.toLowerCase())?.name
+      || layerOneList[ 0 ]?.name
+      || '';
+  }, [ searchParams, layerOneList ]);
 
-  const [ selected, setSelected ] = useState(initialType);
+  const [ selected, setSelected ] = useState('');
 
   useEffect(() => {
-    setSearchParams({ type: selected });
+    if (validInitialType) {
+      setSelected(validInitialType);
+    }
+  }, [ validInitialType ]);
+
+  const { data, isLoading } = useCompanyProjects(companyId, selected.toLowerCase());
+
+  useEffect(() => {
+    if (data?.data?.layerOneList) {
+      setLayerOneList(data.data.layerOneList.filter(item => item.status !== 0));
+    }
+  }, [ data ]);
+
+  // 当 selected 变化时更新 URL
+  useEffect(() => {
+    if (selected) {
+      setSearchParams({ type: selected });
+    }
   }, [ selected, setSearchParams ]);
 
-  const { data, isLoading } = useCompanyProjects(companyId, selected?.toLowerCase());
-
-  const companyInfo = data?.data?.company ?? null;
-  const layerOneList = data?.data?.layerOneList?.filter(item => item.status !== 0) ?? [];
   const projects = data?.data?.projects ?? [];
-
+  
   const handleMenuClick = (e) => {
     setSelected(e.key);
   };
 
-  // TODO: layerOneList 不存在、initialType 不存在
   const mappedItems = layerOneList.map((item, index) => {
     return {
       key: item.name,
@@ -58,7 +76,8 @@ export default function CompanyHome () {
         <h1 className='pr-4 text-xl font-bold border-r-[1px] border-[#DBBEE8]'>
           Trending Games
         </h1>
-        <Dropdown
+        { layerOneList?.length > 0 && (
+          <Dropdown
             className='mx-4'
             placement="bottomLeft"
             menu={ menuProps }
@@ -66,13 +85,14 @@ export default function CompanyHome () {
           >
             <div onClick={ (e) => e.preventDefault() }>
               <Space>
-              <img className='w-6 h-6 rounded-full'
-                src={ layerOneList.find(item => item.name === selected).icon} alt="" />
+                <img className='w-6 h-6 rounded-full'
+                  src={ layerOneList.find(item => item.name === selected)?.icon } alt="" />
                 <span className="text-lg font-bold">{ selected }</span>
                 <DownOutlined />
               </Space>
             </div>
           </Dropdown>
+        )}
       </div>
       { isLoading ? (
         new Array(5).fill(0).map(() => (
