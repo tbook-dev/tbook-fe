@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import LazyImage from '@/components/lazyImage';
 
-export default function ProjectCard({ info }) {
+export default function ProjectCard ({ info, isLoading }) {
   const { projectUrl, avatarUrl, projectName, projectDescription, banner } = info;
   
   const link = `/${projectUrl}`
@@ -9,11 +9,21 @@ export default function ProjectCard({ info }) {
   return (
     <Link to={ link } className="bg-white rounded-2xl border-[1px] border-[#E0CEEE] my-4 block">
       <div>
-        <LazyImage
-          src={ banner }
-          alt="logo"
-          className="h-[143px] object-cover object-center w-full rounded-t-2xl border-[1px] border-[#490081]"
-        />
+        { isLoading ? (
+          <div className="h-[143px] w-full rounded-t-2xl border border-[#490081]" />
+        ) : banner ? (
+          <LazyImage
+            src={ banner }
+            alt="logo"
+            className="h-[143px] object-cover object-center w-full rounded-t-2xl border border-[#490081]"
+          />
+        ) : (
+          <img
+            src="https://static.tbook.vip/img/1a87d2e5bf3c498693f0c8ca64919797"
+            alt="default banner"
+            className="h-[143px] object-cover object-center w-full rounded-t-2xl border border-[#490081]"
+          />
+        ) }
       </div>
       <div className="flex flex-col px-4 pt-2 pb-4 gap-x-4">
         <div className="flex items-center gap-x-3">

@@ -5,7 +5,6 @@ import ArrowIcon from '@/images/icon/svgr/arrow.svg?react';
 
 import useCompanyLeaderboard from '@/hooks/useCompanyLeaderboard';
 
-import Layout from '@/layout/custom/Layout';
 import LeaderboardSkeleton from './LeaderBoardSkeleton';
 import LeaderBoardNav from './LeaderBoardNav';
 import UserScore from './UserScore';
@@ -27,49 +26,47 @@ export default function CompanyLeaderboard () {
   const disableEnd = cursor === totalPageNum - 1;
 
   return (
-    <Layout title={ companyName }>
-      <div className="flex-auto w-full min-h-[calc(100vh_-_160px)] space-y-4 px-6 mt-3 lg:px-0 mx-auto bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] pb-32">
-        
-        <LeaderBoardNav title="Leaderboard">
-          { totalPageNum > 1 && (
-            <div className="flex items-center gap-x-2">
-              <ArrowIcon
-                className="rotate-180"
-                stroke={ disableStart ? '#FCFAFD' : 'black' }
-                onClick={ () => {
-                  if (cursor > 0) {
-                    setCursor((v) => v - 1);
-                  }
-                } }
-              />
-              <ArrowIcon
-                stroke={ disableEnd ? '#FCFAFD' : 'black' }
-                onClick={ () => {
-                  if (cursor < totalPageNum - 1) {
-                    setCursor((v) => v + 1);
-                  }
-                } }
-              />
-            </div>
-          )}
-   
-        </LeaderBoardNav>
+    <div className="flex-auto w-full min-h-[calc(100vh_-_160px)] space-y-4 px-6 mt-3 lg:px-0 mx-auto bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] pb-32">
 
-        <div className="space-y-2">
-          <UserScore list={ list } className="bg-[#E4FA73]" />
+      <LeaderBoardNav title="Leaderboard">
+        { totalPageNum > 1 && (
+          <div className="flex items-center gap-x-2">
+            <ArrowIcon
+              className="rotate-180"
+              stroke={ disableStart ? '#FCFAFD' : 'black' }
+              onClick={ () => {
+                if (cursor > 0) {
+                  setCursor((v) => v - 1);
+                }
+              } }
+            />
+            <ArrowIcon
+              stroke={ disableEnd ? '#FCFAFD' : 'black' }
+              onClick={ () => {
+                if (cursor < totalPageNum - 1) {
+                  setCursor((v) => v + 1);
+                }
+              } }
+            />
+          </div>
+        ) }
 
-          { isLoading ? (
-            <LeaderboardSkeleton />
-          ) : (
-            <div className="space-y-2">
-              { pagedList?.map((v, index) => (
-                <ScoreItem user={ v } key={ v.userId } />
-              )) }
-            </div>
-          ) }
+      </LeaderBoardNav>
 
-        </div>
+      <div className="space-y-2">
+        <UserScore list={ list } className="bg-[#E4FA73]" />
+
+        { isLoading ? (
+          <LeaderboardSkeleton />
+        ) : (
+          <div className="space-y-2">
+            { pagedList?.map((v, index) => (
+              <ScoreItem user={ v } key={ v.userId } />
+            )) }
+          </div>
+        ) }
+
       </div>
-    </Layout>
+    </div>
   );
 }

@@ -3,6 +3,7 @@ import { useLoaderData } from 'react-router-dom';
 import MyLayout from '@/layout/my/Layout';
 import TMALayout from '@/layout/ton/Layout';
 import HomeLayout from '@/layout/fixed/Layout';
+import CompanyLayout from '@/layout/custom/Layout';
 import { Suspense, lazy } from 'react';
 import PageFallBack from '@/components/pageFallback';
 import { getProjectId, getCompanyProjects } from '@/api/incentive';
@@ -16,11 +17,8 @@ import TonExplore from '@/pages/ton-explore';
 const CompanyHome = lazy(() => import('@/pages/company/Home'));
 const CompanyLeaderboard = lazy(() => import('@/pages/company/Leaderboard'));
 const CompanyAbout = lazy(() => import('@/pages/company/About'));
-
-// import CompanyAsset from '@/pages/company/Asset';
 const CompanyAsset = lazy(() => import('@/pages/company/Asset'));
-
-import CompanyProjects from '@/pages/company/ProjectList';
+const CompanyProjects = lazy(() => import('@/pages/company/ProjectList'));
 
 import { keptProjectUrls, defaultProjectInfo } from './conf';
 
@@ -89,10 +87,6 @@ const getProjectIdFn = async ({ params }) => {
 };
 const getCompanyIdFn = async ({ params }) => {
   let companyId = params.companyId;
-
-  // if (!companyId && keptProjectUrls.includes(projectUrl)) {
-  //   return defaultProjectInfo;
-  // }
   try {
     const res = await queryClient.fetchQuery(
       ['company-projects', companyId],
@@ -401,57 +395,53 @@ const routes = [
       },
     ],
   },
-  // company homepage
   {
     path: '/company/:companyId',
     loader: getCompanyIdFn,
-    element: (
-      <Suspense fallback={<PageFallBack />}>
-        <CompanyHome />
-      </Suspense>
-    ),
+    element: <CompanyLayout />,
     errorElement: <GlobalError />,
-  },
-  // company leaderBoard
-  {
-    path: '/company/:companyId/leaderboard',
-    loader: getCompanyIdFn,
-    element: (
-      <Suspense fallback={<PageFallBack />}>
-        <CompanyLeaderboard />
-      </Suspense>
-    ),
-    errorElement: <GlobalError />,
-  },
-  // company project list
-  // {
-  //   path: '/company/:companyId/projects',
-  //   loader: getTbookfn,
-  //   element: (
-  //     <Suspense fallback={ <PageFallBack /> }>
-  //       <CompanyProjects />
-  //     </Suspense>
-  //   ),
-  //   errorElement: <GlobalError />,
-  // },
-  // company about page
-  {
-    path: '/company/:companyId/about',
-    loader: getCompanyIdFn,
-    element: (
-      <Suspense fallback={<PageFallBack />}>
-        <CompanyAbout />
-      </Suspense>
-    ),
-  },
-  {
-    path: '/company/:companyId/asset',
-    loader: getCompanyIdFn,
-    element: (
-      <Suspense fallback={<PageFallBack />}>
-        <CompanyAsset />
-      </Suspense>
-    ),
+    children: [
+      {
+        index: true,
+        loader: getCompanyIdFn,
+        element: (
+          <Suspense fallback={ <PageFallBack /> }>
+            <CompanyHome />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'leaderboard',
+        loader: getCompanyIdFn,
+        element: 
+        <Suspense fallback={ <PageFallBack /> }>
+          <CompanyLeaderboard />
+        </Suspense>,
+      },
+      {
+        path: 'about',
+        loader: getCompanyIdFn,
+        element:
+          <Suspense fallback={ <PageFallBack /> }>
+            <CompanyAbout />
+          </Suspense>,
+      },
+      {
+        path: 'asset',
+        loader: getCompanyIdFn,
+        element:
+          <Suspense fallback={ <PageFallBack /> }>
+            <CompanyAsset />,
+          </Suspense>,
+      },
+      {
+        path: 'projects',
+        element:
+          <Suspense fallback={ <PageFallBack /> }>
+            <CompanyProjects />,
+          </Suspense>, 
+      }
+    ],
   },
 ];
 

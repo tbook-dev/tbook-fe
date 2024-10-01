@@ -1,7 +1,7 @@
 import React from 'react';
 import { memo } from 'react';
 
-import { NavLink, useParams, useLoaderData } from 'react-router-dom';
+import { NavLink, useParams, useLoaderData, Link } from 'react-router-dom';
 import HomeIcon from './icons/HomeIcon'
 import LeaderboardIcon from './icons/LeaderboardIcon'
 import AboutIcon from './icons/AboutIcon'

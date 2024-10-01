@@ -352,7 +352,7 @@ export const getDeFi = async function () {
   return await request.Get(`${host}/campaignNew/defi`);
 };
 
-export const getCompanyProjects = async function (companyId) {
+export const getCompanyProjects = async function (companyId, type) {
   return await request.Get(`${host}/company/${companyId}`);
 };
 
