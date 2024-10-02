@@ -1,16 +1,21 @@
-import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, Link, useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 
 import useCompanyProjects from '@/hooks/useCompanyProjects';
 // import TMAShare from '@/components/TMAShare';
-import ProjectCard from './ProjectCard'
-import ProjectCardSkeleton from './ProjectCardSkeleton'
+import ProjectCard from './componets/ProjectCard'
+import ProjectCardSkeleton from './componets/ProjectCardSkeleton'
+
+import HomeSwiper from './componets/HomeSwiper'
 
 import LazyImage from '@/components/lazyImage';
 
 import ComingIcon from './icons/Coming.svg?react';
+import clsx from 'clsx';
 
 export default function CompanyHome () {
-  const location = useLocation();
+
+  const { isLightTheme } = useLoaderData()
+
   const { companyId } = useParams();
   const navigate = useNavigate();
   const { data, isLoading } = useCompanyProjects(companyId);
@@ -18,6 +23,9 @@ export default function CompanyHome () {
   const companyInfo = data?.data?.company ?? null;
   const projects = data?.data?.projects ?? [];
   const layerOneList = data?.data?.layerOneList ?? []
+
+  const campaignHomeData = [];
+  const projectHomeData = [];
 
   function LinkToProjectList ({ status, name }) {
     if (status === 0) return;
@@ -27,7 +35,10 @@ export default function CompanyHome () {
   }
 
   return (
-    <div className='px-6 pb-32 bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] min-h-screen'>
+    <div className={ clsx("px-6 pb-32 min-h-screen", 
+      isLightTheme 
+      ? 'bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] text-black' 
+        : 'bg-black text-white') }>
       <div className='flex justify-center w-full mb-4 h-fit min-h-[178px]'>
         { isLoading ? (
           <div className="w-full aspect-[2/1] rounded-3xl bg-[#D5C8FF] animate-pulse" />
@@ -56,6 +67,18 @@ export default function CompanyHome () {
           </div>
         </>
       ) }
+
+      {
+        campaignHomeData?.campaigns?.length > 0 && (
+          <HomeSwiper data={ campaignHomeData } type="campaign" />
+        )
+      }
+
+      {
+        projectHomeData?.projects?.length > 0 && (
+          <HomeSwiper data={ projectHomeData } type="project" />
+        )
+      }
 
       <h1 className='mt-4 text-xl font-bold'>Trending Games</h1>
       { isLoading ? (

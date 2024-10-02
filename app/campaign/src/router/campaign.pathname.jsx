@@ -13,7 +13,6 @@ import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import TonExplore from '@/pages/ton-explore';
 
-
 const CompanyHome = lazy(() => import('@/pages/company/Home'));
 const CompanyLeaderboard = lazy(() => import('@/pages/company/Leaderboard'));
 const CompanyAbout = lazy(() => import('@/pages/company/About'));
@@ -105,6 +104,7 @@ const getCompanyIdFn = async ({ params }) => {
         companyId: company?.companyId || 0,
         companyName: company?.companyName,
         isLightTheme: company?.companyId > 0,
+        // isLightTheme: false,
         companyInfo: company,
       };
     }
@@ -436,6 +436,7 @@ const routes = [
       },
       {
         path: 'projects',
+        loader: getCompanyIdFn,
         element:
           <Suspense fallback={ <PageFallBack /> }>
             <CompanyProjects />,

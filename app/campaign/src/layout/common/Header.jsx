@@ -16,7 +16,7 @@ export default function Header({ type }) {
       {type === 'ton' && <TonHeader />}
       {type === 'normal' && <NormalHeader />}
       { type === 'light' && <MyHeader backgroundColor='bg-[#FCFAFD]' textColor="text-black" borderColor="border-black" /> }
-      { type === 'company' && <CompanyHeader backgroundColor='bg-[#FCFAFD]' textColor="text-black" borderColor="border-black" /> }
+      { type === 'company' && <CompanyHeader /> }
       <WatchRouter />
       <Suspense>
         <Modals />

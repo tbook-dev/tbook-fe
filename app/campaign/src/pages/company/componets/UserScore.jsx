@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import { cn } from '@/utils/conf';
 import useUserInfo from '@/hooks/useUserInfoQuery';
 
-import TonLight from './icons/TonLight.svg?react';
+import TonLight from '../icons/TonLight.svg?react';
 import EthIcon from '@/images/icon/svgr/eth.svg?react';
 import TgIcon from '@/images/icon/tg-blue.svg?react';
 

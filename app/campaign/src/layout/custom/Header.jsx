@@ -1,9 +1,8 @@
 
-import CompanyHeader from './CompanyHeader';
 import { Suspense, lazy } from 'react';
+import { useLoaderData } from 'react-router-dom';
 
-import { useLoaderData, Link, useParams } from 'react-router-dom';
-
+import CompanyHeader from './CompanyHeader';
 import WatchRouter from '../common/WatchRouter';
 const Modals = lazy(() => import('../common/Modals'));
 
@@ -12,7 +11,7 @@ export default function Header ({ title }) {
   const link = `/company/${companyId}`
   return (
     <>
-      <CompanyHeader backgroundColor='bg-[#FCFAFD]' textColor="text-black" borderColor="border-black" link={ link } title={ title } />
+      <CompanyHeader link={ link } title={ title } />
       <WatchRouter />
       <Suspense>
         <Modals />

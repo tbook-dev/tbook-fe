@@ -2,15 +2,15 @@ import LeaderboardSkeleton from './LeaderBoardSkeleton';
 
 import { formatImpact, shortAddressV1 } from '@tbook/utils/lib/conf';
 
-import TonIcon from './icons/Ton.svg?react';
-import TonLight from './icons/TonLight.svg?react';
+import TonIcon from '../icons/Ton.svg?react';
+import TonLight from '../icons/TonLight.svg?react';
 import EthIcon from '@/images/icon/svgr/eth.svg?react';
 import TgIcon from '@/images/icon/tg-blue.svg?react';
 import XIcon from '@/images/icon/x-purple.svg?react';
 
-import Rank1 from './icons/Rank1.svg?react';
-import Rank2 from './icons/Rank2.svg?react';
-import Rank3 from './icons/Rank3.svg?react';
+import Rank1 from '../icons/Rank1.svg?react';
+import Rank2 from '../icons/Rank2.svg?react';
+import Rank3 from '../icons/Rank3.svg?react';
 
 import clsx from 'clsx';
 

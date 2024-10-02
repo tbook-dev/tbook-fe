@@ -1,12 +1,12 @@
 import { useNavigate, useLocation, useLoaderData } from 'react-router-dom';
 import useAssetQuery from '@/hooks/useAssetQuery';
 
-import AssetTabList from './AssetTabList';
+import AssetTabList from './componets/AssetTabList';
 import Credentials from '../my/modules/Credential';
 
 import NFT from '../my/modules/NFT';
 
-import AssetPoints from './AssetPoints'
+import AssetPoints from './componets/AssetPoints'
 import NotConnect from '../my/modules/NotConnect';
 
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';

@@ -1,19 +1,21 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLoaderData } from 'react-router-dom';
 
 import ArrowIcon from '@/images/icon/svgr/arrow.svg?react';
 
 import useCompanyLeaderboard from '@/hooks/useCompanyLeaderboard';
 
-import LeaderboardSkeleton from './LeaderBoardSkeleton';
-import LeaderBoardNav from './LeaderBoardNav';
-import UserScore from './UserScore';
-import ScoreItem from './ScoreItem';
+import LeaderboardSkeleton from './componets/LeaderBoardSkeleton';
+import LeaderBoardNav from './componets/LeaderBoardNav';
+import UserScore from './componets/UserScore';
+import ScoreItem from './componets/ScoreItem';
+import clsx from 'clsx';
 
 const pageSize = 10;
 
 export default function CompanyLeaderboard () {
   const { companyId } = useParams();
+  const { isLightTheme } = useLoaderData();
   const { data = [], isLoading } = useCompanyLeaderboard(companyId);
   const list = data?.data?.leaderboard ?? [];
   const companyName = data?.data?.companyName || ''
@@ -26,7 +28,8 @@ export default function CompanyLeaderboard () {
   const disableEnd = cursor === totalPageNum - 1;
 
   return (
-    <div className="flex-auto w-full min-h-[calc(100vh_-_160px)] space-y-4 px-6 mt-3 lg:px-0 mx-auto bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] pb-32">
+    <div className={ clsx("flex-auto w-full min-h-[calc(100vh_-_160px)] space-y-4 px-6 mt-3 lg:px-0 mx-auto pb-32", 
+      isLightTheme ? 'bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] text-black' : 'bg-black text-white')}>
 
       <LeaderBoardNav title="Leaderboard">
         { totalPageNum > 1 && (

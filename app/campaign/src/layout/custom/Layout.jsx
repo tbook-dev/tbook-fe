@@ -1,7 +1,7 @@
 import Header from './Header'
 import BottomNav from './BottomNav'
-import { Outlet, useLoaderData } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
+import clsx from 'clsx'
+import { Outlet, useLoaderData, useLocation } from 'react-router-dom'
 
 const routeTitleMap = [
   { pattern: /\/about$/, getTitle: (companyName) => `About ${companyName}` },
@@ -13,7 +13,7 @@ const routeTitleMap = [
 
 export default function Layout () {
   const { pathname } = useLocation()
-  const { companyName } = useLoaderData()
+  const { companyName, isLightTheme } = useLoaderData()
 
   const getTitleForRoute = (path, name) => {
     const route = routeTitleMap.find(r => r.pattern.test(path));
@@ -23,7 +23,7 @@ export default function Layout () {
   const title = getTitleForRoute(pathname, companyName);
   
   return (
-    <div className='flex flex-col min-h-dvh bg-[#FCFAFD]'>
+    <div className={ clsx("flex flex-col min-h-dvh", isLightTheme ? 'bg-[#FCFAFD]' : 'bg-black')}>
       <Header title={ title } />
       <div className='relative flex-auto overflow-x-hidden overflow-y-auto'>
         <Outlet />

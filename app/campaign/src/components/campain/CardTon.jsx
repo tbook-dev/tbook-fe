@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
 import { memo } from 'react';
 import { formatImpact } from '@tbook/utils/lib/conf';
 import LazyImage from '@/components/lazyImage';
 import { Statistic } from 'antd';
 import clsx from 'clsx';
+import { Link, useLoaderData } from 'react-router-dom';
 
 const { Countdown } = Statistic;
 
@@ -17,6 +17,7 @@ const colorMap = {
     backgroundColor: 'rgba(250,204,21,0.1)',
   },
 };
+
 // 目前只在tma里面展示
 function Compaign({
   title,
@@ -34,12 +35,19 @@ function Compaign({
   projectUrl,
   isActive,
 }) {
+
+  const { isLightTheme } = useLoaderData()
+  // const isLightTheme = false
+
   return (
     <Link
       to={`/${projectUrl}/${campaignId}`}
       className={clsx(
         'relative rounded-xl overflow-hidden flex flex-col',
-        isActive ? 'shadow-s2 bg-[#252525]' : 'bg-[#1e1e1e]'
+        isLightTheme ? 'text-black' : 'text-white/90',
+        isActive
+          ? isLightTheme ? 'shadow-s2 bg-white' : 'shadow-s2 bg-[#252525]'
+          : isLightTheme ? 'bg-white' : 'bg-[#1e1e1e]'
       )}
     >
       {[1, 2].includes(status) && (
@@ -49,7 +57,7 @@ function Compaign({
         >
           <span
             className="w-2 h-2 rounded-full"
-            style={{ background: colorMap[status].color }}
+            style={{ background: colorMap[status].color } }
           />
           <Countdown
             value={status === 2 ? startAt : endAt}
@@ -86,18 +94,18 @@ function Compaign({
 
           <div className="flex flex-wrap space-x-3 text-xs font-medium">
             {hasNFT && (
-              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
+              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6] text-white">
                 NFT
               </div>
             )}
 
             {hasPoint && (
-              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
+              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6] text-white">
                 Points
               </div>
             )}
             {hasSBT && (
-              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6]">
+              <div className="px-1.5 py-0.5 rounded-2.5xl bg-[#904BF6] text-white">
                 SBT
               </div>
             )}

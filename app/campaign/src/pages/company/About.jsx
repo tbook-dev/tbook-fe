@@ -1,7 +1,8 @@
 import WebApp from '@twa-dev/sdk';
 
 import { Tooltip } from 'antd';
-import { useParams } from 'react-router-dom';
+import clsx from 'clsx';
+import { useParams, useLoaderData } from 'react-router-dom';
 import { useTelegram } from '@/hooks/useTg';
 
 import x from '@/images/icon/x-black.svg';
@@ -13,13 +14,14 @@ import useCompanyProjects from '@/hooks/useCompanyProjects';
 export default function About () {
   const { isTMA } = useTelegram();
   const { companyId } = useParams();
+  const { isLightTheme } = useLoaderData();
 
   const { data, isLoading } = useCompanyProjects(companyId);
 
   const companyInfo = data?.data?.company ?? null;
 
   return (
-     !isLoading && <div className='bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] min-h-screen'>
+    !isLoading && <div className={ clsx("min-h-screen", isLightTheme ? "bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] text-black" : "bg-black text-white")}>
       <div className='relative h-[228px] '>
         <LazyImage className="w-full h-[178px] rounded-3xl absolute bg-[#dad8ff]" src={ companyInfo.aboutBgImage } alt='poster' />
       </div>

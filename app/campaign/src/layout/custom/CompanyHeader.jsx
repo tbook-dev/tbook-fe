@@ -5,20 +5,18 @@ import { useDispatch } from 'react-redux';
 import { setLoginModal } from '@/store/global';
 // import UserAddress from '../common/UserAddress'
 import AvatarSkeleton from '../common/AvatarSkeleton';
-import { Skeleton } from 'antd';
 import Avatar from '../common/Avatar';
 import fallbackLogo from '@/images/error/logo.svg';
-import LazyImage from '@/components/lazyImage';
 
-function CompanyHeader ({ link = '', title = '', backgroundColor = '', textColor = 'text-white', borderColor = 'border-white' }) {
+function CompanyHeader ({ link = '', title = '',  }) {
 
-  // const { project, projectUrl, isUsingSubdomain } = useLoaderData();
+  const { isLightTheme } = useLoaderData();
   const { userLogined, firstLoad } = useUserInfo();
   const dispath = useDispatch();
   const handleClick = () => {
     dispath(setLoginModal(true));
   };
-  // const logoUrl = project?.avatarUrl;
+
   return (
     <header
       className={ clsx(
@@ -26,7 +24,8 @@ function CompanyHeader ({ link = '', title = '', backgroundColor = '', textColor
         'backdrop-blur-sm'
       ) }
     >
-      <div className={ clsx('px-4 py-1.5 lg:px-20', backgroundColor) }>
+      <div className={ clsx('px-4 py-1.5 lg:px-20', 
+        isLightTheme ? 'bg-[#FCFAFD] text-black' : 'bg-black text-white') }>
         <div className='flex items-center justify-between h-10'>
           <div className='flex items-center'>
             <Link
@@ -46,7 +45,8 @@ function CompanyHeader ({ link = '', title = '', backgroundColor = '', textColor
               </div>
             ) : (
               <button
-                className={ clsx("px-2 py-1 text-sm  border rounded-md lg:hover:opacity-70", textColor, borderColor
+                className={ clsx("px-2 py-1 text-sm  border rounded-md lg:hover:opacity-70", 
+                  isLightTheme ? 'bg-white border-black' : 'bg-black border-white'
                 ) }
                 onClick={ handleClick }
               >

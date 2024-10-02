@@ -1,10 +1,10 @@
-import { useParams, Link, useSearchParams } from 'react-router-dom';
+import { useParams, Link, useSearchParams, useLoaderData } from 'react-router-dom';
 import { useState, useEffect, useMemo } from 'react';
 import useCompanyProjects from '@/hooks/useCompanyProjects';
 // import TMAShare from '@/components/TMAShare';
-import ProjectCard from './ProjectCard'
-import ProjectCardSkeleton from './ProjectCardSkeleton'
-
+import ProjectCard from './componets/ProjectCard'
+import ProjectCardSkeleton from './componets/ProjectCardSkeleton'
+import clsx from 'clsx';
 import LazyImage from '@/components/lazyImage';
 
 import { Dropdown, Space } from 'antd';
@@ -12,6 +12,7 @@ import { DownOutlined } from '@ant-design/icons';
 
 export default function CompanyHome () {
   const { companyId } = useParams();
+  const { isLightTheme } = useLoaderData();
   const [ searchParams, setSearchParams ] = useSearchParams();
   const [ layerOneList, setLayerOneList ] = useState([]);
 
@@ -71,9 +72,12 @@ export default function CompanyHome () {
   };
 
   return (
-    <div className='px-6 pb-32 bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] min-h-screen'>
+    <div className={clsx("px-6 pb-32 min-h-screen", 
+      isLightTheme ? 'bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] text-black' : 'bg-black text-white'
+    )}>
       <div className='flex items-center'>
-        <h1 className='pr-4 text-xl font-bold border-r-[1px] border-[#DBBEE8]'>
+        <h1 className={ clsx("pr-4 text-xl font-bold border-r-[1px]", 
+          isLightTheme ? 'border-[#DBBEE8]' : 'border-[#DBBEE8]/50')}>
           Trending Games
         </h1>
         { layerOneList?.length > 0 && (
