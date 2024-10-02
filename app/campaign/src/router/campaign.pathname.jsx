@@ -95,12 +95,9 @@ const getCompanyIdFn = async ({ params }) => {
         cacheTime: Infinity,
       }
     );
-    // const theme = res?.theme || 0;
-    console.log('res', res);
     const { company } = res?.data || {};
     if (company?.companyId) {
       return {
-        // mock
         companyId: company?.companyId || 0,
         companyName: company?.companyName,
         isLightTheme: company?.companyId > 0,

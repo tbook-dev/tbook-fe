@@ -5,9 +5,9 @@ import { Outlet, useLoaderData, useLocation } from 'react-router-dom'
 
 const routeTitleMap = [
   { pattern: /\/about$/, getTitle: (companyName) => `About ${companyName}` },
-  { pattern: /\/leaderboard$/, getTitle: (companyName) => `Leaderboard` },
-  { pattern: /\/asset$/, getTitle: (companyName) => `${companyName} Assets` },
-  { pattern: /\/projects$/, getTitle: (companyName) => `${companyName} Projects` },
+  { pattern: /\/leaderboard$/, getTitle: (companyName) => `${companyName}` },
+  { pattern: /\/asset$/, getTitle: (companyName) => `Assets` },
+  { pattern: /\/projects$/, getTitle: (companyName) => `${companyName}` },
   { pattern: /.*/, getTitle: (companyName) => companyName }
 ];
 

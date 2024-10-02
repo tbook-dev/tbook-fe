@@ -227,6 +227,7 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
     return getStrJSON(credential.options);
   }, [credential]);
 
+
   return (
     <div
       className={cn(

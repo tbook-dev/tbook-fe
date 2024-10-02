@@ -3,7 +3,7 @@ import { useLoaderData } from 'react-router-dom';
 import useAssetQuery from '@/hooks/useAssetQuery';
 import { useQueryClient } from 'react-query';
 import useUserInfo from '@/hooks/useUserInfoQuery';
-import AssetTabList from '../AssetTabList';
+import AssetTabList from './AssetTabList';
 import PointRecord from '../../my/modules/Point';
 import { useCompanyOnboardQuery } from '@/hooks/useCompanyOnboardQuery';
 import { useState } from 'react';
@@ -12,13 +12,13 @@ import LightProvider from '@/theme/LightProvider';
 import Credential from '@/pages/app/credential';
 import { useParams } from 'react-router-dom';
 import { useMemo, useCallback } from 'react';
+import clsx from 'clsx';
 export default function AssetPoints() {
-  const { companyId, companyInfo }  = useLoaderData();
+  const { companyId, companyInfo, isLightTheme }  = useLoaderData();
   const [tabValue, setTabValue] = useState('1');
 
   const { data: assets, isLoading: useScoreLoading } = useAssetQuery(null, companyId, true);
   const userTotalPoint = assets?.points?.reduce((acc, cur) => acc + cur.number, 0);
-
 
   const tabModule = [
     {
@@ -34,10 +34,11 @@ export default function AssetPoints() {
   ];
 
   return (
-    <div>
-      <div
-        className="w-full h-[232px] relative">
-        <img width="w-screen h-[232px] absolute" src={ companyInfo?.pointBgImage } alt="point image" />
+    <div className={ clsx(isLightTheme ? 'text-black' : 'text-white')}>
+      <div className="w-full h-[232px] relative">
+        <img width="w-screen h-[232px] absolute" 
+        src={ companyInfo?.pointBgImage }
+        alt="point image" />
         <h1 className="absolute text-6xl font-bold bottom-6 left-10 font-zen-dot">
           {formatImpact(userTotalPoint)}
         </h1>
@@ -62,6 +63,7 @@ function OnBoardCampaign() {
   const queryClient = useQueryClient();
   const { companyId } = useParams();
   const { userLogined } = useUserInfo();
+  const { isLightTheme } = useLoaderData();
   const { data, isLoading } = useCompanyOnboardQuery(companyId);
   const credentialList = useMemo(() => {
     return data?.data?.groups
@@ -89,10 +91,10 @@ function OnBoardCampaign() {
       ) : (
         Array.isArray(credentialList) &&
         credentialList.map((v) => (
-          <div className="bg-white rounded-lg" key={v.credentialId}>
+          <div className={ clsx("rounded-lg", isLightTheme ? 'bg-white' : 'bg-black')} key={v.credentialId}>
             <Credential 
               credential={v}
-              theme="white"
+              theme={ isLightTheme ? 'white' : 'dark' }
               showVerify
               onVerifySuccess={ handleVerifySuccess }
             />

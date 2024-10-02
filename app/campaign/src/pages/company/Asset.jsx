@@ -61,7 +61,7 @@ export default function CompanyAsset ({ pageType = 'project' }) {
     <div className="pb-20 mx-auto space-y-4 w-page-content">
       <div className={
         clsx("flex flex-col gap-y-4 lg:gap-y-8 pt-3 pb-2 px-4 lg:px-0 border-b lg:border-none",
-          isLightTheme ? 'border-[#E8E5E9]' : 'border-[#160b25]') }>
+          isLightTheme ? 'border-[#E8E5E9] text-black' : 'border-[#160b25] text-white') }>
         <h2 className="text-xl font-bold">
           Assets
         </h2>
@@ -75,7 +75,8 @@ export default function CompanyAsset ({ pageType = 'project' }) {
         />
       </div>
 
-      <div className="lg:px-0 bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] min-h-screen">
+      <div className={ clsx("lg:px-0 min-h-screen",
+        isLightTheme ? 'bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5]' : 'bg-black')}>
         { userLoading ? (
           <Loading className={ clsx(isLightTheme ? 'bg-black' : 'bg-white', "z-60") } text="Aggregating metrics..." />
         ) : userLogined ? (
