@@ -92,8 +92,10 @@ export default function CredentialModal({
             const rewards = rewardForm?.getFieldValue('reward') || [];
             // console.log({ rewards })
             const disabled =
-              v.value === 2 &&
-              rewards?.filter((v) => v.rewardType === 2).length > 0;
+              (v.value === 2 &&
+                rewards?.filter((v) => v.rewardType === 2).length > 0) ||
+              (v.value === 3 &&
+                rewards?.filter((v) => v.rewardType === 3).length > 0);
 
             return (
               <Button
@@ -154,11 +156,7 @@ export default function CredentialModal({
                     name,
                     'picUrl',
                   ]);
-                  const sbtCollectionPic = rewardForm.getFieldValue([
-                    'reward',
-                    name,
-                    'sbtCollectionPic',
-                  ]);
+
                   const sbtImage = rewardForm.getFieldValue([
                     'reward',
                     name,
@@ -410,10 +408,17 @@ export default function CredentialModal({
                           </h2>
                           <Form.Item
                             label="Subtitle"
-                            name={[name, 'sbtCollectionTitle']}
+                            name={[name, 'subTitle']}
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
                             <Input placeholder="Please enter the subtitle which will show on the TonSociety page" />
+                          </Form.Item>
+                          <Form.Item
+                            label="Link to Registration/Details (TON Society Button Label)"
+                            name={[name, 'buttonLabel']}
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <Input placeholder="Button Label" />
                           </Form.Item>
                           <Form.Item
                             label="Link to Registration/Details (TON Society Button Link)"
@@ -425,7 +430,7 @@ export default function CredentialModal({
                           <Form.Item
                             {...restField}
                             name={[name, 'sbtCollectionTitle']}
-                            label="SBT Name"
+                            label="SBT Collection Title"
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
                             <Input placeholder="Enter SBT Collection Title, such as Tonstakers Strategist" />
@@ -439,44 +444,6 @@ export default function CredentialModal({
                               placeholder="Enter SBT Collection Description"
                               className="w-full"
                             />
-                          </Form.Item>
-                          <Form.Item
-                            valuePropName="fileList"
-                            getValueFromEvent={normFile}
-                            label="Upload SBT Collection Image"
-                            name={[name, 'sbtCollectionPic']}
-                            rules={[
-                              {
-                                required: true,
-                                message: 'image is required',
-                              },
-                              {
-                                validator: fileValidator,
-                              },
-                            ]}
-                          >
-                            <Upload.Dragger
-                              customRequest={hanleUpload}
-                              multiple={false}
-                              accept="image/*"
-                              maxCount={1}
-                            >
-                              {sbtCollectionPic?.[0]?.response ? (
-                                <img
-                                  src={sbtCollectionPic?.[0]?.response}
-                                  className="w-full h-[180px] object-contain object-center"
-                                />
-                              ) : (
-                                <>
-                                  <p className="ant-upload-drag-icon flex justify-center">
-                                    <img src={uploadIcon} />
-                                  </p>
-                                  <p className="ant-upload-text">
-                                    Upload an image
-                                  </p>
-                                </>
-                              )}
-                            </Upload.Dragger>
                           </Form.Item>
 
                           <h2 className="mb-3 text-white text-lg font-medium">

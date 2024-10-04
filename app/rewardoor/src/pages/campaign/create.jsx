@@ -41,7 +41,7 @@ const textMap = {
   },
 };
 const { defaultErrorMsg } = conf;
-const defaultStep = '2';
+const defaultStep = '1';
 
 const checkFormValidte = (conf) => {
   return (
@@ -179,6 +179,7 @@ export default function () {
     // }
     setConfirmCreateLoading(true);
     // console.log({ credentialReward });
+    const sbtSyncArrays = [];
     const data = {
       campaign: fd.current,
       groups: credentialReward.map((v) => {
@@ -206,10 +207,21 @@ export default function () {
           });
         const sbtList = v.reward
           .filter((v) => v.rewardType === 3)
-          .map((v) => ({ ...v, picUrl: v.picUrl?.[0]?.response }))
           .map((v) => {
+            sbtSyncArrays.push({
+              subtitle: v.subTitle,
+              buttonLabel: v.buttonLabel,
+              buttonLink: v.buttonLink,
+              sbtCollectionTitle: v.sbtCollectionTitle,
+              sbtCollectionDesc: v.sbtCollectionDesc,
+              sbtItemTitle: v.sbtItemTitle,
+              sbtDesc: v.sbtDesc,
+              sbtImage: v.sbtImage?.[0]?.response,
+              sbtVideo: v.sbtVideo?.[0]?.response ?? '',
+            });
             return {
-              ...v,
+              name: v.sbtItemTitle,
+              picUrl: v.sbtImage?.[0]?.response,
               methodType: 1,
               unlimited: true,
             };
@@ -248,11 +260,29 @@ export default function () {
             },
           })
         : await createCampaign(data);
-      const isSBTCompaign = data.groups.some((v) => v.sbtList.length > 0);
-      if (isSBTCompaign) {
+      if (sbtSyncArrays.length > 0) {
         // sync to ton society
-        const tonData = {};
-        await syncTONSocietyMutation(tonData);
+        const tonData = {
+          // campaign info
+          projectId: res.campaign.projectId,
+          campaignId: res.campaign.campaignId,
+          title: res.campaign.title,
+          description: res.campaign.description,
+          startDate: res.campaign.startAt,
+          endDate: res.campaign.endAt,
+          // sbt info
+        };
+        const remoteSBTIds = res?.groups.map((v) => v.sbtList).flat();
+        for (let i = 0; i < sbtSyncArrays.length; i++) {
+          const sbt = sbtSyncArrays[i];
+          const { sbtId } = remoteSBTIds[i];
+          console.log({ res, sbt, tonData, remoteSBTIds, sbtSyncArrays });
+          await syncTONSocietyMutation.mutateAsync({
+            ...tonData,
+            ...sbt,
+            sbtId,
+          });
+        }
       }
       if (editMode) {
         await getCompaignDetail();
