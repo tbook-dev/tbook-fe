@@ -128,6 +128,11 @@ export const campaignStatus = [
   //   label: "Terminated",
   //   value: 5,
   // },
+  {
+    label: 'UnderReview',
+    value: 5,
+    color: '#666',
+  },
 ];
 
 const urlMap = {

@@ -86,6 +86,13 @@ export default [
     groupType: 2,
     picUrl2: tgblack,
   },
+  {
+    name: 'Subscribe to Telegram Premium',
+    labelType: 22,
+    picUrl: tgwhite,
+    groupType: 2,
+    picUrl2: tgblack,
+  },
 
   // groupType: 6,
   {
@@ -179,7 +186,7 @@ export default [
     category: 'Storm Trade',
   },
   {
-    name: 'Open a trade in any trading pair ',
+    name: 'Open a trade in any trading pair',
     labelType: 20,
     picUrl: stormtradeWhite,
     groupType: 8,

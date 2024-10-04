@@ -14,6 +14,8 @@ import Banner from './Banner';
 import useCampaignList from '@/hooks/useCampaignList';
 import { campaignStatus } from '@/utils/conf';
 
+const onBoardCampaignId = 57841403853365
+
 export default function HomeProject () {
   const [ selectStatus, setSelectedStatus ] = useState(-1);
   const { projectId, project, projectUrl } = useLoaderData();
@@ -22,6 +24,7 @@ export default function HomeProject () {
   const [ defaultLoaded, setDefaultLoaded ] = useState(false);
   const listFilter = list
     .filter(v => v.campaign?.status === selectStatus)
+    .filter(v => v.campaign?.campaignId !== onBoardCampaignId)
     .sort((a, b) =>
       dayjs(b.campaign?.createTime).isAfter(a.campaign?.createTime) ? 1 : -1
     );

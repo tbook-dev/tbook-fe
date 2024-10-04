@@ -5,7 +5,13 @@ import walletGrayIcon from '@/images/icon/wallet-gray.svg';
 import useSocial from '@/hooks/useSocial';
 import { useDispatch } from 'react-redux';
 import { setConnectWalletModal } from '@/store/global';
-import { Link, useLoaderData, useLocation, useParams } from 'react-router-dom';
+import {
+  Link,
+  useLoaderData,
+  useLocation,
+  useParams,
+  useParams,
+} from 'react-router-dom';
 import Address from '@tbook/ui/src/Address';
 import suiSVG from '@/images/zklogin/sui.svg';
 import tonSVG from '@/images/wallet/ton.svg';
@@ -13,6 +19,8 @@ import tonUnlockSVG from '@/images/wallet/ton-unlock.svg';
 import evmUnlockSVG from '@/images/wallet/evm-unlock.svg';
 import evmSVG from '@/images/wallet/evm.svg';
 import passportlg from '@/images/passport/passport.png';
+
+import passportGamebuild from '@/images/passport/passport-gamebuild.png';
 
 import passportGamebuild from '@/images/passport/passport-gamebuild.png';
 
@@ -44,12 +52,11 @@ export default function PassportCard({ onClose }) {
     isUsingWallet,
     isZK,
   } = useUserInfo();
-  
+  const { socialList } = useSocial();
   const { pathname } = useLocation();
-
-  const { socialList, getZkfnByName } = useSocial();
   const dispatch = useDispatch();
-  const { isUsingSubdomain, projectUrl, projectId, companyId  } = useLoaderData();
+  const { isUsingSubdomain, projectUrl, projectId, companyId } =
+    useLoaderData();
 
   const { isTMA, canConnectEvm } = useTelegram();
   const { openTonModalLogin, disconnectTon } = useTonToolkit();
@@ -85,7 +92,15 @@ export default function PassportCard({ onClose }) {
         path: `${isUsingSubdomain ? '' : `/${projectUrl}`}/asset`,
       },
     ];
-  }, [ pathname, projectUrl, companyId, isUsingSubdomain ]);
+  }, [
+    pathname,
+    pathname,
+    projectUrl,
+    companyId,
+    isUsingSubdomain,
+    companyId,
+    isUsingSubdomain,
+  ]);
 
   const handleDisconnectTon = () => {
     onClose();
@@ -93,9 +108,9 @@ export default function PassportCard({ onClose }) {
   };
 
   const isShowList = () => {
-    const isCompanyPage = checkIsCompanyPage()
+    const isCompanyPage = checkIsCompanyPage();
     return projectId || isCompanyPage;
-  }
+  };
 
   const walletIconList = useMemo(() => {
     return [
@@ -197,14 +212,18 @@ export default function PassportCard({ onClose }) {
     <div className="flex flex-col justify-start flex-auto pt-6 pb-16 text-white lg:py-0 lg:justify-center">
       <div
         className="relative mx-auto h-[452px] w-[317px] flex flex-col justify-center items-center bg-cover bg-center"
-        style={ { backgroundImage: `url(${companyId === 1 ? passportGamebuild : passportlg})` }}
+        style={{
+          backgroundImage: `url(${
+            companyId === 1 ? passportGamebuild : passportlg
+          })`,
+        }}
       >
         <div className={clsx('mb-3', isTMA ? '' : 'invisible')}>
-          { companyId === 1 ? (
+          {companyId === 1 ? (
             <Link
-              to={ `/company/${companyId}/asset?type=3`}
-              style={ { backgroundImage: `url("${wiseScoreSVG}")` } }
-              onClick={ onClose }
+              to={`/company/${companyId}/asset?type=3`}
+              style={{ backgroundImage: `url("${wiseScoreSVG}")` }}
+              onClick={onClose}
               className="focus-visible:outline-none w-[135px] h-6  mx-auto bg-center bg-contain font-zen-dot text-xs flex items-center justify-center gap-x-0.5"
             >
               Build Point
@@ -224,30 +243,29 @@ export default function PassportCard({ onClose }) {
               </svg>
             </Link>
           ) : (
-          <Link
-            to = "/wise-score"
-            style = {{ backgroundImage: `url("${wiseScoreSVG}")` }}
-          onClick={ onClose }
-          className="focus-visible:outline-none w-[135px] h-6  mx-auto bg-center bg-contain font-zen-dot text-xs flex items-center justify-center gap-x-0.5"
-          >
-          WISE Credit
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M3 9L9 3M9 3H4.5M9 3V7.5"
-              stroke="white"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </Link>
+            <Link
+              to="/wise-score"
+              style={{ backgroundImage: `url("${wiseScoreSVG}")` }}
+              onClick={onClose}
+              className="focus-visible:outline-none w-[135px] h-6  mx-auto bg-center bg-contain font-zen-dot text-xs flex items-center justify-center gap-x-0.5"
+            >
+              WISE Credit
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M3 9L9 3M9 3H4.5M9 3V7.5"
+                  stroke="white"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Link>
           )}
-   
         </div>
         <div className="relative flex flex-col items-center mb-3 text-lg font-medium gap-y-5">
           <LazyImage
@@ -375,7 +393,7 @@ export default function PassportCard({ onClose }) {
         </div>
 
         <div className="relative flex flex-col px-6 py-4 text-sm font-medium gap-y-1">
-          { !isShowList() ? (
+          {!isShowList() ? (
             <Tooltip
               title={footprintTips.map((t, i) => (
                 <p key={i}>{t}</p>

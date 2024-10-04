@@ -11,16 +11,6 @@ import queryClient from '../query-client';
 import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import TonExplore from '@/pages/ton-explore';
-
-import CompanyHome from '@/pages/company/Home';
-import CompanyLeaderboard from '@/pages/company/Leaderboard';
-import CompanyAbout from '@/pages/company/About';
-
-// import CompanyAsset from '@/pages/company/Asset';
-const CompanyAsset = lazy(() => import('@/pages/company/Asset'));
-
-import CompanyProjects from '@/pages/company/ProjectList';
-
 import { keptProjectUrls, defaultProjectInfo } from './conf';
 
 const App = lazy(() => import('@/pages/app'));
@@ -448,6 +438,58 @@ const routes = [
   {
     path: '/company/:companyId/about',
     loader: getTbookfn,
+    element: (
+      <Suspense fallback={<PageFallBack />}>
+        <CompanyAbout />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/company/:companyId/asset',
+    loader: getCompanyIdFn,
+    element: (
+      <Suspense fallback={<PageFallBack />}>
+        <CompanyAsset />
+      </Suspense>
+    ),
+  },
+  // company homepage
+  {
+    path: '/company/:companyId',
+    loader: getCompanyIdFn,
+    element: (
+      <Suspense fallback={<PageFallBack />}>
+        <CompanyHome />
+      </Suspense>
+    ),
+    errorElement: <GlobalError />,
+  },
+  // company leaderBoard
+  {
+    path: '/company/:companyId/leaderboard',
+    loader: getCompanyIdFn,
+    element: (
+      <Suspense fallback={<PageFallBack />}>
+        <CompanyLeaderboard />
+      </Suspense>
+    ),
+    errorElement: <GlobalError />,
+  },
+  // company project list
+  // {
+  //   path: '/company/:companyId/projects',
+  //   loader: getTbookfn,
+  //   element: (
+  //     <Suspense fallback={ <PageFallBack /> }>
+  //       <CompanyProjects />
+  //     </Suspense>
+  //   ),
+  //   errorElement: <GlobalError />,
+  // },
+  // company about page
+  {
+    path: '/company/:companyId/about',
+    loader: getCompanyIdFn,
     element: (
       <Suspense fallback={<PageFallBack />}>
         <CompanyAbout />

@@ -1,17 +1,12 @@
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { getCompanyProjects } from '@/api/incentive';
 
-export default function useCompanyProjects (companyId) {
-  const queryClient = useQueryClient();
+export default function useCompanyProjects(companyId) {
   return useQuery(
-    [ 'company-projects', companyId ],
+    ['company-projects', companyId],
     () => getCompanyProjects(companyId),
     {
-      staleTime: 5 * 60 * 1000,
-      cacheTime: 30 * 60 * 1000,
-      onSuccess: (data) => {
-        queryClient.setQueryData([ 'company-projects', companyId ], data);
-      },
+      enabled: !!companyId,
     }
   );
 }

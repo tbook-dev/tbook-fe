@@ -13,13 +13,18 @@ import Credential from '@/pages/app/credential';
 import { useParams } from 'react-router-dom';
 import { useMemo, useCallback } from 'react';
 export default function AssetPoints() {
-  const { companyId, companyInfo }  = useLoaderData();
+  const { companyId, companyInfo } = useLoaderData();
   const [tabValue, setTabValue] = useState('1');
 
-  const { data: assets, isLoading: useScoreLoading } = useAssetQuery(null, companyId, true);
-  const userTotalPoint = assets?.points?.reduce((acc, cur) => acc + cur.number, 0);
-  
-  const bgImage = 'https://static.tbook.vip/img/1a87d2e5bf3c498693f0c8ca64919797'
+  const { data: assets, isLoading: useScoreLoading } = useAssetQuery(
+    null,
+    companyId,
+    true
+  );
+  const userTotalPoint = assets?.points?.reduce(
+    (acc, cur) => acc + cur.number,
+    0
+  );
 
   const tabModule = [
     {
@@ -30,17 +35,20 @@ export default function AssetPoints() {
     {
       name: 'Points Records',
       value: '2',
-      com: <PointRecord isCompany={ true } showTotalScore={ false } />,
+      com: <PointRecord isCompany={true} showTotalScore={false} />,
     },
   ];
 
   return (
     <div>
-      <div
-        className="w-full h-[232px] relative">
-        <img width="w-screen h-[232px] absolute" src={ companyInfo?.pointBgImage } alt="point image" />
+      <div className="w-full h-[232px] relative">
+        <img
+          width="w-screen h-[232px] absolute"
+          src={companyInfo?.pointBgImage}
+          alt="point image"
+        />
         <h1 className="absolute text-6xl font-bold bottom-6 left-10 font-zen-dot">
-          { formatImpact(userTotalPoint)}
+          {formatImpact(userTotalPoint)}
         </h1>
       </div>
 
@@ -72,11 +80,17 @@ function OnBoardCampaign() {
       .flat();
   }, [data]);
 
-  const handleVerifySuccess = useCallback(async (credentialId) => {
-    setTimeout(async () => {
-      await queryClient.invalidateQueries([ 'asset-company', companyId, userLogined ]);
-    }, 1000);
-  }, [ queryClient, companyId ]);
+  const handleVerifySuccess = useCallback(
+    async (credentialId) => {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await queryClient.refetchQueries([
+        'asset-company',
+        companyId,
+        userLogined,
+      ]);
+    },
+    [queryClient, companyId]
+  );
 
   return (
     <div className="space-y-2.5">
@@ -92,11 +106,11 @@ function OnBoardCampaign() {
         Array.isArray(credentialList) &&
         credentialList.map((v) => (
           <div className="bg-white rounded-lg" key={v.credentialId}>
-            <Credential 
+            <Credential
               credential={v}
               theme="white"
               showVerify
-              onVerifySuccess={ handleVerifySuccess }
+              onVerifySuccess={handleVerifySuccess}
             />
           </div>
         ))

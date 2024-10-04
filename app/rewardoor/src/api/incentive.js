@@ -172,6 +172,6 @@ export const syncTONSociety = async function (values) {
   return await request.Post(`${host}/ton-sync/sync`, values);
 };
 
-export const getTonPrivilege = async function (campaignId) {
-  return await request.Get(`${host}/ton-sync/privilege/${campaignId}`);
-};
+// export const getTonPrivilege = async function (campaignId) {
+//   return await request.Get(`${host}/ton-sync/privilege/${campaignId}`);
+// };

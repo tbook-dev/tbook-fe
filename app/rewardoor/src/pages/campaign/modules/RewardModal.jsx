@@ -1,6 +1,6 @@
 import Button from '@/components/button';
 import { InputNumber, Select, Modal, Input, Form, Upload, Switch } from 'antd';
-import { PlusOutlined, CloseOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import closeIcon from '@/images/icon/close.svg';
 import { useCallback, useEffect, useState } from 'react';
 import { incentiveMethodList, incentiveAssetsTypeList } from '@/utils/conf';
@@ -10,6 +10,7 @@ import uploadIcon from '@/images/icon/upload.svg';
 import clsx from 'clsx';
 import SelectNFT from '@/components/SelectNFT';
 import useSupportChains from '@/hooks/queries/useSupportChains';
+import AlertUrl from '@/images/icon/alert.svg';
 
 const title = 'Set Up Reward';
 const defaultIncentive = { rewardType: 1, limited: false, activityId: 371 };
@@ -91,15 +92,16 @@ export default function CredentialModal({
             const rewards = rewardForm?.getFieldValue('reward') || [];
             // console.log({ rewards })
             const disabled =
-              v.value === 2 &&
-              rewards?.filter((v) => v.rewardType === 2).length > 0;
+              (v.value === 2 &&
+                rewards?.filter((v) => v.rewardType === 2).length > 0) ||
+              (v.value === 3 &&
+                rewards?.filter((v) => v.rewardType === 3).length > 0);
 
             return (
               <Button
                 key={i}
                 disabled={disabled}
                 onClick={() => {
-                  console.log({ disabled });
                   if (!disabled) {
                     rewardForm.setFieldsValue({
                       reward: rewardForm
@@ -154,6 +156,18 @@ export default function CredentialModal({
                     name,
                     'picUrl',
                   ]);
+
+                  const sbtImage = rewardForm.getFieldValue([
+                    'reward',
+                    name,
+                    'sbtImage',
+                  ]);
+                  const sbtVideo = rewardForm.getFieldValue([
+                    'reward',
+                    name,
+                    'sbtVideo',
+                  ]);
+
                   return (
                     <div
                       key={key}
@@ -172,7 +186,7 @@ export default function CredentialModal({
                           className="object-contain w-4 h-4 cursor-pointer absolute top-3 right-3 z-10"
                         />
                       </div>
-
+                      {/* /// NFT*/}
                       {rewardType === 1 && (
                         <>
                           <Form.Item
@@ -287,6 +301,7 @@ export default function CredentialModal({
                           </Form.Item>
                         </>
                       )}
+                      {/* /// Points*/}
 
                       {rewardType === 2 && (
                         <>
@@ -304,32 +319,160 @@ export default function CredentialModal({
                           </Form.Item>
                         </>
                       )}
-                      {rewardType === 3 && (
+                      {/* NFT、Point same, SBT allways FCFS, unlimit */}
+                      {[1, 2].includes(rewardType) && (
                         <>
                           <Form.Item
                             {...restField}
-                            name={[name, 'name']}
-                            label="SBT Name"
+                            name={[name, 'methodType']}
+                            label="Incentive Method"
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <Input placeholder="Enter SBT Name" />
+                            <Select placeholder="Select the category">
+                              {incentiveMethodList.map((v) => {
+                                return (
+                                  <Select.Option value={v.value} key={v.value}>
+                                    <p>{v.title}</p>
+                                    <p>{v.desc}</p>
+                                  </Select.Option>
+                                );
+                              })}
+                            </Select>
                           </Form.Item>
 
                           <Form.Item
-                            label="Activity id"
-                            name={[name, 'activityId']}
+                            name={[name, 'limited']}
+                            label="Limited Number of Reward"
+                            valuePropName="checked"
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Missing!',
+                              },
+                            ]}
+                          >
+                            <Switch
+                              checkedChildren="on"
+                              unCheckedChildren="off"
+                            />
+                          </Form.Item>
+
+                          {limited && (
+                            <>
+                              <Form.Item
+                                label="Minting Cap"
+                                name={[name, 'mintCap']}
+                                rules={[
+                                  { required: true, message: 'Missing!' },
+                                ]}
+                              >
+                                <InputNumber
+                                  placeholder="try a number"
+                                  className="w-full"
+                                  min={1}
+                                  step={1}
+                                />
+                              </Form.Item>
+
+                              {rewardType === 1 && (
+                                <Form.Item
+                                  label="Number of Reward"
+                                  name={[name, 'rewardNum']}
+                                  rules={[
+                                    { required: true, message: 'Missing!' },
+                                  ]}
+                                >
+                                  <InputNumber
+                                    placeholder="try a number"
+                                    className="w-full"
+                                    min={1}
+                                    step={1}
+                                  />
+                                </Form.Item>
+                              )}
+                            </>
+                          )}
+                        </>
+                      )}
+
+                      {/* /// SBT*/}
+                      {rewardType === 3 && (
+                        <>
+                          <div className="mb-3 p-4 rounded-2.5xl bg-white/10 flex gap-x-4 text-sm text-yellow-400">
+                            <img src={AlertUrl} className="size-4" />
+                            The Campaign will only be able to release once the
+                            SBT is approved.
+                          </div>
+                          <h2 className="mb-3 text-white text-lg font-medium">
+                            SBT Collection
+                          </h2>
+                          <Form.Item
+                            label="Subtitle"
+                            name={[name, 'subTitle']}
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <Input placeholder="Please enter the subtitle which will show on the TonSociety page" />
+                          </Form.Item>
+                          <Form.Item
+                            label="Link to Registration/Details (TON Society Button Label)"
+                            name={[name, 'buttonLabel']}
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <Input placeholder="Button Label" />
+                          </Form.Item>
+                          <Form.Item
+                            label="Link to Registration/Details (TON Society Button Link)"
+                            name={[name, 'buttonLink']}
+                            rules={[{ required: true, type: 'url' }]}
+                          >
+                            <Input placeholder="http://t.me/tbook_incentive_bot/campaignDeepLink" />
+                          </Form.Item>
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'sbtCollectionTitle']}
+                            label="SBT Collection Title"
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <Input placeholder="Enter SBT Collection Title, such as Tonstakers Strategist" />
+                          </Form.Item>
+                          <Form.Item
+                            name={[name, 'sbtCollectionDesc']}
+                            label="SBT Collection Description"
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
                             <Input
-                              placeholder="Third party identifier, for example ton society is 371 "
+                              placeholder="Enter SBT Collection Description"
+                              className="w-full"
+                            />
+                          </Form.Item>
+
+                          <h2 className="mb-3 text-white text-lg font-medium">
+                            SBT Item
+                          </h2>
+                          <Form.Item
+                            {...restField}
+                            name={[name, 'sbtItemTitle']}
+                            label="SBT Item Title"
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <Input placeholder="Enter SBT Item Title, such as Tonstakers Strategist SBT" />
+                          </Form.Item>
+
+                          <Form.Item
+                            name={[name, 'sbtDesc']}
+                            label="SBT Item Description"
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <Input
+                              placeholder="Enter SBT Item Description"
                               className="w-full"
                             />
                           </Form.Item>
                           <Form.Item
                             valuePropName="fileList"
                             getValueFromEvent={normFile}
-                            label="SBT Media File"
-                            name={[name, 'picUrl']}
+                            label="Upload SBT Item Image"
+                            name={[name, 'sbtImage']}
                             rules={[
                               {
                                 required: true,
@@ -346,9 +489,9 @@ export default function CredentialModal({
                               accept="image/*"
                               maxCount={1}
                             >
-                              {picUrl?.[0]?.response ? (
+                              {sbtImage?.[0]?.response ? (
                                 <img
-                                  src={picUrl?.[0]?.response}
+                                  src={sbtImage?.[0]?.response}
                                   className="w-full h-[180px] object-contain object-center"
                                 />
                               ) : (
@@ -359,80 +502,44 @@ export default function CredentialModal({
                                   <p className="ant-upload-text">
                                     Upload an image
                                   </p>
-                                  <p className="ant-upload-hint">
-                                    296*312 or higher
+                                </>
+                              )}
+                            </Upload.Dragger>
+                          </Form.Item>
+                          <Form.Item
+                            valuePropName="fileList"
+                            getValueFromEvent={normFile}
+                            label="Upload SBT Item Video"
+                            name={[name, 'sbtVideo']}
+                            rules={[
+                              {
+                                validator: fileValidator,
+                              },
+                            ]}
+                          >
+                            <Upload.Dragger
+                              customRequest={hanleUpload}
+                              multiple={false}
+                              accept="video/mp4"
+                              maxCount={1}
+                            >
+                              {sbtVideo?.[0]?.response ? (
+                                <img
+                                  src={sbtVideo?.[0]?.response}
+                                  className="w-full h-[180px] object-contain object-center"
+                                />
+                              ) : (
+                                <>
+                                  <p className="ant-upload-drag-icon flex justify-center">
+                                    <img src={uploadIcon} />
                                   </p>
-                                  <p className="ant-upload-hint">
-                                    recommended Max 20MB.
+                                  <p className="ant-upload-text">
+                                    Upload an Video in the format .mp4
                                   </p>
                                 </>
                               )}
                             </Upload.Dragger>
                           </Form.Item>
-                        </>
-                      )}
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'methodType']}
-                        label="Incentive Method"
-                        rules={[{ required: true, message: 'Missing!' }]}
-                      >
-                        <Select placeholder="Select the category">
-                          {incentiveMethodList.map((v) => {
-                            return (
-                              <Select.Option value={v.value} key={v.value}>
-                                <p>{v.title}</p>
-                                <p>{v.desc}</p>
-                              </Select.Option>
-                            );
-                          })}
-                        </Select>
-                      </Form.Item>
-
-                      <Form.Item
-                        name={[name, 'limited']}
-                        label="Limited Number of Reward"
-                        valuePropName="checked"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Missing!',
-                          },
-                        ]}
-                      >
-                        <Switch checkedChildren="on" unCheckedChildren="off" />
-                      </Form.Item>
-                      {limited && (
-                        <>
-                          {[1, 2].includes(rewardType) && (
-                            <Form.Item
-                              label="Minting Cap"
-                              name={[name, 'mintCap']}
-                              rules={[{ required: true, message: 'Missing!' }]}
-                            >
-                              <InputNumber
-                                placeholder="try a number"
-                                className="w-full"
-                                min={1}
-                                step={1}
-                              />
-                            </Form.Item>
-                          )}
-
-                          {rewardType === 1 && (
-                            <Form.Item
-                              label="Number of Reward"
-                              name={[name, 'rewardNum']}
-                              rules={[{ required: true, message: 'Missing!' }]}
-                            >
-                              <InputNumber
-                                placeholder="try a number"
-                                className="w-full"
-                                min={1}
-                                step={1}
-                              />
-                            </Form.Item>
-                          )}
                         </>
                       )}
                     </div>
