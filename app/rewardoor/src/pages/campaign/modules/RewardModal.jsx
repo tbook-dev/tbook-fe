@@ -409,6 +409,20 @@ export default function CredentialModal({
                             SBT Collection
                           </h2>
                           <Form.Item
+                            label="Subtitle"
+                            name={[name, 'sbtCollectionTitle']}
+                            rules={[{ required: true, message: 'Missing!' }]}
+                          >
+                            <Input placeholder="Please enter the subtitle which will show on the TonSociety page" />
+                          </Form.Item>
+                          <Form.Item
+                            label="Link to Registration/Details (TON Society Button Link)"
+                            name={[name, 'buttonLink']}
+                            rules={[{ required: true, type: 'url' }]}
+                          >
+                            <Input placeholder="http://t.me/tbook_incentive_bot/campaignDeepLink" />
+                          </Form.Item>
+                          <Form.Item
                             {...restField}
                             name={[name, 'sbtCollectionTitle']}
                             label="SBT Name"
@@ -416,7 +430,6 @@ export default function CredentialModal({
                           >
                             <Input placeholder="Enter SBT Collection Title, such as Tonstakers Strategist" />
                           </Form.Item>
-
                           <Form.Item
                             name={[name, 'sbtCollectionDesc']}
                             label="SBT Collection Description"

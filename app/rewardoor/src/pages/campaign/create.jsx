@@ -16,7 +16,9 @@ import { get } from 'lodash';
 import { getUrl } from '@/utils/conf';
 import useNFTcontract from '@/hooks/queries/useNFTcontract';
 // import useCredential from '@/hooks/queries/useCredential';
-import useCampaign from '@/hooks/queries/useCampaign';
+import useCampaign, {
+  useSyncTONSocietyMutation,
+} from '@/hooks/queries/useCampaign';
 import Loading from '@/components/loading';
 import useCampaignList from '@/hooks/queries/useCampaignList';
 import credentialMap from '@/components/credential/form';
@@ -63,6 +65,7 @@ export default function () {
   const [credentialReward, setCredentialReward] = useState([
     { ...defaultCredentialReward },
   ]);
+  const syncTONSocietyMutation = useSyncTONSocietyMutation();
   const [setupSubmittable, setSetUpSubmittable] = useState(false);
   const [setUpForm] = Form.useForm();
   const { id: campaignId } = useParams();
@@ -211,6 +214,7 @@ export default function () {
               unlimited: true,
             };
           });
+
         const fdata = {
           status: 1,
           projectId,
@@ -244,6 +248,12 @@ export default function () {
             },
           })
         : await createCampaign(data);
+      const isSBTCompaign = data.groups.some((v) => v.sbtList.length > 0);
+      if (isSBTCompaign) {
+        // sync to ton society
+        const tonData = {};
+        await syncTONSocietyMutation(tonData);
+      }
       if (editMode) {
         await getCompaignDetail();
       } else {
