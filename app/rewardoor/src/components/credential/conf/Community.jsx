@@ -289,4 +289,8 @@ export default {
     },
     pick: ['url'],
   },
+  22: {
+    render: () => null,
+    pick: ['name'],
+  },
 };
