@@ -1,23 +1,23 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M13 17C17.4183 17 21 13.4183 21 9C21 4.58172 17.4183 1 13 1M13 17C8.58172 17 5 13.4183 5 9C5 4.58172 8.58172 1 13 1M13 17H10.5M13 1H10.5M21 23V17H3V23M21 23H3M21 23V20H3V23M19 9C19 13.4183 15.4183 17 11 17C6.58172 17 3 13.4183 3 9C3 4.58172 6.58172 1 11 1C15.4183 1 19 4.58172 19 9Z" stroke="white" stroke-width="0.3"/>
-    <g clip-path="url(#clip0_20109_5814)">
-    <mask id="mask0_20109_5814" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="7" y="5" width="8" height="8">
+    <g clip-path="url(#clip0_20143_2982)">
+    <mask id="mask0_20143_2982" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="7" y="5" width="8" height="8">
     <path d="M14.8 5H7V13H14.8V5Z" fill="white"/>
     </mask>
-    <g mask="url(#mask0_20109_5814)">
-    <mask id="mask1_20109_5814" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="7" y="5" width="8" height="8">
+    <g mask="url(#mask0_20143_2982)">
+    <mask id="mask1_20143_2982" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="7" y="5" width="8" height="8">
     <path d="M14.8 5H7V13H14.8V5Z" fill="white"/>
     </mask>
-    <g mask="url(#mask1_20109_5814)">
+    <g mask="url(#mask1_20143_2982)">
     <path d="M10.2886 10.9976L7.6124 6.29639L7 6.64499L10.4826 12.7626C10.6622 13.0782 11.1168 13.0792 11.298 12.7644L10.2886 10.9976Z" fill="black"/>
     <path d="M10.0206 5L9.3252 5.1138L10.545 12.7C10.7246 13.0156 11.1168 13.0792 11.298 12.7644L10.0206 5Z" fill="black"/>
-    <path d="M10.9425 10.629L10.4827 12.7626C10.6623 13.0782 11.1169 13.0792 11.2981 12.7644L11.6333 10.7686L12.5203 6.84961L11.8331 6.69421L10.9425 10.629Z" fill="black"/>
-    <path d="M10.4827 12.7625C10.6623 13.0781 11.1169 13.0791 11.2981 12.7643L14.7313 6.79635L14.1205 6.44495L11.6333 10.7685L10.4827 12.7625Z" fill="black"/>
+    <path d="M10.9422 10.629L10.4824 12.7626C10.662 13.0782 11.1166 13.0792 11.2978 12.7644L11.633 10.7686L12.52 6.84961L11.8328 6.69421L10.9422 10.629Z" fill="black"/>
+    <path d="M10.4824 12.7625C10.662 13.0781 11.1166 13.0791 11.2978 12.7643L14.731 6.79635L14.1202 6.44495L11.633 10.7685L10.4824 12.7625Z" fill="black"/>
     </g>
     </g>
     </g>
     <defs>
-    <clipPath id="clip0_20109_5814">
+    <clipPath id="clip0_20143_2982">
     <rect width="7.8" height="8" fill="white" transform="translate(7 5)"/>
     </clipPath>
     </defs>

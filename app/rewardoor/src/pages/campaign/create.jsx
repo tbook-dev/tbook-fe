@@ -123,7 +123,8 @@ export default function () {
               ...v.sbtList.map((p) => ({
                 ...p,
                 rewardType: 3,
-                limited: !p.unlimited,
+                methodType: 1,
+                limited: false,
                 picUrl: [
                   {
                     uid: '-1',
@@ -206,7 +207,8 @@ export default function () {
           .map((v) => {
             return {
               ...v,
-              unlimited: !v.limited,
+              methodType: 1,
+              unlimited: true,
             };
           });
         const fdata = {

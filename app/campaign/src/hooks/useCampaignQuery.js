@@ -30,7 +30,7 @@ export default function useCampaignQuery(campaignId) {
   const campaignEnd = endList.includes(page?.campaign?.status);
   const campaignOngoing = page?.campaign?.status === 1;
   const campaignDeleted = page?.code === 204;
-  const compaignNotExist = page?.code === 404;
+  const compaignNotExist = page?.code === 404 || page?.campaign?.status === 5;
   const campaignUnavailable = campaignDeleted || compaignNotExist || isError;
   const hasDefi = page?.groups
     ?.map((v) => v.credentialList)
