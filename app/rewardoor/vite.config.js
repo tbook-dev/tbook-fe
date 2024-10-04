@@ -1,10 +1,12 @@
-import { defineConfig } from "vite";
-import postcss from "./postcss.config.js";
-import react from "@vitejs/plugin-react";
-import markdownRawPlugin from "vite-raw-plugin";
+import { defineConfig } from 'vite';
+import postcss from './postcss.config.js';
+import react from '@vitejs/plugin-react';
+import markdownRawPlugin from 'vite-raw-plugin';
+import svgr from 'vite-plugin-svgr';
+
 // const markdownRawPlugin = require('vite-raw-plugin')
 // import { viteMockServe } from 'vite-plugin-mock';
-const path = require("path");
+const path = require('path');
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,12 +14,13 @@ export default defineConfig({
     port: 5175,
   },
   define: {
-    "process.env": process.env,
+    'process.env': process.env,
   },
   css: {
     postcss,
   },
   plugins: [
+    svgr(),
     react(),
     markdownRawPlugin({
       fileRegex: /\.md$/,
@@ -25,11 +28,11 @@ export default defineConfig({
   ],
   optimizeDeps: {
     exclude: [
-      "@tbook/hooks",
-      "@tbook/share",
-      "@tbook/store",
-      "@tbook/ui",
-      "@tbook/utils",
+      '@tbook/hooks',
+      '@tbook/share',
+      '@tbook/store',
+      '@tbook/ui',
+      '@tbook/utils',
     ],
   },
   resolve: {
@@ -37,12 +40,12 @@ export default defineConfig({
       {
         find: /^~.+/,
         replacement: (val) => {
-          return val.replace(/^~/, "");
+          return val.replace(/^~/, '');
         },
       },
       {
-        find: "@",
-        replacement: path.resolve(__dirname, "src"),
+        find: '@',
+        replacement: path.resolve(__dirname, 'src'),
       },
     ],
   },

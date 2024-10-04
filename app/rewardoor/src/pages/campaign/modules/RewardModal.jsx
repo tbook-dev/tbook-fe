@@ -5,7 +5,7 @@ import closeIcon from '@/images/icon/close.svg';
 import { useCallback, useEffect, useState } from 'react';
 import { incentiveMethodList, incentiveAssetsTypeList } from '@/utils/conf';
 import NFTModal from './NFTModal';
-import uploadFile, { fileValidator } from '@/utils/upload';
+import uploadFile, { fileValidator, uploadWisthMp4 } from '@/utils/upload';
 import uploadIcon from '@/images/icon/upload.svg';
 import clsx from 'clsx';
 import SelectNFT from '@/components/SelectNFT';
@@ -518,7 +518,7 @@ export default function CredentialModal({
                             ]}
                           >
                             <Upload.Dragger
-                              customRequest={hanleUpload}
+                              customRequest={uploadWisthMp4}
                               multiple={false}
                               accept="video/mp4"
                               maxCount={1}

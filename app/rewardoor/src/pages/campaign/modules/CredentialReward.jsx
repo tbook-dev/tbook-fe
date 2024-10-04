@@ -133,7 +133,11 @@ function CredentialReward({
                         const reward = incentiveAssetsTypeList.find(
                           (i) => i.value === rewardType
                         );
-
+                        const textMap = {
+                          1: v.name,
+                          2: v.number,
+                          3: v.name,
+                        };
                         return (
                           <div
                             key={idx}
@@ -144,7 +148,7 @@ function CredentialReward({
                               {reward?.text}
                             </span>
 
-                            <span>{rewardType === 1 ? v.name : v.number}</span>
+                            <span>{textMap[rewardType]}</span>
                           </div>
                         );
                       })}
