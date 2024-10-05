@@ -442,6 +442,9 @@ export default function () {
           campaignId: get(sucessData, 'campaign.campaignId'),
         })}
         jumpLink={`/campaign/${get(sucessData, 'campaign.campaignId')}/detail`}
+        hideShare={get(sucessData, 'groups')?.some(
+          (v) => v.sbtList?.length > 0
+        )}
       />
       {contextHolder}
     </div>

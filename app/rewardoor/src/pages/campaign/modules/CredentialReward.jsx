@@ -136,7 +136,7 @@ function CredentialReward({
                         const textMap = {
                           1: v.name,
                           2: v.number,
-                          3: v.name,
+                          3: v.sbtItemTitle ?? v.name,
                         };
                         return (
                           <div

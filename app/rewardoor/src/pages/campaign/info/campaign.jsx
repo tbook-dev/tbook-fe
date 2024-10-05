@@ -71,27 +71,35 @@ export default function Campaign() {
                   {
                     label: 'Activity Id',
                     comp: v.activityId,
+                    show: !!v.activityId,
                   },
                   {
                     label: 'Activity Url',
                     comp: (
-                      <a className="flex items-center gap-x-0.5 underline">
+                      <a
+                        href={v.activityUrl}
+                        className="flex items-center gap-x-0.5 underline"
+                        target="_blank"
+                      >
                         {v.activityUrl}
                         <ArrowIcon />
                       </a>
                     ),
+                    show: !!v.activityUrl,
                   },
                 ];
                 return (
                   <div className="space-y-2">
-                    {list.map((v, idx) => {
-                      return (
-                        <div key={idx} className="flex items-center gap-x-4">
-                          <span>{v.label}</span>
-                          <span>{v.comp}</span>
-                        </div>
-                      );
-                    })}
+                    {list
+                      .filter((v) => v.show)
+                      .map((v, idx) => {
+                        return (
+                          <div key={idx} className="flex items-center gap-x-4">
+                            <span>{v.label}</span>
+                            <span>{v.comp}</span>
+                          </div>
+                        );
+                      })}
                   </div>
                 );
               })}
