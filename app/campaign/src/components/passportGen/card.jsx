@@ -10,7 +10,6 @@ import {
   useLoaderData,
   useLocation,
   useParams,
-  useParams,
 } from 'react-router-dom';
 import Address from '@tbook/ui/src/Address';
 import suiSVG from '@/images/zklogin/sui.svg';
@@ -19,8 +18,6 @@ import tonUnlockSVG from '@/images/wallet/ton-unlock.svg';
 import evmUnlockSVG from '@/images/wallet/evm-unlock.svg';
 import evmSVG from '@/images/wallet/evm.svg';
 import passportlg from '@/images/passport/passport.png';
-
-import passportGamebuild from '@/images/passport/passport-gamebuild.png';
 
 import passportGamebuild from '@/images/passport/passport-gamebuild.png';
 
