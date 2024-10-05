@@ -66,15 +66,6 @@ const routes = [
               return { Component };
             },
           },
-          {
-            path: ':id/sync-ton-society',
-            async lazy() {
-              const { default: Component } = await import(
-                '@/pages/campaign/ton-society'
-              );
-              return { Component };
-            },
-          },
         ],
       },
       {
