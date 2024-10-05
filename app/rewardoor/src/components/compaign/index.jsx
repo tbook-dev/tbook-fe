@@ -12,7 +12,7 @@ function Compaign({ campaign = {}, groups }) {
     const hasSBT = groups.some((v) => v.sbtList.length > 0);
     return { hasNFT, hasPoint, hasSBT };
   }, [groups]);
-  console.log({ groups });
+
   return (
     <Link
       key={campaignId}

@@ -78,7 +78,6 @@ export default function () {
     isLoading: isCampaignLoading,
   } = useCampaign(campaignId);
   const isInOngoingStatus = pageInfo?.campaign?.status === 1;
-
   const handleStepUp = async () => {
     const values = await setUpForm.validateFields();
     fd.current = {
@@ -120,26 +119,28 @@ export default function () {
               ],
             }))
           );
-          if (Array.isArray(v.sbtList) && v.sbtList.length > 0) {
-            //////////// sbt type
-            reward.push(
-              ...v.sbtList.map((p) => ({
-                ...p,
-                rewardType: 3,
-                methodType: 1,
-                limited: false,
-                picUrl: [
-                  {
-                    uid: '-1',
-                    status: 'done',
-                    url: p.picUrl,
-                    response: p.picUrl,
-                  },
-                ],
-              }))
-            );
-          }
         }
+        if (Array.isArray(v.sbtList) && v.sbtList.length > 0) {
+          //////////// sbt type
+          reward.push(
+            ...v.sbtList.map((p) => ({
+              ...p,
+              rewardType: 3,
+              methodType: 1,
+              limited: false,
+              sbtItemTitle: p.name,
+              sbtImage: [
+                {
+                  uid: '-1',
+                  status: 'done',
+                  url: p.picUrl,
+                  response: p.picUrl,
+                },
+              ],
+            }))
+          );
+        }
+
         return {
           credential: v.credentialList.map((c) => {
             let options = {};
@@ -441,6 +442,9 @@ export default function () {
           campaignId: get(sucessData, 'campaign.campaignId'),
         })}
         jumpLink={`/campaign/${get(sucessData, 'campaign.campaignId')}/detail`}
+        hideShare={get(sucessData, 'groups')?.some(
+          (v) => v.sbtList?.length > 0
+        )}
       />
       {contextHolder}
     </div>

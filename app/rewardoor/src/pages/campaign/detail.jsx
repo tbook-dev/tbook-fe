@@ -23,7 +23,7 @@ const moduleMap = {
   1: <Reward />,
   2: <ParticipationInfo />,
 };
-const hasParticipationList = [1, 3, 4, 5];
+const hasParticipationList = [1, 3, 4];
 const errorMsg = 'An error hanppens, please try it later!';
 const deleteMsg = 'Delete sucess!';
 
@@ -57,8 +57,9 @@ export default function () {
       ? [...participationInfo, baseInfo]
       : [baseInfo];
   }, [pageInfo]);
-  // const isInScheduleStatus = true;
-  const isInScheduleStatus = pageInfo?.campaign?.status === 2;
+  const isInScheduleStatusOrReview = [2, 5].includes(
+    pageInfo?.campaign?.status
+  );
   const isInOngoingStatus = pageInfo?.campaign?.status === 1;
 
   const handleEdit = useCallback(() => {
@@ -72,8 +73,8 @@ export default function () {
     try {
       const res = await deleteCampaign(id);
       // op mutation
-      queryClient.setQueryData(['campaignList', projectId], old => {
-        const newData = old?.filter(v => v.campaign?.campaignId != id);
+      queryClient.setQueryData(['campaignList', projectId], (old) => {
+        const newData = old?.filter((v) => v.campaign?.campaignId != id);
         return newData;
       });
       getCampaignList();
@@ -103,7 +104,7 @@ export default function () {
     return <Spin />;
   }
   const campaignCurrentStatus = campaignStatus.find(
-    v => v.value === pageInfo?.campaign?.status
+    (v) => v.value === pageInfo?.campaign?.status
   );
 
   return (
@@ -119,12 +120,12 @@ export default function () {
           },
         ]}
       />
-      <section className='mb-10 pt-0.5 flex items-center gap-x-4'>
-        <h2 className='font-bold text-5xl mb-0.5 text-t-1'>
+      <section className="mb-10 pt-0.5 flex items-center gap-x-4">
+        <h2 className="font-bold text-5xl mb-0.5 text-t-1">
           {pageInfo?.campaign?.name}
         </h2>
         <div
-          className='px-4 py-0.5 rounded-xl border'
+          className="px-4 py-0.5 rounded-xl border"
           style={{
             color: campaignCurrentStatus?.color,
             borderColor: campaignCurrentStatus?.color,
@@ -134,9 +135,9 @@ export default function () {
         </div>
       </section>
 
-      <section className='mb-36'>
-        <div className='mb-8 flex gap-x-20'>
-          {tabList.map(v => {
+      <section className="mb-36">
+        <div className="mb-8 flex gap-x-20">
+          {tabList.map((v) => {
             return (
               <button
                 key={v.value}
@@ -158,7 +159,7 @@ export default function () {
         {moduleMap[selectStatus]}
       </section>
 
-      {isInScheduleStatus && (
+      {isInScheduleStatusOrReview && (
         <>
           <DeleteModal
             open={showDeleteModal}
@@ -167,13 +168,13 @@ export default function () {
             onConfirm={handleDelelteConfirm}
           />
 
-          <footer className='fixed bottom-0 inset-x-0 pl-[280px] flex'>
-            <div className='w-[1080px] mx-auto h-20 flex items-center justify-end gap-x-10 relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur'>
+          <footer className="fixed bottom-0 inset-x-0 pl-[280px] flex">
+            <div className="w-[1080px] mx-auto h-20 flex items-center justify-end gap-x-10 relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur">
               <Button onClick={handleDelete} loading={deletePenging}>
                 Delete
               </Button>
 
-              <Button type='primary' onClick={handleEdit}>
+              <Button type="primary" onClick={handleEdit}>
                 Edit
               </Button>
             </div>
@@ -181,9 +182,9 @@ export default function () {
         </>
       )}
       {isInOngoingStatus && (
-        <footer className='fixed bottom-0 inset-x-0 pl-[280px] flex'>
-          <div className='w-[1080px] mx-auto h-20 flex items-center justify-end gap-x-10 relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur'>
-            <Button type='primary' onClick={handleEdit}>
+        <footer className="fixed bottom-0 inset-x-0 pl-[280px] flex">
+          <div className="w-[1080px] mx-auto h-20 flex items-center justify-end gap-x-10 relative before:-z-10 before:absolute before:inset-0 before:bg-black/20 before:blur before:backdrop-blur">
+            <Button type="primary" onClick={handleEdit}>
               Edit
             </Button>
           </div>

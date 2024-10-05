@@ -97,6 +97,9 @@ export const getProjectExternalConfig = async function (projectId) {
 export const getPreSignedUrl = async function () {
   return await request(`${host}/signedUploadUrl`);
 };
+export const getPreSignedUrlWithSuffix = async function (data) {
+  return await request.Post(`${host}/signedUploadUrlWithSuffix`, data);
+};
 export const authenticate = async function (address, sign) {
   return request.PostFormV1(`${host}/authenticate`, { address, sign });
 };
