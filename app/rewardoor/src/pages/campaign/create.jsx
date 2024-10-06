@@ -274,15 +274,18 @@ export default function () {
           // sbt info
           buttonLink: getTMALink({campaignId: res.campaign.campaignId, projectUrl: project.projectUrl})
         };
-        const remoteSBTIds = res?.groups.map((v) => v.sbtList).flat();
+        const remoteSBTIds = res?.groups.map((v) => {
+          return v.sbtList.map(sbt => ({...sbt, groupId: v.id}))
+        }).flat();
         for (let i = 0; i < sbtSyncArrays.length; i++) {
           const sbt = sbtSyncArrays[i];
-          const { sbtId } = remoteSBTIds[i];
+          const { sbtId, groupId } = remoteSBTIds[i];
           console.log({ res, sbt, tonData, remoteSBTIds, sbtSyncArrays });
           await syncTONSocietyMutation.mutateAsync({
             ...tonData,
             ...sbt,
             sbtId,
+            groupId
           });
         }
       }
