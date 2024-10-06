@@ -212,7 +212,7 @@ export default function () {
             sbtSyncArrays.push({
               subtitle: v.subTitle,
               buttonLabel: v.buttonLabel,
-              buttonLink: v.buttonLink,
+              // buttonLink: v.buttonLink,
               sbtCollectionTitle: v.sbtCollectionTitle,
               sbtCollectionDesc: v.sbtCollectionDesc,
               sbtItemTitle: v.sbtItemTitle,
@@ -272,6 +272,7 @@ export default function () {
           startDate: res.campaign.startAt,
           endDate: res.campaign.endAt,
           // sbt info
+          buttonLink: getTMALink({campaignId: res.campaign.campaignId, projectUrl: project.projectUrl})
         };
         const remoteSBTIds = res?.groups.map((v) => v.sbtList).flat();
         for (let i = 0; i < sbtSyncArrays.length; i++) {
