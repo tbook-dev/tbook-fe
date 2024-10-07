@@ -524,10 +524,15 @@ export default function CredentialModal({
                               maxCount={1}
                             >
                               {sbtVideo?.[0]?.response ? (
-                                <img
-                                  src={sbtVideo?.[0]?.response}
+                                <video
+                                  muted
+                                  autoPlay
+                                  loop
                                   className="w-full h-[180px] object-contain object-center"
-                                />
+                                >
+                                    <source src={sbtVideo?.[0]?.response} type="video/mp4" />
+                                  </video>
+
                               ) : (
                                 <>
                                   <p className="ant-upload-drag-icon flex justify-center">
