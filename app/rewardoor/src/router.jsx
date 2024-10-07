@@ -41,7 +41,7 @@ const routes = [
           // },
           {
             path: 'new',
-            async lazy () {
+            async lazy() {
               const { default: Component } = await import(
                 '@/pages/campaign/create'
               );
@@ -50,7 +50,7 @@ const routes = [
           },
           {
             path: ':id/detail',
-            async lazy () {
+            async lazy() {
               const { default: Component } = await import(
                 '@/pages/campaign/detail'
               );
@@ -59,7 +59,7 @@ const routes = [
           },
           {
             path: ':id/update',
-            async lazy () {
+            async lazy() {
               const { default: Component } = await import(
                 '@/pages/campaign/create'
               );
@@ -74,14 +74,14 @@ const routes = [
         children: [
           {
             index: true,
-            async lazy () {
+            async lazy() {
               const { default: Component } = await import('@/pages/assets');
               return { Component };
             },
           },
           {
             path: 'nft/:nftId/:groupId',
-            async lazy () {
+            async lazy() {
               const { default: Component } = await import(
                 '@/pages/assets/nftDetail'
               );
@@ -92,14 +92,14 @@ const routes = [
       },
       {
         path: '/new-project',
-        async lazy () {
+        async lazy() {
           const { default: Component } = await import('@/pages/project');
           return { Component };
         },
       },
       {
         path: 'aboard',
-        async lazy () {
+        async lazy() {
           const { default: Component } = await import('@/pages/aboard');
           return { Component };
         },
@@ -110,7 +110,7 @@ const routes = [
         children: [
           {
             index: true,
-            async lazy () {
+            async lazy() {
               const { default: Component } = await import('@/pages/settings');
               return { Component };
             },
@@ -144,7 +144,7 @@ const routes = [
 
       {
         path: '/twitter/callback',
-        async lazy () {
+        async lazy() {
           const { default: Component } = await import(
             '@/pages/twitter/callback'
           );
@@ -153,28 +153,28 @@ const routes = [
       },
       {
         path: '/nft/deploy',
-        async lazy () {
+        async lazy() {
           const { default: Component } = await import('@/pages/nft/deploy');
           return { Component };
         },
       },
       {
         path: '/nft',
-        async lazy () {
+        async lazy() {
           const { default: Component } = await import('@/pages/nft/deploy');
           return { Component };
         },
       },
       {
         path: '/dc_callback',
-        async lazy () {
+        async lazy() {
           const { default: Component } = await import('@/pages/social/dc');
           return { Component };
         },
       },
       {
         path: '/tg_callback',
-        async lazy () {
+        async lazy() {
           const { default: Component } = await import('@/pages/social/tg');
           return { Component };
         },

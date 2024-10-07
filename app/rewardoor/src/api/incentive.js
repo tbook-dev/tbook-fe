@@ -97,6 +97,9 @@ export const getProjectExternalConfig = async function (projectId) {
 export const getPreSignedUrl = async function () {
   return await request(`${host}/signedUploadUrl`);
 };
+export const getPreSignedUrlWithSuffix = async function (data) {
+  return await request.Post(`${host}/signedUploadUrlWithSuffix`, data);
+};
 export const authenticate = async function (address, sign) {
   return request.PostFormV1(`${host}/authenticate`, { address, sign });
 };
@@ -165,8 +168,13 @@ export const getAdminNonce = async function (data) {
 };
 
 export const getDcRoles = async function (url) {
-  await new Promise((r) => {
-    setTimeout(r, 1000);
-  });
   return await request.Post(`${host}/dc/roles`, { payload: url });
 };
+
+export const syncTONSociety = async function (values) {
+  return await request.Post(`${host}/ton-sync/sync`, values);
+};
+
+// export const getTonPrivilege = async function (campaignId) {
+//   return await request.Get(`${host}/ton-sync/privilege/${campaignId}`);
+// };

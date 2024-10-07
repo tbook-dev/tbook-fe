@@ -13,17 +13,19 @@ const clsMap = {
 const disabledClsMap = {
   primary:
     'disabled:bg-none disabled:text-[#333] disabled:bg-[#1A1A1A] disabled:hover:opacity-100',
+  default: 'disabled:opacity-60',
 };
 
 export default function Button({
   type = 'default',
   loading = false,
   className,
+  disabled = false,
   ...props
 }) {
   return (
     <button
-      disabled={loading}
+      disabled={loading || disabled}
       className={clsx(
         'h-10 px-10 rounded-3xl  text-base hover:opacity-70 flex justify-center items-center',
         clsMap[type],

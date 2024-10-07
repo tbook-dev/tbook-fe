@@ -1,7 +1,7 @@
 import opIcon from '@/images/icon/crypto/op.svg';
 import pointIcon from '@/images/icon/point.svg';
 import nftIcon from '@/images/icon/nft.svg';
-import sbtIcon from '@/images/icon/sbt.svg';
+import sbtIcon from '@/images/icon/sbt.png';
 
 import fcfsIcon from '@/images/icon/fcfs.svg';
 import ldIcon from '@/images/icon/ld.svg';
@@ -128,6 +128,11 @@ export const campaignStatus = [
   //   label: "Terminated",
   //   value: 5,
   // },
+  {
+    label: 'UnderReview',
+    value: 5,
+    color: '#E0E7FF',
+  },
 ];
 
 const urlMap = {

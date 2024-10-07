@@ -16,7 +16,9 @@ import { get } from 'lodash';
 import { getUrl } from '@/utils/conf';
 import useNFTcontract from '@/hooks/queries/useNFTcontract';
 // import useCredential from '@/hooks/queries/useCredential';
-import useCampaign from '@/hooks/queries/useCampaign';
+import useCampaign, {
+  useSyncTONSocietyMutation,
+} from '@/hooks/queries/useCampaign';
 import Loading from '@/components/loading';
 import useCampaignList from '@/hooks/queries/useCampaignList';
 import credentialMap from '@/components/credential/form';
@@ -63,6 +65,7 @@ export default function () {
   const [credentialReward, setCredentialReward] = useState([
     { ...defaultCredentialReward },
   ]);
+  const syncTONSocietyMutation = useSyncTONSocietyMutation();
   const [setupSubmittable, setSetUpSubmittable] = useState(false);
   const [setUpForm] = Form.useForm();
   const { id: campaignId } = useParams();
@@ -75,7 +78,6 @@ export default function () {
     isLoading: isCampaignLoading,
   } = useCampaign(campaignId);
   const isInOngoingStatus = pageInfo?.campaign?.status === 1;
-
   const handleStepUp = async () => {
     const values = await setUpForm.validateFields();
     fd.current = {
@@ -117,25 +119,28 @@ export default function () {
               ],
             }))
           );
-          if (Array.isArray(v.sbtList) && v.sbtList.length > 0) {
-            //////////// sbt type
-            reward.push(
-              ...v.sbtList.map((p) => ({
-                ...p,
-                rewardType: 3,
-                limited: !p.unlimited,
-                picUrl: [
-                  {
-                    uid: '-1',
-                    status: 'done',
-                    url: p.picUrl,
-                    response: p.picUrl,
-                  },
-                ],
-              }))
-            );
-          }
         }
+        if (Array.isArray(v.sbtList) && v.sbtList.length > 0) {
+          //////////// sbt type
+          reward.push(
+            ...v.sbtList.map((p) => ({
+              ...p,
+              rewardType: 3,
+              methodType: 1,
+              limited: false,
+              sbtItemTitle: p.name,
+              sbtImage: [
+                {
+                  uid: '-1',
+                  status: 'done',
+                  url: p.picUrl,
+                  response: p.picUrl,
+                },
+              ],
+            }))
+          );
+        }
+
         return {
           credential: v.credentialList.map((c) => {
             let options = {};
@@ -175,6 +180,7 @@ export default function () {
     // }
     setConfirmCreateLoading(true);
     // console.log({ credentialReward });
+    const sbtSyncArrays = [];
     const data = {
       campaign: fd.current,
       groups: credentialReward.map((v) => {
@@ -202,13 +208,26 @@ export default function () {
           });
         const sbtList = v.reward
           .filter((v) => v.rewardType === 3)
-          .map((v) => ({ ...v, picUrl: v.picUrl?.[0]?.response }))
           .map((v) => {
+            sbtSyncArrays.push({
+              subtitle: v.subTitle,
+              buttonLabel: v.buttonLabel,
+              // buttonLink: v.buttonLink,
+              sbtCollectionTitle: v.sbtCollectionTitle,
+              sbtCollectionDesc: v.sbtCollectionDesc,
+              sbtItemTitle: v.sbtItemTitle,
+              sbtDesc: v.sbtDesc,
+              sbtImage: v.sbtImage?.[0]?.response,
+              sbtVideo: v.sbtVideo?.[0]?.response ?? '',
+            });
             return {
-              ...v,
-              unlimited: !v.limited,
+              name: v.sbtItemTitle,
+              picUrl: v.sbtImage?.[0]?.response,
+              methodType: 1,
+              unlimited: true,
             };
           });
+
         const fdata = {
           status: 1,
           projectId,
@@ -242,6 +261,34 @@ export default function () {
             },
           })
         : await createCampaign(data);
+      if (sbtSyncArrays.length > 0) {
+        // sync to ton society
+        const tonData = {
+          // campaign info
+          projectId: res.campaign.projectId,
+          campaignId: res.campaign.campaignId,
+          title: res.campaign.title,
+          description: res.campaign.description,
+          startDate: res.campaign.startAt,
+          endDate: res.campaign.endAt,
+          // sbt info
+          buttonLink: getTMALink({campaignId: res.campaign.campaignId, projectUrl: project.projectUrl})
+        };
+        const remoteSBTIds = res?.groups.map((v) => {
+          return v.sbtList.map(sbt => ({...sbt, groupId: v.id}))
+        }).flat();
+        for (let i = 0; i < sbtSyncArrays.length; i++) {
+          const sbt = sbtSyncArrays[i];
+          const { sbtId, groupId } = remoteSBTIds[i];
+          console.log({ res, sbt, tonData, remoteSBTIds, sbtSyncArrays });
+          await syncTONSocietyMutation.mutateAsync({
+            ...tonData,
+            ...sbt,
+            sbtId,
+            groupId
+          });
+        }
+      }
       if (editMode) {
         await getCompaignDetail();
       } else {
@@ -399,6 +446,9 @@ export default function () {
           campaignId: get(sucessData, 'campaign.campaignId'),
         })}
         jumpLink={`/campaign/${get(sucessData, 'campaign.campaignId')}/detail`}
+        hideShare={get(sucessData, 'groups')?.some(
+          (v) => v.sbtList?.length > 0
+        )}
       />
       {contextHolder}
     </div>
