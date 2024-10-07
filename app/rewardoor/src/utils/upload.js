@@ -25,7 +25,7 @@ export const fileValidator = (_, value) => {
   return Promise.resolve();
 };
 
-export async function uploadWisthSuffix(file, suffix) {
+export async function uploadWisthSuffix(data, suffix) {
   try {
     const { signedUrl, accessUrl } = await getPreSignedUrlWithSuffix({
       suffix,
@@ -33,7 +33,7 @@ export async function uploadWisthSuffix(file, suffix) {
     await fetch(signedUrl, {
       method: 'PUT',
       mode: 'cors',
-      body: file,
+      body: data.file,
     });
     return accessUrl;
   } catch (error) {
@@ -42,5 +42,5 @@ export async function uploadWisthSuffix(file, suffix) {
 }
 
 export async function uploadWisthMp4(file) {
-  return uploadWisthSuffix(file, 'mp4');
+  return await uploadWisthSuffix(file, 'mp4');
 }
