@@ -5,12 +5,7 @@ import walletGrayIcon from '@/images/icon/wallet-gray.svg';
 import useSocial from '@/hooks/useSocial';
 import { useDispatch } from 'react-redux';
 import { setConnectWalletModal } from '@/store/global';
-import {
-  Link,
-  useLoaderData,
-  useLocation,
-  useParams,
-} from 'react-router-dom';
+import { Link, useLoaderData, useLocation, useParams } from 'react-router-dom';
 import Address from '@tbook/ui/src/Address';
 import suiSVG from '@/images/zklogin/sui.svg';
 import tonSVG from '@/images/wallet/ton.svg';
@@ -49,7 +44,7 @@ export default function PassportCard({ onClose }) {
     isUsingWallet,
     isZK,
   } = useUserInfo();
-  const { socialList } = useSocial();
+  const { socialList, getZkfnByName } = useSocial();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const { isUsingSubdomain, projectUrl, projectId, companyId } =
