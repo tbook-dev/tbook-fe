@@ -129,6 +129,10 @@ const labelTypeMap = {
       label: 'Join Telegram Channel',
       value: 7,
     },
+    {
+      label: 'Subscribe to Telegram Premium',
+      value: 22
+    }
   ],
   tbook: [
     {
