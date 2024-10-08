@@ -88,6 +88,6 @@ export default function UserScore ({ list, className }) {
       </span>
     </div>
   ) : (
-      <div className={ clsx("h-[52px] animate-pulse rounded-xl bg-[#e4fa73]/60")} />
+      <div className={ clsx("h-[60px] animate-pulse rounded-xl bg-[#e4fa73]/60")} />
   );
 }

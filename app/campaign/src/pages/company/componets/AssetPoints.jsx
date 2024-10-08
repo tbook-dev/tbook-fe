@@ -45,15 +45,27 @@ export default function AssetPoints() {
       </div>
 
       <div className="p-6">
-        <AssetTabList
-          tabs={tabModule}
-          value={tabValue}
-          onSelect={setTabValue}
-        />
+        { tabModule?.length > 1 && (
+          <>
+            <AssetTabList
+              tabs={ tabModule }
+              value={ tabValue }
+              onSelect={ setTabValue }
+            />
 
-        <div className="py-6">
-          {tabModule.find((v) => v.value === tabValue).com}
-        </div>
+            <div className="py-6">
+              { tabModule.find((v) => v.value === tabValue)?.com }
+            </div>
+          </>
+        )}
+        {
+          tabModule.length === 1 && (
+            <>
+              <h1 className='mb-4 text-base'>{tabModule[0].name}</h1>
+              { tabModule[0].com }
+            </>
+          )
+        }
       </div>
     </div>
   );

@@ -1,4 +1,6 @@
 import { useParams, Link, useLoaderData, useLocation, useNavigate } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 import useCompanyProjects from '@/hooks/useCompanyProjects';
 // import TMAShare from '@/components/TMAShare';
@@ -54,17 +56,31 @@ export default function CompanyHome () {
       { layerOneList.length > 0 && (
         <>
           <h1 className='mt-4 text-xl font-bold'>Layer1 Blockchains</h1>
-          <div className='flex'>
-            { layerOneList.map((item, index) => {
-              return (
-                <div key={ index } className='relative flex items-center mt-4 mr-4' onClick={ () => LinkToProjectList(item) }>
-                  <LazyImage className="w-[60px] h-[60px] rounded-full " src={ item.icon } alt={ item.name }></LazyImage>
-                  { item.status === 0 && <ComingIcon className="absolute bottom-[-1px] right-[-4px]" /> }
+          <Swiper className='mt-4' slidesPerView="auto" spaceBetween={ 16 }>
+            { layerOneList.map((item, index) => (
+              <SwiperSlide
+                key={ index }
+                style={ { width: 60, height: 60 } }
+              >
+                <div
+                  className='relative flex items-center'
+                  onClick={ () => LinkToProjectList(item) }
+                >
+                  <LazyImage
+                    className={ clsx(
+                      "w-[60px] h-[60px] rounded-full",
+                      isLightTheme ? 'bg-[#D5C8FF]' : 'bg-black'
+                    ) }
+                    src={ item.icon }
+                    alt={ item.name }
+                  />
+                  { item.status === 0 && (
+                    <ComingIcon className="absolute bottom-[-1px] right-[-4px]" />
+                  ) }
                 </div>
-              )
-            })
-            }
-          </div>
+              </SwiperSlide>
+            )) }
+          </Swiper>
         </>
       ) }
 

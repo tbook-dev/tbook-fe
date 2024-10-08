@@ -5,7 +5,6 @@ import useCompanyProjects from '@/hooks/useCompanyProjects';
 import ProjectCard from './componets/ProjectCard'
 import ProjectCardSkeleton from './componets/ProjectCardSkeleton'
 import clsx from 'clsx';
-import LazyImage from '@/components/lazyImage';
 
 import { Dropdown, Space } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
@@ -76,13 +75,13 @@ export default function CompanyHome () {
       isLightTheme ? 'bg-gradient-to-b from-[#FCFAFD] to-[#EDE1F5] text-black' : 'bg-black text-white'
     )}>
       <div className='flex items-center'>
-        <h1 className={ clsx("pr-4 text-xl font-bold border-r-[1px]", 
+        <h1 className={ clsx("pr-4 text-xl font-bold border-r-[1px] leading-5",
           isLightTheme ? 'border-[#DBBEE8]' : 'border-[#DBBEE8]/50')}>
           Trending Games
         </h1>
         { layerOneList?.length > 0 && (
           <Dropdown
-            className='mx-4'
+            className='flex mx-4'
             placement="bottomLeft"
             menu={ menuProps }
             trigger={ [ 'click' ] }
@@ -99,8 +98,8 @@ export default function CompanyHome () {
         )}
       </div>
       { isLoading ? (
-        new Array(5).fill(0).map(() => (
-          <ProjectCardSkeleton />
+        new Array(5).fill(0).map((_, index) => (
+          <ProjectCardSkeleton key={ index } />
         ))
       ) : (
         projects.map((item) => (
