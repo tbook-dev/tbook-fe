@@ -11,6 +11,16 @@ import queryClient from '../query-client';
 import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import TonExplore from '@/pages/ton-explore';
+
+const CompanyHome = lazy(() => import('@/pages/company/Home'));
+const CompanyLeaderboard = lazy(() => import('@/pages/company/Leaderboard'));
+const CompanyAbout = lazy(() => import('@/pages/company/About'));
+
+// import CompanyAsset from '@/pages/company/Asset';
+const CompanyAsset = lazy(() => import('@/pages/company/Asset'));
+
+import CompanyProjects from '@/pages/company/ProjectList';
+const AirDrop = lazy(() => import('@/pages/airdrop'));
 import { keptProjectUrls, defaultProjectInfo } from './conf';
 
 const App = lazy(() => import('@/pages/app'));
@@ -41,8 +51,6 @@ const SBTDetail = lazy(() => import('@/pages/ton-wise/sbt-detail'));
 const AmbassadorApply = lazy(() => import('@/pages/ton-wise/ambassador-apply'));
 const Ambassador = lazy(() => import('@/pages/ton-wise/ambassador'));
 const Attestation = lazy(() => import('@/pages/attestation'));
-const AirDrop = lazy(() => import('@/pages/airdrop'));
-
 const DeFiGuide = lazy(() => import('@/pages/defi/guide'));
 
 const getTbookfn = async () => {
@@ -400,58 +408,6 @@ const routes = [
         errorElement: <GlobalError />,
       },
     ],
-  },
-  // company homepage
-  {
-    path: '/company/:companyId',
-    loader: getCompanyIdFn,
-    element: (
-      <Suspense fallback={<PageFallBack />}>
-        <CompanyHome />
-      </Suspense>
-    ),
-    errorElement: <GlobalError />,
-  },
-  // company leaderBoard
-  {
-    path: '/company/:companyId/leaderboard',
-    loader: getCompanyIdFn,
-    element: (
-      <Suspense fallback={<PageFallBack />}>
-        <CompanyLeaderboard />
-      </Suspense>
-    ),
-    errorElement: <GlobalError />,
-  },
-  // company project list
-  // {
-  //   path: '/company/:companyId/projects',
-  //   loader: getTbookfn,
-  //   element: (
-  //     <Suspense fallback={ <PageFallBack /> }>
-  //       <CompanyProjects />
-  //     </Suspense>
-  //   ),
-  //   errorElement: <GlobalError />,
-  // },
-  // company about page
-  {
-    path: '/company/:companyId/about',
-    loader: getTbookfn,
-    element: (
-      <Suspense fallback={<PageFallBack />}>
-        <CompanyAbout />
-      </Suspense>
-    ),
-  },
-  {
-    path: '/company/:companyId/asset',
-    loader: getCompanyIdFn,
-    element: (
-      <Suspense fallback={<PageFallBack />}>
-        <CompanyAsset />
-      </Suspense>
-    ),
   },
   // company homepage
   {
