@@ -254,8 +254,9 @@ export default function Participation () {
                   </td>
                 </tr>
               ) : (
-                pageInfo?.participantList.filter(item => item.wallet || item.tgName || item.twitterName)
+                pageInfo?.participantList
                   ?.slice((current - 1) * pageSize, current * pageSize)
+                  .filter(item => item.wallet || item.tgName || item.twitterName)
                   .map((v, idx) => (
                     <tr key={idx}>
                       <td
