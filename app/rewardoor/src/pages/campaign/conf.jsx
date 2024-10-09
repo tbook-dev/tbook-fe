@@ -6,12 +6,14 @@ export const defaultCredentialReward = {
 }
 
 export const getParicipant = v => {
-  const { isTwitterLogin, wallet, twitterName } = v
+  const { isTwitterLogin, wallet, twitterName, tgName } = v
   return isTwitterLogin ? (
     <span className='flex items-center gap-x-0.5'>
       @{twitterName} <img src={xIcon} alt='x icon' />
     </span>
   ) : (
-    <Address address={wallet} />
+      wallet
+      ? (<Address address={ wallet } />)
+      : (<span className='flex items-center gap-x-0.5'>{ tgName || '...' }</span>)
   )
 }
