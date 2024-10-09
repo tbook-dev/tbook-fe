@@ -42,7 +42,12 @@ const themeSchema = {
     disabled: 'text-white/40 bg-[#CFF469]/5',
   },
 };
-export default function Credential ({ credential, showVerify, theme = 'dark', onVerifySuccess }) {
+export default function Credential({
+  credential,
+  showVerify,
+  theme = 'dark',
+  onVerifySuccess,
+}) {
   const { isUsingSubdomain, projectUrl, project } = useLoaderData();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
@@ -294,7 +299,7 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
             (!actionMap[labelType]?.isLink ? (
               <div
                 onClick={taskMap[credential.labelType]}
-                className="cursor-pointer flex justify-center items-center bg-[#E4FA73] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
+                className="cursor-pointer flex justify-center items-center text-black bg-[#E4FA73] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
               >
                 Go to finish
                 <svg
@@ -306,7 +311,7 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
                 >
                   <path
                     d="M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z"
-                    fill="white"
+                    fill="black"
                   />
                 </svg>
               </div>
@@ -318,7 +323,7 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
                 to={actionMap[labelType]?.getLink({ ...options, pc })}
                 target={isTMA ? '_self' : '_blank'}
                 rel="nofollow noopener noreferrer"
-                className="cursor-pointer flex justify-center items-center bg-[#E4FA73] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
+                className="cursor-pointer flex justify-center items-center text-black bg-[#E4FA73] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
               >
                 Go to finish
                 <svg
@@ -330,7 +335,7 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
                 >
                   <path
                     d="M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z"
-                    fill="white"
+                    fill="black"
                   />
                 </svg>
               </Link>
