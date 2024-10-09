@@ -272,11 +272,16 @@ export default function () {
           startDate: res.campaign.startAt,
           endDate: res.campaign.endAt,
           // sbt info
-          buttonLink: getTMALink({campaignId: res.campaign.campaignId, projectUrl: project.projectUrl})
+          buttonLink: getTMALink({
+            campaignId: res.campaign.campaignId,
+            projectUrl: project.projectUrl,
+          }),
         };
-        const remoteSBTIds = res?.groups.map((v) => {
-          return v.sbtList.map(sbt => ({...sbt, groupId: v.id}))
-        }).flat();
+        const remoteSBTIds = res?.groups
+          .map((v) => {
+            return v.sbtList.map((sbt) => ({ ...sbt, groupId: v.id }));
+          })
+          .flat();
         for (let i = 0; i < sbtSyncArrays.length; i++) {
           const sbt = sbtSyncArrays[i];
           const { sbtId, groupId } = remoteSBTIds[i];
@@ -285,7 +290,7 @@ export default function () {
             ...tonData,
             ...sbt,
             sbtId,
-            groupId
+            groupId,
           });
         }
       }

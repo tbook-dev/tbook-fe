@@ -400,33 +400,42 @@ export default function CredentialModal({
                         <>
                           <div className="mb-3 p-4 rounded-2.5xl bg-white/10 flex gap-x-4 text-sm text-yellow-400">
                             <img src={AlertUrl} className="size-4" />
-                            The Campaign will only be able to release once the
-                            SBT is approved.
+                            <div>
+                              Each SBT is tied to an activity on TON Society. If
+                              you want to create several SBTs on TON Society,
+                              you need to provide an activity subtitle and a
+                              button label for each SBT. The Campaign will only
+                              be able to release once the SBT is approved.If you
+                              need some inspiration of SBT design, use the{' '}
+                              <a
+                                className="text-[#B45309] hover:text-[#B45309] hover:underline"
+                                target="_blank"
+                                href="https://www.figma.com/design/w5IcTEIMHCKiqZccSNJVa9/Badge-Guidelines?node-id=0-1&node-type=canvas&t=68TReDbCbe2OpPIz-0"
+                              >
+                                TON Society SBT Design Template!{' '}
+                              </a>
+                            </div>
                           </div>
                           <h2 className="mb-3 text-white text-lg font-medium">
-                            SBT Collection
+                            Activity Info
                           </h2>
                           <Form.Item
-                            label="Subtitle"
+                            label="Activity Subtitle"
                             name={[name, 'subTitle']}
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <Input placeholder="Please enter the subtitle which will show on the TonSociety page" />
+                            <Input placeholder="Briefly describe the activity in short sentences" />
                           </Form.Item>
                           <Form.Item
-                            label="Link to Registration/Details (TON Society Button Label)"
+                            label="Button Label"
                             name={[name, 'buttonLabel']}
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <Input placeholder="Button Label" />
+                            <Input placeholder="Enter the CTA on the button which guides users to complete the task" />
                           </Form.Item>
-                          {/* <Form.Item
-                            label="Link to Registration/Details (TON Society Button Link)"
-                            name={[name, 'buttonLink']}
-                            rules={[{ required: true, type: 'url' }]}
-                          >
-                            <Input placeholder="http://t.me/tbook_incentive_bot/campaignDeepLink" />
-                          </Form.Item> */}
+                          <h2 className="mb-3 text-white text-lg font-medium">
+                            SBT Collection
+                          </h2>
                           <Form.Item
                             {...restField}
                             name={[name, 'sbtCollectionTitle']}
@@ -476,7 +485,7 @@ export default function CredentialModal({
                             rules={[
                               {
                                 required: true,
-                                message: 'image is required',
+                                message: 'Missing!',
                               },
                               {
                                 validator: fileValidator,
@@ -530,9 +539,11 @@ export default function CredentialModal({
                                   loop
                                   className="w-full h-[180px] object-contain object-center"
                                 >
-                                    <source src={sbtVideo?.[0]?.response} type="video/mp4" />
-                                  </video>
-
+                                  <source
+                                    src={sbtVideo?.[0]?.response}
+                                    type="video/mp4"
+                                  />
+                                </video>
                               ) : (
                                 <>
                                   <p className="ant-upload-drag-icon flex justify-center">
