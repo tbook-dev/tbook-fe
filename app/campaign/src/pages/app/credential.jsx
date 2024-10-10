@@ -173,7 +173,6 @@ export default function Credential({
       messageApi.error('Sign failed');
     }
   };
-
   const taskMap = {
     1: localClientVerify,
     2: localClientVerify,
@@ -183,8 +182,8 @@ export default function Credential({
     8: async () => {
       // log event, 需要任意登录即可
       if (userLogined) {
-        await verifyTbook(credential.credentialId);
         if (showVerify) {
+          await verifyTbook(credential.credentialId);
           await handleVerify(credential);
         }
       } else {
