@@ -184,7 +184,9 @@ export default function Credential({
       // log event, 需要任意登录即可
       if (userLogined) {
         await verifyTbook(credential.credentialId);
-        await handleVerify(credential);
+        if (showVerify) {
+          await handleVerify(credential);
+        }
       } else {
         login();
       }
