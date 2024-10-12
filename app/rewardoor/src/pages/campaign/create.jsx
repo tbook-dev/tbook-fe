@@ -120,7 +120,7 @@ export default function () {
             }))
           );
         }
-        if (Array.isArray(v.sbtList) && v.sbtList.length > 0) {
+        if (Array.isArray(v.sbtList) && v.sbtList.length > 0 && v.sbtCollection) {
           //////////// sbt type
           reward.push(
             ...v.sbtList.map((p) => ({
@@ -137,6 +137,21 @@ export default function () {
                   response: p.picUrl,
                 },
               ],
+              subTitle: v.sbtCollection.subtitle,
+              buttonLabel: v.sbtCollection.buttonLabel,
+              // buttonLink: v.buttonLink,
+              sbtCollectionTitle: v.sbtCollection.sbtCollectionTitle,
+              sbtCollectionDesc: v.sbtCollection.sbtCollectionDesc,
+              sbtItemTitle: v.sbtCollection.sbtItemTitle,
+              sbtDesc: v.sbtCollection.sbtDesc,
+              sbtVideo: v.sbtCollection.sbtVideo ? [
+                {
+                  uid: '-1',
+                  status: 'done',
+                  url: p.picUrl,
+                  response: p.picUrl,
+                },
+              ]: null,
             }))
           );
         }
@@ -221,6 +236,7 @@ export default function () {
               sbtVideo: v.sbtVideo?.[0]?.response ?? '',
             });
             return {
+              ...v,
               name: v.sbtItemTitle,
               picUrl: v.sbtImage?.[0]?.response,
               methodType: 1,
@@ -261,7 +277,7 @@ export default function () {
             },
           })
         : await createCampaign(data);
-      if (sbtSyncArrays.length > 0) {
+      if (sbtSyncArrays.length > 0 && !editMode) {
         // sync to ton society
         const tonData = {
           // campaign info
@@ -384,7 +400,7 @@ export default function () {
               setCredentialReward={setCredentialReward}
               NFTcontracts={NFTcontracts}
               // credentialList={credentialList}
-              isInOngoingEdit={isInOngoingStatus && editMode}
+              isInOngoingEdit={isInOngoingStatus && editMode}              
             />
           )}
         </div>
