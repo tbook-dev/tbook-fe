@@ -26,9 +26,7 @@ export default function CredentialModal({
   NFTcontracts,
 }) {
   const [rewardForm] = Form.useForm();
-  const reward = Form.useWatch('reward', rewardForm);
   const [showContractModal, setShowContractModal] = useState(false);
-  const [selectOpen, setSelectOpen] = useState(false);
   const { data: supportChains } = useSupportChains();
 
   // console.log({ reward });
@@ -167,6 +165,8 @@ export default function CredentialModal({
                     name,
                     'sbtVideo',
                   ]);
+                  const item = rewardForm.getFieldValue(['reward', name])
+                  const reEditSbt = rewardType === 3 &&  item.sbtId > 0
 
                   return (
                     <div
@@ -178,13 +178,16 @@ export default function CredentialModal({
                           <img src={asset.icon} className="w-5 h-5" />
                           <span>{asset.text}</span>
                         </div>
-                        <img
-                          src={closeIcon}
-                          onClick={() => {
-                            remove(name);
-                          }}
-                          className="object-contain w-4 h-4 cursor-pointer absolute top-3 right-3 z-10"
-                        />
+                        {reEditSbt ? null :  
+                          <img
+                            src={closeIcon}
+                            onClick={() => {
+                              remove(name);
+                            }}
+                            className="object-contain w-4 h-4 cursor-pointer absolute top-3 right-3 z-10"
+                          />
+                        }
+                       
                       </div>
                       {/* /// NFT*/}
                       {rewardType === 1 && (
@@ -430,14 +433,14 @@ export default function CredentialModal({
                             name={[name, 'subTitle']}
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <Input placeholder="Briefly describe the activity in short sentences" />
+                            <Input disabled={reEditSbt} placeholder="Briefly describe the activity in short sentences" />
                           </Form.Item>
                           <Form.Item
                             label="Button Label"
                             name={[name, 'buttonLabel']}
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <Input placeholder="Enter the CTA on the button which guides users to complete the task" />
+                            <Input disabled={reEditSbt} placeholder="Enter the CTA on the button which guides users to complete the task" />
                           </Form.Item>
                           <h2 className="mb-3 text-white text-lg font-medium">
                             SBT Collection
@@ -448,7 +451,7 @@ export default function CredentialModal({
                             label="SBT Collection Title"
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <Input placeholder="Enter SBT Collection Title, such as Tonstakers Strategist" />
+                            <Input disabled={reEditSbt} placeholder="Enter SBT Collection Title, such as Tonstakers Strategist" />
                           </Form.Item>
                           <Form.Item
                             name={[name, 'sbtCollectionDesc']}
@@ -456,6 +459,7 @@ export default function CredentialModal({
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
                             <Input
+                              disabled={reEditSbt}
                               placeholder="Enter SBT Collection Description"
                               className="w-full"
                             />
@@ -470,7 +474,7 @@ export default function CredentialModal({
                             label="SBT Item Title"
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <Input placeholder="Enter SBT Item Title, such as Tonstakers Strategist SBT" />
+                            <Input disabled={reEditSbt} placeholder="Enter SBT Item Title, such as Tonstakers Strategist SBT" />
                           </Form.Item>
 
                           <Form.Item
@@ -479,6 +483,7 @@ export default function CredentialModal({
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
                             <Input
+                              disabled={reEditSbt}
                               placeholder="Enter SBT Item Description"
                               className="w-full"
                             />
@@ -503,6 +508,7 @@ export default function CredentialModal({
                               multiple={false}
                               accept="image/*"
                               maxCount={1}
+                              disabled={reEditSbt}
                             >
                               {sbtImage?.[0]?.response ? (
                                 <img
@@ -537,6 +543,7 @@ export default function CredentialModal({
                               multiple={false}
                               accept="video/mp4"
                               maxCount={1}
+                              disabled={reEditSbt}
                             >
                               {sbtVideo?.[0]?.response ? (
                                 <video
