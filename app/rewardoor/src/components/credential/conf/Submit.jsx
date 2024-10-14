@@ -1,13 +1,17 @@
-import { Form, Input } from 'antd';
-const FormItem = Form.Item;
+import { Form, Input, Select } from 'antd';
+import Alert from '@/components/alert';
+import { condition } from '@tbook/credential/codition';
+import Link from '../components/link';
 
+const FormItem = Form.Item;
+const apiLink = '';
 export default {
   13: {
     render: ({ name }) => {
       return (
         <>
           <FormItem
-            label='Title'
+            label="Title"
             name={[name, 'title']}
             rules={[
               {
@@ -16,12 +20,12 @@ export default {
               },
             ]}
           >
-            <Input placeholder='Enter the aggregation Title, like Submit Exchange Address' />
+            <Input placeholder="Enter the aggregation Title, like Submit Exchange Address" />
           </FormItem>
-          <FormItem label='Description' name={[name, 'description']}>
-            <Input placeholder='Enter the description...' />
+          <FormItem label="Description" name={[name, 'description']}>
+            <Input placeholder="Enter the description..." />
           </FormItem>
-          <p className='text-sm font-medium text-c-9 mb-3'>
+          <p className="text-sm font-medium text-c-9 mb-3">
             After users fill in their addresses, you can view the address list
             in the participant list.
           </p>
@@ -29,5 +33,86 @@ export default {
       );
     },
     pick: ['title', 'description'],
+  },
+  40: {
+    render: ({ name }) => {
+      return (
+        <div>
+          <Alert description="Please define what users need to do to complete the task. TBook will automatically call the provided API to verify whether users completed the task." />
+          <FormItem
+            label="Credential Name"
+            name={[name, 'credentialName']}
+            rules={[
+              {
+                required: true,
+                message: 'Please input the Credential Name',
+              },
+            ]}
+          >
+            <Input placeholder="Enter the credential name which will be shown directly to users" />
+          </FormItem>
+          <FormItem
+            label={
+              <div className="flex items-center gap-x-2">
+                CTA API link
+                <Link href={apiLink}>View API Standard</Link>
+              </div>
+            }
+            name={[name, 'jumpLink']}
+            rules={[
+              {
+                required: true,
+                message: 'Please enter the Link',
+              },
+              {
+                type: 'url',
+                message: 'not a valid url',
+              },
+            ]}
+          >
+            <Input type="url" placeholder="Enter the API link for jump" />
+          </FormItem>
+          <FormItem
+            label="User Identity Users Must Provide Before verification"
+            name={[name, 'condition']}
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select options={condition} />
+          </FormItem>
+          <FormItem
+            label={
+              <div className="flex items-center gap-x-2">
+                CTA API link
+                <Link href={apiLink}>View API Standard</Link>
+              </div>
+            }
+            name={[name, 'verifyLink']}
+            rules={[
+              {
+                required: true,
+                message: 'Please enter the Link',
+              },
+              {
+                type: 'url',
+                message: 'not a valid url',
+              },
+            ]}
+          >
+            <Input
+              type="url"
+              placeholder="Enter the API link for verification"
+            />
+          </FormItem>
+        </div>
+      );
+    },
+    pick: ['credentialName', 'condition', 'jumpLink', 'verifyLink'],
+    initialValues: {
+      condition: 1,
+    },
   },
 };

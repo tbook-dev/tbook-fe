@@ -120,7 +120,11 @@ export default function () {
             }))
           );
         }
-        if (Array.isArray(v.sbtList) && v.sbtList.length > 0 && v.sbtCollection) {
+        if (
+          Array.isArray(v.sbtList) &&
+          v.sbtList.length > 0 &&
+          v.sbtCollection
+        ) {
           //////////// sbt type
           reward.push(
             ...v.sbtList.map((p) => ({
@@ -128,7 +132,7 @@ export default function () {
               rewardType: 3,
               methodType: 1,
               limited: false,
-              sbtItemTitle: p.name,
+              // sbtItemTitle: p.name,
               sbtImage: [
                 {
                   uid: '-1',
@@ -144,14 +148,16 @@ export default function () {
               sbtCollectionDesc: v.sbtCollection.sbtCollectionDesc,
               sbtItemTitle: v.sbtCollection.sbtItemTitle,
               sbtDesc: v.sbtCollection.sbtDesc,
-              sbtVideo: v.sbtCollection.sbtVideo ? [
-                {
-                  uid: '-1',
-                  status: 'done',
-                  url: p.picUrl,
-                  response: p.picUrl,
-                },
-              ]: null,
+              sbtVideo: v.sbtCollection.sbtVideo
+                ? [
+                    {
+                      uid: '-1',
+                      status: 'done',
+                      url: p.picUrl,
+                      response: p.picUrl,
+                    },
+                  ]
+                : null,
             }))
           );
         }
@@ -400,7 +406,7 @@ export default function () {
               setCredentialReward={setCredentialReward}
               NFTcontracts={NFTcontracts}
               // credentialList={credentialList}
-              isInOngoingEdit={isInOngoingStatus && editMode}              
+              isInOngoingEdit={isInOngoingStatus && editMode}
             />
           )}
         </div>

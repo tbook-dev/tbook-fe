@@ -177,9 +177,14 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
                               form.setFieldsValue({
                                 credential: [
                                   ...(form.getFieldValue('credential') ?? []),
-                                  credentialSet.find(
-                                    (v) => v.labelType === c.labelType
-                                  ),
+
+                                  {
+                                    ...(credentialMap[c.labelType]
+                                      ?.initialValues ?? {}),
+                                    ...(credentialSet.find(
+                                      (v) => v.labelType === c.labelType
+                                    ) ?? {}),
+                                  },
                                 ],
                               });
                             }}

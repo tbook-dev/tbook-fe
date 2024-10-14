@@ -28,6 +28,9 @@ import dedustBlack from './logos/dedust-black.svg';
 import stormtradeWhite from './logos/stormtrade-white.svg';
 import stormtradeBlack from './logos/stormtrade-black.svg';
 
+import ctaBlack from './logos/cta-black.svg';
+import ctaWhite from './logos/cta-white.svg';
+
 export default [
   //  groupType: 2,
   {
@@ -192,5 +195,12 @@ export default [
     groupType: 8,
     picUrl2: stormtradeBlack,
     category: 'Storm Trade',
+  },
+  {
+    name: 'Off-chain Custom Task',
+    labelType: 40,
+    picUrl: ctaWhite,
+    groupType: 7,
+    picUrl2: ctaBlack,
   },
 ];

@@ -156,4 +156,11 @@ export default {
     getActionName: noop,
     getActionTarget: ({ name }) => name,
   },
+  40: {
+    optional: false,
+    isLink: true,
+    getLink: ({ link }) => link,
+    getActionName: noop,
+    getActionTarget: ({ credentialName }) => credentialName,
+  },
 };
