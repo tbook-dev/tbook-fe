@@ -1,10 +1,9 @@
 import { Form, Input, Select } from 'antd';
 import Alert from '@/components/alert';
 import { condition } from '@tbook/credential/codition';
-import Link from '../components/link';
 
-const FormItem = Form.Item;
 const apiLink = '';
+const FormItem = Form.Item;
 export default {
   13: {
     render: ({ name }) => {
@@ -38,7 +37,24 @@ export default {
     render: ({ name }) => {
       return (
         <div>
-          <Alert description="Please define what users need to do to complete the task. TBook will automatically call the provided API to verify whether users completed the task." />
+          <Alert
+            description={[
+              `Please define what users need to do to complete the task. TBook will automatically call the provided API to verify whether users completed the task.`,
+              <>
+                For the CTA link and the task verification status, you need to
+                send to TBook via API. Please refer to
+                <a
+                  className="text-[#B45309] hover:text-[#B45309] underline hover:underline mx-1"
+                  target="_blank"
+                  href={apiLink}
+                >
+                  the API standard.
+                </a>
+              </>,
+            ].map((c, i) => (
+              <p key={i}>{c}</p>
+            ))}
+          />
           <FormItem
             label="Credential Name"
             name={[name, 'credentialName']}
@@ -52,12 +68,7 @@ export default {
             <Input placeholder="Enter the credential name which will be shown directly to users" />
           </FormItem>
           <FormItem
-            label={
-              <div className="flex items-center gap-x-2">
-                CTA API link
-                <Link href={apiLink}>View API Standard</Link>
-              </div>
-            }
+            label="CTA API link"
             name={[name, 'jumpLink']}
             rules={[
               {
@@ -84,12 +95,7 @@ export default {
             <Select options={condition} />
           </FormItem>
           <FormItem
-            label={
-              <div className="flex items-center gap-x-2">
-                CTA API link
-                <Link href={apiLink}>View API Standard</Link>
-              </div>
-            }
+            label="Verification API Link"
             name={[name, 'verifyLink']}
             rules={[
               {
