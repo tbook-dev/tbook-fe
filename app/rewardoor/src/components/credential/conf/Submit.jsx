@@ -81,7 +81,10 @@ export default {
               },
             ]}
           >
-            <Input type="url" placeholder="Enter the API link for jump" />
+            <Input
+              type="url"
+              placeholder="Enter the CTA API link for users to complete the task"
+            />
           </FormItem>
           <FormItem
             label="User Identity Users Must Provide Before verification"
