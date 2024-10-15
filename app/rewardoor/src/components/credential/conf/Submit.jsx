@@ -70,7 +70,7 @@ export default {
           </FormItem>
           <FormItem
             label="CTA API link"
-            name={[name, 'jumpLink']}
+            name={[name, 'ctaAPI']}
             rules={[
               {
                 required: true,
@@ -100,7 +100,7 @@ export default {
           </FormItem>
           <FormItem
             label="Verification API Link"
-            name={[name, 'verifyLink']}
+            name={[name, 'apiVerifyLink']}
             rules={[
               {
                 required: true,
@@ -120,7 +120,7 @@ export default {
         </div>
       );
     },
-    pick: ['credentialName', 'condition', 'jumpLink', 'verifyLink'],
+    pick: ['credentialName', 'condition', 'ctaAPI', 'apiVerifyLink'],
     initialValues: {
       condition: 1,
     },
