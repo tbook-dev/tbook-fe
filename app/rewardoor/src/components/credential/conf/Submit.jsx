@@ -1,6 +1,7 @@
 import { Form, Input, Select } from 'antd';
 import Alert from '@/components/alert';
 import { condition } from '@tbook/credential/codition';
+import { renderNoop } from './Defi';
 
 const apiLink = '';
 const FormItem = Form.Item;
@@ -123,5 +124,13 @@ export default {
     initialValues: {
       condition: 1,
     },
+  },
+  23: {
+    render: renderNoop,
+    pick: ['name'],
+  },
+  24: {
+    render: renderNoop,
+    pick: ['name'],
   },
 };
