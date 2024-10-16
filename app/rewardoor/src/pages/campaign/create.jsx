@@ -24,6 +24,7 @@ import useCampaignList from '@/hooks/queries/useCampaignList';
 import credentialMap from '@/components/credential/form';
 import { pick } from 'lodash';
 import { getTMAShareLink, getTMALink } from '@/utils/conf';
+import { credential as credentialListData } from '@tbook/credential';
 
 const title = 'Set up an Incentive Campaign';
 const textMap = {
@@ -249,6 +250,21 @@ export default function () {
               unlimited: true,
             };
           });
+        if (
+          sbtList.length > 0 &&
+          !credentialList.find((c) => c.labelType === 23)
+        ) {
+          const tonCredential = credentialListData.find(
+            (c) => c.labelType === 23
+          );
+          credentialList.push({
+            ...tonCredential,
+            options: JSON.stringify({
+              sbtAutoInject: true,
+              ...pick(tonCredential, credentialMap[23]?.pick),
+            }),
+          });
+        }
 
         const fdata = {
           status: 1,

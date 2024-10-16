@@ -159,7 +159,7 @@ export default {
   40: {
     optional: false,
     isLink: true,
-    getLink: ({ link }) => link,
+    getLink: ({ ctaLink }) => ctaLink,
     getActionName: noop,
     getActionTarget: ({ credentialName }) => credentialName,
   },
