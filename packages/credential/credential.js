@@ -28,6 +28,13 @@ import dedustBlack from './logos/dedust-black.svg';
 import stormtradeWhite from './logos/stormtrade-white.svg';
 import stormtradeBlack from './logos/stormtrade-black.svg';
 
+import ctaBlack from './logos/cta-black.svg';
+import ctaWhite from './logos/cta-white.svg';
+import ethBlack from './logos/eth-black.svg';
+import ethWhite from './logos/eth-white.svg';
+import tonBlack from './logos/ton-black.svg';
+import tonWhite from './logos/ton-white.svg';
+
 export default [
   //  groupType: 2,
   {
@@ -192,5 +199,26 @@ export default [
     groupType: 8,
     picUrl2: stormtradeBlack,
     category: 'Storm Trade',
+  },
+  {
+    name: 'Off-chain Custom Task',
+    labelType: 40,
+    picUrl: ctaWhite,
+    groupType: 7,
+    picUrl2: ctaBlack,
+  },
+  {
+    name: 'Connect TON Wallet',
+    labelType: 23,
+    picUrl: tonWhite,
+    groupType: 7,
+    picUrl2: tonBlack,
+  },
+  {
+    name: 'Connect EVM Wallet',
+    labelType: 24,
+    picUrl: ethWhite,
+    groupType: 7,
+    picUrl2: ethBlack,
   },
 ];

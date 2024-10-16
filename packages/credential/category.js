@@ -13,7 +13,7 @@ export default [
   },
   {
     groupType: 7,
-    name: 'Submit',
+    name: 'Airdop',
   },
   {
     groupType: 8,

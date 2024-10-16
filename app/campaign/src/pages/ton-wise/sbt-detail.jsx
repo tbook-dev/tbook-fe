@@ -11,12 +11,20 @@ import Button from './components/button';
 import { useMintSBTMutation } from '@/hooks/useWiseScore';
 import { message } from 'antd';
 import WebApp from '@twa-dev/sdk';
+import useWallet from '@/hooks/useWallet';
 
 export default function SBTDetail() {
   const { type } = useParams();
   const mutation = useMintSBTMutation();
   const [messageAPI, messageContext] = message.useMessage();
+  const { getWallets } = useWallet();
+  const [ton] = getWallets('ton');
+
   const handleClick = async () => {
+    if (!ton.connected) {
+      ton.connectHandle();
+      return;
+    }
     const res = await mutation.mutateAsync({ type });
     if (res?.link) {
       // window.open(res?.link, '_blank');

@@ -24,6 +24,7 @@ import useCampaignList from '@/hooks/queries/useCampaignList';
 import credentialMap from '@/components/credential/form';
 import { pick } from 'lodash';
 import { getTMAShareLink, getTMALink } from '@/utils/conf';
+import { credential as credentialListData } from '@tbook/credential';
 
 const title = 'Set up an Incentive Campaign';
 const textMap = {
@@ -120,7 +121,11 @@ export default function () {
             }))
           );
         }
-        if (Array.isArray(v.sbtList) && v.sbtList.length > 0) {
+        if (
+          Array.isArray(v.sbtList) &&
+          v.sbtList.length > 0 &&
+          v.sbtCollection
+        ) {
           //////////// sbt type
           reward.push(
             ...v.sbtList.map((p) => ({
@@ -128,7 +133,7 @@ export default function () {
               rewardType: 3,
               methodType: 1,
               limited: false,
-              sbtItemTitle: p.name,
+              // sbtItemTitle: p.name,
               sbtImage: [
                 {
                   uid: '-1',
@@ -137,6 +142,23 @@ export default function () {
                   response: p.picUrl,
                 },
               ],
+              subTitle: v.sbtCollection.subtitle,
+              buttonLabel: v.sbtCollection.buttonLabel,
+              // buttonLink: v.buttonLink,
+              sbtCollectionTitle: v.sbtCollection.sbtCollectionTitle,
+              sbtCollectionDesc: v.sbtCollection.sbtCollectionDesc,
+              sbtItemTitle: v.sbtCollection.sbtItemTitle,
+              sbtDesc: v.sbtCollection.sbtDesc,
+              sbtVideo: v.sbtCollection.sbtVideo
+                ? [
+                    {
+                      uid: '-1',
+                      status: 'done',
+                      url: p.picUrl,
+                      response: p.picUrl,
+                    },
+                  ]
+                : null,
             }))
           );
         }
@@ -221,12 +243,28 @@ export default function () {
               sbtVideo: v.sbtVideo?.[0]?.response ?? '',
             });
             return {
+              ...v,
               name: v.sbtItemTitle,
               picUrl: v.sbtImage?.[0]?.response,
               methodType: 1,
               unlimited: true,
             };
           });
+        if (
+          sbtList.length > 0 &&
+          !credentialList.find((c) => c.labelType === 23)
+        ) {
+          const tonCredential = credentialListData.find(
+            (c) => c.labelType === 23
+          );
+          credentialList.push({
+            ...tonCredential,
+            options: JSON.stringify({
+              sbtAutoInject: true,
+              ...pick(tonCredential, credentialMap[23]?.pick),
+            }),
+          });
+        }
 
         const fdata = {
           status: 1,
@@ -261,7 +299,7 @@ export default function () {
             },
           })
         : await createCampaign(data);
-      if (sbtSyncArrays.length > 0) {
+      if (sbtSyncArrays.length > 0 && !editMode) {
         // sync to ton society
         const tonData = {
           // campaign info

@@ -30,6 +30,7 @@ import useSupportedChains from '@/hooks/useSupportedChains';
 import WebApp from '@twa-dev/sdk';
 import TonSocietyIcon from '@/images/icon/svgr/ton-society.svg?react';
 import { credentialStatus } from '@/utils/conf';
+import useWallet from '@/hooks/useWallet';
 
 export default function ViewReward({ open, onClose, rewardList }) {
   const [loading, updateLoading] = useState(false);
@@ -50,6 +51,9 @@ export default function ViewReward({ open, onClose, rewardList }) {
   const { address, isConnected, ...others } = useAccount();
   const { switchNetworkAsync, data: currentChain } = useSwitchNetwork();
   const { wallectConnected } = useUserInfoQuery();
+  const { getWallets } = useWallet();
+  const [ton] = getWallets('ton');
+
   const reward = rewardList[displayIdx];
   // reward.claimedType = 1;
   const rewardStatus = credentialStatus.find(
@@ -132,6 +136,11 @@ export default function ViewReward({ open, onClose, rewardList }) {
     // await queryClient.refetchQueries(['campaignDetail', campaignId])
   };
   const handleClaimSbt = async (reward) => {
+    if (!ton.connected) {
+      onClose();
+      ton.connectHandle();
+      return;
+    }
     updateLoading(true);
     try {
       const res = await claimSBT(reward.sbtId);

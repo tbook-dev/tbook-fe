@@ -17,7 +17,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
-import { useCredentialSign } from '@/hooks/useCampaignQuery';
+import { useCredentialSign, useAutoVerify } from '@/hooks/useCampaignQuery';
 import { setLoginModal, setConnectWalletModal } from '@/store/global';
 import { useAccount } from 'wagmi';
 import { useQueryClient } from 'react-query';
@@ -32,6 +32,7 @@ import { useTelegram } from '@/hooks/useTg';
 import { getStrJSON, delay } from '@/utils/common';
 import { useSignMessage } from 'wagmi';
 import { cn } from '@/utils/conf';
+import useWallet from '@/hooks/useWallet';
 
 const themeSchema = {
   white: {
@@ -51,6 +52,7 @@ export default function Credential({
   const { isUsingSubdomain, projectUrl, project } = useLoaderData();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
+  useAutoVerify(credential, campaignId);
   const dispatch = useDispatch();
   const { isTMA } = useTelegram();
   const [messageApi, contextHolder] = message.useMessage();
@@ -78,6 +80,8 @@ export default function Credential({
   const clearInterIdRef = useRef();
   const retryCounter = useRef(0);
   const canVerify = credential.isVerified === 0;
+  const { getWallets } = useWallet();
+  const [ton, evm] = getWallets(['ton', 'evm']);
   const hasVoted = useMemo(() => {
     if (!votes) return false;
     return !!votes?.find(
@@ -161,6 +165,7 @@ export default function Credential({
       throw new Error(hasError);
     }
   };
+
   const signCredential = async (credential) => {
     const m = signData?.data?.data;
     const sign = await signMessageAsync({ message: m });
@@ -213,8 +218,29 @@ export default function Credential({
         login();
       }
     },
+    23: () => {
+      // ton
+      if (userLogined) {
+        !ton.connected && ton.connectHandle();
+      } else {
+        login();
+      }
+    },
+    24: () => {
+      // eth
+      if (userLogined) {
+        !evm.connected && evm.connectHandle();
+      } else {
+        login();
+      }
+    },
   };
 
+  const showErrorTip = count > 0 && !credential.isVerified;
+  const showSnapshot = isSnapshotType && snapshotId;
+  const options = useMemo(() => {
+    return getStrJSON(credential.options);
+  }, [credential]);
   useEffect(() => {
     clearInterIdRef.current = setInterval(() => {
       if (count > 0) {
@@ -227,11 +253,6 @@ export default function Credential({
       clearInterval(clearInterIdRef.current);
     };
   }, [count]);
-  const showErrorTip = count > 0 && !credential.isVerified;
-  const showSnapshot = isSnapshotType && snapshotId;
-  const options = useMemo(() => {
-    return getStrJSON(credential.options);
-  }, [credential]);
 
   return (
     <div

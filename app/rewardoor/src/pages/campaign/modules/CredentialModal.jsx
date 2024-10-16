@@ -177,9 +177,14 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
                               form.setFieldsValue({
                                 credential: [
                                   ...(form.getFieldValue('credential') ?? []),
-                                  credentialSet.find(
-                                    (v) => v.labelType === c.labelType
-                                  ),
+
+                                  {
+                                    ...(credentialMap[c.labelType]
+                                      ?.initialValues ?? {}),
+                                    ...(credentialSet.find(
+                                      (v) => v.labelType === c.labelType
+                                    ) ?? {}),
+                                  },
                                 ],
                               });
                             }}
@@ -220,23 +225,30 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
                       fields.map(({ key, name, ...restField }) => {
                         const currentLabelType =
                           credentialsFormValues?.[name]?.labelType;
+                        const options =
+                          credentialsFormValues?.[name]?.options ?? {};
                         const credential = credentialSet.find(
                           (v) => v.labelType === currentLabelType
                         );
                         const CC =
                           credentialMap[currentLabelType]?.render ??
                           (() => <div>wait</div>);
+                        const cannotRemove =
+                          currentLabelType === 23 && options?.sbtAutoInject;
 
                         return (
                           <div
                             key={key}
                             className="px-4 py-2.5 rounded-2.5xl bg-gray relative space-y-3"
                           >
-                            <img
-                              src={closeIcon}
-                              className="absolute right-4 top-4 w-2 h-2 object-contain cursor-pointer"
-                              onClick={() => remove(name)}
-                            />
+                            {!cannotRemove && (
+                              <img
+                                src={closeIcon}
+                                className="absolute right-4 top-4 w-2 h-2 object-contain cursor-pointer"
+                                onClick={() => remove(name)}
+                              />
+                            )}
+
                             <div>
                               <div className="flex items-center gap-x-2">
                                 <img

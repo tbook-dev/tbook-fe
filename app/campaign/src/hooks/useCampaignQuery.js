@@ -1,5 +1,10 @@
-import { useQuery } from 'react-query';
-import { getCampaignDetail, getTaskSign, logUserReport } from '@/api/incentive';
+import { useQuery, useQueryClient } from 'react-query';
+import {
+  getCampaignDetail,
+  getTaskSign,
+  logUserReport,
+  verifyCredential,
+} from '@/api/incentive';
 import { useEffect, useState } from 'react';
 import useUserInfoQuery from './useUserInfoQuery';
 import { merge } from 'lodash';
@@ -106,5 +111,27 @@ export const useCredentialSign = (c = []) => {
     queryKey: ['credential-sign', c.credentialId],
     queryFn: () => getTaskSign(c.credentialId),
     enabled: c.labelType == 10,
+  });
+};
+
+export const useAutoVerify = (credential, campaignId) => {
+  const { campaignOngoing, refetch: refetchCampaign } =
+    useCampaignQuery(campaignId);
+  const { user, evmConnected, tonConnected } = useUserInfoQuery();
+  return useQuery({
+    queryKey: ['credential-auto-veirfy', credential.credentialId, user?.userId],
+    queryFn: () => verifyCredential(credential.credentialId),
+    onSuccess: refetchCampaign,
+    enabled:
+      (credential.labelType === 24 &&
+        credential.isVerified === 0 &&
+        campaignOngoing &&
+        user &&
+        evmConnected) ||
+      (credential.labelType === 23 &&
+        credential.isVerified === 0 &&
+        campaignOngoing &&
+        user &&
+        tonConnected),
   });
 };
