@@ -33,6 +33,7 @@ import { getStrJSON, delay } from '@/utils/common';
 import { useSignMessage } from 'wagmi';
 import { cn } from '@/utils/conf';
 import useWallet from '@/hooks/useWallet';
+import WebApp from '@twa-dev/sdk';
 
 const themeSchema = {
   white: {
@@ -178,6 +179,9 @@ export default function Credential({
       messageApi.error('Sign failed');
     }
   };
+  const options = useMemo(() => {
+    return getStrJSON(credential.options);
+  }, [credential]);
   const taskMap = {
     1: localClientVerify,
     2: localClientVerify,
@@ -234,13 +238,34 @@ export default function Credential({
         login();
       }
     },
+    40: ()=>{
+      const {condition,ctaLink} = options
+      if(condition === 1){
+        if (userLogined) {
+          if(!ton.connected){
+            ton.connectHandle()
+          }else{
+            try {
+              const parseLink = new URL(ctaLink);
+              if (parseLink.hostname === 't.me') {
+                WebApp.openTelegramLink(ctaLink);
+              } else {
+                WebApp.openLink(ctaLink);
+              }
+            } catch (error) {
+              console.log(error)
+            }
+          }
+        } else {
+          login();
+        }
+      }
+    }
   };
 
   const showErrorTip = count > 0 && !credential.isVerified;
   const showSnapshot = isSnapshotType && snapshotId;
-  const options = useMemo(() => {
-    return getStrJSON(credential.options);
-  }, [credential]);
+ 
   useEffect(() => {
     clearInterIdRef.current = setInterval(() => {
       if (count > 0) {

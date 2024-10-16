@@ -23,7 +23,9 @@ const modalConf = {
     },
   },
 };
-
+const actionButtonList = Object.entries(actionMap)
+  .map(([labelType,v]) => ({labelType: +labelType,...v}))
+  .filter(v => !v.isLink)
 export default function WithVerify({
   handleFn,
   evmRequire,
@@ -65,8 +67,7 @@ export default function WithVerify({
         } else {
           window.open(link, pc ? '_blank' : '_self');
         }
-      } else if (credential.labelType === 12) {
-        // snapshot link
+      } else if (actionButtonList.some(c => c.labelType === credential.labelType) ) {
         await taskHandle();
       }
     }
