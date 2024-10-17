@@ -64,13 +64,17 @@ export default {
                 required: true,
                 message: 'Please input the Credential Name',
               },
+              {
+                type: 'string',
+                whitespace: true,
+              },
             ]}
           >
             <Input placeholder="Enter the credential name which will be shown directly to users" />
           </FormItem>
           <FormItem
             label="CTA API link"
-            name={[name, 'ctaAPI']}
+            name={[name, 'ctaApiLink']}
             rules={[
               {
                 required: true,
@@ -100,7 +104,7 @@ export default {
           </FormItem>
           <FormItem
             label="Verification API Link"
-            name={[name, 'apiVerifyLink']}
+            name={[name, 'verifyApiLink']}
             rules={[
               {
                 required: true,
@@ -120,7 +124,7 @@ export default {
         </div>
       );
     },
-    pick: ['credentialName', 'condition', 'ctaAPI', 'apiVerifyLink'],
+    pick: ['credentialName', 'condition', 'ctaApiLink', 'verifyApiLink'],
     initialValues: {
       condition: 1,
     },

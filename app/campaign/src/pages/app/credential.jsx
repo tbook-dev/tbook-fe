@@ -238,34 +238,34 @@ export default function Credential({
         login();
       }
     },
-    40: ()=>{
-      const {condition,ctaLink} = options
-      if(condition === 1){
+    40: () => {
+      const { condition, ctaApiLink } = options;
+      if (condition === 1) {
         if (userLogined) {
-          if(!ton.connected){
-            ton.connectHandle()
-          }else{
+          if (!ton.connected) {
+            ton.connectHandle();
+          } else {
             try {
-              const parseLink = new URL(ctaLink);
+              const parseLink = new URL(ctaApiLink);
               if (parseLink.hostname === 't.me') {
-                WebApp.openTelegramLink(ctaLink);
+                WebApp.openTelegramLink(ctaApiLink);
               } else {
-                WebApp.openLink(ctaLink);
+                WebApp.openLink(ctaApiLink);
               }
             } catch (error) {
-              console.log(error)
+              console.log(error);
             }
           }
         } else {
           login();
         }
       }
-    }
+    },
   };
 
   const showErrorTip = count > 0 && !credential.isVerified;
   const showSnapshot = isSnapshotType && snapshotId;
- 
+
   useEffect(() => {
     clearInterIdRef.current = setInterval(() => {
       if (count > 0) {
