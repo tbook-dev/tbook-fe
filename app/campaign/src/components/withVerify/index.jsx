@@ -24,8 +24,8 @@ const modalConf = {
   },
 };
 const actionButtonList = Object.entries(actionMap)
-  .map(([labelType,v]) => ({labelType: +labelType,...v}))
-  .filter(v => !v.isLink)
+  .map(([labelType, v]) => ({ labelType: +labelType, ...v }))
+  .filter((v) => !v.isLink);
 export default function WithVerify({
   handleFn,
   evmRequire,
@@ -62,12 +62,14 @@ export default function WithVerify({
           if (a.hostname === 't.me') {
             webApp?.openTelegramLink(link);
           } else {
-            webApp?.openLink(link);
+            webApp?.openLink(link, { try_instant_view: true });
           }
         } else {
           window.open(link, pc ? '_blank' : '_self');
         }
-      } else if (actionButtonList.some(c => c.labelType === credential.labelType) ) {
+      } else if (
+        actionButtonList.some((c) => c.labelType === credential.labelType)
+      ) {
         await taskHandle();
       }
     }
@@ -90,7 +92,8 @@ export default function WithVerify({
             ].includes(status),
             [optional ? 'bg-[#FFDE1C] text-black' : 'text-black bg-[#CFF469]']:
               status === verifyStatusEnum.NotStarted,
-            [optional ? 'text-[#FFDE1C]' : 'text-[#CFF469]']: verifyStatusEnum.Sucess === status,
+            [optional ? 'text-[#FFDE1C]' : 'text-[#CFF469]']:
+              verifyStatusEnum.Sucess === status,
             'cursor-not-allowed': verifyStatusEnum.Pending === status,
           }
         )}

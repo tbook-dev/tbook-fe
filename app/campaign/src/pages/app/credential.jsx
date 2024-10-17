@@ -247,10 +247,14 @@ export default function Credential({
           } else {
             try {
               const parseLink = new URL(ctaLink);
-              if (parseLink.hostname === 't.me') {
-                WebApp.openTelegramLink(ctaLink);
+              if (isTMA) {
+                if (parseLink.hostname === 't.me') {
+                  WebApp.openTelegramLink(ctaLink);
+                } else {
+                  WebApp.openLink(ctaLink, { try_instant_view: true });
+                }
               } else {
-                WebApp.openLink(ctaLink);
+                window.open(ctaLink, pc ? '_blank' : '_self');
               }
             } catch (error) {
               console.log(error);
