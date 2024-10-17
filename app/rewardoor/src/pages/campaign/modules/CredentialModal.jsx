@@ -79,6 +79,7 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
 
               return {
                 ...c,
+                ...fieldValues,
                 options: merge({}, c.options, fieldValues, res?.data),
               };
             } else {
