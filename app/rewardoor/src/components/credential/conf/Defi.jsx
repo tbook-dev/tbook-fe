@@ -1,4 +1,4 @@
-const renderNoop = () => null;
+export const renderNoop = () => null;
 
 export default {
   14: {

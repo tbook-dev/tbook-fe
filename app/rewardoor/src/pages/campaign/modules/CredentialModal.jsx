@@ -14,10 +14,14 @@ import {
 } from '@tbook/credential';
 import credentialMap from '@/components/credential/form';
 import { merge, pick } from 'lodash';
+import clsx from 'clsx';
 const title = 'Set Up Credential Group';
 const placeholder = 'Enter Credential Title to search for Cred';
 const titleGroup = 'Edit Credential Group';
 const emptyPrompt = 'The selected credential will be displayed here.';
+
+const sigleLabelType = [23, 24];
+
 export default function CredentialModal({ open, setOpen, handleSave, conf }) {
   const [api, contextHolder] = notification.useNotification();
 
@@ -72,9 +76,11 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
               //   c,
               //   pick: credentialMap[c.labelType]?.pick,
               // });
+
               return {
                 ...c,
-                options: merge({}, fieldValues, res?.data),
+                ...fieldValues,
+                options: merge({}, c.options, fieldValues, res?.data),
               };
             } else {
               throw new Error(res.message);
@@ -169,17 +175,38 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
                   children: (
                     <div className="flex flex-wrap gap-x-4 gap-y-5 select-none">
                       {v.credentialList?.map((c) => {
+                        const selectedCredentials =
+                          form.getFieldValue('credential') ?? [];
+                        // 以及选择的
+                        const canNotAdd = sigleLabelType.some((singleLabel) => {
+                          return (
+                            c.labelType === singleLabel &&
+                            !!selectedCredentials.find(
+                              (v) => v.labelType === singleLabel
+                            )
+                          );
+                        });
                         return (
-                          <div
+                          <button
+                            disabled={canNotAdd}
                             key={c.labelType}
-                            className="px-4 py-2.5 rounded-2.5xl bg-gray flex items-center gap-x-2 cursor-pointer hover:opacity-70"
+                            className={clsx(
+                              'px-4 py-2.5 rounded-2.5xl bg-gray flex items-center gap-x-2',
+                              canNotAdd
+                                ? 'cursor-not-allowed'
+                                : 'cursor-pointer  hover:opacity-70'
+                            )}
                             onClick={() => {
                               form.setFieldsValue({
                                 credential: [
-                                  ...(form.getFieldValue('credential') ?? []),
-                                  credentialSet.find(
-                                    (v) => v.labelType === c.labelType
-                                  ),
+                                  ...selectedCredentials,
+                                  {
+                                    ...(credentialMap[c.labelType]
+                                      ?.initialValues ?? {}),
+                                    ...(credentialSet.find(
+                                      (v) => v.labelType === c.labelType
+                                    ) ?? {}),
+                                  },
                                 ],
                               });
                             }}
@@ -190,7 +217,7 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
                             />
                             {c.name}
                             <PlusOutlined />
-                          </div>
+                          </button>
                         );
                       })}
                     </div>
@@ -220,23 +247,30 @@ export default function CredentialModal({ open, setOpen, handleSave, conf }) {
                       fields.map(({ key, name, ...restField }) => {
                         const currentLabelType =
                           credentialsFormValues?.[name]?.labelType;
+                        const options =
+                          credentialsFormValues?.[name]?.options ?? {};
                         const credential = credentialSet.find(
                           (v) => v.labelType === currentLabelType
                         );
                         const CC =
                           credentialMap[currentLabelType]?.render ??
                           (() => <div>wait</div>);
+                        const cannotRemove =
+                          currentLabelType === 23 && options?.sbtAutoInject;
 
                         return (
                           <div
                             key={key}
                             className="px-4 py-2.5 rounded-2.5xl bg-gray relative space-y-3"
                           >
-                            <img
-                              src={closeIcon}
-                              className="absolute right-4 top-4 w-2 h-2 object-contain cursor-pointer"
-                              onClick={() => remove(name)}
-                            />
+                            {!cannotRemove && (
+                              <img
+                                src={closeIcon}
+                                className="absolute right-4 top-4 w-2 h-2 object-contain cursor-pointer"
+                                onClick={() => remove(name)}
+                              />
+                            )}
+
                             <div>
                               <div className="flex items-center gap-x-2">
                                 <img
