@@ -239,18 +239,18 @@ export default function Credential({
       }
     },
     40: () => {
-      const { condition, ctaApiLink } = options;
+      const { condition, ctaLink } = options;
       if (condition === 1) {
         if (userLogined) {
           if (!ton.connected) {
             ton.connectHandle();
           } else {
             try {
-              const parseLink = new URL(ctaApiLink);
+              const parseLink = new URL(ctaLink);
               if (parseLink.hostname === 't.me') {
-                WebApp.openTelegramLink(ctaApiLink);
+                WebApp.openTelegramLink(ctaLink);
               } else {
-                WebApp.openLink(ctaApiLink);
+                WebApp.openLink(ctaLink);
               }
             } catch (error) {
               console.log(error);
