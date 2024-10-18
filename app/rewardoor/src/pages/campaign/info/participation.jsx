@@ -24,7 +24,7 @@ const { formatDollarV2: formatDollar, shortAddress, timeFormat } = conf;
 
 const pageSize = 10;
 
-export default function Participation () {
+export default function Participation() {
   const [current, setCurrent] = useState(1);
   const { id } = useParams();
   const { data: pageInfo = {}, isLoading } = useQuery(
@@ -63,12 +63,12 @@ export default function Participation () {
     ];
   }, [pageInfo]);
   if (isLoading) {
-    return <Loading h='h-[300px]' />;
+    return <Loading h="h-[300px]" />;
   }
 
   return (
-    <div className='mb-10 space-y-5'>
-      <div className='grid grid-cols-4 gap-x-5'>
+    <div className="mb-10 space-y-5">
+      <div className="grid grid-cols-4 gap-x-5">
         {participantConf.map((v, idx) => (
           <div
             key={idx}
@@ -78,28 +78,28 @@ export default function Participation () {
             )}
           >
             <div>
-              <div className='text-2xl font-zen-dot'>{v.value}</div>
-              <div className='text-sm'>{v.title}</div>
+              <div className="text-2xl font-zen-dot">{v.value}</div>
+              <div className="text-sm">{v.title}</div>
             </div>
 
-            <img src={v.picUrl} className='w-[72px] h-[72px]' />
+            <img src={v.picUrl} className="w-[72px] h-[72px]" />
           </div>
         ))}
       </div>
 
-      <div className='bg-gray px-5 pt-5 pb-7 rounded-2.5xl'>
-        <h2 className='mb-4 text-base font-bold text-t-1'>Reward</h2>
-        <div className='flex items-center text-xs gap-x-5 gap-y-4'>
+      <div className="bg-gray px-5 pt-5 pb-7 rounded-2.5xl">
+        <h2 className="mb-4 text-base font-bold text-t-1">Reward</h2>
+        <div className="flex items-center text-xs gap-x-5 gap-y-4">
           {pageInfo?.nftList?.map((v, idx) => (
             <div
               key={idx}
-              className='flex items-center justify-between gap-x-5 px-5 py-2 border border-[#666] rounded-2.5xl'
+              className="flex items-center justify-between gap-x-5 px-5 py-2 border border-[#666] rounded-2.5xl"
             >
-              <div className='flex items-center gap-x-1 text-t-1'>
-                <img src={v.picUrl} className='w-5 h-5' />
+              <div className="flex items-center gap-x-1 text-t-1">
+                <img src={v.picUrl} className="w-5 h-5" />
                 <div>{v.name}</div>
               </div>
-              <div className='text-c-9'>
+              <div className="text-c-9">
                 {formatDollar(v.claimedCount)}/{formatDollar(v.mintCap)}
               </div>
             </div>
@@ -107,12 +107,27 @@ export default function Participation () {
           {pageInfo?.pointList?.slice(0, 1)?.map((_, idx) => (
             <div
               key={idx}
-              className='flex items-center justify-between px-5 py-2 gap-x-5'
+              className="flex items-center justify-between px-5 py-2 gap-x-5"
             >
-              <div className='flex items-center gap-x-1 text-t-1'>
+              <div className="flex items-center gap-x-1 text-t-1">
                 <img
-                  src={incentiveAssetsTypeList.find(m => m.value === 2)?.icon}
-                  className='w-5 h-5'
+                  src={incentiveAssetsTypeList.find((m) => m.value === 2)?.icon}
+                  className="w-5 h-5"
+                />
+
+                <div>Points</div>
+              </div>
+            </div>
+          ))}
+          {pageInfo?.sbtList?.slice(0, 1)?.map((_, idx) => (
+            <div
+              key={idx}
+              className="flex items-center justify-between gap-x-5 px-5 py-2"
+            >
+              <div className="flex items-center gap-x-1 text-t-1">
+                <img
+                  src={incentiveAssetsTypeList.find((m) => m.value === 3)?.icon}
+                  className="w-5 h-5"
                 />
 
                 <div>Points</div>
@@ -122,9 +137,9 @@ export default function Participation () {
         </div>
       </div>
 
-      <div className='bg-gray px-5 pt-5 pb-7 rounded-2.5xl'>
-        <h2 className='mb-4 text-base font-bold text-t-1'>Credential</h2>
-        <div className='flex flex-wrap items-center text-xs gap-x-5 gap-y-4'>
+      <div className="bg-gray px-5 pt-5 pb-7 rounded-2.5xl">
+        <h2 className="mb-4 text-base font-bold text-t-1">Credential</h2>
+        <div className="flex flex-wrap items-center text-xs gap-x-5 gap-y-4">
           {pageInfo?.credentialList?.map((v, idx) => {
             let options = {};
             try {
@@ -138,21 +153,21 @@ export default function Participation () {
             return (
               <div
                 key={idx}
-                className='flex items-center justify-between px-5 py-2 gap-x-5'
+                className="flex items-center justify-between px-5 py-2 gap-x-5"
               >
-                <div className='flex items-center gap-x-1'>
+                <div className="flex items-center gap-x-1">
                   <Display labelType={v.labelType} pc options={options} />
                   <Popover
                     content={
-                      <div className='text-sm text-[#FCFCFC] space-y-1'>
+                      <div className="text-sm text-[#FCFCFC] space-y-1">
                         <p>Credential ID</p>
                         <Paragraph
                           style={{ marginBottom: 0 }}
-                          className='flex items-center justify-center'
+                          className="flex items-center justify-center"
                           copyable={{
                             text: v.credentialId,
                             icon: [
-                              <img src={copyIcon} className='w-4 h-4' />,
+                              <img src={copyIcon} className="w-4 h-4" />,
                               <CheckOutlined style={{ color: '#3A82F7' }} />,
                             ],
                           }}
@@ -162,12 +177,12 @@ export default function Participation () {
                       </div>
                     }
                   >
-                    <span className='text-xs inline-block p-1 bg-[#1a1a1a] rounded-sm cursor-pointer'>
+                    <span className="text-xs inline-block p-1 bg-[#1a1a1a] rounded-sm cursor-pointer">
                       ID
                     </span>
                   </Popover>
                 </div>
-                <div className='text-c-9 text-xs border border-[#666] rounded-2.5xl px-4 py-2'>
+                <div className="text-c-9 text-xs border border-[#666] rounded-2.5xl px-4 py-2">
                   Giveaway: {formatDollar(v.giveAway)}
                 </div>
               </div>
@@ -176,37 +191,37 @@ export default function Participation () {
         </div>
       </div>
 
-      <div className='bg-gray px-5 pt-5 pb-7 rounded-2.5xl'>
-        <h2 className='mb-4 text-base font-bold text-t-1'>Participants</h2>
-        <div className='relative overflow-x-auto'>
-          <table className='min-w-full table-fixed w-max'>
+      <div className="bg-gray px-5 pt-5 pb-7 rounded-2.5xl">
+        <h2 className="mb-4 text-base font-bold text-t-1">Participants</h2>
+        <div className="relative overflow-x-auto">
+          <table className="min-w-full table-fixed w-max">
             <thead>
               <tr>
                 <th
-                  scope='col'
-                  align='left'
-                  className='pb-4 text-sm font-medium text-c-9'
+                  scope="col"
+                  align="left"
+                  className="pb-4 text-sm font-medium text-c-9"
                 >
                   Participants
                 </th>
                 {pageInfo?.nftList?.map((v, idx) => (
                   <th
                     key={idx}
-                    scope='col'
-                    align='center'
-                    className='pb-4 text-sm font-medium text-c-9'
+                    scope="col"
+                    align="center"
+                    className="pb-4 text-sm font-medium text-c-9"
                   >
-                    <div className='inline-flex items-center justify-between px-5 py-2 gap-x-1'>
-                      <img src={v.picUrl} className='w-5 h-5' />
+                    <div className="inline-flex items-center justify-between px-5 py-2 gap-x-1">
+                      <img src={v.picUrl} className="w-5 h-5" />
                       {v.name}
                     </div>
                   </th>
                 ))}
                 {pageInfo?.pointList?.length > 0 && (
                   <th
-                    scope='col'
-                    align='center'
-                    className='pb-4 text-sm font-medium text-c-9'
+                    scope="col"
+                    align="center"
+                    className="pb-4 text-sm font-medium text-c-9"
                   >
                     Points
                   </th>
@@ -222,17 +237,17 @@ export default function Participation () {
                     );
                   }
                   return (
-                    <th key={idx} align='center' className='pb-4'>
-                      <div className='inline-flex px-5 py-2'>
+                    <th key={idx} align="center" className="pb-4">
+                      <div className="inline-flex px-5 py-2">
                         <Display labelType={v.labelType} pc options={options} />
                       </div>
                     </th>
                   );
                 })}
                 <th
-                  scope='col'
-                  align='right'
-                  className='pb-4 text-sm font-medium text-c-9'
+                  scope="col"
+                  align="right"
+                  className="pb-4 text-sm font-medium text-c-9"
                 >
                   Participation Date
                 </th>
@@ -243,12 +258,13 @@ export default function Participation () {
                 <tr>
                   <td
                     colSpan={
+                      pageInfo?.sbtList?.length +
                       pageInfo?.nftList?.length +
                       pageInfo?.pointList?.length +
                       pageInfo?.credentialList?.length +
                       2
                     }
-                    className='py-2 text-center text-c-9'
+                    className="py-2 text-center text-c-9"
                   >
                     No data
                   </td>
@@ -256,27 +272,34 @@ export default function Participation () {
               ) : (
                 pageInfo?.participantList
                   ?.slice((current - 1) * pageSize, current * pageSize)
-                  .filter(item => item.wallet || item.tgName || item.twitterName)
+                  .filter(
+                    (item) => item.wallet || item.tgName || item.twitterName
+                  )
                   .map((v, idx) => (
                     <tr key={idx}>
                       <td
-                        align='left'
-                        className='pb-4 text-sm font-medium text-t-1'
+                        align="left"
+                        className="pb-4 text-sm font-medium text-t-1"
                       >
                         {getParicipant(v)}
                       </td>
                       {pageInfo?.nftList?.map((iv, idx) => (
-                        <td key={idx} align='center' className='pb-4 text-base'>
-                          {v.nfts?.some(v => v === iv.nftId) ? '✓' : '×'}
+                        <td key={idx} align="center" className="pb-4 text-base">
+                          {v.nfts?.some((v) => v === iv.nftId) ? '✓' : '×'}
+                        </td>
+                      ))}
+                      {pageInfo?.sbtList?.map((iv, idx) => (
+                        <td key={idx} align="center" className="pb-4 text-base">
+                          {v.sbts?.some((v) => v === iv.sbtId) ? '✓' : '×'}
                         </td>
                       ))}
 
                       {pageInfo?.pointList?.length > 0 && (
                         <td
                           key={idx}
-                          scope='col'
-                          align='center'
-                          className='pb-4 text-base'
+                          scope="col"
+                          align="center"
+                          className="pb-4 text-base"
                         >
                           {v.points?.length > 0
                             ? `+${formatDollar(v.pointNum)}`
@@ -284,17 +307,17 @@ export default function Participation () {
                         </td>
                       )}
                       {pageInfo?.credentialList?.map((iv, idx) => (
-                        <td key={idx} align='center' className='pb-4 text-base'>
+                        <td key={idx} align="center" className="pb-4 text-base">
                           {v?.verifiedCredentials?.some(
-                            m => m.credentialId === iv.credentialId
+                            (m) => m.credentialId === iv.credentialId
                           )
                             ? '✓'
                             : '×'}
                         </td>
                       ))}
                       <td
-                        align='right'
-                        className='pb-4 text-sm font-medium text-t-1'
+                        align="right"
+                        className="pb-4 text-sm font-medium text-t-1"
                       >
                         {dayjs(v.participantDate).format(timeFormat)}
                       </td>
@@ -305,7 +328,7 @@ export default function Participation () {
           </table>
         </div>
 
-        <div className='flex justify-end'>
+        <div className="flex justify-end">
           <Pagination
             hideOnSinglePage
             responsive

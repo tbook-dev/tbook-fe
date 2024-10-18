@@ -1,4 +1,6 @@
 import { isEmpty } from 'lodash';
+import WebApp from '@twa-dev/sdk';
+
 export const TG_BOT_NAME = import.meta.env.VITE_TG_BOT_NAME;
 export const TG_BOT_APP = import.meta.env.VITE_TG_BOT_APP;
 
@@ -39,9 +41,13 @@ export function safeParse(start_param) {
 }
 const consoleMap = new Map();
 export const getDirectLink = (data, isBot) => {
-  const appLink = `https://t.me/${TG_BOT_NAME}`
-  const encodedData = btoa(JSON.stringify(data))
-  const link = appLink + (isBot ? `?start=camp_${encodedData}` : `/${TG_BOT_APP}?startapp=${encodedData}`);
+  const appLink = `https://t.me/${TG_BOT_NAME}`;
+  const encodedData = btoa(JSON.stringify(data));
+  const link =
+    appLink +
+    (isBot
+      ? `?start=camp_${encodedData}`
+      : `/${TG_BOT_APP}?startapp=${encodedData}`);
 
   if (location.search.includes('t=1') && !consoleMap.has(link)) {
     consoleMap.set(link, true);
@@ -54,7 +60,9 @@ export const getTMAsahreLink = ({ data, isBot, text }) => {
   const link = isEmpty(data)
     ? `https://t.me/${TG_BOT_NAME}/${TG_BOT_APP}`
     : getDirectLink(data, isBot);
-  return `https://t.me/share/url?url=${encodeURIComponent(link)}${text ? `&text=${encodeURIComponent(text)}`: ""}`;
+  return `https://t.me/share/url?url=${encodeURIComponent(link)}${
+    text ? `&text=${encodeURIComponent(text)}` : ''
+  }`;
 };
 
 export const supportTMATypes = [
@@ -65,7 +73,7 @@ export const supportTMATypes = [
   // 'ranger', no longer use
   // "event defi"
   // "company"
-  1, 2, 3, 4, 5, 6, 7
+  1, 2, 3, 4, 5, 6, 7,
 ];
 
 export const logoutRedirecrtKey = 'fromlogout';
@@ -117,3 +125,20 @@ export const premiumLink = `https://t.me/premium`;
 export const stonfi = `https://t.me/ston_app_bot/swap`;
 export const dedustio = `https://t.me/dedustBot/swap`;
 export const realTBook = `https://x.com/realtbook`;
+
+export const jumpLink = ({ link, pc, isTMA }) => {
+  try {
+    const parseLink = new URL(link);
+    if (isTMA) {
+      if (parseLink.hostname === 't.me') {
+        WebApp.openTelegramLink(link);
+      } else {
+        WebApp.openLink(link, { try_instant_view: true });
+      }
+    } else {
+      window.open(link, pc ? '_blank' : '_self');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

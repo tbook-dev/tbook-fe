@@ -131,8 +131,8 @@ const labelTypeMap = {
     },
     {
       label: 'Subscribe to Telegram Premium',
-      value: 22
-    }
+      value: 22,
+    },
   ],
   tbook: [
     {
@@ -159,11 +159,41 @@ export const getCrenditialType = (labelType) => {
   }
   return arraryType.find((v) => v.value === labelType)?.group;
 };
-
+export const sbtClaimStatus = [
+  {
+    label: 'DEFAULT',
+    value: 0,
+    title: (name) => `${name} is Ineligible!`,
+  },
+  {
+    label: 'NOT_GENERATE_LINK',
+    value: 1,
+    title: (name) => `${name} is eligible!`,
+  },
+  {
+    label: 'ELIGIBLE',
+    value: 2,
+    title: (name) => `${name} is eligible!`,
+  },
+  {
+    label: 'MINTING',
+    value: 3,
+    title: (name) => `${name} is pending on TON Society!`,
+  },
+  {
+    label: 'CLAIMED',
+    value: 4,
+    title: (name) => `${name} is now in your wallet!`,
+  },
+  {
+    label: 'MISSED',
+    value: 5,
+  },
+];
 // 结束点为活动结束时间
 export const credentialStatus = [
   {
-    name: 'Ineligible',
+    name: 'Ineligible', // default
     value: 0,
     tip: '',
     title: (name) => `${name} is Ineligible!`,

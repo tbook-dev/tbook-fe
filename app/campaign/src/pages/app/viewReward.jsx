@@ -29,7 +29,7 @@ import RewardLabels from './rewardLabels';
 import useSupportedChains from '@/hooks/useSupportedChains';
 import WebApp from '@twa-dev/sdk';
 import TonSocietyIcon from '@/images/icon/svgr/ton-society.svg?react';
-import { credentialStatus } from '@/utils/conf';
+import { credentialStatus, sbtClaimStatus } from '@/utils/conf';
 import useWallet from '@/hooks/useWallet';
 
 export default function ViewReward({ open, onClose, rewardList }) {
@@ -56,8 +56,15 @@ export default function ViewReward({ open, onClose, rewardList }) {
 
   const reward = rewardList[displayIdx];
   // reward.claimedType = 1;
-  const rewardStatus = credentialStatus.find(
+  const currentStatus = credentialStatus.find(
     (v) => v.value === reward.claimedType
+  );
+  const rewardStatus = Object.assign(
+    {},
+    currentStatus,
+    reward.type === 'sbt'
+      ? sbtClaimStatus.find((v) => v.value === reward.claimedType) ?? {}
+      : {}
   );
   const handleClaimPoint = async (data) => {
     updateLoading(true);
