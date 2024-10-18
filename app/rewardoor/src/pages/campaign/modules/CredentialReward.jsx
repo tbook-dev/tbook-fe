@@ -194,7 +194,7 @@ function CredentialReward({
       <CredentialModal
         conf={
           credentialReward.find((v, idx) => idx === editCredentialIndex)
-            .credential ?? []
+            ?.credential ?? []
         }
         // credentialList={credentialList}
         open={showCredentialModal}
@@ -214,7 +214,7 @@ function CredentialReward({
       />
       <RewardModal
         conf={
-          credentialReward.find((v, idx) => idx === editRewardIndex).reward ??
+          credentialReward.find((v, idx) => idx === editRewardIndex)?.reward ??
           []
         }
         NFTcontracts={NFTcontracts}

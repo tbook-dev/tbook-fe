@@ -13,9 +13,7 @@ import { getParicipant } from '../conf';
 import Loading from '@/components/loading';
 import clsx from 'clsx';
 import credentialsSVG from '@/images/campaign/credentials.svg';
-import nftSVG from '@/images/campaign/nft.svg';
 import participantsSVG from '@/images/campaign/participants.svg';
-import pointSVG from '@/images/campaign/point.svg';
 import { Display } from '@tbook/credential';
 
 const { Paragraph } = Typography;
@@ -35,32 +33,52 @@ export default function Participation() {
     }
   );
   const participantConf = useMemo(() => {
+    const [{ icon: nftIcon }, { icon: pointIcon }, { icon: sbtIcon }] =
+      incentiveAssetsTypeList;
+    const [participantNum, credentialNum, pointNum, nftNum, sbtNum] = [
+      pageInfo.participantNum || 0,
+      pageInfo.credentialNum || 0,
+      pageInfo.pointNum || 0,
+      pageInfo.nftNum || 0,
+      pageInfo.sbtList?.length || 0,
+    ];
     return [
       {
-        title: 'Participants',
-        value: formatDollar(pageInfo.participantNum || 0),
+        title: participantNum > 1 ? 'Participants' : 'Participant',
+        value: formatDollar(participantNum),
         cls: 'bg-[#904BF6]',
         picUrl: participantsSVG,
+        isReward: false,
       },
       {
-        title: 'Credentials',
-        value: formatDollar(pageInfo.credentialNum || 0),
+        title: credentialNum > 1 ? 'Credentials' : 'Credential',
+        value: formatDollar(credentialNum),
         cls: 'bg-[#1A1A1A]',
         picUrl: credentialsSVG,
+        isReward: false,
       },
       {
-        title: 'Points',
-        value: formatDollar(pageInfo.pointNum || 0),
+        title: pointNum > 1 ? 'Points' : 'Point',
+        value: formatDollar(pointNum),
         cls: 'bg-[#006EE9]',
-        picUrl: pointSVG,
+        picUrl: pointIcon,
+        isReward: true,
       },
       {
-        title: 'NFTs',
-        value: formatDollar(pageInfo.nftNum || 0),
+        title: nftNum > 1 ? 'NFTs' : 'NFT',
+        value: formatDollar(nftNum),
         cls: 'bg-[#CF0063]',
-        picUrl: nftSVG,
+        picUrl: nftIcon,
+        isReward: true,
       },
-    ];
+      {
+        title: sbtNum > 1 ? 'SBTs' : 'SBT',
+        value: formatDollar(sbtNum),
+        cls: 'bg-[#F97319]',
+        picUrl: sbtIcon,
+        isReward: true,
+      },
+    ].filter((v) => (v.isReward ? v.value > 0 : true));
   }, [pageInfo]);
   if (isLoading) {
     return <Loading h="h-[300px]" />;
@@ -68,12 +86,12 @@ export default function Participation() {
 
   return (
     <div className="mb-10 space-y-5">
-      <div className="grid grid-cols-4 gap-x-5">
+      <div className="flex items-center gap-x-5">
         {participantConf.map((v, idx) => (
           <div
             key={idx}
             className={clsx(
-              'rounded-2.5xl text-white p-5 flex items-center justify-between',
+              'rounded-2.5xl text-white p-5 flex items-center justify-between w-[190px] flex-none',
               v.cls
             )}
           >
@@ -130,7 +148,7 @@ export default function Participation() {
                   className="w-5 h-5"
                 />
 
-                <div>Points</div>
+                <div>SBTs</div>
               </div>
             </div>
           ))}
