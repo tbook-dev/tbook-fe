@@ -1,7 +1,7 @@
 import opIcon from '@/images/icon/crypto/op.svg';
 import pointIcon from '@/images/icon/point.svg';
 import nftIcon from '@/images/icon/nft.svg';
-import sbtIcon from '@/images/icon/sbt.png';
+import sbtIcon from '@/images/icon/sbt.svg';
 
 import fcfsIcon from '@/images/icon/fcfs.svg';
 import ldIcon from '@/images/icon/ld.svg';

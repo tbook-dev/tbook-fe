@@ -215,7 +215,7 @@ const GroupCard = ({ group, index, showVerify }) => {
                   onClick={() => {
                     setViewModalOpen(true);
                   }}
-                  className="flex items-center justify-center gap-x-1 h-10 w-full lg:w-[200px]"
+                  className="flex items-center justify-center gap-x-1 h-10 w-full lg:w-max"
                 >
                   {hasSbt ? (
                     <>

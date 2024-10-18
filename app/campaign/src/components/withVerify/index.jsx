@@ -11,6 +11,8 @@ import { actionMap } from '@tbook/credential';
 import { getStrJSON } from '@/utils/common';
 import { useTelegram } from '@/hooks/useTg';
 import useWallet from '@/hooks/useWallet';
+import { jumpLink } from '@/utils/tma';
+
 const modalConf = {
   title: 'Verify',
   step1: {
@@ -35,7 +37,7 @@ export default function WithVerify({
   taskHandle,
 }) {
   const { pc } = useResponsive();
-  const { isTMA, webApp } = useTelegram();
+  const { isTMA } = useTelegram();
   const [open, setOpen] = useState(false);
   const { getSocialByName } = useSocial();
   const [status, setStatus] = useState(verifyStatusEnum.NotStarted);
@@ -47,8 +49,7 @@ export default function WithVerify({
   const link = getLink(getStrJSON(credential.options));
   const { getWallets } = useWallet();
   const [ton] = getWallets('ton');
-  const a = document.createElement('A');
-  a.href = link;
+
   const handleVerify = async (evt) => {
     setStatus(verifyStatusEnum.Pending);
     try {
@@ -56,17 +57,8 @@ export default function WithVerify({
       setStatus(verifyStatusEnum.Sucess);
     } catch (e) {
       setStatus(verifyStatusEnum.NotStarted);
-
       if (isLink) {
-        if (isTMA) {
-          if (a.hostname === 't.me') {
-            webApp?.openTelegramLink(link);
-          } else {
-            webApp?.openLink(link, { try_instant_view: true });
-          }
-        } else {
-          window.open(link, pc ? '_blank' : '_self');
-        }
+        jumpLink({ link, isTMA, pc });
       } else if (
         actionButtonList.some((c) => c.labelType === credential.labelType)
       ) {
