@@ -17,7 +17,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
-import { useCredentialSign } from '@/hooks/useCampaignQuery';
+import { useCredentialSign, useAutoVerify } from '@/hooks/useCampaignQuery';
 import { setLoginModal, setConnectWalletModal } from '@/store/global';
 import { useAccount } from 'wagmi';
 import { useQueryClient } from 'react-query';
@@ -32,6 +32,8 @@ import { useTelegram } from '@/hooks/useTg';
 import { getStrJSON, delay } from '@/utils/common';
 import { useSignMessage } from 'wagmi';
 import { cn } from '@/utils/conf';
+import useWallet from '@/hooks/useWallet';
+import WebApp from '@twa-dev/sdk';
 
 const themeSchema = {
   white: {
@@ -42,10 +44,16 @@ const themeSchema = {
     disabled: 'text-white/40 bg-[#CFF469]/5',
   },
 };
-export default function Credential ({ credential, showVerify, theme = 'dark', onVerifySuccess }) {
+export default function Credential({
+  credential,
+  showVerify,
+  theme = 'dark',
+  onVerifySuccess,
+}) {
   const { isUsingSubdomain, projectUrl, project } = useLoaderData();
   const { campaignId } = useParams();
   const queryClient = useQueryClient();
+  useAutoVerify(credential, campaignId);
   const dispatch = useDispatch();
   const { isTMA } = useTelegram();
   const [messageApi, contextHolder] = message.useMessage();
@@ -73,6 +81,8 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
   const clearInterIdRef = useRef();
   const retryCounter = useRef(0);
   const canVerify = credential.isVerified === 0;
+  const { getWallets } = useWallet();
+  const [ton, evm] = getWallets(['ton', 'evm']);
   const hasVoted = useMemo(() => {
     if (!votes) return false;
     return !!votes?.find(
@@ -156,6 +166,7 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
       throw new Error(hasError);
     }
   };
+
   const signCredential = async (credential) => {
     const m = signData?.data?.data;
     const sign = await signMessageAsync({ message: m });
@@ -168,7 +179,9 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
       messageApi.error('Sign failed');
     }
   };
-
+  const options = useMemo(() => {
+    return getStrJSON(credential.options);
+  }, [credential]);
   const taskMap = {
     1: localClientVerify,
     2: localClientVerify,
@@ -178,8 +191,10 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
     8: async () => {
       // log event, 需要任意登录即可
       if (userLogined) {
-        await verifyTbook(credential.credentialId);
-        await handleVerify(credential);
+        if (showVerify) {
+          await verifyTbook(credential.credentialId);
+          await handleVerify(credential);
+        }
       } else {
         login();
       }
@@ -207,7 +222,53 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
         login();
       }
     },
+    23: () => {
+      // ton
+      if (userLogined) {
+        !ton.connected && ton.connectHandle();
+      } else {
+        login();
+      }
+    },
+    24: () => {
+      // eth
+      if (userLogined) {
+        !evm.connected && evm.connectHandle();
+      } else {
+        login();
+      }
+    },
+    40: () => {
+      const { condition, ctaLink } = options;
+      if (condition === 1) {
+        if (userLogined) {
+          if (!ton.connected) {
+            ton.connectHandle();
+          } else {
+            try {
+              const parseLink = new URL(ctaLink);
+              if (isTMA) {
+                if (parseLink.hostname === 't.me') {
+                  WebApp.openTelegramLink(ctaLink);
+                } else {
+                  WebApp.openLink(ctaLink, { try_instant_view: true });
+                }
+              } else {
+                window.open(ctaLink, pc ? '_blank' : '_self');
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        } else {
+          login();
+        }
+      }
+    },
   };
+
+  const showErrorTip = count > 0 && !credential.isVerified;
+  const showSnapshot = isSnapshotType && snapshotId;
 
   useEffect(() => {
     clearInterIdRef.current = setInterval(() => {
@@ -221,11 +282,6 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
       clearInterval(clearInterIdRef.current);
     };
   }, [count]);
-  const showErrorTip = count > 0 && !credential.isVerified;
-  const showSnapshot = isSnapshotType && snapshotId;
-  const options = useMemo(() => {
-    return getStrJSON(credential.options);
-  }, [credential]);
 
   return (
     <div
@@ -294,7 +350,7 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
             (!actionMap[labelType]?.isLink ? (
               <div
                 onClick={taskMap[credential.labelType]}
-                className="cursor-pointer flex justify-center items-center bg-[#E4FA73] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
+                className="cursor-pointer flex justify-center items-center text-black bg-[#E4FA73] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
               >
                 Go to finish
                 <svg
@@ -306,7 +362,7 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
                 >
                   <path
                     d="M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z"
-                    fill="white"
+                    fill="black"
                   />
                 </svg>
               </div>
@@ -318,7 +374,7 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
                 to={actionMap[labelType]?.getLink({ ...options, pc })}
                 target={isTMA ? '_self' : '_blank'}
                 rel="nofollow noopener noreferrer"
-                className="cursor-pointer flex justify-center items-center bg-[#E4FA73] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
+                className="cursor-pointer flex justify-center items-center text-black bg-[#E4FA73] shadow-s4 rounded py-1.5 px-4  text-sm font-medium"
               >
                 Go to finish
                 <svg
@@ -330,7 +386,7 @@ export default function Credential ({ credential, showVerify, theme = 'dark', on
                 >
                   <path
                     d="M6.03 11.06L9.08333 8L6.03 4.94L6.97 4L10.97 8L6.97 12L6.03 11.06Z"
-                    fill="white"
+                    fill="black"
                   />
                 </svg>
               </Link>

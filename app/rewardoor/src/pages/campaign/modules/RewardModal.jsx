@@ -10,7 +10,7 @@ import uploadIcon from '@/images/icon/upload.svg';
 import clsx from 'clsx';
 import SelectNFT from '@/components/SelectNFT';
 import useSupportChains from '@/hooks/queries/useSupportChains';
-import AlertUrl from '@/images/icon/alert.svg';
+import Alert from '@/components/alert';
 
 const title = 'Set Up Reward';
 const defaultIncentive = { rewardType: 1, limited: false, activityId: 371 };
@@ -26,9 +26,7 @@ export default function CredentialModal({
   NFTcontracts,
 }) {
   const [rewardForm] = Form.useForm();
-  const reward = Form.useWatch('reward', rewardForm);
   const [showContractModal, setShowContractModal] = useState(false);
-  const [selectOpen, setSelectOpen] = useState(false);
   const { data: supportChains } = useSupportChains();
 
   // console.log({ reward });
@@ -167,6 +165,8 @@ export default function CredentialModal({
                     name,
                     'sbtVideo',
                   ]);
+                  const item = rewardForm.getFieldValue(['reward', name]);
+                  const reEditSbt = rewardType === 3 && item.sbtId > 0;
 
                   return (
                     <div
@@ -178,13 +178,15 @@ export default function CredentialModal({
                           <img src={asset.icon} className="w-5 h-5" />
                           <span>{asset.text}</span>
                         </div>
-                        <img
-                          src={closeIcon}
-                          onClick={() => {
-                            remove(name);
-                          }}
-                          className="object-contain w-4 h-4 cursor-pointer absolute top-3 right-3 z-10"
-                        />
+                        {reEditSbt ? null : (
+                          <img
+                            src={closeIcon}
+                            onClick={() => {
+                              remove(name);
+                            }}
+                            className="object-contain w-4 h-4 cursor-pointer absolute top-3 right-3 z-10"
+                          />
+                        )}
                       </div>
                       {/* /// NFT*/}
                       {rewardType === 1 && (
@@ -398,42 +400,64 @@ export default function CredentialModal({
                       {/* /// SBT*/}
                       {rewardType === 3 && (
                         <>
-                          <div className="mb-3 p-4 rounded-2.5xl bg-white/10 flex gap-x-4 text-sm text-yellow-400">
-                            <img src={AlertUrl} className="size-4" />
-                            The Campaign will only be able to release once the
-                            SBT is approved.
-                          </div>
+                          <Alert
+                            description={[
+                              `Each SBT is tied to an activity on TON Society.`,
+                              `If you want to create several SBTs on TON Society, you need to provide an activity subtitle and a button label for each SBT.`,
+                              ,
+                              `The Campaign will only be able to release once the SBT is approved.`,
+                              <>
+                                If you need some inspiration of SBT design, use
+                                the{' '}
+                                <a
+                                  className="text-[#B45309] hover:text-[#B45309] underline hover:underline"
+                                  target="_blank"
+                                  href="https://www.figma.com/design/w5IcTEIMHCKiqZccSNJVa9/Badge-Guidelines?node-id=0-1&node-type=canvas&t=68TReDbCbe2OpPIz-0"
+                                >
+                                  TON Society SBT Design Template!{' '}
+                                </a>
+                              </>,
+                            ].map((c, i) => (
+                              <p key={i}>{c}</p>
+                            ))}
+                          />
+
                           <h2 className="mb-3 text-white text-lg font-medium">
-                            SBT Collection
+                            Activity Info
                           </h2>
                           <Form.Item
-                            label="Subtitle"
+                            label="Activity Subtitle"
                             name={[name, 'subTitle']}
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <Input placeholder="Please enter the subtitle which will show on the TonSociety page" />
+                            <Input
+                              disabled={reEditSbt}
+                              placeholder="Briefly describe the activity in short sentences"
+                            />
                           </Form.Item>
                           <Form.Item
-                            label="Link to Registration/Details (TON Society Button Label)"
+                            label="Button Label"
                             name={[name, 'buttonLabel']}
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <Input placeholder="Button Label" />
+                            <Input
+                              disabled={reEditSbt}
+                              placeholder="Enter the CTA on the button which guides users to complete the task"
+                            />
                           </Form.Item>
-                          {/* <Form.Item
-                            label="Link to Registration/Details (TON Society Button Link)"
-                            name={[name, 'buttonLink']}
-                            rules={[{ required: true, type: 'url' }]}
-                          >
-                            <Input placeholder="http://t.me/tbook_incentive_bot/campaignDeepLink" />
-                          </Form.Item> */}
+                          <h2 className="mb-3 text-white text-lg font-medium">
+                            SBT Collection
+                          </h2>
                           <Form.Item
                             {...restField}
                             name={[name, 'sbtCollectionTitle']}
                             label="SBT Collection Title"
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <Input placeholder="Enter SBT Collection Title, such as Tonstakers Strategist" />
+                            <Input
+                              disabled={reEditSbt}
+                              placeholder="Enter SBT Collection Title, such as Tonstakers Strategist"
+                            />
                           </Form.Item>
                           <Form.Item
                             name={[name, 'sbtCollectionDesc']}
@@ -441,6 +465,7 @@ export default function CredentialModal({
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
                             <Input
+                              disabled={reEditSbt}
                               placeholder="Enter SBT Collection Description"
                               className="w-full"
                             />
@@ -455,7 +480,10 @@ export default function CredentialModal({
                             label="SBT Item Title"
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
-                            <Input placeholder="Enter SBT Item Title, such as Tonstakers Strategist SBT" />
+                            <Input
+                              disabled={reEditSbt}
+                              placeholder="Enter SBT Item Title, such as Tonstakers Strategist SBT"
+                            />
                           </Form.Item>
 
                           <Form.Item
@@ -464,6 +492,7 @@ export default function CredentialModal({
                             rules={[{ required: true, message: 'Missing!' }]}
                           >
                             <Input
+                              disabled={reEditSbt}
                               placeholder="Enter SBT Item Description"
                               className="w-full"
                             />
@@ -476,7 +505,7 @@ export default function CredentialModal({
                             rules={[
                               {
                                 required: true,
-                                message: 'image is required',
+                                message: 'Missing!',
                               },
                               {
                                 validator: fileValidator,
@@ -488,6 +517,7 @@ export default function CredentialModal({
                               multiple={false}
                               accept="image/*"
                               maxCount={1}
+                              disabled={reEditSbt}
                             >
                               {sbtImage?.[0]?.response ? (
                                 <img
@@ -522,6 +552,7 @@ export default function CredentialModal({
                               multiple={false}
                               accept="video/mp4"
                               maxCount={1}
+                              disabled={reEditSbt}
                             >
                               {sbtVideo?.[0]?.response ? (
                                 <video
@@ -530,9 +561,11 @@ export default function CredentialModal({
                                   loop
                                   className="w-full h-[180px] object-contain object-center"
                                 >
-                                    <source src={sbtVideo?.[0]?.response} type="video/mp4" />
-                                  </video>
-
+                                  <source
+                                    src={sbtVideo?.[0]?.response}
+                                    type="video/mp4"
+                                  />
+                                </video>
                               ) : (
                                 <>
                                   <p className="ant-upload-drag-icon flex justify-center">

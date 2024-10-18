@@ -67,7 +67,7 @@ export default function Participation() {
   }
 
   return (
-    <div className="space-y-5 mb-10">
+    <div className="mb-10 space-y-5">
       <div className="grid grid-cols-4 gap-x-5">
         {participantConf.map((v, idx) => (
           <div
@@ -89,7 +89,7 @@ export default function Participation() {
 
       <div className="bg-gray px-5 pt-5 pb-7 rounded-2.5xl">
         <h2 className="mb-4 text-base font-bold text-t-1">Reward</h2>
-        <div className="flex items-center gap-x-5 gap-y-4 text-xs">
+        <div className="flex items-center text-xs gap-x-5 gap-y-4">
           {pageInfo?.nftList?.map((v, idx) => (
             <div
               key={idx}
@@ -107,7 +107,7 @@ export default function Participation() {
           {pageInfo?.pointList?.slice(0, 1)?.map((_, idx) => (
             <div
               key={idx}
-              className="flex items-center justify-between gap-x-5 px-5 py-2"
+              className="flex items-center justify-between px-5 py-2 gap-x-5"
             >
               <div className="flex items-center gap-x-1 text-t-1">
                 <img
@@ -139,7 +139,7 @@ export default function Participation() {
 
       <div className="bg-gray px-5 pt-5 pb-7 rounded-2.5xl">
         <h2 className="mb-4 text-base font-bold text-t-1">Credential</h2>
-        <div className="flex items-center gap-x-5 gap-y-4 text-xs flex-wrap">
+        <div className="flex flex-wrap items-center text-xs gap-x-5 gap-y-4">
           {pageInfo?.credentialList?.map((v, idx) => {
             let options = {};
             try {
@@ -153,7 +153,7 @@ export default function Participation() {
             return (
               <div
                 key={idx}
-                className="flex items-center justify-between gap-x-5 px-5 py-2"
+                className="flex items-center justify-between px-5 py-2 gap-x-5"
               >
                 <div className="flex items-center gap-x-1">
                   <Display labelType={v.labelType} pc options={options} />
@@ -163,7 +163,7 @@ export default function Participation() {
                         <p>Credential ID</p>
                         <Paragraph
                           style={{ marginBottom: 0 }}
-                          className="flex justify-center items-center"
+                          className="flex items-center justify-center"
                           copyable={{
                             text: v.credentialId,
                             icon: [
@@ -194,13 +194,13 @@ export default function Participation() {
       <div className="bg-gray px-5 pt-5 pb-7 rounded-2.5xl">
         <h2 className="mb-4 text-base font-bold text-t-1">Participants</h2>
         <div className="relative overflow-x-auto">
-          <table className="min-w-full w-max table-fixed">
+          <table className="min-w-full table-fixed w-max">
             <thead>
               <tr>
                 <th
                   scope="col"
                   align="left"
-                  className="pb-4 text-sm text-c-9 font-medium"
+                  className="pb-4 text-sm font-medium text-c-9"
                 >
                   Participants
                 </th>
@@ -209,22 +209,9 @@ export default function Participation() {
                     key={idx}
                     scope="col"
                     align="center"
-                    className="pb-4 text-sm text-c-9 font-medium"
+                    className="pb-4 text-sm font-medium text-c-9"
                   >
-                    <div className="inline-flex items-center justify-between gap-x-1 px-5 py-2">
-                      <img src={v.picUrl} className="w-5 h-5" />
-                      {v.name}
-                    </div>
-                  </th>
-                ))}
-                {pageInfo?.sbtList?.map((v, idx) => (
-                  <th
-                    key={idx}
-                    scope="col"
-                    align="center"
-                    className="pb-4 text-sm text-c-9 font-medium"
-                  >
-                    <div className="inline-flex items-center justify-between gap-x-1 px-5 py-2">
+                    <div className="inline-flex items-center justify-between px-5 py-2 gap-x-1">
                       <img src={v.picUrl} className="w-5 h-5" />
                       {v.name}
                     </div>
@@ -234,7 +221,7 @@ export default function Participation() {
                   <th
                     scope="col"
                     align="center"
-                    className="pb-4 text-sm text-c-9 font-medium"
+                    className="pb-4 text-sm font-medium text-c-9"
                   >
                     Points
                   </th>
@@ -251,7 +238,7 @@ export default function Participation() {
                   }
                   return (
                     <th key={idx} align="center" className="pb-4">
-                      <div className="inline-flex  px-5 py-2">
+                      <div className="inline-flex px-5 py-2">
                         <Display labelType={v.labelType} pc options={options} />
                       </div>
                     </th>
@@ -260,7 +247,7 @@ export default function Participation() {
                 <th
                   scope="col"
                   align="right"
-                  className="pb-4 text-sm text-c-9 font-medium"
+                  className="pb-4 text-sm font-medium text-c-9"
                 >
                   Participation Date
                 </th>
@@ -277,7 +264,7 @@ export default function Participation() {
                       pageInfo?.credentialList?.length +
                       2
                     }
-                    className="text-center py-2 text-c-9"
+                    className="py-2 text-center text-c-9"
                   >
                     No data
                   </td>
@@ -285,11 +272,14 @@ export default function Participation() {
               ) : (
                 pageInfo?.participantList
                   ?.slice((current - 1) * pageSize, current * pageSize)
+                  .filter(
+                    (item) => item.wallet || item.tgName || item.twitterName
+                  )
                   .map((v, idx) => (
                     <tr key={idx}>
                       <td
                         align="left"
-                        className="pb-4 text-sm text-t-1 font-medium"
+                        className="pb-4 text-sm font-medium text-t-1"
                       >
                         {getParicipant(v)}
                       </td>
@@ -327,7 +317,7 @@ export default function Participation() {
                       ))}
                       <td
                         align="right"
-                        className="pb-4 text-sm text-t-1 font-medium"
+                        className="pb-4 text-sm font-medium text-t-1"
                       >
                         {dayjs(v.participantDate).format(timeFormat)}
                       </td>
