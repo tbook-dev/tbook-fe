@@ -235,6 +235,19 @@ export default function Participation() {
                     </div>
                   </th>
                 ))}
+                {pageInfo?.sbtList?.map((v, idx) => (
+                  <th
+                    key={idx}
+                    scope="col"
+                    align="center"
+                    className="pb-4 text-sm font-medium text-c-9"
+                  >
+                    <div className="inline-flex items-center justify-between px-5 py-2 gap-x-1">
+                      <img src={v.picUrl} className="w-5 h-5" />
+                      {v.name}
+                    </div>
+                  </th>
+                ))}
                 {pageInfo?.pointList?.length > 0 && (
                   <th
                     scope="col"
@@ -276,8 +289,8 @@ export default function Participation() {
                 <tr>
                   <td
                     colSpan={
-                      pageInfo?.sbtList?.length +
                       pageInfo?.nftList?.length +
+                      pageInfo?.sbtList?.length +
                       pageInfo?.pointList?.length +
                       pageInfo?.credentialList?.length +
                       2
