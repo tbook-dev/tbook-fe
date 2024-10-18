@@ -3,13 +3,19 @@ import TabList from './TabList';
 import Credentials from './modules/Credential';
 import NFT from './modules/NFT';
 import Point from './modules/Point';
+import SBT from './modules/SBT';
 import NotConnect from './modules/NotConnect';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import Loading from '@/components/loading';
 import useAssetQuery from '@/hooks/useAssetQuery';
-import clsx from 'clsx'
+import clsx from 'clsx';
 
 const tabModule = [
+  {
+    name: 'SBTs',
+    value: '4',
+    com: <SBT />,
+  },
   {
     name: 'Credentials',
     value: '1',
@@ -27,7 +33,7 @@ const tabModule = [
   },
 ];
 export default function Asset() {
-  const { projectId, isLightTheme, companyId } = useLoaderData();
+  const { projectId, isLightTheme } = useLoaderData();
 
   const { userLogined, isLoading: userLoading } = useUserInfoQuery();
   const { pathname } = useLocation();
@@ -44,7 +50,12 @@ export default function Asset() {
   };
   return (
     <div className="mx-auto space-y-8 w-page-content">
-      <div className={ clsx("flex flex-col gap-y-4 lg:gap-y-8 pt-3 pb-4 px-4 lg:px-0 border-b lg:border-none", isLightTheme ? 'border-[#dbbee8]' : 'border-[#160b25]')}>
+      <div
+        className={clsx(
+          'flex flex-col gap-y-4 lg:gap-y-8 pt-3 pb-4 px-4 lg:px-0 border-b lg:border-none',
+          isLightTheme ? 'border-[#dbbee8]' : 'border-[#160b25]'
+        )}
+      >
         <h2 className="text-2xl font-medium lg:font-bold font-zen-dot">
           Assets
         </h2>
@@ -58,10 +69,16 @@ export default function Asset() {
 
       <div className="px-4 lg:px-0">
         {userLoading ? (
-          <Loading className={ clsx("z-60 bg-black") } text="Aggregating metrics..."/>
+          <Loading
+            className={clsx('z-60 bg-black')}
+            text="Aggregating metrics..."
+          />
         ) : userLogined ? (
           isLoading ? (
-              <Loading className={ clsx("z-60 bg-black") } text="Aggregating metrics..."/>
+            <Loading
+              className={clsx('z-60 bg-black')}
+              text="Aggregating metrics..."
+            />
           ) : (
             <div>{tabModule.find((v) => v.value === value).com}</div>
           )
