@@ -61,7 +61,7 @@ export default function CredentialModal({
   }, [open]);
   const closeModal = useCallback(() => {
     setOpen(false);
-    // rewardForm.resetFields()
+    rewardForm.resetFields();
   }, []);
   // console.log({ NFTcontracts })
   return (
