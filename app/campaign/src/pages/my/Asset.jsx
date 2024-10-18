@@ -43,7 +43,7 @@ export default function Asset() {
   const value =
     tabModule.find(
       (v) => v.value == new URLSearchParams(location.search).get('type')
-    )?.value || '1';
+    )?.value || '4';
   const setValue = (v) => {
     navigate(`${pathname}?type=${v}`, { replace: true });
     window.sessionRoutesCount -= 1;
