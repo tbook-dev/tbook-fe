@@ -33,7 +33,7 @@ import { getStrJSON, delay } from '@/utils/common';
 import { useSignMessage } from 'wagmi';
 import { cn } from '@/utils/conf';
 import useWallet from '@/hooks/useWallet';
-import WebApp from '@twa-dev/sdk';
+import { jumpLink } from '@/utils/tma';
 
 const themeSchema = {
   white: {
@@ -151,7 +151,7 @@ export default function Credential({
           const { getLink } = actionMap[labelType];
           const link = getLink(getStrJSON(credential.options));
           await verifyTbook(credential.credentialId);
-          window.open(link, isTMA ? '_blank' : pc ? '_blank' : '_self');
+          jumpLink({ link, isTMA, pc });
           await delay(1000);
           await handleVerify(credential);
         }
@@ -245,20 +245,7 @@ export default function Credential({
           if (!ton.connected) {
             ton.connectHandle();
           } else {
-            try {
-              const parseLink = new URL(ctaLink);
-              if (isTMA) {
-                if (parseLink.hostname === 't.me') {
-                  WebApp.openTelegramLink(ctaLink);
-                } else {
-                  WebApp.openLink(ctaLink, { try_instant_view: true });
-                }
-              } else {
-                window.open(ctaLink, pc ? '_blank' : '_self');
-              }
-            } catch (error) {
-              console.log(error);
-            }
+            jumpLink({ link: ctaLink, isTMA, pc });
           }
         } else {
           login();
