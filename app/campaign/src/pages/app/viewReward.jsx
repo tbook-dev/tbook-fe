@@ -209,7 +209,7 @@ export default function ViewReward({ open, onClose, rewardList }) {
           />
         </div>
         <div className="pt-10 space-y-10">
-          <h2 className="text-[#CFF469] font-bold text-2xl text-center">
+          <h2 className="text-[#CFF469] font-bold text-2xl text-center px-4">
             {title}
           </h2>
           <div className="space-y-4">
