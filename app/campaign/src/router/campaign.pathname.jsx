@@ -12,7 +12,6 @@ import commonRoutes from './common';
 import GlobalError from '@/components/errorBoundary/GlobalError';
 import TonExplore from '@/pages/ton-explore';
 
-
 const CompanyHome = lazy(() => import('@/pages/company/Home'));
 const CompanyLeaderboard = lazy(() => import('@/pages/company/Leaderboard'));
 const CompanyAbout = lazy(() => import('@/pages/company/About'));
@@ -53,6 +52,7 @@ const AmbassadorApply = lazy(() => import('@/pages/ton-wise/ambassador-apply'));
 const Ambassador = lazy(() => import('@/pages/ton-wise/ambassador'));
 const Attestation = lazy(() => import('@/pages/attestation'));
 const DeFiGuide = lazy(() => import('@/pages/defi/guide'));
+const Normis = lazy(() => import('@/pages/event/nomis'));
 
 const getTbookfn = async () => {
   return defaultProjectInfo;
@@ -328,6 +328,15 @@ const routes = [
         element: (
           <Suspense fallback={<PageFallBack />}>
             <DeFiGuide />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'normis',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <Normis />
           </Suspense>
         ),
       },
