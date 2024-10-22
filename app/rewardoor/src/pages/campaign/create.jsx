@@ -42,7 +42,7 @@ const textMap = {
   },
 };
 const { defaultErrorMsg } = conf;
-const defaultStep = '2';
+const defaultStep = '1';
 
 const checkFormValidte = (conf) => {
   return (
