@@ -12,15 +12,22 @@ import RewardSwiper from './rewardSwiper';
 import RewardLabels from './rewardLabels';
 import { getCampaignStatus } from '@/hooks/useCampaignQuery';
 import { useResponsive } from 'ahooks';
+import CheckIcon from '@/images/icon/svgr/checked3.svg?react';
 
 const getSchema = (isGroupVerified, rewardList) => {
   const isIssued = rewardList.some((reward) => reward.claimedType > 2);
-  const status = isIssued ? 'claim' : isGroupVerified ? 'eligible' : 'some';
+  const status = isGroupVerified
+    ? isIssued
+      ? 'claim'
+      : 'eligible'
+    : 'unverified';
+  // 已经完成，全部领取，没有全部领取
+  // 没有完成
   const schema = {
     eligible: {
       color: '#F4E357',
     }, // 可以领取奖励，但是还没有领取
-    some: {
+    unverified: {
       color: '#D8FAFF',
     }, //还不能领取奖励，没有全部完成
     claim: {
@@ -88,10 +95,14 @@ const GroupCard = ({ group, showVerify, endAt, status, defaultExpand }) => {
       ...v,
       id: v.pointId,
       type: 'point',
-      dispaly: 'Pts',
+      dispaly: '',
     })),
   ];
-  const { color, title } = getSchema(isGroupVerified, rewardList);
+  const {
+    color,
+    title,
+    status: groupsStatus,
+  } = getSchema(isGroupVerified, rewardList);
   const reward = rewardList[displayIdx];
   const hasSbt = rewardList.some((v) => v.type === 'sbt');
   const [expand, setExpand] = useState(defaultExpand);
@@ -117,7 +128,12 @@ const GroupCard = ({ group, showVerify, endAt, status, defaultExpand }) => {
               )}
             >
               <div className="space-y-0.5 flex-auto">
-                <p className="text-xs">{title ?? 'Complete Tasks'}</p>
+                <p className="text-xs">
+                  {title ?? 'Complete Tasks'}{' '}
+                  {groupsStatus === 'claim' && (
+                    <CheckIcon className="size-2.5 inline ml-0.5" />
+                  )}
+                </p>
                 <div
                   className={cn('bg-black/10', 'h-2 relative rounded-l-full')}
                 >
@@ -132,7 +148,7 @@ const GroupCard = ({ group, showVerify, endAt, status, defaultExpand }) => {
                 </div>
               </div>
 
-              {!isGroupVerified ? (
+              {isGroupVerified ? (
                 <RewardSwiper
                   className="flex-none translate-y-1"
                   displayIdx={displayIdx}

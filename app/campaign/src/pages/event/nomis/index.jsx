@@ -13,6 +13,7 @@ import { shortAddress } from '@tbook/utils/lib/conf';
 import exampleURL from '@/images/event/normie-sbt-example.svg';
 import useNormieAirdrop from '@/hooks/useNormieAirdrop';
 import GroupCard from '@/pages/app/groupCard';
+import { getFormatedGroups } from '@/hooks/useCampaignQuery';
 
 preloadBatchImage([Bg1]);
 
@@ -48,7 +49,7 @@ const Normis = () => {
   const [ton] = getWallets(['ton']);
   const { data: defi } = useDeFi();
   const { data: normie, isLoading } = useNormieAirdrop();
-  const groups = normie?.lateNightDefiGroups ?? [];
+  const groups = getFormatedGroups(normie?.lateNightDefiGroups ?? []);
   const defiOngoing = true;
 
   const [displayIdx, setDisplayIdx] = useState(4);
@@ -56,6 +57,7 @@ const Normis = () => {
   const slides = useMemo(() => {
     return [
       {
+        key: 1,
         bg: Bg1,
         content: (
           <div className="space-y-5 font-bold text-[#503658]">
@@ -71,6 +73,7 @@ const Normis = () => {
         ),
       },
       {
+        key: 2,
         className: 'bg-[#503658]',
         content: (
           <div className="space-y-5">
@@ -95,6 +98,7 @@ const Normis = () => {
         ),
       },
       {
+        key: 3,
         className: 'bg-[#22306D]',
         content: (
           <div className="space-y-10 font-bold text-2xl text-[#ABEDBB] text-left">
@@ -114,6 +118,7 @@ const Normis = () => {
         ),
       },
       {
+        key: 4,
         className: 'bg-[#22306D] justify-start pt-20',
         content: (
           <div className="space-y-10 ">
@@ -126,7 +131,7 @@ const Normis = () => {
                 .fill(1)
                 .map((_, i) => {
                   return (
-                    <div className="flex flex-col gap-y-1.5">
+                    <div className="flex flex-col gap-y-1.5" key={i}>
                       <div className="w-full rounded-xl bg-[#071029]" key={i}>
                         <img src={exampleURL} />
                       </div>
@@ -155,6 +160,7 @@ const Normis = () => {
         ),
       },
       {
+        key: 5,
         className: 'bg-[#3C00E4] justify-start py-20 w-full',
         content: (
           <div className="space-y-10">
