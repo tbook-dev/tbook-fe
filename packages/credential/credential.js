@@ -34,6 +34,37 @@ import ethBlack from './logos/eth-black.svg';
 import ethWhite from './logos/eth-white.svg';
 import tonBlack from './logos/ton-black.svg';
 import tonWhite from './logos/ton-white.svg';
+import black35 from './logos/black35.svg';
+import black36 from './logos/black36.svg';
+import black37 from './logos/black37.svg';
+import black38 from './logos/black38.svg';
+import black39 from './logos/black39.svg';
+import black42 from './logos/black42.svg';
+import black43 from './logos/black43.svg';
+import black44 from './logos/black44.svg';
+import black45 from './logos/black45.svg';
+import black46 from './logos/black46.svg';
+import black47 from './logos/black47.svg';
+import black48 from './logos/black48.svg';
+import black49 from './logos/black49.svg';
+import black50 from './logos/black50.svg';
+import black51 from './logos/black51.svg';
+
+import white35 from './logos/white35.svg';
+import white36 from './logos/white36.svg';
+import white37 from './logos/white37.svg';
+import white38 from './logos/white38.svg';
+import white39 from './logos/white39.svg';
+import white42 from './logos/white42.svg';
+import white43 from './logos/white43.svg';
+import white44 from './logos/white44.svg';
+import white45 from './logos/white45.svg';
+import white46 from './logos/white46.svg';
+import white47 from './logos/white47.svg';
+import white48 from './logos/white48.svg';
+import white49 from './logos/white49.svg';
+import white50 from './logos/white50.svg';
+import white51 from './logos/white51.svg';
 
 export default [
   //  groupType: 2,
@@ -220,5 +251,110 @@ export default [
     picUrl: ethWhite,
     groupType: 7,
     picUrl2: ethBlack,
+  },
+  {
+    name: 'Boost Blum in Open League',
+    labelType: 35,
+    picUrl: white35,
+    groupType: 7,
+    picUrl2: black35,
+  },
+  {
+    name: 'Complete Daily Check-in',
+    labelType: 36,
+    picUrl: white36,
+    groupType: 7,
+    picUrl2: black36,
+  },
+  {
+    name: 'Complete Daily Check-in',
+    labelType: 37,
+    picUrl: white37,
+    groupType: 7,
+    picUrl2: black37,
+  },
+  {
+    name: 'Provide Liquidity for WAT/TON',
+    labelType: 38,
+    picUrl: white38,
+    groupType: 7,
+    picUrl2: black38,
+  },
+  {
+    name: 'Complete a trade in any NFT collection',
+    labelType: 39,
+    picUrl: white39,
+    groupType: 7,
+    picUrl2: black39,
+  },
+  {
+    name: 'Holding $FTON',
+    labelType: 42,
+    picUrl: white42,
+    groupType: 7,
+    picUrl2: black42,
+  },
+  {
+    name: 'Holding $FTON',
+    labelType: 43,
+    picUrl: white43,
+    groupType: 7,
+    picUrl2: black43,
+  },
+  {
+    name: 'Holding $FNZ',
+    labelType: 44,
+    picUrl: white44,
+    groupType: 7,
+    picUrl2: black44,
+  },
+  {
+    name: 'Holding $PUMP',
+    labelType: 45,
+    picUrl: white45,
+    groupType: 7,
+    picUrl2: black45,
+  },
+  {
+    name: 'Holding $RANDOM',
+    labelType: 46,
+    picUrl: white46,
+    groupType: 7,
+    picUrl2: black46,
+  },
+  {
+    name: 'Holding $GRAM',
+    labelType: 47,
+    picUrl: white47,
+    groupType: 7,
+    picUrl2: black47,
+  },
+  {
+    name: 'Holding $JETTON',
+    labelType: 48,
+    picUrl: white48,
+    groupType: 7,
+    picUrl2: black48,
+  },
+  {
+    name: 'Holding $UP',
+    labelType: 49,
+    picUrl: white49,
+    groupType: 7,
+    picUrl2: black49,
+  },
+  {
+    name: 'Holding $CES',
+    labelType: 50,
+    picUrl: white50,
+    groupType: 7,
+    picUrl2: black50,
+  },
+  {
+    name: 'Holding $TON',
+    labelType: 51,
+    picUrl: white51,
+    groupType: 7,
+    picUrl2: white51,
   },
 ];
