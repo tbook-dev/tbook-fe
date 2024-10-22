@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import {
   getCampaignDetail,
   getTaskSign,
@@ -8,11 +8,46 @@ import {
 import { useEffect, useState } from 'react';
 import useUserInfoQuery from './useUserInfoQuery';
 import { merge } from 'lodash';
-import { credential } from '@tbook/credential';
+// import { credential } from '@tbook/credential';
 
 const notStartList = [2, 0];
 const endList = [3, 4, 5];
 
+export const getCampaignStatus = (status) => {
+  return {
+    campaignNotStart: notStartList.includes(status),
+    campaignEnd: endList.includes(status),
+    campaignOngoing: status === 1,
+  };
+};
+
+// export const getFormatedGroups = (groups) => {
+//   return (
+//     groups
+//       ?.map((group) => {
+//         const firstDefi = group.credentialList.find((v) => v.groupType === 8);
+//         const defaultCategory =
+//           group.credentialList[0].category ?? group.credentialList[0].labelType;
+//         const category = firstDefi
+//           ? credential.find((c) => c.labelType === firstDefi.labelType)
+//               ?.category
+//           : defaultCategory;
+//         return {
+//           ...group,
+//           firstCategory: category,
+//         };
+//       })
+//       .reduce((acc, cur) => {
+//         const savedKeys = acc.map((c) => c[0] ?? []);
+//         if (savedKeys.includes(cur.firstCategory)) {
+//           acc[savedKeys.indexOf(cur.firstCategory)][1].push(cur);
+//         } else {
+//           acc.push([cur.firstCategory, [cur]]);
+//         }
+//         return acc;
+//       }, []) ?? []
+//   );
+// };
 export default function useCampaignQuery(campaignId) {
   const [firstLoad, setFirstLoad] = useState(false);
   const {
@@ -44,31 +79,8 @@ export default function useCampaignQuery(campaignId) {
   const isDefi = page?.groups?.every((v) =>
     v?.credentialList?.some((c) => 8 === c.groupType)
   );
-  const groupList =
-    page?.groups
-      ?.map((group) => {
-        const firstDefi = group.credentialList.find((v) => v.groupType === 8);
-        const defaultCategory =
-          group.credentialList[0].category ?? group.credentialList[0].labelType;
-        const category = firstDefi
-          ? credential.find((c) => c.labelType === firstDefi.labelType)
-              ?.category
-          : defaultCategory;
-        return {
-          ...group,
-          firstCategory: category,
-        };
-      })
-      .reduce((acc, cur) => {
-        const savedKeys = acc.map((c) => c[0] ?? []);
-        if (savedKeys.includes(cur.firstCategory)) {
-          acc[savedKeys.indexOf(cur.firstCategory)][1].push(cur);
-        } else {
-          acc.push([cur.firstCategory, [cur]]);
-        }
-        return acc;
-      }, []) ?? [];
-
+  const groupList = page?.groups ?? [];
+  const defaultExpand = page?.groups?.length < 6;
   useEffect(() => {
     if (!firstLoad && !isLoading) {
       setFirstLoad(true);
@@ -103,6 +115,7 @@ export default function useCampaignQuery(campaignId) {
     campaignOngoing,
     campaignUnavailable,
     isError,
+    defaultExpand,
   };
 }
 

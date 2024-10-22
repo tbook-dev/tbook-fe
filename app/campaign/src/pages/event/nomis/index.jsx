@@ -1,7 +1,6 @@
 import { useResponsive } from 'ahooks';
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState } from 'react';
 import useDeFi from '@/hooks/useDeFi';
-import { useNavigate } from 'react-router-dom';
 import { cn } from '@/utils/conf';
 import { preloadBatchImage } from '@/utils/common';
 import Page404 from '@/pages/404';
@@ -12,12 +11,14 @@ import Button from '@/components/button';
 import TonIcon from '@/images/icon/svgr/ton2.svg?react';
 import { shortAddress } from '@tbook/utils/lib/conf';
 import exampleURL from '@/images/event/normie-sbt-example.svg';
+import useNormieAirdrop from '@/hooks/useNormieAirdrop';
+import GroupCard from '@/pages/app/groupCard';
 
 preloadBatchImage([Bg1]);
 
 const Arrow = ({ disabled, className, onClick }) => {
   return (
-    <div className="rounded-full bg-black/10" onClick={onClick}>
+    <div className="rounded-full bg-black/10 backdrop-blur" onClick={onClick}>
       <svg
         width="56"
         height="56"
@@ -41,18 +42,17 @@ const Arrow = ({ disabled, className, onClick }) => {
     </div>
   );
 };
-const DeFiGuide = () => {
+const Normis = () => {
   const { pc } = useResponsive();
-  const navigate = useNavigate();
   const { getWallets } = useWallet();
   const [ton] = getWallets(['ton']);
   const { data: defi } = useDeFi();
-  const handleNav = useCallback(() => {
-    window.sessionRoutesCount -= 1;
-    navigate(`/${defi?.projectUrl}/${defi?.campaignId}`, { replace: true });
-  }, [defi]);
+  const { data: normie, isLoading } = useNormieAirdrop();
+  const groups = normie?.lateNightDefiGroups ?? [];
+  const defiOngoing = true;
 
-  const [displayIdx, setDisplayIdx] = useState(0);
+  const [displayIdx, setDisplayIdx] = useState(4);
+
   const slides = useMemo(() => {
     return [
       {
@@ -154,8 +154,47 @@ const DeFiGuide = () => {
           </div>
         ),
       },
+      {
+        className: 'bg-[#3C00E4] justify-start py-20 w-full',
+        content: (
+          <div className="space-y-10">
+            <div className="text-[#C0AFD0] text-2xl font-bold">
+              Engage with Core DeFi!
+            </div>
+
+            <div className="space-y-2 lg:space-y-3">
+              {groups.map((group, i) => {
+                return (
+                  <GroupCard
+                    key={group.id}
+                    group={group}
+                    showVerify={defiOngoing}
+                    endAt={1726738389000}
+                    status={1}
+                    defaultExpand={i === 0}
+                  />
+                );
+              })}
+            </div>
+
+            <div className="text-[#ABEDBB]/40 text-sm font-normal pb-12">
+              <p> Guess what? There are 23 Normis-series SBTs!</p>
+              <p>
+                Check out App League to
+                <a
+                  className="ml-1 underline underline-offset-4"
+                  target="_blank"
+                  href="https://ton.org/open-league?filterBy=forProjects"
+                >
+                  explore them all!
+                </a>
+              </p>
+            </div>
+          </div>
+        ),
+      },
     ];
-  }, [handleNav, setDisplayIdx, defi]);
+  }, [setDisplayIdx, defi, groups]);
   const CurrentFrame = slides[displayIdx];
 
   return pc ? (
@@ -166,14 +205,14 @@ const DeFiGuide = () => {
       <div
         className={cn(
           'relative px-4 flex flex-col items-center justify-center min-h-screen',
-          'bg-cover bg-center font-bold',
+          'bg-cover bg-center',
           CurrentFrame.className
         )}
         style={{
           backgroundImage: `url(${CurrentFrame.bg})`,
         }}
       >
-        <div className="text-center">{CurrentFrame.content}</div>
+        <div className="text-center w-full">{CurrentFrame.content}</div>
         <div className="fixed inset-x-0 bottom-14 w-[310px] flex justify-between items-center mx-auto">
           <Arrow onClick={() => setDisplayIdx((v) => v - 1)} />
           <Arrow
@@ -186,4 +225,4 @@ const DeFiGuide = () => {
   );
 };
 
-export default DeFiGuide;
+export default Normis;

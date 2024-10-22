@@ -34,6 +34,20 @@ import ethBlack from './logos/eth-black.svg';
 import ethWhite from './logos/eth-white.svg';
 import tonBlack from './logos/ton-black.svg';
 import tonWhite from './logos/ton-white.svg';
+import black35 from './logos/35-black.svg';
+import black36 from './logos/35-black.svg';
+import black37 from './logos/35-black.svg';
+import black38 from './logos/35-black.svg';
+import black39 from './logos/35-black.svg';
+import black41 from './logos/35-black.svg';
+import black42 from './logos/35-black.svg';
+import black43 from './logos/35-black.svg';
+import black44 from './logos/35-black.svg';
+import black45 from './logos/35-black.svg';
+import black45 from './logos/35-black.svg';
+import black46 from './logos/35-black.svg';
+import black47 from './logos/35-black.svg';
+import black48 from './logos/35-black.svg';
 
 export default [
   //  groupType: 2,
@@ -217,6 +231,20 @@ export default [
   {
     name: 'Connect EVM Wallet',
     labelType: 24,
+    picUrl: ethWhite,
+    groupType: 7,
+    picUrl2: ethBlack,
+  },
+  {
+    name: 'Boost Blum in Open League',
+    labelType: 35,
+    picUrl: black35,
+    groupType: 7,
+    picUrl2: white35,
+  },
+  {
+    name: 'Boost Blum in Open League',
+    labelType: 35,
     picUrl: ethWhite,
     groupType: 7,
     picUrl2: ethBlack,

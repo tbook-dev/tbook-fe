@@ -26,6 +26,7 @@ export default function () {
     isDefi,
     hasDefi,
     groupList,
+    defaultExpand,
   } = useCampaignQuery(campaignId);
   const { projectUrl } = useLoaderData();
   const [searchParams] = useSearchParams();
@@ -132,34 +133,18 @@ export default function () {
         </div>
       )}
 
-      <section className="px-4 lg:px-0">
-        <Timeline
-          showProcess={isDefi}
-          steps={groupList.map(([category, group]) => {
-            const isFinished = group
-              .map((v) => v.credentialList)
-              .flat()
-              .every((c) => c.isVerified === 1);
-
-            return {
-              name: category,
-              children: (
-                <div className="space-y-2 lg:space-y-3">
-                  {group.map((g, i) => (
-                    <GroupCard
-                      key={i}
-                      index={i}
-                      group={g}
-                      showVerify={campaignOngoing}
-                      isDefi={isDefi}
-                    />
-                  ))}
-                </div>
-              ),
-              isFinished,
-            };
-          })}
-        />
+      <section className="px-4 lg:px-0 space-y-2 lg:space-y-3">
+        {groupList.map((g, i) => (
+          <GroupCard
+            key={i}
+            index={i}
+            group={g}
+            showVerify={campaignOngoing}
+            endAt={page?.campaign?.endAt}
+            status={page?.campaign?.status}
+            defaultExpand={defaultExpand}
+          />
+        ))}
       </section>
     </div>
   );

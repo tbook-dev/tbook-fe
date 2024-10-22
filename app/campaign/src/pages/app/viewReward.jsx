@@ -21,7 +21,6 @@ import abi from '@/abi/st';
 import useUserInfoQuery from '@/hooks/useUserInfoQuery';
 import { useDispatch } from 'react-redux';
 import { setConnectWalletModal } from '@/store/global';
-import { formatImpact } from '@tbook/utils/lib/conf';
 import Drawer from '@/components/drawer';
 import Button from '@/components/button';
 import RewardSwiper from './rewardSwiper';
@@ -29,7 +28,11 @@ import RewardLabels from './rewardLabels';
 import useSupportedChains from '@/hooks/useSupportedChains';
 import WebApp from '@twa-dev/sdk';
 import TonSocietyIcon from '@/images/icon/svgr/ton-society.svg?react';
-import { credentialStatus, sbtClaimStatus } from '@/utils/conf';
+import {
+  credentialStatus,
+  sbtClaimStatus,
+  getRewardStatus,
+} from '@/utils/conf';
 import useWallet from '@/hooks/useWallet';
 
 export default function ViewReward({ open, onClose, rewardList }) {
@@ -171,18 +174,19 @@ export default function ViewReward({ open, onClose, rewardList }) {
       handleClaimSbt(reward);
     }
   };
-  const title = useMemo(() => {
-    if (!reward) return;
-    let name = '';
-    if (reward.type === 'point') {
-      name = `${formatImpact(reward.number)} Pts`;
-    } else if (reward.type === 'nft') {
-      name = reward.name ?? 'NFT';
-    } else if (reward.type === 'sbt') {
-      name = reward.name ?? 'SBT';
-    }
-    return rewardStatus?.title(name);
-  }, [reward]);
+  const { title } = getRewardStatus(reward);
+  // const title = useMemo(() => {
+  //   if (!reward) return;
+  //   let name = '';
+  //   if (reward.type === 'point') {
+  //     name = `${formatImpact(reward.number)} Pts`;
+  //   } else if (reward.type === 'nft') {
+  //     name = reward.name ?? 'NFT';
+  //   } else if (reward.type === 'sbt') {
+  //     name = reward.name ?? 'SBT';
+  //   }
+  //   return rewardStatus?.title(name);
+  // }, [reward]);
   const buttonText = useMemo(() => {
     if (!reward) return;
     if (loading) return "let's see……";
@@ -201,7 +205,7 @@ export default function ViewReward({ open, onClose, rewardList }) {
 
   return (
     <Drawer open={open} onCancel={onClose} title={null} showClose>
-      <div className="bg-[#121212] pt-4 pb-14">
+      <div className="bg-[#121212] pt-4 pb-14 px-4">
         <div className="flex justify-end w-full">
           <CloseOutlined
             className="w-6 mr-4 text-white cursor-pointer"

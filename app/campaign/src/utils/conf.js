@@ -5,6 +5,7 @@ import fcfsIcon from '@/images/icon/fcfs.svg';
 import ldIcon from '@/images/icon/ld.svg';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { formatImpact } from '@tbook/utils/lib/conf';
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -190,6 +191,36 @@ export const sbtClaimStatus = [
     value: 5,
   },
 ];
+export const getRewardGroupName = (reward) => {
+  if (!reward) return '';
+  let name = '';
+  if (reward.type === 'point') {
+    name = `${formatImpact(reward.number)} Pts`;
+  } else if (reward.type === 'nft') {
+    name = reward.name ?? 'NFT';
+  } else if (reward.type === 'sbt') {
+    name = reward.name ?? 'SBT';
+  }
+  return name;
+};
+
+export const getRewardStatus = (reward) => {
+  const name = getRewardGroupName(reward);
+  const currentStatus = credentialStatus.find(
+    (v) => v.value === reward.claimedType
+  );
+  const rewardStatus = Object.assign(
+    {},
+    currentStatus,
+    reward.type === 'sbt'
+      ? sbtClaimStatus.find((v) => v.value === reward.claimedType) ?? {}
+      : {}
+  );
+  return {
+    ...rewardStatus,
+    title: rewardStatus.title(name),
+  };
+};
 // 结束点为活动结束时间
 export const credentialStatus = [
   {
@@ -197,6 +228,8 @@ export const credentialStatus = [
     value: 0,
     tip: '',
     title: (name) => `${name} is Ineligible!`,
+    showButton: false,
+    group: (name, dispaly) => `Claim ${name} ${dispaly}`,
   },
   {
     name: 'Eligible',
@@ -204,19 +237,15 @@ export const credentialStatus = [
     title: (name) => `${name} is eligible!`,
     tip: '',
     showButton: true,
+    group: (name, dispaly) => `${name} ${dispaly} is eligible`,
   },
-  // {
-  // label: 'Claim',
-  // name: 'Claim不可点击',
-  // value: 2, //目前没有白名单了，这个保留但是逻辑上不会显示
-  //  'You could claim your reward after whitelist updated.',
-  // },
   {
     name: 'Claim可点击',
     value: 3, //在抽奖当中
     tip: "Let's see if you're one of the winners after the draw.",
     title: (name) => `${name} is eligible!`,
     showButton: false,
+    group: (name, dispaly) => `${name} ${dispaly}`,
   },
   {
     name: 'Claimed',
@@ -224,6 +253,7 @@ export const credentialStatus = [
     tip: 'You claimed your reward! 🎉',
     title: () => 'Awesome!',
     showButton: false,
+    group: (name, dispaly) => `${name} ${dispaly}`,
   },
   {
     name: 'Missed',
@@ -231,6 +261,7 @@ export const credentialStatus = [
     tip: 'Miss the reward this time.\n More explore, better luck next time!',
     title: () => 'Almost there!',
     showButton: false,
+    group: (name, dispaly) => `${name} ${dispaly}`,
   },
 ];
 
