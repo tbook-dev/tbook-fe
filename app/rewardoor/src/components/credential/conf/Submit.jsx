@@ -137,6 +137,46 @@ export default {
     render: renderNoop,
     pick: ['name'],
   },
+  25: {
+    render: renderNoop,
+    pick: ['name'],
+  },
+  26: {
+    render: renderNoop,
+    pick: ['name'],
+  },
+  27: {
+    render: renderNoop,
+    pick: ['name'],
+  },
+  28: {
+    render: renderNoop,
+    pick: ['name'],
+  },
+  29: {
+    render: renderNoop,
+    pick: ['name'],
+  },
+  30: {
+    render: renderNoop,
+    pick: ['name'],
+  },
+  31: {
+    render: renderNoop,
+    pick: ['name'],
+  },
+  32: {
+    render: renderNoop,
+    pick: ['name'],
+  },
+  33: {
+    render: renderNoop,
+    pick: ['name'],
+  },
+  34: {
+    render: renderNoop,
+    pick: ['name'],
+  },
   35: {
     render: renderNoop,
     pick: ['name'],
@@ -194,6 +234,10 @@ export default {
     pick: ['name'],
   },
   51: {
+    render: renderNoop,
+    pick: ['name'],
+  },
+  52: {
     render: renderNoop,
     pick: ['name'],
   },
