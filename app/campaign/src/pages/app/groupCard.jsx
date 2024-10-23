@@ -1,180 +1,182 @@
 import { useState } from 'react';
 import Credential from './credential';
-import { cn } from '@/utils/conf';
+import { cn, credentialStatus, getRewardGroupName } from '@/utils/conf';
 import { motion } from 'framer-motion';
 import GiftIcon from '@/images/icon/svgr/gift.svg?react';
 import GiftOpen from '@/images/icon/svgr/gift-open.svg?react';
 import ArrowIcon from '@/images/icon/svgr/arrow3.svg?react';
 import TonSocietyIcon from '@/images/icon/svgr/ton-society.svg?react';
 import Button from '@/pages/ton-wise/components/button';
-import { useParams } from 'react-router-dom';
-import useCampaignQuery from '@/hooks/useCampaignQuery';
 import ViewReward from './viewReward';
 import RewardSwiper from './rewardSwiper';
 import RewardLabels from './rewardLabels';
+import { getCampaignStatus } from '@/hooks/useCampaignQuery';
+import { useResponsive } from 'ahooks';
+import CheckIcon from '@/images/icon/svgr/checked3.svg?react';
 
-const defiLableTypes = [14, 15, 16, 17, 18, 19, 20];
-
-const getSchema = (labelTypes = [], index) => {
-  const defiColorsMap = {
-    14: ['bg-[#DBFAFF]', true, 'Tonstakers'],
-    15: [
-      'bg-gradient-to-b lg:bg-gradient-to-r from-[#A434E9] via-[#3D95EA] via-40% to-[#3D95EA]/60',
-      true,
-      'Bemo',
-    ],
-    16: [
-      'bg-gradient-to-b lg:bg-gradient-to-r from-[#6C31F0] via-[#4300D5] via-30% to-[#4300D5]',
-      false,
-      'EVAA',
-    ],
-    17: [
-      'bg-gradient-to-b  lg:bg-gradient-to-r from-[#0fd9b4] via-[#0082f9] via-30% to-[#0082f9]',
-      false,
-      'STON.fi',
-    ],
-    21: [
-      'bg-gradient-to-b  lg:bg-gradient-to-r from-[#0fd9b4] via-[#0082f9] via-30% to-[#0082f9]',
-      false,
-      'STON.fi',
-    ],
-    18: [
-      'bg-gradient-to-b  lg:bg-gradient-to-r from-[#ffdb2e] via-[#cc7401] via-30% to-[#cc7401]',
-      true,
-      'DeDust',
-    ],
-    19: [
-      'bg-gradient-to-b  lg:bg-gradient-to-r from-[#ffe11b] via-[#f09f0c] via-30% to-[#f09f0c]',
-      true,
-      'Storm Trade',
-    ],
-    20: [
-      'bg-gradient-to-b  lg:bg-gradient-to-r from-[#ffe11b] via-[#f09f0c] via-30% to-[#f09f0c]',
-      true,
-      'Storm Trade',
-    ],
+const getSchema = (isGroupVerified, rewardList) => {
+  const isIssued = rewardList.some((reward) => reward.claimedType > 2);
+  const status = isGroupVerified
+    ? isIssued
+      ? 'claim'
+      : 'eligible'
+    : 'unverified';
+  // 已经完成，全部领取，没有全部领取
+  // 没有完成
+  const schema = {
+    eligible: {
+      color: '#F4E357',
+    }, // 可以领取奖励，但是还没有领取
+    unverified: {
+      color: '#D8FAFF',
+    }, //还不能领取奖励，没有全部完成
+    claim: {
+      color: '#ABEDBB',
+    }, // 领取了奖励,不管结果是什么，missed,pending,
   };
-  const normalMap = {
-    0: ['bg-[#E5AB8A]', true, ''],
-    1: ['bg-[#C0AFD0]', true, ''],
-  };
-  const defiTypes = labelTypes.filter((v) => defiLableTypes.includes(v));
-  const renderType = defiTypes.length > 0 ? defiTypes[0] : index % 2;
-  const conf = defiColorsMap[renderType] ?? normalMap[renderType];
   return {
-    bg: conf[0],
-    isDark: conf[1],
-    title: conf[2],
-    renderType,
+    status,
+    color: schema[status].color,
+    title: rewardList
+      .map((reward) => {
+        const t = credentialStatus.find((c) => reward.claimedType === c.value);
+        return t.group(getRewardGroupName(reward), reward.dispaly);
+      })
+      .join(','),
   };
 };
+const Arraw = ({ onClick, className }) => (
+  <button onClick={onClick}>
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 28 28"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        d="M9.75146 17L14.0744 12.4609L18.3973 17"
+        stroke="#12172F"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  </button>
+);
 
-const GroupCard = ({ group, index, showVerify }) => {
-  const { campaignId } = useParams();
-
-  const {
-    data: page,
-    campaignNotStart,
-    campaignEnd,
-    campaignOngoing,
-  } = useCampaignQuery(campaignId);
-  const { bg, isDark, title, renderType } = getSchema(
-    group.credentialList?.map((c) => c.labelType),
-    index
-  );
+const GroupCard = ({ group, showVerify, endAt, status, defaultExpand }) => {
+  const { pc } = useResponsive();
+  const { campaignNotStart, campaignEnd, campaignOngoing } =
+    getCampaignStatus(status);
   const verifyCnt =
     group.credentialList?.filter((c) => c.isVerified === 1).length ?? 0;
   const totalCnt = group.credentialList?.length ?? 1;
   const isGroupVerified = verifyCnt === totalCnt;
+
   const [showCredential, setShowCredential] = useState(false);
   const [displayIdx, setDisplayIdx] = useState(0);
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const rewardList = [
-    ...group.nftList.map((v) => ({ ...v, id: v.nftId, type: 'nft' })),
-    ...group.sbtList.map((v) => ({ ...v, id: v.sbtId, type: 'sbt' })),
-    ...group.pointList.map((v) => ({ ...v, id: v.pointId, type: 'point' })),
+    ...group.nftList.map((v) => ({
+      ...v,
+      id: v.nftId,
+      type: 'nft',
+      dispaly: 'NFT',
+    })),
+    ...group.sbtList.map((v) => ({
+      ...v,
+      id: v.sbtId,
+      type: 'sbt',
+      dispaly: 'SBT',
+    })),
+    ...group.pointList.map((v) => ({
+      ...v,
+      id: v.pointId,
+      type: 'point',
+      dispaly: '',
+    })),
   ];
+  const {
+    color,
+    title,
+    status: groupsStatus,
+  } = getSchema(isGroupVerified, rewardList);
   const reward = rewardList[displayIdx];
   const hasSbt = rewardList.some((v) => v.type === 'sbt');
-
+  const [expand, setExpand] = useState(defaultExpand);
   return (
     <>
       <div
         className={cn(
-          'rounded-2xl overflow-hidden relative shadow-xl lg:flex lg:items-stretch lg:justify-between',
-          bg,
-          renderType
+          'rounded-2xl overflow-hidden relative shadow-xl lg:flex lg:items-stretch lg:justify-between'
         )}
+        style={{ backgroundColor: color }}
       >
         <div
           className={cn(
             'relative p-4 rounded-2xl lg:w-[420px] lg:space-y-5',
-            isDark ? 'text-[#12172F]' : 'text-white'
+            'text-[#12172F]'
           )}
         >
           <div className="flex items-center justify-between gap-x-3 lg:items-start">
             <div
               className={cn(
-                'flex-auto h-20',
-                'flex flex-col justify-between',
-                isDark ? 'text-[#12172F]' : 'text-white'
+                'flex items-center justify-between gap-x-1 text-left flex-auto',
+                'text-[#12172F]'
               )}
             >
-              <p className={cn('text-base  font-bold')}>
-                {title ? `Complete Tasks On ${title}` : 'Complete Tasks'}
-              </p>
-              <div className={cn('text-xs space-y-0.5 w-full')}>
-                <div>
-                  {verifyCnt}/{totalCnt}
-                </div>
-                <div className="relative">
-                  <div
-                    className={cn(
-                      isDark ? 'bg-[#12172F]/10' : 'bg-white/10',
-                      'h-2 relative w-[calc(100%_-_25px)] rounded-l-full'
-                    )}
-                  >
-                    <motion.div
-                      className={cn(
-                        'h-2 absolute inset-y-0 left-0  rounded-l-full',
-                        isDark ? 'bg-[#12172F]' : 'bg-white'
-                      )}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${(verifyCnt * 100) / totalCnt}%` }}
-                    />
-                  </div>
-
-                  {isGroupVerified ? (
-                    <GiftOpen
-                      className="absolute -right-1 -bottom-2"
-                      fill={isDark ? '#12172F' : '#fff'}
-                    />
-                  ) : (
-                    <GiftIcon
-                      className="absolute -right-1 -bottom-2"
-                      fill={isDark ? '#12172F' : '#fff'}
-                    />
+              <div className="space-y-0.5 flex-auto">
+                <p className="text-xs">
+                  {title ?? 'Complete Tasks'}{' '}
+                  {groupsStatus === 'claim' && (
+                    <CheckIcon className="size-2.5 inline ml-0.5" />
                   )}
+                </p>
+                <div
+                  className={cn('bg-black/10', 'h-2 relative rounded-l-full')}
+                >
+                  <motion.div
+                    className={cn(
+                      'h-2 absolute inset-y-0 left-0  rounded-l-full',
+                      'bg-[#12172F]'
+                    )}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${(verifyCnt * 100) / totalCnt}%` }}
+                  />
                 </div>
               </div>
+
+              {isGroupVerified ? (
+                <RewardSwiper
+                  className="flex-none translate-y-1"
+                  displayIdx={displayIdx}
+                  setDisplayIdx={setDisplayIdx}
+                  rewardList={rewardList}
+                  size="small"
+                />
+              ) : (
+                <GiftIcon className="size-7 translate-y-1" fill={'#12172F'} />
+              )}
             </div>
-            <div className="size-20 flex-none lg:hidden">
-              <RewardSwiper
-                displayIdx={displayIdx}
-                setDisplayIdx={setDisplayIdx}
-                rewardList={rewardList}
+            {pc ? null : (
+              <Arraw
+                onClick={() => setExpand((v) => !v)}
+                className={expand ? '' : 'rotate-180'}
               />
-            </div>
+            )}
           </div>
           <div className="rounded-xl p-3 bg-[#12162F]/15 lg:flex gap-x-5 justify-start w-max hidden">
             <RewardSwiper
+              size="default"
               displayIdx={displayIdx}
               setDisplayIdx={setDisplayIdx}
               rewardList={rewardList}
             />
             <RewardLabels
               reward={reward}
-              endAt={page?.campaign?.endAt}
+              endAt={endAt}
               campaignNotStart={campaignNotStart}
               campaignEnd={campaignEnd}
               campaignOngoing={campaignOngoing}
@@ -182,7 +184,12 @@ const GroupCard = ({ group, index, showVerify }) => {
           </div>
         </div>
 
-        <div className="w-full p-4 lg:w-[720px]  rounded-2xl bg-gradient-to-b from-black/65 to-black/85 backdrop-blur-2xl flex flex-col justify-between gap-y-2">
+        <div
+          className={cn(
+            'w-full p-4 lg:w-[720px]  rounded-2xl bg-gradient-to-b from-black/65 to-black/85 backdrop-blur-2xl flex flex-col justify-between gap-y-2',
+            pc ? '' : expand ? '' : 'hidden'
+          )}
+        >
           {isGroupVerified ? (
             <>
               <div className="space-y-2.5">
@@ -198,7 +205,7 @@ const GroupCard = ({ group, index, showVerify }) => {
                   </p>
                 </button>
                 {showCredential && (
-                  <div className="space-y-2">
+                  <div className="space-y-2 text-left">
                     {group.credentialList?.map((credential) => (
                       <Credential
                         credential={credential}

@@ -52,6 +52,7 @@ const AmbassadorApply = lazy(() => import('@/pages/ton-wise/ambassador-apply'));
 const Ambassador = lazy(() => import('@/pages/ton-wise/ambassador'));
 const Attestation = lazy(() => import('@/pages/attestation'));
 const DeFiGuide = lazy(() => import('@/pages/defi/guide'));
+const Normie = lazy(() => import('@/pages/event/nomie'));
 
 const getTbookfn = async () => {
   return defaultProjectInfo;
@@ -327,6 +328,15 @@ const routes = [
         element: (
           <Suspense fallback={<PageFallBack />}>
             <DeFiGuide />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'normie',
+        loader: getTbookfn,
+        element: (
+          <Suspense fallback={<PageFallBack />}>
+            <Normie />
           </Suspense>
         ),
       },

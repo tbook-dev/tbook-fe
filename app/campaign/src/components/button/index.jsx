@@ -6,6 +6,7 @@ const clsMap = {
   default: 'text-c-9 font-medium text-sm border border-c-9',
   text: 'text-c-9 text-xs px-0 font-medium',
   purple: 'text-white font-medium text-sm bg-[#904BF6] rounded px-3 py-1.5',
+  white: 'text-black bg-white',
 };
 const disabledClsMap = {
   primary:
