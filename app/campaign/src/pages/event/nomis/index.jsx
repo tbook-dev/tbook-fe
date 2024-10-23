@@ -14,6 +14,7 @@ import exampleURL from '@/images/event/normie-sbt-example.svg';
 import useNormieAirdrop from '@/hooks/useNormieAirdrop';
 import GroupCard from '@/pages/app/groupCard';
 import { getFormatedGroups } from '@/hooks/useCampaignQuery';
+import LazyImage from '@/components/lazyImage';
 
 preloadBatchImage([Bg1]);
 
@@ -52,7 +53,7 @@ const Normis = () => {
   const groups = getFormatedGroups(normie?.lateNightDefiGroups ?? []);
   const defiOngoing = true;
 
-  const [displayIdx, setDisplayIdx] = useState(4);
+  const [displayIdx, setDisplayIdx] = useState(3);
 
   const slides = useMemo(() => {
     return [
@@ -99,21 +100,28 @@ const Normis = () => {
       },
       {
         key: 3,
-        className: 'bg-[#22306D]',
+        className: 'bg-[#22306D] justify-start pt-20',
         content: (
-          <div className="space-y-10 font-bold text-2xl text-[#ABEDBB] text-left">
-            <h2 className="">
-              Imaking transactions in the apps of the
-              <a
-                className="ml-1 underline underline-offset-8"
-                href="https://ton.org/open-league?filterBy=forProjects"
-                target="_blank"
-              >
-                App League
-              </a>
+          <div className="space-y-10 font-bold  text-[#ABEDBB] text-left">
+            <h2 className="text-2xl text-[#F36EBD] text-center">
+              Boost your chances for the Normie Airdrop!
             </h2>
-            <h1>using major TON DeFi protocols</h1>
-            <h1>holding core TON assets</h1>
+            <div className="text-lg space-y-6">
+              {[
+                'Dive in and engage with App Battle projects!',
+                'uExplore the six DeFi protocols in Late Night DeFi!',
+                'Stock up on TON Coins!',
+                'Collect tons of SBTs from the Normie campaign!',
+              ].map((v, k) => (
+                <div className="flex items-start gap-x-2 pl-2" key={k}>
+                  <i className="size-2 rounded-full bg-[#ABEDBB] flex-none mt-4" />
+                  {v}
+                </div>
+              ))}
+            </div>
+            <div className="text-2xl text-center">
+              Get ready—this is your moment! 🎉 Don't miss out!
+            </div>
           </div>
         ),
       },
@@ -121,13 +129,9 @@ const Normis = () => {
         key: 4,
         className: 'bg-[#22306D] justify-start pt-20',
         content: (
-          <div className="space-y-10 ">
-            <div className="text-[#ABEDBB] text-lg font-bold">
-              Claim these Normis-series SBTs, unlocked by your on-chain behavior
-            </div>
-
-            <div className="grid grid-cols-3 gap-x-4 gap-y-10 min-h-[288px]">
-              {Array.from({ length: 10 })
+          <div className="space-y-5 ">
+            <div className="grid grid-cols-5 gap-x-1 gap-y-2 max-h-[250px] overflow-auto shadow-md">
+              {Array.from({ length: 30 })
                 .fill(1)
                 .map((_, i) => {
                   return (
@@ -135,7 +139,7 @@ const Normis = () => {
                       <div className="w-full rounded-xl bg-[#071029]" key={i}>
                         <img src={exampleURL} />
                       </div>
-                      <p className="font-bold text-xs text-white">
+                      <p className="font-bold text-[10px] text-white">
                         Nomie Badge
                       </p>
                     </div>
@@ -143,19 +147,17 @@ const Normis = () => {
                 })}
             </div>
 
-            <div className="text-[#ABEDBB]/40 text-sm font-normal pb-12">
-              <p> Guess what? There are 23 Normis-series SBTs!</p>
+            <div className="text-[#ABEDBB] text-sm font-normal space-y-3">
               <p>
-                Check out App League to
-                <a
-                  className="ml-1 underline underline-offset-4"
-                  target="_blank"
-                  href="https://ton.org/open-league?filterBy=forProjects"
-                >
-                  explore them all!
-                </a>
+                Based on your on-chain activity, the SBTs above are the ones
+                you're eligible to claim!
+              </p>
+              <p>
+                Meet the following requirements, the most dedicated can unlock
+                over 10 in total!
               </p>
             </div>
+            <div>xx</div>
           </div>
         ),
       },
@@ -199,6 +201,31 @@ const Normis = () => {
           </div>
         ),
       },
+      {
+        key: 6,
+        className: 'bg-[#F36EBD] justify-start py-20',
+        content: (
+          <div className="space-y-12">
+            <div className="text-[#22306D] text-2xl font-bold">
+              Royal TON Hodler!
+            </div>
+
+            <div className="space-y-1.5 flex flex-col items-center">
+              <LazyImage
+                src={exampleURL}
+                alt="ton sbt picUrl"
+                className="size-[164px]"
+              />
+              <p className="text-base text-center font-bold">Toncoin Holder</p>
+            </div>
+
+            <div className="text-[#22306D] text-base font-bold pb-12">
+              <p>Get Toncoin.</p>
+              <p>Claim Toncoin Holder SBT</p>
+            </div>
+          </div>
+        ),
+      },
     ];
   }, [setDisplayIdx, defi, groups]);
   const CurrentFrame = slides[displayIdx];
@@ -208,6 +235,18 @@ const Normis = () => {
   ) : (
     <div className="fixed top-0 left-0 inset-0 z-10 h-screen overflow-auto">
       <Header />
+      <div className="flex h-0.5 items-center gap-x-2 px-10 mx-auto absolute inset-0 top-14 z-10">
+        {slides.map((v, idx) => (
+          <div
+            className={cn(
+              'h-0.5 rounded-full',
+              idx === displayIdx ? 'bg-white' : 'bg-white/30'
+            )}
+            style={{ width: `${(1 / slides.length) * 100}%` }}
+            key={v.key}
+          />
+        ))}
+      </div>
       <div
         className={cn(
           'relative px-4 flex flex-col items-center justify-center min-h-screen',
