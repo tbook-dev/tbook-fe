@@ -295,7 +295,7 @@ export default [
     picUrl2: black42,
   },
   {
-    name: 'Holding $FTON',
+    name: 'Holding $RBTC',
     labelType: 43,
     picUrl: white43,
     groupType: 7,
