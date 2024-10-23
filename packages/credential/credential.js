@@ -59,6 +59,7 @@ import black48 from './logos/black48.svg';
 import black49 from './logos/black49.svg';
 import black50 from './logos/black50.svg';
 import black51 from './logos/black51.svg';
+import black53 from './logos/black53.svg';
 
 import white25 from './logos/white25.svg';
 import white26 from './logos/white26.svg';
@@ -85,6 +86,7 @@ import white48 from './logos/white48.svg';
 import white49 from './logos/white49.svg';
 import white50 from './logos/white50.svg';
 import white51 from './logos/white51.svg';
+import white53 from './logos/white53.svg';
 
 export default [
   //  groupType: 2,
@@ -453,5 +455,12 @@ export default [
     picUrl: tonstakerWhite,
     groupType: 7,
     picUrl2: tonstakerBlack,
+  },
+  {
+    name: 'Boost TON Station in Open League',
+    labelType: 53,
+    picUrl: white53,
+    groupType: 7,
+    picUrl2: black53,
   },
 ];

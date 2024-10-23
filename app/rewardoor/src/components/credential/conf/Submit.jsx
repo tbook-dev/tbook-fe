@@ -241,4 +241,8 @@ export default {
     render: renderNoop,
     pick: ['name'],
   },
+  53: {
+    render: renderNoop,
+    pick: ['name'],
+  },
 };

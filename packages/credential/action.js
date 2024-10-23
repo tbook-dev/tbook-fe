@@ -359,4 +359,11 @@ export default {
     getActionName: noop,
     getActionTarget: ({ name }) => name,
   },
+  53: {
+    optional: false,
+    isLink: false,
+    getLink: noop,
+    getActionName: noop,
+    getActionTarget: ({ name }) => name,
+  },
 };
