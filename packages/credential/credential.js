@@ -34,6 +34,16 @@ import ethBlack from './logos/eth-black.svg';
 import ethWhite from './logos/eth-white.svg';
 import tonBlack from './logos/ton-black.svg';
 import tonWhite from './logos/ton-white.svg';
+import black25 from './logos/black25.svg';
+import black26 from './logos/black26.svg';
+import black27 from './logos/black27.svg';
+import black28 from './logos/black28.svg';
+import black29 from './logos/black29.svg';
+import black30 from './logos/black30.svg';
+import black31 from './logos/black31.svg';
+import black32 from './logos/black32.svg';
+import black33 from './logos/black33.svg';
+import black34 from './logos/black34.svg';
 import black35 from './logos/black35.svg';
 import black36 from './logos/black36.svg';
 import black37 from './logos/black37.svg';
@@ -50,6 +60,16 @@ import black49 from './logos/black49.svg';
 import black50 from './logos/black50.svg';
 import black51 from './logos/black51.svg';
 
+import white25 from './logos/white25.svg';
+import white26 from './logos/white26.svg';
+import white27 from './logos/white27.svg';
+import white28 from './logos/white28.svg';
+import white29 from './logos/white29.svg';
+import white30 from './logos/white30.svg';
+import white31 from './logos/white31.svg';
+import white32 from './logos/white32.svg';
+import white33 from './logos/white33.svg';
+import white34 from './logos/white34.svg';
 import white35 from './logos/white35.svg';
 import white36 from './logos/white36.svg';
 import white37 from './logos/white37.svg';
@@ -253,6 +273,76 @@ export default [
     picUrl2: ethBlack,
   },
   {
+    name: 'Stake TON',
+    labelType: 25,
+    picUrl: white25,
+    groupType: 7,
+    picUrl2: black25,
+  },
+  {
+    name: 'Deposit tsTON or stTON and mint',
+    labelType: 26,
+    picUrl: white26,
+    groupType: 7,
+    picUrl2: black26,
+  },
+  {
+    name: 'Stake STORM',
+    labelType: 27,
+    picUrl: white27,
+    groupType: 7,
+    picUrl2: black27,
+  },
+  {
+    name: 'Deposit TON',
+    labelType: 28,
+    picUrl: white28,
+    groupType: 7,
+    picUrl2: black28,
+  },
+  {
+    name: 'Deposit USDT',
+    labelType: 29,
+    picUrl: white29,
+    groupType: 7,
+    picUrl2: black29,
+  },
+  {
+    name: 'Buy mid risk index with TON',
+    labelType: 30,
+    picUrl: white30,
+    groupType: 7,
+    picUrl2: black30,
+  },
+  {
+    name: 'Deposit tsTON or USDT',
+    labelType: 31,
+    picUrl: white31,
+    groupType: 7,
+    picUrl2: black31,
+  },
+  {
+    name: 'Deposit tsTON or stTON',
+    labelType: 32,
+    picUrl: white32,
+    groupType: 7,
+    picUrl2: black32,
+  },
+  {
+    name: 'Deposit TON',
+    labelType: 33,
+    picUrl: white33,
+    groupType: 7,
+    picUrl2: black33,
+  },
+  {
+    name: 'Long or short perps',
+    labelType: 34,
+    picUrl: white34,
+    groupType: 7,
+    picUrl2: black34,
+  },
+  {
     name: 'Boost Blum in Open League',
     labelType: 35,
     picUrl: white35,
@@ -355,6 +445,13 @@ export default [
     labelType: 51,
     picUrl: white51,
     groupType: 7,
-    picUrl2: white51,
+    picUrl2: black51,
+  },
+  {
+    name: 'Stake some TON',
+    labelType: 52,
+    picUrl: tonstakerWhite,
+    groupType: 7,
+    picUrl2: tonstakerBlack,
   },
 ];
