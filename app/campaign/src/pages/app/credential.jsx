@@ -8,7 +8,7 @@ import VerifyStatus, {
 } from '@/components/withVerify/VerifyStatus';
 import { verifyTbook } from '@/api/incentive';
 import useUserInfo from '@/hooks/useUserInfoQuery';
-import { useParams, Link, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { useResponsive } from 'ahooks';
 import React, {
   useState,
@@ -51,7 +51,7 @@ export default function Credential({
   onVerifySuccess,
 }) {
   const { isUsingSubdomain, projectUrl, project } = useLoaderData();
-  const { campaignId } = useParams();
+  const campaignId = credential?.campaignId;
   const queryClient = useQueryClient();
   useAutoVerify(credential, campaignId);
   const dispatch = useDispatch();

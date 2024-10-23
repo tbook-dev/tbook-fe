@@ -13,16 +13,28 @@ import { shortAddress } from '@tbook/utils/lib/conf';
 import exampleURL from '@/images/event/normie-sbt-example.svg';
 import useNormieAirdrop from '@/hooks/useNormieAirdrop';
 import GroupCard from '@/pages/app/groupCard';
-import { getFormatedGroups } from '@/hooks/useCampaignQuery';
+import useCampaignQuery from '@/hooks/useCampaignQuery';
 import LazyImage from '@/components/lazyImage';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
-preloadBatchImage([Bg1]);
+// import 'swiper/css/navigation';
 
+preloadBatchImage([Bg1]);
+const SBTLoading = () => (
+  <div className="relative space-y-1 pb-10">
+    <div className="rounded-lg w-full aspect-square bg-[#1f1f1f] animate-pulse" />
+    <div className="rounded h-4 w-3/4 mx-auto bg-[#1f1f1f] animate-pulse" />
+  </div>
+);
 const Arrow = ({ disabled, className, onClick }) => {
   return (
-    <div className="rounded-full bg-black/10 backdrop-blur" onClick={onClick}>
+    <button
+      disabled={disabled}
+      className="rounded-full bg-black/10 backdrop-blur"
+      onClick={onClick}
+    >
       <svg
         width="56"
         height="56"
@@ -43,7 +55,7 @@ const Arrow = ({ disabled, className, onClick }) => {
           strokeLinejoin="round"
         />
       </svg>
-    </div>
+    </button>
   );
 };
 const Normis = () => {
@@ -52,24 +64,27 @@ const Normis = () => {
   const [ton] = getWallets(['ton']);
   const { data: defi } = useDeFi();
   const { data: normie, isLoading } = useNormieAirdrop();
-  const groups = getFormatedGroups(normie?.lateNightDefiGroups ?? []);
-  const defiOngoing = true;
-
+  const { groupList: groups, campaignOngoing: defiOngoing } = useCampaignQuery(
+    defi?.campaignId
+  );
   const [displayIdx, setDisplayIdx] = useState(3);
-  const userSBTs = Array.from({ length: 14 }).fill({
-    url: exampleURL,
-    name: 'Nomie Badge',
-  });
-  const allSBT = Array.from({ length: 30 }).fill({
-    url: exampleURL,
-    name: 'Nomie Badge2',
-    taskName: 'Hold $FTON.',
-  });
+  const allSBT =
+    normie?.normieVerifyResult?.map((c) => ({
+      url: c.sbt?.picUrl,
+      name: c.sbt?.name,
+      credentialName: c.credentialName,
+      claimedType: c.sbt?.claimedType ?? 0,
+      claimed: c.sbt?.claimedType >= 3,
+      granted: c.sbt?.claimedType >= 2,
+    })) ?? [];
+  const userSBTs = allSBT.filter((c) => c.claimedType >= 2);
+  console.log({ defi, defiOngoing, isLoading, userSBTs, allSBT });
+
   const slides = useMemo(() => {
     return [
       {
-        key: 1,
         bg: Bg1,
+        show: true,
         content: (
           <div className="space-y-5 font-bold text-[#503658]">
             <div className="text-[40px]">
@@ -84,8 +99,9 @@ const Normis = () => {
         ),
       },
       {
-        key: 2,
+        name: 'tonConnect',
         className: 'bg-[#503658]',
+        show: !ton.connected,
         content: (
           <div className="space-y-5">
             <div className="text-2xl font-bold text-[#E5AB8A]">
@@ -109,8 +125,8 @@ const Normis = () => {
         ),
       },
       {
-        key: 3,
         className: 'bg-[#22306D] justify-start pt-20',
+        show: true,
         content: (
           <div className="space-y-10 font-bold  text-[#ABEDBB] text-left">
             <h2 className="text-2xl text-[#F36EBD] text-center">
@@ -136,23 +152,27 @@ const Normis = () => {
         ),
       },
       {
-        key: 4,
         className: 'bg-[#22306D] justify-start pt-20',
+        show: true,
         content: (
           <div className="space-y-5 ">
             <div className="grid grid-cols-5 gap-x-1 gap-y-2 max-h-[250px] overflow-auto shadow-md">
-              {userSBTs.map((sbt, i) => {
-                return (
-                  <div className="flex flex-col gap-y-1.5" key={i}>
-                    <div className="w-full rounded-xl bg-[#071029]" key={i}>
-                      <img src={sbt.url} />
+              {normie ? (
+                userSBTs.map((sbt, i) => {
+                  return (
+                    <div className="flex flex-col gap-y-1.5" key={i}>
+                      <div className="w-full rounded-xl bg-[#071029]" key={i}>
+                        <img src={sbt.url} />
+                      </div>
+                      <p className="font-bold text-[10px] text-white">
+                        {sbt.name}
+                      </p>
                     </div>
-                    <p className="font-bold text-[10px] text-white">
-                      {sbt.name}
-                    </p>
-                  </div>
-                );
-              })}
+                  );
+                })
+              ) : (
+                <SBTLoading />
+              )}
             </div>
 
             <div className="text-[#ABEDBB] text-sm font-normal space-y-3">
@@ -165,36 +185,57 @@ const Normis = () => {
                 over 10 in total!
               </p>
             </div>
-            <div className="-mx-4">
+            {normie ? (
               <Swiper
                 spaceBetween={15}
-                slidesPerView={2}
-                slidesPerGroup={2}
+                slidesPerView={3}
+                slidesPerGroup={3}
+                modules={[Pagination]}
+                pagination={{ clickable: true }}
+                loopFillGroupWithBlank
+                loop
                 style={{
                   '--swiper-theme-color': 'white',
                   '--swiper-pagination-bullet-inactive-color': '#666',
+                  // '--swiper-navigation-size': '16px',
                 }}
               >
                 {allSBT.map((v, i) => {
                   return (
                     <SwiperSlide key={i}>
-                      <div className="relative w-max">
-                        <img src={v.url} className="w-[164px]" />
-                        <p className="text-sm text-center absolute inset-x-0 bottom-1 text-[#ABEDBB]">
-                          {v.taskName}
+                      <div className="relative space-y-1 pb-10">
+                        <LazyImage
+                          src={v.url}
+                          alt={`${v.name}`}
+                          className="rounded-lg aspect-square"
+                        />
+                        <p className="text-xs text-center text-[#ABEDBB]">
+                          {v.credentialName}
                         </p>
                       </div>
                     </SwiperSlide>
                   );
                 })}
               </Swiper>
-            </div>
+            ) : (
+              <div className="grid grid-cols-3 gap-x-4">
+                {Array.from({ length: 3 })
+                  .fill(1)
+                  .map((_, i) => {
+                    return (
+                      <SwiperSlide key={i}>
+                        <SBTLoading />
+                      </SwiperSlide>
+                    );
+                  })}
+              </div>
+            )}
           </div>
         ),
       },
       {
-        key: 5,
         className: 'bg-[#3C00E4] justify-start py-20 w-full',
+        show: true,
         content: (
           <div className="space-y-10">
             <div className="text-[#C0AFD0] text-2xl font-bold">
@@ -233,8 +274,8 @@ const Normis = () => {
         ),
       },
       {
-        key: 6,
         className: 'bg-[#F36EBD] justify-start py-20',
+        show: true,
         content: (
           <div className="space-y-12">
             <div className="text-[#22306D] text-2xl font-bold">
@@ -257,8 +298,8 @@ const Normis = () => {
           </div>
         ),
       },
-    ];
-  }, [setDisplayIdx, defi, groups]);
+    ].filter((c) => c.show);
+  }, [setDisplayIdx, defi, groups, ton]);
   const CurrentFrame = slides[displayIdx];
 
   return pc ? (
@@ -289,11 +330,30 @@ const Normis = () => {
         }}
       >
         <div className="text-center w-full">{CurrentFrame.content}</div>
-        <div className="fixed inset-x-0 bottom-14 w-[310px] flex justify-between items-center mx-auto">
-          <Arrow onClick={() => setDisplayIdx((v) => v - 1)} />
+        <div
+          className={cn(
+            'fixed inset-x-0 bottom-14 w-[310px] flex justify-between items-center mx-auto',
+            displayIdx > 0 ? 'justify-between' : 'justify-end'
+          )}
+        >
+          {displayIdx > 0 && (
+            <Arrow
+              onClick={() =>
+                setDisplayIdx((v) => {
+                  return displayIdx === 0 ? slides.length - 1 : v - 1;
+                })
+              }
+            />
+          )}
+
           <Arrow
+            disabled={CurrentFrame.name === 'tonConnect' && !ton.connected}
             className="rotate-180"
-            onClick={() => setDisplayIdx((v) => v + 1)}
+            onClick={() =>
+              setDisplayIdx((v) => {
+                return displayIdx === slides.length - 1 ? 0 : v + 1;
+              })
+            }
           />
         </div>
       </div>
