@@ -15,7 +15,9 @@ import useNormieAirdrop from '@/hooks/useNormieAirdrop';
 import GroupCard from '@/pages/app/groupCard';
 import { getFormatedGroups } from '@/hooks/useCampaignQuery';
 import LazyImage from '@/components/lazyImage';
-
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
 preloadBatchImage([Bg1]);
 
 const Arrow = ({ disabled, className, onClick }) => {
@@ -54,7 +56,15 @@ const Normis = () => {
   const defiOngoing = true;
 
   const [displayIdx, setDisplayIdx] = useState(3);
-
+  const userSBTs = Array.from({ length: 14 }).fill({
+    url: exampleURL,
+    name: 'Nomie Badge',
+  });
+  const allSBT = Array.from({ length: 30 }).fill({
+    url: exampleURL,
+    name: 'Nomie Badge2',
+    taskName: 'Hold $FTON.',
+  });
   const slides = useMemo(() => {
     return [
       {
@@ -131,20 +141,18 @@ const Normis = () => {
         content: (
           <div className="space-y-5 ">
             <div className="grid grid-cols-5 gap-x-1 gap-y-2 max-h-[250px] overflow-auto shadow-md">
-              {Array.from({ length: 30 })
-                .fill(1)
-                .map((_, i) => {
-                  return (
-                    <div className="flex flex-col gap-y-1.5" key={i}>
-                      <div className="w-full rounded-xl bg-[#071029]" key={i}>
-                        <img src={exampleURL} />
-                      </div>
-                      <p className="font-bold text-[10px] text-white">
-                        Nomie Badge
-                      </p>
+              {userSBTs.map((sbt, i) => {
+                return (
+                  <div className="flex flex-col gap-y-1.5" key={i}>
+                    <div className="w-full rounded-xl bg-[#071029]" key={i}>
+                      <img src={sbt.url} />
                     </div>
-                  );
-                })}
+                    <p className="font-bold text-[10px] text-white">
+                      {sbt.name}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
 
             <div className="text-[#ABEDBB] text-sm font-normal space-y-3">
@@ -157,7 +165,30 @@ const Normis = () => {
                 over 10 in total!
               </p>
             </div>
-            <div>xx</div>
+            <div className="-mx-4">
+              <Swiper
+                spaceBetween={15}
+                slidesPerView={2}
+                slidesPerGroup={2}
+                style={{
+                  '--swiper-theme-color': 'white',
+                  '--swiper-pagination-bullet-inactive-color': '#666',
+                }}
+              >
+                {allSBT.map((v, i) => {
+                  return (
+                    <SwiperSlide key={i}>
+                      <div className="relative w-max">
+                        <img src={v.url} className="w-[164px]" />
+                        <p className="text-sm text-center absolute inset-x-0 bottom-1 text-[#ABEDBB]">
+                          {v.taskName}
+                        </p>
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
+            </div>
           </div>
         ),
       },
