@@ -25,7 +25,7 @@ import CheckedIcon from '@/images/icon/svgr/checked4.svg?react';
 import { claimSBT } from '@/api/incentive';
 import { jumpLink } from '@/utils/tma';
 import { useTelegram } from '@/hooks/useTg';
-import { message } from 'antd';
+import { message, Skeleton } from 'antd';
 
 preloadBatchImage([Bg1]);
 const SBTLoading = () => (
@@ -47,10 +47,7 @@ const Arrow = ({ disabled, className, onClick }) => {
         viewBox="0 0 56 56"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className={cn(
-          className,
-          disabled ? 'cursor-pointer' : 'cursor-not-allowed'
-        )}
+        className={cn(className)}
       >
         <path
           d="M31.9584 19.8542L22.8802 28.5L31.9584 37.1458"
@@ -64,6 +61,17 @@ const Arrow = ({ disabled, className, onClick }) => {
     </button>
   );
 };
+const formatSBT = (c) => ({
+  ...c,
+  sbtId: c.sbt?.sbtId,
+  url: c.sbt?.picUrl,
+  name: c.sbt?.name,
+  credentialName: c.credentialName,
+  claimedType: c.sbt?.claimedType ?? 0,
+  uniqueLink: c.sbt?.uniqueLink,
+  claimed: c.sbt?.claimedType >= 3,
+  granted: c.sbt?.claimedType >= 2,
+});
 const Normis = () => {
   const { pc } = useResponsive();
   const { getWallets } = useWallet();
@@ -77,21 +85,10 @@ const Normis = () => {
   const { isTMA } = useTelegram();
   const [displayIdx, setDisplayIdx] = useState(0);
 
-  const allSBT =
-    normie?.normieVerifyResult?.map((c) => ({
-      ...c,
-      sbtId: c.sbt?.sbtId,
-      url: c.sbt?.picUrl,
-      name: c.sbt?.name,
-      credentialName: c.credentialName,
-      claimedType: c.sbt?.claimedType ?? 0,
-      uniqueLink: c.sbt?.uniqueLink,
-      claimed: c.sbt?.claimedType >= 3,
-      granted: c.sbt?.claimedType >= 2,
-    })) ?? [];
+  const allSBT = normie?.normieVerifyResult?.map(formatSBT) ?? [];
   const userSBTs = allSBT.filter((c) => c.claimedType >= 2);
   // console.log({ defi, defiOngoing, isLoading, userSBTs, allSBT });
-  const tonHoldlerSBT = allSBT[0];
+  const tonHoldlerSBT = formatSBT(normie?.tonHoldlerSBT ?? {});
   const handleSBT = async (sbt) => {
     if (sbt.uniqueLink) {
       jumpLink(res.link, pc, isTMA);
@@ -181,7 +178,7 @@ const Normis = () => {
         ),
       },
       {
-        className: 'bg-[#22306D] justify-start py-20',
+        className: 'bg-[#22306D] justify-start pt-20 pb-40',
         show: true,
         content: (
           <div className="space-y-5">
@@ -293,7 +290,7 @@ const Normis = () => {
         ),
       },
       {
-        className: 'bg-[#3C00E4] justify-start py-20 w-full',
+        className: 'bg-[#3C00E4] justify-start pt-20 pb-40 w-full',
         show: true,
         content: (
           <div className="space-y-10">
@@ -302,32 +299,22 @@ const Normis = () => {
             </div>
 
             <div className="space-y-2 lg:space-y-3">
-              {groups.map((group, i) => {
-                return (
-                  <GroupCard
-                    key={group.id}
-                    group={group}
-                    showVerify={defiOngoing}
-                    endAt={1726738389000}
-                    status={1}
-                    defaultExpand={i === 0}
-                  />
-                );
-              })}
-            </div>
-
-            <div className="text-[#ABEDBB]/40 text-sm font-normal pb-12">
-              <p> Guess what? There are 23 Normis-series SBTs!</p>
-              <p>
-                Check out App League to
-                <a
-                  className="ml-1 underline underline-offset-4"
-                  target="_blank"
-                  href="https://ton.org/open-league?filterBy=forProjects"
-                >
-                  explore them all!
-                </a>
-              </p>
+              {groups.length === 0 ? (
+                <Skeleton active />
+              ) : (
+                groups.map((group, i) => {
+                  return (
+                    <GroupCard
+                      key={group.id}
+                      group={group}
+                      showVerify={defiOngoing}
+                      endAt={1726738389000}
+                      status={1}
+                      defaultExpand={i === 0}
+                    />
+                  );
+                })
+              )}
             </div>
           </div>
         ),
@@ -349,9 +336,9 @@ const Normis = () => {
             >
               <div className="relative py-2">
                 <LazyImage
-                  src={exampleURL}
+                  src={tonHoldlerSBT?.url}
                   alt="ton sbt picUrl"
-                  className="size-[164px]"
+                  className="size-[164px] rounded-xl"
                 />
                 {tonHoldlerSBT?.granted && (
                   <>
@@ -392,14 +379,14 @@ const Normis = () => {
       {contextHolder}
       <Header />
       <div className="flex h-0.5 items-center gap-x-2 px-10 mx-auto absolute inset-0 top-14 z-10">
-        {slides.map((v, idx) => (
+        {slides.map((_, idx) => (
           <div
             className={cn(
               'h-0.5 rounded-full',
               idx === displayIdx ? 'bg-white' : 'bg-white/30'
             )}
             style={{ width: `${(1 / slides.length) * 100}%` }}
-            key={v.key}
+            key={idx}
           />
         ))}
       </div>

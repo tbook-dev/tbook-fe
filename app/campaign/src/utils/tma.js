@@ -73,7 +73,8 @@ export const supportTMATypes = [
   // 'ranger', no longer use
   // "event defi"
   // "company"
-  1, 2, 3, 4, 5, 6, 7,
+  // "event normie"
+  1, 2, 3, 4, 5, 6, 7, 8,
 ];
 
 export const logoutRedirecrtKey = 'fromlogout';

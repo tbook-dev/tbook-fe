@@ -41,6 +41,8 @@ export default function TonExplore() {
           navigate(`/event/defi`);
         } else if (type === 7) {
           navigate(`/company/${companyId}`);
+        } else if (type === 8) {
+          navigate(`/event/normie`);
         }
       }
     }
