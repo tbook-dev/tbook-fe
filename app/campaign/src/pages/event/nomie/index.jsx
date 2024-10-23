@@ -20,6 +20,12 @@ import { Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 // import 'swiper/css/navigation';
+import StarIcon from '@/images/icon/svgr/star.svg?react';
+import CheckedIcon from '@/images/icon/svgr/checked4.svg?react';
+import { claimSBT } from '@/api/incentive';
+import { jumpLink } from '@/utils/tma';
+import { useTelegram } from '@/hooks/useTg';
+import { message } from 'antd';
 
 preloadBatchImage([Bg1]);
 const SBTLoading = () => (
@@ -63,23 +69,46 @@ const Normis = () => {
   const { getWallets } = useWallet();
   const [ton] = getWallets(['ton']);
   const { data: defi } = useDeFi();
-  const { data: normie, isLoading } = useNormieAirdrop();
+  const { data: normie } = useNormieAirdrop();
   const { groupList: groups, campaignOngoing: defiOngoing } = useCampaignQuery(
     defi?.campaignId
   );
-  const [displayIdx, setDisplayIdx] = useState(3);
+  const [messageApi, contextHolder] = message.useMessage();
+  const { isTMA } = useTelegram();
+  const [displayIdx, setDisplayIdx] = useState(0);
+
   const allSBT =
     normie?.normieVerifyResult?.map((c) => ({
+      ...c,
+      sbtId: c.sbt?.sbtId,
       url: c.sbt?.picUrl,
       name: c.sbt?.name,
       credentialName: c.credentialName,
       claimedType: c.sbt?.claimedType ?? 0,
+      uniqueLink: c.sbt?.uniqueLink,
       claimed: c.sbt?.claimedType >= 3,
       granted: c.sbt?.claimedType >= 2,
     })) ?? [];
   const userSBTs = allSBT.filter((c) => c.claimedType >= 2);
-  console.log({ defi, defiOngoing, isLoading, userSBTs, allSBT });
-
+  // console.log({ defi, defiOngoing, isLoading, userSBTs, allSBT });
+  const tonHoldlerSBT = allSBT[0];
+  const handleSBT = async (sbt) => {
+    if (sbt.uniqueLink) {
+      jumpLink(res.link, pc, isTMA);
+    } else {
+      try {
+        const res = await claimSBT(sbt.sbtId);
+        if (res?.link) {
+          jumpLink(res.link, pc, isTMA);
+        } else {
+          messageApi.error(res?.message ?? 'mint unkonwn error!');
+        }
+      } catch (error) {
+        console.log(error);
+        messageApi.error(error.message ?? 'mint unkonwn error!');
+      }
+    }
+  };
   const slides = useMemo(() => {
     return [
       {
@@ -152,21 +181,50 @@ const Normis = () => {
         ),
       },
       {
-        className: 'bg-[#22306D] justify-start pt-20',
+        className: 'bg-[#22306D] justify-start py-20',
         show: true,
         content: (
-          <div className="space-y-5 ">
-            <div className="grid grid-cols-5 gap-x-1 gap-y-2 max-h-[250px] overflow-auto shadow-md">
+          <div className="space-y-5">
+            <div
+              className={cn(
+                'grid py-2 grid-cols-5 gap-x-1 gap-y-2 max-h-[250px] overflow-auto',
+                userSBTs.length > 0 && 'shadow-md'
+              )}
+            >
               {normie ? (
+                // userSBTs
                 userSBTs.map((sbt, i) => {
                   return (
                     <div className="flex flex-col gap-y-1.5" key={i}>
-                      <div className="w-full rounded-xl bg-[#071029]" key={i}>
-                        <img src={sbt.url} />
+                      <div
+                        className="w-full rounded-xl bg-[#071029] relative"
+                        key={i}
+                        onClick={() => {
+                          handleSBT(sbt);
+                        }}
+                      >
+                        <LazyImage
+                          src={sbt.url}
+                          className="rounded-xl aspect-square"
+                        />
+                        {sbt.granted && (
+                          <>
+                            <StarIcon className="absolute -left-2 -top-2 scale-50" />
+                            <StarIcon className="absolute left-2 -top-2 scale-50 size-4 rotate-[75deg]" />
+                          </>
+                        )}
                       </div>
-                      <p className="font-bold text-[10px] text-white">
+                      <div
+                        className={cn(
+                          'font-bold text-[10px]',
+                          sbt.granted ? 'text-[#CFF469]' : 'text-white'
+                        )}
+                      >
                         {sbt.name}
-                      </p>
+                        {sbt.granted && (
+                          <CheckedIcon className="inline-block" />
+                        )}
+                      </div>
                     </div>
                   );
                 })
@@ -194,6 +252,7 @@ const Normis = () => {
                 pagination={{ clickable: true }}
                 loopFillGroupWithBlank
                 loop
+                autoHeight
                 style={{
                   '--swiper-theme-color': 'white',
                   '--swiper-pagination-bullet-inactive-color': '#666',
@@ -282,13 +341,37 @@ const Normis = () => {
               Royal TON Hodler!
             </div>
 
-            <div className="space-y-1.5 flex flex-col items-center">
-              <LazyImage
-                src={exampleURL}
-                alt="ton sbt picUrl"
-                className="size-[164px]"
-              />
-              <p className="text-base text-center font-bold">Toncoin Holder</p>
+            <div
+              className="space-y-1.5 flex flex-col items-center"
+              onClick={() => {
+                handleSBT(tonHoldlerSBT);
+              }}
+            >
+              <div className="relative py-2">
+                <LazyImage
+                  src={exampleURL}
+                  alt="ton sbt picUrl"
+                  className="size-[164px]"
+                />
+                {tonHoldlerSBT?.granted && (
+                  <>
+                    <StarIcon className="absolute -left-3 top-2" />
+                    <StarIcon className="absolute left-3 -top-1 scale-75 size-4 rotate-[75deg]" />
+                  </>
+                )}
+              </div>
+
+              <div
+                className={cn(
+                  'text-base text-center font-bold',
+                  tonHoldlerSBT?.granted && 'text-[#CFF469]'
+                )}
+              >
+                Toncoin Holder
+                {tonHoldlerSBT?.granted && (
+                  <CheckedIcon className="inline-block size-4" />
+                )}
+              </div>
             </div>
 
             <div className="text-[#22306D] text-base font-bold pb-12">
@@ -306,6 +389,7 @@ const Normis = () => {
     <Page404 />
   ) : (
     <div className="fixed top-0 left-0 inset-0 z-10 h-screen overflow-auto">
+      {contextHolder}
       <Header />
       <div className="flex h-0.5 items-center gap-x-2 px-10 mx-auto absolute inset-0 top-14 z-10">
         {slides.map((v, idx) => (
@@ -332,7 +416,7 @@ const Normis = () => {
         <div className="text-center w-full">{CurrentFrame.content}</div>
         <div
           className={cn(
-            'fixed inset-x-0 bottom-14 w-[310px] flex justify-between items-center mx-auto',
+            'fixed inset-x-0 bottom-14 w-[310px] flex justify-between items-center mx-auto z-10',
             displayIdx > 0 ? 'justify-between' : 'justify-end'
           )}
         >
