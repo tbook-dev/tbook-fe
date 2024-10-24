@@ -9,7 +9,7 @@ import {
   claimSBT,
 } from '@/api/incentive';
 import { useQueryClient } from 'react-query';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import { useAccount, useSwitchNetwork } from 'wagmi';
 import {
   getNetwork,
@@ -35,7 +35,7 @@ import {
 } from '@/utils/conf';
 import useWallet from '@/hooks/useWallet';
 
-export default function ViewReward({ open, onClose, rewardList }) {
+export default function ViewReward({ open, onClose, campaignId, rewardList }) {
   const [loading, updateLoading] = useState(false);
   const [messageAPI, messageContext] = message.useMessage();
   const { data: supportChains = [] } = useSupportedChains({
@@ -44,7 +44,7 @@ export default function ViewReward({ open, onClose, rewardList }) {
   const [displayIdx, setDisplayIdx] = useState(0);
   const dispath = useDispatch();
   const queryClient = useQueryClient();
-  const { campaignId } = useParams();
+  // const { campaignId } = useParams();
   const {
     data: page,
     campaignNotStart,
@@ -74,10 +74,10 @@ export default function ViewReward({ open, onClose, rewardList }) {
     try {
       console.log('handleClaimPoint');
       await claimCampaign(data.groupId);
+      await queryClient.refetchQueries(['campaignDetail', campaignId, true]);
     } catch (error) {
       console.log(error);
     }
-    await queryClient.refetchQueries(['campaignDetail', campaignId, true]);
     updateLoading(false);
   };
   const canUseWallect = useMemo(() => {
@@ -156,6 +156,7 @@ export default function ViewReward({ open, onClose, rewardList }) {
       const res = await claimSBT(reward.sbtId);
       if (res?.link) {
         WebApp.openLink(res?.link, { try_instant_view: true });
+        await queryClient.refetchQueries(['campaignDetail', campaignId, true]);
       } else {
         messageAPI.error(res?.message ?? 'mint unkonwn error!');
       }
