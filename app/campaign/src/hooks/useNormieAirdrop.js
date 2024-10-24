@@ -3,8 +3,8 @@ import { getNormis } from '@/api/incentive';
 import useUserInfo from './useUserInfoQuery';
 
 export default function useNormieAirdrop() {
-  const { userLogined } = useUserInfo();
+  const { tonConnected } = useUserInfo();
   return useQuery(['normis-airdrop'], () => getNormis(), {
-    enabled: userLogined,
+    enabled: tonConnected,
   });
 }
