@@ -86,7 +86,7 @@ const Normis = () => {
   const { isTMA } = useTelegram();
   const [displayIdx, setDisplayIdx] = useState(0);
   const allSBT = normie?.normieVerifyResult?.map(formatSBT) ?? [];
-  const userSBTs = allSBT.filter((c) => c.claimedType >= 1);
+  const userSBTs = allSBT.filter((c) => c.granted);
   // console.log({ defi, defiOngoing, isLoading, userSBTs, allSBT });
   const tonHoldlerSBT = formatSBT(normie?.tonHoldlerSBT ?? {});
   const handleSBT = async (sbt) => {
@@ -211,7 +211,7 @@ const Normis = () => {
                           src={sbt.url}
                           className="rounded-xl aspect-square"
                         />
-                        {sbt.granted && (
+                        {sbt.claimed && (
                           <>
                             <StarIcon className="absolute -left-2 -top-2 scale-50" />
                             <StarIcon className="absolute left-2 -top-2 scale-50 size-4 rotate-[75deg]" />
@@ -221,11 +221,11 @@ const Normis = () => {
                       <div
                         className={cn(
                           'font-bold text-[10px]',
-                          sbt.granted ? 'text-[#CFF469]' : 'text-white'
+                          sbt.claimed ? 'text-[#CFF469]' : 'text-white'
                         )}
                       >
                         {sbt.name}
-                        {sbt.granted && (
+                        {sbt.claimed && (
                           <CheckedIcon className="inline-block" />
                         )}
                       </div>
@@ -351,7 +351,7 @@ const Normis = () => {
                   alt="ton sbt picUrl"
                   className="size-[164px] rounded-xl"
                 />
-                {tonHoldlerSBT?.granted && (
+                {tonHoldlerSBT?.claimed && (
                   <>
                     <StarIcon className="absolute -left-3 top-2" />
                     <StarIcon className="absolute left-3 -top-1 scale-75 size-4 rotate-[75deg]" />
@@ -362,11 +362,11 @@ const Normis = () => {
               <div
                 className={cn(
                   'text-base text-center font-bold',
-                  tonHoldlerSBT?.granted && 'text-[#CFF469]'
+                  tonHoldlerSBT?.claimed && 'text-[#CFF469]'
                 )}
               >
                 Toncoin Holder
-                {tonHoldlerSBT?.granted && (
+                {tonHoldlerSBT?.claimed && (
                   <CheckedIcon className="inline-block size-4" />
                 )}
               </div>
