@@ -10,7 +10,7 @@ import useWallet from '@/hooks/useWallet';
 import Button from '@/components/button';
 import TonIcon from '@/images/icon/svgr/ton2.svg?react';
 import { shortAddress } from '@tbook/utils/lib/conf';
-import exampleURL from '@/images/event/normie-sbt-example.svg';
+// import exampleURL from '@/images/event/normie-sbt-example.svg';
 import useNormieAirdrop from '@/hooks/useNormieAirdrop';
 import GroupCard from '@/pages/app/groupCard';
 import useCampaignQuery from '@/hooks/useCampaignQuery';
@@ -84,7 +84,6 @@ const Normis = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const { isTMA } = useTelegram();
   const [displayIdx, setDisplayIdx] = useState(0);
-
   const allSBT = normie?.normieVerifyResult?.map(formatSBT) ?? [];
   const userSBTs = allSBT.filter((c) => c.claimedType >= 1);
   // console.log({ defi, defiOngoing, isLoading, userSBTs, allSBT });
