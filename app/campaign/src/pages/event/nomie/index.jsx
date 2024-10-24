@@ -338,7 +338,11 @@ const Normis = () => {
             <div
               className="space-y-1.5 flex flex-col items-center"
               onClick={() => {
-                handleSBT(tonHoldlerSBT);
+                if(tonHoldlerSBT.claimedType >= 1){
+                  handleSBT(tonHoldlerSBT);
+                }else{
+                  messageApi.error("You need some Toncoins in your wallet.Please make sure holding Toncoins and try again.")
+                }
               }}
             >
               <div className="relative py-2">
@@ -369,7 +373,7 @@ const Normis = () => {
             </div>
 
             <div className="text-[#22306D] text-base font-bold pb-12">
-              <p>Get Toncoin.</p>
+              <p>Holding Toncoin</p>
               <p>Claim Toncoin Holder SBT</p>
             </div>
           </div>
