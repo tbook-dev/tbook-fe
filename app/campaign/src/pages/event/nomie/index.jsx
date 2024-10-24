@@ -70,7 +70,7 @@ const formatSBT = (c) => ({
   claimedType: c.sbt?.claimedType ?? 0,
   uniqueLink: c.sbt?.uniqueLink,
   claimed: c.sbt?.claimedType >= 3,
-  granted: c.sbt?.claimedType >= 2,
+  granted: c.sbt?.claimedType >= 1,
 });
 const Normis = () => {
   const { pc } = useResponsive();
@@ -86,7 +86,7 @@ const Normis = () => {
   const [displayIdx, setDisplayIdx] = useState(0);
 
   const allSBT = normie?.normieVerifyResult?.map(formatSBT) ?? [];
-  const userSBTs = allSBT.filter((c) => c.claimedType >= 2);
+  const userSBTs = allSBT.filter((c) => c.claimedType >= 1);
   // console.log({ defi, defiOngoing, isLoading, userSBTs, allSBT });
   const tonHoldlerSBT = formatSBT(normie?.tonHoldlerSBT ?? {});
   const handleSBT = async (sbt) => {
@@ -143,6 +143,9 @@ const Normis = () => {
               <Button
                 type="white"
                 className="px-5 py-4 font-bold text-base rounded-3xl mx-auto"
+                onClick={() => {
+                  ton.connectHandle();
+                }}
               >
                 Connect TON wallet
               </Button>
@@ -166,7 +169,7 @@ const Normis = () => {
                 'Collect tons of SBTs from the Normie campaign!',
               ].map((v, k) => (
                 <div className="flex items-start gap-x-2 pl-2" key={k}>
-                  <i className="size-2 rounded-full bg-[#ABEDBB] flex-none mt-4" />
+                  <i className="size-2 rounded-full bg-[#ABEDBB] flex-none mt-2.5" />
                   {v}
                 </div>
               ))}
