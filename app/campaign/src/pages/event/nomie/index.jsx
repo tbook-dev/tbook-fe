@@ -341,7 +341,7 @@ const Normis = () => {
                 if(tonHoldlerSBT.claimedType >= 1){
                   handleSBT(tonHoldlerSBT);
                 }else{
-                  messageApi.error("You need some Toncoins in your wallet.Please make sure holding Toncoins and try again.")
+                  messageApi.error("You need some Toncoins in your wallet. Please make sure you're holding Toncoins and try again.")
                 }
               }}
             >
