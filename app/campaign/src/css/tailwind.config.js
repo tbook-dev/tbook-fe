@@ -55,7 +55,6 @@ module.exports = {
         s6: ' 0px -4px 12px 0 rgba(0, 0, 0, 0.25)',
       },
       fontFamily: {
-        rhd: ['Red Hat Display', 'sans-serif'],
         'zen-dot': ['zen-dot', 'sans-serif'],
         syne: ['Syne'],
         sf: ['sf', 'sans-serif'],

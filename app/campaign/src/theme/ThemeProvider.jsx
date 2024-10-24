@@ -11,7 +11,7 @@ export default function ({ children, ...props }) {
         components,
         token: {
           colorPrimary: '#904BF6',
-          fontFamily: "'Red Hat Display', sans-serif;"
+          fontFamily: "sf, sans-serif;"
         }
       }}
       {...props}
