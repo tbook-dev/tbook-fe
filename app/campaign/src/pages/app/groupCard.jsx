@@ -74,7 +74,6 @@ const GroupCard = ({ group, showVerify, endAt, status }) => {
     group.credentialList?.filter((c) => c.isVerified === 1).length ?? 0;
   const totalCnt = group.credentialList?.length ?? 1;
   const isGroupVerified = verifyCnt === totalCnt;
-
   const [showCredential, setShowCredential] = useState(false);
   const [displayIdx, setDisplayIdx] = useState(0);
   const [viewModalOpen, setViewModalOpen] = useState(false);
@@ -255,6 +254,7 @@ const GroupCard = ({ group, showVerify, endAt, status }) => {
         }}
         rewardList={rewardList}
         reward={reward}
+        campaignId={group.campaignId}
       />
     </>
   );
