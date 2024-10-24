@@ -91,12 +91,12 @@ const Normis = () => {
   const tonHoldlerSBT = formatSBT(normie?.tonHoldlerSBT ?? {});
   const handleSBT = async (sbt) => {
     if (sbt.uniqueLink) {
-      jumpLink(sbt.uniqueLink, pc, isTMA);
+      jumpLink({link: sbt.uniqueLink, pc, isTMA});
     } else {
       try {
         const res = await claimSBT(sbt.sbtId);
         if (res?.link) {
-          jumpLink(res.link, pc, isTMA);
+          jumpLink({link:res.link, pc, isTMA});
         } else {
           messageApi.error(res?.message ?? 'mint unkonwn error!');
         }
