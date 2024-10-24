@@ -240,6 +240,14 @@ export const credentialStatus = [
     group: (name, dispaly) => `${name} ${dispaly} is eligible`,
   },
   {
+    name: 'Eligible',//兼容sbt, point无此状态
+    value: 2, 
+    title: (name) => `${name} is eligible!`,
+    tip: '',
+    showButton: true,
+    group: (name, dispaly) => `${name} ${dispaly} is eligible`,
+  },
+  {
     name: 'Claim可点击',
     value: 3, //在抽奖当中
     tip: "Let's see if you're one of the winners after the draw.",
