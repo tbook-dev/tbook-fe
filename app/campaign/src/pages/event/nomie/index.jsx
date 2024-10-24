@@ -26,6 +26,7 @@ import { claimSBT } from '@/api/incentive';
 import { jumpLink } from '@/utils/tma';
 import { useTelegram } from '@/hooks/useTg';
 import { message, Skeleton } from 'antd';
+import LeagueIcon from '@/images/icon/svgr/league.svg?react';
 
 preloadBatchImage([Bg1]);
 const SBTLoading = () => (
@@ -113,13 +114,17 @@ const Normis = () => {
         content: (
           <div className="space-y-5 font-bold text-[#503658]">
             <div className="text-[40px]">
-              <h2>Normis Airdrop:</h2>
+              <h2>Normie Airdrop:</h2>
               <h2>SBT Frenzy!</h2>
             </div>
-            <div className="text-[26px]">
-              <h2>The Open League S6</h2>
-              <h2>airdrop campaign</h2>
+            <div className='flex items-center gap-x-3'>
+              <LeagueIcon />
+              <div className="text-[26px] text-left">
+                <h2 >The Open League S6</h2>
+                <h2>airdrop campaign</h2>
+              </div>
             </div>
+            
           </div>
         ),
       },
@@ -163,8 +168,8 @@ const Normis = () => {
             <div className="text-lg space-y-6">
               {[
                 'Dive in and engage with App Battle projects!',
-                'uExplore the six DeFi protocols in Late Night DeFi!',
-                'Stock up on TON Coins!',
+                'Explore the six DeFi protocols in Late Night DeFi!',
+                'Stock up on TONcoins!',
                 'Collect tons of SBTs from the Normie campaign!',
               ].map((v, k) => (
                 <div className="flex items-start gap-x-2 pl-2" key={k}>
@@ -394,7 +399,7 @@ const Normis = () => {
       </div>
       <div
         className={cn(
-          'relative px-4 flex flex-col items-center justify-center min-h-screen',
+          'relative px-4 flex flex-col items-center justify-center min-h-dvh',
           'bg-cover bg-center',
           CurrentFrame.className
         )}
