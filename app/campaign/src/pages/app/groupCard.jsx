@@ -66,7 +66,7 @@ const Arraw = ({ onClick, className }) => (
   </button>
 );
 
-const GroupCard = ({ group, showVerify, endAt, status, defaultExpand }) => {
+const GroupCard = ({ group, showVerify, endAt, status }) => {
   const { pc } = useResponsive();
   const { campaignNotStart, campaignEnd, campaignOngoing } =
     getCampaignStatus(status);
@@ -105,7 +105,8 @@ const GroupCard = ({ group, showVerify, endAt, status, defaultExpand }) => {
   } = getSchema(isGroupVerified, rewardList);
   const reward = rewardList[displayIdx];
   const hasSbt = rewardList.some((v) => v.type === 'sbt');
-  const [expand, setExpand] = useState(defaultExpand);
+  const [expand, setExpand] = useState(group.expand);
+  
   return (
     <>
       <div
@@ -162,7 +163,7 @@ const GroupCard = ({ group, showVerify, endAt, status, defaultExpand }) => {
             </div>
             {pc ? null : (
               <Arraw
-                onClick={() => setExpand((v) => !v)}
+                onClick={() => setExpand(v=>!v)}
                 className={expand ? '' : 'rotate-180'}
               />
             )}

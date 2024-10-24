@@ -24,24 +24,44 @@ export const getCampaignStatus = (status) => {
 export const getFormatedGroups = (groups) => {
   // 已经完成，全部领取，没有全部领取
   // 没有完成
+  const allExpand = groups.length < 6;
   const verifiedList = groups.filter((group) =>
     group.credentialList.every((c) => c.isVerified === 1)
   );
-  const claimedList = verifiedList.filter((c) => {
+  let claimedList = verifiedList.filter((c) => {
     return [...c.nftList, ...c.pointList, ...c.sbtList].every(
       (c) => c.claimedType > 2
     );
   });
-  const unclaimedList = verifiedList.filter((c) => {
+  let unclaimedList = verifiedList.filter((c) => {
     return [...c.nftList, ...c.pointList, ...c.sbtList].some(
       (c) => c.claimedType <= 2
     );
   });
-  const notVerifiedList = groups.filter((group) =>
+  let notVerifiedList = groups.filter((group) =>
     group.credentialList.some((c) => c.isVerified !== 1)
   );
+  if(allExpand){
+    return [...unclaimedList, ...notVerifiedList, ...claimedList].map(v => ({...v, expand: true} ))
+  }else{
+    // 领取了的都收拢, 可以不处理，but better
+    claimedList = claimedList.map(v => ({...v, expand: false}));
+    if(unclaimedList.length > 0){
+      // 没领取优先领取
+      unclaimedList = unclaimedList.map((v,idx) => ({...v, expand: idx === 0}))
+      return [...unclaimedList, ...notVerifiedList, ...claimedList];
+    }
+    if(notVerifiedList.length > 0){
+      // 没做任务先做任务
+      notVerifiedList = notVerifiedList.map((v,idx) => ({...v, expand: idx === 0}))
+      return [...unclaimedList, ...notVerifiedList, ...claimedList];
+    }
+    return [...unclaimedList, ...notVerifiedList, ...claimedList];
+  }
+
+  // console.log({allExpand, unclaimedList,notVerifiedList })
   // console.log({ groups, verifiedList, claimedList, notVerifiedList });
-  return [...unclaimedList, ...notVerifiedList, ...claimedList];
+  // return  [...unclaimedList, ...notVerifiedList, ...claimedList];
 };
 export default function useCampaignQuery(campaignId) {
   const [firstLoad, setFirstLoad] = useState(false);
@@ -75,7 +95,6 @@ export default function useCampaignQuery(campaignId) {
     v?.credentialList?.some((c) => 8 === c.groupType)
   );
   const groupList = getFormatedGroups(page?.groups ?? []);
-  const defaultExpand = page?.groups?.length < 6;
   useEffect(() => {
     if (!firstLoad && !isLoading) {
       setFirstLoad(true);
@@ -110,7 +129,6 @@ export default function useCampaignQuery(campaignId) {
     campaignOngoing,
     campaignUnavailable,
     isError,
-    defaultExpand,
   };
 }
 
