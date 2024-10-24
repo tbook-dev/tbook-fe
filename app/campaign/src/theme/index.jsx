@@ -10,7 +10,7 @@ export default function ({ children }) {
         components,
         token: {
           colorPrimary: '#4D0BEF',
-          fontFamily: "sf, 'Red Hat Display', sans-serif;",
+          fontFamily: "sf, sans-serif;",
         },
       }}
     >

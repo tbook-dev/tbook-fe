@@ -8,7 +8,7 @@ import { useLoaderData } from 'react-router-dom';
 import usePageFooterTip from '@/hooks/usePageFooterTip';
 import TMAShare from '@/components/TMAShare';
 import Unavailable from './unavailable';
-import Timeline from '@/components/timeline';
+// import Timeline from '@/components/timeline';
 import AppCountDown from './AppCountDown';
 import GroupCard from './groupCard';
 
@@ -23,7 +23,6 @@ export default function () {
     campaignNotStart,
     campaignOngoing,
     campaignUnavailable,
-    isDefi,
     hasDefi,
     groupList,
   } = useCampaignQuery(campaignId);
@@ -132,34 +131,16 @@ export default function () {
         </div>
       )}
 
-      <section className="px-4 lg:px-0">
-        <Timeline
-          showProcess={isDefi}
-          steps={groupList.map(([category, group]) => {
-            const isFinished = group
-              .map((v) => v.credentialList)
-              .flat()
-              .every((c) => c.isVerified === 1);
-
-            return {
-              name: category,
-              children: (
-                <div className="space-y-2 lg:space-y-3">
-                  {group.map((g, i) => (
-                    <GroupCard
-                      key={i}
-                      index={i}
-                      group={g}
-                      showVerify={campaignOngoing}
-                      isDefi={isDefi}
-                    />
-                  ))}
-                </div>
-              ),
-              isFinished,
-            };
-          })}
-        />
+      <section className="px-4 lg:px-0 space-y-2 lg:space-y-3">
+        {groupList.map((g, i) => (
+          <GroupCard
+            key={i}
+            group={g}
+            showVerify={campaignOngoing}
+            endAt={page?.campaign?.endAt}
+            status={page?.campaign?.status}
+          />
+        ))}
       </section>
     </div>
   );
