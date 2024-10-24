@@ -91,7 +91,7 @@ const Normis = () => {
   const tonHoldlerSBT = formatSBT(normie?.tonHoldlerSBT ?? {});
   const handleSBT = async (sbt) => {
     if (sbt.uniqueLink) {
-      jumpLink(res.link, pc, isTMA);
+      jumpLink(sbt.uniqueLink, pc, isTMA);
     } else {
       try {
         const res = await claimSBT(sbt.sbtId);
