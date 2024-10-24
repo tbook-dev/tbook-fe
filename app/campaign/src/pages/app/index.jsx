@@ -8,7 +8,7 @@ import { useLoaderData } from 'react-router-dom';
 import usePageFooterTip from '@/hooks/usePageFooterTip';
 import TMAShare from '@/components/TMAShare';
 import Unavailable from './unavailable';
-import Timeline from '@/components/timeline';
+// import Timeline from '@/components/timeline';
 import AppCountDown from './AppCountDown';
 import GroupCard from './groupCard';
 
@@ -23,10 +23,8 @@ export default function () {
     campaignNotStart,
     campaignOngoing,
     campaignUnavailable,
-    isDefi,
     hasDefi,
     groupList,
-    defaultExpand,
   } = useCampaignQuery(campaignId);
   const { projectUrl } = useLoaderData();
   const [searchParams] = useSearchParams();
@@ -137,12 +135,10 @@ export default function () {
         {groupList.map((g, i) => (
           <GroupCard
             key={i}
-            index={i}
             group={g}
             showVerify={campaignOngoing}
             endAt={page?.campaign?.endAt}
             status={page?.campaign?.status}
-            defaultExpand={defaultExpand}
           />
         ))}
       </section>
